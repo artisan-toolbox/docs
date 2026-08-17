@@ -1,0 +1,39 @@
+---
+title: Artisan Toolbox
+description: Practical Laravel packages and developer tools for everyday work.
+template: splash
+hero:
+  tagline: Practical Laravel packages and developer tools for everyday work.
+  actions:
+    - text: Get Started
+      link: /getting-started/
+      icon: right-arrow
+    - text: Browse Packages
+      link: /packages/
+      icon: open-book
+      variant: minimal
+---
+
+import { Card, CardGrid } from "@astrojs/starlight/components";
+
+## Explore the toolbox
+
+<CardGrid stagger>
+  <Card title="Core" icon="puzzle">
+    Shared foundations, contracts, utilities, and common components for Artisan
+    Toolbox packages. [View Core documentation](/packages/core/)
+  </Card>
+  <Card title="Dump to Console" icon="window">
+    Send Laravel debug output to a local console without interrupting the
+    application response. [View Dump to Console
+    documentation](/packages/dump-to-console/)
+  </Card>
+  <Card title="Maintainer" icon="setting">
+    Automated validation, quality assurance, versioning, and release workflows.
+    [View Maintainer documentation](/packages/maintainer/)
+  </Card>
+</CardGrid>
+
+## Built for maintainable Laravel projects
+
+Artisan Toolbox packages focus on clear contracts, predictable behavior, and workflows that reduce repetitive maintenance. Start with the package that solves your current problem and add other tools as your project grows.
