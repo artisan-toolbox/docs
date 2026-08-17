@@ -2,7 +2,7 @@
 title: Maintainer
 description: Automated validation, quality assurance, versioning, and release workflows.
 sidebar:
-  badge: 1.x stable
+  badge: 1.x
   order: 1
 ---
 
