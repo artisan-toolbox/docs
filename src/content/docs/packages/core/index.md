@@ -22,6 +22,7 @@ composer require artisan-toolbox/core
 ## Features
 
 - [Multi-domain Inertia visits](./multi-domain-inertia/): keep Inertia navigation working when links move between trusted domains or subdomains served by the same Laravel application.
+- [Translated model attributes](./translated-attributes/): store stable translation keys while exposing localized strings from Eloquent models.
 
 ## Published resources
 

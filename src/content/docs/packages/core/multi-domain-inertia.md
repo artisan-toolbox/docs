@@ -62,9 +62,7 @@ Add the middleware before the rest of Laravel's `web` group in `bootstrap/app.ph
 ```php
 <?php
 
-use ArtisanToolbox\Core\Middleware\HandleInertiaCrossDomainVisits;
-use Illuminate\Foundation\Application;
-use Illuminate\Foundation\Configuration\Middleware;
+use ArtisanToolboxCore\Core\Http\Middleware\HandleInertiaCrossDomainVisits;use Illuminate\Foundation\Application;use Illuminate\Foundation\Configuration\Middleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
