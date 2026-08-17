@@ -38,6 +38,8 @@ dc(
 
 The helper returns the values it receives, allowing it to be used inline. Delivery is best effort, so an unavailable listener does not interrupt the application.
 
+Continue with the [usage and configuration guide](./usage/) for listener options, named values, fluent dumps, benchmarks, and configuration.
+
 ## Security
 
 The dump protocol has no authentication or encryption. Keep the listener bound to a trusted local interface and handle dumped values with the same care as local logs.

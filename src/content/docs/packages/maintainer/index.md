@@ -2,8 +2,8 @@
 title: Maintainer
 description: Automated validation, quality assurance, versioning, and release workflows.
 sidebar:
-  badge: Development
-  order: 3
+  badge: 1.x beta
+  order: 1
 ---
 
 Maintainer provides a single entry point for repetitive package and application maintenance tasks, including validation, commits, versioning, changelogs, and GitHub releases.
@@ -33,6 +33,8 @@ Open its interactive menu:
 vendor/bin/maintainer
 ```
 
+The PHAR contains Maintainer's runtime dependencies, keeping them isolated from the dependencies of the project being maintained.
+
 Initialize project configuration:
 
 ```bash
@@ -46,6 +48,13 @@ vendor/bin/maintainer quality
 vendor/bin/maintainer commit
 vendor/bin/maintainer release:create
 ```
+
+## Learn more
+
+- [Configuration](./configuration/)
+- [Project integration](./project-integration/)
+- [Commands and workflows](./commands/)
+- [Development and building](./development/)
 
 ## Source and releases
 
