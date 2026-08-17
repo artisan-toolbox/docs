@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
+- Updated the Maintainer documentation for the stable 1.0 release, including its stability guarantees and the upgrade path from beta releases.
 - Updated the site header logo variants and favicon to the latest official Artisan Toolbox brand assets.
 - Replaced the invalid Dump to Console card icon with the built-in window icon.
 - Moved detailed package guidance into the central documentation and reduced package READMEs to concise entry points.

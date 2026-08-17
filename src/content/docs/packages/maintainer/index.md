@@ -2,15 +2,21 @@
 title: Maintainer
 description: Automated validation, quality assurance, versioning, and release workflows.
 sidebar:
-  badge: 1.x beta
+  badge: 1.x stable
   order: 1
 ---
 
 Maintainer provides a single entry point for repetitive package and application maintenance tasks, including validation, commits, versioning, changelogs, and GitHub releases.
 
-:::caution[Development status]
-Maintainer is under active development. Commands and public behavior may change while the initial workflows are established.
+:::tip[Maintainer 1.0 is stable]
+Maintainer 1.0 is the first stable release. The public commands, configuration structure, and project integration contracts are now covered by the package's semantic-versioning policy. Backward-compatible improvements and fixes will remain in the 1.x release line, while incompatible public changes are reserved for a future major release.
 :::
+
+Projects using a `1.0.0-beta.*` release can move to the stable release with Composer. Review the generated dependency changes before committing them:
+
+```bash
+composer require --dev artisan-toolbox/maintainer:^1.0
+```
 
 ## Requirements
 
@@ -24,7 +30,7 @@ Maintainer is under active development. Commands and public behavior may change 
 Install Maintainer as a development dependency:
 
 ```bash
-composer require --dev artisan-toolbox/maintainer
+composer require --dev artisan-toolbox/maintainer:^1.0
 ```
 
 Open its interactive menu:
