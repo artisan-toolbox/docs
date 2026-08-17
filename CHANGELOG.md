@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 
 - Added an NGINX server block for serving the documentation at `artisantoolbox.wsssoftware.com.br`.
+- Added a concurrency-safe hourly deployment script for updating dependencies and rebuilding the documentation site from the latest `main` branch.
 
 ## [0.1.0] - 2026-08-16
 

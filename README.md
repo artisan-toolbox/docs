@@ -47,6 +47,16 @@ Each Markdown or MDX file under `src/content/docs/` becomes a documentation page
 
 The repository includes an [NGINX server block](deploy/nginx/artisantoolbox.wsssoftware.com.br.conf) for `artisantoolbox.wsssoftware.com.br`. It assumes the production build is available at `/var/www/artisantoolbox/dist`; update the `root` directive when the server uses a different deployment path.
 
+The [hourly deployment script](deploy/update-docs.sh) restores the working tree, updates the `main` branch from `origin`, installs the locked npm dependencies, and rebuilds the site. It uses `flock` to skip overlapping executions.
+
+Install it in the `www-data` user's crontab with:
+
+```cron
+0 * * * * /var/www/artisantoolbox/deploy/update-docs.sh >> /var/log/artisantoolbox-docs-deploy.log 2>&1
+```
+
+The repository and log file must be writable by `www-data`. The server must provide Git, Node.js 22.12 or later, npm 11 or later, and `flock` (normally included in the `util-linux` package).
+
 ## Contributing
 
 See the [contribution guide](CONTRIBUTING.md) before opening a pull request.

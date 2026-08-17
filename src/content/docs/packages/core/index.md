@@ -19,6 +19,10 @@ Core provides stable building blocks shared by Artisan Toolbox packages. Applica
 composer require artisan-toolbox/core
 ```
 
+## Features
+
+- [Multi-domain Inertia visits](./multi-domain-inertia/): keep Inertia navigation working when links move between trusted domains or subdomains served by the same Laravel application.
+
 ## Published resources
 
 Publish all package resources:
