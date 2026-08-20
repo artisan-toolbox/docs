@@ -3,7 +3,7 @@ title: Dump to Console
 description: Send Laravel debug output to a local console without interrupting the application.
 sidebar:
   badge: 1.x
-  order: 2
+  order: 3
 ---
 
 Dump to Console sends Laravel dumps to a local console listener without stopping the application or changing its response, stream, download, or command output.

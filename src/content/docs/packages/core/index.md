@@ -3,7 +3,7 @@ title: Core
 description: Shared foundations, contracts, utilities, and common components for Artisan Toolbox packages.
 sidebar:
   badge: 1.x
-  order: 1
+  order: 2
 ---
 
 Core provides stable building blocks shared by Artisan Toolbox packages. Applications normally receive it as a transitive dependency, but it can also be installed directly when its public components are needed.
