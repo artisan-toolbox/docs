@@ -62,6 +62,24 @@ return [
 
 Valid values include `512M`, `4G`, a byte count, or `-1` for unlimited memory. The environment variable `MAINTAINER_PHPSTAN_MEMORY_LIMIT` configures the distributed template.
 
+## Run Pest in parallel
+
+Parallel execution is opt-in and disabled by default. Enable it in the Maintainer configuration when the project's tests isolate shared resources such as databases, files, and caches:
+
+```php
+<?php
+
+return [
+    'quality' => [
+        'pest' => [
+            'parallel' => true,
+        ],
+    ],
+];
+```
+
+When enabled, Maintainer passes Pest's native `--parallel` flag. The distributed template also accepts `MAINTAINER_PEST_PARALLEL=true`, which is convenient for enabling parallel execution only in CI.
+
 ## Interactive and CI behavior
 
 When configuration is missing, an interactive run offers to publish the recommended template without overwriting existing files. A non-interactive run fails and identifies the required file.

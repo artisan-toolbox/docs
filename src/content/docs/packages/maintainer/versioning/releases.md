@@ -40,6 +40,8 @@ When `0.x` has no release, initial choices are `0.1.0`, `0.1.0-alpha.1`, and `0.
 
 For a stable baseline, the provider under `ai.providers.release_type_suggestion` recommends patch or minor. Any analyzed fragment recommending minor makes minor the consolidated default; otherwise patch remains the default. AI is not consulted when no baseline exists or a prerelease line must finish.
 
+Package recommendations include development AI instructions and MCP configuration because those files can be part of the package's reusable developer experience. Laravel applications omit conventional AI-assistant instructions, rules, prompts, skills, and MCP configuration from the SemVer recommendation because they do not change the delivered site or application. Development-only AI or MCP dependencies that remain visible in shared manifests are explicitly treated as internal maintenance rather than evidence for a minor release. When only omitted development files or other normally omitted artifacts changed in an application, Maintainer defaults to patch without asking AI.
+
 ## Release workflow
 
 After version selection, Maintainer:
@@ -56,6 +58,8 @@ After version selection, Maintainer:
 10. publishes with `gh release create`.
 
 Alpha and beta versions use GitHub's prerelease flag. A missing changelog is created; subsequent releases are prepended and grouped by Conventional Commit category.
+
+Every GitHub release title uses `TAG - compact outcome`, for example `1.2.0 - Add deployment health checks`. Maintainer adds the exact selected tag itself and normalizes AI output that already contains a version.
 
 Git remains authoritative for changelog hashes. Unknown AI hashes are discarded, and every omitted real commit receives a deterministic entry derived from its subject. A release with no commits since the baseline stops before content generation.
 

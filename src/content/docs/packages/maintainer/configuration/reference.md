@@ -27,6 +27,9 @@ return [
         ],
     ],
     'quality' => [
+        'pest' => [
+            'parallel' => env('MAINTAINER_PEST_PARALLEL', false),
+        ],
         'phpstan' => [
             'memory_limit' => env('MAINTAINER_PHPSTAN_MEMORY_LIMIT', '2G'),
         ],
@@ -60,6 +63,7 @@ For example:
 ```dotenv
 MAINTAINER_AI_COMMIT_MESSAGE_PROVIDER=anthropic
 MAINTAINER_GIT_DIFF_OUTPUT_FORMAT=side_by_side
+MAINTAINER_PEST_PARALLEL=true
 MAINTAINER_PHPSTAN_MEMORY_LIMIT=4G
 APP_KEY=base64:your-32-byte-key-encoded-as-base64
 OPENAI_API_KEY=your-api-key
@@ -75,6 +79,7 @@ The configuration templates expose these variables:
 - `MAINTAINER_AI_RELEASE_NOTES_PROVIDER`;
 - `MAINTAINER_AI_RELEASE_CHANGELOG_UPDATE_PROVIDER`;
 - `MAINTAINER_GIT_DIFF_OUTPUT_FORMAT`;
+- `MAINTAINER_PEST_PARALLEL`;
 - `MAINTAINER_PHPSTAN_MEMORY_LIMIT`.
 
 ## Secrets
