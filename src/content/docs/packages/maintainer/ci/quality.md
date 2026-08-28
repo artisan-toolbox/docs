@@ -30,6 +30,8 @@ vendor/bin/maintainer quality
 
 This runs Pint, Rector, PHPStan, and Pest in order. The workflow stops at the first failure and returns that tool's exit code.
 
+On POSIX systems, Maintainer runs each project quality binary with the same PHP interpreter that started Maintainer. The workflow therefore does not depend on which `php` executable appears first in the project's `PATH`.
+
 ## Select tools
 
 Pass `--tool` once to run one tool or repeat it to run a subset:

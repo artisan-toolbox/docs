@@ -65,7 +65,7 @@ APP_KEY=base64:your-32-byte-key-encoded-as-base64
 OPENAI_API_KEY=your-api-key
 ```
 
-Maintainer loads the `.env` from the consuming Composer project before evaluating its project configuration files. Variables already supplied by the operating system, CI, or Laravel Zero take precedence over values in that file; the second argument to `env()` remains the final fallback. As in a Laravel application, call `env()` only from configuration files and read the resolved values through `maintainer_config()` elsewhere.
+Maintainer loads the `.env` from the consuming Composer project while evaluating its project configuration files. Variables already supplied by the operating system, CI, or Laravel Zero take precedence over values in that file; the second argument to `env()` remains the final fallback. Values loaded from the project file are scoped to configuration evaluation and are not exported to quality tools, deployment commands, or other subprocesses. Each delegated tool can therefore apply its own environment rules. As in a Laravel application, call `env()` only from configuration files and read the resolved values through `maintainer_config()` elsewhere.
 
 The configuration templates expose these variables:
 

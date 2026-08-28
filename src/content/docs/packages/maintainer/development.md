@@ -40,7 +40,7 @@ Run automated tests:
 vendor/bin/pest
 ```
 
-GitHub Actions runs the suite on Ubuntu and Windows. Tests that execute a Composer proxy through Symfony Process should assert the forwarded argument values without depending on the shell's serialized command-line quotes. Deployer executes localhost and remote task commands through Bash, including on the Windows runner, so fake executables used by Deployer task tests must be POSIX shell scripts. Path assertions should use `join_paths()` or normalize separators explicitly.
+GitHub Actions runs the suite on Ubuntu and Windows. Tests that execute a Composer proxy through Symfony Process should assert the forwarded argument values without depending on the shell's serialized command-line quotes. Deployer executes localhost and remote task commands through Bash, including on the Windows runner, so fake executables used by Deployer task tests must be POSIX shell scripts. Path assertions should use `join_paths()` or normalize separators explicitly, including `phar://` entry paths returned while inspecting the distributed build.
 
 Check and apply code style:
 
@@ -63,7 +63,7 @@ The Box manifest uses an explicit allowlist for distributed files under `config/
 
 Laravel Zero temporarily changes the application environment to `production` while compiling the PHAR. Maintainer uses that native environment switch to disable `app.user_config_prefix`; built executions consequently read and publish the consuming project's unprefixed `config/maintainer.php` and `config/maintainer_secrets.php`. No source configuration files are renamed during the build.
 
-Laravel Zero can load an environment file placed beside the PHAR. Maintainer additionally loads the consuming Composer project's root `.env` before evaluating its own user configuration so `vendor/bin/maintainer` follows the environment conventions of the project it is maintaining. Existing process variables are not overwritten.
+Laravel Zero can load an environment file placed beside the PHAR. Maintainer additionally loads the consuming Composer project's root `.env` while evaluating its own user configuration so `vendor/bin/maintainer` follows the environment conventions of the project it is maintaining. Existing process variables are not overwritten, and values read from the project file are removed from the Maintainer process after configuration evaluation so delegated tools can establish their own environments.
 
 ## Contribution conventions
 
