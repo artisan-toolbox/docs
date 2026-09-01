@@ -59,7 +59,7 @@ After version selection, Maintainer:
 
 Alpha and beta versions use GitHub's prerelease flag. A missing changelog is created; subsequent releases are prepended and grouped by Conventional Commit category.
 
-Every GitHub release title uses `TAG - compact outcome`, for example `1.2.0 - Add deployment health checks`. Maintainer adds the exact selected tag itself and normalizes AI output that already contains a version.
+Every GitHub release title uses `TAG - compact outcome`, for example `1.2.0 - Add deployment health checks`. Maintainer adds the exact selected tag itself and normalizes AI output that already contains a version. Before creating the release commit or publishing, the generated title opens in a multiline editor so you can read and refine it. The edited title must keep the exact selected tag and a non-empty, single-line outcome of at most 100 characters.
 
 Git remains authoritative for changelog hashes. Unknown AI hashes are discarded, and every omitted real commit receives a deterministic entry derived from its subject. A release with no commits since the baseline stops before content generation.
 

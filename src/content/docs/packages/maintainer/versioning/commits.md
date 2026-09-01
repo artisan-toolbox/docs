@@ -27,6 +27,8 @@ Choose one of three modes:
 
 AI generation uses `ai.providers.commit_message`. Configure that provider and its credentials through the [Configuration Reference](/packages/maintainer/configuration/reference/) before selecting an AI mode.
 
+The final commit message always opens in a multiline editor before Git creates the commit. AI modes prefill the editor with the generated result so you can read, refine, or replace it; manual mode opens the same editor empty.
+
 ## Push the commit
 
 After Git creates the commit, Maintainer offers to push `HEAD` to `origin`. The default is no, and pushing always requires confirmation.
