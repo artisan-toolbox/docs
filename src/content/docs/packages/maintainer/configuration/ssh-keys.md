@@ -7,9 +7,11 @@ sidebar:
 
 ## Generate the identity
 
-Select **Maintainer secrets** in `config:publish`. Maintainer generates an OpenSSH Ed25519 key, uses the requested email as its comment, encrypts the private key with `maintainer_secrets.key`, and stores the ciphertext under `ssh_key`.
+For a Laravel application, select **Maintainer secrets** in `config:publish`. Maintainer generates an OpenSSH Ed25519 key, uses the requested email as its comment, encrypts the private key with `maintainer_secrets.key`, and stores the ciphertext under `ssh_key`.
 
 The key defaults to `APP_KEY` and may use Laravel's conventional `base64:` representation. See the [Configuration Reference](/packages/maintainer/configuration/reference/#secrets) for the complete secrets format.
+
+Laravel packages skip identity generation because they do not normally provide `APP_KEY`. Their secrets template retains nullable `key` and `ssh_key` values. The display and deployment workflows remain unavailable until the package explicitly configures a valid encryption key and encrypted identity.
 
 ## Display the keys
 

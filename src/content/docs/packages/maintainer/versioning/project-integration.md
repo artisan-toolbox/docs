@@ -5,7 +5,7 @@ sidebar:
   order: 4
 ---
 
-Maintainer exports lightweight PHP contracts through the consuming project's Composer autoloader. Project-specific integrations can implement these contracts without loading the Laravel Zero runtime used by the PHAR:
+Maintainer explicitly maps its lightweight `ArtisanToolbox\Maintainer\Versionable\Contracts` namespace through the consuming project's Composer autoloader. Project-specific integrations can implement these contracts without exposing Maintainer's complete `app/` directory or loading the Laravel Zero runtime used by the PHAR:
 
 ```php
 <?php
@@ -35,7 +35,7 @@ final class ApplicationVersion implements Versionable, BeforeVersioning, AfterVe
 
 ## Version class
 
-The version class must live directly in a production PSR-4 namespace declared under `autoload.psr-4` in the project's `composer.json`. Classes in nested namespaces and development-only PSR-4 mappings are not considered.
+The version class must either live directly in a production PSR-4 namespace declared under `autoload.psr-4` or be included by a production `autoload.classmap` entry in the project's `composer.json`. Classes in nested PSR-4 namespaces and development-only autoload mappings are not considered. Classmap entries may point to a PHP file or a directory; directories are inspected recursively.
 
 Declaring `public const string VERSION` is optional: Maintainer creates it when absent and updates it when present. Existing constants must be public, string-typed, and use `MAJOR.MINOR.PATCH`, optionally followed by `-alpha`, `-alpha.N`, `-beta`, or `-beta.N`. Other formats, including `v` prefixes, release candidates, build metadata, missing components, and leading zeros, are rejected.
 

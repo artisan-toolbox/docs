@@ -9,9 +9,8 @@ Choose the smallest package that solves the problem in front of you. Dependencie
 
 | Package                                       | Use it when you need to                                                    |
 | --------------------------------------------- | -------------------------------------------------------------------------- |
-| [Axora](/packages/axora/)                     | Deliver real-time notifications to browsers over Server-Sent Events        |
 | [Core](/packages/core/)                       | Use shared foundations required by other Artisan Toolbox packages          |
 | [Dump to Console](/packages/dump-to-console/) | Inspect Laravel values in a separate console without changing the response |
 | [Maintainer](/packages/maintainer/)           | Standardize quality checks, commits, versioning, and releases              |
 
-Application-facing packages may depend on Core. Axora currently has a pre-release API, while Maintainer is a standalone development tool and does not need to be installed in production.
+Application-facing packages may depend on Core. Maintainer is a standalone development tool and does not need to be installed in production.

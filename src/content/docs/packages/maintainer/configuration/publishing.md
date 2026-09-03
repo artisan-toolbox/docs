@@ -36,7 +36,9 @@ Published templates retain their comments, examples, headers, and indentation. M
 
 ## Secrets and SSH identity
 
-Publishing Maintainer secrets requires a valid encryption key through `maintainer_secrets.key` or its default `APP_KEY`. Maintainer asks for an email address, generates an OpenSSH Ed25519 identity, encrypts the private key, and stores only the ciphertext.
+For Laravel applications, publishing Maintainer secrets requires a valid encryption key through `maintainer_secrets.key` or its default `APP_KEY`. Maintainer asks for an email address, generates an OpenSSH Ed25519 identity, encrypts the private key, and stores only the ciphertext.
+
+Laravel packages do not normally provide an application `.env` file or `APP_KEY`. When Maintainer detects a package, it publishes the secrets template with `ssh_key` set to `null` and skips both the email prompt and SSH identity generation. This keeps configuration publishing available without introducing an application encryption key solely for package maintenance.
 
 Key generation occurs only after overwrite approval. Declining an overwrite does not rotate the existing identity. Continue with [SSH Keys](/packages/maintainer/configuration/ssh-keys/) to inspect or consume it.
 

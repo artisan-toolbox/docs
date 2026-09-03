@@ -1,12 +1,12 @@
 ---
-title: CI
+title: Code Quality
 description: Run the consuming project's code-quality tools locally or in continuous integration.
 sidebar:
   order: 1
 ---
 
-The CI group provides one workflow for the quality tools installed by the consuming project. Open **CI** from the interactive menu to select any combination of Pint, Rector, PHPStan, and Pest, or invoke the command directly for automation.
+The Code Quality group separates commands that modify files from checks intended for continuous integration. Open **Code Quality** from the interactive menu, choose **Fix** or **CI Check**, and then select from the commands configured for that workflow.
 
-- [Quality checks](./quality/): install, configure, select, and run the supported tools.
+- [Fixes and CI checks](./quality/): install, configure, select, and run the supported tools.
 
-Maintainer always runs the project's binaries and configuration files. Dependencies bundled inside the Maintainer PHAR are isolated and are never used to analyze or modify the consuming project.
+Maintainer always runs the consuming project's binaries, configuration files, and package scripts. Dependencies bundled inside the Maintainer PHAR are isolated and are never used to analyze or modify the consuming project.

@@ -45,33 +45,6 @@ export default defineConfig({
           items: [
             { label: "Overview", slug: "packages" },
             {
-              label: "Axora",
-              badge: "0.x",
-              items: [
-                { label: "Overview", slug: "packages/axora" },
-                {
-                  label: "Laravel Usage",
-                  slug: "packages/axora/usage",
-                },
-                {
-                  label: "Browser Client",
-                  slug: "packages/axora/browser-client",
-                },
-                {
-                  label: "Configuration",
-                  slug: "packages/axora/configuration",
-                },
-                {
-                  label: "Server and Deployment",
-                  slug: "packages/axora/server-and-deployment",
-                },
-                {
-                  label: "Troubleshooting",
-                  slug: "packages/axora/troubleshooting",
-                },
-              ],
-            },
-            {
               label: "Core",
               badge: "1.x",
               items: [
@@ -103,14 +76,14 @@ export default defineConfig({
               items: [
                 { label: "Overview", slug: "packages/maintainer" },
                 {
-                  label: "CI",
+                  label: "Code Quality",
                   items: [
                     {
                       label: "Overview",
                       slug: "packages/maintainer/ci",
                     },
                     {
-                      label: "Quality Checks",
+                      label: "Fixes and CI Checks",
                       slug: "packages/maintainer/ci/quality",
                     },
                   ],

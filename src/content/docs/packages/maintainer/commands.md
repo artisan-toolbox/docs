@@ -1,15 +1,16 @@
 ---
 title: Commands and Workflows
-description: Find each Maintainer command in its CI, Configuration, Deployment, or Versioning group.
+description: Find each Maintainer command in its Code Quality, Configuration, Deployment, or Versioning group.
 sidebar:
   hidden: true
 ---
 
 Maintainer commands are documented with their setup and configuration under the same four groups shown in the interactive menu.
 
-## CI
+## Code Quality
 
-- [`quality`](/packages/maintainer/ci/quality/): run Pint, Rector, PHPStan, Pest, or a selected subset.
+- [`quality:fix`](/packages/maintainer/ci/quality/): apply Pint, Rector, and Vite+ fixes.
+- [`quality:check`](/packages/maintainer/ci/quality/): run Pest, Pint, Vite+, vue-tsc, and PHPStan checks.
 
 ## Configuration
 

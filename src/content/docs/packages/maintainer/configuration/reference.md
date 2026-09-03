@@ -12,6 +12,16 @@ The published file starts with Maintainer's current defaults:
 ```php
 <?php
 
+use ArtisanToolbox\Maintainer\Quality\Contracts\RunsPestCheck;
+use ArtisanToolbox\Maintainer\Quality\Contracts\RunsPhpStanCheck;
+use ArtisanToolbox\Maintainer\Quality\Contracts\RunsPintCheck;
+use ArtisanToolbox\Maintainer\Quality\Contracts\RunsPintFix;
+use ArtisanToolbox\Maintainer\Quality\Contracts\RunsRectorFix;
+use ArtisanToolbox\Maintainer\Quality\Contracts\RunsVitePlusCheck;
+use ArtisanToolbox\Maintainer\Quality\Contracts\RunsVitePlusCheckFix;
+use ArtisanToolbox\Maintainer\Quality\Contracts\RunsVitePlusTest;
+use ArtisanToolbox\Maintainer\Quality\Contracts\RunsVueTscCheck;
+
 return [
     'ai' => [
         'providers' => [
@@ -27,6 +37,19 @@ return [
         ],
     ],
     'quality' => [
+        'fix' => [
+            RunsPintFix::class,
+            RunsRectorFix::class,
+            RunsVitePlusCheckFix::class,
+        ],
+        'test' => [
+            RunsPestCheck::class,
+            RunsPintCheck::class,
+            RunsVitePlusCheck::class,
+            RunsVitePlusTest::class,
+            RunsVueTscCheck::class,
+            RunsPhpStanCheck::class,
+        ],
         'pest' => [
             'parallel' => env('MAINTAINER_PEST_PARALLEL', false),
         ],
@@ -37,11 +60,13 @@ return [
 ];
 ```
 
+The `quality.fix` and `quality.test` lists use readable public command contracts under `ArtisanToolbox\Maintainer\Quality\Contracts`. Their names describe intent, such as `RunsPintFix` and `RunsPintCheck`, instead of exposing generic implementation names. Composer explicitly exports the quality and versioning contracts, SSH helpers, encryption support, and Deployer integration without exposing the package's complete `app/` directory. Maintainer resolves every quality contract to its bundled implementation at runtime. Project configuration must use these contracts instead of the private `App\...` implementation namespace.
+
 The four `ai.providers` values select the Laravel AI provider used for commit messages, release type suggestions, release notes, and release changelog updates. Every configured release agent delegates model selection to the provider's cheapest compatible model through Laravel AI's `UseCheapestModel` attribute.
 
 ## Encryption
 
-Maintainer provides Laravel's authenticated encryption layer through the `Crypt::encryptString()` and `Crypt::decryptString()` methods and the global `encrypt()` and `decrypt()` helpers. The AES-256-CBC encrypter requires `maintainer_secrets.key`. Every distributed secrets template contains that key and uses `env('APP_KEY')` as its default value:
+Maintainer provides Laravel's authenticated encryption layer through the `Crypt::encryptString()` and `Crypt::decryptString()` methods and the global `encrypt()` and `decrypt()` helpers. The AES-256-CBC encrypter requires `maintainer_secrets.key` only when encryption or decryption is requested. Every distributed secrets template contains that key and uses `env('APP_KEY')` as its default value:
 
 ```php
 use Illuminate\Support\Facades\Crypt;
@@ -69,7 +94,7 @@ APP_KEY=base64:your-32-byte-key-encoded-as-base64
 OPENAI_API_KEY=your-api-key
 ```
 
-Maintainer loads the `.env` from the consuming Composer project while evaluating its project configuration files. Variables already supplied by the operating system, CI, or Laravel Zero take precedence over values in that file; the second argument to `env()` remains the final fallback. Values loaded from the project file are scoped to configuration evaluation and are not exported to quality tools, deployment commands, or other subprocesses. Each delegated tool can therefore apply its own environment rules. As in a Laravel application, call `env()` only from configuration files and read the resolved values through `maintainer_config()` elsewhere.
+Maintainer loads the `.env` from the consuming Composer project while evaluating its project configuration files. Variables already supplied by the operating system, CI, or Laravel Zero take precedence over values in that file; the second argument to `env()` remains the final fallback. Values loaded from the project file are scoped to configuration evaluation and are not exported to quality tools, deployment commands, or other subprocesses. Each delegated tool can therefore apply its own environment rules. As in a Laravel application, use `env()` only inside configuration files.
 
 The configuration templates expose these variables:
 
@@ -98,7 +123,9 @@ return [
 
 The secrets template contains every provider supported by the installed Laravel AI SDK. Add credentials only for providers the project uses. Provider values may include connection settings such as an endpoint in addition to an API key.
 
-Publishing Maintainer secrets through `config:publish` also generates an OpenSSH Ed25519 key. Maintainer asks for the owner's email, embeds it as the SSH key comment, generates the key without an SSH passphrase, encrypts the complete private key with `maintainer_secrets.key`, and stores only that ciphertext under `ssh_key`. A valid encryption key must therefore be available through `maintainer_secrets.key` or its `APP_KEY` default before publishing secrets.
+For Laravel applications, publishing Maintainer secrets through `config:publish` also generates an OpenSSH Ed25519 key. Maintainer asks for the owner's email, embeds it as the SSH key comment, generates the key without an SSH passphrase, encrypts the complete private key with `maintainer_secrets.key`, and stores only that ciphertext under `ssh_key`. A valid encryption key must therefore be available through `maintainer_secrets.key` or its `APP_KEY` default before publishing application secrets.
+
+Laravel packages skip the email prompt and SSH identity generation because they do not normally have an application encryption key. Their published secrets file keeps both `key` and `ssh_key` nullable until the project explicitly provides them. This does not affect code-quality workflows; deployment and SSH display commands require a configured encrypted identity.
 
 The public key is never stored. It is deterministically derived from the decrypted private key when requested.
 
@@ -110,38 +137,9 @@ Content-generation workflows require a provider that supports text: `anthropic`,
 
 ## Defaults and project values
 
-Maintainer keeps its distributed defaults in its own `config/maintainer.php` and `config/maintainer_secrets.php` files and recursively merges them with the consuming project's corresponding configuration at runtime. Project values take precedence, while options introduced by newer Maintainer versions remain available to projects created with older configuration files. Projects without `config/maintainer.php` use all current non-secret defaults without creating a file automatically.
+Maintainer keeps its distributed defaults in its own `config/maintainer.php` and `config/maintainer_secrets.php` files and merges them with the consuming project's corresponding configuration at runtime. Associative configuration is merged recursively, while ordered lists such as `quality.fix` and `quality.test` are replaced as complete values. Project values take precedence, while options introduced by newer Maintainer versions remain available to projects created with older configuration files. Projects without `config/maintainer.php` use all current non-secret defaults without creating a file automatically.
 
-Commands and services can read configuration values with dot notation and optional defaults:
-
-```php
-$memoryLimit = maintainer_config('quality.phpstan.memory_limit', '2G');
-$configuration = maintainer_config();
-
-if (maintainer_config_missing()) {
-    // Ask the user to publish Maintainer configuration.
-}
-```
-
-For dependency-injected code, use `MaintainerConfiguration` directly:
-
-```php
-use App\Support\Configuration\MaintainerConfiguration;
-
-final readonly class QualityWorkflow
-{
-    public function __construct(
-        private MaintainerConfiguration $configuration,
-    ) {}
-
-    public function run(): void
-    {
-        $memoryLimit = $this->configuration->get('quality.phpstan.memory_limit', '2G');
-    }
-}
-```
-
-Configuration values are cached for the lifetime of the process. Call `refresh()` when a workflow changes `config/maintainer.php` and must read the updated values immediately. `maintainer_config_missing()` continues to report whether the project file exists even though defaults remain available. A configuration file that fails to load or does not return an associative array raises an actionable exception.
+Maintainer reads these values internally with dot notation and caches them for the lifetime of its process. The internal configuration service is not part of the consuming project's namespace or public API. Edit the PHP configuration or its referenced environment variables to change workflow behavior. A configuration file that fails to load or does not return an associative array raises an actionable exception.
 
 ## Legacy JSON configuration
 

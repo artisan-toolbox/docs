@@ -17,7 +17,7 @@ Before starting, Maintainer requires:
 
 - a completely clean Git working tree;
 - a major branch named `0.x`, `1.x`, `2.x`, and so on;
-- a class directly in a production PSR-4 namespace that implements `Versionable`;
+- a class exposed by the production Composer PSR-4 or classmap autoloader that implements `Versionable`;
 - authenticated GitHub CLI access;
 - a supported semantic version when the version constant already exists;
 - configured AI providers and credentials for release recommendations and generated content.
@@ -51,13 +51,17 @@ After version selection, Maintainer:
 3. builds context from commits and the diff since the baseline;
 4. generates release notes and validated changelog entries;
 5. updates the version constant and managed README badge;
-6. stages the generated files;
-7. optionally opens an HTML review of the proposal;
-8. creates `chore(release): prepare VERSION`;
-9. pushes the commit to `origin`;
-10. publishes with `gh release create`.
+6. runs every configured `quality.fix` command non-interactively, including `vp check --fix` when available;
+7. offers to run every configured `quality:check` contract non-interactively;
+8. stages the generated and automatically formatted files;
+9. optionally opens an HTML review of the proposal;
+10. creates `chore(release): prepare VERSION`;
+11. pushes the commit to `origin`;
+12. publishes with `gh release create`.
 
 Alpha and beta versions use GitHub's prerelease flag. A missing changelog is created; subsequent releases are prepended and grouped by Conventional Commit category.
+
+Automatic fixes run after `CHANGELOG.md` is written and before any release file is staged. Maintainer then asks whether to run the configured checks, defaulting to yes. The release controls its own commit, so its internal non-interactive `quality:fix` invocation never offers to create a separate quality commit. Unavailable tools are skipped using the normal `quality:fix` and `quality:check` rules. If an available fixer or accepted check returns a failure, Maintainer aborts the release before committing and restores the original worktree.
 
 Every GitHub release title uses `TAG - compact outcome`, for example `1.2.0 - Add deployment health checks`. Maintainer adds the exact selected tag itself and normalizes AI output that already contains a version. Before creating the release commit or publishing, the generated title opens in a multiline editor so you can read and refine it. The edited title must keep the exact selected tag and a non-empty, single-line outcome of at most 100 characters.
 

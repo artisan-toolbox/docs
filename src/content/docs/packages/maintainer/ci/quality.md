@@ -1,87 +1,195 @@
 ---
-title: Quality Checks
-description: Run Pint, Rector, PHPStan, and Pest as one local or CI workflow.
+title: Fixes and CI Checks
+description: Apply automated fixes and run configured PHP and frontend quality checks.
 sidebar:
   order: 1
 ---
 
-## Install the tools
+Maintainer exposes two code-quality workflows:
 
-Install the tools in the consuming project using constraints compatible with that project's PHP and Laravel versions:
+- `quality:fix` applies changes with Pint, Rector, and `vp check --fix`;
+- `quality:check` runs Pest, Pint in test mode, `vp check`, `vp test`, `vue-tsc --noEmit`, and PHPStan.
 
-```bash
-composer require --dev laravel/pint rector/rector driftingly/rector-laravel larastan/larastan pestphp/pest
+Each workflow reads an ordered list of public command contracts from the Maintainer configuration. All configured commands are selected by default in the interactive multi-select. A non-interactive invocation runs the complete configured list.
+
+## Requirements and skipped commands
+
+PHP commands run only when both the project binary and a recognized configuration file exist:
+
+| Command | Required binary      | Recognized configuration                                    |
+| ------- | -------------------- | ----------------------------------------------------------- |
+| Pint    | `vendor/bin/pint`    | `pint.json`                                                 |
+| Rector  | `vendor/bin/rector`  | `rector.php`                                                |
+| Pest    | `vendor/bin/pest`    | `phpunit.xml` or `phpunit.xml.dist`                         |
+| PHPStan | `vendor/bin/phpstan` | `phpstan.neon`, `phpstan.neon.dist`, or `phpstan.dist.neon` |
+
+Frontend commands require `package.json`, the corresponding local binary under `node_modules/.bin`, and a package script that invokes the expected command. Maintainer discovers the script by its contents rather than its name. For example, all of these names are valid:
+
+```json
+{
+  "scripts": {
+    "frontend-quality": "vp check",
+    "paca-tatu": "vp test run",
+    "types:vue": "vue-tsc --noEmit"
+  }
+}
 ```
 
-Maintainer recognizes these project configuration files:
+Vite+ commands require `node_modules/.bin/vp`; the Vue type check requires `node_modules/.bin/vue-tsc`. Maintainer invokes the discovered script through the package manager declared by `packageManager`, or infers pnpm, Yarn, or Bun from its lock file. It falls back to npm.
 
-- `pint.json`;
-- `rector.php`;
-- `phpstan.neon`, `phpstan.neon.dist`, or `phpstan.dist.neon`;
-- `phpunit.xml` or `phpunit.xml.dist` for Pest.
+When any requirement is missing, Maintainer emits a `Skipped` warning and continues with the next selected command. A command that starts and exits unsuccessfully still stops the workflow and returns its exit code.
 
-Use [Configuration Publishing](/packages/maintainer/configuration/publishing/) to create recommended templates. Application and package templates use different source and test paths, so Maintainer asks for the project type when necessary and suggests the type inferred from `composer.json`.
-
-## Run the complete workflow
+## Apply fixes
 
 ```bash
-vendor/bin/maintainer quality
+vendor/bin/maintainer quality:fix
 ```
 
-This runs Pint, Rector, PHPStan, and Pest in order. The workflow stops at the first failure and returns that tool's exit code.
+The default order is Pint, Rector, then the package script containing `vp check --fix`. After every successful interactive fix workflow, Maintainer offers to run the complete configured `quality:check` workflow, defaulting to yes. When the checks succeed or are declined, Maintainer asks whether to commit the resulting changes if at least one fixer ran and the working tree is dirty. Only an explicit confirmation starts the commit workflow and its optional diff review. Non-interactive runs do not prompt for checks or offer to create a commit.
 
-On POSIX systems, Maintainer runs each project quality binary with the same PHP interpreter that started Maintainer. The workflow therefore does not depend on which `php` executable appears first in the project's `PATH`.
-
-## Select tools
-
-Pass `--tool` once to run one tool or repeat it to run a subset:
+## Run CI checks
 
 ```bash
-vendor/bin/maintainer quality --tool=pint
-vendor/bin/maintainer quality --tool=phpstan
-vendor/bin/maintainer quality --tool=pint --tool=pest
+vendor/bin/maintainer quality:check --no-interaction
 ```
 
-Supported values are `pint`, `rector`, `phpstan`, and `pest`. An unsupported value stops the workflow before any tool starts. In the interactive menu, the **CI** submenu exposes the same selection as a multi-select.
+The default order is Pest, Pint test, the package scripts containing `vp check`, `vp test`, and `vue-tsc --noEmit`, then PHPStan. The check workflow never modifies the selection based on availability: configured but unavailable commands remain visible and report why they were skipped.
 
-## Configure PHPStan memory
+### GitHub Actions
 
-Maintainer passes `quality.phpstan.memory_limit` to PHPStan as an explicit `--memory-limit` argument. The default is `2G`:
+Use one non-interactive Maintainer invocation as the job's quality gate. In consuming projects, Composer installs Maintainer under `vendor/bin`; there is no project-root `maintainer` executable. Invoke it as `php vendor/bin/maintainer`, after installing every PHP and frontend dependency required by the configured checks:
+
+```yaml
+name: Code Quality
+
+on:
+  pull_request:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v6
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.5"
+          coverage: none
+          tools: composer:v2
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Run configured quality checks
+        run: php vendor/bin/maintainer quality:check --no-interaction
+```
+
+Adapt the Node.js version and package-manager install command to the consuming project's lock file. Projects without configured frontend checks can omit the Node.js and frontend dependency steps.
+
+`quality:check` returns the first executed command's non-zero exit code, so GitHub Actions fails the job naturally. Missing binaries or configuration files are reported as `Skipped` and do not fail the workflow. Consequently, the job must install every dependency and retain every configuration file that CI is expected to enforce; a successful job does not prove that a skipped tool ran.
+
+The `--no-interaction` option is required in CI. It selects the complete configured `quality.test` list without opening the interactive tool selector. To create intentionally smaller jobs, combine it with one or more `--tool` options, for example:
+
+```yaml
+- name: Run PHP checks
+  run: php vendor/bin/maintainer quality:check --no-interaction --tool=pest --tool=pint --tool=phpstan
+```
+
+## Select a subset
+
+Pass `--tool` once or repeat it. Tool names are scoped to their workflow:
+
+```bash
+vendor/bin/maintainer quality:fix --tool=pint
+vendor/bin/maintainer quality:check --tool=pest --tool=phpstan
+vendor/bin/maintainer quality:check --tool=vite-plus-test
+```
+
+The interactive menu uses the configured FQCN values internally. Direct invocations accept either the command's short name or its FQCN.
+
+## Configure workflow commands
+
+Override `quality.fix` or `quality.test` with an ordered list of the built-in public contract FQCNs. Lists replace the distributed defaults instead of merging by numeric index. Composer explicitly exports `ArtisanToolbox\Maintainer\Quality\Contracts` without exposing the package's complete `app/` directory; project configuration must not reference Maintainer's private `App\Support\...` implementation classes.
 
 ```php
 <?php
 
+use ArtisanToolbox\Maintainer\Quality\Contracts\RunsPestCheck;
+use ArtisanToolbox\Maintainer\Quality\Contracts\RunsPhpStanCheck;
+use ArtisanToolbox\Maintainer\Quality\Contracts\RunsPintFix;
+
 return [
     'quality' => [
-        'phpstan' => [
-            'memory_limit' => '4G',
+        'fix' => [
+            RunsPintFix::class,
+        ],
+        'test' => [
+            RunsPestCheck::class,
+            RunsPhpStanCheck::class,
         ],
     ],
 ];
 ```
 
-Valid values include `512M`, `4G`, a byte count, or `-1` for unlimited memory. The environment variable `MAINTAINER_PHPSTAN_MEMORY_LIMIT` configures the distributed template.
-
-## Run Pest in parallel
-
-Parallel execution is opt-in and disabled by default. Enable it in the Maintainer configuration when the project's tests isolate shared resources such as databases, files, and caches:
+The distributed defaults are:
 
 ```php
-<?php
-
-return [
-    'quality' => [
-        'pest' => [
-            'parallel' => true,
-        ],
+'quality' => [
+    'fix' => [
+        ArtisanToolbox\Maintainer\Quality\Contracts\RunsPintFix::class,
+        ArtisanToolbox\Maintainer\Quality\Contracts\RunsRectorFix::class,
+        ArtisanToolbox\Maintainer\Quality\Contracts\RunsVitePlusCheckFix::class,
     ],
-];
+    'test' => [
+        ArtisanToolbox\Maintainer\Quality\Contracts\RunsPestCheck::class,
+        ArtisanToolbox\Maintainer\Quality\Contracts\RunsPintCheck::class,
+        ArtisanToolbox\Maintainer\Quality\Contracts\RunsVitePlusCheck::class,
+        ArtisanToolbox\Maintainer\Quality\Contracts\RunsVitePlusTest::class,
+        ArtisanToolbox\Maintainer\Quality\Contracts\RunsVueTscCheck::class,
+        ArtisanToolbox\Maintainer\Quality\Contracts\RunsPhpStanCheck::class,
+    ],
+],
 ```
 
-When enabled, Maintainer passes Pest's native `--parallel` flag. The distributed template also accepts `MAINTAINER_PEST_PARALLEL=true`, which is convenient for enabling parallel execution only in CI.
+Maintainer resolves each public `Runs...` contract to its bundled implementation. The contract name distinguishes fixes from checks even when both use the same tool—for example, `RunsPintFix` modifies files while `RunsPintCheck` only verifies them. The contracts are the supported configuration surface; internal command class names may change without notice.
 
-## Interactive and CI behavior
+## Pest and PHPStan options
 
-When configuration is missing, an interactive run offers to publish the recommended template without overwriting existing files. A non-interactive run fails and identifies the required file.
+Parallel Pest execution remains opt-in:
 
-After all selected tools succeed, an interactive run checks the Git working tree and offers to continue into the [Commit workflow](/packages/maintainer/versioning/commits/) when changes exist. Continuous integration never receives this prompt and never creates a commit.
+```php
+'quality' => [
+    'pest' => [
+        'parallel' => true,
+    ],
+],
+```
+
+PHPStan uses a `2G` memory limit by default. Valid configured values include `512M`, `4G`, a byte count, or `-1`:
+
+```php
+'quality' => [
+    'phpstan' => [
+        'memory_limit' => '4G',
+    ],
+],
+```
+
+The environment variables `MAINTAINER_PEST_PARALLEL` and `MAINTAINER_PHPSTAN_MEMORY_LIMIT` configure these options in the distributed template.

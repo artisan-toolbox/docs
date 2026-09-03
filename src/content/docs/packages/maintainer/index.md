@@ -41,7 +41,7 @@ vendor/bin/maintainer config:publish
 
 Maintainer's documentation follows the same groups as its interactive menu:
 
-- [CI](./ci/): run Pint, Rector, PHPStan, and Pest together or as a selected subset.
+- [Code Quality](./ci/): apply automated fixes and run PHP and frontend checks as configurable workflows.
 - [Configuration](./configuration/): publish templates and manage settings, secrets, and SSH keys.
 - [Deployment](./deployment/): run and unlock Deployer or attach shared repository and PM2 tasks.
 - [Versioning](./versioning/): review diffs, create commits, and publish GitHub releases.
