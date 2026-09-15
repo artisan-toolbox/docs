@@ -24,7 +24,7 @@ The multi-select offers:
 
 Only selected files are considered. Rector, PHPStan, and Pest have different application and package templates, so Maintainer asks once for the project type and suggests the value inferred from `composer.json`.
 
-The built PHAR publishes `config/maintainer.php` and `config/maintainer_secrets.php`. A Maintainer source checkout uses the configurable `dev_` prefix to keep its local overrides separate from packaged defaults.
+The built PHAR publishes `config/maintainer.php` and `config/maintainer_secrets.php` with the templates' original indentation and layout intact. JSON and other project templates are likewise copied without PHAR compaction. A Maintainer source checkout uses the configurable `dev_` prefix to keep its local overrides separate from packaged defaults.
 
 ## Overwrite protection
 

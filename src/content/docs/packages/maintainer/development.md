@@ -59,7 +59,7 @@ php maintainer app:build
 
 The compiled application is written to `builds/maintainer`. Composer exposes this distributed PHAR as `vendor/bin/maintainer` in consuming projects.
 
-The Box manifest uses an explicit allowlist for distributed files under `config/`. Local `config/dev_maintainer.php` and `config/dev_maintainer_secrets.php` overrides are never collected into the PHAR, even when they exist in the source checkout. The package test suite also opens the committed build and rejects local configuration paths or common credential signatures before release.
+The Box manifest uses an explicit allowlist for distributed files under `config/`. Publishable Maintainer configuration files use Box's unmodified-file list so their PHP array indentation survives compilation; project templates under `resources/`, including JSON files, are also packaged without compaction. Local `config/dev_maintainer.php` and `config/dev_maintainer_secrets.php` overrides are never collected into the PHAR, even when they exist in the source checkout. The package test suite opens the committed build to verify template fidelity and reject local configuration paths or common credential signatures before release.
 
 Laravel Zero temporarily changes the application environment to `production` while compiling the PHAR. Maintainer uses that native environment switch to disable `app.user_config_prefix`; built executions consequently read and publish the consuming project's unprefixed `config/maintainer.php` and `config/maintainer_secrets.php`. No source configuration files are renamed during the build.
 

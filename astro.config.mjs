@@ -165,6 +165,11 @@ export default defineConfig({
                 },
               ],
             },
+            {
+              label: "Mosaicast",
+              badge: "Early development",
+              items: [{ label: "Overview", slug: "packages/mosaicast" }],
+            },
           ],
         },
         {

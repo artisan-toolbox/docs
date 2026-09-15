@@ -12,5 +12,6 @@ Choose the smallest package that solves the problem in front of you. Dependencie
 | [Core](/packages/core/)                       | Use shared foundations required by other Artisan Toolbox packages          |
 | [Dump to Console](/packages/dump-to-console/) | Inspect Laravel values in a separate console without changing the response |
 | [Maintainer](/packages/maintainer/)           | Standardize quality checks, commits, versioning, and releases              |
+| [Mosaicast](/packages/mosaicast/)             | Deliver application events through the channel ready to reach the client   |
 
 Application-facing packages may depend on Core. Maintainer is a standalone development tool and does not need to be installed in production.
