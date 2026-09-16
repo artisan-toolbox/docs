@@ -18,6 +18,50 @@ export default defineConfig({
         replacesTitle: true,
       },
       customCss: ["./src/styles/custom.css"],
+      head: [
+        {
+          tag: "script",
+          content: `
+            (() => {
+              const synchronizeSidebar = () => {
+                const sidebar = document.getElementById("starlight__sidebar");
+                const currentPage = sidebar?.querySelector('a[aria-current="page"]');
+
+                if (!sidebar || !currentPage) return;
+
+                const groups = Array.from(sidebar.querySelectorAll("details"));
+
+                groups.forEach((group) => {
+                  group.open = group.contains(currentPage);
+                });
+
+                const stateContainer = sidebar.querySelector(
+                  "sl-sidebar-state-persist",
+                );
+                const hash = stateContainer?.getAttribute("data-hash");
+
+                if (!hash) return;
+
+                try {
+                  sessionStorage.setItem(
+                    "sl-sidebar-state",
+                    JSON.stringify({
+                      hash,
+                      open: groups.map((group) => group.open),
+                      scroll: sidebar.scrollTop,
+                    }),
+                  );
+                } catch {
+                  // Sidebar state persistence is optional.
+                }
+              };
+
+              document.addEventListener("DOMContentLoaded", synchronizeSidebar);
+              document.addEventListener("astro:page-load", synchronizeSidebar);
+            })();
+          `,
+        },
+      ],
       editLink: {
         baseUrl: "https://github.com/artisan-toolbox/docs/edit/main/",
       },
@@ -32,6 +76,7 @@ export default defineConfig({
       sidebar: [
         {
           label: "Getting Started",
+          collapsed: true,
           items: [
             { label: "Overview", slug: "getting-started" },
             {
@@ -42,13 +87,19 @@ export default defineConfig({
         },
         {
           label: "Packages",
+          collapsed: true,
           items: [
             { label: "Overview", slug: "packages" },
             {
               label: "Core",
               badge: "1.x",
+              collapsed: true,
               items: [
                 { label: "Overview", slug: "packages/core" },
+                {
+                  label: "Sift Conditional Arrays",
+                  slug: "packages/core/conditional-arrays",
+                },
                 {
                   label: "Multi-domain Inertia Visits",
                   slug: "packages/core/multi-domain-inertia",
@@ -62,6 +113,7 @@ export default defineConfig({
             {
               label: "Dump to Console",
               badge: "1.x",
+              collapsed: true,
               items: [
                 { label: "Overview", slug: "packages/dump-to-console" },
                 {
@@ -73,10 +125,12 @@ export default defineConfig({
             {
               label: "Maintainer",
               badge: "1.x",
+              collapsed: true,
               items: [
                 { label: "Overview", slug: "packages/maintainer" },
                 {
                   label: "Code Quality",
+                  collapsed: true,
                   items: [
                     {
                       label: "Overview",
@@ -90,6 +144,7 @@ export default defineConfig({
                 },
                 {
                   label: "Configuration",
+                  collapsed: true,
                   items: [
                     {
                       label: "Overview",
@@ -111,6 +166,7 @@ export default defineConfig({
                 },
                 {
                   label: "Deployment",
+                  collapsed: true,
                   items: [
                     {
                       label: "Overview",
@@ -136,6 +192,7 @@ export default defineConfig({
                 },
                 {
                   label: "Versioning",
+                  collapsed: true,
                   items: [
                     {
                       label: "Overview",
@@ -167,14 +224,34 @@ export default defineConfig({
             },
             {
               label: "Mosaicast",
-              badge: "Early development",
-              items: [{ label: "Overview", slug: "packages/mosaicast" }],
+              badge: "1.x",
+              collapsed: true,
+              items: [
+                { label: "Overview", slug: "packages/mosaicast" },
+                {
+                  label: "Delivery Guarantees",
+                  slug: "packages/mosaicast/roadmap",
+                },
+                {
+                  label: "Session Broadcast Channels",
+                  slug: "packages/mosaicast/session-channels",
+                },
+                {
+                  label: "Inertia Delivery",
+                  slug: "packages/mosaicast/inertia-delivery",
+                },
+                {
+                  label: "Vue Plugin",
+                  slug: "packages/mosaicast/vue-plugin",
+                },
+              ],
             },
           ],
         },
         {
           label: "Project",
-          items: [{ autogenerate: { directory: "project" } }],
+          collapsed: true,
+          items: [{ autogenerate: { directory: "project", collapsed: true } }],
         },
       ],
     }),

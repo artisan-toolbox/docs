@@ -21,7 +21,7 @@ composer require artisan-toolbox/core
 
 ## Features
 
-- [Conditional arrays](./conditional-arrays/): lazily include values and recursively remove rejected entries from arrays and other iterables.
+- [Sift conditional arrays](./conditional-arrays/): include values conditionally and recursively remove rejected entries from arrays and other iterables.
 - [Multi-domain Inertia visits](./multi-domain-inertia/): keep Inertia navigation working when links move between trusted domains or subdomains served by the same Laravel application.
 - [Translated model attributes](./translated-attributes/): store stable translation keys while exposing localized strings from Eloquent models.
 
