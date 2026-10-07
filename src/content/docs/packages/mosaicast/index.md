@@ -42,6 +42,12 @@ use ArtisanToolbox\Mosaicast\Facades\Mosaicast;
 Mosaicast::dispatch('orders.updated', ['orderId' => $order->id]);
 ```
 
+The global `mosaicast()` helper dispatches with the same event and payload arguments:
+
+```php
+mosaicast('orders.updated', ['orderId' => $order->id]);
+```
+
 An Inertia response that resolves the shared `mosaicast` prop includes this event under `mosaicast.events`. On another response, Mosaicast broadcasts it to the current session's private channel. The [Vue plugin](./vue-plugin/) delivers both paths to the same listener:
 
 ```ts
@@ -57,7 +63,7 @@ const stop = mosaicast().on("orders.updated", (payload, source) => {
 1. Call `Mosaicast::dispatch()` in a request.
 2. If Inertia resolves `mosaicast`, the event appears in `mosaicast.events`.
 3. Otherwise, Mosaicast broadcasts to the current session's private channel after the response is handled.
-4. In a job, capture `Mosaicast::currentSessionIdentifier()` in the request and call `Mosaicast::toSession($identifier)` in the job.
+4. In a job, capture `Mosaicast::currentSessionIdentifier()` in the request and call `Mosaicast::toSession($identifier)` or `mosaicast()->toSession($identifier)` in the job.
 
 The shared `mosaicastSessionIdentifier` prop is included in every Inertia response, including partial reloads that omit events. It lets the client keep its private channel current without consuming events that need the broadcast fallback.
 

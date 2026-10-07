@@ -43,6 +43,12 @@ Mosaicast::dispatch('orders.updated', [
 ]);
 ```
 
+The `mosaicast()` helper provides the equivalent concise form:
+
+```php
+mosaicast('orders.updated', ['orderId' => $order->id]);
+```
+
 The event name is the client-side contract. Use stable, application-specific names. The [Vue listener API](../vue-plugin/) receives either delivery path through `mosaicast().on()`.
 String dispatch accepts an associative payload array. An empty event name is rejected. Event objects define their own payload and cannot receive a separate payload argument.
 
@@ -135,7 +141,7 @@ final class ProcessOrder implements ShouldQueue
 
     public function handle(): void
     {
-        Mosaicast::toSession($this->sessionIdentifier)->dispatch('orders.updated', [
+        mosaicast()->toSession($this->sessionIdentifier)->dispatch('orders.updated', [
             'orderId' => $this->orderId,
         ]);
     }
