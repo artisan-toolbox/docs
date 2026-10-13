@@ -5,6 +5,9 @@ import starlight from "@astrojs/starlight";
 // https://astro.build/config
 export default defineConfig({
   site: "https://artisantoolbox.wsssoftware.com.br",
+  redirects: {
+    "/packages/qztray/v1-readiness/": "/packages/qztray/compatibility/",
+  },
   integrations: [
     starlight({
       title: "Artisan Toolbox",
@@ -219,6 +222,18 @@ export default defineConfig({
                 {
                   label: "Development and Building",
                   slug: "packages/maintainer/development",
+                },
+              ],
+            },
+            {
+              label: "QZ Tray",
+              badge: "1.x",
+              collapsed: true,
+              items: [
+                { label: "Overview", slug: "packages/qztray" },
+                {
+                  label: "Compatibility and Limits",
+                  slug: "packages/qztray/compatibility",
                 },
               ],
             },
