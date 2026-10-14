@@ -10,6 +10,8 @@ QZ Tray Connector connects Laravel credentials to a shared frontend printing API
 
 See the [compatibility and API limits](./compatibility/) for integration requirements and observable behavior in the 1.x series.
 
+The package is maintained on the `1.x` branch. Local development branches should track `origin/1.x`. GitHub Actions runs tests for pushes to `1.x`, other version branches matching `*.x`, and pull requests. Review the [changelog](https://github.com/artisan-toolbox/qztray/blob/1.x/CHANGELOG.md) before upgrading.
+
 ## Requirements
 
 - PHP 8.5 or later within the PHP 8.x series

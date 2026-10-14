@@ -32,7 +32,7 @@ Laravel discovers the package service provider automatically. No Mosaicast-speci
 
 ## Versioning
 
-Mosaicast is maintained on the 1.x line and follows semantic versioning. Its public delivery, event, channel, and Vue listener APIs are documented in this guide and its linked references. Review the [changelog](https://github.com/artisan-toolbox/mosaicast/blob/main/CHANGELOG.md) before upgrading.
+Mosaicast is maintained on the `1.x` branch and follows semantic versioning. Local development branches should track `origin/1.x`. GitHub Actions runs tests for pushes to `1.x`, other version branches matching `*.x`, and pull requests. Its public delivery, event, channel, and Vue listener APIs are documented in this guide and its linked references. Review the [changelog](https://github.com/artisan-toolbox/mosaicast/blob/1.x/CHANGELOG.md) before upgrading.
 
 ## First event
 
