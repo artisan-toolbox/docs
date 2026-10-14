@@ -21,7 +21,7 @@ See the [compatibility and API limits](./compatibility/) for integration require
 - QZ Tray installed and running on the user's computer for printing; SHA-512 signing requires QZ Tray 2.1 or later
 - A modern browser supporting Fetch and Promises; preview engines additionally require canvas, WebAssembly, or module workers as documented below
 
-The npm package declares `qz-tray: ^2.3.0` for the JavaScript SDK. QZ Tray desktop and the JavaScript SDK are separate components. Protocol requirements do not replace physical validation on the target desktop version, operating system, and printer. See [QZ's SHA-512 signing requirements](https://qz.io/docs/signing). Previews run locally without a QZ Tray installation or Laravel signing credentials.
+The bundled frontend package declares `qz-tray: ^2.3.0` for the JavaScript SDK. QZ Tray desktop and the JavaScript SDK are separate components. Protocol requirements do not replace physical validation on the target desktop version, operating system, and printer. See [QZ's SHA-512 signing requirements](https://qz.io/docs/signing). Previews run locally without a QZ Tray installation or Laravel signing credentials.
 
 ## Quickstart
 
@@ -29,9 +29,13 @@ Install the Laravel and frontend packages in your application:
 
 ```bash
 composer require artisan-toolbox/qztray tightenco/ziggy:^2.0
-npm install @artisan-toolbox/qztray
+npm install ./vendor/artisan-toolbox/qztray
 php artisan vendor:publish --tag=qztray-config
 ```
+
+Composer delivers both the PHP backend and the compiled frontend. The npm command registers the local package under the name `@artisan-toolbox/qztray`; imports keep that name, but no package is downloaded from the npm registry for this library. The application does not build the library inside `vendor/`. Composer must run before `npm install` or `npm ci`, including in deployment pipelines. Install the package again after Composer updates when dependency metadata changes.
+
+The normal local link points to `vendor/artisan-toolbox/qztray` inside the application root, so Vite does not need an additional filesystem allowance. A Composer path repository that symlinks vendor to an external workspace is a separate local-development case described below.
 
 For local package changes, use your workspace's Composer path repository and the [continuous library build](#continuous-builds-during-local-development).
 
@@ -113,7 +117,7 @@ resources/js/pdfAssets.ts         Internal bundled PDF font, CMap, and WASM reso
 tests/Frontend/                  Frontend tests and helpers
 vite.config.ts                   Library build, formatting, linting, and test configuration
 tsconfig.json                    Strict TypeScript configuration
-dist/                            Generated build output (ignored by Git)
+dist/                            Compiled frontend shipped in Composer releases
 ```
 
 From the package repository, install dependencies and validate the frontend:
@@ -128,7 +132,22 @@ The build produces `dist/index.js` (ESM), `dist/index.cjs` (CommonJS), `dist/qzt
 
 `npm run dev` starts Vite's development server. This library does not include an HTML demo page. `npm run check:fix` applies frontend formatting and lint fixes, and `npm run typecheck` checks TypeScript separately. `npm run test` discovers tests matching `tests/Frontend/**/*.test.ts` and verifies that the public exports and repeated imports share the same connector instance.
 
-The npm package includes only `dist/`, including renderer chunks, WASM, the PDF worker and auxiliary assets, declarations, and license notices. Its prepublish hook runs checks, the full frontend test suite, and the build. The base connector is independent of Vue and Inertia.
+The frontend package is private and is not published to the npm registry. Composer releases include the tracked `dist/` directory with renderer chunks, WASM, the PDF worker and auxiliary assets, declarations, and license notices. The local npm package exposes those compiled files through its package exports. The base connector is independent of Vue and Inertia.
+
+### Preparing the Composer distribution
+
+Maintainers regenerate and validate the frontend before creating a release tag:
+
+```bash
+npm ci
+npm run release:build
+git add dist
+npm run check:dist
+```
+
+When using Maintainer versioning, `QzTrayConnector::beforeVersioning($current, $next)` automatically runs `npm run build` from the QZ Tray package root, independently of the Maintainer application base path. Install the package development dependencies with `npm ci` before invoking versioning. The callback waits for completion without a process timeout and throws on a failed build, interrupting release creation. Maintainer stages the generated files afterward as part of its release flow; the callback does not run during a consumer Composer install.
+
+Include the generated `dist/` files, source changes, and package metadata in the release commit before tagging it. GitHub/Composer archives contain files tracked at the tagged commit; a build performed only in CI does not add files to that archive. Keep every emitted asset and license notice. The distribution CI job rebuilds with Node 24 and rejects missing, modified, deleted, or untracked build files. The packaging integration test exercises a Git archive and verifies that compiled entries and renderer assets are included while tests are excluded. Composer consumers receive this ready-to-use distribution without running the library build.
 
 ### Continuous builds during local development
 
@@ -180,7 +199,7 @@ composer require artisan-toolbox/qztray
 Once the npm package is published, install it in the consuming application:
 
 ```bash
-npm install @artisan-toolbox/qztray
+npm install ./vendor/artisan-toolbox/qztray
 ```
 
 Import the shared instance wherever the application needs the connector:
@@ -852,7 +871,7 @@ The Composer plugin `phpstan/extension-installer` automatically registers the La
 
 ## PHP validation
 
-Frontend tests live in `tests/Frontend/`, separate from the distributed source in `resources/js/`. PHP tests remain in `tests/Feature/` and `tests/Unit/`. Vite Plus discovers `tests/Frontend/**/*.test.ts`; formatting, linting, and TypeScript checks include these files. Declaration generation includes only `resources/js/`, and npm publishes only `dist/`, so test files are not distributed. Run `npm run check`, `npm run test`, and `npm run build` to validate the frontend.
+Frontend tests live in `tests/Frontend/`, separate from the distributed source in `resources/js/`. PHP tests remain in `tests/Feature/` and `tests/Unit/`. Vite Plus discovers `tests/Frontend/**/*.test.ts`; formatting, linting, and TypeScript checks include these files. Declaration generation includes only `resources/js/`, and Git export rules exclude tests from Composer archives. Run `npm run check`, `npm run test`, and `npm run build` to validate the frontend.
 
 Run `composer test` for the complete PHP validation suite: static analysis, formatting, type coverage, and Pest tests. The service provider tests cover empty credential defaults, application configuration overrides, both credential publish tags, the container singleton, and command registration. HTTP tests cover the named endpoints, successful PEM responses, certificate configuration errors, and validity boundaries using a fixed public certificate fixture and a controlled clock. Signing tests verify SHA-512 signatures using generated test keys and cover exact payload preservation, configuration errors, OpenSSL failures, authentication, and CSRF. The removed scaffold views and translations are not part of the connector's supported features.
 

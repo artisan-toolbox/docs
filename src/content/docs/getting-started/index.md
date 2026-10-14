@@ -25,7 +25,7 @@ composer require artisan-toolbox/<package>
 
 Replace `<package>` with the package name, such as `core` or `dump-to-console`.
 
-Packages with frontend features may also require an npm dependency. For QZ Tray Connector, install both `artisan-toolbox/qztray` and `@artisan-toolbox/qztray`, then follow its [quickstart](/packages/qztray/#quickstart) to configure credentials and Ziggy routes.
+Packages with frontend features may also require an npm dependency. For QZ Tray Connector, install `artisan-toolbox/qztray` with Composer and register its bundled frontend using `npm install ./vendor/artisan-toolbox/qztray`, then follow its [quickstart](/packages/qztray/#quickstart) to configure credentials and Ziggy routes.
 
 ## Next step
 

@@ -17,4 +17,4 @@ Choose the smallest package that solves the problem in front of you. Dependencie
 
 Application-facing packages may depend on Core or Maintainer runtime contracts; Composer installs those dependencies automatically. Maintainer can also be adopted independently for project maintenance workflows. Check each package's requirements before choosing deployment dependencies.
 
-QZ Tray Connector includes a Composer package and the `@artisan-toolbox/qztray` npm package. Printing requires QZ Tray on the user's computer and Laravel signing credentials; local previews do not require a QZ Tray installation. See the [QZ Tray quickstart](/packages/qztray/#quickstart) for installation and configuration.
+QZ Tray Connector ships its PHP backend and compiled frontend through Composer. Register the frontend with `npm install ./vendor/artisan-toolbox/qztray`; imports use `@artisan-toolbox/qztray` without an npm registry release. Printing requires QZ Tray on the user's computer and Laravel signing credentials; local previews do not require a QZ Tray installation. See the [QZ Tray quickstart](/packages/qztray/#quickstart) for installation and configuration.

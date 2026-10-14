@@ -7,6 +7,10 @@ sidebar:
 
 This page describes compatibility and API boundaries for QZ Tray 1.x. The [package guide](../) contains installation instructions and the complete API reference.
 
+## Composer distribution
+
+Composer includes the compiled frontend in `dist/`. Register it from the application root with `npm install ./vendor/artisan-toolbox/qztray`, then import `@artisan-toolbox/qztray` as documented in the quickstart. This private local package is not published to npm. Run Composer before npm in deployments. Ordinary vendor installations stay inside the application root and require no additional Vite filesystem configuration.
+
 ## Supported environments
 
 The Laravel package requires PHP 8.5 with OpenSSL, Laravel 13, Artisan Toolbox Core 1.x, and Maintainer 1.5 or later within 1.x. The frontend integrates with Ziggy 2.x and the QZ Tray JavaScript SDK 2.3.x. SHA-512 signing requires QZ Tray desktop 2.1 or later.
