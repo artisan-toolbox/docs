@@ -67,6 +67,8 @@ Every GitHub release title uses `TAG - compact outcome`, for example `1.2.0 - Ad
 
 Git remains authoritative for changelog hashes. Unknown AI hashes are discarded, and every omitted real commit receives a deterministic entry derived from its subject. A release with no commits since the baseline stops before content generation.
 
+Changelog generation requests strict structured output so providers that support strict schemas enforce the allowed Conventional Commit types. Maintainer also validates the response locally. An invalid type aborts the release and identifies the affected commit, received value, and allowed types. This error indicates an invalid response field; it does not establish that the changelog exceeded a size limit.
+
 ## AI context limits
 
 Diffs are divided into fragments of at most 24,000 characters, with no more than 16 fragments analyzed. Generated output, dependencies, coverage, lockfiles, and minified assets are recorded as omitted rather than copied into prompts. When the limit truncates analysis, Maintainer tells the operator to review the remaining changes.
