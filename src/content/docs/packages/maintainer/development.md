@@ -65,6 +65,8 @@ Laravel Zero temporarily changes the application environment to `production` whi
 
 Laravel Zero can load an environment file placed beside the PHAR. Maintainer additionally loads the consuming Composer project's root `.env` while evaluating its own user configuration so `vendor/bin/maintainer` follows the environment conventions of the project it is maintaining. Existing process variables are not overwritten, and values read from the project file are removed from the Maintainer process after configuration evaluation so delegated tools can establish their own environments.
 
+Paths inside the PHAR use forward slashes on every operating system. Register new console commands in `config/commands.php` so command lookup does not depend on filesystem separators. Maintainer normalizes archive paths when resolving bundled configuration and publishing templates. The Ubuntu and Windows test jobs run the distributed executable against temporary Composer projects to verify both `quality:check` and `config:publish`.
+
 The PHAR inspection tests run without booting Laravel. Clean up their temporary archives with a standalone filesystem instance so the tests can run independently in parallel workers.
 
 ## Contribution conventions
