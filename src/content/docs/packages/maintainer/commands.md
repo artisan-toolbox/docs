@@ -9,7 +9,7 @@ Maintainer commands are documented with their setup and configuration under the 
 
 ## Code Quality
 
-- [`quality:fix`](/packages/maintainer/ci/quality/): apply Pint, Rector, and Vite+ fixes.
+- [`quality:fix`](/packages/maintainer/ci/quality/): apply Rector, Pint, and Vite+ fixes.
 - [`quality:check`](/packages/maintainer/ci/quality/): run Pest, Pint, Vite+, vue-tsc, and PHPStan checks.
 
 ## Configuration

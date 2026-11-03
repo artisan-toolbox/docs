@@ -7,7 +7,7 @@ sidebar:
 
 Maintainer exposes two code-quality workflows:
 
-- `quality:fix` applies changes with Pint, Rector, and `vp check --fix`;
+- `quality:fix` applies changes with Rector, Pint, and `vp check --fix`;
 - `quality:check` runs Pest, Pint in test mode, `vp check`, `vp test`, `vue-tsc --noEmit`, and PHPStan.
 
 Each workflow reads an ordered list of public command contracts from the Maintainer configuration. All configured commands are selected by default in the interactive multi-select. A non-interactive invocation runs the complete configured list.
@@ -45,7 +45,7 @@ When any requirement is missing, Maintainer emits a `Skipped` warning and contin
 vendor/bin/maintainer quality:fix
 ```
 
-The default order is Pint, Rector, then the package script containing `vp check --fix`. After every successful interactive fix workflow, Maintainer offers to run the complete configured `quality:check` workflow, defaulting to yes. When the checks succeed or are declined, Maintainer asks whether to commit the resulting changes if at least one fixer ran and the working tree is dirty. Only an explicit confirmation starts the commit workflow and its optional diff review. Non-interactive runs do not prompt for checks or offer to create a commit.
+The default order is Rector, Pint, then the package script containing `vp check --fix`. After every successful interactive fix workflow, Maintainer offers to run the complete configured `quality:check` workflow, defaulting to yes. When the checks succeed or are declined, Maintainer asks whether to commit the resulting changes if at least one fixer ran and the working tree is dirty. Only an explicit confirmation starts the commit workflow and its optional diff review. Non-interactive runs do not prompt for checks or offer to create a commit.
 
 ## Run CI checks
 
@@ -148,13 +148,15 @@ return [
 ];
 ```
 
+The default fix workflow runs Rector before Pint so Pint formats Rector’s changes. If your published configuration already defines `quality.fix`, move `RunsRectorFix::class` ahead of `RunsPintFix::class` to adopt this order.
+
 The distributed defaults are:
 
 ```php
 'quality' => [
     'fix' => [
-        ArtisanToolbox\Maintainer\Quality\Contracts\RunsPintFix::class,
         ArtisanToolbox\Maintainer\Quality\Contracts\RunsRectorFix::class,
+        ArtisanToolbox\Maintainer\Quality\Contracts\RunsPintFix::class,
         ArtisanToolbox\Maintainer\Quality\Contracts\RunsVitePlusCheckFix::class,
     ],
     'test' => [

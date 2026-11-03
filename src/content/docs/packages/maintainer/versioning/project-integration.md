@@ -51,18 +51,14 @@ Both callbacks run inside a visible terminal spinner and receive the same transi
 
 ## README version badge
 
-`WithReadmeBadgeVersion` is a marker contract. When present, Maintainer inserts or updates this protected block near the top of `README.md`:
+When the versionable class implements `WithReadmeBadgeVersion`, Maintainer inserts or updates a version badge in `README.md`:
 
-```html
-<!-- MAINTAINER:VERSION_BADGE:START - Managed by Maintainer. User agents must not edit this section. -->
-<a href="VERSION"
-  ><img
-    src="https://img.shields.io/badge/version-1.0.0-blue?style=flat-square"
-    alt="version"
-/></a>
-<!-- MAINTAINER:VERSION_BADGE:END -->
+```markdown
+[![version](https://img.shields.io/badge/version-1.0.0-blue?style=flat-square)](VERSION "MAINTAINER_VERSION")
 ```
 
-The markers are stable and must not be edited manually. Maintainer preserves HTML or Markdown from an existing managed block. When inserting one for the first time, it follows the first Shields.io badge found outside code fences and falls back to Markdown when no badge style exists.
+Keep the `MAINTAINER_VERSION` link title on the badge. Maintainer uses it to locate the badge and keeps the link pointed at the `VERSION` file. The badge stays on one line, so it can sit next to other badges in the same Markdown paragraph. HTML badges use the same marker as a `title` attribute on the link.
+
+Maintainer converts existing comment-delimited badges in place and preserves their HTML or Markdown format. On first insertion, it follows the first Shields.io badge outside code fences and defaults to Markdown if there are no such badges.
 
 Because Maintainer is normally installed as a development dependency, project integrations should also be development-only. If production code implements a Maintainer contract, install the package as a regular dependency so the interface remains available after `composer install --no-dev`.
