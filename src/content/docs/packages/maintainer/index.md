@@ -1,16 +1,15 @@
 ---
 title: Maintainer
 description: Automated validation, quality assurance, versioning, and release workflows.
-sidebar:
-  badge: 1.x
-  order: 4
 ---
 
 Maintainer provides a single entry point for repetitive package and application maintenance tasks, including validation, commits, versioning, changelogs, deployments, and GitHub releases.
 
+This guide covers Maintainer 1.10. If your version class still uses `WithReadmeBadgeVersion`, follow the [README badge migration](./versioning/project-integration/#migrate-an-existing-version-badge).
+
 ## Requirements
 
-- PHP 8.5 or later
+- PHP 8.5 or later within the PHP 8.x series
 - Composer
 - Git
 - GitHub CLI for workflows that interact with GitHub
@@ -20,8 +19,12 @@ Maintainer provides a single entry point for repetitive package and application 
 Install Maintainer as a development dependency:
 
 ```bash
-composer require --dev artisan-toolbox/maintainer:^1.0
+composer require --dev artisan-toolbox/maintainer:^1.10
 ```
+
+The PHAR bundles Maintainer's CLI dependencies and keeps them separate from the project being maintained.
+
+## Open the menu
 
 Open its interactive menu:
 
@@ -29,7 +32,7 @@ Open its interactive menu:
 vendor/bin/maintainer
 ```
 
-The PHAR contains Maintainer's runtime dependencies, keeping them isolated from the dependencies of the project being maintained.
+The menu groups commands by workflow. Run `vendor/bin/maintainer list` to see the available command names.
 
 Initialize project configuration:
 

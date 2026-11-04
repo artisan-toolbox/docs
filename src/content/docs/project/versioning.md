@@ -19,8 +19,10 @@ Git tags use the `vMAJOR.MINOR.PATCH` format, such as `v0.1.0`.
 
 ## Package documentation
 
-Every package follows its own version and compatibility policy. The badge beside a package in the navigation identifies the documented major generation.
+Every package follows its own version and compatibility policy. For a stable package, the badge in the navigation identifies the documented major generation.
 
-The unversioned package URL, such as `/packages/core/`, documents the latest supported release. When a new major version requires substantially different documentation, the previous generation is preserved under a versioned URL before the unversioned page moves forward.
+Packages without a stable release use the `WIP` badge. Their pages describe the development checkout and identify examples as previews.
+
+For a stable package, the unversioned URL, such as `/packages/core/`, documents the latest supported release. When a new major version requires substantially different documentation, the previous generation is preserved under a versioned URL before the unversioned page moves forward.
 
 Documentation-only releases do not change any package version.

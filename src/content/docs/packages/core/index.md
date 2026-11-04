@@ -1,23 +1,40 @@
 ---
 title: Core
 description: Shared foundations, contracts, utilities, and common components for Artisan Toolbox packages.
-sidebar:
-  badge: 1.x
-  order: 2
 ---
 
 Core provides stable building blocks shared by Artisan Toolbox packages. Applications normally receive it as a transitive dependency, but it can also be installed directly when its public components are needed.
 
+Core 1.1 added Sift. Core 1.2 installs Maintainer as a runtime dependency so its versioning contracts are available in production.
+
 ## Requirements
 
-- PHP 8.5 or later
+- PHP 8.5 or later within the PHP 8.x series
 - Laravel 13 components
+- Inertia Laravel 3.x
 
 ## Installation
 
 ```bash
-composer require artisan-toolbox/core
+composer require artisan-toolbox/core:^1.2
 ```
+
+Laravel discovers Core's service provider and registers the Sift macros.
+
+## Build a conditional payload
+
+```php
+use Illuminate\Support\Arr;
+
+use function ArtisanToolbox\Core\sift_when;
+
+$payload = Arr::sift([
+    'name' => $user->name,
+    'email' => sift_when($canViewEmail, fn () => $user->email),
+]);
+```
+
+When `$canViewEmail` is `false`, `$payload` contains only `name`.
 
 ## Features
 
@@ -27,7 +44,7 @@ composer require artisan-toolbox/core
 
 ## Published resources
 
-Publish all package resources:
+The features above work without publishing resources or running migrations. Run the following command to publish all bundled resources together.
 
 ```bash
 php artisan vendor:publish --tag="core"
@@ -43,11 +60,15 @@ php artisan vendor:publish --tag="core-lang"
 php artisan vendor:publish --tag="core-assets"
 ```
 
-Run migrations after publishing them:
+The bundled migration creates a `core_placeholder` table. Run it only if you need that table in a development application.
 
 ```bash
 php artisan migrate
 ```
+
+## Development
+
+On Windows, Core's CI requires PHPStan 2.2.8 or later in the 2.x series. This version fixes a Turbo parser bug that can drop PHPDoc comments during static analysis.
 
 ## Source and releases
 

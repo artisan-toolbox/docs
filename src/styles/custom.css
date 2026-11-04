@@ -27,6 +27,10 @@
   --sl-color-black: #fffdf9;
 }
 
+.hero {
+  padding-block: clamp(1.25rem, 3.5vw, 3rem);
+}
+
 .hero h1 {
   letter-spacing: -0.04em;
 }

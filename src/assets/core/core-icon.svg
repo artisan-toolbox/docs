@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Core icon</title>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#20252B"/>
+  <rect x="2.75" y="2.75" width="58.5" height="58.5" rx="13.25" fill="none" stroke="#FFFFFF" stroke-opacity=".16" stroke-width="1.5"/>
+  <path d="m12 36 20 11 20-11v6L32 53 12 42Z" fill="#FF5947"/>
+  <path d="m12 28 20 11 20-11v5L32 44 12 33Z" fill="#FF9A86"/>
+  <path d="M12 23 32 12l20 11-20 11Z" fill="#FFF7EF"/>
+  <path d="m24 23 8-4.5 8 4.5-8 4.5Z" fill="#FF5947"/>
+</svg>

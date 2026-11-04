@@ -43,6 +43,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Plan extends Model
 {
+    protected $fillable = ['label'];
+
     /**
      * @return array<string, string>
      */

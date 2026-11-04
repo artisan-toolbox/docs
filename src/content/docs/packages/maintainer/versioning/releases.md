@@ -22,7 +22,7 @@ Before starting, Maintainer requires:
 - a supported semantic version when the version constant already exists;
 - configured AI providers and credentials for release recommendations and generated content.
 
-See [Project Integration](/packages/maintainer/versioning/project-integration/) for the version class, lifecycle hooks, and README badge.
+See [Project Integration](/packages/maintainer/versioning/project-integration/) for the version class, lifecycle hooks, and managed README header.
 
 ## Find the release baseline
 
@@ -46,11 +46,11 @@ Package recommendations include development AI instructions and MCP configuratio
 
 After version selection, Maintainer:
 
-1. writes the selected version;
+1. writes the selected version to the PHP version constant and offers to sync the root `package.json`;
 2. runs the optional before-versioning callback;
 3. builds context from commits and the diff since the baseline;
 4. generates release notes and validated changelog entries;
-5. updates the version constant and managed README badge;
+5. updates the managed README header;
 6. runs every configured `quality.fix` command non-interactively, including `vp check --fix` when available;
 7. offers to run every configured `quality:check` contract non-interactively;
 8. stages the generated and automatically formatted files;
@@ -60,6 +60,8 @@ After version selection, Maintainer:
 12. publishes with `gh release create`.
 
 Alpha and beta versions use GitHub's prerelease flag. A missing changelog is created; subsequent releases are prepended and grouped by Conventional Commit category.
+
+If the project root contains a regular `package.json` file tracked by Git, Maintainer asks whether to sync it. The default answer is no. If you accept, Maintainer sets the top-level `version` field to the exact release version, such as `1.2.0-beta.1`. The update runs before the before-versioning callback and becomes part of the release commit. The prompt covers only `package.json`. If the manifest is invalid or the write fails, Maintainer aborts the release and rolls back the changes.
 
 Automatic fixes run after `CHANGELOG.md` is written and before any release file is staged. Maintainer then asks whether to run the configured checks, defaulting to yes. The release controls its own commit, so its internal non-interactive `quality:fix` invocation never offers to create a separate quality commit. Unavailable tools are skipped using the normal `quality:fix` and `quality:check` rules. If an available fixer or accepted check returns a failure, Maintainer aborts the release before committing and restores the original worktree.
 

@@ -9,6 +9,8 @@ Browsers cannot complete a normal Inertia XHR visit when navigation crosses host
 
 `HandleInertiaCrossDomainVisits` compares the destination host with the previous URL. When an Inertia `GET` request crosses hosts, it returns an Inertia location response with status `409` and an `X-Inertia-Location` header. Inertia then performs a full document visit to the destination. Non-Inertia requests, non-`GET` requests, and same-host visits continue through the middleware unchanged.
 
+The comparison uses hostnames. A change in scheme or port on the same host passes through. Laravel uses the request's `Referer` header to resolve the previous URL, with the session's previous URL as a fallback when available. If neither supplies a previous URL, Laravel uses the current site's root URL.
+
 Use this middleware only when one Laravel application serves multiple trusted domains or subdomains.
 
 ## Publish the CORS configuration

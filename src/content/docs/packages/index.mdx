@@ -5,29 +5,8 @@ sidebar:
   order: 1
 ---
 
-import { Card, CardGrid } from "@astrojs/starlight/components";
+import PackageCards from "../../../components/PackageCards.astro";
 
-Artisan Toolbox packages are small, focused, and designed to work well together without forcing an all-or-nothing installation.
+Find the Laravel package or developer tool for the task you are working on.
 
-<CardGrid>
-  <Card title="Core" icon="puzzle">
-    Shared foundations and Laravel utilities, including Sift. [Read the
-    documentation](./core/)
-  </Card>
-  <Card title="Dump to Console" icon="window">
-    Non-blocking Laravel dumps in a local console. [Read the
-    documentation](./dump-to-console/)
-  </Card>
-  <Card title="Maintainer" icon="setting">
-    Consistent validation, versioning, and release workflows. [Read the
-    documentation](./maintainer/)
-  </Card>
-  <Card title="Mosaicast" icon="rss">
-    Deliver Laravel events through Inertia props or a private session broadcast
-    channel. [Read the documentation](./mosaicast/)
-  </Card>
-  <Card title="QZ Tray Connector" icon="document">
-    Laravel signing, shared local printer access, and ZPL, ESC/POS, and PDF
-    previews. [Read the documentation](./qztray/)
-  </Card>
-</CardGrid>
+<PackageCards />

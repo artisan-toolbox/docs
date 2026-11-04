@@ -1,16 +1,11 @@
 ---
 title: QZ Tray Connector
 description: Laravel credentials, shared QZ Tray printing, and local ZPL, ESC/POS, and PDF previews.
-sidebar:
-  badge: 1.x
-  order: 6
 ---
 
 QZ Tray Connector connects Laravel credentials to a shared frontend printing API and provides local previews for ZPL labels, ESC/POS receipts, and PDF documents.
 
-See the [compatibility and API limits](./compatibility/) for integration requirements and observable behavior in the 1.x series.
-
-The package is maintained on the `1.x` branch. Local development branches should track `origin/1.x`. GitHub Actions runs tests for pushes to `1.x`, other version branches matching `*.x`, and pull requests. Review the [changelog](https://github.com/artisan-toolbox/qztray/blob/1.x/CHANGELOG.md) before upgrading.
+This guide covers QZ Tray Connector 1.2. Start with the [quickstart](#quickstart) or check [supported environments](./compatibility/#supported-environments).
 
 ## Requirements
 
@@ -18,28 +13,33 @@ The package is maintained on the `1.x` branch. Local development branches should
 - PHP OpenSSL extension (`ext-openssl`, enforced by Composer)
 - Laravel 13 components
 - Artisan Toolbox Core 1.x
-- Artisan Toolbox Maintainer 1.5 or later within 1.x, required at runtime by the PHP service's `Versionable` interface
+- Artisan Toolbox Maintainer 1.10 or later within 1.x. Composer installs Core and Maintainer automatically.
 - Ziggy 2.x (`tightenco/ziggy` in Laravel and `ziggy-js` in the frontend), with the connector's named routes available through a global Ziggy configuration
+- Node.js 20.19 or later within 20.x, 22.18 or later within 22.x, or 24.11 and later for frontend installation
 - QZ Tray installed and running on the user's computer for printing; SHA-512 signing requires QZ Tray 2.1 or later
 - A modern browser supporting Fetch and Promises; preview engines additionally require canvas, WebAssembly, or module workers as documented below
 
 The bundled frontend package declares `qz-tray: ^2.3.0` for the JavaScript SDK. QZ Tray desktop and the JavaScript SDK are separate components. Protocol requirements do not replace physical validation on the target desktop version, operating system, and printer. See [QZ's SHA-512 signing requirements](https://qz.io/docs/signing). Previews run locally without a QZ Tray installation or Laravel signing credentials.
 
-## Quickstart
+## Installation
 
 Install the Laravel and frontend packages in your application:
 
 ```bash
-composer require artisan-toolbox/qztray tightenco/ziggy:^2.0
+composer require artisan-toolbox/qztray:^1.2 tightenco/ziggy:^2.0
 npm install ./vendor/artisan-toolbox/qztray
 php artisan vendor:publish --tag=qztray-config
 ```
 
-Composer delivers both the PHP backend and the compiled frontend. The npm command registers the local package under the name `@artisan-toolbox/qztray`; imports keep that name, but no package is downloaded from the npm registry for this library. The application does not build the library inside `vendor/`. Composer must run before `npm install` or `npm ci`, including in deployment pipelines. Install the package again after Composer updates when dependency metadata changes.
+Composer delivers both the PHP backend and the compiled frontend. The npm command records a `file:vendor/artisan-toolbox/qztray` dependency under `@artisan-toolbox/qztray`. The application imports that build from `vendor/`. Run Composer before `npm install` or `npm ci`, including in deployment pipelines. Run `npm install` again after a Composer update that changes the frontend dependency metadata.
+
+For TypeScript in Laravel applications built with Vite, use `"moduleResolution": "bundler"` in the application's `tsconfig.json`. See [supported environments](./compatibility/#supported-environments).
 
 The normal local link points to `vendor/artisan-toolbox/qztray` inside the application root, so Vite does not need an additional filesystem allowance. A Composer path repository that symlinks vendor to an external workspace is a separate local-development case described below.
 
-For local package changes, use your workspace's Composer path repository and the [continuous library build](#continuous-builds-during-local-development).
+## Quickstart
+
+After [installation](#installation), configure your Laravel application and submit a test print from the browser.
 
 Set `public_key` and `private_key` in `config/qztray.php` to the matching PEM certificate and RSA private key using the [credential configuration guide](#configure-printing-credentials). Expose the two named routes with [Ziggy](#ziggy-route-configuration), load the frontend from an authenticated Laravel page, and keep the `XSRF-TOKEN` cookie available for signing. Start QZ Tray on the user's computer.
 
@@ -59,7 +59,14 @@ await qztray.printZpl(
 
 Laravel serves credentials and signatures; QZ Tray connects the browser to the local printer; the package prepares and submits jobs. A successful print promise means submission succeeded, not that paper physically finished printing. A mathematically valid certificate is not necessarily trusted by QZ Tray: silent printing also depends on QZ's trust and licensing model. Demo credentials are intended for development, not shared production credentials. See [QZ's signing and demo-key guide](https://qz.io/docs/signing).
 
-### Parts of the package
+## Guides
+
+- [Compatibility and API limits](./compatibility/)
+- [Configure printing credentials](#configure-printing-credentials)
+- [Preview ESC/POS receipts](#escpos-previews), [ZPL labels](#zpl-previews), or [PDF documents](#pdf-previews)
+- [Build the frontend during local development](#continuous-builds-during-local-development)
+
+## Parts of the package
 
 | Part                     | Responsibility                                                                  | Public entry point                                                   |
 | ------------------------ | ------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
@@ -76,7 +83,7 @@ Laravel serves credentials and signatures; QZ Tray connects the browser to the l
 
 Printing presets accept strings or arrays of strings; ESC/POS also accepts mixed text and raw image arrays. The ESC/POS preview additionally accepts byte buffers, and PDF preview accepts bytes and blobs; preview acceptance does not automatically extend printing input types. Internal manager classes and private HTTP methods are not application APIs. The PHP service and facade provide a container identity and version marker; browser printing is performed through the frontend instance rather than PHP facade methods.
 
-### Error handling boundaries
+## Error handling boundaries
 
 Use `try`/`catch` around every asynchronous public operation and show a useful message without assuming every failure has a package-specific error class. Certificate callback failures reject `connect()` with `QzTrayCertificateError`; preview input errors and native QZ connection or printer failures use their documented errors. The current QZ SDK replaces signing callback failures with `Error("Failed to sign request")` in public printing and discovery promises. The original `QzTraySigningError` and backend error code are retained at the callback/logging boundary, but cannot currently be relied on in a public method's `catch`. Public methods follow this SDK error boundary; handle the generic signing error in application feedback.
 
@@ -97,6 +104,8 @@ try {
 The certificate GET route is public by default because it contains no private key. The signing POST uses `web` and `auth`, which permits authenticated users rather than implementing role-based print authorization. Apply the application's authorization policy when not every authenticated user should be able to sign QZ operations.
 
 ## Frontend tooling
+
+The package is maintained on the `1.x` branch. GitHub Actions tests version branches and pull requests. For local package changes, use your workspace's Composer path repository and the [continuous library build](#continuous-builds-during-local-development).
 
 The frontend package is named `@artisan-toolbox/qztray`. It follows the Mosaicast library tooling pattern using Vite Plus and strict TypeScript. It exports the public `QzTray` class, a shared instance, a compatibility alias, typed print requests, and standalone ZPL, ESC/POS, and PDF preview functions.
 
@@ -151,6 +160,8 @@ When using Maintainer versioning, `QzTrayConnector::beforeVersioning($current, $
 
 Include the generated `dist/` files, source changes, and package metadata in the release commit before tagging it. GitHub/Composer archives contain files tracked at the tagged commit; a build performed only in CI does not add files to that archive. Keep every emitted asset and license notice. The distribution CI job rebuilds with Node 24 and rejects missing, modified, deleted, or untracked build files. The packaging integration test exercises a Git archive and verifies that compiled entries and renderer assets are included while tests are excluded. Composer consumers receive this ready-to-use distribution without running the library build.
 
+Maintainer refreshes the README header during release creation. After editing the logo or badges, run `php vendor/bin/maintainer readme:update` from the package checkout to regenerate the header.
+
 ### Continuous builds during local development
 
 To rebuild the frontend library when its source files change, run this command from the package repository and leave it running:
@@ -188,23 +199,9 @@ Restart the application Vite server if it has not reloaded the configuration, th
 
 Vite Plus and the `vite` alias to `@voidzero-dev/vite-plus-core` must use the same version. Both are pinned to `0.3.3` in `package.json`, and the Vitest override matches the runner bundled with that release. When upgrading the toolchain, update these entries together and refresh the lockfile. If a build reports an expected/found core version mismatch, check these entries and run `npm ci` once the manifest and lockfile are aligned.
 
-## Installation
-
-Once the package is published, install it via Composer:
-
-```bash
-composer require artisan-toolbox/qztray
-```
-
 ## Shared frontend connector
 
-Once the npm package is published, install it in the consuming application:
-
-```bash
-npm install ./vendor/artisan-toolbox/qztray
-```
-
-Import the shared instance wherever the application needs the connector:
+Import the shared instance wherever the application needs the connector.
 
 ```ts
 import qztray from "@artisan-toolbox/qztray";
@@ -471,7 +468,7 @@ const job: QzTrayPrintRequest = {
 await qztray.print(job);
 ```
 
-Raw presets accept `plain`, `hex`, `base64`, and `file` flavors. The `file` flavor means a URL or path containing printer commands, not a PDF to convert. PDF accepts only `file` and `base64`; the default `file` flavor accepts URLs or paths, including browser-relative URLs resolved by QZ Tray. For Base64, pass the encoded PDF contents without a data-URI prefix:
+Raw presets accept `plain`, `hex`, `base64`, and `file` flavors. The `file` flavor means a URL or path containing printer commands, not a PDF to convert. PDF accepts `file` and `base64`. The default `file` flavor accepts URLs or paths. The JavaScript SDK resolves browser-relative URLs before QZ Tray retrieves the document. For Base64, pass the encoded PDF contents without a data-URI prefix.
 
 ```ts
 await qztray.print({
@@ -488,7 +485,7 @@ For a PDF URL, QZ Tray must be able to retrieve the actual document from the con
 
 The promise resolves when QZ reports that the job has been sent to the printer; it does not confirm that the physical pages have finished printing. The connection remains open. Jobs are not cached, deduplicated, or automatically retried. Concurrent calls share the connection attempt but each submits its own print job; the connector does not maintain an application-level job queue. If the connection closes during printing, the QZ failure propagates. See the native [`qz.print()` contract](https://qz.io/api/qz#print).
 
-A blank printer name, unsupported type or flavor, empty payload, or an array containing unsupported values rejects with `TypeError` before a connection or print submission. A supplied `copies` value must be a positive integer or the method rejects with `RangeError`. Other option compatibility and document-content checks remain with QZ Tray and the printer. Connection, credential, configuration, and native print errors propagate without replacing the original error or retrying a potentially submitted job.
+A blank printer name, unsupported type or flavor, empty payload, or an array containing unsupported values rejects with `TypeError` before a connection or print submission. A supplied `copies` value must be a positive integer or the method rejects with `RangeError`. Other option compatibility and document-content checks remain with QZ Tray and the printer. The QZ SDK reports signing failures as `Error("Failed to sign request")` in the public print promise. See [error handling boundaries](#error-handling-boundaries) for certificate failures and signing diagnostics.
 
 Automated tests validate prepared data, option overrides, byte preservation, macOS driver bypass, and error propagation using a mocked QZ API. To verify a physical printer, configure the credentials, start QZ Tray, list printers, and submit one small job for each supported preset on the intended operating system. Check receipt control commands and accents, ZPL dimensions, PDF scaling and duplex, and the requested copy count before using larger documents.
 
@@ -671,7 +668,7 @@ const firstPage = await renderPdf("/invoices/42/pdf");
 const fromContent = await renderPdf({ data: pdfBase64 });
 
 const pageTwo = await renderPdf(pdfBytes, { pageNumber: 2, scale: 2 });
-const allPages = await renderPdf(new Blob([pdfBytes]), { renderAll: true });
+const allPages = await renderPdf(pdfBytes, { renderAll: true });
 
 // Bind firstPage, fromContent, or pageTwo to an <img> element's src.
 ```

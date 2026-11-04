@@ -1,0 +1,115 @@
+---
+import { Badge, Icon } from "@astrojs/starlight/components";
+import { packages } from "../packages.mjs";
+import { packageBrand } from "./package-brand.mjs";
+
+interface Props {
+  layout?: "list";
+}
+
+const { layout } = Astro.props;
+---
+
+<ul
+  class:list={["package-cards", { "package-list": layout === "list" }]}
+  role="list"
+>
+  {
+    packages.map(({ id, title, href, summary, badge }) => (
+      <li>
+        <a
+          {href}
+          aria-labelledby={`package-${id}-title`}
+          aria-describedby={`package-${id}-summary`}
+        >
+          <img src={packageBrand(id, "icon")} width="40" height="40" alt="" />
+          <span class="package-card-copy">
+            <span id={`package-${id}-title`} class="package-card-title">
+              {title}
+              {typeof badge !== "string" && <Badge {...badge} size="small" />}
+            </span>
+            <span id={`package-${id}-summary`} class="package-card-summary">
+              {summary}
+            </span>
+          </span>
+          <Icon name="right-arrow" class="package-card-arrow rtl:flip" />
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .package-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+    gap: 1rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .package-list {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .package-cards > li {
+    display: flex;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .package-cards a {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 0.75rem;
+    width: 100%;
+    padding: clamp(0.875rem, 2.5vw, 1.25rem);
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.75rem;
+    background: var(--sl-color-bg);
+    color: var(--sl-color-white);
+    text-decoration: none;
+  }
+
+  .package-cards a:hover,
+  .package-cards a:focus-visible {
+    border-color: var(--sl-color-accent);
+    background: var(--sl-color-gray-7, var(--sl-color-gray-6));
+  }
+
+  .package-cards a:focus-visible {
+    outline: 2px solid var(--sl-color-accent);
+    outline-offset: 3px;
+  }
+
+  .package-card-copy {
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .package-card-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.5rem;
+    font-size: var(--sl-text-lg);
+    font-weight: 650;
+    line-height: var(--sl-line-height-headings);
+  }
+
+  .package-card-summary,
+  .package-card-arrow {
+    color: var(--sl-color-gray-2);
+  }
+
+  .package-card-summary {
+    font-size: var(--sl-text-sm);
+    line-height: 1.5;
+  }
+
+  .package-card-arrow {
+    margin-block-start: 0.2rem;
+  }
+</style>

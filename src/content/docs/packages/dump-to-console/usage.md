@@ -13,13 +13,13 @@ Run the listener by itself:
 php artisan dump:listen
 ```
 
-The listener uses `tcp://127.0.0.1:9912` by default. Override it for one invocation when another endpoint is required:
+The client and listener use `tcp://127.0.0.1:9912` by default. To change both, set `DUMP_TO_CONSOLE_HOST` as described in [Configuration](#configuration). The `--host` option changes only the listener for that invocation. Use it when the client already sends dumps to that endpoint:
 
 ```bash
 php artisan dump:listen --host=tcp://127.0.0.1:9913
 ```
 
-On Laravel versions that expose the `DevCommands` API, the package also adds a `dumps` process to `php artisan dev`. Disable that integration in the published configuration when the listener should run separately.
+The package also adds a `dumps` process to `php artisan dev`.
 
 ## Dumping values
 
@@ -33,7 +33,7 @@ $values = dc('first', 'second');
 $named = dc(user: $user, permissions: $user->getAllPermissions());
 ```
 
-Multiple positional values are labeled `1`, `2`, and so on. Named arguments keep their names. Calling `dc()` without arguments sends a small marker, which is useful for checking whether a branch was reached.
+Multiple positional values are labeled `1`, `2`, and so on. Named arguments keep their names. A single value is returned directly. Multiple values are returned as an array with the original keys. Calling `dc()` without arguments sends a small marker and returns `null`.
 
 Delivery is best effort. If the listener is unavailable or a value cannot be prepared or written, the dump is silently discarded. Debugging should not become the production incident it was investigating.
 
@@ -74,11 +74,15 @@ Publish the configuration when the listener endpoint or `artisan dev` integratio
 php artisan vendor:publish --tag="dump-to-console-config"
 ```
 
-Set the listener endpoint through the environment:
+Set the endpoint for both the client and the listener in `.env`:
 
 ```dotenv
 DUMP_TO_CONSOLE_HOST=tcp://127.0.0.1:9913
 ```
+
+If the application caches its configuration, rebuild the cache and restart long-running processes so they use the new endpoint.
+
+To run the listener separately from `php artisan dev`, set `register_dev_command` to `false` in the published `config/dump-to-console.php` file.
 
 ## Security
 
@@ -86,6 +90,6 @@ The dump protocol has no authentication or encryption. Keep it bound to a truste
 
 ## How it works
 
-The client clones values with Symfony VarDumper, adds a timestamp and source context, and sends the payload over a reusable non-blocking TCP connection. The listener uses Symfony's dump server protocol and Laravel's CLI dumper, preserving Laravel's familiar rendering and editor links.
+The client clones values with Symfony VarDumper, adds a timestamp and source context, and sends the payload over a reusable TCP connection. Opening the connection is synchronous and uses a 50 ms connection timeout. Writes use non-blocking mode after the connection opens. The listener uses Symfony's dump server protocol and Laravel's CLI dumper, preserving Laravel's rendering and editor links.
 
 The HTTP server, queue workers, scheduler, and Artisan commands can run as separate processes while sending their temporary debug values to the same console.

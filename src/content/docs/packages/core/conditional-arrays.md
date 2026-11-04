@@ -14,7 +14,7 @@ This is useful for payloads, configuration fragments, and other arrays built out
 | API                                        | Input                                   | Result                                                             |
 | ------------------------------------------ | --------------------------------------- | ------------------------------------------------------------------ |
 | `sift_when(bool $condition, mixed $value)` | A direct value or zero-argument closure | The value when allowed; an internal exclusion marker when rejected |
-| `Arr::sift(iterable $items)`               | Any iterable                            | A new array                                                        |
+| `Arr::sift(iterable $items)`               | An iterable with integer or string keys | A new array                                                        |
 | `Collection::sift()`                       | A Collection                            | A new Collection                                                   |
 | `LazyCollection::sift()`                   | A LazyCollection                        | A new, lazy LazyCollection                                         |
 
@@ -63,7 +63,7 @@ $payload = Arr::sift([
 ]);
 ```
 
-Supported nested iterable types are preserved. Existing string and numeric keys are preserved, so removing a numeric entry does not reindex its siblings. Empty containers are retained after their rejected entries are removed.
+Supported nested iterable types are preserved. Removing a numeric entry does not reindex its siblings. Empty containers are retained after their rejected entries are removed.
 
 For example, `Arr::sift([2 => 'kept', 5 => sift_when(false, 'hidden'), 8 => 'kept'])` returns keys `2` and `8`. If that array is later encoded as JSON, PHP may represent sparse numeric keys as object fields rather than a JSON list. Reindex with `array_values()` only when the consumer specifically requires a list.
 
@@ -104,7 +104,8 @@ The recursive result follows the same rules:
 - LazyCollections remain lazy
 - other `Traversable` implementations are wrapped in a lazy Generator because their concrete types cannot be reconstructed safely
 
-Passing any top-level iterable to `Arr::sift()` still returns an array. Existing string and numeric keys are preserved for every supported type.
+`Arr::sift()` returns an array and follows PHP's array key rules. A numeric string key such as `'2'` becomes the integer key `2`. An object used as a key in a generator causes a `TypeError` when Core writes that key to the result array.
+
 `Arr::sift()` consumes a top-level generator to produce that array. A generator nested inside another structure remains lazy until it is iterated, and should be treated as a one-pass iterable.
 
 ## Practical limits

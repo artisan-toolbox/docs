@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Changed
 
+- Generate the home page, package catalog, package chooser, and sidebar from one catalog. Use package icons and full-card links in the package lists.
+- Standardize package overviews and correct version, installation, and migration guidance.
+- Update Astro, Starlight, and the site validation dependencies. The site now requires Node.js 24 or later.
+- Marked Front Awesome as work in progress across the package catalog, navigation, and preview guide.
 - Documented Maintainer's explicitly exported consumer integration surfaces, including quality and versioning contracts, production classmap discovery, and when encryption actually requires `APP_KEY`.
 - Updated the Maintainer documentation for the stable 1.0 release, including its stability guarantees and the upgrade path from beta releases.
 - Updated the site header logo variants and favicon to the latest official Artisan Toolbox brand assets.
@@ -16,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- Added the Maintainer logo to its documentation overview and the Maintainer icon to its guides.
 - Added an NGINX server block for serving the documentation at `artisantoolbox.wsssoftware.com.br`.
 - Added a concurrency-safe hourly deployment script for updating dependencies and rebuilding the documentation site from the latest `main` branch.
 

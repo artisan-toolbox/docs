@@ -6,7 +6,7 @@ The site is built with [Astro Starlight](https://starlight.astro.build/) and con
 
 ## Requirements
 
-- Node.js 22.12 or later
+- Node.js 24 or later. If you use nvm, run `nvm install` to install and select the version CI uses.
 - npm 11 or later
 
 ## Local Development
@@ -14,7 +14,7 @@ The site is built with [Astro Starlight](https://starlight.astro.build/) and con
 Install dependencies and start the development server:
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
@@ -55,7 +55,7 @@ Install it in the `www-data` user's crontab with:
 0 * * * * /var/www/artisantoolbox/deploy/update-docs.sh >> /var/log/artisantoolbox-docs-deploy.log 2>&1
 ```
 
-The repository and log file must be writable by `www-data`. The server must provide Git, Node.js 22.12 or later, npm 11 or later, and `flock` (normally included in the `util-linux` package).
+The repository and log file must be writable by `www-data`. The server must provide Git, Node.js 24 or later, npm 11 or later, and `flock` (normally included in the `util-linux` package).
 
 ## Contributing
 

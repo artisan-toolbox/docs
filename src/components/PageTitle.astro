@@ -1,0 +1,70 @@
+---
+import PageTitle from "@astrojs/starlight/components/PageTitle.astro";
+import { packages } from "../packages.mjs";
+import { packageBrand } from "./package-brand.mjs";
+
+const { entry } = Astro.locals.starlightRoute;
+const brandedPackage = packages.find(
+  ({ slug }) => entry.id === slug || entry.id.startsWith(slug + "/"),
+);
+---
+
+{
+  brandedPackage && entry.id === brandedPackage.slug ? (
+    <h1 id="_top" class="package-wordmark">
+      <span class="sr-only">{entry.data.title}</span>
+      <img
+        class="dark:sl-hidden print:block"
+        src={packageBrand(brandedPackage.id, "light")}
+        width={brandedPackage.wordmarkWidth}
+        height="64"
+        alt=""
+      />
+      <img
+        class="light:sl-hidden print:hidden"
+        src={packageBrand(brandedPackage.id, "dark")}
+        width={brandedPackage.wordmarkWidth}
+        height="64"
+        alt=""
+      />
+    </h1>
+  ) : brandedPackage ? (
+    <div class="package-heading">
+      <img
+        src={packageBrand(brandedPackage.id, "icon")}
+        width="40"
+        height="40"
+        alt=""
+      />
+      <PageTitle />
+    </div>
+  ) : (
+    <PageTitle />
+  )
+}
+
+<style>
+  .package-wordmark,
+  .package-heading {
+    margin-block-start: 1rem;
+  }
+
+  .package-wordmark img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .package-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .package-heading img {
+    flex: none;
+  }
+
+  .package-heading :global(h1) {
+    margin-block-start: 0;
+  }
+</style>

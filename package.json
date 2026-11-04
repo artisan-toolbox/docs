@@ -6,7 +6,7 @@
   "description": "Centralized documentation for Artisan Toolbox packages, guides, and resources.",
   "license": "MIT",
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=24.0.0"
   },
   "packageManager": "npm@11.17.0",
   "scripts": {
@@ -17,17 +17,17 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "preview": "astro preview",
-    "test": "npm run check && npm run format:check && npm run build",
+    "test": "npm run check && npm run format:check && npm run build && node --test tests/*.test.mjs",
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/starlight": "^0.42.6",
-    "astro": "^7.3.8",
+    "@astrojs/starlight": "^0.42.9",
+    "astro": "^7.4.5",
     "sharp": "^0.35.3"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.10",
-    "prettier": "^3.9.6",
+    "@astrojs/check": "^0.9.12",
+    "prettier": "^3.9.10",
     "prettier-plugin-astro": "^0.14.1",
     "typescript": "^6.0.3"
   }

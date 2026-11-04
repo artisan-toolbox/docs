@@ -40,6 +40,8 @@ Run automated tests:
 vendor/bin/pest
 ```
 
+After changing `Maintainer::readmeHead()`, run `php maintainer readme:update` from the source checkout. `tests/Feature/MaintainerTest.php` checks that the README header matches the generated header for `Maintainer::VERSION`.
+
 GitHub Actions runs the suite on Ubuntu and Windows. Tests that execute a Composer proxy through Symfony Process should assert the forwarded argument values without depending on the shell's serialized command-line quotes. Deployer executes localhost and remote task commands through Bash, including on the Windows runner, so fake executables used by Deployer task tests must be POSIX shell scripts. Path assertions should use `join_paths()` or normalize separators explicitly, including `phar://` entry paths returned while inspecting the distributed build.
 
 Check and apply code style:
@@ -58,6 +60,8 @@ php maintainer app:build
 ```
 
 The compiled application is written to `builds/maintainer`. Composer exposes this distributed PHAR as `vendor/bin/maintainer` in consuming projects.
+
+Run Maintainer's own release from the source checkout with `php maintainer release:create`. This uses the contracts in the checkout. The before-versioning hook builds the executable for the release commit.
 
 The Box manifest uses an explicit allowlist for distributed files under `config/`. Publishable Maintainer configuration files use Box's unmodified-file list so their PHP array indentation survives compilation; project templates under `resources/`, including JSON files, are also packaged without compaction. Local `config/dev_maintainer.php` and `config/dev_maintainer_secrets.php` overrides are never collected into the PHAR, even when they exist in the source checkout. The package test suite opens the committed build to verify template fidelity and reject local configuration paths or common credential signatures before release.
 

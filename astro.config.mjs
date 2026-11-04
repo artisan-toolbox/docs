@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
+import { packages } from "./src/packages.mjs";
 
 // https://astro.build/config
 export default defineConfig({
@@ -21,6 +22,9 @@ export default defineConfig({
         replacesTitle: true,
       },
       customCss: ["./src/styles/custom.css"],
+      components: {
+        PageTitle: "./src/components/PageTitle.astro",
+      },
       head: [
         {
           tag: "script",
@@ -93,174 +97,16 @@ export default defineConfig({
           collapsed: true,
           items: [
             { label: "Overview", slug: "packages" },
-            {
-              label: "Core",
-              badge: "1.x",
-              collapsed: true,
-              items: [
-                { label: "Overview", slug: "packages/core" },
-                {
-                  label: "Sift Conditional Arrays",
-                  slug: "packages/core/conditional-arrays",
-                },
-                {
-                  label: "Multi-domain Inertia Visits",
-                  slug: "packages/core/multi-domain-inertia",
-                },
-                {
-                  label: "Translated Model Attributes",
-                  slug: "packages/core/translated-attributes",
-                },
-              ],
-            },
-            {
-              label: "Dump to Console",
-              badge: "1.x",
-              collapsed: true,
-              items: [
-                { label: "Overview", slug: "packages/dump-to-console" },
-                {
-                  label: "Usage and Configuration",
-                  slug: "packages/dump-to-console/usage",
-                },
-              ],
-            },
-            {
-              label: "Maintainer",
-              badge: "1.x",
-              collapsed: true,
-              items: [
-                { label: "Overview", slug: "packages/maintainer" },
-                {
-                  label: "Code Quality",
-                  collapsed: true,
-                  items: [
-                    {
-                      label: "Overview",
-                      slug: "packages/maintainer/ci",
-                    },
-                    {
-                      label: "Fixes and CI Checks",
-                      slug: "packages/maintainer/ci/quality",
-                    },
-                  ],
-                },
-                {
-                  label: "Configuration",
-                  collapsed: true,
-                  items: [
-                    {
-                      label: "Overview",
-                      slug: "packages/maintainer/configuration",
-                    },
-                    {
-                      label: "Configuration Reference",
-                      slug: "packages/maintainer/configuration/reference",
-                    },
-                    {
-                      label: "Publish Configuration",
-                      slug: "packages/maintainer/configuration/publishing",
-                    },
-                    {
-                      label: "SSH Keys",
-                      slug: "packages/maintainer/configuration/ssh-keys",
-                    },
-                  ],
-                },
-                {
-                  label: "Deployment",
-                  collapsed: true,
-                  items: [
-                    {
-                      label: "Overview",
-                      slug: "packages/maintainer/deployment",
-                    },
-                    {
-                      label: "Run a Deployment",
-                      slug: "packages/maintainer/deployment/deploy",
-                    },
-                    {
-                      label: "Unlock a Deployment",
-                      slug: "packages/maintainer/deployment/unlock",
-                    },
-                    {
-                      label: "Repository Tag Selection",
-                      slug: "packages/maintainer/deployment/repository-tags",
-                    },
-                    {
-                      label: "PM2 Configuration",
-                      slug: "packages/maintainer/deployment/pm2",
-                    },
-                  ],
-                },
-                {
-                  label: "Versioning",
-                  collapsed: true,
-                  items: [
-                    {
-                      label: "Overview",
-                      slug: "packages/maintainer/versioning",
-                    },
-                    {
-                      label: "Create Commits",
-                      slug: "packages/maintainer/versioning/commits",
-                    },
-                    {
-                      label: "HTML Git Diffs",
-                      slug: "packages/maintainer/versioning/html-diffs",
-                    },
-                    {
-                      label: "Create Releases",
-                      slug: "packages/maintainer/versioning/releases",
-                    },
-                    {
-                      label: "Project Integration",
-                      slug: "packages/maintainer/versioning/project-integration",
-                    },
-                  ],
-                },
-                {
-                  label: "Development and Building",
-                  slug: "packages/maintainer/development",
-                },
-              ],
-            },
-            {
-              label: "QZ Tray",
-              badge: "1.x",
-              collapsed: true,
-              items: [
-                { label: "Overview", slug: "packages/qztray" },
-                {
-                  label: "Compatibility and Limits",
-                  slug: "packages/qztray/compatibility",
-                },
-              ],
-            },
-            {
-              label: "Mosaicast",
-              badge: "1.x",
-              collapsed: true,
-              items: [
-                { label: "Overview", slug: "packages/mosaicast" },
-                {
-                  label: "Delivery Guarantees",
-                  slug: "packages/mosaicast/roadmap",
-                },
-                {
-                  label: "Session Broadcast Channels",
-                  slug: "packages/mosaicast/session-channels",
-                },
-                {
-                  label: "Inertia Delivery",
-                  slug: "packages/mosaicast/inertia-delivery",
-                },
-                {
-                  label: "Vue Plugin",
-                  slug: "packages/mosaicast/vue-plugin",
-                },
-              ],
-            },
+            ...packages.map(({ title, slug, badge, guides }) =>
+              guides.length
+                ? {
+                    label: title,
+                    badge,
+                    collapsed: true,
+                    items: [{ label: "Overview", slug }, ...guides],
+                  }
+                : { label: title, slug, badge },
+            ),
           ],
         },
         {

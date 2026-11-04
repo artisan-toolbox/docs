@@ -14,33 +14,11 @@ hero:
       variant: minimal
 ---
 
-import { Card, CardGrid } from "@astrojs/starlight/components";
+import PackageCards from "../../components/PackageCards.astro";
 
 ## Explore the toolbox
 
-<CardGrid stagger>
-  <Card title="Core" icon="puzzle">
-    Shared foundations and Laravel utilities, including Sift for conditional
-    arrays. [View Core documentation](/packages/core/)
-  </Card>
-  <Card title="Dump to Console" icon="window">
-    Send Laravel debug output to a local console without interrupting the
-    application response. [View Dump to Console
-    documentation](/packages/dump-to-console/)
-  </Card>
-  <Card title="Maintainer" icon="setting">
-    Automated validation, quality assurance, versioning, and release workflows.
-    [View Maintainer documentation](/packages/maintainer/)
-  </Card>
-  <Card title="Mosaicast" icon="rss">
-    Deliver Laravel events through Inertia props or a private session broadcast
-    channel. [View Mosaicast documentation](/packages/mosaicast/)
-  </Card>
-  <Card title="QZ Tray Connector" icon="document">
-    Laravel signing, shared local printer access, and ZPL, ESC/POS, and PDF
-    previews. [View QZ Tray documentation](/packages/qztray/)
-  </Card>
-</CardGrid>
+<PackageCards />
 
 ## Built for maintainable Laravel projects
 

@@ -30,7 +30,8 @@ Maintainer commands are documented with their setup and configuration under the 
 - [`commit`](/packages/maintainer/versioning/commits/): select files and create a commit.
 - [`diff:html`](/packages/maintainer/versioning/html-diffs/): render a Git comparison in the browser.
 - [`release:create`](/packages/maintainer/versioning/releases/): prepare and publish a GitHub release.
-- [Project integration](/packages/maintainer/versioning/project-integration/): configure the version class, hooks, and README badge.
+- [`readme:update`](/packages/maintainer/versioning/project-integration/#update-the-readme-locally): regenerate the managed README header.
+- [Project integration](/packages/maintainer/versioning/project-integration/): configure the version class, hooks, and managed README header.
 
 ## Interactive menu
 

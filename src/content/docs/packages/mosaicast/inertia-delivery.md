@@ -29,7 +29,9 @@ The `events` array preserves dispatch order. Resolving the prop consumes only th
 
 The package also shares a top-level `mosaicastSessionIdentifier` prop through Inertia's `always()` behavior. It contains the same opaque identifier, or `null` when no session is available. It is included in partial Inertia responses even when `mosaicast` is omitted, so the Vue client can keep its private-channel subscription in sync without consuming queued events.
 
-`sessionIdentifier` is an HMAC-derived identifier, not the Laravel session ID. It is a lowercase 64-character SHA-256 HMAC. Private-channel authorization still requires the matching session cookie. `toSession()` accepts only that format, preventing malformed channel names.
+With Inertia Laravel 3.x, a full-page response that resolves the `mosaicast` prop for an active session includes `mosaicastInitialPage` in the page's flash data. Inertia keeps flash data out of browser history, so the Vue client can distinguish a fresh document from a restored page. Subsequent Inertia visits omit this marker.
+
+`sessionIdentifier` is derived from the current Laravel session ID and CSRF token. It is a lowercase 64-character SHA-256 HMAC. Private-channel authorization still requires the matching session cookie. `toSession()` accepts only that format, preventing malformed channel names.
 
 ## Dispatch an event
 
@@ -50,7 +52,8 @@ mosaicast('orders.updated', ['orderId' => $order->id]);
 ```
 
 The event name is the client-side contract. Use stable, application-specific names. The [Vue listener API](../vue-plugin/) receives either delivery path through `mosaicast().on()`.
-String dispatch accepts an associative payload array. An empty event name is rejected. Event objects define their own payload and cannot receive a separate payload argument.
+
+Use an associative array with string keys for the payload, or omit it when the event carries no data. The Vue client converts an empty array to `{}` and drops events with non-empty list payloads. PHP rejects an empty event name. Event objects define their own payload and cannot receive a separate non-empty payload argument.
 
 ## Laravel event objects
 
@@ -113,6 +116,8 @@ OrderUpdated::mosaicast($order->id);
 | Inertia response with `mosaicast` resolved              | `mosaicast.events` shared prop                                                                  |
 | Partial reload that omits `mosaicast`                   | Private session broadcast channel; the identifier still arrives in `mosaicastSessionIdentifier` |
 | Redirect, download, JSON, or other non-Inertia response | Private session broadcast channel                                                               |
+
+The broadcast fallback runs synchronously before Laravel returns the response. A broadcast connection or driver error can fail the request. The same errors can fail a job that broadcasts to an explicit session.
 
 ## Background jobs and deferred work
 

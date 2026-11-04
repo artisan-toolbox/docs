@@ -9,11 +9,15 @@ This page describes compatibility and API boundaries for QZ Tray 1.x. The [packa
 
 ## Composer distribution
 
-Composer includes the compiled frontend in `dist/`. Register it from the application root with `npm install ./vendor/artisan-toolbox/qztray`, then import `@artisan-toolbox/qztray` as documented in the quickstart. This private local package is not published to npm. Run Composer before npm in deployments. Ordinary vendor installations stay inside the application root and require no additional Vite filesystem configuration.
+Starting with 1.1.0, Composer includes the compiled frontend in `dist/`. Register it from the application root with `npm install ./vendor/artisan-toolbox/qztray`, then import `@artisan-toolbox/qztray` as documented in the quickstart. This private local package is not published to npm. Run Composer before npm in deployments. Ordinary vendor installations stay inside the application root and require no additional Vite filesystem configuration.
 
 ## Supported environments
 
-The Laravel package requires PHP 8.5 with OpenSSL, Laravel 13, Artisan Toolbox Core 1.x, and Maintainer 1.5 or later within 1.x. The frontend integrates with Ziggy 2.x and the QZ Tray JavaScript SDK 2.3.x. SHA-512 signing requires QZ Tray desktop 2.1 or later.
+The Laravel package requires PHP 8.5 or later within PHP 8.x, OpenSSL, Laravel 13, and Artisan Toolbox Core 1.x. QZ Tray Connector 1.2 raises the Artisan Toolbox Maintainer requirement from `^1.5` in 1.1.1 to `^1.10.0`.
+
+The frontend integrates with Ziggy 2.x and requires the QZ Tray JavaScript SDK `^2.3.0`. SHA-512 signing requires QZ Tray desktop 2.1 or later.
+
+The TypeScript declarations target Vite applications using `"moduleResolution": "bundler"`, including Laravel applications with Inertia and Vue. The distributed JavaScript has ESM and CommonJS entry points. TypeScript projects using `node16` or `nodenext` module resolution fall outside the supported configuration.
 
 Frontend tooling supports Node.js 20.19+ within 20.x, 22.18+ within 22.x, or 24.11 and later. CI covers Ubuntu and Windows. Preview rendering runs in modern browsers; PDF previews require canvas and module workers, and ZPL previews require WebAssembly. Deploy all emitted renderer assets with the JavaScript bundle.
 
