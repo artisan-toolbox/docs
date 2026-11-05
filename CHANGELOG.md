@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.0-alpha.2] - 2026-11-05
+
+### Maintenance
+
+- **Update example environment configuration** (`0ff8848`)
+  Updates `.env.example` to reflect a production-oriented setup with different infrastructure services. Key changes include switching app metadata and runtime configuration (e.g., `APP_NAME` from "Laravel" to "Artisan Toolbox", `APP_ENV` from `local` to `production`, `APP_DEBUG` from `true` to `false`, and `APP_URL` from `http://localhost:8000` to `https://atb.dev.br`). Logging is adjusted to use daily rotation for `LOG_STACK` (while keeping `LOG_LEVEL=debug`). Queue/cache backends are changed from database to Redis (`QUEUE_CONNECTION=redis`, `CACHE_STORE=redis`), and mail configuration is switched from log-based delivery to SMTP using AWS SES (`MAIL_MAILER=smtp` with host `email-smtp.us-east-1.amazonaws.com` and port `465`). The example also updates `MAIL_FROM_ADDRESS` to `noreply@atb.dev.br` while preserving `MAIL_FROM_NAME` as `${APP_NAME}`.
+
+Why it matters / user impact: developers using `.env.example` as a starting point will now run with production-like defaults and will be expected to provide/configure Redis and AWS SES SMTP details (whereas the previous example leaned on local/database-backed queues/caches and mail logging). This can affect local development and deployments that assumed database-backed queue/cache behavior and mail logging—those setups will need migration of environment variables and provision of the new external dependencies.
+
+Compatibility / migration notes: if you previously used the example env for local development, you may need to override these values to restore database-backed queue/cache and `MAIL_MAILER=log` (or otherwise ensure Redis and AWS SES SMTP are reachable). Debugging behavior changes due to `APP_DEBUG=false` in the example.
+
 ## [1.0.0-alpha.1] - 2026-11-05
 
 ### Features
