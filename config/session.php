@@ -4,6 +4,9 @@ use Illuminate\Support\Str;
 
 return [
 
+    'block' => true,
+    'block_lock_seconds' => 120,
+
     /*
     |--------------------------------------------------------------------------
     | Default Session Driver

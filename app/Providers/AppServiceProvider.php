@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Uri;
@@ -25,6 +27,9 @@ class AppServiceProvider extends ServiceProvider
 
         $this->configureDefaults();
         $this->configureHead();
+        Gate::define('viewLogViewer', fn (?User $user): bool => $user !== null
+            && $user->email_verified_at !== null
+            && User::allowsStaffEmail($user->email));
     }
 
     private function configureHead(): void

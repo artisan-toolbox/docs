@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\EmailLoginController;
 use App\Http\Controllers\DocumentationController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,8 +14,16 @@ Route::permanentRedirect('/packages/maintainer', '/docs/maintainer');
 Route::permanentRedirect('/favicon.ico', '/favicons/favicon.ico');
 Route::permanentRedirect('/apple-touch-icon.png', '/favicons/apple-touch-icon.png');
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'Dashboard')->name('dashboard');
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [EmailLoginController::class, 'create'])->name('login');
+    Route::post('/login/email', [EmailLoginController::class, 'send'])
+        ->middleware('throttle:login.email')
+        ->name('login.email');
+    Route::post('/login', [EmailLoginController::class, 'store'])
+        ->middleware('throttle:login.code')
+        ->name('login.store');
 });
 
-require __DIR__.'/settings.php';
+Route::post('/logout', [EmailLoginController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('logout');

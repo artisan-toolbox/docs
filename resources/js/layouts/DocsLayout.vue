@@ -1,6 +1,7 @@
 <script setup>
 import { usePage } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
+import AccountLinks from '@/components/AccountLinks.vue';
 import DocsLink from '@/components/docs/DocsLink.vue';
 import { useAppearance } from '@/composables/useAppearance';
 
@@ -50,6 +51,7 @@ watch(
                     />
                 </DocsLink>
                 <div class="flex items-center gap-3 sm:gap-6">
+                    <AccountLinks />
                     <a
                         href="https://github.com/artisan-toolbox"
                         class="hidden rounded-sm text-sm text-slate-500 hover:text-teal-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-600 sm:block dark:text-slate-400 dark:hover:text-teal-400"

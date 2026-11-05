@@ -4,6 +4,8 @@ The application installs Maintainer, Rector, Laravel Rector rules, Pest, Pint, a
 Development and CI require PHP 8.5 because Maintainer requires PHP 8.5.
 Frontend checks use the existing Vite Plus and Vue tooling.
 
+See [staff access](access.md) for email-code login, mail delivery requirements, SQLite sessions, and protected log viewing.
+
 ## Work on the documentation branch
 
 Use `1.x` for documentation changes and track `origin/1.x` in your local checkout.

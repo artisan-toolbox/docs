@@ -30,6 +30,14 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+    public static function allowsStaffEmail(string $email): bool
+    {
+        $email = strtolower(trim($email));
+
+        return filter_var($email, FILTER_VALIDATE_EMAIL) !== false
+            && str_ends_with($email, '@atb.dev.br');
+    }
+
     /**
      * Get the attributes that should be cast.
      *

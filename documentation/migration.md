@@ -225,3 +225,30 @@ The client build and `composer ci:check` pass with PHP 8.5 and Node.js 22.23.4.
 Rector and all six Maintainer tools pass, with zero tools skipped. Pest reports 37 passing tests and two inherited skips; frontend and asset tests report 32 passing tests.
 Independent scoped review finds no actionable correctness or comment issues.
 Validation of the corrected pipeline is local; the remote Linux job has not been rerun in this unit.
+
+## Add staff email-code access and protected logs
+
+The user requests a hidden `/login` entry point, email-code authentication restricted to `atb.dev.br`, SQLite sessions, and authenticated header links for logs and logout.
+The application uses Laravel's session guard with its own challenge flow because Fortify does not provide this email-code flow out of the box.
+Fortify routes and obsolete starter dashboard, password, and settings implementations are removed from the active application.
+
+- [x] Install OPCodes Log Viewer as a production dependency and protect its UI, API, and downloads with authentication and the shared staff-domain gate.
+- [x] Implement hashed session challenges, ten-minute expiry, five attempts, rate limits, different replacement codes, and session rotation on login and logout.
+- [x] Refuse logging mail transports and exclude submitted codes from flashed validation input.
+- [x] Add reusable account header links and a responsive email/code login form with expired-challenge recovery.
+- [x] Verify SQLite session persistence and session locking on ordinary GET requests as well as authentication requests.
+- [x] Replace obsolete feature tests with closed-endpoint assertions and run the complete quality gate.
+
+Security review reproduced a stale-session race: an unlocked GET could restore a challenge after a concurrent failed verification deleted it.
+Global session blocking fixes that boundary. Three HTTP regressions fail with blocking disabled and pass with it enabled, using real SQLite-backed cache locks.
+Frontend regressions also reproduce and fix a stale code-entry screen after the server clears the challenge.
+
+The complete quality gate passes Rector and six Maintainer tools with 93 PHP tests and 41 frontend tests, with no skipped tools or tests.
+Email delivery is tested with notification fakes and failure cases; production requires a configured real mail transport.
+See [staff access](access.md) for operational setup and the authentication contract.
+
+## Correct the staff email domain
+
+The user corrects the allowed domain to `atb.dev.br`. Update the shared policy, validation message, form, fixtures, and documentation together.
+Previously issued challenges for the former domain are rejected, and its authenticated users cannot access logs.
+The complete quality gate passes 96 PHP tests and 41 frontend tests, all six Maintainer tools, Rector, and the client build.
