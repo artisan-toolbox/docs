@@ -19,6 +19,8 @@
         "laravel/wayfinder": "^0.1.14"
     },
     "require-dev": {
+        "artisan-toolbox/maintainer": "^1.10",
+        "driftingly/rector-laravel": "^2.5",
         "fakerphp/faker": "^1.24",
         "larastan/larastan": "^3.9",
         "laravel/boost": "^2.2",
@@ -29,7 +31,8 @@
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.9.3",
         "pestphp/pest": "^5.3",
-        "pestphp/pest-plugin-laravel": "^5.0"
+        "pestphp/pest-plugin-laravel": "^5.0",
+        "rector/rector": "^2.6"
     },
     "autoload": {
         "psr-4": {
@@ -64,10 +67,20 @@
         ],
         "ci:check": [
             "Composer\\Config::disableProcessTimeout",
-            "npm run check",
-            "npm run types:check",
-            "npm test",
-            "@test"
+            "@rector:check",
+            "@quality:check"
+        ],
+        "quality:check": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php artisan config:clear --ansi",
+            "@php vendor/bin/maintainer quality:check --no-interaction"
+        ],
+        "quality:fix": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php vendor/bin/maintainer quality:fix"
+        ],
+        "rector:check": [
+            "rector process --dry-run --no-progress-bar"
         ],
         "types:check": [
             "phpstan analyse --memory-limit=512M"

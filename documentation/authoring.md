@@ -5,15 +5,25 @@ Start from [the migrated Maintainer overview](../resources/js/pages/docs/maintai
 
 ## Register the page
 
-1. Create the page under `resources/js/pages/docs/<package>/` with `<script setup>` and JavaScript.
-2. Add its slug, Inertia component, title, description, source reference, and package identity to `app/Documentation/Documentation.php`.
-3. For a package overview, add its documented version, stability, and requirements to the same registry.
-4. Keep the catalog version separate from the documented version. A `1.x` catalog badge does not replace a guide's `1.10` compatibility statement.
-5. Confirm that the registered component exists. Unknown slugs return 404 and must never become filesystem paths.
+1. Inspect the owning package's public components, composables, and backend APIs for capabilities the documentation can consume.
+2. Record the reuse decision. Use an existing package export when it fits the feature, or document the concrete reason for application-specific behavior.
+3. Create the Vue page under `resources/js/pages/docs/<package>/` with `<script setup>` and JavaScript.
+4. Add a unique string-backed case to `app/Documentation/PageSlug.php` and map it to the concrete page in `page()`.
+5. Create an immutable definition under `app/Documentation/Pages/` extending `Page`. Use its enum case in `SLUG` and supply the component, title, description, source reference, and optional package.
+6. For a package overview, reuse or add a concrete `Package` definition under `app/Documentation/Packages/`. Put documented version, stability, and requirements there. Set its explicit overview enum when the overview becomes available.
+7. Keep the catalog version separate from the documented version. A `1.x` catalog badge does not replace a guide's `1.10` compatibility statement.
+8. Confirm that the enum resolves the matching page and an existing Vue component. Unknown slugs return 404 through Laravel's implicit enum binding and must never become filesystem paths.
 
-The registry derives navigation from registered pages.
+Use [the Maintainer page definition](../app/Documentation/Pages/MaintainerPage.php) and [package definition](../app/Documentation/Packages/MaintainerPackage.php) as examples.
+The coordinator derives navigation from enum cases.
 Do not add another navigation list in Vue.
 Catalog entries for unmigrated packages continue to use their current public documentation URLs.
+
+`PageResource` and `PackageResource` own frontend field names and derived links.
+Keep serialization out of the definitions and preserve the existing unwrapped Inertia prop structure.
+
+For theme selection, inspect Front Awesome's public `Theme` export and `createFrontAwesome({ theme: true })` before creating a selector or appearance controller.
+Install and consume the package through its documented entry points. Keep one appearance controller per document.
 
 ## Compose the page
 
@@ -61,18 +71,21 @@ Markdown support is deferred. Do not introduce custom component markers or a sec
 
 ## Set metadata and source references
 
-Set page metadata in the PHP registry.
+Set page metadata in its typed PHP definition and shared package metadata in its package definition.
 `DocumentationController` supplies the resolved title, description, canonical URL, and Open Graph values to Laravel Head.
 The root Blade document prints `@head`; Inertia's `serverHead` option updates these tags during navigation.
 Do not add a Vue `<Head>` or a title callback to a documentation page.
 
 During migration, each page links to its existing canonical content file on GitHub with the label **View migration source on GitHub**.
 The Laravel directory does not yet have a published source checkout.
-When the replacement is pushed, update the registry to link to the actual Vue source and update the label.
+When the replacement is pushed, update the page definitions to link to the actual Vue source and update the resource's label.
 Do not label an unpublished path as an available editing link.
 
-Keep canonical URLs under `https://artisantoolbox.wsssoftware.com.br`.
+Configure the application origin with `APP_URL`; do not add a second documentation URL setting.
+Generate page URLs through `PageSlug::url()` and the named Laravel routes.
+Use Laravel's `route()` in PHP and Ziggy for JavaScript consumers of those routes.
 Tracking parameters do not belong in canonical URLs.
+Keep unmigrated guide destinations on the current published site until their replacement pages exist.
 
 ## Migrate existing content
 

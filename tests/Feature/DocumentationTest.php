@@ -1,5 +1,7 @@
 <?php
 
+use App\Documentation\PageSlug;
+use Illuminate\Support\Facades\Route;
 use Inertia\Testing\AssertableInertia as Assert;
 
 test('lists all six packages while linking only migrated content to new routes', function () {
@@ -33,7 +35,7 @@ test('serves the documented Maintainer version and consumer requirements', funct
             'Git',
             'GitHub CLI for workflows that interact with GitHub',
         ])
-        ->where('page.sourceUrl', 'https://github.com/artisan-toolbox/docs/blob/main/src/content/docs/packages/maintainer/index.md')
+        ->where('page.sourceUrl', 'https://github.com/artisan-toolbox/docs/blob/1.x/src/content/docs/packages/maintainer/index.md')
         ->where('page.sourceLabel', 'View migration source on GitHub')
         ->where('navigation.0.active', false)
         ->where('navigation.1.active', true)
@@ -53,7 +55,7 @@ test('puts unique metadata and browser icons in the initial HTML without Vue SSR
     expect($xpath->evaluate('string(//head/meta[@name="description"]/@content)'))
         ->toBe('Automated validation, quality assurance, versioning, and release workflows.');
     expect($xpath->evaluate('string(//head/link[@rel="canonical"]/@href)'))
-        ->toBe('https://artisantoolbox.wsssoftware.com.br/docs/maintainer');
+        ->toBe(rtrim(config()->string('app.url'), '/').'/docs/maintainer');
     expect($xpath->query('//head/link[@rel="canonical"]'))->toHaveCount(1);
     expect($xpath->query('//head/meta[@name="viewport"]'))->toHaveCount(1);
     expect($xpath->evaluate('string(//head/link[@rel="icon" and @sizes="96x96"]/@href)'))
@@ -93,3 +95,57 @@ test('redirects the migrated legacy overview without redirecting unmigrated guid
 test('redirects conventional icon requests to the dedicated favicon directory', function (string $filename) {
     $this->get('/'.$filename)->assertStatus(301)->assertRedirect('/favicons/'.$filename);
 })->with(['favicon.ico', 'apple-touch-icon.png']);
+
+test('keeps canonical and social URLs on APP_URL when the request uses a different origin', function () {
+    $this->withoutVite();
+    $appUrl = rtrim(config()->string('app.url'), '/');
+    $requestScheme = str_starts_with($appUrl, 'https://') ? 'http' : 'https';
+
+    $response = $this->get($requestScheme.'://different-origin.example:8443/docs/maintainer?utm_source=test')->assertOk();
+    $document = new DOMDocument;
+    $document->loadHTML($response->getContent(), LIBXML_NOERROR | LIBXML_NOWARNING);
+    $xpath = new DOMXPath($document);
+
+    expect($xpath->evaluate('string(//head/link[@rel="canonical"]/@href)'))
+        ->toBe($appUrl.'/docs/maintainer');
+    expect($xpath->evaluate('string(//head/meta[@property="og:url"]/@content)'))
+        ->toBe($appUrl.'/docs/maintainer');
+    expect($xpath->evaluate('string(//head/meta[@property="og:image"]/@content)'))
+        ->toBe($appUrl.'/images/brand/social-card.png');
+});
+
+test('serves every declared documentation page without wrapping its frontend props', function () {
+    $this->withoutVite();
+
+    foreach (PageSlug::cases() as $slug) {
+        $page = $slug->page();
+
+        expect($page->slug)->toBe($slug);
+        expect(resource_path('js/pages/'.$page->component.'.vue'))->toBeFile();
+
+        $this->get($slug->url(absolute: false))->assertOk()->assertInertia(fn (Assert $response) => $response
+            ->component($page->component)
+            ->where('page.slug', $slug->value)
+            ->where('page.title', $page->title)
+            ->missing('page.data')
+            ->missing('packages.data')
+        );
+    }
+});
+
+test('follows the named documentation route when its path changes', function () {
+    $this->withoutVite();
+    Route::getRoutes()->getByName('docs.show')->setUri('/reference/{slug}');
+
+    $response = $this->get('/reference/maintainer?utm_source=test')->assertOk();
+    $document = new DOMDocument;
+    $document->loadHTML($response->getContent(), LIBXML_NOERROR | LIBXML_NOWARNING);
+    $xpath = new DOMXPath($document);
+
+    expect($xpath->evaluate('string(//head/link[@rel="canonical"]/@href)'))
+        ->toBe(rtrim(config()->string('app.url'), '/').'/reference/maintainer');
+    $response->assertInertia(fn (Assert $page) => $page
+        ->where('navigation.1.href', '/reference/maintainer')
+        ->where('packages.3.href', '/reference/maintainer')
+    );
+});

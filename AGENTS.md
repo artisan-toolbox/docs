@@ -1,13 +1,4 @@
 <laravel-boost-guidelines>
-## Documentation application decisions
-
-- This application uses Laravel, Vue, and Inertia. Do not author documentation pages in Blade or enable Vue SSR.
-- New Vue components use JavaScript and `<script setup>`. Use Tailwind utilities rather than component style blocks.
-- Read `documentation/authoring.md`, `documentation/architecture.md`, and `documentation/migration.md` before adding a documentation page.
-- Keep page metadata in `app/Documentation/Documentation.php`. Laravel Head owns documentation metadata. Do not add Vue `<Head>` tags to documentation pages.
-- Keep browser icons and the manifest under `public/favicons/`. Regenerate them with `npm run icons:build`.
-- The user has authorized the migration's required package installations and structure. Preserve unrelated starter behavior until its replacement unit is ready.
-
 === foundation rules ===
 
 # Laravel Boost Guidelines
@@ -17,6 +8,7 @@
 This application is a Laravel application running on PHP 8.5. Always use the APIs that match the installed major version of each package — do not assume a version.
 
 Before relying on a package's API, confirm its installed version:
+
 - PHP packages: run `composer show --direct` to list direct dependencies with versions, or `composer show <vendor/package>` for a single package.
 - JS packages: check `package.json` for the installed versions.
 
@@ -87,7 +79,7 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 
 - Execute PHP in app context for debugging and testing code. Do not create models without user approval, prefer tests with factories instead. Prefer existing Artisan commands over custom tinker code.
 - Always use single quotes to prevent shell expansion: `php artisan tinker --execute 'Your::code();'`
-  - Double quotes for PHP strings inside: `php artisan tinker --execute 'User::where("active", true)->count();'`
+    - Double quotes for PHP strings inside: `php artisan tinker --execute 'User::where("active", true)->count();'`
 
 === php rules ===
 
@@ -106,6 +98,13 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 
 - Laravel can be deployed using [Laravel Cloud](https://cloud.laravel.com/), which is the fastest way to deploy and scale production Laravel applications.
 - Activate the `deploying-to-cloud` skill whenever deploying to Laravel Cloud, configuring Cloud environments or resources, using the Cloud CLI, or troubleshooting Cloud deployments.
+
+=== herd rules ===
+
+# Laravel Herd
+
+- The application is served by Laravel Herd at `https?://[kebab-case-project-dir].test`. Use the `get-absolute-url` tool to generate valid URLs. Never run commands to serve the site. It is always available.
+- Use the `herd` CLI to manage services, PHP versions, and sites (e.g. `herd sites`, `herd services:start <service>`, `herd php:list`). Run `herd list` to discover all available commands.
 
 === tests rules ===
 
@@ -170,7 +169,7 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 
 # Laravel Wayfinder
 
-The requested destination uses Ziggy rather than Wayfinder. Existing starter pages still use Wayfinder until the toolchain migration unit replaces those callers and removes it. Do not add new Wayfinder consumers.
+Use Wayfinder to generate TypeScript functions for Laravel routes. Import from `@/actions/` (controllers) or `@/routes/` (named routes).
 
 === pint/core rules ===
 
@@ -199,6 +198,17 @@ The requested destination uses Ziggy rather than Wayfinder. Existing starter pag
 # Inertia + Vue
 
 Vue components must have a single root element.
+
 - IMPORTANT: Activate `inertia-vue-development` when working with Inertia Vue client-side patterns.
 
 </laravel-boost-guidelines>
+
+## Maintainer integration
+
+Keep the application version and managed README metadata in `App\ArtisanToolbox`.
+After editing `readmeHead()`, run `php vendor/bin/maintainer readme:update --no-interaction`.
+Keep manual README content outside the generated marker region.
+
+| Invariant                                                                                                                                                                      | Enforcement                                                                        |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| A production-autoloaded identity implements `Versionable` and `WithReadmeHead`, exposes `VERSION`, and generates the committed README head without changing unmanaged content. | `tests/Unit/MaintainerIntegrationTest.php`, included in the Maintainer Pest check. |

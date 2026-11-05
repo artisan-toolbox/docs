@@ -8,7 +8,7 @@ const { page } = vi.hoisted(() => ({
         props: {
             page: {
                 sourceUrl:
-                    'https://github.com/artisan-toolbox/docs/blob/main/src/content/docs/index.mdx',
+                    'https://github.com/artisan-toolbox/docs/blob/1.x/src/content/docs/index.mdx',
                 sourceLabel: 'View migration source on GitHub',
             },
             navigation: [

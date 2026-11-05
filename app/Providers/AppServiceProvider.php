@@ -5,7 +5,9 @@ namespace App\Providers;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Uri;
 use Illuminate\Validation\Rules\Password;
 use Laravel\Head\Enums\ImageType;
 use Laravel\Head\Enums\Media;
@@ -17,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+        $origin = Uri::of(config()->string('app.url'));
+        URL::useOrigin($origin->toString());
+        URL::forceScheme($origin->scheme());
+
         $this->configureDefaults();
         $this->configureHead();
     }
@@ -37,7 +43,7 @@ class AppServiceProvider extends ServiceProvider
             ->title('Artisan Toolbox', suffix: ' - Artisan Toolbox')
             ->description('Laravel packages and developer tools for everyday work.')
             ->og(siteName: 'Artisan Toolbox', locale: 'en_US')
-            ->ogImage(config()->string('documentation.url').'/images/brand/social-card.png', alt: 'Artisan Toolbox', width: 1200, height: 630)
+            ->ogImage(asset('images/brand/social-card.png'), alt: 'Artisan Toolbox', width: 1200, height: 630)
             ->twitter(card: TwitterCard::SummaryWithLargeImage)
             ->themeColor('#ffffff', media: Media::Light)
             ->themeColor('#0f172a', media: Media::Dark)

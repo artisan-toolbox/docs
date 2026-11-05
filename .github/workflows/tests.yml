@@ -3,7 +3,7 @@ name: tests
 on:
   push:
     branches:
-      - main
+      - 1.x
   pull_request:
 
 permissions:
@@ -13,6 +13,15 @@ jobs:
   ci:
     runs-on: ubuntu-latest
 
+    env:
+      APP_ENV: testing
+      CACHE_STORE: array
+      SESSION_DRIVER: array
+      QUEUE_CONNECTION: sync
+      MAIL_MAILER: array
+      DB_CONNECTION: sqlite
+      DB_DATABASE: ':memory:'
+
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -20,9 +29,10 @@ jobs:
           persist-credentials: false
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2.40.0
         with:
           php-version: '8.5'
+          extensions: bcmath, gd, intl, pdo_sqlite, redis, zip
           tools: composer:v2
           coverage: none
 
@@ -30,9 +40,27 @@ jobs:
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: '22'
+          cache: npm
 
-      - name: Setup Application
-        run: composer setup
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Install frontend dependencies
+        env:
+          WEBAWESOME_NPM_TOKEN: ${{ secrets.WEBAWESOME_NPM_TOKEN }}
+        run: npm ci
+
+      - name: Prepare application
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          php artisan config:clear
+
+      - name: Build assets
+        run: npm run build
+
+      - name: Run Rector check
+        run: composer rector:check
 
       - name: Run CI Checks
-        run: composer ci:check
+        run: php vendor/bin/maintainer quality:check --no-interaction
