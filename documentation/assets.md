@@ -32,6 +32,22 @@ All browser icon outputs and the manifest live in `public/favicons/`:
 The share image lives at `public/images/brand/social-card.png` and measures 1200 by 630 pixels.
 Regeneration produces byte-identical outputs for unchanged sources and dependencies.
 
+## Keep share-image generation deterministic
+
+The generator first resizes the transparent wordmark and materializes that result as a PNG.
+It then flattens the resized pixels onto the opaque background and adds explicit padding.
+This preserves the centered wordmark, including the existing placement when the padding contains an odd number of pixels.
+
+Keep these as separate processing stages. Sharp applies `flatten` before `resize` inside a single pipeline, which changes the resized edges.
+The previous native `composite` operation produced different floating-point rounding on macOS ARM64 and Linux x64.
+For 8-bit pixels, the replacement flatten operation uses integer color products before division, avoiding that difference.
+
+The asset suite checks a known translucent color against its exact blended result.
+It also verifies repeated generation and compares every published artifact with its generated SHA-256 digest.
+These remain exact file comparisons. Failures report the filename and digest instead of printing entire image buffers.
+
+## Register browser metadata
+
 Laravel Head registers the icons and manifest through `AppServiceProvider`.
 The conventional `/favicon.ico` and `/apple-touch-icon.png` requests redirect to the organized asset paths.
 Do not restore duplicate root files or the Laravel starter favicon.

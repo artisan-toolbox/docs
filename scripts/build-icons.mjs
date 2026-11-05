@@ -73,22 +73,23 @@ export async function buildIcons({
         .png()
         .toFile(resolve(outputDirectory, 'icon-maskable-512x512.png'));
 
-    const wordmark = await sharp(
+    const { data: wordmark, info } = await sharp(
         resolve(sourceDirectory, 'artisan-toolbox-logo-dark.png'),
     )
         .resize({ width: 1000 })
         .png()
-        .toBuffer();
+        .toBuffer({ resolveWithObject: true });
 
-    await sharp({
-        create: {
-            width: 1200,
-            height: 630,
-            channels: 4,
+    await sharp(wordmark)
+        .flatten({ background: '#0f172a' })
+        .extend({
+            top: Math.ceil((630 - info.height) / 2),
+            bottom: Math.floor((630 - info.height) / 2),
+            left: Math.ceil((1200 - info.width) / 2),
+            right: Math.floor((1200 - info.width) / 2),
             background: '#0f172a',
-        },
-    })
-        .composite([{ input: wordmark, gravity: 'centre' }])
+        })
+        .ensureAlpha()
         .png()
         .toFile(resolve(socialDirectory, 'social-card.png'));
 

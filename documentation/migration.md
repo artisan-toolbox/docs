@@ -201,3 +201,27 @@ The focused regression passes with eight assertions. `composer ci:check` passes 
 Pest reports 37 passing tests and the two inherited skips; the frontend and asset suite reports 31 passing tests.
 Pint, formatting, lint, Vue type checking, and PHPStan pass. The previous local deployment-recipe formatting finding does not block this run.
 Independent scoped correctness and comment review finds no actionable issues. The identity regression is part of the normal Pest gate, so omitting the consuming identity or leaving the README header stale now fails CI.
+
+## Fix cross-platform share-image generation
+
+The Linux CI run fails the published-asset synchronization test for `social-card.png`.
+Reconstructing the complete generated PNG from the supplied log isolates 25 color samples that differ from the published macOS image by one level; alpha and dimensions match.
+Separate and fused float32 blend models reproduce the complete Linux and macOS PNGs respectively, including compression.
+
+- [x] Reconstruct and validate both PNGs, then isolate resize, blend arithmetic, and compression.
+- [x] Add a focused regression before the fix. The old generator produces blue 48 where exact blending requires 49.
+- [x] Compare processing shapes and select materialized resize, integer flattening, and explicit centered padding.
+- [x] Regenerate the published share image and preserve exact file synchronization checks with compact SHA-256 diagnostics.
+- [x] Run the complete quality gate and review the scoped changes.
+
+Flattening before resizing changes the wordmark edges. Using a contain resize for padding shifts an odd-height wordmark by one pixel.
+The selected pipeline preserves the existing placement and avoids the native float32 composition path.
+Regeneration changes three color samples by one level, with the same 1200 by 630 dimensions and alpha channel.
+
+The regression now passes. Before regeneration, the exact synchronization test still rejects the stale published image and reports its filename and checksums.
+After regeneration, all 14 asset tests pass without tolerances or skipped asset tests.
+
+The client build and `composer ci:check` pass with PHP 8.5 and Node.js 22.23.4.
+Rector and all six Maintainer tools pass, with zero tools skipped. Pest reports 37 passing tests and two inherited skips; frontend and asset tests report 32 passing tests.
+Independent scoped review finds no actionable correctness or comment issues.
+Validation of the corrected pipeline is local; the remote Linux job has not been rerun in this unit.
