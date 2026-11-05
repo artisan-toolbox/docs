@@ -40,10 +40,46 @@ export const packages = [
   {
     id: "front-awesome",
     title: "Front Awesome",
-    summary: "Explore reusable Vue components for Laravel and Inertia.",
+    summary: "Use Web Awesome components and send toasts from Laravel or Vue.",
     wordmarkWidth: 390,
     version: null,
-    guides: [],
+    guides: [
+      {
+        label: "Setup",
+        collapsed: true,
+        items: [
+          {
+            label: "Installation",
+            slug: "packages/front-awesome/installation",
+          },
+          { label: "Web Awesome", slug: "packages/front-awesome/web-awesome" },
+          {
+            label: "Package Configuration",
+            slug: "packages/front-awesome/configuration",
+          },
+          { label: "Vue Plugin", slug: "packages/front-awesome/vue-plugin" },
+        ],
+      },
+      {
+        label: "Features",
+        collapsed: true,
+        items: [
+          {
+            label: "Buttons and button groups",
+            slug: "packages/front-awesome/button",
+          },
+          {
+            label: "Toasts from Laravel",
+            slug: "packages/front-awesome/toasts/laravel",
+          },
+          {
+            label: "Toasts from Vue",
+            slug: "packages/front-awesome/toasts/vue",
+          },
+        ],
+      },
+      { label: "Development", slug: "packages/front-awesome/development" },
+    ],
   },
   {
     id: "maintainer",

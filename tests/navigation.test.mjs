@@ -36,13 +36,14 @@ test("Every package is discoverable from the home, catalog, chooser, and sidebar
     }
   }
   const catalog = await loadPage("packages/");
+  const sidebar = catalog.slice(0, catalog.indexOf("<main"));
   const locations = {
     home: links(mainContent(await loadPage(""))),
     catalog: links(mainContent(catalog), "/packages/"),
     chooser: links(
       mainContent(await loadPage("getting-started/choose-a-package/")),
     ),
-    sidebar: links(catalog.slice(0, catalog.indexOf("<main"))),
+    sidebar: links(sidebar),
   };
 
   for (const [location, found] of Object.entries(locations)) {
@@ -50,7 +51,79 @@ test("Every package is discoverable from the home, catalog, chooser, and sidebar
       assert.ok(found.has(route), `${location} links to ${route}`);
     }
 
-    assert.match(found.get("/packages/front-awesome/"), /\bWIP\b/, location);
+    if (location !== "sidebar") {
+      assert.match(found.get("/packages/front-awesome/"), /\bWIP\b/, location);
+    }
+  }
+
+  const frontAwesomeGroup = [
+    ...sidebar.matchAll(/<summary\b[^>]*>([\s\S]*?)<\/summary>/g),
+  ].find(([, content]) => content.includes(">Front Awesome<"));
+  assert.ok(frontAwesomeGroup, "Front Awesome has a sidebar group.");
+  assert.match(frontAwesomeGroup[1], /\bWIP\b/, "sidebar group");
+});
+
+test("Front Awesome guides are reachable from the overview and sidebar", async () => {
+  const overviewRoute = "/packages/front-awesome/";
+  const overview = await loadPage(overviewRoute.slice(1));
+  const overviewLinks = links(mainContent(overview), overviewRoute);
+  const sidebarLinks = links(overview.slice(0, overview.indexOf("<main")));
+  const guides = [
+    "installation/",
+    "web-awesome/",
+    "configuration/",
+    "vue-plugin/",
+    "button/",
+    "toasts/laravel/",
+    "toasts/vue/",
+    "development/",
+  ];
+
+  for (const guide of guides) {
+    const route = `${overviewRoute}${guide}`;
+    assert.ok(overviewLinks.has(route), `The overview links to ${route}.`);
+    assert.ok(sidebarLinks.has(route), `The sidebar links to ${route}.`);
+  }
+
+  for (const guide of ["", ...guides]) {
+    const route = `${overviewRoute}${guide}`;
+    const page = await loadPage(route.slice(1));
+
+    for (const [, href] of mainContent(page).matchAll(
+      /<a\b[^>]*\bhref="([^"]+)"/g,
+    )) {
+      const target = new URL(href, `https://docs.example${route}`);
+      if (
+        target.origin !== "https://docs.example" ||
+        !target.pathname.startsWith("/packages/")
+      )
+        continue;
+      const destination =
+        target.pathname === route
+          ? page
+          : await loadPage(target.pathname.slice(1));
+      if (target.hash) {
+        assert.ok(
+          destination.includes(
+            `id="${decodeURIComponent(target.hash.slice(1))}"`,
+          ),
+          `${route} links to ${href}.`,
+        );
+      }
+    }
+  }
+
+  for (const anchor of [
+    "frontend-distribution",
+    "configure-vite",
+    "render-a-button",
+    "validate-a-checkout",
+    "use-the-frontend-agent-skills",
+  ]) {
+    assert.ok(
+      overview.includes(`id="${anchor}"`),
+      `The overview keeps the #${anchor} link.`,
+    );
   }
 });
 

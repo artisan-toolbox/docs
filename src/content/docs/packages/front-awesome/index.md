@@ -1,99 +1,46 @@
 ---
 title: Front Awesome
-description: Preview reusable Vue components and Laravel frontend integrations for Inertia.
+description: Use Vue components, manage color mode, and send toast notifications in Laravel applications with Inertia.
 ---
 
-:::caution[Work in progress (WIP)]
-Front Awesome is in development and has no stable Composer release. The examples on this page describe the development checkout.
-:::
+Front Awesome adds Web Awesome components, color mode controls, and toast notifications to Laravel applications that use Inertia and Vue. Components inherit the application's theme. Toasts can come from Laravel or from Vue.
 
-Front Awesome is a Laravel package for reusable Vue components and frontend integrations that complement Inertia. It uses Web Awesome custom elements for UI and Tailwind CSS for styling. VueUse provides composables, and Mosaicast supplies the event delivery layer for future Front Awesome integrations.
+:::caution[Work in progress (WIP)]
+This guide covers the `1.x` development branch. Front Awesome has no stable Composer release.
+:::
 
 ## Requirements
 
-- PHP 8.5 or later within the PHP 8.x series and Laravel 13 components
-- Vue 3.5 or later within Vue 3.x, Inertia 3.x, and Tailwind CSS 4.x
+- PHP 8.5 or later within PHP 8.x, Laravel 13, and Inertia Laravel 3.x
+- Vue 3.5 or later within Vue 3.x, Inertia Vue 3.x, and Tailwind CSS 4.x
+- Mosaicast 1.1.1 or later within Mosaicast 1.x
 - Node.js 24.11 or later
 
 ## Installation
 
-To work on the package, clone the [source repository](https://github.com/artisan-toolbox/front-awesome) and follow [Validate a checkout](#validate-a-checkout).
+Follow [Installation](./installation/) to install the Composer and frontend packages in an Inertia application.
 
-### Frontend distribution
+## Show your first toast
 
-The planned application setup installs both packages with Composer before registering their frontend packages through `file:vendor/artisan-toolbox/...` dependencies. The current checkout declares the Mosaicast JavaScript client as a peer at `^0.1.0`. Mosaicast 1.2.0 ships its client at `1.2.0`, which falls outside that range.
+After installing the package and [registering the Vue plugin](./vue-plugin/), add this call to a Laravel action with an active web session.
 
-Front Awesome supplies Web Awesome and VueUse. The application supplies Vue, Inertia, and Tailwind CSS.
+```php
+use ArtisanToolbox\FrontAwesome\Facades\Toast;
 
-## Configure Vite
-
-Keep the existing Laravel and Inertia plugins in your Vite config. In the existing Vue plugin options, add the custom-element matcher. Keep Tailwind's Vite plugin enabled.
-
-```ts
-vue({
-  template: {
-    compilerOptions: {
-      isCustomElement: (tag) => tag.startsWith("wa-"),
-    },
-  },
-});
+Toast::success('Report saved.')->flash();
 ```
 
-If your Vue plugin already recognizes custom elements, extend the existing matcher to recognize `wa-` tags. If you build an Inertia SSR bundle, add `"@artisan-toolbox/front-awesome"` to Vite's `ssr.noExternal` list so it compiles the package's Vue files.
+The next Inertia response displays a success toast with the default success icon.
 
-Add the Tailwind source directive through the package stylesheet in the application's CSS entry.
+## Guides
 
-```css
-@import "tailwindcss";
-@import "@artisan-toolbox/front-awesome/styles.css";
-```
+- <span id="frontend-distribution"></span>[Installation](./installation/) covers Composer, npm, and refreshing local package copies.
+- <span id="configure-vite"></span><span id="use-your-applications-theme"></span><span id="use-web-awesome-pro"></span>[Web Awesome setup](./web-awesome/) covers Vite, styles, and the Core and Pro editions.
+- <span id="set-default-icons-by-variant"></span>[Package configuration](./configuration/) covers publishing the Laravel configuration and choosing default toast icons.
+- <span id="register-the-front-awesome-vue-plugin"></span>[Vue plugin](./vue-plugin/) covers registration, the theme selector, toast placement, and Echo.
+- <span id="render-a-button"></span>[Buttons and button groups](./button/) shows how to use the typed Vue wrappers.
+- <span id="show-toast-notifications-from-laravel"></span><span id="send-a-notification"></span><span id="configure-a-toast"></span>[Toasts from Laravel](./toasts/laravel/) covers the facade, factory options, and both delivery methods.
+- <span id="show-a-toast-from-vue"></span><span id="check-frontawesome-in-your-editor-and-ci"></span>[Toasts from Vue](./toasts/vue/) covers the composable, the Vue global service, and TypeScript.
+- <span id="validate-a-checkout"></span><span id="use-the-frontend-agent-skills"></span>[Development](./development/) covers the package checkout, tests, and coverage.
 
-Import Web Awesome's stylesheet from the application's JavaScript entry. This gives Vite a separate CSS entry so it can resolve Web Awesome's nested imports.
-
-```ts
-import "@artisan-toolbox/front-awesome/web-awesome.css";
-```
-
-The application's Vite build compiles the Vue sources and styles. Tailwind scans the package's components for utility classes.
-
-## Render a button
-
-```vue
-<template>
-  <Button variant="brand">Save changes</Button>
-</template>
-
-<script setup lang="ts">
-import Button from "@artisan-toolbox/front-awesome/components/Button.vue";
-</script>
-```
-
-The button passes its default slot and attributes to `<wa-button>`. It registers the custom element when the Vue component mounts in the browser.
-
-For event delivery, configure the [Mosaicast Vue plugin](../mosaicast/vue-plugin/) in the application.
-
-## Validate a checkout
-
-In the Front Awesome repository, write Vue single-file components with the Composition API and `<script setup lang="ts">`. Put `<template>` first and the TypeScript setup block below it.
-
-Run `composer install` before `npm ci`. Use `php vendor/bin/maintainer quality:check --no-interaction` for the configured checks, `composer test` for the PHP suite with type coverage, and `npm run build` to compile the Vite consumer fixture. Maintainer manages release versioning on `1.x`.
-
-Maintainer manages the repository README header. To regenerate it after changing the logo or badges, run `php vendor/bin/maintainer readme:update` from the package checkout with Composer development dependencies installed.
-
-When preparing the first release, replace the `in development` badge in `FrontAwesome::readmeHead()` with the GitHub release badge.
-
-### Use the frontend agent skills
-
-The Front Awesome checkout keeps its skills in `.agents/skills/`. Claude Code can access the same directory through `.claude/skills/`.
-
-- Use `vue-best-practices` for Vue components and composables, and `vue-testing-best-practices` for tests. [Vue AI Skills](https://github.com/vuejs-ai/skills)
-- Use `vueuse-functions` to choose VueUse composables. The checkout includes a snapshot for VueUse 14.4.0. [VueUse Skills](https://vueuse.org/guide/work-with-ai)
-- Use `inertia-vue-development` for Inertia 3 forms, navigation, shared props, and SSR. The local skill directs agents to the Boost template bundled with the installed Vue adapter. [Inertia Vue skill source](https://github.com/inertiajs/inertia/tree/3.x/packages/vue3/resources/boost/skills/inertia-vue-development)
-- Use `frontend-design` to choose a visual direction for new or redesigned interfaces. Use it with `webawesome-design` to carry that direction into Web Awesome components and tokens. [Anthropic Frontend Design](https://github.com/anthropics/skills/tree/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/frontend-design)
-- Use `webawesome` for component APIs and `webawesome-design` for layout and theming. Both links resolve to the installed Web Awesome version. [Web Awesome agent skills](https://webawesome.com/docs/ai/agent-skills)
-
-Run `composer install` before `npm ci` to make the Inertia and Web Awesome references available.
-
-## Resources
-
-- [Source code and changelog](https://github.com/artisan-toolbox/front-awesome)
+<span id="resources"></span>Find the [source code and changelog](https://github.com/artisan-toolbox/front-awesome) on GitHub.

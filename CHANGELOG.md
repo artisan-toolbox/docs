@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Standardize package overviews and correct version, installation, and migration guidance.
 - Update Astro, Starlight, and the site validation dependencies. The site now requires Node.js 24 or later.
 - Marked Front Awesome as work in progress across the package catalog, navigation, and preview guide.
+- Split the Front Awesome guide into pages for installation, configuration, components, toast delivery, and development. Keep the overview URL and links to its former sections.
 - Documented Maintainer's explicitly exported consumer integration surfaces, including quality and versioning contracts, production classmap discovery, and when encryption actually requires `APP_KEY`.
 - Updated the Maintainer documentation for the stable 1.0 release, including its stability guarantees and the upgrade path from beta releases.
 - Updated the site header logo variants and favicon to the latest official Artisan Toolbox brand assets.
