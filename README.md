@@ -1,70 +1,21 @@
-# Artisan Toolbox Documentation
+# Artisan Toolbox documentation
 
-Centralized documentation for Artisan Toolbox packages, guides, and resources.
+A Laravel, Vue, and Inertia application for Artisan Toolbox documentation and package integration examples.
+The application is under migration. The existing documentation remains published at [artisantoolbox.wsssoftware.com.br](https://artisantoolbox.wsssoftware.com.br).
 
-The site is built with [Astro Starlight](https://starlight.astro.build/) and configured for publication at [artisantoolbox.wsssoftware.com.br](https://artisantoolbox.wsssoftware.com.br).
-
-## Requirements
-
-- Node.js 24 or later. If you use nvm, run `nvm install` to install and select the version CI uses.
-- npm 11 or later
-
-## Local Development
-
-Install dependencies and start the development server:
+Install PHP dependencies before frontend dependencies:
 
 ```bash
+composer install
 npm ci
-npm run dev
+npm run build
 ```
 
-The local site is available at `http://localhost:4321` by default.
+For a fresh local environment, `composer setup` creates the environment file, generates its local application key, migrates the database, and builds frontend assets.
+Start development with `composer dev`.
+Open `/docs` for the catalog or `/docs/maintainer` for the first migrated overview.
 
-## Project Structure
+Run `composer ci:check` for PHP and frontend checks.
+Vue SSR is disabled. Production does not need an Inertia SSR service.
 
-```text
-src/content/docs/
-├── getting-started/
-├── packages/
-│   └── <package>/
-└── project/
-```
-
-Each Markdown or MDX file under `src/content/docs/` becomes a documentation page. Package documentation belongs under `packages/<package>/`.
-
-## Commands
-
-| Command                | Purpose                                 |
-| ---------------------- | --------------------------------------- |
-| `npm run dev`          | Start the local development server      |
-| `npm run check`        | Validate Astro content and TypeScript   |
-| `npm run format`       | Format supported project files          |
-| `npm run format:check` | Check formatting without changing files |
-| `npm run build`        | Build the production site               |
-| `npm test`             | Run the complete validation suite       |
-
-## Deployment
-
-The repository includes an [NGINX server block](deploy/nginx/artisantoolbox.wsssoftware.com.br.conf) for `artisantoolbox.wsssoftware.com.br`. It assumes the production build is available at `/var/www/artisantoolbox/dist`; update the `root` directive when the server uses a different deployment path.
-
-The [hourly deployment script](deploy/update-docs.sh) restores the working tree, updates the `main` branch from `origin`, installs the locked npm dependencies, and rebuilds the site. It uses `flock` to skip overlapping executions.
-
-Install it in the `www-data` user's crontab with:
-
-```cron
-0 * * * * /var/www/artisantoolbox/deploy/update-docs.sh >> /var/log/artisantoolbox-docs-deploy.log 2>&1
-```
-
-The repository and log file must be writable by `www-data`. The server must provide Git, Node.js 24 or later, npm 11 or later, and `flock` (normally included in the `util-linux` package).
-
-## Contributing
-
-See the [contribution guide](CONTRIBUTING.md) before opening a pull request.
-
-## Versioning
-
-The documentation site follows Semantic Versioning independently from the packages it documents. See [VERSIONING.md](VERSIONING.md) for the complete policy.
-
-## License
-
-This project is open-sourced software licensed under the [MIT license](LICENSE.md).
+Read [the authoring workflow](documentation/authoring.md), [the architecture](documentation/architecture.md), [asset maintenance](documentation/assets.md), and [the migration plan](documentation/migration.md) before adding content.

@@ -1,17 +1,12 @@
 version: 2
-
 updates:
-  - package-ecosystem: npm
-    directory: /
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: weekly
+      interval: "weekly"
+    cooldown:
+      default-days: 5
     groups:
-      astro:
+      github-actions:
         patterns:
-          - astro
-          - "@astrojs/*"
-
-  - package-ecosystem: github-actions
-    directory: /
-    schedule:
-      interval: weekly
+          - "*"

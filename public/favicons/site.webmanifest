@@ -1,0 +1,32 @@
+{
+    "id": "/",
+    "name": "Artisan Toolbox",
+    "short_name": "Artisan Toolbox",
+    "description": "Documentation for Artisan Toolbox Laravel packages.",
+    "lang": "en",
+    "start_url": "/docs",
+    "scope": "/",
+    "display": "browser",
+    "background_color": "#0f172a",
+    "theme_color": "#0f172a",
+    "icons": [
+        {
+            "src": "/favicons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/favicons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/favicons/icon-maskable-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}
