@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0-alpha.3] - 2026-11-05
+
+### Build
+
+- **Add PM2 config for Reverb process** (`d9ada2d`)
+  Introduces a new PM2 ecosystem configuration file (`pm2.config.cjs`) that defines a `Reverb` process. The `Reverb` process runs the PHP `artisan` command with `reverb:start` using the `php` interpreter, sets the working directory to `/var/www/atb/current`, and uses `instances: 1` with `autorestart: true` and `max_memory_restart: '1G'` to improve runtime resilience. This matters for deployments using PM2 because it provides a standardized way to start and supervise the Reverb queue/server component. Compatibility impact is limited to environments adopting/using PM2 with this config; no code behavior is changed outside of the addition of the process definition.
+
 ## [1.0.0-alpha.2] - 2026-11-05
 
 ### Maintenance
