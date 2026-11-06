@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0-beta.1] - 2026-11-06
+
+### Maintenance
+
+- **Add AI standards and documentation skills** (`3c4140e`)
+  Introduces new contributor “skill” documentation and supporting standards for Artisan Toolbox’s AI/agent tooling. Adds documentation-writing and documentation page-pattern guides under `.agents/skills/atb-documentation/` (including audience selection, Diataxis/page-pattern selection, preserving public contracts/links, verifying examples against APIs/behavior, dependency boundary guidance, navigation component coordination, and migration handling). Adds a package-development workflow standard under `.agents/skills/atb-package-development/` for implementing/fixing/reviewing Laravel packages, emphasizing contract preservation, regression testing, consumer adoption guidance, and release evidence. Adds corresponding AI-side skill documentation under `.ai/skills/` and adds new standards lock/sync tooling via `.ai/standards.lock.json` and `.ai/sync.mjs` so the AI can verify/pin expected file contents and safely synchronize managed standards bundles. Updates tooling expectations that consume these standards (primarily affecting contributor/CI automation). User-facing runtime behavior is not changed by this commit; the impact is on documentation authoring/review processes and any automation that enforces these standards.
+
 ## [Unreleased]
 
 - Install the published Front Awesome `1.0.0-alpha.1` preview and public distributions of all documented packages through portable Composer and npm locks. Remove the required workspace checkout from Front Awesome installation instructions.
