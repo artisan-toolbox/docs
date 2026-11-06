@@ -38,6 +38,7 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'name' => config('app.name'),
+            'mosaicastChannelPrefix' => config()->string('mosaicast.broadcasting.session_channel_prefix'),
             'auth' => [
                 'user' => $request->user(),
             ],

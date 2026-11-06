@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { HTMLAttributes } from "vue"
-import { ChevronRight } from "@lucide/vue"
+import SiteIcon from "@/components/site/SiteIcon.vue"
 import { cn } from "@/lib/utils"
 
 const props = defineProps<{
@@ -16,7 +16,7 @@ const props = defineProps<{
     :class="cn('[&>svg]:size-3.5', props.class)"
   >
     <slot>
-      <ChevronRight />
+      <SiteIcon name="chevron-right" size="sm" />
     </slot>
   </li>
 </template>

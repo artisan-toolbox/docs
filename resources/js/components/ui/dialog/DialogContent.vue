@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { DialogContentEmits, DialogContentProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
-import { X } from "@lucide/vue"
+import SiteIcon from "@/components/site/SiteIcon.vue"
 import { reactiveOmit } from "@vueuse/core"
 import {
   DialogClose,
@@ -43,9 +43,9 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
       <DialogClose
         v-if="showCloseButton"
         data-slot="dialog-close"
-        class="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+        class="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_:is(svg,wa-icon)]:pointer-events-none [&_:is(svg,wa-icon)]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
       >
-        <X />
+        <SiteIcon name="xmark" />
         <span class="sr-only">Close</span>
       </DialogClose>
     </DialogContent>

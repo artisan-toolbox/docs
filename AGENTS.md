@@ -8,7 +8,6 @@
 This application is a Laravel application running on PHP 8.5. Always use the APIs that match the installed major version of each package — do not assume a version.
 
 Before relying on a package's API, confirm its installed version:
-
 - PHP packages: run `composer show --direct` to list direct dependencies with versions, or `composer show <vendor/package>` for a single package.
 - JS packages: check `package.json` for the installed versions.
 
@@ -79,7 +78,7 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 
 - Execute PHP in app context for debugging and testing code. Do not create models without user approval, prefer tests with factories instead. Prefer existing Artisan commands over custom tinker code.
 - Always use single quotes to prevent shell expansion: `php artisan tinker --execute 'Your::code();'`
-    - Double quotes for PHP strings inside: `php artisan tinker --execute 'User::where("active", true)->count();'`
+  - Double quotes for PHP strings inside: `php artisan tinker --execute 'User::where("active", true)->count();'`
 
 === php rules ===
 
@@ -165,12 +164,6 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 - Faker: Use methods such as `$this->faker->word()` or `fake()->randomDigit()`. Follow existing conventions whether to use `$this->faker` or `fake()`.
 - When creating tests, make use of `php artisan make:test [options] {name}` to create a feature test, and pass `--unit` to create a unit test. Most tests should be feature tests.
 
-=== wayfinder/core rules ===
-
-# Laravel Wayfinder
-
-Use Wayfinder to generate TypeScript functions for Laravel routes. Import from `@/actions/` (controllers) or `@/routes/` (named routes).
-
 === pint/core rules ===
 
 # Laravel Pint Code Formatter
@@ -198,7 +191,6 @@ Use Wayfinder to generate TypeScript functions for Laravel routes. Import from `
 # Inertia + Vue
 
 Vue components must have a single root element.
-
 - IMPORTANT: Activate `inertia-vue-development` when working with Inertia Vue client-side patterns.
 
 </laravel-boost-guidelines>
@@ -213,3 +205,39 @@ Keep manual README content outside the generated marker region.
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
 | A production-autoloaded identity implements `Versionable` and `WithReadmeHead`, exposes `VERSION`, and generates the committed README head without changing unmanaged content. | `tests/Unit/MaintainerIntegrationTest.php`, included in the Maintainer Pest check. |
 | The share image uses exact integer alpha blending, and published assets stay synchronized with their generated files.                                                          | `scripts/build-icons.test.mjs`, included in the Maintainer Vite Plus tests.        |
+
+## Documentation authoring requirements
+
+These application-specific rules complement the workspace guidance and remain outside the generated Laravel Boost block.
+
+- Use the repository's `atb-documentation` and `atb-package-development` skills for their matching tasks. Their owning source is `documentation/agent-standards/`; `.ai/skills/` and `.agents/skills/` contain installed, versioned copies.
+- Run `npm run standards:check` before completing a shared standards change. Follow `documentation/agent-standards.md` for versioning and synchronization. The shared skills include writing and prose review guidance without requiring personal skill installations.
+- Follow `documentation/package-skills.md` when documenting package skills. Package sources under `resources/boost/skills/` own consumer guidance; generated agent copies are installation results. Do not describe a skill as available in a release until its Composer distribution and consumer discovery have been verified.
+- Review package skills alongside API, configuration, command, compatibility, and workflow changes. Keep the public policy, legacy content, migrated pages, tests, and changelogs synchronized in the same task. Record unchanged guidance and verification blockers explicitly.
+
+- Find and fix the cause of a documentation defect. Change the owning registry, content, package API, or shared component. Do not use page-specific CSS patches, duplicated metadata, copied internals, weakened checks, or fixture refreshes to conceal a defect.
+- Before each content change, audit every affected package's beginner path. Record its starting environment, requirements, install commands, first runnable example, expected result, next guide, and verification. Use `documentation/authoring.md` as the completion checklist.
+- Every package has a registered Installation page and an overview quickstart. Teach requirements, installation, first success, configuration, task guides, advanced topics, reference, and development in that order. Put configuration before first success when the example requires it. Sibling enum order expresses this sequence and must never be alphabetized.
+- Use specialized shared components for package overview identity, compact guide tags, requirements, prose, examples, callouts, and navigation. Large identity headers belong only on package overviews. Keep each child page's actual title visible.
+- Use the single "Documented version" label for the Composer-installed version on package overviews, guides, and cards. Normalize only the exact local aliases `1.99.99` and `1.999.999` to `1.x-dev` in `PackageResource`; preserve other installed versions. This is a presentation rule. Never rewrite Composer manifests, aliases, or lockfiles to obtain that label. Reuse `PackageVersion` instead of displaying a second authored compatibility version or duplicating fallback logic.
+- Verify public package exports before implementing documentation behavior. Record the export consumed or a concrete reason the behavior belongs in this application. Keep installed Composer versions and preview status distinct from documented compatibility.
+- Each documentation task attempts compatible updates for installed Artisan Toolbox packages and main runtime and test dependencies. Run Composer before npm, refresh vendor frontend copies, and test the result. Record resolved changes, already-current dependencies, conflicts, and registry or permission blockers. User authorization in the current task governs dependency changes. Never fake a version bump, relax compatibility, or describe an unpublished checkout as a stable release.
+- Follow the installed technical-writing skill and its prose review guidance. Use Diataxis document modes and official style sources. Record a missing capability and reviewed source before adding another skill.
+- Keep active demos isolated under `components/demo/<package>/<section>/` and `app/Demo/<Package>/<Section>/`. Use public package APIs, wait for the reader's start action, and expose loading, failure, reset, and source behavior. Keep private credentials on the backend.
+- Native Laravel or Inertia and Mosaicast comparisons share inputs, event counts, payloads, timing, sessions, and queue conditions. Show delivery behavior honestly. Add infrastructure only when the requested example requires it.
+- Preserve existing migration coverage when changing authored content. Review legacy and Vue text together, update only affected fixtures after that review, and run page parity and workspace source checks. A passing hash after an unchecked refresh does not verify a learning journey.
+- Keep search derived from `PageSlug` and actual Vue content. Never add a second searchable-page registry, copied summaries, or manual index text. Give sections stable IDs, use the shared static content components, and run `php artisan docs:search:index --no-interaction` followed by its `--check` mode after content changes. Verify a body/code/table query and its destination where relevant. Fix extraction errors at the source or the shared adapter with tests; do not hide pages to make indexing pass. Follow `documentation/search.md` and build the release-local artifact before release activation.
+- Use Laravel's `route()` in PHP and imports from `ziggy-js` for client-generated URLs. Reuse existing backend-provided navigation destinations. The Blade document owns one native Ziggy JSON configuration and `config/ziggy.php` owns its route-group filter; do not add another Inertia configuration, fixed browser location, custom loader, generated frontend route file, or Wayfinder integration. Preserve explicit HTTP methods and test named-route path changes. Follow `documentation/routing.md`.
+- Use Font Awesome through `SiteIcon` for all application utility and brand icons, including shared starter components. Do not add Lucide, inline utility SVGs, or Unicode icon substitutes. Package artwork and background textures remain artwork. Use WA's native kit integration from `documentation.fontawesome_kit_code`. Preserve text labels and package artwork, keep decoration out of search, and avoid per-page SVGs, custom resolvers, duplicate kit identifiers, and animated decoration. Follow `documentation/icons.md`; verify actual SVG loading in the browser as well as tests that isolate the CDN boundary.
+
+- Keep syntax highlighting inside the shared `CodeExample` and its finite language registry. Use Shiki text tokens rendered through Vue interpolation and literal Tailwind palette classes. Preserve exact authored source, clipboard behavior, and search extraction. Unknown languages remain plain text; grammar failures remain readable and explicit. Do not inject generated HTML, add prompt characters to commands, execute examples, or style blocks per page. Follow `documentation/code-examples.md`.
+
+- Render named dependency installation instructions with `InstallCommand`, passing the package metadata explicitly through authored partials. `InstallationCommands` owns exact Composer-installed and npm-lock versions, command options, and Composer-before-npm order. Never hardcode registry dependency installs in Vue, rewrite lock aliases for display, read development-workspace locks in production, or add a second search recipe. SearchCatalog and the semantic adapter consume the same command data. Follow `documentation/authoring.md`; the installation instruction guard runs in the frontend suite.
+- Keep package overviews short and task guides responsible for technical detail. Preserve historical hashes as clear links when moving sections, and test content ownership across the resulting guides. A large package overview must not repeat its installation, preview, security, or reference guides.
+
+- Uploaded Font Awesome identities use `SiteIcon` with `kit` or `kit-duotone`, the published names, and the existing configured kit. Preserve the keyed inner container that isolates SVG replacement from Vue updates. Do not send uploaded names to WA's official resolver, invent asset URLs, or poll the global API. Keep package identities in `packageIcons.js` and verify real mono and duotone SVGs after navigation.
+- Keep Fontaine in Laravel Vite's native optimized-font pipeline. Branding consumes `--font-instrument-sans`; do not add another font loader, Fontaine transform, or handwritten fallback metrics. Verify fresh generated font CSS and the resolved browser stack. Follow `documentation/assets.md`.
+- Keep discovery derived from `PageSlug` and named routes. Use `Documentation::breadcrumbs()` for visible trails and JSON-LD, and Laravel Head for response-owned schemas. Never add a second page registry, static robots file, fake modification dates, or global public schemas that leak onto sign in. Preserve internal noindex headers, crawlable rendering assets, and disabled Vue SSR. Follow `documentation/seo.md`; initial metadata and local browser checks do not prove public article indexing.
+- Keep the Deployer search gate in the versioned `resources/deployer/search.php` recipe. The local ignored `deploy.php` must import it and explicitly run `docs:search` after assets and optimization, before migrations, PM2, and publication. Preserve both when regenerating local deployment configuration. Use the candidate `release_path`, propagate command failures, and keep the artifact release-local. Follow `documentation/search.md`; executable deployment tests must use disposable localhost fixtures and never contact configured servers.
+- Horizon runs only on the documentation server; broadcast delivery uses the external WSS Software Reverb application. Keep PM2 limited to one Horizon master with native graceful shutdown and apply its configuration after publication so `current` points to the new release. Scheduler ownership remains separate. Keep private credentials out of templates, browser props, Vite variables, source panels, logs, and committed files. Component tests must not inherit the development Reverb connection. Follow `documentation/queues.md` and preserve the executable process, credential-boundary, and early-completion lifecycle tests. Configuration readiness does not prove live service delivery.
+- Preserve global development package routing and aliases. Run `composer distribution:check` before distributing a lock and keep the pre-Composer CI gate. Check package locations rather than version labels; remote previews remain valid when explicitly approved and pinned by the lock. Prove consumer compatibility using public archives and a clean Composer home, Composer before npm, actual exports, tests, build, and search indexing. Never substitute local copies into that proof, maintain a second production lock, relax project-wide stability, or claim portability while a required public export is missing. Follow `documentation/quality.md#prepare-standalone-installation`.

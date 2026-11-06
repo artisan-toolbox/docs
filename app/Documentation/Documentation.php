@@ -11,6 +11,49 @@ use App\Documentation\Packages\QzTrayPackage;
 
 final class Documentation
 {
+    /** @return list<array{label: string, href: string, current: bool}> */
+    public function breadcrumbs(PageSlug $slug, bool $absolute = false): array
+    {
+        $breadcrumbs = [
+            ['label' => 'Home', 'href' => route('home', absolute: $absolute), 'current' => false],
+            [
+                'label' => PageSlug::Index->page()->title,
+                'href' => PageSlug::Index->url(absolute: $absolute),
+                'current' => $slug === PageSlug::Index,
+            ],
+        ];
+        $prefix = '';
+
+        foreach (explode('/', $slug->value) as $segment) {
+            $prefix = $prefix === '' ? $segment : $prefix.'/'.$segment;
+            $ancestor = PageSlug::tryFrom($prefix);
+
+            if ($ancestor === null || $ancestor === PageSlug::Index) {
+                continue;
+            }
+
+            $breadcrumbs[] = [
+                'label' => $ancestor->page()->title,
+                'href' => $ancestor->url(absolute: $absolute),
+                'current' => $ancestor === $slug,
+            ];
+        }
+
+        return $breadcrumbs;
+    }
+
+    /** @return array{home: string, docs: string, search: string, github: string, contact: string} */
+    public function links(): array
+    {
+        return [
+            'home' => route('home', absolute: false),
+            'docs' => route('docs.index', absolute: false),
+            'search' => route('docs.search', absolute: false),
+            'github' => 'https://github.com/artisan-toolbox',
+            'contact' => 'mailto:contact@atb.dev.br',
+        ];
+    }
+
     /** @return list<Package> */
     public function packages(): array
     {
@@ -24,13 +67,40 @@ final class Documentation
         ];
     }
 
-    /** @return list<array{title: string, href: string, active: bool}> */
+    /** @return list<NavigationNode> */
     public function navigation(PageSlug $currentSlug): array
     {
-        return array_map(fn (PageSlug $slug): array => [
-            'title' => $slug->page()->title,
-            'href' => $slug->url(absolute: false),
-            'active' => $slug === $currentSlug,
-        ], PageSlug::cases());
+        $childrenByParent = [];
+        $slugs = PageSlug::cases();
+
+        foreach ($slugs as $slug) {
+            $parent = '';
+
+            foreach ($slugs as $candidate) {
+                if (strlen($candidate->value) > strlen($parent) && str_starts_with($slug->value, $candidate->value.'/')) {
+                    $parent = $candidate->value;
+                }
+            }
+
+            $childrenByParent[$parent][] = $slug;
+        }
+
+        return $this->navigationNodes('', $currentSlug, $childrenByParent);
+    }
+
+    /**
+     * @param  array<string, list<PageSlug>>  $childrenByParent
+     * @return list<NavigationNode>
+     */
+    private function navigationNodes(string $parent, PageSlug $currentSlug, array $childrenByParent): array
+    {
+        return array_map(fn (PageSlug $slug): NavigationNode => new NavigationNode(
+            slug: $slug->value,
+            title: $slug->page()->title,
+            href: $slug->url(absolute: false),
+            active: $slug === $currentSlug,
+            activeAncestor: $slug !== PageSlug::Index && str_starts_with($currentSlug->value, $slug->value.'/'),
+            children: $slug === PageSlug::Index ? [] : $this->navigationNodes($slug->value, $currentSlug, $childrenByParent),
+        ), $childrenByParent[$parent] ?? []);
     }
 }

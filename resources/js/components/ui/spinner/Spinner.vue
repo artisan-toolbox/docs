@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from "vue"
-import { Loader2Icon } from "@lucide/vue"
+import SiteIcon from "@/components/site/SiteIcon.vue"
 import { cn } from "@/lib/utils"
 
 const props = defineProps<{
@@ -9,9 +9,8 @@ const props = defineProps<{
 </script>
 
 <template>
-  <Loader2Icon
-    role="status"
-    aria-label="Loading"
-    :class="cn('size-4 animate-spin', props.class)"
-  />
+  <span role="status" :class="cn('inline-flex', props.class)">
+    <SiteIcon name="spinner" class="animate-spin" />
+    <span class="sr-only">Loading</span>
+  </span>
 </template>

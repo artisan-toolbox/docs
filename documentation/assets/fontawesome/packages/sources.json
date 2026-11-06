@@ -1,0 +1,38 @@
+[
+    {
+        "artifactSha256": "fed6252d8a44ab174b67060504831237627da54dc096cb9d866ab6291ceddcaa",
+        "id": "core",
+        "source": "public/images/packages/core/core-icon.svg",
+        "sourceSha256": "22323fc16908ef52de0960af6e9c5d884ccabe421746ef22e592ffcacecbbfe2"
+    },
+    {
+        "artifactSha256": "9faf1d4b7ebba345735e9655fb96148dfe3568d47074104f35191f4a29e38f97",
+        "id": "maintainer",
+        "source": "public/images/packages/maintainer/maintainer-icon.svg",
+        "sourceSha256": "8a342b85ffb218974e6ab57655c2af51ae50dc83cff2356fa53129ac2f65c749"
+    },
+    {
+        "artifactSha256": "25169a92203f7d8c72d29466e1709e2eea0d6d651585bccd41a6725e777b0429",
+        "id": "mosaicast",
+        "source": "public/images/packages/mosaicast/mosaicast-icon.svg",
+        "sourceSha256": "4e6c1e966cec9c09696ed68c8618cdecbec2a2fafa05d93f85b18f080cec3e06"
+    },
+    {
+        "artifactSha256": "8c837d65c4184ec9011c2fcc2b47d85a5f1d39e05879f74098521241df930d4c",
+        "id": "qztray",
+        "source": "public/images/packages/qztray/qztray-icon.svg",
+        "sourceSha256": "c4139be383c8ca09b2d65177f6889d5640d1fa31d1edb0878cbe46212b47511c"
+    },
+    {
+        "artifactSha256": "bc7ef1211f8c9bed2f4d8ee87e57091f65873fa9125fb3d423b2c80f09a9f970",
+        "id": "dump-to-console",
+        "source": "public/images/packages/dump-to-console/dump-to-console-icon.svg",
+        "sourceSha256": "56ac432565ed2539375e1e26f1445c3ac3f60a863a98a8deeb689edbba2b2520"
+    },
+    {
+        "artifactSha256": "61a2d2b43c4babb12e163f5bded326fa51739304a19d06bd5699eda1f9089de7",
+        "id": "front-awesome",
+        "source": "public/images/packages/front-awesome/front-awesome-icon.svg",
+        "sourceSha256": "df25b689033d70a2f06e984f982143218d79544dd28d0a0961336d860a809644"
+    }
+]

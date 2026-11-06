@@ -1,0 +1,29 @@
+{
+    "url": "https://example.test",
+    "port": null,
+    "defaults": {},
+    "routes": {
+        "home": { "uri": "/", "methods": ["GET", "HEAD"] },
+        "docs.index": { "uri": "docs", "methods": ["GET", "HEAD"] },
+        "docs.show": {
+            "uri": "docs/{slug}",
+            "methods": ["GET", "HEAD"],
+            "wheres": { "slug": "[a-z0-9-]+(?:/[a-z0-9-]+)*" }
+        },
+        "login.email": { "uri": "login/email", "methods": ["POST"] },
+        "login.store": { "uri": "login", "methods": ["POST"] },
+        "logout": { "uri": "logout", "methods": ["POST"] },
+        "log-viewer.index": {
+            "uri": "logs/{view?}",
+            "methods": ["GET", "HEAD"]
+        },
+        "qztray_connector.get_public_key": {
+            "uri": "qztray-connector/get-public-key",
+            "methods": ["GET", "HEAD"]
+        },
+        "qztray_connector.sign_payload": {
+            "uri": "qztray-connector/sign-payload",
+            "methods": ["POST"]
+        }
+    }
+}

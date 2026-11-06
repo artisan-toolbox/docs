@@ -19,7 +19,7 @@ describe('Documentation catalog', () => {
             href:
                 id === 'maintainer'
                     ? '/docs/maintainer'
-                    : `https://artisantoolbox.wsssoftware.com.br/packages/${id}/`,
+                    : `https://atb.dev.br/packages/${id}/`,
             migrated: id === 'maintainer',
             artwork: { icon: `/images/packages/${id}/${id}-icon.svg` },
         }));
@@ -50,11 +50,7 @@ describe('Documentation catalog', () => {
             'Maintainer',
         );
         expect(
-            wrapper
-                .get(
-                    'a[href="https://artisantoolbox.wsssoftware.com.br/packages/qztray/"]',
-                )
-                .text(),
+            wrapper.get('a[href="https://atb.dev.br/packages/qztray/"]').text(),
         ).toContain('QZ Tray Connector');
     });
 });

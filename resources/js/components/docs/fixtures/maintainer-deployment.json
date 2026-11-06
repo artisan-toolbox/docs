@@ -1,0 +1,617 @@
+{
+    "deployment/index": {
+        "metadata": {
+            "title": "Deployment",
+            "description": "Run Deployer with Maintainer's project recipe, SSH identity, and reusable tasks.",
+            "sidebar": {
+                "order": 3
+            }
+        },
+        "headings": [],
+        "examples": [
+            {
+                "code": "vendor/bin/maintainer config:publish",
+                "language": "bash",
+                "meta": null
+            }
+        ],
+        "links": [
+            {
+                "slug": "maintainer/deployment/deploy",
+                "hash": "",
+                "href": "/docs/maintainer/deployment/deploy"
+            },
+            {
+                "slug": "maintainer/deployment/deploy",
+                "hash": "#run-another-deployer-task",
+                "href": "/docs/maintainer/deployment/deploy#run-another-deployer-task"
+            },
+            {
+                "slug": "maintainer/deployment/unlock",
+                "hash": "",
+                "href": "/docs/maintainer/deployment/unlock"
+            },
+            {
+                "slug": "maintainer/deployment/repository-tags",
+                "hash": "",
+                "href": "/docs/maintainer/deployment/repository-tags"
+            },
+            {
+                "slug": "maintainer/deployment/pm2",
+                "hash": "",
+                "href": "/docs/maintainer/deployment/pm2"
+            }
+        ],
+        "anchors": [],
+        "paragraphs": [
+            "The Deployment group delegates to the consuming project's vendor/bin/dep while Maintainer manages the shared task recipe and temporary SSH identity lifecycle.",
+            "Run a deployment: configure deploy.php, select hosts, and forward Deployer options.",
+            "Run another task: select a declared task or run server maintenance explicitly.",
+            "Unlock a deployment: remove a lock left by a failed deployment and optionally deploy again.",
+            "Repository tag selection: choose recent semantic tags interactively.",
+            "PM2 configuration: replace the application's PM2 processes by namespace and persist each change.",
+            "Publish deploy.php before the first deployment:"
+        ]
+    },
+    "deployment/deploy": {
+        "metadata": {
+            "title": "Run a Deployment",
+            "description": "Configure and run the consuming project's Deployer through Maintainer.",
+            "sidebar": {
+                "order": 1
+            }
+        },
+        "headings": [
+            {
+                "level": 2,
+                "id": "requirements",
+                "text": "Requirements"
+            },
+            {
+                "level": 2,
+                "id": "run-the-deployment",
+                "text": "Run the deployment"
+            },
+            {
+                "level": 2,
+                "id": "run-another-deployer-task",
+                "text": "Run another Deployer task"
+            },
+            {
+                "level": 2,
+                "id": "run-server-maintenance",
+                "text": "Run server maintenance"
+            },
+            {
+                "level": 2,
+                "id": "shared-contribution-recipe",
+                "text": "Shared contribution recipe"
+            },
+            {
+                "level": 2,
+                "id": "ssh-identity",
+                "text": "SSH identity"
+            },
+            {
+                "level": 2,
+                "id": "extend-the-deployment",
+                "text": "Extend the deployment"
+            }
+        ],
+        "examples": [
+            {
+                "code": "vendor/bin/maintainer deploy",
+                "language": "bash",
+                "meta": null
+            },
+            {
+                "code": "vendor/bin/maintainer deploy production --tag=v1.2.3\nvendor/bin/maintainer deploy 'stage=production&role=web' --branch=1.x --limit=2\nvendor/bin/maintainer deploy production --option=keep_releases=3 --plan",
+                "language": "bash",
+                "meta": null
+            },
+            {
+                "code": "vendor/bin/maintainer deploy:run\nvendor/bin/maintainer deploy:run --file=deploy.production.php",
+                "language": "bash",
+                "meta": null
+            },
+            {
+                "code": "vendor/bin/maintainer deploy:run deploy:releases production\nvendor/bin/maintainer deploy:run pm2:config production --plan\nvendor/bin/maintainer deploy:run artisan:migrate production --no-interaction",
+                "language": "bash",
+                "meta": null
+            },
+            {
+                "code": "vendor/bin/maintainer deploy:run project:cache production -- --scope=views --refresh",
+                "language": "bash",
+                "meta": null
+            },
+            {
+                "code": "vendor/bin/maintainer deploy:run server:apt:update production\nvendor/bin/maintainer deploy:run server:apt:upgrade production\nvendor/bin/maintainer deploy:run server:reboot production",
+                "language": "bash",
+                "meta": null
+            }
+        ],
+        "links": [
+            {
+                "slug": "maintainer/configuration/publishing",
+                "hash": "",
+                "href": "/docs/maintainer/configuration/publishing"
+            },
+            {
+                "slug": "maintainer/deployment/repository-tags",
+                "hash": "",
+                "href": "/docs/maintainer/deployment/repository-tags"
+            },
+            {
+                "slug": "maintainer/deployment/pm2",
+                "hash": "",
+                "href": "/docs/maintainer/deployment/pm2"
+            }
+        ],
+        "anchors": [],
+        "paragraphs": [
+            "Install Maintainer or Deployer as a Composer development dependency in the consuming project, then publish deploy.php through Configuration Publishing.",
+            "The project recipe owns its repository, hosts, deployment path, shared files, and hooks. It imports the package-managed contribution recipe through the MAINTAINER_CONTRIB path supplied by Maintainer.",
+            "Pass host selectors and options using Deployer's conventions:",
+            "Maintainer resolves the consuming project's vendor/bin/dep, runs it from the project root, and returns Deployer's original exit code. Interactive executions retain terminal access for Deployer prompts; non-interactive executions stream standard output and error.",
+            "Supported pass-through options are --file, --tag, --revision, --branch, repeatable --option, --limit, --no-hooks, --plan, --start-from, --log, and --profile.",
+            "Open the task selector to run tasks declared by the selected recipe:",
+            "Maintainer discovers visible tasks from the project's Deployer binary. The selector includes recipe tasks and imported contribution tasks. Hidden recipe tasks can be run by passing their names explicitly. Internal workers and Deployer's own console utility commands are excluded.",
+            "Discovery requires Deployer's native list --format=json command. Keep the list command name reserved and avoid writing to standard output while the recipe loads. Recipe diagnostics on standard error do not corrupt the task catalog. A discovery failure stops before executing a task and includes available error diagnostics.",
+            "Pass a task name to run it directly:",
+            "The command accepts the same options as deploy, uses the same temporary SSH identity, and returns the task's exit code. Non-interactive executions require a task name.",
+            "To pass custom options declared by the project recipe, place their full names after --. Use --name=value for options that require a value:",
+            "Unknown options, repeated scalar options, short options, and attempts to override Maintainer's forwarding options through this suffix fail before task execution. Pass standard options such as --file and --plan before the separator.",
+            "The contribution recipe provides explicit Linux maintenance tasks:",
+            "server:apt:update refreshes APT package indexes. server:apt:upgrade upgrades installed packages without interactive package prompts and retains existing modified configuration files. Run update before upgrade when you need current indexes. server:reboot requests a server reboot and interrupts hosted applications and SSH access. Run these tasks only against the intended host selectors. Use --plan to inspect the task plan before execution.",
+            "The tasks require Linux hosts with APT and non-interactive sudo permission for the selected operation. They fail instead of asking for a sudo password. Maintainer does not attach them to deployment hooks or run them after unlock.",
+            "Their executable settings default to bin/sudo = sudo, bin/apt-get = apt-get, and bin/reboot = reboot. Set an absolute executable path in deploy.php when the host requires one. Executable settings accept a path, not shell arguments.",
+            "The published recipe imports the absolute contribution path provided through MAINTAINER_CONTRIB. This keeps project configuration local while allowing Maintainer updates to add or improve reusable Deployer tasks.",
+            "A direct vendor/bin/dep invocation must provide MAINTAINER_CONTRIB itself and does not receive Maintainer's temporary SSH identity lifecycle. Prefer vendor/bin/maintainer deploy for the integrated flow.",
+            "When Maintainer secrets contain an encrypted ssh_key, the command decrypts it into a temporary identity file immediately before starting Deployer. POSIX files use mode 0600; only the path is passed to the child process, and the file is deleted after success, failure, or a process exception.",
+            "The contribution recipe configures the path as Deployer's global identity_file while recipes are imported, before any task connects. This applies to deployment hooks, granular tasks, --no-hooks, and --start-from. A host-level identity_file configured after the contribution import may override it.",
+            "When no generated key exists, Maintainer creates no temporary file and leaves SSH agent, SSH config, and Deployer identity resolution unchanged.",
+            "The contribution recipe exposes opt-in tasks rather than attaching project-specific behavior automatically:",
+            "Repository tag selection with repository:tag;",
+            "PM2 configuration with pm2:config.",
+            "Attach them from the project's deploy.php at the points appropriate for that application."
+        ]
+    },
+    "deployment/unlock": {
+        "metadata": {
+            "title": "Unlock a Deployment",
+            "description": "Invoke Deployer's native unlock task with Maintainer's SSH identity lifecycle.",
+            "sidebar": {
+                "order": 2
+            }
+        },
+        "headings": [
+            {
+                "level": 2,
+                "id": "ssh-authentication",
+                "text": "SSH authentication"
+            }
+        ],
+        "examples": [
+            {
+                "code": "vendor/bin/maintainer deploy:unlock production",
+                "language": "bash",
+                "meta": null
+            }
+        ],
+        "links": [
+            {
+                "slug": "maintainer/deployment/deploy",
+                "hash": "#ssh-identity",
+                "href": "/docs/maintainer/deployment/deploy#ssh-identity"
+            }
+        ],
+        "anchors": [],
+        "paragraphs": [
+            "A failed deployment can leave .dep/deploy.lock on the remote host. Remove it with Deployer's native task:",
+            "The command accepts host selectors and the --file, repeatable --option, --limit, --no-hooks, --plan, --log, and --profile options. It returns Deployer's original exit code.",
+            "After a successful interactive unlock, Maintainer asks whether to deploy again. The default is no. Confirming runs deploy with the same recipe, hosts, configuration overrides, host limit, hooks setting, log, and profile. A failed retry returns the deployment's exit code.",
+            "Failed unlocks, --plan, and non-interactive invocations do not offer or start another deployment. To retry in automation, invoke deploy explicitly after checking the unlock result. Deployment tag, branch, and revision choices are not recovered from an earlier failed run. Pass those choices to a separate deploy invocation when needed.",
+            "Unlock uses the same temporary Maintainer identity as a regular deployment. The identity is configured while the contribution recipe is imported, so deploy:unlock can connect even though it does not execute the main deploy task or its hooks.",
+            "An SSH error such as Permission denied (publickey) means the selected identity is not authorized for the remote user or a project/host identity_file override points elsewhere. Confirm the public key, remote user, host configuration, and file ownership before retrying.",
+            "The same import-time identity behavior applies when Deployer invokes lock inspection, rollback, release listing, logs, push, or another granular remote task through Maintainer."
+        ]
+    },
+    "deployment/repository-tags": {
+        "metadata": {
+            "title": "Repository Tag Selection",
+            "description": "Select recent semantic Git tags before a Deployer release is prepared.",
+            "sidebar": {
+                "order": 3
+            }
+        },
+        "headings": [
+            {
+                "level": 2,
+                "id": "limit-the-choices",
+                "text": "Limit the choices"
+            },
+            {
+                "level": 2,
+                "id": "automated-deployments",
+                "text": "Automated deployments"
+            }
+        ],
+        "examples": [
+            {
+                "code": "set('repository', 'git@github.com:owner/project.git');\nset('branch', '2.x');\n\nbefore('deploy', 'repository:tag');",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "set('repository_tag_limit', 20);",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "vendor/bin/maintainer deploy production --tag=v2.1.0",
+                "language": "bash",
+                "meta": null
+            }
+        ],
+        "links": [],
+        "anchors": [],
+        "paragraphs": [
+            "The contribution recipe exposes the opt-in repository:tag task. Attach it before deployment when operators should choose a tag interactively:",
+            "The task queries git ls-remote --tags --refs, removes duplicate names, and orders semantic versions newest-first. For the same version line, stable tags appear before beta and alpha prereleases.",
+            "When branch or the --branch option exactly matches N.x, only that major is displayed. Other branch formats show tags from every major.",
+            "The prompt shows the 10 newest matching tags by default:",
+            "The selected tag becomes the branch and resolved target for the current host.",
+            "Supplying --tag causes repository:tag to return without querying or prompting:",
+            "Without an explicit tag, the task requires an interactive terminal. Do not attach it to unattended deployment flows that provide neither input nor --tag."
+        ]
+    },
+    "deployment/pm2": {
+        "metadata": {
+            "title": "PM2 Configuration",
+            "description": "Replace and persist application processes by PM2 namespace from an ecosystem file.",
+            "sidebar": {
+                "order": 4
+            }
+        },
+        "headings": [
+            {
+                "level": 2,
+                "id": "application-namespace",
+                "text": "Application namespace"
+            },
+            {
+                "level": 2,
+                "id": "migrate-existing-processes",
+                "text": "Migrate existing processes"
+            },
+            {
+                "level": 2,
+                "id": "task-behavior",
+                "text": "Task behavior"
+            },
+            {
+                "level": 2,
+                "id": "executables-and-requirements",
+                "text": "Executables and requirements"
+            },
+            {
+                "level": 2,
+                "id": "invoke-it-from-another-task",
+                "text": "Invoke it from another task"
+            }
+        ],
+        "examples": [
+            {
+                "code": "set('pm2_config_file', 'ecosystem.config.cjs');\n\nafter('deploy:symlink', 'pm2:config');",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "vendor/bin/maintainer deploy:run pm2:config production",
+                "language": "bash",
+                "meta": null
+            },
+            {
+                "code": "set('pm2_namespace', 'my-application');",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "set('pm2_cleanup_legacy', false);",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "set('bin/pm2', '/usr/local/bin/pm2');\nset('bin/node', '/usr/local/bin/node');",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "task('deploy:services', function (): void {\n    invoke('pm2:config');\n});",
+                "language": "php",
+                "meta": null
+            }
+        ],
+        "links": [],
+        "anchors": [],
+        "paragraphs": [
+            "The contribution recipe exposes the opt-in pm2:config task. Configure an ecosystem file relative to release_path, then attach the task after the new release becomes current:",
+            "Run the task separately through Maintainer when needed:",
+            "The namespace defaults to the host's deploy_path, which stays stable across releases. Set an explicit value when you need another stable application identifier:",
+            "The task passes this value to pm2 start through --namespace. Ecosystem applications must omit their own namespace or declare exactly the same value. PM2 retains explicit ecosystem namespaces instead of overriding them with the CLI option.",
+            "Before changing processes, Maintainer uses the installed PM2 parser to inspect the ecosystem. It rejects conflicting namespaces and application names already used by processes that the task must preserve. It also rejects ambiguous numeric process identifiers that match an existing PM2 process name, namespace, or executable path.",
+            "Keep executable ecosystem configurations deterministic. PM2 evaluates them during preflight and again during start. Both evaluations must describe the same applications and namespaces. Recipes and ecosystem files are trusted executable deployment configuration.",
+            "pm2_cleanup_legacy defaults to true for compatibility with deployments created before application namespaces were introduced. With this setting enabled, the task removes processes with a missing, empty, or default namespace, along with processes in the application's namespace. It preserves every other named namespace. PM2 modules marked with pm2_env.pmx_module = true are always preserved.",
+            "On a shared PM2 user, default-namespace processes can belong to another application. Disable legacy cleanup before deploying when those processes must stay running:",
+            "With cleanup disabled, only processes in pm2_namespace are replaced. A retained legacy process with the same name as an ecosystem application blocks deployment before any deletion. Migrate or rename that process explicitly before retrying.",
+            "pm2:config validates the configuration, executables, release path, ecosystem, and JSON process list before changing the process set:",
+            "It identifies application processes and any enabled legacy processes by their validated PM2 IDs.",
+            "It deletes each selected ID and immediately runs pm2 save --force.",
+            "It starts the ecosystem with --namespace and --update-env from release_path.",
+            "It runs pm2 save --force again.",
+            "The task never runs pm2 delete all. An empty process list skips deletion. Forced saves persist an empty process set and prevent old processes from returning after reboot. If a later delete or start fails, earlier successful deletions have already been saved. A failed start also triggers a save attempt because PM2 can start some applications before reporting an error. The original start error remains the command failure, and a failed save is reported separately. If a normal save fails, the task stops. Inspect the live process set and saved dump before retrying.",
+            "The ecosystem is authoritative within the application's namespace. Removed or renamed applications are removed during replacement. This introduces downtime while the application's processes restart.",
+            "Renaming pm2_namespace, or changing deploy_path when it supplies the default, leaves processes in the old named namespace outside the new ownership scope. Legacy cleanup does not select other named namespaces. A retained process with an ecosystem name blocks preflight. Other old processes can remain running alongside the new set.",
+            "Plan a manual stop and restart when changing that identifier. Before deployment, inspect pm2 jlist under the deployment user and confirm the old namespace, process names, executable paths, and IDs belong to this application. Remove only those verified processes and persist the result with pm2 save --force. Then run pm2:config with the new namespace to start and save the replacement set. Keep unrelated applications and PM2 modules running. Never use pm2 delete all for a namespace migration.",
+            "The remote host needs PM2 and Node.js. The defaults are bin/pm2 = pm2 and bin/node = node. Override executable paths when necessary:",
+            "The preflight resolves PM2's installation from its executable and uses that installation's ecosystem parser. A custom wrapper that hides the installation path fails before process changes. Configure the actual PM2 executable or a symlink to it.",
+            "The published deployment template includes commented pm2_namespace and pm2_cleanup_legacy settings. Existing recipes receive the same defaults from the updated contribution recipe without republishing the template.",
+            "invoke() must run inside a Deployer task. Calling it while recipes are loading occurs before Deployer initializes its host, logger, and output services."
+        ]
+    },
+    "commands": {
+        "metadata": {
+            "title": "Commands and Workflows",
+            "description": "Find each Maintainer command in its Code Quality, Configuration, Deployment, or Versioning group.",
+            "sidebar": {
+                "hidden": true
+            }
+        },
+        "headings": [
+            {
+                "level": 2,
+                "id": "code-quality",
+                "text": "Code Quality"
+            },
+            {
+                "level": 2,
+                "id": "configuration",
+                "text": "Configuration"
+            },
+            {
+                "level": 2,
+                "id": "deployment",
+                "text": "Deployment"
+            },
+            {
+                "level": 2,
+                "id": "versioning",
+                "text": "Versioning"
+            },
+            {
+                "level": 2,
+                "id": "interactive-menu",
+                "text": "Interactive menu"
+            }
+        ],
+        "examples": [
+            {
+                "code": "vendor/bin/maintainer",
+                "language": "bash",
+                "meta": null
+            }
+        ],
+        "links": [
+            {
+                "slug": "maintainer/ci/quality",
+                "hash": "",
+                "href": "/docs/maintainer/ci/quality"
+            },
+            {
+                "slug": "maintainer/ci/quality",
+                "hash": "",
+                "href": "/docs/maintainer/ci/quality"
+            },
+            {
+                "slug": "maintainer/configuration/publishing",
+                "hash": "",
+                "href": "/docs/maintainer/configuration/publishing"
+            },
+            {
+                "slug": "maintainer/configuration/ssh-keys",
+                "hash": "",
+                "href": "/docs/maintainer/configuration/ssh-keys"
+            },
+            {
+                "slug": "maintainer/configuration/reference",
+                "hash": "",
+                "href": "/docs/maintainer/configuration/reference"
+            },
+            {
+                "slug": "maintainer/deployment/deploy",
+                "hash": "",
+                "href": "/docs/maintainer/deployment/deploy"
+            },
+            {
+                "slug": "maintainer/deployment/unlock",
+                "hash": "",
+                "href": "/docs/maintainer/deployment/unlock"
+            },
+            {
+                "slug": "maintainer/deployment/deploy",
+                "hash": "#run-another-deployer-task",
+                "href": "/docs/maintainer/deployment/deploy#run-another-deployer-task"
+            },
+            {
+                "slug": "maintainer/deployment/repository-tags",
+                "hash": "",
+                "href": "/docs/maintainer/deployment/repository-tags"
+            },
+            {
+                "slug": "maintainer/deployment/pm2",
+                "hash": "",
+                "href": "/docs/maintainer/deployment/pm2"
+            },
+            {
+                "slug": "maintainer/versioning/commits",
+                "hash": "",
+                "href": "/docs/maintainer/versioning/commits"
+            },
+            {
+                "slug": "maintainer/versioning/commits",
+                "hash": "#push-existing-commits",
+                "href": "/docs/maintainer/versioning/commits#push-existing-commits"
+            },
+            {
+                "slug": "maintainer/versioning/html-diffs",
+                "hash": "",
+                "href": "/docs/maintainer/versioning/html-diffs"
+            },
+            {
+                "slug": "maintainer/versioning/releases",
+                "hash": "",
+                "href": "/docs/maintainer/versioning/releases"
+            },
+            {
+                "slug": "maintainer/versioning/project-integration",
+                "hash": "#update-the-readme-locally",
+                "href": "/docs/maintainer/versioning/project-integration#update-the-readme-locally"
+            },
+            {
+                "slug": "maintainer/versioning/project-integration",
+                "hash": "",
+                "href": "/docs/maintainer/versioning/project-integration"
+            }
+        ],
+        "anchors": [],
+        "paragraphs": [
+            "Maintainer commands are documented with their setup and configuration under the same four groups shown in the interactive menu.",
+            "quality:fix: apply Rector, Pint, and Vite+ fixes.",
+            "quality:check: run Pest, Pint, Vite+, vue-tsc, and PHPStan checks.",
+            "config:publish: publish Maintainer, quality, testing, and deployment templates.",
+            "ssh:key and ssh:public: display the encrypted Maintainer identity.",
+            "Configuration reference: configure defaults, secrets, environment variables, encryption, and AI providers.",
+            "deploy: run the consuming project's Deployer binary.",
+            "deploy:unlock: unlock a failed deployment.",
+            "deploy:run: select or execute any declared Deployer task, including explicit server maintenance tasks.",
+            "repository:tag: select a semantic repository tag.",
+            "pm2:config: replace PM2 processes by application namespace from an ecosystem file.",
+            "commit: select files and create a commit.",
+            "push: review pending branches and push already-created commits.",
+            "diff:html: render a Git comparison in the browser.",
+            "release:create: prepare and publish a GitHub release.",
+            "readme:update: regenerate the managed README header.",
+            "Project integration: configure the version class, hooks, and managed README header.",
+            "Open the grouped menu with:",
+            "Press Ctrl+C inside a submenu to return to Main Menu. Choose Exit from the main menu to close Maintainer. Compatible terminals are cleared before the banner and breadcrumb are redrawn; unsupported terminals continue without clearing.",
+            "The menu requires interactive input. Invoke the individual commands directly in automation and continuous integration."
+        ]
+    },
+    "development": {
+        "metadata": {
+            "title": "Development and Building",
+            "description": "Develop, validate, and build the Maintainer PHAR.",
+            "sidebar": {
+                "order": 5
+            }
+        },
+        "headings": [
+            {
+                "level": 2,
+                "id": "path-roots",
+                "text": "Path roots"
+            },
+            {
+                "level": 2,
+                "id": "local-development",
+                "text": "Local development"
+            },
+            {
+                "level": 2,
+                "id": "building",
+                "text": "Building"
+            },
+            {
+                "level": 2,
+                "id": "contribution-conventions",
+                "text": "Contribution conventions"
+            }
+        ],
+        "examples": [
+            {
+                "code": "$root = project_path();\n$deployer = project_path('vendor/bin/dep');",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "composer install",
+                "language": "bash",
+                "meta": null
+            },
+            {
+                "code": "php maintainer list",
+                "language": "bash",
+                "meta": null
+            },
+            {
+                "code": "vendor/bin/pest",
+                "language": "bash",
+                "meta": null
+            },
+            {
+                "code": "composer exec pest -- --parallel --processes=4",
+                "language": "bash",
+                "meta": null
+            },
+            {
+                "code": "vendor/bin/pest --profile",
+                "language": "bash",
+                "meta": null
+            },
+            {
+                "code": "vendor/bin/pint --test\nvendor/bin/pint",
+                "language": "bash",
+                "meta": null
+            },
+            {
+                "code": "php maintainer app:build",
+                "language": "bash",
+                "meta": null
+            }
+        ],
+        "links": [],
+        "anchors": [],
+        "paragraphs": [
+            "The grouped Deployer tests, standard-input preservation and Windows input inheritance, isolated APT test environment, and Symfony 8.1.11 security updates described here are previews available on the current 1.x branch after the 1.10.0 release. They are not included in that stable release.",
+            "Internal support services are grouped by responsibility under app/Support. Configuration loading, diff generation, Git inspection, and GitHub release workflows live in the Configuration, Diff, Git, and Release namespaces. Standalone utilities remain at the support root until they have related services.",
+            "Maintainer distinguishes its own Laravel Zero application root from the consuming Composer project's root. Use Laravel's base_path(), config_path(), and resource_path() helpers for files owned by Maintainer. Use project_path() for the consuming project:",
+            "Relative project paths may use / or \\; project_path() normalizes them to the current operating system's directory separator. Code that intentionally operates on an explicitly supplied root, such as an isolated repository fixture or reusable filesystem service, should use Illuminate Filesystem's join_paths() instead.",
+            "Clone the repository and install dependencies:",
+            "List available commands:",
+            "The source application sets app.user_config_prefix to dev_. Local user values therefore live in config/dev_maintainer.php and config/dev_maintainer_secrets.php, keeping them separate from the unprefixed defaults packaged under config/. The prefixed secrets path should remain ignored by Git.",
+            "Run automated tests:",
+            "Run the same parallel configuration as CI:",
+            "Recipe tests live under tests/Unit/Deployer, grouped by recipe loading, PM2 lifecycle, process validation, ownership, runtime failures, and server maintenance. Pest schedules these files independently. Shared helpers live in tests/Support/DeployerTasks.php; setup and cleanup still run for every case with separate temporary directories.",
+            "These tests execute the project's actual Deployer CLI, worker subprocesses, Node.js inspection, and shell commands against fake server executables. Their subprocess environment removes inherited DEBIAN_FRONTEND so runner defaults cannot affect reboot assertions. APT tasks must still set DEBIAN_FRONTEND=noninteractive explicitly. Other environment variables remain inherited.",
+            "Interactive Deployer commands preserve the original standard input blocking mode after execution, including failures. This lets a reused Pest worker receive its next test file after testing an interactive command.",
+            "On Windows, interactive execution invokes the Composer PHP proxy with the current PHP executable and inherits the input handle directly. Output and error callbacks read separate temporary files, so waiting for keyboard or piped input cannot block output delivery. This avoids relying on nonblocking reads, which PHP does not support for Windows standard input. Input tests compare the actual initial mode and keep their input pipe open until the deployment finishes.",
+            "Each CI test step has a 15-minute limit, and each platform job has a 25-minute limit. Output-cleanup fixtures also have explicit handshake deadlines so stalled subprocesses fail with a useful message.",
+            "To inspect slow cases, run the serial profiler:",
+            "Use file-level parallel execution with the installed Pest version. Its --functional mode currently fails inside the Pest parallel wrapper before executing tests.",
+            "After changing Maintainer::readmeHead(), run php maintainer readme:update from the source checkout. tests/Feature/MaintainerTest.php checks that the README header matches the generated header for Maintainer::VERSION.",
+            "GitHub Actions runs the suite on Ubuntu and Windows. Tests that execute a Composer proxy through Symfony Process should assert the forwarded argument values without depending on the shell's serialized command-line quotes. Deployer executes localhost and remote task commands through Bash, including on the Windows runner, so fake executables used by Deployer task tests must be POSIX shell scripts. The PM2 fixture disables MSYS argument conversion for namespace values while keeping file path conversion. Git race fixtures launch in a fresh PHP process so executable caches cannot bypass their wrapper. Path assertions should use join_paths() or normalize separators explicitly, including phar:// entry paths returned while inspecting the distributed build.",
+            "Check and apply code style:",
+            "Compile Maintainer as a standalone PHAR with Laravel Zero:",
+            "The compiled application is written to builds/maintainer. Composer exposes this distributed PHAR as vendor/bin/maintainer in consuming projects.",
+            "Run Maintainer's own release from the source checkout with php maintainer release:create. This uses the contracts in the checkout. The before-versioning hook builds the executable for the release commit.",
+            "The Box manifest uses an explicit allowlist for distributed files under config/. Publishable Maintainer configuration files use Box's unmodified-file list so their PHP array indentation survives compilation; project templates under resources/, including JSON files, are also packaged without compaction. Local config/dev_maintainer.php and config/dev_maintainer_secrets.php overrides are never collected into the PHAR, even when they exist in the source checkout. The package test suite opens the committed build to verify template fidelity and reject local configuration paths or common credential signatures before release.",
+            "Laravel Zero temporarily changes the application environment to production while compiling the PHAR. Maintainer uses that native environment switch to disable app.user_config_prefix; built executions consequently read and publish the consuming project's unprefixed config/maintainer.php and config/maintainer_secrets.php. No source configuration files are renamed during the build.",
+            "Laravel Zero can load an environment file placed beside the PHAR. Maintainer additionally loads the consuming Composer project's root .env while evaluating its own user configuration so vendor/bin/maintainer follows the environment conventions of the project it is maintaining. Existing process variables are not overwritten, and values read from the project file are removed from the Maintainer process after configuration evaluation so delegated tools can establish their own environments.",
+            "Paths inside the PHAR use forward slashes on every operating system. Register new console commands in config/commands.php so command lookup does not depend on filesystem separators. Maintainer normalizes archive paths when resolving bundled configuration and publishing templates. The Ubuntu and Windows test jobs run the distributed executable against temporary Composer projects to verify both quality:check and config:publish.",
+            "The PHAR inspection tests run without booting Laravel. Clean up their temporary archives with a standalone filesystem instance so the tests can run independently in parallel workers.",
+            "Contributions must include automated tests for observable behavior and keep documentation synchronized with changed commands.",
+            "The current dependency lock uses Symfony Filesystem, HttpFoundation, HttpKernel, and YAML 8.1.11. These patches address seven security advisories affecting the previous locked versions. Rebuild the PHAR after installing security updates so the distributed executable includes them. Run composer audit --locked to check the lockfile against current advisories. An abandoned development dependency can still appear as an audit warning without a vulnerability advisory.",
+            "Prefer native PHP attributes whenever the framework or library provides an attribute equivalent to legacy metadata properties or configuration. Console commands should use Laravel's Signature and Description attributes instead of the $signature and $description properties. Use a legacy form only when no compatible attribute exists."
+        ]
+    }
+}

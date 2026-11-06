@@ -1,11 +1,47 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, shallowRef, watch } from 'vue';
+import SiteIcon from '@/components/site/SiteIcon.vue';
+import { codeLanguage } from '@/lib/codeLanguages';
 
 const props = defineProps({
     code: { type: String, required: true },
     label: { type: String, required: true },
     language: { type: String, default: 'bash' },
 });
+
+const languageInfo = computed(() => codeLanguage(props.language));
+const tokens = shallowRef(null);
+const highlightState = ref('plain');
+const presentations = {
+    terminal: 'bg-emerald-400/10 text-emerald-300 ring-emerald-400/20',
+    source: 'bg-sky-400/10 text-sky-300 ring-sky-400/20',
+    plain: 'bg-slate-400/10 text-slate-300 ring-slate-400/20',
+};
+
+watch(
+    [() => props.code, languageInfo],
+    async ([code, language], _previous, onCleanup) => {
+        let active = true;
+        onCleanup(() => {
+            active = false;
+        });
+        tokens.value = null;
+        highlightState.value = language.kind === 'plain' ? 'plain' : 'loading';
+        if (language.kind === 'plain') return;
+
+        try {
+            const { highlightCode } = await import('@/lib/codeHighlighter');
+            const highlighted = await highlightCode(code, language.id);
+            if (active) {
+                tokens.value = highlighted;
+                highlightState.value = 'ready';
+            }
+        } catch {
+            if (active) highlightState.value = 'error';
+        }
+    },
+    { immediate: true },
+);
 
 const copyState = ref('idle');
 const status = computed(
@@ -32,27 +68,57 @@ async function copyCode() {
 
 <template>
     <figure
-        class="min-w-0 overflow-hidden rounded-xl border border-slate-800 bg-slate-950 text-slate-100"
+        :data-code-language="languageInfo.id"
+        class="min-w-0 overflow-hidden rounded-xl border border-slate-800 bg-slate-950 text-slate-100 shadow-lg shadow-slate-950/10"
     >
         <figcaption
-            class="flex items-center justify-between gap-4 border-b border-slate-800 px-4 py-2.5 text-xs"
+            class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b border-slate-800 bg-slate-900/80 px-4 py-2.5 text-xs"
         >
-            <span class="font-mono text-slate-400">{{ label }}</span>
+            <span class="flex min-w-0 flex-1 items-center gap-3">
+                <span
+                    class="inline-flex size-8 shrink-0 items-center justify-center rounded-lg ring-1 ring-inset"
+                    :class="presentations[languageInfo.kind]"
+                >
+                    <SiteIcon :name="languageInfo.icon" />
+                </span>
+                <span class="flex min-w-0 flex-col gap-1">
+                    <span class="font-mono break-words text-slate-200">{{
+                        label
+                    }}</span>
+                    <span
+                        class="text-[0.65rem] font-medium tracking-widest text-slate-400 uppercase"
+                        >{{ languageInfo.label }}</span
+                    >
+                </span>
+            </span>
             <button
                 type="button"
                 :aria-label="`Copy ${label}`"
                 :disabled="copyState === 'copying'"
-                class="min-h-11 rounded-md px-2.5 py-1.5 font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400 disabled:opacity-60"
+                class="inline-flex min-h-11 shrink-0 items-center gap-2 rounded-md px-2.5 py-1.5 font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400 disabled:opacity-60"
                 @click="copyCode"
             >
+                <SiteIcon
+                    size="sm"
+                    :name="copyState === 'success' ? 'check' : 'copy'"
+                />
                 {{ copyState === 'success' ? 'Copied' : 'Copy' }}
             </button>
         </figcaption>
         <pre
             :aria-label="label"
+            :aria-busy="highlightState === 'loading'"
             tabindex="0"
-            class="max-w-full overflow-x-auto p-5 text-sm leading-7 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-teal-400"
-        ><code :class="`language-${language}`" class="bg-transparent! p-0! text-inherit!">{{ code }}</code></pre>
+            class="max-w-full [scrollbar-width:thin] [scrollbar-color:var(--color-slate-600)_var(--color-slate-950)] overflow-x-auto p-5 text-[0.8125rem] leading-7 [color-scheme:dark] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-400 sm:p-6"
+        ><code :class="`language-${language}`" class="font-mono"><template v-if="tokens"><span v-for="(token, index) in tokens" :key="index" :class="token.className">{{ token.content }}</span></template><template v-else>{{ code }}</template></code></pre>
+        <p
+            v-if="highlightState === 'error'"
+            role="status"
+            class="border-t border-slate-800 px-4 py-3 text-xs text-slate-400"
+        >
+            Syntax highlighting is unavailable. You can still read and copy the
+            code.
+        </p>
         <p
             role="status"
             aria-live="polite"

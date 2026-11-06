@@ -1,0 +1,62 @@
+/*
+ * Application branding. Published once and owned by your application.
+ * Publish command: php artisan vendor:publish --tag=front-awesome-branding
+ * Destination: resources/css/branding.css
+ *
+ * Import this file after the package's Tailwind integration entry.
+ * Edit shared identity through @theme. The adapter reads those values for WA.
+ * Direct --wa-* overrides affect WA only. Never alias a shared input back to WA.
+ * Font declarations do not download fonts. Load licensed font files separately.
+ * Apply fa-theme to a local branding island to rebind shared aliases there.
+ * Keep role and mode classes on their intended scopes. Arbitrary variable-only
+ * descendants do not re-evaluate values already inherited from an outer scope.
+ *
+ * Tailwind theme variables: https://tailwindcss.com/docs/theme
+ * WA design tokens: https://webawesome.com/docs/tokens/
+ * WA theming: https://webawesome.com/docs/theming-overview/
+ * Complete mappings and upgrade rules:
+ * https://atb.dev.br/packages/front-awesome/branding/
+ */
+
+@theme {
+    --font-sans: var(--font-instrument-sans);
+    --font-mono:
+        ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+        'Liberation Mono', 'Courier New', monospace;
+    --font-heading: var(--font-sans);
+    --font-longform: var(--font-sans);
+
+    --color-brand-50: #fff3f0;
+    --color-brand-100: #ffe2da;
+    --color-brand-200: #ffc3b6;
+    --color-brand-300: #ff9885;
+    --color-brand-400: #ff6b55;
+    --color-brand-500: #fd4b39;
+    --color-brand-600: #e33425;
+    --color-brand-700: #bb251d;
+    --color-brand-800: #97251f;
+    --color-brand-900: #7c251f;
+    --color-brand-950: #440f0c;
+
+    --color-gray-50: var(--color-slate-50);
+    --color-gray-100: var(--color-slate-100);
+    --color-gray-200: var(--color-slate-200);
+    --color-gray-300: var(--color-slate-300);
+    --color-gray-400: var(--color-slate-400);
+    --color-gray-500: var(--color-slate-500);
+    --color-gray-600: var(--color-slate-600);
+    --color-gray-700: var(--color-slate-700);
+    --color-gray-800: var(--color-slate-800);
+    --color-gray-900: var(--color-slate-900);
+    --color-gray-950: var(--color-slate-950);
+
+    --spacing: 0.25rem;
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --shadow-sm: 0 1px 3px rgb(15 23 42 / 0.08), 0 1px 2px rgb(15 23 42 / 0.04);
+    --shadow-md: 0 4px 12px rgb(15 23 42 / 0.1), 0 2px 4px rgb(15 23 42 / 0.04);
+    --shadow-lg:
+        0 12px 28px rgb(15 23 42 / 0.12), 0 4px 8px rgb(15 23 42 / 0.04);
+}

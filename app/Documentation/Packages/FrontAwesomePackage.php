@@ -3,6 +3,7 @@
 namespace App\Documentation\Packages;
 
 use App\Documentation\Package;
+use App\Documentation\PageSlug;
 
 final readonly class FrontAwesomePackage extends Package
 {
@@ -13,6 +14,15 @@ final readonly class FrontAwesomePackage extends Package
             title: 'Front Awesome',
             summary: 'Use Web Awesome components, share Tailwind branding, and send toasts from Laravel or Vue.',
             version: null,
+            overview: PageSlug::FrontAwesome,
+            documentedVersion: '1.x',
+            stability: 'Work in progress',
+            requirements: [
+                'PHP 8.5 or later within PHP 8.x, Laravel 13, and Inertia Laravel 3.x',
+                'Vue 3.5 or later within Vue 3.x, Inertia Vue 3.x, and Tailwind CSS 4.x',
+                'Mosaicast 1.1.1 or later within Mosaicast 1.x',
+                'Node.js 24.11 or later',
+            ],
         );
     }
 }

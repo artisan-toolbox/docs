@@ -11,11 +11,13 @@ defineProps({
     <header
         class="flex flex-col gap-5 border-b border-slate-200 pb-9 dark:border-slate-800"
     >
-        <p
-            class="text-xs font-semibold tracking-[0.16em] text-teal-700 uppercase dark:text-teal-400"
-        >
-            {{ eyebrow }}
-        </p>
+        <slot name="eyebrow">
+            <p
+                class="text-xs font-semibold tracking-[0.16em] text-brand-700 uppercase dark:text-brand-400"
+            >
+                {{ eyebrow }}
+            </p>
+        </slot>
         <h1
             class="text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl dark:text-white"
         >

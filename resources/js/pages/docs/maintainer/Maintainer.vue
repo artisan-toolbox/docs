@@ -1,13 +1,34 @@
 <script setup>
+import { computed } from 'vue';
+import { findNavigationItem } from '@/lib/docsNavigation';
 import CodeExample from '@/components/docs/CodeExample.vue';
+import InstallPackage from '@/components/docs/maintainer/installation/InstallPackage.vue';
+import DocsLink from '@/components/docs/DocsLink.vue';
 import PackageSpecs from '@/components/docs/PackageSpecs.vue';
 import PageHeader from '@/components/docs/PageHeader.vue';
 import ProseSection from '@/components/docs/ProseSection.vue';
 import Requirements from '@/components/docs/Requirements.vue';
-
-defineProps({
+const props = defineProps({
     page: { type: Object, required: true },
+    navigation: { type: Array, required: true },
 });
+
+const codeQualityHref = computed(
+    () => findNavigationItem(props.navigation, 'maintainer/ci').href,
+);
+const configurationHref = computed(
+    () => findNavigationItem(props.navigation, 'maintainer/configuration').href,
+);
+const versioningHref = computed(
+    () => findNavigationItem(props.navigation, 'maintainer/versioning').href,
+);
+const integrationHref = computed(
+    () =>
+        findNavigationItem(
+            props.navigation,
+            'maintainer/versioning/project-integration',
+        ).href,
+);
 </script>
 
 <template>
@@ -32,24 +53,29 @@ defineProps({
                 This guide covers Maintainer 1.10. If your version class still
                 uses
                 <code>WithReadmeBadgeVersion</code>, follow the
-                <a
-                    href="https://artisantoolbox.wsssoftware.com.br/packages/maintainer/versioning/project-integration/#migrate-an-existing-version-badge"
-                    >README badge migration</a
+                <DocsLink
+                    :href="`${integrationHref}#migrate-an-existing-version-badge`"
+                    >README badge migration</DocsLink
                 >.
             </p>
         </ProseSection>
 
         <Requirements :items="page.requirements" />
 
-        <ProseSection id="installation" title="Installation">
-            <p>Install Maintainer as a development dependency:</p>
-            <CodeExample
-                label="Install Maintainer"
-                code="composer require --dev artisan-toolbox/maintainer:^1.10"
-            />
+        <InstallPackage :page="page" />
+        <ProseSection>
             <p>
-                The PHAR bundles Maintainer's CLI dependencies and keeps them
-                separate from the project being maintained.
+                Follow
+                <DocsLink
+                    :href="
+                        findNavigationItem(
+                            navigation,
+                            'maintainer/installation',
+                        ).href
+                    "
+                    >Install Maintainer</DocsLink
+                >
+                to verify the CLI and choose your first configuration steps.
             </p>
         </ProseSection>
 
@@ -78,32 +104,26 @@ defineProps({
             </p>
             <ul>
                 <li>
-                    <a
-                        href="https://artisantoolbox.wsssoftware.com.br/packages/maintainer/ci/"
-                        >Code Quality</a
-                    >: apply automated fixes and run PHP and frontend checks as
+                    <DocsLink :href="codeQualityHref">Code Quality</DocsLink>:
+                    apply automated fixes and run PHP and frontend checks as
                     configurable workflows.
                 </li>
                 <li>
-                    <a
-                        href="https://artisantoolbox.wsssoftware.com.br/packages/maintainer/configuration/"
-                        >Configuration</a
+                    <DocsLink :href="configurationHref">Configuration</DocsLink
                     >: publish templates and manage settings, secrets, and SSH
                     keys.
                 </li>
                 <li>
-                    <a
-                        href="https://artisantoolbox.wsssoftware.com.br/packages/maintainer/deployment/"
-                        >Deployment</a
-                    >: run and unlock Deployer or attach shared repository and
-                    PM2 tasks.
+                    <DocsLink
+                        href="https://atb.dev.br/packages/maintainer/deployment/"
+                        >Deployment</DocsLink
+                    >: run declared Deployer tasks, retry after unlock, and
+                    manage PM2 processes by application namespace.
                 </li>
                 <li>
-                    <a
-                        href="https://artisantoolbox.wsssoftware.com.br/packages/maintainer/versioning/"
-                        >Versioning</a
-                    >: review diffs, create commits, and publish GitHub
-                    releases.
+                    <DocsLink :href="versioningHref">Versioning</DocsLink>:
+                    review diffs, create commits, push pending branches, and
+                    publish GitHub releases.
                 </li>
             </ul>
             <p>
@@ -116,21 +136,20 @@ defineProps({
         <ProseSection id="learn-more" title="Learn more">
             <ul>
                 <li>
-                    <a
-                        href="https://artisantoolbox.wsssoftware.com.br/packages/maintainer/commands/"
-                        >Command index</a
+                    <DocsLink
+                        href="https://atb.dev.br/packages/maintainer/commands/"
+                        >Command index</DocsLink
                     >
                 </li>
                 <li>
-                    <a
-                        href="https://artisantoolbox.wsssoftware.com.br/packages/maintainer/versioning/project-integration/"
-                        >Project integration</a
+                    <DocsLink :href="integrationHref"
+                        >Project integration</DocsLink
                     >
                 </li>
                 <li>
-                    <a
-                        href="https://artisantoolbox.wsssoftware.com.br/packages/maintainer/development/"
-                        >Development and building</a
+                    <DocsLink
+                        href="https://atb.dev.br/packages/maintainer/development/"
+                        >Development and building</DocsLink
                     >
                 </li>
             </ul>
@@ -138,9 +157,15 @@ defineProps({
 
         <ProseSection id="source-and-releases" title="Source and releases">
             <ul>
-                <li><a :href="page.package.repositoryUrl">Source code</a></li>
                 <li>
-                    <a :href="page.package.releasesUrl">Packagist releases</a>
+                    <DocsLink :href="page.package.repositoryUrl"
+                        >Source code</DocsLink
+                    >
+                </li>
+                <li>
+                    <DocsLink :href="page.package.releasesUrl"
+                        >Packagist releases</DocsLink
+                    >
                 </li>
             </ul>
         </ProseSection>

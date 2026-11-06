@@ -1,0 +1,66 @@
+import { packageIcon } from './packageIcons';
+
+const rootIcons = {
+    '': 'book-open',
+    'getting-started': 'compass',
+    project: 'code-branch',
+};
+
+const pageIcons = {
+    'choose-a-package': 'boxes-stacked',
+    installation: 'download',
+    configuration: 'sliders',
+    publishing: 'box-open',
+    reference: 'list',
+    'ssh-keys': 'key',
+    ci: 'list-check',
+    quality: 'check-double',
+    versioning: 'code-branch',
+    'project-integration': 'puzzle-piece',
+    'html-diffs': 'code-compare',
+    commits: 'code-commit',
+    releases: 'tag',
+    deployment: 'cloud-arrow-up',
+    deploy: 'rocket',
+    unlock: 'lock-open',
+    'repository-tags': 'tags',
+    pm2: 'diagram-project',
+    commands: 'terminal',
+    development: 'code',
+    'conditional-arrays': 'filter',
+    'multi-domain-inertia': 'globe',
+    'translated-attributes': 'language',
+    usage: 'code',
+    'vue-plugin': 'plug',
+    'inertia-delivery': 'arrows-rotate',
+    'session-channels': 'satellite-dish',
+    roadmap: 'route',
+    'web-awesome': 'icons',
+    button: 'hand-pointer',
+    page: 'window-maximize',
+    laravel: 'message',
+    vue: 'comments',
+    'shared-theme': 'circle-half-stroke',
+    branding: 'palette',
+    primevue: 'gem',
+    'theme-maintenance': 'paintbrush',
+    compatibility: 'list-check',
+    security: 'shield-halved',
+    connection: 'plug-circle-bolt',
+    printing: 'print',
+    'escpos-previews': 'receipt',
+    'zpl-previews': 'barcode',
+    'pdf-previews': 'file-pdf',
+    'frontend-tooling': 'screwdriver-wrench',
+    'documentation-policy': 'book',
+};
+
+export function navigationIcon(slug) {
+    const parts = slug.split('/');
+    return (
+        packageIcon(slug) ?? {
+            name: rootIcons[slug] ?? pageIcons[parts.at(-1)] ?? 'file-lines',
+            family: 'classic',
+        }
+    );
+}

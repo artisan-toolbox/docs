@@ -7,34 +7,47 @@
         "build": "vp build",
         "dev": "vp dev",
         "test": "vp test run --config vite.test.config.js",
+        "test:migration": "vp test run --config vite.migration.test.config.js",
+        "standards:check": "node scripts/sync-agent-standards.mjs --check",
+        "standards:sync": "node scripts/sync-agent-standards.mjs --write",
         "icons:build": "node scripts/build-icons.mjs",
         "check": "vp check",
         "check:fix": "vp check --fix",
         "types:check": "vue-tsc --noEmit"
     },
     "dependencies": {
+        "@artisan-toolbox/front-awesome": "file:vendor/artisan-toolbox/front-awesome",
+        "@artisan-toolbox/mosaicast": "file:vendor/artisan-toolbox/mosaicast",
+        "@artisan-toolbox/qztray": "file:vendor/artisan-toolbox/qztray",
+        "@awesome.me/webawesome": "^3.14.0",
         "@inertiajs/vite": "^3.0.0",
         "@inertiajs/vue3": "^3.0.0",
-        "@lucide/vue": "^1.17.0",
         "@vueuse/core": "^12.8.2",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
+        "laravel-echo": "^2.6.3",
         "laravel-vite-plugin": "^3.0.0",
+        "pusher-js": "^8.6.0",
         "reka-ui": "^2.9.8",
+        "shiki": "^4.6.0",
         "tailwind-merge": "^3.2.0",
         "tailwindcss": "^4.1.1",
         "tw-animate-css": "^1.2.5",
         "vue": "^3.5.13",
-        "vue-sonner": "^2.0.0"
+        "vue-sonner": "^2.0.0",
+        "ziggy-js": "^2.6.5"
     },
     "devDependencies": {
-        "@laravel/vite-plugin-wayfinder": "^0.1.3",
+        "@laravel/echo-vue": "^2.6.3",
+        "@primeuix/themes": "^2.0.3",
         "@tailwindcss/vite": "^4.1.11",
         "@types/node": "^22.13.5",
         "@vitejs/plugin-vue": "^6.0.0",
         "@vue/test-utils": "^2.5.1",
         "concurrently": "^10.0.3",
+        "fontaine": "^1.0.3",
         "happy-dom": "^21.0.4",
+        "primevue": "^4.5.5",
         "sharp": "^0.35.5",
         "typescript": "^5.2.2",
         "vite": "npm:@voidzero-dev/vite-plus-core@1.4.0",
@@ -52,5 +65,8 @@
     },
     "overrides": {
         "vite": "npm:@voidzero-dev/vite-plus-core@1.4.0"
+    },
+    "engines": {
+        "node": ">=24.11.0"
     }
 }

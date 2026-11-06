@@ -16,7 +16,7 @@ final readonly class IndexPage extends Page
             component: 'docs/Index',
             title: 'Documentation',
             description: 'Practical guides for Artisan Toolbox Laravel packages and developer tools.',
-            sourcePath: 'src/content/docs/packages/index.mdx',
+            sourcePath: 'resources/js/pages/docs/Index.vue',
         );
     }
 }

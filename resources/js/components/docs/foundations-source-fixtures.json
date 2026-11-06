@@ -1,0 +1,1219 @@
+[
+    {
+        "slug": "core",
+        "title": "Core",
+        "package": "core",
+        "component": "docs/core/Index",
+        "headings": [
+            {
+                "level": 2,
+                "id": "requirements",
+                "text": "Requirements"
+            },
+            {
+                "level": 2,
+                "id": "installation",
+                "text": "Installation"
+            },
+            {
+                "level": 2,
+                "id": "build-a-conditional-payload",
+                "text": "Build a conditional payload"
+            },
+            {
+                "level": 2,
+                "id": "features",
+                "text": "Features"
+            },
+            {
+                "level": 2,
+                "id": "published-resources",
+                "text": "Published resources"
+            },
+            {
+                "level": 2,
+                "id": "development",
+                "text": "Development"
+            },
+            {
+                "level": 2,
+                "id": "source-and-releases",
+                "text": "Source and releases"
+            },
+            {
+                "level": 2,
+                "id": "documentation-and-contact",
+                "text": "Documentation and contact"
+            }
+        ],
+        "examples": [
+            {
+                "code": "composer require artisan-toolbox/core:^1.2",
+                "language": "bash",
+                "meta": null,
+                "installationCommand": "composer"
+            },
+            {
+                "code": "use Illuminate\\Support\\Arr;\n\nuse function ArtisanToolbox\\Core\\sift_when;\n\n$payload = Arr::sift([\n    'name' => $user->name,\n    'email' => sift_when($canViewEmail, fn () => $user->email),\n]);",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "php artisan vendor:publish --tag=\"core\"",
+                "language": "bash",
+                "meta": null
+            },
+            {
+                "code": "php artisan vendor:publish --tag=\"core-config\"\nphp artisan vendor:publish --tag=\"core-migrations\"\nphp artisan vendor:publish --tag=\"core-views\"\nphp artisan vendor:publish --tag=\"core-lang\"\nphp artisan vendor:publish --tag=\"core-assets\"",
+                "language": "bash",
+                "meta": null
+            },
+            {
+                "code": "php artisan migrate",
+                "language": "bash",
+                "meta": null
+            }
+        ],
+        "links": [
+            {
+                "slug": "core/conditional-arrays",
+                "hash": "",
+                "href": "/docs/core/conditional-arrays"
+            },
+            {
+                "slug": "core/multi-domain-inertia",
+                "hash": "",
+                "href": "/docs/core/multi-domain-inertia"
+            },
+            {
+                "slug": "core/translated-attributes",
+                "hash": "",
+                "href": "/docs/core/translated-attributes"
+            },
+            {
+                "href": "https://github.com/artisan-toolbox/core"
+            },
+            {
+                "href": "https://packagist.org/packages/artisan-toolbox/core"
+            },
+            {
+                "slug": "core",
+                "hash": "",
+                "href": "/docs/core"
+            },
+            {
+                "href": "mailto:contact@atb.dev.br"
+            }
+        ],
+        "anchors": [],
+        "paragraphs": [
+            "Core collects useful, focused Laravel helpers that do not need a separate package of their own. Use it for conditional arrays, translated model attributes, and cross-domain Inertia visits. Applications can install Core directly or receive it through another Artisan Toolbox package.",
+            "Core 1.1 added Sift. Core 1.2 installs Maintainer as a runtime dependency because Core's production-autoloaded identity class implements its versioning and README contracts. Maintainer supports the package's maintenance, quality, and release workflows. It is not the implementation of Core's application helpers.",
+            "Laravel discovers Core's service provider and registers the Sift macros.",
+            "When $canViewEmail is false, $payload contains only name.",
+            "Sift conditional arrays: include values conditionally and recursively remove rejected entries from arrays and other iterables.",
+            "Multi-domain Inertia visits: keep Inertia navigation working when links move between trusted domains or subdomains served by the same Laravel application.",
+            "Translated model attributes: store stable translation keys while exposing localized strings from Eloquent models.",
+            "The features above work without publishing resources or running migrations. Run the following command to publish all bundled resources together.",
+            "Individual publish tags are available for configuration, migrations, views, translations, and public assets:",
+            "The bundled migration creates a core_placeholder table. Run it only if you need that table in a development application.",
+            "On Windows, Core's CI requires PHPStan 2.2.8 or later in the 2.x series. This version fixes a Turbo parser bug that can drop PHPDoc comments during static analysis.",
+            "Source code",
+            "Packagist releases",
+            "The canonical documentation is available at atb.dev.br. Contact the project at contact@atb.dev.br."
+        ],
+        "requirements": [
+            "PHP 8.5 or later within the PHP 8.x series",
+            "Laravel 13 components",
+            "Inertia Laravel 3.x"
+        ],
+        "tables": [],
+        "legacyPath": "packages/core/index",
+        "sourceSha256": "f12804bfa3c7b7efb14979393f3c58ba1692d390af9089b18eb2dd21d088e032"
+    },
+    {
+        "slug": "core/conditional-arrays",
+        "title": "Sift conditional arrays",
+        "package": "core",
+        "component": "docs/core/ConditionalArrays",
+        "headings": [
+            {
+                "level": 2,
+                "id": "api-at-a-glance",
+                "text": "API at a glance"
+            },
+            {
+                "level": 2,
+                "id": "build-a-conditional-array",
+                "text": "Build a conditional array"
+            },
+            {
+                "level": 2,
+                "id": "sift-nested-iterables",
+                "text": "Sift nested iterables"
+            },
+            {
+                "level": 2,
+                "id": "preserve-collection-behavior",
+                "text": "Preserve collection behavior"
+            },
+            {
+                "level": 2,
+                "id": "practical-limits",
+                "text": "Practical limits"
+            }
+        ],
+        "examples": [
+            {
+                "code": "use Illuminate\\Support\\Arr;\n\nuse function ArtisanToolbox\\Core\\sift_when;\n\n$payload = Arr::sift([\n    'name' => $user->name,\n    'email' => sift_when($canViewEmail, fn (): string => $user->email),\n    'statistics' => sift_when(\n        $request->boolean('with_statistics'),\n        fn (): array => $statistics->for($user),\n    ),\n]);",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "use Illuminate\\Support\\Arr;\nuse Illuminate\\Support\\Collection;\n\nuse function ArtisanToolbox\\Core\\sift_when;\n\n$payload = Arr::sift([\n    'profile' => new Collection([\n        'name' => $user->name,\n        'phone' => sift_when($includePrivateFields, $user->phone),\n    ]),\n]);",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "use function ArtisanToolbox\\Core\\sift_when;\n\n$fields = collect([\n    'name' => $user->name,\n    'email' => sift_when($includePrivateFields, $user->email),\n]);\n\n$payload = $fields->sift();",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "use Illuminate\\Support\\LazyCollection;\n\nuse function ArtisanToolbox\\Core\\sift_when;\n\n$payload = LazyCollection::make(function () use ($includePrivateFields, $user) {\n    yield 'name' => $user->name;\n    yield 'email' => sift_when($includePrivateFields, fn (): string => $user->email);\n})->sift();",
+                "language": "php",
+                "meta": null
+            }
+        ],
+        "links": [],
+        "anchors": [],
+        "paragraphs": [
+            "Core adds sift() macros to Laravel's Arr, Collection, and LazyCollection utilities, plus the namespaced sift_when() helper. Together they build arrays and collections whose entries depend on runtime conditions. A rejected value becomes an internal marker; sift() removes those markers recursively.",
+            "Install artisan-toolbox/core if the application does not already receive it through another Artisan Toolbox package. Laravel discovers Core's service provider and registers the macros automatically; Composer autoloads the namespaced helper.",
+            "This is useful for payloads, configuration fragments, and other arrays built outside Laravel API resources, where $this->when() is not available.",
+            "Import sift_when() with its namespace. The sift() methods are Laravel macros registered by Core, so no import is needed for them.",
+            "Import the helper explicitly so it does not compete with global application helpers:",
+            "When a condition is false, sift_when() returns an internal marker instead of the supplied value. Arr::sift() recognizes that marker and removes its key. Values such as null, false, 0, and empty strings are retained when their conditions pass.",
+            "The second argument may be a direct value or a zero-argument closure. When the condition is true, the helper invokes the closure immediately at the sift_when() call. When it is false, the closure is never invoked. For an ordinary array, sift_when() calls happen while the array is built; inside a LazyCollection generator, they happen when that generator is iterated. Passing a direct expression such as $service->calculate() evaluates it before the helper can check the condition, so wrap expensive expressions in a closure.",
+            "sift_when() does not remove values by itself. Always pass the complete structure through sift(); otherwise its internal marker will remain in the result.",
+            "Arr::sift() recursively visits nested iterables, including arrays, collections, and generators:",
+            "Supported nested iterable types are preserved. Removing a numeric entry does not reindex its siblings. Empty containers are retained after their rejected entries are removed.",
+            "For example, Arr::sift([2 => 'kept', 5 => sift_when(false, 'hidden'), 8 => 'kept']) returns keys 2 and 8. If that array is later encoded as JSON, PHP may represent sparse numeric keys as object fields rather than a JSON list. Reindex with array_values() only when the consumer specifically requires a list.",
+            "Only iterable values are traversed. Objects that do not implement Traversable remain unchanged.",
+            "Call sift() directly on a Collection to receive a new Collection without modifying the original instance:",
+            "LazyCollection::sift() also returns a new LazyCollection. Its source is not consumed until the result is iterated:",
+            "The recursive result follows the same rules:",
+            "arrays remain arrays",
+            "Collections remain Collections",
+            "LazyCollections remain lazy",
+            "other Traversable implementations are wrapped in a lazy Generator because their concrete types cannot be reconstructed safely",
+            "Arr::sift() returns an array and follows PHP's array key rules. A numeric string key such as '2' becomes the integer key 2. An object used as a key in a generator causes a TypeError when Core writes that key to the result array.",
+            "Arr::sift() consumes a top-level generator to produce that array. A generator nested inside another structure remains lazy until it is iterated, and should be treated as a one-pass iterable.",
+            "sift() is for constructing data, not filtering an existing domain collection by predicate. Use Laravel's filter() when the decision depends on each item. Do not rely on a particular concrete type for custom Traversable objects: Core preserves arrays, Collections, and LazyCollections, but represents other traversables lazily to avoid consuming or reconstructing them incorrectly.",
+            "Core registers sift as a Laravel macro on Arr, Collection, and LazyCollection. If another package defines a macro with the same name, review the registration order and keep one owner for that public API."
+        ],
+        "requirements": [],
+        "tables": [
+            [
+                ["API", "Input", "Result"],
+                [
+                    "sift_when(bool $condition, mixed $value)",
+                    "A direct value or zero-argument closure",
+                    "The value when allowed; an internal exclusion marker when rejected"
+                ],
+                [
+                    "Arr::sift(iterable $items)",
+                    "An iterable with integer or string keys",
+                    "A new array"
+                ],
+                ["Collection::sift()", "A Collection", "A new Collection"],
+                [
+                    "LazyCollection::sift()",
+                    "A LazyCollection",
+                    "A new, lazy LazyCollection"
+                ]
+            ]
+        ],
+        "legacyPath": "packages/core/conditional-arrays",
+        "sourceSha256": "87dd185b63a2ee18bd539393404f94f44d5eb1d63d5733d014fcecaa3fd21764"
+    },
+    {
+        "slug": "core/multi-domain-inertia",
+        "title": "Multi-domain Inertia Visits",
+        "package": "core",
+        "component": "docs/core/MultiDomainInertia",
+        "headings": [
+            {
+                "level": 2,
+                "id": "publish-the-cors-configuration",
+                "text": "Publish the CORS configuration"
+            },
+            {
+                "level": 2,
+                "id": "allow-trusted-application-origins",
+                "text": "Allow trusted application origins"
+            },
+            {
+                "level": 2,
+                "id": "prepend-the-middleware",
+                "text": "Prepend the middleware"
+            },
+            {
+                "level": 2,
+                "id": "forward-nginx-preflight-requests-when-needed",
+                "text": "Forward Nginx preflight requests when needed"
+            },
+            {
+                "level": 2,
+                "id": "verify-the-integration",
+                "text": "Verify the integration"
+            }
+        ],
+        "examples": [
+            {
+                "code": "php artisan config:publish cors",
+                "language": "bash",
+                "meta": null
+            },
+            {
+                "code": "<?php\n\nreturn [\n    'paths' => ['*'],\n\n    'allowed_methods' => ['*'],\n\n    'allowed_origins' => [\n        env('APP_URL', 'http://localhost'),\n        env('ADMIN_URL', 'http://admin.localhost'),\n    ],\n\n    'allowed_origins_patterns' => [],\n\n    'allowed_headers' => ['*'],\n\n    'exposed_headers' => [\n        'x-inertia',\n        'x-inertia-location',\n    ],\n\n    'max_age' => 0,\n\n    'supports_credentials' => false,\n];",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "<?php\n\nuse ArtisanToolbox\\Core\\Http\\Middleware\\HandleInertiaCrossDomainVisits;\nuse Illuminate\\Foundation\\Application;\nuse Illuminate\\Foundation\\Configuration\\Middleware;\n\nreturn Application::configure(basePath: dirname(__DIR__))\n    ->withRouting(\n        web: __DIR__.'/../routes/web.php',\n        commands: __DIR__.'/../routes/console.php',\n        health: '/up',\n    )\n    ->withMiddleware(function (Middleware $middleware): void {\n        $middleware->web(\n            prepend: [\n                HandleInertiaCrossDomainVisits::class,\n            ],\n        );\n    })\n    ->create();",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "if ($request_method = OPTIONS) {\n    rewrite ^ /index.php last;\n}",
+                "language": "nginx",
+                "meta": null
+            }
+        ],
+        "links": [],
+        "anchors": [],
+        "paragraphs": [
+            "Browsers cannot complete a normal Inertia XHR visit when navigation crosses hosts. For example, a link from app.example.com to admin.example.com leaves the origin used by the current page even though both hosts belong to the same Laravel application.",
+            "HandleInertiaCrossDomainVisits compares the destination host with the previous URL. When an Inertia GET request crosses hosts, it returns an Inertia location response with status 409 and an X-Inertia-Location header. Inertia then performs a full document visit to the destination. Non-Inertia requests, non-GET requests, and same-host visits continue through the middleware unchanged.",
+            "The comparison uses hostnames. A change in scheme or port on the same host passes through. Laravel uses the request's Referer header to resolve the previous URL, with the session's previous URL as a fallback when available. If neither supplies a previous URL, Laravel uses the current site's root URL.",
+            "Use this middleware only when one Laravel application serves multiple trusted domains or subdomains.",
+            "Laravel applications do not publish config/cors.php by default. Publish it when the file is not already present:",
+            "Cover the routes involved in navigation and expose the Inertia response headers to the browser:",
+            "List exact trusted origins. Do not combine wildcard origins with credentialed requests. If the hosts must share an authenticated session, configure Laravel's session cookie domain, Sanctum stateful domains when applicable, the frontend credentials option, and supports_credentials together. These settings form one security boundary and should not be enabled independently.",
+            "Narrow paths and allowed_methods when the application's routing structure permits it. The broad values above support navigation across all web routes.",
+            "Add the middleware before the rest of Laravel's web group in bootstrap/app.php:",
+            "Prepending it lets the middleware replace the cross-host XHR response before another web middleware turns it into a redirect or page response. The package does not register it automatically because applications that do not navigate across hosts do not need this behavior.",
+            "Some Nginx configurations answer OPTIONS requests before Laravel can add its CORS headers. When that applies, forward preflight requests to the front controller:",
+            "Configure CORS in one layer only. When Nginx already returns the complete and correct CORS response, Laravel does not also need to process the preflight.",
+            "From one configured origin, follow an Inertia link to the other host and inspect the browser network panel. The initial cross-host request should return 409 with X-Inertia-Location; the browser should then perform a full document navigation to that URL. A link within the same host should remain a normal client-side Inertia visit.",
+            "If the browser blocks the initial request, verify the exact origin, request path, allowed headers, exposed response headers, and credential settings in config/cors.php. Also confirm that a reverse proxy is not consuming OPTIONS before the request reaches Laravel."
+        ],
+        "requirements": [],
+        "tables": [],
+        "legacyPath": "packages/core/multi-domain-inertia",
+        "sourceSha256": "b6af4e7d5b4ccf3418e9a8d383aec06d5adbcc366877b4c0af53a9c17002766b"
+    },
+    {
+        "slug": "core/translated-attributes",
+        "title": "Translated Model Attributes",
+        "package": "core",
+        "component": "docs/core/TranslatedAttributes",
+        "headings": [
+            {
+                "level": 2,
+                "id": "define-the-translations",
+                "text": "Define the translations"
+            },
+            {
+                "level": 2,
+                "id": "apply-the-cast",
+                "text": "Apply the cast"
+            },
+            {
+                "level": 2,
+                "id": "storage-and-missing-translations",
+                "text": "Storage and missing translations"
+            }
+        ],
+        "examples": [
+            {
+                "code": "<?php\n\nreturn [\n    'starter' => 'Starter',\n    'pro' => 'Pro',\n];",
+                "language": "php",
+                "meta": "title=\"lang/en/plans.php\""
+            },
+            {
+                "code": "<?php\n\nreturn [\n    'starter' => 'Inicial',\n    'pro' => 'Profissional',\n];",
+                "language": "php",
+                "meta": "title=\"lang/pt_BR/plans.php\""
+            },
+            {
+                "code": "<?php\n\nnamespace App\\Models;\n\nuse ArtisanToolbox\\Core\\Casts\\Translated;\nuse Illuminate\\Database\\Eloquent\\Model;\n\nclass Plan extends Model\n{\n    protected $fillable = ['label'];\n\n    /**\n     * @return array<string, string>\n     */\n    protected function casts(): array\n    {\n        return [\n            'label' => Translated::class,\n        ];\n    }\n}",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "$plan = Plan::create([\n    'label' => 'plans.starter',\n]);\n\napp()->setLocale('en');\n$plan->label; // \"Starter\"\n\napp()->setLocale('pt_BR');\n$plan->label; // \"Inicial\"",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "Plan::query()->where('label', 'plans.starter')->get();",
+                "language": "php",
+                "meta": null
+            }
+        ],
+        "links": [],
+        "anchors": [],
+        "paragraphs": [
+            "Translated keeps a stable string such as plans.starter in the database and returns its translation whenever Eloquent reads the attribute. This is useful for labels that belong to application language files rather than user-authored content.",
+            "Create the normal Laravel translation files for every supported locale:",
+            "Add the cast to the Eloquent model:",
+            "Store the translation key as the attribute value:",
+            "The cast resolves the locale when the attribute is read. The same model instance therefore reflects a locale change without being reloaded. Array and JSON serialization also expose the translated value.",
+            "Assigning an attribute does not translate it before persistence. The database continues to contain plans.starter, so queries must use the stored key:",
+            "When Laravel cannot find a translation, it returns the stored string unchanged. This also allows literal values such as Custom plan to pass through when they do not match a translation key. A database null remains null.",
+            "The resolved language line must be a string. Do not cast an attribute containing a translation group key such as plans; Laravel rejects array-valued translations for this string cast.",
+            "Use this cast for application-owned labels. Store user-authored multilingual content in a dedicated localization structure instead, because this cast stores only one stable key or literal string."
+        ],
+        "requirements": [],
+        "tables": [],
+        "legacyPath": "packages/core/translated-attributes",
+        "sourceSha256": "cdb203c3bd73c0876204bf77a2a1d1872213aff84917e47e7b3dc4b1f8eca4d2"
+    },
+    {
+        "slug": "dump-to-console",
+        "title": "Dump to Console",
+        "package": "dump-to-console",
+        "component": "docs/dump-to-console/Index",
+        "headings": [
+            {
+                "level": 2,
+                "id": "requirements",
+                "text": "Requirements"
+            },
+            {
+                "level": 2,
+                "id": "installation",
+                "text": "Installation"
+            },
+            {
+                "level": 2,
+                "id": "send-your-first-dump",
+                "text": "Send your first dump"
+            },
+            {
+                "level": 2,
+                "id": "guides",
+                "text": "Guides"
+            },
+            {
+                "level": 2,
+                "id": "security",
+                "text": "Security"
+            },
+            {
+                "level": 2,
+                "id": "development",
+                "text": "Development"
+            },
+            {
+                "level": 2,
+                "id": "source-and-releases",
+                "text": "Source and releases"
+            },
+            {
+                "level": 2,
+                "id": "documentation-and-contact",
+                "text": "Documentation and contact"
+            }
+        ],
+        "examples": [
+            {
+                "code": "composer require artisan-toolbox/dump-to-console:^1.1",
+                "language": "bash",
+                "meta": null,
+                "installationCommand": "composer"
+            },
+            {
+                "code": "php artisan dump:listen",
+                "language": "bash",
+                "meta": null
+            },
+            {
+                "code": "$order = dc(Order::find($id));\n\ndc(orderId: $order?->id);",
+                "language": "php",
+                "meta": null
+            }
+        ],
+        "links": [
+            {
+                "slug": "dump-to-console/usage",
+                "hash": "",
+                "href": "/docs/dump-to-console/usage"
+            },
+            {
+                "href": "https://github.com/artisan-toolbox/dump-to-console"
+            },
+            {
+                "href": "https://packagist.org/packages/artisan-toolbox/dump-to-console"
+            },
+            {
+                "slug": "dump-to-console",
+                "hash": "",
+                "href": "/docs/dump-to-console"
+            },
+            {
+                "href": "mailto:contact@atb.dev.br"
+            }
+        ],
+        "anchors": [],
+        "paragraphs": [
+            "Dump to Console sends Laravel dumps to a local console listener without stopping the application or changing its response, stream, download, or command output.",
+            "Dump to Console 1.1 installs Maintainer as a runtime dependency so its versioning contracts remain available after composer install --no-dev.",
+            "Start the listener in a terminal:",
+            "Send values from the application with the dc() helper:",
+            "The terminal shows each value and its source location when available. The helper returns the values it receives, so it works inline. An unavailable listener does not interrupt the application.",
+            "Continue with the usage and configuration guide for listener options, named values, fluent dumps, benchmarks, and configuration.",
+            "The dump protocol has no authentication or encryption. Keep the listener bound to a trusted local interface and handle dumped values with the same care as local logs.",
+            "Run composer analyse from the package root. Larastan uses the package's config/ directory to recognize valid env() calls, including those in local Maintainer configuration.",
+            "On Windows, Dump to Console's CI requires PHPStan 2.2.8 or later in the 2.x series. This version fixes a Turbo parser bug that can drop PHPDoc comments during static analysis.",
+            "Source code",
+            "Packagist releases",
+            "The canonical documentation is available at atb.dev.br. Contact the project at contact@atb.dev.br."
+        ],
+        "requirements": [
+            "PHP 8.5 or later within the PHP 8.x series",
+            "Laravel 13 components"
+        ],
+        "tables": [],
+        "legacyPath": "packages/dump-to-console/index",
+        "sourceSha256": "05544f0251acc934c04af42025be70461d7ebd37111cd6feccb0b88c172e2f71"
+    },
+    {
+        "slug": "dump-to-console/usage",
+        "title": "Usage and Configuration",
+        "package": "dump-to-console",
+        "component": "docs/dump-to-console/Usage",
+        "headings": [
+            {
+                "level": 2,
+                "id": "listening-for-dumps",
+                "text": "Listening for dumps"
+            },
+            {
+                "level": 2,
+                "id": "dumping-values",
+                "text": "Dumping values"
+            },
+            {
+                "level": 2,
+                "id": "fluent-dumps",
+                "text": "Fluent dumps"
+            },
+            {
+                "level": 2,
+                "id": "benchmarks",
+                "text": "Benchmarks"
+            },
+            {
+                "level": 2,
+                "id": "configuration",
+                "text": "Configuration"
+            },
+            {
+                "level": 2,
+                "id": "security",
+                "text": "Security"
+            },
+            {
+                "level": 2,
+                "id": "how-it-works",
+                "text": "How it works"
+            }
+        ],
+        "examples": [
+            {
+                "code": "php artisan dump:listen",
+                "language": "bash",
+                "meta": null
+            },
+            {
+                "code": "php artisan dump:listen --host=tcp://127.0.0.1:9913",
+                "language": "bash",
+                "meta": null
+            },
+            {
+                "code": "$user = dc(User::findOrFail($id));\n\n$values = dc('first', 'second');\n\n$named = dc(user: $user, permissions: $user->getAllPermissions());",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "use ArtisanToolbox\\DumpToConsole\\Concerns\\Dumpable;\n\nclass ReportBuilder\n{\n    use Dumpable;\n}\n\n$report = $builder\n    ->dc()\n    ->generate();",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "use Illuminate\\Support\\Benchmark;\n\n$report = Benchmark::dc(fn () => $service->generateReport());",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "php artisan vendor:publish --tag=\"dump-to-console-config\"",
+                "language": "bash",
+                "meta": null
+            },
+            {
+                "code": "DUMP_TO_CONSOLE_HOST=tcp://127.0.0.1:9913",
+                "language": "dotenv",
+                "meta": null
+            }
+        ],
+        "links": [
+            {
+                "href": "#configuration"
+            }
+        ],
+        "anchors": [],
+        "paragraphs": [
+            "Run the listener by itself:",
+            "The client and listener use tcp://127.0.0.1:9912 by default. To change both, set DUMP_TO_CONSOLE_HOST as described in Configuration. The --host option changes only the listener for that invocation. Use it when the client already sends dumps to that endpoint:",
+            "The package also adds a dumps process to php artisan dev.",
+            "Like Laravel's dump() helper, dc() returns the values it receives. Unlike dump(), it sends the rendered value to the listener instead of writing into the current process output.",
+            "Multiple positional values are labeled 1, 2, and so on. Named arguments keep their names. A single value is returned directly. Multiple values are returned as an array with the original keys. Calling dc() without arguments sends a small marker and returns null.",
+            "Delivery is best effort. If the listener is unavailable or a value cannot be prepared or written, the dump is silently discarded. Debugging should not become the production incident it was investigating.",
+            "Use the package trait when an application class should support fluent console dumps:",
+            "dc() returns the same object after sending it to the listener. Additional arguments are supported and are dumped alongside the object.",
+            "The package registers Benchmark::dc() to measure a callback once, dump its duration and result, and return the result:",
+            "Publish the configuration when the listener endpoint or artisan dev integration must change:",
+            "Set the endpoint for both the client and the listener in .env:",
+            "If the application caches its configuration, rebuild the cache and restart long-running processes so they use the new endpoint.",
+            "To run the listener separately from php artisan dev, set register_dev_command to false in the published config/dump-to-console.php file.",
+            "The dump protocol has no authentication or encryption. Keep it bound to a trusted local interface and treat dumped values with the same care as local logs.",
+            "The client clones values with Symfony VarDumper, adds a timestamp and source context, and sends the payload over a reusable TCP connection. Opening the connection is synchronous and uses a 50 ms connection timeout. Writes use non-blocking mode after the connection opens. The listener uses Symfony's dump server protocol and Laravel's CLI dumper, preserving Laravel's rendering and editor links.",
+            "The HTTP server, queue workers, scheduler, and Artisan commands can run as separate processes while sending their temporary debug values to the same console."
+        ],
+        "requirements": [],
+        "tables": [],
+        "legacyPath": "packages/dump-to-console/usage",
+        "sourceSha256": "71dbe03702971a4f9d5583d075ec14ebbcaae910c336fd084a76fcf9bb88b2c3"
+    },
+    {
+        "slug": "mosaicast",
+        "title": "Mosaicast",
+        "package": "mosaicast",
+        "component": "docs/mosaicast/Index",
+        "headings": [
+            {
+                "level": 2,
+                "id": "requirements",
+                "text": "Requirements"
+            },
+            {
+                "level": 2,
+                "id": "installation",
+                "text": "Installation"
+            },
+            {
+                "level": 2,
+                "id": "first-event",
+                "text": "First event"
+            },
+            {
+                "level": 2,
+                "id": "delivery-sequence",
+                "text": "Delivery sequence"
+            },
+            {
+                "level": 2,
+                "id": "detailed-guides",
+                "text": "Detailed guides"
+            },
+            {
+                "level": 2,
+                "id": "versioning",
+                "text": "Versioning"
+            },
+            {
+                "level": 3,
+                "id": "dispatcher-class",
+                "text": "Dispatcher class"
+            },
+            {
+                "level": 3,
+                "id": "readme-header",
+                "text": "README header"
+            },
+            {
+                "level": 2,
+                "id": "source-and-releases",
+                "text": "Source and releases"
+            },
+            {
+                "level": 2,
+                "id": "documentation-and-contact",
+                "text": "Documentation and contact"
+            }
+        ],
+        "examples": [
+            {
+                "code": "composer require artisan-toolbox/mosaicast:^1.2",
+                "language": "bash",
+                "meta": null,
+                "installationCommand": "composer"
+            },
+            {
+                "code": "use ArtisanToolbox\\Mosaicast\\Facades\\Mosaicast;\nuse Illuminate\\Http\\Request;\nuse Illuminate\\Support\\Facades\\Route;\nuse Inertia\\Inertia;\n\nRoute::get('/mosaicast-example', function (Request $request) {\n    if ($request->boolean('send')) {\n        Mosaicast::dispatch('orders.updated', ['orderId' => 42]);\n    }\n\n    return Inertia::render('MosaicastExample');\n});",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "<script setup>\nimport { Link } from \"@inertiajs/vue3\";\nimport { onUnmounted } from \"vue\";\nimport { mosaicast } from \"@artisan-toolbox/mosaicast\";\n\nconst stop = mosaicast().on(\"orders.updated\", (payload, source) => {\n  console.log(payload.orderId, source);\n});\n\nonUnmounted(stop);\n</script>\n\n<template>\n  <Link href=\"/mosaicast-example?send=1\" preserve-state>Send an event</Link>\n</template>",
+                "language": "vue",
+                "meta": null
+            },
+            {
+                "code": "mosaicast('orders.updated', ['orderId' => 42]);",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "php vendor/bin/maintainer readme:update",
+                "language": "bash",
+                "meta": null
+            }
+        ],
+        "links": [
+            {
+                "href": "#dispatcher-class"
+            },
+            {
+                "slug": "mosaicast/session-channels",
+                "hash": "",
+                "href": "/docs/mosaicast/session-channels"
+            },
+            {
+                "slug": "mosaicast/vue-plugin",
+                "hash": "",
+                "href": "/docs/mosaicast/vue-plugin"
+            },
+            {
+                "slug": "mosaicast/installation",
+                "hash": "#register-the-client",
+                "href": "/docs/mosaicast/installation#register-the-client"
+            },
+            {
+                "slug": "mosaicast/vue-plugin",
+                "hash": "",
+                "href": "/docs/mosaicast/vue-plugin"
+            },
+            {
+                "slug": "mosaicast/session-channels",
+                "hash": "",
+                "href": "/docs/mosaicast/session-channels"
+            },
+            {
+                "slug": "mosaicast/session-channels",
+                "hash": "",
+                "href": "/docs/mosaicast/session-channels"
+            },
+            {
+                "slug": "mosaicast/inertia-delivery",
+                "hash": "",
+                "href": "/docs/mosaicast/inertia-delivery"
+            },
+            {
+                "slug": "mosaicast/vue-plugin",
+                "hash": "",
+                "href": "/docs/mosaicast/vue-plugin"
+            },
+            {
+                "slug": "mosaicast/roadmap",
+                "hash": "",
+                "href": "/docs/mosaicast/roadmap"
+            },
+            {
+                "href": "https://github.com/artisan-toolbox/mosaicast/blob/1.x/CHANGELOG.md"
+            },
+            {
+                "slug": "mosaicast/session-channels",
+                "hash": "#session-lifecycle",
+                "href": "/docs/mosaicast/session-channels#session-lifecycle"
+            },
+            {
+                "href": "https://github.com/artisan-toolbox/mosaicast"
+            },
+            {
+                "href": "https://packagist.org/packages/artisan-toolbox/mosaicast"
+            },
+            {
+                "slug": "mosaicast",
+                "hash": "",
+                "href": "/docs/mosaicast"
+            },
+            {
+                "href": "mailto:contact@atb.dev.br"
+            }
+        ],
+        "anchors": [],
+        "paragraphs": [
+            "Mosaicast sends events to a selected browser session through private broadcasting, independently of the normal HTTP response. A worker can notify that session after the original request has finished. In an Inertia request, Mosaicast can instead include the event in the response. Both paths use one event contract and the same Vue listener API.",
+            "This guide covers Mosaicast 1.2. When upgrading from 1.1, review the dispatcher, frontend, and session changes.",
+            "Start in the root of an existing Laravel application with Vue and Inertia 3. Install the backend package before the frontend client:",
+            "Laravel discovers the package service provider automatically. Keep Laravel's session middleware on routes that call Mosaicast::dispatch(). For private broadcasts, enable the broadcast authentication route. Install and register the Vue plugin to receive events in the browser.",
+            "Complete Install Mosaicast through Register the client before this example. Use an existing Laravel application with Vue and Inertia 3, a nonempty APP_KEY, and working web sessions. Run Composer before npm from the application root. This Inertia path needs no Echo instance, broadcast server, or queue worker.",
+            "Add this temporary route to routes/web.php. The web middleware supplies the session, and the action returns an Inertia response in the same request:",
+            "Create MosaicastExample.vue in the page directory used by your application's resolver. Register the listener in component setup before the user can send the request, and remove it when the component unmounts:",
+            "Build the application with npm run build, or use its existing Vite development command. Visit /mosaicast-example, open the browser console, and select Send an event. The request returns the event under mosaicast.events. The console logs 42 and inertia once for that visit.",
+            "The link preserves component state so the listener stays registered during the request. Use the Inertia link in the same browser session. Remove the temporary route and page when you finish.",
+            "The global mosaicast() helper dispatches with the same event and payload arguments. You can replace the facade call in the route with:",
+            "An Inertia response that resolves the shared mosaicast prop includes this event under mosaicast.events. On another response, Mosaicast broadcasts it to the current session's private channel. The Vue plugin delivers both paths to the same listener. Configure session broadcast channels before using the broadcast path.",
+            "Call Mosaicast::dispatch() in a request.",
+            "If Inertia resolves mosaicast, the event appears in mosaicast.events.",
+            "Otherwise, Mosaicast broadcasts to the current session's private channel after Laravel builds the response and before it returns it.",
+            "In a job, capture Mosaicast::currentSessionIdentifier() in the request and call Mosaicast::toSession($identifier) or mosaicast()->toSession($identifier) in the job.",
+            "Select the target on the server with Mosaicast::currentSessionIdentifier() during a session-backed request. Pass that opaque identifier to a job, then use Mosaicast::toSession($identifier)->dispatch(...) in the worker. The worker broadcasts directly to that session's private channel without another Inertia response.",
+            "With broadcasting and Echo configured, the package authorizes the channel against the connecting browser's session. This also works for guests. The identifier is not a raw session ID or an application user ID, and channel authorization does not replace your application's permission checks before dispatch. Realtime broadcasts require a connected subscriber and do not provide durable replay or exactly-once delivery.",
+            "The shared mosaicastSessionIdentifier prop is included in every Inertia response, including partial reloads that omit events. It lets the client keep its private channel current without consuming events that need the broadcast fallback.",
+            "Session broadcast channels: private, session-scoped channel authorization for guests and signed-in users.",
+            "Inertia delivery: dispatch strings and Laravel event objects, with lazy shared props and a private broadcast fallback.",
+            "Vue plugin: connect Laravel Echo and receive either delivery path through one listener API.",
+            "Delivery guarantees: the public delivery contract and its realtime constraints.",
+            "Mosaicast is maintained on the 1.x branch. GitHub Actions runs tests for pushes to version branches and for pull requests. Review the changelog before upgrading.",
+            "Starting with 1.2, the facade and the mosaicast() helper use ArtisanToolbox\\Mosaicast\\Delivery\\MosaicastDispatcher. Update any direct injection, helper return types, and container bindings that referenced ArtisanToolbox\\Mosaicast\\Mosaicast. The root class holds the package version and README configuration for Maintainer.",
+            "For the same upgrade, switch CommonJS consumers to ES module imports and refresh the Composer-delivered JavaScript dependency. The channel identifier now includes the session's CSRF token. Reload open clients, drain jobs that target old identifiers, and pass the session token if you call SessionBroadcastChannel::identifier() or name() directly. See the session lifecycle for details.",
+            "Maintainer generates the README header from ArtisanToolbox\\Mosaicast\\Mosaicast::readmeHead() during releases. To regenerate it locally, install Composer development dependencies and run this command from the package checkout.",
+            "Edit the release class to change the header. Maintainer replaces the marked block and preserves the rest of the README.",
+            "Source code",
+            "Packagist releases",
+            "The canonical documentation is available at atb.dev.br. Contact the project at contact@atb.dev.br."
+        ],
+        "requirements": [
+            "PHP 8.5 or later within the PHP 8.x series",
+            "Laravel 13 components",
+            "Inertia Laravel 3.x, installed through Core",
+            "A Laravel web request with an active session for implicit dispatch",
+            "Laravel broadcasting configured for the broadcast path; Reverb is one supported driver",
+            "Node.js 20 or later, Vue 3, and @inertiajs/vue3 3.x for the JavaScript client"
+        ],
+        "tables": [],
+        "legacyPath": "packages/mosaicast/index",
+        "sourceSha256": "b1b83311a08a64bd5f0dbc02ddb5e31b936a54c95454eaa19ac1f378526e45c6"
+    },
+    {
+        "slug": "mosaicast/inertia-delivery",
+        "title": "Inertia delivery",
+        "package": "mosaicast",
+        "component": "docs/mosaicast/InertiaDelivery",
+        "headings": [
+            {
+                "level": 2,
+                "id": "request-requirements",
+                "text": "Request requirements"
+            },
+            {
+                "level": 2,
+                "id": "dispatch-an-event",
+                "text": "Dispatch an event"
+            },
+            {
+                "level": 2,
+                "id": "laravel-event-objects",
+                "text": "Laravel event objects"
+            },
+            {
+                "level": 2,
+                "id": "delivery-behavior",
+                "text": "Delivery behavior"
+            },
+            {
+                "level": 2,
+                "id": "background-jobs-and-deferred-work",
+                "text": "Background jobs and deferred work"
+            }
+        ],
+        "examples": [
+            {
+                "code": "[\n    'sessionIdentifier' => '9c9206cc5d38f284d87ca2cb6ad30b6c63a948b9960773742634793ed99f2681',\n    'events' => [\n        [\n            'name' => 'orders.updated',\n            'payload' => [\n                'orderId' => 123,\n            ],\n        ],\n    ],\n]",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "use ArtisanToolbox\\Mosaicast\\Facades\\Mosaicast;\n\nMosaicast::dispatch('orders.updated', [\n    'orderId' => $order->id,\n]);",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "mosaicast('orders.updated', ['orderId' => $order->id]);",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "final readonly class OrderUpdated\n{\n    public function __construct(public int $orderId) {}\n}\n\nMosaicast::dispatch(new OrderUpdated($order->id));",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "final readonly class OrderUpdated\n{\n    public function __construct(private int $orderId) {}\n\n    public function broadcastAs(): string\n    {\n        return 'orders.updated';\n    }\n\n    /** @return array<string, mixed> */\n    public function broadcastWith(): array\n    {\n        return ['orderId' => $this->orderId];\n    }\n}",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "use ArtisanToolbox\\Mosaicast\\Concerns\\DispatchesMosaicast;\n\nfinal readonly class OrderUpdated\n{\n    use DispatchesMosaicast;\n\n    public function __construct(public int $orderId) {}\n}\n\nOrderUpdated::mosaicast($order->id);",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "use ArtisanToolbox\\Mosaicast\\Facades\\Mosaicast;\n\n$sessionIdentifier = Mosaicast::currentSessionIdentifier();\n\ndispatch(new ProcessOrder($sessionIdentifier, $order->id));",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "use ArtisanToolbox\\Mosaicast\\Facades\\Mosaicast;\nuse Illuminate\\Contracts\\Queue\\ShouldQueue;\n\nfinal class ProcessOrder implements ShouldQueue\n{\n    public function __construct(\n        public readonly string $sessionIdentifier,\n        public readonly int $orderId,\n    ) {}\n\n    public function handle(): void\n    {\n        mosaicast()->toSession($this->sessionIdentifier)->dispatch('orders.updated', [\n            'orderId' => $this->orderId,\n        ]);\n    }\n}",
+                "language": "php",
+                "meta": null
+            }
+        ],
+        "links": [
+            {
+                "slug": "mosaicast/vue-plugin",
+                "hash": "",
+                "href": "/docs/mosaicast/vue-plugin"
+            }
+        ],
+        "anchors": [],
+        "paragraphs": [
+            "Mosaicast collects events during a web request. When an Inertia response resolves the mosaicast shared prop, it takes the events accumulated so far and delivers them in mosaicast.events. Any events still pending when Laravel handles the response are sent to the current session's private broadcast channel. The choice depends on actual prop resolution, not the request's X-Inertia header or whether the navigation used AJAX.",
+            "No Mosaicast-specific middleware needs to be registered. Routes that use implicit Mosaicast::dispatch() still need Laravel's normal session middleware, such as the web group. Mosaicast reads the current session when used and listens to Laravel's RequestHandled event to broadcast pending events. Without an active session, implicit dispatch throws a LogicException; use an explicit toSession() target outside a request.",
+            "The package registers the mosaicast Inertia shared prop automatically when inertiajs/inertia-laravel is installed. Its payload has this shape:",
+            "The events array preserves dispatch order. Resolving the prop consumes only the events already queued; an event dispatched later in the same request remains pending for broadcast fallback.",
+            "The package also shares a top-level mosaicastSessionIdentifier prop through Inertia's always() behavior. It contains the same opaque identifier, or null when no session is available. It is included in partial Inertia responses even when mosaicast is omitted, so the Vue client can keep its private-channel subscription in sync without consuming queued events.",
+            "With Inertia Laravel 3.x, a full-page response that resolves the mosaicast prop for an active session includes mosaicastInitialPage in the page's flash data. Inertia keeps flash data out of browser history, so the Vue client can distinguish a fresh document from a restored page. Subsequent Inertia visits omit this marker.",
+            "sessionIdentifier is derived from the current Laravel session ID and CSRF token. It is a lowercase 64-character SHA-256 HMAC. Private-channel authorization still requires the matching session cookie. toSession() accepts only that format, preventing malformed channel names.",
+            "Use the facade while the web request is active:",
+            "The mosaicast() helper provides the equivalent concise form:",
+            "The event name is the client-side contract. Use stable, application-specific names. The Vue listener API receives either delivery path through mosaicast().on().",
+            "Use an associative array with string keys for the payload, or omit it when the event carries no data. The Vue client converts an empty array to {} and drops events with non-empty list payloads. PHP rejects an empty event name. Event objects define their own payload and cannot receive a separate non-empty payload argument.",
+            "Mosaicast also accepts event objects and mirrors Laravel broadcasting conventions. Without custom methods, the event's class name becomes the event name and only its public properties become the payload. Private and protected properties are never exposed; Laravel transport properties such as socket and broadcastQueue are excluded.",
+            "The client receives the name App\\Events\\OrderUpdated when that is the event's class. Define Laravel's existing broadcast methods to customize the contract:",
+            "broadcastAs() and broadcastWith() are applied consistently whether Mosaicast delivers through shared props or Laravel broadcasting. Transport metadata such as Laravel's internal socket value is not included in the client event payload. A string-backed enum returned by broadcastAs() contributes its string value as the event name.",
+            "Only public event properties are selected by default, but a public property can itself contain sensitive data. Laravel Arrayable values, including Eloquent models, are converted to arrays. Prefer broadcastWith() to expose a deliberate, minimal payload rather than passing a full model when privacy matters. Mosaicast does not infer which model attributes are safe for a browser.",
+            "Use the optional trait when the event should construct and dispatch itself:",
+            "AbstractMosaicastEvent is available as an alternative base class when the event can extend it.",
+            "The broadcast fallback runs synchronously before Laravel returns the response. A broadcast connection or driver error can fail the request. The same errors can fail a job that broadcasts to an explicit session.",
+            "Capture the opaque session target while a request is active, then pass it to a job or deferred callback. Explicit targets always use Laravel broadcasting.",
+            "The queued job stores that identifier instead of relying on a request that no longer exists:",
+            "A job has no implicit current request; Mosaicast::dispatch() alone cannot determine which browser session should receive its event. An explicit target always broadcasts. Mosaicast::currentTarget() is also available when server code needs the SessionDeliveryTarget value object; its sessionIdentifier property is the string accepted by toSession().",
+            "An event emitted with Mosaicast::dispatch() after Laravel has handled the current response, such as from defer(), is broadcast immediately to that request's session target. If Laravel regenerates the session ID during a request, subsequent dispatches, the resolved shared prop, and the final broadcast fallback use the regenerated session identifier. Jobs must capture the target after regeneration when they should address the new browser session.",
+            "Broadcasting does not replay an event to a channel subscribed after the event was sent. If a partial reload both rotates the session and omits mosaicast, an event broadcast at the end of that request may arrive before the Vue client can subscribe to the new channel. Include mosaicast in such a response when immediate delivery matters, or avoid rotating the session during that partial reload."
+        ],
+        "requirements": [],
+        "tables": [
+            [
+                ["Final response", "Delivery"],
+                [
+                    "Inertia response with mosaicast resolved",
+                    "mosaicast.events shared prop"
+                ],
+                [
+                    "Partial reload that omits mosaicast",
+                    "Private session broadcast channel; the identifier still arrives in mosaicastSessionIdentifier"
+                ],
+                [
+                    "Redirect, download, JSON, or other non-Inertia response",
+                    "Private session broadcast channel"
+                ]
+            ]
+        ],
+        "legacyPath": "packages/mosaicast/inertia-delivery",
+        "sourceSha256": "e232f776e4472603038ce80a5abdb5f5e4acf57e86bd6a62cbf02b2492964311"
+    },
+    {
+        "slug": "mosaicast/session-channels",
+        "title": "Session broadcast channels",
+        "package": "mosaicast",
+        "component": "docs/mosaicast/SessionChannels",
+        "headings": [
+            {
+                "level": 2,
+                "id": "enable-broadcasting-in-the-host-application",
+                "text": "Enable broadcasting in the host application"
+            },
+            {
+                "level": 2,
+                "id": "channel-identity",
+                "text": "Channel identity"
+            },
+            {
+                "level": 2,
+                "id": "authorization-requirements",
+                "text": "Authorization requirements"
+            },
+            {
+                "level": 2,
+                "id": "configuration",
+                "text": "Configuration"
+            },
+            {
+                "level": 2,
+                "id": "session-lifecycle",
+                "text": "Session lifecycle"
+            }
+        ],
+        "examples": [
+            {
+                "code": "HMAC-SHA-256(session ID + NUL + session CSRF token, session channel key)",
+                "language": "text",
+                "meta": null
+            },
+            {
+                "code": "private-mosaicast.sessions.{session-identifier}",
+                "language": "text",
+                "meta": null
+            },
+            {
+                "code": "MOSAICAST_SESSION_CHANNEL_KEY=your-long-random-secret",
+                "language": "dotenv",
+                "meta": null
+            },
+            {
+                "code": "php artisan vendor:publish --tag=mosaicast-config",
+                "language": "bash",
+                "meta": null
+            },
+            {
+                "code": "return [\n    'broadcasting' => [\n        'guard' => 'mosaicast-session',\n        'session_channel_key' => env('MOSAICAST_SESSION_CHANNEL_KEY', env('APP_KEY')),\n        'session_channel_prefix' => 'mosaicast.sessions',\n    ],\n];",
+                "language": "php",
+                "meta": null
+            }
+        ],
+        "links": [
+            {
+                "href": "https://laravel.com/framework/docs/13.x/broadcasting"
+            }
+        ],
+        "anchors": [],
+        "paragraphs": [
+            "Mosaicast registers a private broadcast channel for each Laravel session. The channel is available to guests as well as signed-in users; authorization checks the current Laravel session, including for visitors who have never signed in.",
+            "Mosaicast uses Laravel's configured broadcaster. To use Reverb, run php artisan install:broadcasting, configure the broadcast connection, and start the Reverb server in the target environment. Laravel's broadcasting guide covers installation, the authentication route, and Reverb's client configuration.",
+            "Keep the broadcast authentication endpoint on middleware that can read the same Laravel session cookie as the Inertia pages. Laravel normally exposes /broadcasting/auth when broadcasting is installed; if that route is absent, register the application's channel routes using Laravel's normal broadcasting setup. Mosaicast registers its own channel rule automatically, including when Laravel caches HTTP routes, so the host application does not need to duplicate it in routes/channels.php.",
+            "Mosaicast derives an opaque session identifier with HMAC-SHA-256:",
+            "Mosaicast sends only the derived identifier. It reads the ID and CSRF token from the session that Laravel already loaded. By default, the private channel name is:",
+            "Laravel adds the private- prefix to its wire-level channel name. Pass mosaicast.sessions.{identifier} without that prefix to Echo's private() method. The Vue plugin does this using the identifier received in Inertia props.",
+            "The opaque identifier is a lowercase, 64-character SHA-256 HMAC. Private-channel authorization still requires the matching session cookie. A queued job may carry the identifier to address a specific session. Keep it out of URLs, logs, and long-term storage.",
+            "Mosaicast registers the channel authorization rule and the mosaicast-session guard automatically. The guard identifies the current session through its HMAC identifier; the channel rule admits only an identifier that matches it. This works for guests and signed-in users, but it does not grant any application permissions.",
+            "Use the same Echo/Reverb connection and authorization endpoint as other private channels in the application. A subscription to mosaicast.sessions.{identifier} requires the matching session ID and CSRF token in the current Laravel session. Guest sessions receive a token from Laravel when they start.",
+            "If the browser never requests channel authorization, verify that the Inertia page contains mosaicastSessionIdentifier, an Echo instance is passed to createMosaicast, and broadcasting is enabled. If authorization is rejected, verify that /broadcasting/auth receives the session cookie, the requested channel name uses the configured prefix, and any cross-origin setup permits stateful requests from the frontend origin.",
+            "The session channel key defaults to APP_KEY. The application must have a non-empty key before Mosaicast can derive identifiers. Set MOSAICAST_SESSION_CHANNEL_KEY when the session-channel secret must be distinct from the application encryption key:",
+            "Publish the package configuration to customize the guard name or channel prefix:",
+            "Mosaicast registers its guard automatically. Do not use this guard for application authorization: it represents only a valid browser session and has no application user or permissions.",
+            "When changing session_channel_prefix, set the Vue plugin's channelPrefix option to the same value. The browser uses mosaicast.sessions by default.",
+            "The channel changes when Laravel rotates the session ID or CSRF token, or when the application rotates the channel key. Inertia sends the current identifier even on partial reloads that omit events. The Vue plugin switches to the new channel or leaves the old one when the response has no session identity.",
+            "Use a server-backed session driver such as database or Redis when logout must revoke new subscriptions. After Laravel invalidates or expires the stored session, presenting the old cookie can start a new guest session, but its new CSRF token cannot authorize the old channel. A rotation that leaves the old session record intact does not revoke that record. The cookie session driver cannot revoke replay of an earlier, still-valid cookie containing the session data.",
+            "Invalidating a Laravel session does not disconnect WebSocket subscriptions that the broadcaster already accepted. Jobs that send sensitive data must recheck application authorization before publishing, especially if they captured the target before logout. The Mosaicast guard identifies a browser session and cannot grant access to application data.",
+            "Mosaicast 1.2 replaces the ID-only channel identifiers used by earlier releases. Before deploying the upgrade, drain or discard queued notifications that target the old identifiers. After deploying, reload open clients so they subscribe to the new channels.",
+            "Outside a request, pass only an identifier captured with Mosaicast::currentSessionIdentifier() to Mosaicast::toSession(). The method rejects arbitrary values rather than allowing server code to emit to malformed channel names."
+        ],
+        "requirements": [],
+        "tables": [],
+        "legacyPath": "packages/mosaicast/session-channels",
+        "sourceSha256": "16be14d9ba4e20da74c294c77a089cea9f3be5cc12b70f10ee486a65312b975f"
+    },
+    {
+        "slug": "mosaicast/vue-plugin",
+        "title": "Vue plugin",
+        "package": "mosaicast",
+        "component": "docs/mosaicast/VuePlugin",
+        "headings": [
+            {
+                "level": 2,
+                "id": "install-from-the-composer-package",
+                "text": "Install from the Composer package"
+            },
+            {
+                "level": 2,
+                "id": "register-the-plugin",
+                "text": "Register the plugin"
+            },
+            {
+                "level": 2,
+                "id": "verify-both-delivery-paths",
+                "text": "Verify both delivery paths"
+            },
+            {
+                "level": 2,
+                "id": "listen-for-events",
+                "text": "Listen for events"
+            },
+            {
+                "level": 2,
+                "id": "diagnostic-output",
+                "text": "Diagnostic output"
+            }
+        ],
+        "examples": [
+            {
+                "code": "{\n  \"devDependencies\": {\n    \"@artisan-toolbox/mosaicast\": \"file:vendor/artisan-toolbox/mosaicast\"\n  }\n}",
+                "language": "json",
+                "meta": null
+            },
+            {
+                "code": "npm install --save-dev @laravel/echo-vue laravel-echo pusher-js",
+                "language": "bash",
+                "meta": null,
+                "installationCommand": "broadcast"
+            },
+            {
+                "code": "import { configureEcho, echo } from \"@laravel/echo-vue\";\nimport { createInertiaApp } from \"@inertiajs/vue3\";\nimport { createMosaicast } from \"@artisan-toolbox/mosaicast\";\n\nconfigureEcho({\n  broadcaster: \"reverb\",\n  key: import.meta.env.VITE_REVERB_APP_KEY,\n  wsHost: import.meta.env.VITE_REVERB_HOST,\n  wsPort: Number(import.meta.env.VITE_REVERB_PORT ?? 80),\n  wssPort: Number(import.meta.env.VITE_REVERB_PORT ?? 443),\n  forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? \"https\") === \"https\",\n  enabledTransports: [\"ws\", \"wss\"],\n});\n\nvoid createInertiaApp({\n  // Keep the application's existing page resolution and other options here.\n  withApp(app, { ssr }) {\n    if (!ssr) {\n      app.use(\n        createMosaicast({\n          echo: echo<\"reverb\">(),\n          debug: import.meta.env.DEV,\n        }),\n      );\n    }\n  },\n});",
+                "language": "ts",
+                "meta": null
+            },
+            {
+                "code": "import { createFrontAwesome } from \"@artisan-toolbox/front-awesome\";\n\napp.use(\n  createFrontAwesome({\n    mosaicast: {\n      echo: echo<\"reverb\">(),\n      debug: import.meta.env.DEV,\n    },\n  }),\n);",
+                "language": "ts",
+                "meta": null
+            },
+            {
+                "code": "app.use(\n  createMosaicast({\n    echo: echo<\"reverb\">(),\n    channelPrefix: \"custom.sessions\",\n  }),\n);",
+                "language": "ts",
+                "meta": null
+            },
+            {
+                "code": "import { mosaicast } from \"@artisan-toolbox/mosaicast\";\n\nconst stop = mosaicast().on(\"orders.updated\", (payload, source) => {\n  console.log(payload.orderId);\n  console.log(source); // \"inertia\" or \"broadcast\"\n});\n\n// Later, for example when a component is unmounted:\nstop();",
+                "language": "ts",
+                "meta": null
+            },
+            {
+                "code": "const onOrderUpdated = (\n  payload: Record<string, unknown>,\n  source: \"inertia\" | \"broadcast\",\n) => {\n  console.log(payload, source);\n};\n\nmosaicast().on(\".orders.updated\", onOrderUpdated);\nmosaicast().off(\"orders.updated\", onOrderUpdated);",
+                "language": "ts",
+                "meta": null
+            },
+            {
+                "code": "[Mosaicast] Session identifier: 8b1f…\n[Mosaicast] Subscribing to private channel: mosaicast.sessions.8b1f…\n[Mosaicast] Private channel subscribed: mosaicast.sessions.8b1f…\n[Mosaicast] Inertia event: { ... }\n[Mosaicast] Broadcast event: { ... }",
+                "language": "text",
+                "meta": null
+            }
+        ],
+        "links": [
+            {
+                "href": "https://laravel.com/framework/docs/13.x/broadcasting#client-side-installation"
+            },
+            {
+                "slug": "mosaicast/inertia-delivery",
+                "hash": "#delivery-behavior",
+                "href": "/docs/mosaicast/inertia-delivery#delivery-behavior"
+            },
+            {
+                "slug": "mosaicast/inertia-delivery",
+                "hash": "#background-jobs-and-deferred-work",
+                "href": "/docs/mosaicast/inertia-delivery#background-jobs-and-deferred-work"
+            }
+        ],
+        "anchors": [],
+        "paragraphs": [
+            "The Mosaicast Vue plugin delivers Inertia prop events and private broadcasts through the same mosaicast().on() API. The callback receives the event payload and its source (\"inertia\" or \"broadcast\"). Diagnostics are disabled by default.",
+            "Install the Composer package before the JavaScript dependency so vendor/artisan-toolbox/mosaicast exists. Add the JavaScript package from that vendor directory:",
+            "To receive private broadcasts, install and configure Laravel Echo in the host application. Reverb uses the Pusher protocol, so pusher-js belongs in the host application:",
+            "Composer ships the compiled client and TypeScript declarations in dist/. The application imports that build as an ES module. Use Node.js 20 or later, Vue 3, and @inertiajs/vue3 3.x. Run npm install again after replacing or rebuilding the vendor package so the application uses the updated dist files.",
+            "Configure @laravel/echo-vue before registering Mosaicast, then pass its configured Echo instance to the plugin. Use the Reverb variables and connection settings from your application. Laravel's broadcasting guide has the client configuration reference.",
+            "If your application already uses Front Awesome, its public createFrontAwesome() plugin registers Mosaicast too. After installing Front Awesome and configuring Echo as above, use this registration in the same client-only withApp hook. Pass Mosaicast options through mosaicast and keep one registration path per document.",
+            "The plugin delivers events from the initial page and fresh Inertia responses, including reloads that replace the current page. It uses mosaicastHasEvents to distinguish new events from props retained across partial reloads. Restoring a page from browser history does not replay events or restore an old subscription. If back or forward navigation loads a fresh document, the plugin can deliver its new events and subscribe to its current session.",
+            "The always-included mosaicastSessionIdentifier prop updates the subscription even when a partial response omits mosaicast.events. A fresh response with a null identifier leaves the previous channel. An empty payload reaches listeners as an empty object. A malformed event is skipped without preventing delivery of valid events in the same response. Set debug: true to log subscription, delivery, and validation diagnostics.",
+            "If the backend's mosaicast.broadcasting.session_channel_prefix configuration differs from the default mosaicast.sessions, pass the same value to the plugin:",
+            "The prefix is a deployment setting shared by Laravel and the Vue application. A mismatch prevents Echo from authenticating the intended channel.",
+            "The plugin options are:",
+            "Dispatch an event from a route that renders an Inertia page and inspect the page's mosaicast.events prop. The listener should receive source === \"inertia\"; the client does not need to finish its WebSocket subscription before handling that response.",
+            "Then dispatch from a job or a response that does not resolve mosaicast. A browser already subscribed to the matching private channel receives source === \"broadcast\". Laravel broadcasting does not replay earlier messages. The delivery guide covers synchronous broadcaster errors and session rotation.",
+            "When nothing arrives, check the path in order: the server produced the intended event and payload, mosaicastSessionIdentifier is present, the host application's Echo instance was passed to the plugin, /broadcasting/auth received the session cookie and accepted the channel, and the host broadcaster is connected to Reverb. If no authorization request appears, the plugin has not attempted a private subscription. Enable debug only in an environment where logging event payloads is acceptable.",
+            "Use mosaicast() anywhere in the client application after importing it from the package. on() returns an unsubscribe callback, and off() removes a specific listener.",
+            "Register component listeners during component setup and call the returned function on unmount. The plugin itself registers navigation and Echo subscriptions during installation; Vue lifecycle hooks such as onMounted() belong inside components or composables.",
+            "Laravel Echo-style leading dots are accepted too:",
+            "The event name is identical for shared-prop and broadcast delivery. A Laravel event object without broadcastAs() uses its class name, such as App\\Events\\OrderUpdated; register its short class name (OrderUpdated) when the class is in the default App\\Events namespace. For events in other namespaces, register the full class name to avoid matching another event with the same short class name. A broadcastAs() method uses its returned value.",
+            "With debug: true, the plugin logs:",
+            "If the Echo instance is not provided or the private-channel authorization fails, the plugin logs the reason as an error.",
+            "Diagnostics include event payloads. Enable debug only where console output may safely contain the event's application data.",
+            "Do not log, persist, or expose the raw Laravel session ID. Mosaicast only uses its HMAC-derived identifier."
+        ],
+        "requirements": [],
+        "tables": [
+            [
+                ["Option", "Purpose"],
+                [
+                    "echo",
+                    "The host application's configured Echo instance. Inertia events still work without it, but private broadcasts cannot be received."
+                ],
+                [
+                    "channelPrefix",
+                    "The backend's session-channel prefix. Defaults to mosaicast.sessions."
+                ],
+                [
+                    "debug",
+                    "Enables subscription, event, and validation logs. Defaults to false."
+                ],
+                [
+                    "logger",
+                    "Replaces console for diagnostics when debug is enabled; it must provide info() and error()."
+                ]
+            ]
+        ],
+        "legacyPath": "packages/mosaicast/vue-plugin",
+        "sourceSha256": "6e9c56a9376c6f4d760a4ce6c14e1aedbde79931f59702adc6212f2b6821bfd7"
+    },
+    {
+        "slug": "mosaicast/roadmap",
+        "title": "Delivery guarantees",
+        "package": "mosaicast",
+        "component": "docs/mosaicast/DeliveryGuarantees",
+        "headings": [
+            {
+                "level": 2,
+                "id": "implemented-contract",
+                "text": "Implemented contract"
+            },
+            {
+                "level": 2,
+                "id": "delivery-limits",
+                "text": "Delivery limits"
+            }
+        ],
+        "examples": [],
+        "links": [
+            {
+                "slug": "mosaicast/inertia-delivery",
+                "hash": "",
+                "href": "/docs/mosaicast/inertia-delivery"
+            },
+            {
+                "slug": "mosaicast/session-channels",
+                "hash": "",
+                "href": "/docs/mosaicast/session-channels"
+            },
+            {
+                "slug": "mosaicast/vue-plugin",
+                "hash": "",
+                "href": "/docs/mosaicast/vue-plugin"
+            },
+            {
+                "slug": "mosaicast/inertia-delivery",
+                "hash": "#delivery-behavior",
+                "href": "/docs/mosaicast/inertia-delivery#delivery-behavior"
+            }
+        ],
+        "anchors": [],
+        "paragraphs": [
+            "Mosaicast 1.x provides an event-delivery contract through its PHP facade, Inertia shared props, private session channel, explicit job target, and Vue listener plugin. The Inertia delivery, session channel, and Vue plugin guides describe each part of that contract.",
+            "Mosaicast::dispatch('name', $payload) and Mosaicast::dispatch(new Event(...)) accept a name and associative payload or a Laravel event object. Event objects follow broadcastAs(), broadcastWith(), and public-property conventions.",
+            "Events queued in a request are consumed when Inertia actually resolves mosaicast.events. Remaining events are broadcast after Laravel handles the response. A later dispatch, including one in defer(), broadcasts immediately after that point.",
+            "Broadcasts use a private channel derived from the current Laravel session. Jobs must capture an opaque session identifier in a request and pass it to Mosaicast::toSession($identifier).",
+            "The Vue client listens to Inertia navigation and the application's Echo instance. mosaicast().on() returns an unsubscribe function; callbacks receive the payload and \"inertia\" or \"broadcast\" as the source.",
+            "mosaicastSessionIdentifier is an always-included Inertia prop, so partial reloads can update the private-channel subscription without consuming events omitted from mosaicast.events.",
+            "Broadcasting does not replay an event to a client that joins after it was sent. A request that both rotates its session and omits mosaicast.events from a partial response can broadcast before the client subscribes to the new channel. Include the event prop in that response when immediate delivery matters.",
+            "Mosaicast dispatches broadcasts synchronously. A broadcaster exception can fail the request or job. See delivery behavior.",
+            "A queued job targeting an expired or rotated session may publish to the old channel. Session invalidation prevents new authorization for that channel with a server-backed session driver, but existing WebSocket subscriptions may still receive events. Recheck application authorization before sending sensitive data. Neither the opaque identifier nor the session guard provides application authorization; the host app remains responsible for deciding which data the event may reveal."
+        ],
+        "requirements": [],
+        "tables": [],
+        "legacyPath": "packages/mosaicast/roadmap",
+        "sourceSha256": "f116bd6d9e859cf02e0d779aab147f0d31c5e8574dcabf8924ae83ed15459618"
+    }
+]

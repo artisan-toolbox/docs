@@ -3,6 +3,35 @@
 Use this workflow to add a page to the Laravel documentation application.
 Start from [the migrated Maintainer overview](../resources/js/pages/docs/maintainer/Maintainer.vue).
 
+For package usage skills, follow [Add and maintain a package usage skill](package-skills.md).
+Use the versioned `atb-documentation` skill for this workflow. See [shared agent standards](agent-standards.md) for installation, updates, and CI checks.
+Review affected skills whenever public APIs, commands, configuration, compatibility, installation, or recommended usage change.
+Update them with the implementation, tests, central guides, migrated pages, and changelog in the same task.
+If a reviewed skill needs no edit, record why its existing guidance remains accurate.
+
+## Plan the beginner journey
+
+Audit the affected package's legacy and Vue pages before changing either. Record the learner's starting environment, prerequisite pages, installation actions, first example, expected result, and next guide.
+Every package needs a dedicated Installation page and an overview quickstart.
+The overview opens with purpose, stability, and documented version, followed by requirements, installation, first success, configuration, task guides, advanced explanations, reference, and development.
+Move configuration before the first example when that example requires it.
+
+Keep one procedure for the common supported setup. State where commands run, install backend dependencies before frontend dependencies, and explain required sessions, authentication, broadcasters, workers, or hardware before the example uses them.
+Define inputs instead of assuming that application models or variables exist.
+Show executable public API code and its visible expected result.
+
+Use `atb-documentation` and its bundled writing and prose review guidance. Personal technical-writing skills may supplement this shared standard.
+Separate tutorials, how-to guides, reference, and explanations.
+[Diataxis tutorial guidance](https://diataxis.fr/tutorials/) informs the first successful learning path.
+[Google's procedure guidance](https://developers.google.com/style/procedures) informs ordered steps and expected outcomes.
+[Google's code sample guidance](https://developers.google.com/style/code-samples) informs examples alongside project-specific code style.
+Record a concrete missing capability and a reviewed source before adding another skill. Existing installed guidance does not need an external duplicate.
+
+Write for the reader's task in clear English. Choose one Diataxis mode per guide and link to other modes for background or reference.
+Use active voice, descriptive links, sentence-case headings, and the exact public API names.
+Follow the package formatter for executable examples. Define inputs, show expected results, and check links and stable heading anchors.
+State actual compatibility and failure behavior. Remove stale recommendations rather than leaving conflicting procedures in place.
+
 ## Register the page
 
 1. Inspect the owning package's public components, composables, and backend APIs for capabilities the documentation can consume.
@@ -17,10 +46,43 @@ Start from [the migrated Maintainer overview](../resources/js/pages/docs/maintai
 Use [the Maintainer page definition](../app/Documentation/Pages/MaintainerPage.php) and [package definition](../app/Documentation/Packages/MaintainerPackage.php) as examples.
 The coordinator derives navigation from enum cases.
 Do not add another navigation list in Vue.
-Catalog entries for unmigrated packages continue to use their current public documentation URLs.
+All package overviews and guides now use local registered destinations.
+
+### Place the page in the menu
+
+Use slash-separated slugs to express package and guide nesting.
+Each page belongs to its nearest registered nonempty prefix. For example, `maintainer/ci/quality` appears under `maintainer/ci`, which appears under `maintainer`.
+If an intermediate prefix is not registered, the page belongs to the nearest registered ancestor. A page without a registered ancestor appears at the top level.
+The empty index slug stays a top-level link. Enum declaration order determines sibling order.
+That order is an editorial learning sequence. Place Installation first beneath each package, then prerequisites and guided tasks before advanced explanations, reference, and development. Never alphabetize siblings or create a second menu list.
+
+`Documentation::navigation()` returns one recursive tree of `NavigationNode` objects, including named-route destinations, exact current-page state, ancestor state, and children.
+`DocsNavigationItem` renders each branch. Its page link navigates; its separate button expands or collapses children without navigating or closing the mobile menu.
+The active branch opens on initial load and subsequent route changes. Readers can collapse it afterward.
+Only the exact page link receives `aria-current="page"`.
+
+Keep package sections visually distinct from guide links. Reserve enough sidebar width for nested labels, use compact indentation and quiet vertical guides, and highlight only the current destination with a tinted background and leading marker.
+Allow long labels to wrap rather than truncating them. Preserve 44-pixel touch targets, independent disclosure buttons, and visible keyboard focus in both themes.
+Check the real application at desktop and mobile widths after changing menu presentation; rendered component tests do not establish visual quality.
+
+### Navigate within a page
+
+`DocsTableOfContents` builds the "On this page" outline from anchored `h2` and `h3` elements inside the page content. Existing `ProseSection` headings and authored heading elements both participate. Give each section a stable, unique `id` and a descriptive title. Subsections appear beneath their preceding section; do not maintain a second list of section labels or links.
+
+The outline appears in a sticky right rail on wide screens and in a disclosure before the article on smaller screens. Native anchor links preserve deep links and browser history. The active section follows scrolling, and navigation to another Inertia page replaces the outline and closes its disclosure. The footer is outside the collection boundary. Mark demo containers with `data-docs-outline-exclude` when their internal headings must remain separate from the guide.
+
+The documentation logo, sidebar's "Back to home" link, and shared footer's "Home" link use the supplied named-route home destination.
+The mobile package menu opens in a scrollable panel below the sticky header, so it remains reachable after scrolling a long guide. Escape closes the panel and returns focus to its menu button.
+The shared header reports its actual height with `ResizeObserver`. The documentation layout uses that measurement for panel placement and heading scroll margins, including narrow screens where header controls wrap. Do not replace it with a fixed pixel offset.
+
+Use `findNavigationItem()` from `resources/js/lib/docsNavigation.js` when a page needs a destination from this tree.
+Add coverage for the generated hierarchy, active ancestors, collapse behavior, and mobile link selection when changing navigation.
 
 `PageResource` and `PackageResource` own frontend field names and derived links.
 Keep serialization out of the definitions and preserve the existing unwrapped Inertia prop structure.
+
+Use `DocsLink` for documentation destinations, including source references, repositories, and package registry links. Outbound HTTP(S) links, including protocol-relative URLs, open in a new tab with `noopener noreferrer`. Same-origin links, local anchors, email links, and telephone links retain their native behavior; root-relative page links use Inertia.
+Do not duplicate external-link attributes across guide pages or intercept every click with a document-level handler.
 
 For theme selection, inspect Front Awesome's public `Theme` export and `createFrontAwesome({ theme: true })` before creating a selector or appearance controller.
 Install and consume the package through its documented entry points. Keep one appearance controller per document.
@@ -29,19 +91,36 @@ Install and consume the package through its documented entry points. Keep one ap
 
 Use the shared components in `resources/js/components/docs/`:
 
-| Component      | Responsibility                                                                  |
-| -------------- | ------------------------------------------------------------------------------- |
-| `PageHeader`   | One accessible page heading, description, and optional theme artwork.           |
-| `PackageSpecs` | Package name, documented version, and stability as a definition list.           |
-| `Requirements` | A reusable requirements section from an ordered array of strings.               |
-| `ProseSection` | A section with an optional anchored heading and shared prose styles.            |
-| `CodeExample`  | Escaped code, scrolling, a copy button, and accessible clipboard feedback.      |
-| `PackageCard`  | A package identity and its documentation destination.                           |
-| `DocsLink`     | Inertia navigation for local URLs and ordinary links for external destinations. |
+For icons in site controls and documentation chrome, use the shared `SiteIcon` component and follow [icon maintenance](icons.md). Keep text labels and use the native WA kit configuration; do not add another library or per-page SVG resolver. Decorative icons must remain outside the search corpus.
+
+| Component            | Responsibility                                                                                         |
+| -------------------- | ------------------------------------------------------------------------------------------------------ |
+| `PageHeader`         | One accessible page heading, description, and optional theme artwork.                                  |
+| `PackageGuideHeader` | Overview identity or a visible guide title and description with compact package tags.                  |
+| `PackageSpecs`       | Overview package specifications with the documented version, stability, and repository.                |
+| `PackageBadges`      | Compact package identity, documented version, stability, and repository on child pages.                |
+| `PackageVersion`     | Shared installed-version display and explicit missing or unavailable version states.                   |
+| `Requirements`       | A reusable requirements section from an ordered array of strings.                                      |
+| `ProseSection`       | A section with an optional anchored heading and shared prose styles.                                   |
+| `InstallCommand`     | Lock-backed installation instructions using the same exact command for display, clipboard, and search. |
+| `CodeExample`        | Language-aware syntax highlighting, exact source, scrolling, and accessible copy feedback.             |
+| `PackageCard`        | A package identity and its documentation destination.                                                  |
+| `DocsLink`           | Inertia navigation for local URLs and ordinary links for external destinations.                        |
+| `DocsTable`          | A captioned table with escaped text, column headings, and keyboard-accessible horizontal scrolling.    |
+| `DocsCallout`        | A titled information, note, tip, caution, or danger message with consistent semantic styling.          |
+
+Follow [code example maintenance](code-examples.md) for supported languages, highlighting, exact clipboard content, and safe fallbacks.
 
 `DocsLayout` supplies branding, responsive navigation, theme selection, the main landmark, and the source reference.
 The application selects this layout for `docs/` components.
 Do not wrap the page in another layout instance.
+
+Use `PackageGuideHeader` with the registered `page` prop for package pages. It composes `PageHeader` with `PackageSpecs` on the overview and `PackageBadges` on child pages, keeping the actual guide title visible.
+Reserve the large identity header and heading artwork for package overview pages. Child pages use the visible task title and compact shared package tags. A package wordmark must not replace a configuration, quality, or other detailed guide title.
+Use one "Documented version" value on overviews, child pages, and package cards. It is the actual Composer-installed version, independent of manually authored compatibility requirements and stability. `InstallationCommands::composerVersion()`, shared by `PackageResource` and installation recipes, dynamically displays the exact local aliases `1.99.99` and `1.999.999` as `1.x-dev` for every package; preserve every other Composer version unchanged. Never rewrite the lockfile to change a displayed label, fall back to a catalog version, or add a second compatibility version badge. Keep missing packages and unavailable versions explicit. Overview specifications and compact guide tags link to the package repository through `DocsLink`; use the existing `repositoryUrl` resource field rather than authoring repository URLs in pages. Development versions retain their branch label, and unpublished APIs remain identified as previews in the guide content.
+
+When migrating a section, keep its overview and directly related guides in the same verifiable unit where practical. Preserve heading anchors and code examples, switch links only after the destination is registered, and add exact legacy redirects.
+Check examples against the documented package version, including any difference between a command's requirements and a helper's fallback behavior. Correct demonstrated inaccuracies in both the legacy source and migrated pages.
 
 For example, compose a section with normal Vue markup:
 
@@ -67,7 +146,21 @@ Extract a component when two real callers share presentation or interaction beha
 Keep component inputs explicit. Do not read a page's metadata inside a generic content component.
 Use `ProseSection` without a heading for introductory paragraphs that need the same prose styling.
 
+For tables, pass `caption`, an ordered `columns` array of labels, and `rows` as arrays of cell text to `DocsTable`.
+The optional `cell` slot receives `value`, `rowIndex`, and `columnIndex` when a cell needs formatting such as `<code>`.
+Keep HTML out of cell strings. The quality guide uses the same table for the workflow summary and binary requirements.
+For authored tables containing links or richer cells, provide semantic `<thead>` and `<tbody>` markup through the default slot. Keep the caption and scrolling behavior on `DocsTable`.
+Supply package requirements from `page.requirements`. The PHP package definition owns them; do not duplicate compatibility arrays in Vue partials. Pass requirements explicitly through page-specific components.
+For nonpackage pages, leave the definition's package unset and use `PageHeader` without package specifications.
+Split long guides into cohesive page-specific sections under `components/docs/<package>/<section>/`, while keeping reusable presentation in `components/docs/`.
+
 Markdown support is deferred. Do not introduce custom component markers or a second content compiler without a concrete authoring need.
+
+## Keep search current
+
+Registered pages and their imported authored Vue partials enter search automatically. Give headings stable IDs and keep searchable code and table values static through the existing shared components. Follow [the search authoring contract](search.md#follow-the-authoring-contract); never maintain a second page list or copied search summaries.
+
+After adding, changing, or removing content, run `php artisan docs:search:index --no-interaction` and `php artisan docs:search:index --check --no-interaction`. Search body text, a code identifier, and a table value when relevant, then verify the returned section links. A shared component with new content semantics needs one shared extraction adapter and behavior tests. Extraction failures stop indexing and preserve the previous artifact; fix the source rather than hiding the page. Deployment must create the release-local index before activating that release.
 
 ## Set metadata and source references
 
@@ -76,16 +169,18 @@ Set page metadata in its typed PHP definition and shared package metadata in its
 The root Blade document prints `@head`; Inertia's `serverHead` option updates these tags during navigation.
 Do not add a Vue `<Head>` or a title callback to a documentation page.
 
-During migration, each page links to its existing canonical content file on GitHub with the label **View migration source on GitHub**.
-The Laravel directory does not yet have a published source checkout.
-When the replacement is pushed, update the page definitions to link to the actual Vue source and update the resource's label.
-Do not label an unpublished path as an available editing link.
+Set each page's `sourcePath` to its Vue file relative to the repository root.
+The footer uses **View page source on GitHub** and the configured `1.x` source URL.
+The Laravel application now has a published source checkout, so collaboration links point to its Vue pages.
+The page-registry test checks that every referenced source file exists.
 
 Configure the application origin with `APP_URL`; do not add a second documentation URL setting.
 Generate page URLs through `PageSlug::url()` and the named Laravel routes.
 Use Laravel's `route()` in PHP and Ziggy for JavaScript consumers of those routes.
+Follow [the frontend routing workflow](routing.md) when a component needs to generate a URL. The initial Blade document supplies Ziggy's native JSON configuration; do not generate frontend route files or maintain a second configuration through Inertia props. Keep form methods explicit and consume existing backend-provided navigation destinations directly.
 Tracking parameters do not belong in canonical URLs.
-Keep unmigrated guide destinations on the current published site until their replacement pages exist.
+The sitemap and both visible and structured breadcrumbs follow `PageSlug` automatically. Keep registered ancestor titles accurate and do not add another URL list. Follow [the SEO maintenance guide](seo.md) for response-owned schemas, internal noindex rules, initial metadata checks, and post-publication rendering verification with Vue SSR disabled.
+Use registered local destinations for migrated guides. The generic legacy package redirect resolves only valid enum cases. Add an explicit alias only when an old path differs from the registered slug.
 
 ## Migrate existing content
 
@@ -99,11 +194,16 @@ Keep unmigrated guide destinations on the current published site until their rep
 Until cutover, keep package documentation changes synchronized with `docs_old`.
 Do not replace unrelated changes already present in that repository.
 
+The offline `scripts/migrate-legacy-documentation.mjs` aid converts a legacy source into ordinary editable Vue. For example, `node scripts/migrate-legacy-documentation.mjs packages/core/index` writes a candidate to standard output without changing files. Read the source and review the result; generated fragments do not replace editorial judgment. The application does not load Markdown or compiler dependencies at runtime.
+Normal frontend tests compare rendered headings, prose, examples, links, and tables against committed fixtures. The separate `npm run test:migration` workspace suite verifies frozen source hashes and the converter against `docs_old`; it requires the sibling source checkout and its installed dependencies. Both suites must pass for a migration change. Do not silently refresh fixtures to conceal lost content.
+
 ## Keep demos independent
 
-Demos are a later migration unit. Their required structure is already agreed:
+For a complete small backend example, follow [the Core demo maintenance guide](core-demos.md). It covers a bounded JSON request, public package execution, native Inertia HTTP handling, actual source imports, and reset verification. Use a transport that matches the behavior being taught; Mosaicast's response demonstrations continue to use Inertia visits.
 
-- Put Vue demos under `resources/js/demo/<package>/<section>/`.
+Demos have a separate ownership boundary:
+
+- Put Vue demos under `resources/js/components/demo/<package>/<section>/`.
 - Put their backend helpers under `app/Demo/<Package>/<Section>/`.
 - Give each demo its own controlled loading, error, and reset behavior.
 - Start animations, connections, jobs, printing, and other active behavior only after a user action.
@@ -112,8 +212,33 @@ Demos are a later migration unit. Their required structure is already agreed:
 - Keep small application integration tests here and full package behavior tests in the owning package.
 
 Do not add a shared demo runtime before the first demo establishes a need for one.
+`SharedBrandingDemo` is the first static consumer example. It imports the actual Front Awesome button and places it beside Tailwind utilities, with an independently resizable frame. Its adjacent guide shows the source. Passive styling requires no start action; active demos must still wait for the reader.
+
+Native Laravel or Inertia and Mosaicast comparisons use identical inputs, payloads, event counts, timing, session, and queue conditions.
+Describe observed delivery behavior and limits. Add infrastructure only when the requested example requires it, and do not infer performance improvements from a delivery illustration.
+
+## Refresh dependencies
+
+Each documentation task attempts compatible updates for installed Artisan Toolbox packages and the main runtime and test dependencies.
+Inspect current requirements and resolved versions first. Run Composer before npm and refresh Composer-delivered frontend copies before testing.
+Record the exact commands and actual changes, including already-current results, dependency conflicts, and unavailable registries or other blockers.
+Stay within declared compatibility constraints. Never fake a version bump, force an unpublished preview into a stable requirement, or relax compatibility to make a refresh appear successful.
+Use the task's existing authorization for dependency changes and preserve unrelated work.
 
 ## Verify the change
+
+A documentation defect must be fixed at its owning source. Do not use page-specific CSS, copied package internals, duplicate metadata, skipped checks, or refreshed fixtures to hide a missing prerequisite or broken contract.
+Review the complete beginner path for every affected package:
+
+1. Confirm purpose, stability, documented version, requirements, and preview status against the package.
+2. Follow the dedicated Installation page from its stated environment and directory.
+3. Run the first example with defined inputs and check the documented expected result.
+4. Follow the next guide and inspect prerequisite order in the real menu.
+5. Confirm that shared components own repeated presentation and that examples, anchors, links, and advanced content remain intact.
+6. Record dependency refresh outcomes and any verification that remains blocked.
+7. Review affected package skills and changelogs. Update consumer guidance in the same change or record why it remains accurate.
+
+Then validate the application:
 
 1. Run the affected Pest and Vite Plus tests while developing.
 2. Add tests for the page's public response, metadata, meaningful interactions, and applicable failure states.
@@ -127,3 +252,31 @@ Icon-generation tests use Node rather than a simulated browser.
 
 Run `npm run icons:build` after updating approved brand assets.
 See [brand asset maintenance](assets.md) for source ownership and generated paths.
+
+## Keep installation examples current
+
+Use the shared `InstallCommand` for named Composer and npm registry installs. Pass the serialized package explicitly, including through nested authored partials:
+
+```vue
+<InstallCommand
+    :package="page.package"
+    command="composer"
+    label="Install Core"
+/>
+```
+
+`App\Documentation\InstallationCommands` owns the small set of command recipes. Keys such as `composer`, `frontend`, `broadcast`, `setup`, `security`, and `primevue` identify a package's supported installation tasks. Add a recipe there when a new guide needs another command. `PackageResource` supplies that data to the page and `SearchCatalog` supplies the same data to extraction. No page, search adapter, or test fixture reconstructs dependency versions independently.
+
+Composer versions come from the installed metadata produced by the lock. Registry frontend versions come only from this application's `package-lock.json`. The optional Echo Vue and PrimeVue integrations are installed as development dependencies so their examples also have a reproducible locked source. A vendor `file:` dependency follows its Composer-installed package rather than an invented npm registry version. Install Composer dependencies before frontend files are copied.
+
+The local aliases `1.99.99` and `1.999.999` display as `1.x-dev` in labels and generated commands. This never rewrites the Composer manifests, aliases, or lock. Missing dependencies produce an explicit unavailable message instead of a fabricated pin or silent unversioned install. Explanations belong in the component's existing slot, which is visible only with an available command. The search adapter follows that same branch.
+
+The frontend guard in `scripts/installation-instructions.test.mjs` rejects named registry installation commands authored directly in Vue. The generic `artisan-toolbox/<package>` selection example and documented vendor file installs remain valid. The strict migration fixtures retain historical code and mark only intentional dynamic installation examples with their recipe key. Their test helper reads the real PHP catalog through Composer and requires PHP on the test runner's path. It derives packages from the existing catalog, not another hand-maintained list.
+
+After a dependency update, rebuild the search index before release activation. The index's freshness check detects changed command text. Run the version-mutation tests, shared component tests, extractor tests, and the full Maintainer checks. Verify the displayed command, copied source, and search destination in the actual application.
+
+## Keep package overviews focused
+
+An overview explains the package's purpose and provides a short route to first success. Put detailed connection, printing, preview, security, configuration, and contributor procedures in task guides. Keep requirements and installation before actions that depend on them. For QZ Tray, the overview's local label preview needs no printer or signing key; printing and signing follow their own explicit setup.
+
+When moving a section, keep its historical overview ID as a concise destination link and retain stable headings in the owning guide. Verify the old links and ensure technical prose, tables, and examples have one clear owner. Update collection-level migration coverage rather than copying the same reference back into the overview to satisfy an old snapshot.

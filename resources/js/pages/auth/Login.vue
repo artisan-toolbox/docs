@@ -1,6 +1,7 @@
 <script setup>
 import { Link, useForm } from '@inertiajs/vue3';
 import { computed, nextTick, ref, watch } from 'vue';
+import { route } from 'ziggy-js';
 import InputError from '@/components/InputError.vue';
 
 defineOptions({ layout: [] });
@@ -37,7 +38,7 @@ watch(
 );
 
 function requestCode() {
-    emailForm.post('/login/email', {
+    emailForm.post(route('login.email', undefined, false), {
         preserveScroll: true,
         onSuccess: () => {
             codeForm.resetAndClearErrors();
@@ -47,7 +48,9 @@ function requestCode() {
 }
 
 function verifyCode() {
-    codeForm.post('/login', { preserveScroll: true });
+    codeForm.post(route('login.store', undefined, false), {
+        preserveScroll: true,
+    });
 }
 
 function resendCode() {
@@ -74,7 +77,7 @@ function changeEmail() {
     >
         <header class="px-6 py-8 sm:px-10">
             <Link
-                href="/docs"
+                :href="route('docs.index', undefined, false)"
                 class="inline-block rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-600"
             >
                 <img

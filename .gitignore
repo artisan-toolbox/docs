@@ -7,9 +7,6 @@
 /public/storage
 /storage/*.key
 /storage/pail
-/resources/js/actions
-/resources/js/routes
-/resources/js/wayfinder
 /vendor
 .DS_Store
 .env
@@ -27,7 +24,11 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
-/.agents
+/.agents/*
+!/.agents/skills/
+/.agents/skills/*
+!/.agents/skills/atb-documentation/
+!/.agents/skills/atb-package-development/
 /.amp
 /.claude
 /.codex

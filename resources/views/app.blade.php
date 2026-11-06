@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" @class(['bg-white dark:bg-slate-950', 'dark' => ($appearance ?? 'system') == 'dark'])>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-fa-kit-code="{{ config('documentation.fontawesome_kit_code') }}" @class(['wa-theme-default wa-palette-default bg-white dark:bg-slate-950', 'dark wa-dark' => ($appearance ?? 'system') == 'dark', 'wa-light' => ($appearance ?? 'system') != 'dark'])>
     <head>
         <meta charset="utf-8">
         @head
@@ -9,17 +9,18 @@
             (function() {
                 const appearance = '{{ $appearance ?? "system" }}';
 
-                if (appearance === 'system') {
-                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-                    if (prefersDark) {
-                        document.documentElement.classList.add('dark');
-                    }
-                }
+                const isDark = appearance === 'dark' || (appearance === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                document.documentElement.classList.toggle('dark', isDark);
+                document.documentElement.classList.toggle('wa-dark', isDark);
+                document.documentElement.classList.toggle('wa-light', !isDark);
             })();
         </script>
 
+        <script src="https://kit.fontawesome.com/{{ config('documentation.fontawesome_kit_code') }}.js" crossorigin="anonymous"></script>
+
         @fonts
+
+        @routes(json: true)
 
         @vite(['resources/css/app.css', 'resources/js/app.ts', "resources/js/pages/{$page['component']}.vue"])
         <x-inertia::head />

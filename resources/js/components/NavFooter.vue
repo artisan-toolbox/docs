@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import SiteIcon from '@/components/site/SiteIcon.vue';
 import {
     SidebarGroup,
     SidebarGroupContent,
@@ -33,7 +34,7 @@ defineProps<Props>();
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <component :is="item.icon" />
+                            <SiteIcon v-if="item.icon" :name="item.icon" />
                             <span>{{ item.title }}</span>
                         </a>
                     </SidebarMenuButton>

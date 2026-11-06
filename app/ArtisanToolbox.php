@@ -20,7 +20,7 @@ final class ArtisanToolbox implements Versionable, WithReadmeHead
             ->withTitle('Artisan Toolbox documentation')
             ->withDescription([
                 'A Laravel, Vue, and Inertia application for Artisan Toolbox documentation and package integration examples.',
-                'The application is under migration. The existing documentation remains published at [artisantoolbox.wsssoftware.com.br](https://artisantoolbox.wsssoftware.com.br).',
+                'The application is under migration. The existing documentation remains published at [atb.dev.br](https://atb.dev.br).',
             ])
             ->addBadge(Badge::make(
                 link: 'https://github.com/artisan-toolbox/docs/releases',
@@ -29,7 +29,7 @@ final class ArtisanToolbox implements Versionable, WithReadmeHead
             ))
             ->addBadge(Badge::make(
                 link: 'https://github.com/artisan-toolbox/docs/blob/1.x/README.md',
-                imgSrc: 'https://img.shields.io/badge/PHP-%5E8.3-777BB4?style=flat-square',
+                imgSrc: 'https://img.shields.io/badge/PHP-%5E8.5-777BB4?style=flat-square',
                 imgAlt: 'PHP',
             ))
             ->addBadge(Badge::make(
@@ -43,7 +43,7 @@ final class ArtisanToolbox implements Versionable, WithReadmeHead
                 imgAlt: 'Tests',
             ))
             ->addBadge(Badge::make(
-                link: 'https://artisantoolbox.wsssoftware.com.br',
+                link: 'https://atb.dev.br',
                 imgSrc: 'https://img.shields.io/badge/Docs-Read-blue?style=flat-square',
                 imgAlt: 'Docs',
             ));

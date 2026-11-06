@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
+import SiteIcon from '@/components/site/SiteIcon.vue';
 import {
     SidebarGroup,
     SidebarGroupLabel,
@@ -28,7 +29,7 @@ const { isCurrentUrl } = useCurrentUrl();
                     :tooltip="item.title"
                 >
                     <Link :href="item.href">
-                        <component :is="item.icon" />
+                        <SiteIcon v-if="item.icon" :name="item.icon" />
                         <span>{{ item.title }}</span>
                     </Link>
                 </SidebarMenuButton>

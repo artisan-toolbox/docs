@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ToasterProps } from "vue-sonner"
-import { CircleCheckIcon, InfoIcon, Loader2Icon, OctagonXIcon, TriangleAlertIcon, XIcon } from "@lucide/vue"
+import SiteIcon from "@/components/site/SiteIcon.vue"
 import { Toaster as Sonner } from "vue-sonner"
 import { cn } from "@/lib/utils"
 
@@ -21,24 +21,24 @@ const props = defineProps<ToasterProps>()
     v-bind="props"
   >
     <template #success-icon>
-      <CircleCheckIcon class="size-4" />
+      <SiteIcon name="circle-check" />
     </template>
     <template #info-icon>
-      <InfoIcon class="size-4" />
+      <SiteIcon name="circle-info" />
     </template>
     <template #warning-icon>
-      <TriangleAlertIcon class="size-4" />
+      <SiteIcon name="triangle-exclamation" />
     </template>
     <template #error-icon>
-      <OctagonXIcon class="size-4" />
+      <SiteIcon name="circle-xmark" />
     </template>
     <template #loading-icon>
       <div>
-        <Loader2Icon class="size-4 animate-spin" />
+        <SiteIcon name="spinner" class="animate-spin" />
       </div>
     </template>
     <template #close-icon>
-      <XIcon class="size-4" />
+      <SiteIcon name="xmark" />
     </template>
   </Sonner>
 </template>

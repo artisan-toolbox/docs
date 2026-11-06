@@ -1,0 +1,1590 @@
+[
+    {
+        "slug": "front-awesome/branding",
+        "title": "Customize branding",
+        "description": "Change shared Tailwind inputs and understand Web Awesome scope, contrast, and shadow limits.",
+        "legacyPath": "packages/front-awesome/branding",
+        "sha256": "056f07ed203e2a71e0dcf9ce331b94f314e16e52626dbc6d2052c46b8f6c8535",
+        "headings": [
+            {
+                "level": 2,
+                "id": "change-the-full-brand-palette",
+                "text": "Change the full brand palette"
+            },
+            {
+                "level": 2,
+                "id": "add-a-tailwind-only-color",
+                "text": "Add a Tailwind-only color"
+            },
+            {
+                "level": 2,
+                "id": "set-the-fonts",
+                "text": "Set the fonts"
+            },
+            {
+                "level": 2,
+                "id": "adjust-dimensions",
+                "text": "Adjust dimensions"
+            },
+            {
+                "level": 2,
+                "id": "share-complete-shadows",
+                "text": "Share complete shadows"
+            },
+            {
+                "level": 2,
+                "id": "make-a-web-awesome-only-exception",
+                "text": "Make a Web Awesome-only exception"
+            },
+            {
+                "level": 2,
+                "id": "respect-scope-boundaries",
+                "text": "Respect scope boundaries"
+            }
+        ],
+        "examples": [
+            {
+                "code": "@theme {\n  --color-brand-50: var(--color-indigo-50);\n  --color-brand-100: var(--color-indigo-100);\n  --color-brand-200: var(--color-indigo-200);\n  --color-brand-300: var(--color-indigo-300);\n  --color-brand-400: var(--color-indigo-400);\n  --color-brand-500: var(--color-indigo-500);\n  --color-brand-600: var(--color-indigo-600);\n  --color-brand-700: var(--color-indigo-700);\n  --color-brand-800: var(--color-indigo-800);\n  --color-brand-900: var(--color-indigo-900);\n  --color-brand-950: var(--color-indigo-950);\n}",
+                "language": "css"
+            },
+            {
+                "code": "@theme {\n  --color-project-accent: oklch(0.65 0.16 250);\n}",
+                "language": "css"
+            },
+            {
+                "code": "@theme {\n  --font-sans: \"Project Sans\", system-ui, sans-serif;\n  --font-mono: \"Project Mono\", ui-monospace, monospace;\n}",
+                "language": "css"
+            },
+            {
+                "code": "@theme {\n  --spacing: 0.25rem;\n  --radius-sm: 0.25rem;\n  --radius-md: 0.5rem;\n  --radius-xl: 1rem;\n}",
+                "language": "css"
+            },
+            {
+                "code": "@theme {\n  --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.12);\n  --shadow-md: 0 4px 12px rgb(0 0 0 / 0.15);\n  --shadow-lg: 0 12px 24px rgb(0 0 0 / 0.18);\n}",
+                "language": "css"
+            },
+            {
+                "code": "@layer app-branding {\n  :root {\n    --wa-focus-ring-width: 0.1875rem;\n    --wa-space-scale: 1.125;\n  }\n}",
+                "language": "css"
+            },
+            {
+                "code": "@layer app-branding {\n  .editorial-theme {\n    --font-sans: Georgia, serif;\n  }\n}",
+                "language": "css"
+            },
+            {
+                "code": "<section class=\"fa-theme editorial-theme font-sans\">\n  <wa-button>Editorial action</wa-button>\n</section>",
+                "language": "html"
+            }
+        ],
+        "anchors": [],
+        "links": [
+            {
+                "slug": "front-awesome/shared-theme",
+                "hash": "",
+                "href": "/docs/front-awesome/shared-theme"
+            },
+            {
+                "slug": "front-awesome/theme-maintenance",
+                "hash": "#token-ownership",
+                "href": "/docs/front-awesome/theme-maintenance#token-ownership"
+            },
+            {
+                "slug": "front-awesome/primevue",
+                "hash": "",
+                "href": "/docs/front-awesome/primevue"
+            },
+            {
+                "href": "https://tailwindcss.com/docs/theme"
+            }
+        ],
+        "paragraphs": [
+            "Start with the shared Tailwind theme. Edit the published resources/css/branding.css file to change application identity. Shared values belong in Tailwind's @theme block. Web Awesome-specific exceptions belong in the separate override section.",
+            "Replace all eleven brand stops together. This example uses the original Tailwind indigo palette:",
+            "Tailwind utilities such as bg-brand-700 and Web Awesome brand components now read the same color family. Changing only 500 leaves hover, active, subtle, and dark states on the other stops.",
+            "The adapter maps ramps and defines semantic foreground and background pairs. Web Awesome's ascending lightness stops and Tailwind's shade numbers run in opposite directions. Reversing the ramp alone does not preserve contrast.",
+            "After changing a palette, check normal text, solid and outlined controls, links, hover and active states, focus indicators, disabled content, and tooltips in both modes. Include inverted and local role scopes that the application uses. A custom ramp does not carry an automatic accessibility guarantee.",
+            "This adds utilities such as bg-project-accent. It does not create a Web Awesome variant or a wa-brand-project-accent class. To use a new family as the shared brand, define its complete ramp and assign the eleven --color-brand-* values to it.",
+            "The adapter does not rename existing application tokens such as --primary or --background. Keep any application-specific utility aliases explicit.",
+            "These families reach Tailwind font utilities and mapped Web Awesome body and code fonts. Load the font files separately with @font-face or your application's font provider. A font-family declaration does not download a font.",
+            "Recheck wrapping, control widths, and page height after changing fonts.",
+            "The spacing base feeds numeric Tailwind spacing utilities and mapped Web Awesome spacing. Radius values feed corresponding utilities and Web Awesome radius tokens. Pill and circle tokens retain their geometric meaning.",
+            "Web Awesome's spacing, radius, and font-size scale controls continue to affect the mapped Web Awesome values. Those controls do not change Tailwind utilities. Changing the spacing base does not change every component dimension or breakpoint.",
+            "Mapped Web Awesome shadows use the complete Tailwind shadow strings. Multiple shadow layers remain intact. Web Awesome's separate shadow offset, blur, spread, and color controls do not reshape those final shadows. Change the shared Tailwind value to change both systems.",
+            "Use the override section in the published template for a Web Awesome-specific setting:",
+            "These values affect Web Awesome only. Shared values flow from Tailwind to adapters. Do not alias a Tailwind input back to its Web Awesome output. A circular variable dependency makes both declarations invalid.",
+            "Some upstream physical hue foreground declarations are unlayered. The adapter replaces the affected hue key and foreground pairs with its own unlayered policy. An advanced direct override of those pairs must also be unlayered and appear after the adapter. A later named layer cannot override an unlayered declaration. Keep foreground and background changes paired and validate their contrast.",
+            "Set shared branding on the document by default. CSS aliases resolve in the element where they are declared. An inherited alias does not automatically recompute when a descendant changes only its source variable.",
+            "The adapter rebinds its semantic policy at the mode, inversion, and supported Web Awesome role boundaries. Use the ownership and scope reference when composing local themes. An arbitrary subtree with custom Tailwind font or palette variables is not automatically a separate complete theme.",
+            "To rebind shared inputs inside an intentional Web Awesome theme scope, add fa-theme to the same element that defines the input overrides:",
+            "The font change reaches that scope's Web Awesome body font and Tailwind font-sans utility. Use wa-brand-yellow to select the supported yellow family for a local Web Awesome brand role. That class does not change Tailwind's bg-brand-* utilities or PrimeVue's primary palette.",
+            "PrimeVue overlays can leave a component's subtree through teleportation. Prefer root branding for the optional PrimeVue integration.",
+            "See Tailwind theme variables for the original token namespaces."
+        ],
+        "tables": []
+    },
+    {
+        "slug": "front-awesome/button",
+        "title": "Buttons and button groups",
+        "description": "Render Web Awesome buttons and button groups with typed Vue wrappers.",
+        "legacyPath": "packages/front-awesome/button",
+        "sha256": "14906a346a9067d0049394c8d29941bf0e536f1f1c6bd08b947ae869d3bc1658",
+        "headings": [
+            {
+                "level": 2,
+                "id": "group-related-buttons",
+                "text": "Group related buttons"
+            }
+        ],
+        "examples": [
+            {
+                "code": "<template>\n  <Button variant=\"brand\" type=\"submit\">Save changes</Button>\n</template>\n\n<script setup lang=\"ts\">\nimport { Button } from \"@artisan-toolbox/front-awesome/components\";\n</script>",
+                "language": "vue"
+            },
+            {
+                "code": "<template>\n  <ButtonGroup v-bind=\"group\">\n    <Button v-bind=\"save\">Save changes</Button>\n    <Button type=\"button\">Cancel</Button>\n  </ButtonGroup>\n</template>\n\n<script setup lang=\"ts\">\nimport {\n  Button,\n  ButtonGroup,\n  type ButtonGroupProps,\n  type ButtonProps,\n} from \"@artisan-toolbox/front-awesome/components\";\n\nconst group = {\n  label: \"Form actions\",\n  orientation: \"vertical\",\n} satisfies ButtonGroupProps;\nconst save = { variant: \"brand\", type: \"submit\" } satisfies ButtonProps;\n</script>",
+                "language": "vue"
+            }
+        ],
+        "anchors": [],
+        "links": [
+            {
+                "slug": "front-awesome/web-awesome",
+                "hash": "",
+                "href": "/docs/front-awesome/web-awesome"
+            },
+            {
+                "href": "https://webawesome.com/docs/components/button/"
+            },
+            {
+                "href": "https://webawesome.com/docs/components/button-group/"
+            }
+        ],
+        "paragraphs": [
+            "After configuring Web Awesome, import Button from @artisan-toolbox/front-awesome/components in a Vue page. The default slot becomes the button content.",
+            "The wrapper passes attributes such as variant, type, and disabled to <wa-button>. It registers the custom element when the Vue component mounts in the browser. The button follows the application's Web Awesome theme.",
+            "Bind boolean flags such as disabled and loading as booleans. A false value leaves the corresponding HTML boolean attribute absent, including before the custom element registers and during server rendering. Changing the value updates the same element; a false flag does not enable a loading or disabled state.",
+            "For supported attributes, see the Web Awesome button reference.",
+            "Use ButtonGroup.vue to group buttons. Give the group a label so assistive technologies can identify it. The default slot contains the buttons. Set orientation to vertical to stack them.",
+            "The wrappers combine Vue's HTML attributes with Web Awesome's TypeScript declarations for template completion and option checking. All wrapper attributes are optional. If you omit orientation, the group uses Web Awesome's horizontal default. Use ButtonProps or ButtonGroupProps to check an object before passing it with v-bind. Vue forwards the attributes and listeners to the Web Awesome element. The group registers wa-button-group when it mounts in the browser.",
+            "See the Web Awesome button group reference for group behavior and attributes."
+        ],
+        "tables": []
+    },
+    {
+        "slug": "front-awesome/configuration",
+        "title": "Package configuration",
+        "description": "Publish the Laravel configuration and customize default toast icons by variant.",
+        "legacyPath": "packages/front-awesome/configuration",
+        "sha256": "14ec05b1e30addf0f2a86af6ae6f760b981ffc7fb8afade44fb4cbd1273b76ea",
+        "headings": [
+            {
+                "level": 2,
+                "id": "default-toast-icons",
+                "text": "Default toast icons"
+            }
+        ],
+        "examples": [
+            {
+                "code": "php artisan vendor:publish --tag=front-awesome-config",
+                "language": "sh"
+            },
+            {
+                "code": "<?php\n\nreturn [\n    'webawesome' => [\n        'toast' => [\n            'icons' => [\n                'success' => ['name' => 'tick', 'library' => 'my-icons'],\n                'neutral' => null,\n            ],\n        ],\n    ],\n];",
+                "language": "php"
+            }
+        ],
+        "anchors": [],
+        "links": [
+            {
+                "slug": "front-awesome/shared-theme",
+                "hash": "#publish-the-branding-file",
+                "href": "/docs/front-awesome/shared-theme#publish-the-branding-file"
+            },
+            {
+                "slug": "front-awesome/toasts/laravel",
+                "hash": "",
+                "href": "/docs/front-awesome/toasts/laravel"
+            },
+            {
+                "slug": "front-awesome/toasts/vue",
+                "hash": "#toast-options",
+                "href": "/docs/front-awesome/toasts/vue#toast-options"
+            },
+            {
+                "slug": "front-awesome/vue-plugin",
+                "hash": "",
+                "href": "/docs/front-awesome/vue-plugin"
+            }
+        ],
+        "paragraphs": [
+            "Front Awesome loads its PHP defaults when Laravel discovers the package. Publish the file to customize those defaults in your application.",
+            "Laravel copies the file to config/front-awesome.php. If your deployment caches configuration, rebuild the config cache after editing the file.",
+            "The separate front-awesome-branding publish tag copies the optional shared-theme branding file to resources/css/branding.css. The PHP configuration does not select a stylesheet, palette, or color mode.",
+            "The webawesome.toast.icons map contains one entry per variant. Laravel reads the map when a toast factory sends a toast without an explicit icon.",
+            "Each entry accepts an icon name, an array with name and optional library, family, and variant strings, or null to disable the default for that variant. You can keep just the overrides in the application's file.",
+            "In this example, a Laravel success toast uses the tick icon from my-icons. Register custom icon libraries in the browser before displaying toasts. A Laravel neutral toast has no icon by default. Variants omitted from the map retain the package defaults. An explicit icon on a toast takes priority over the configuration.",
+            "For toasts created with the Vue service, pass an icon in the show() options. Set the stack position and Echo options in the Vue plugin."
+        ],
+        "tables": [
+            [
+                ["Variant", "Default icon"],
+                ["brand", "bell"],
+                ["success", "circle-check"],
+                ["warning", "triangle-exclamation"],
+                ["danger", "circle-exclamation"],
+                ["neutral", "circle-info"]
+            ]
+        ]
+    },
+    {
+        "slug": "front-awesome/development",
+        "title": "Develop Front Awesome",
+        "description": "Set up a package checkout, run the validation suite, and find the frontend agent skills.",
+        "legacyPath": "packages/front-awesome/development",
+        "sha256": "a3fb222174cede401cd3f38ae459bbf5b2fbc59bfc08a118667dd554940b1389",
+        "headings": [
+            {
+                "level": 2,
+                "id": "validate-a-checkout",
+                "text": "Validate a checkout"
+            },
+            {
+                "level": 2,
+                "id": "follow-the-package-conventions",
+                "text": "Follow the package conventions"
+            },
+            {
+                "level": 2,
+                "id": "use-the-frontend-agent-skills",
+                "text": "Use the frontend agent skills"
+            }
+        ],
+        "examples": [
+            {
+                "code": "composer install\nnpm ci",
+                "language": "sh"
+            }
+        ],
+        "anchors": [],
+        "links": [
+            {
+                "href": "https://github.com/artisan-toolbox/front-awesome"
+            },
+            {
+                "slug": "front-awesome/theme-maintenance",
+                "hash": "",
+                "href": "/docs/front-awesome/theme-maintenance"
+            },
+            {
+                "href": "https://github.com/vuejs-ai/skills"
+            },
+            {
+                "href": "https://vueuse.org/guide/work-with-ai"
+            },
+            {
+                "href": "https://github.com/inertiajs/inertia/tree/3.x/packages/vue3/resources/boost/skills/inertia-vue-development"
+            },
+            {
+                "href": "https://github.com/anthropics/skills/tree/41bbe19d1a1a7eaab5e7bb9050a417e5c6cffc8f/skills/frontend-design"
+            },
+            {
+                "href": "https://webawesome.com/docs/ai/agent-skills"
+            }
+        ],
+        "paragraphs": [
+            "Clone the Front Awesome repository and switch to 1.x. From the checkout, install the PHP dependencies before the frontend dependencies.",
+            "Before running the browser or frontend coverage command locally, install Chromium with npx playwright install chromium --only-shell.",
+            "For changes to Tailwind, Web Awesome, or the optional PrimeVue integration, also follow Maintain the shared theme. A successful build alone does not prove that theme tokens resolve in the browser.",
+            "CI runs both execution coverage commands in the Ubuntu job with stable dependencies. Download the coverage-reports artifact from that job to browse the PHP and frontend HTML reports. PHP type coverage runs across the support matrix.",
+            "Write Vue single-file components with the Composition API and <script setup lang=\"ts\">. Put the template before the script block. Group related frontend integrations under the library they wrap. For example, the Web Awesome toast initializer lives at resources/js/WebAwesome/flashToast.ts.",
+            "Maintainer manages releases on 1.x and generates the README header. To regenerate the header after changing the logo or badges, run php vendor/bin/maintainer readme:update. When preparing the first release, replace the in-development badge in FrontAwesome::readmeHead() with the GitHub release badge.",
+            "The checkout keeps its skills in .agents/skills/. Claude Code can access the same directory through .claude/skills/. Composer and npm install the dependencies that supply the Inertia and Web Awesome references.",
+            "Use vue-best-practices and vue-testing-best-practices for Vue components, composables, and tests. Vue AI Skills",
+            "Use vueuse-functions to choose VueUse composables. The checkout includes a snapshot for VueUse 14.4.0. VueUse skills",
+            "Use inertia-vue-development for Inertia forms, navigation, shared props, and SSR. Inertia Vue skill",
+            "Use frontend-design to choose the visual direction for a new or redesigned interface. Frontend design skill",
+            "Use webawesome for component APIs and webawesome-design for layouts, themes, and design tokens. Web Awesome agent skills"
+        ],
+        "tables": [
+            [
+                ["Command", "Purpose"],
+                [
+                    "php vendor/bin/maintainer quality:check --no-interaction",
+                    "Runs the configured PHP and frontend checks."
+                ],
+                [
+                    "composer test",
+                    "Runs PHPStan, Pint, Pest, and PHP type coverage."
+                ],
+                [
+                    "npm run build",
+                    "Builds the Vite consumer fixture. It uses Pro when Pro is installed and Core otherwise."
+                ],
+                [
+                    "npm run test:browser",
+                    "Exercises the theme selector and both styling systems in Chromium."
+                ],
+                [
+                    "npm run theme:check",
+                    "Checks generated shared-theme CSS and the upstream compatibility inventory."
+                ],
+                [
+                    "npm run test:theme",
+                    "Builds and checks public base and optional PrimeVue theme consumers in Chromium."
+                ],
+                [
+                    "npm run test:coverage",
+                    "Reports combined Node and Chromium coverage in build/coverage/frontend/."
+                ],
+                [
+                    "composer test:coverage",
+                    "Reports PHP execution coverage. The command requires Xdebug or PCOV."
+                ]
+            ]
+        ]
+    },
+    {
+        "slug": "front-awesome",
+        "title": "Front Awesome",
+        "description": "Use Vue components, manage color mode, and send toast notifications in Laravel applications with Inertia.",
+        "legacyPath": "packages/front-awesome/index",
+        "sha256": "c5ca6bf281a4ed2db0480d7f310ea91b74ffad406f4c27af4dd17ad4005fc57f",
+        "requirements": [
+            "PHP 8.5 or later within PHP 8.x, Laravel 13, and Inertia Laravel 3.x",
+            "Vue 3.5 or later within Vue 3.x, Inertia Vue 3.x, and Tailwind CSS 4.x",
+            "Mosaicast 1.1.1 or later within Mosaicast 1.x",
+            "Node.js 24.11 or later"
+        ],
+        "headings": [
+            {
+                "level": 2,
+                "id": "requirements",
+                "text": "Requirements"
+            },
+            {
+                "level": 2,
+                "id": "installation",
+                "text": "Installation"
+            },
+            {
+                "level": 2,
+                "id": "show-your-first-toast",
+                "text": "Show your first toast"
+            },
+            {
+                "level": 2,
+                "id": "guides",
+                "text": "Guides"
+            },
+            {
+                "level": 2,
+                "id": "documentation-and-contact",
+                "text": "Documentation and contact"
+            }
+        ],
+        "examples": [
+            {
+                "code": "use ArtisanToolbox\\FrontAwesome\\Facades\\Toast;\n\nToast::success('Report saved.')->flash();",
+                "language": "php"
+            }
+        ],
+        "anchors": [
+            "frontend-distribution",
+            "configure-vite",
+            "use-your-applications-theme",
+            "use-web-awesome-pro",
+            "set-default-icons-by-variant",
+            "register-the-front-awesome-vue-plugin",
+            "render-a-button",
+            "show-toast-notifications-from-laravel",
+            "send-a-notification",
+            "configure-a-toast",
+            "show-a-toast-from-vue",
+            "check-frontawesome-in-your-editor-and-ci",
+            "validate-a-checkout",
+            "use-the-frontend-agent-skills",
+            "resources"
+        ],
+        "links": [
+            {
+                "slug": "front-awesome/installation",
+                "hash": "",
+                "href": "/docs/front-awesome/installation"
+            },
+            {
+                "slug": "front-awesome/vue-plugin",
+                "hash": "",
+                "href": "/docs/front-awesome/vue-plugin"
+            },
+            {
+                "slug": "front-awesome/installation",
+                "hash": "",
+                "href": "/docs/front-awesome/installation"
+            },
+            {
+                "slug": "front-awesome/web-awesome",
+                "hash": "",
+                "href": "/docs/front-awesome/web-awesome"
+            },
+            {
+                "slug": "front-awesome/shared-theme",
+                "hash": "",
+                "href": "/docs/front-awesome/shared-theme"
+            },
+            {
+                "slug": "front-awesome/branding",
+                "hash": "",
+                "href": "/docs/front-awesome/branding"
+            },
+            {
+                "slug": "front-awesome/page",
+                "hash": "",
+                "href": "/docs/front-awesome/page"
+            },
+            {
+                "slug": "front-awesome/primevue",
+                "hash": "",
+                "href": "/docs/front-awesome/primevue"
+            },
+            {
+                "slug": "front-awesome/configuration",
+                "hash": "",
+                "href": "/docs/front-awesome/configuration"
+            },
+            {
+                "slug": "front-awesome/vue-plugin",
+                "hash": "",
+                "href": "/docs/front-awesome/vue-plugin"
+            },
+            {
+                "slug": "front-awesome/button",
+                "hash": "",
+                "href": "/docs/front-awesome/button"
+            },
+            {
+                "slug": "front-awesome/toasts/laravel",
+                "hash": "",
+                "href": "/docs/front-awesome/toasts/laravel"
+            },
+            {
+                "slug": "front-awesome/toasts/vue",
+                "hash": "",
+                "href": "/docs/front-awesome/toasts/vue"
+            },
+            {
+                "slug": "front-awesome/development",
+                "hash": "",
+                "href": "/docs/front-awesome/development"
+            },
+            {
+                "slug": "front-awesome/theme-maintenance",
+                "hash": "",
+                "href": "/docs/front-awesome/theme-maintenance"
+            },
+            {
+                "href": "https://github.com/artisan-toolbox/front-awesome"
+            },
+            {
+                "slug": "front-awesome",
+                "hash": "",
+                "href": "/docs/front-awesome"
+            },
+            {
+                "href": "mailto:contact@atb.dev.br"
+            }
+        ],
+        "paragraphs": [
+            "Front Awesome adds Web Awesome components, color mode controls, and toast notifications to Laravel applications that use Inertia and Vue. Components inherit the application's theme. An optional adapter shares Tailwind design tokens with Web Awesome and PrimeVue styled components.",
+            "Work in progress (WIP)",
+            "This guide covers the 1.x development branch. Front Awesome has no stable Composer release.",
+            "PHP 8.5 or later within PHP 8.x, Laravel 13, and Inertia Laravel 3.x",
+            "Vue 3.5 or later within Vue 3.x, Inertia Vue 3.x, and Tailwind CSS 4.x",
+            "Mosaicast 1.1.1 or later within Mosaicast 1.x",
+            "Node.js 24.11 or later",
+            "Follow Installation to install the Composer and frontend packages in an Inertia application.",
+            "After installing the package and registering the Vue plugin, add this call to a Laravel action with an active web session.",
+            "The next Inertia response displays a success toast with the default success icon.",
+            "Installation covers Composer, npm, and refreshing local package copies.",
+            "Web Awesome setup covers Vite, styles, and the Core and Pro editions.",
+            "Shared Tailwind theme installs the optional Web Awesome adapter without changing existing styling setups.",
+            "Customize branding covers shared colors, fonts, spacing, radius, shadows, and Web Awesome exceptions.",
+            "Build a page layout covers wa-page, responsive navigation, and application layout recipes.",
+            "Style PrimeVue components adds the optional PrimeVue 4 styled preset.",
+            "Package configuration covers publishing the Laravel configuration and choosing default toast icons.",
+            "Vue plugin covers registration, the theme selector, toast placement, and Echo.",
+            "Buttons and button groups shows how to use the typed Vue wrappers.",
+            "Toasts from Laravel covers the facade, factory options, and both delivery methods.",
+            "Toasts from Vue covers the composable, the Vue global service, and TypeScript.",
+            "Development covers the package checkout, tests, and coverage.",
+            "Maintain the shared theme covers token ownership, upstream updates, and compatibility checks.",
+            "Find the source code and changelog on GitHub.",
+            "The canonical documentation is available at atb.dev.br. Contact the project at contact@atb.dev.br."
+        ],
+        "tables": []
+    },
+    {
+        "slug": "front-awesome/installation",
+        "title": "Install Front Awesome",
+        "description": "Install the development package with Composer and register its frontend packages with npm.",
+        "legacyPath": "packages/front-awesome/installation",
+        "sha256": "0db03b55ad83adf950f3e36eee41126288d2f7882215d956ce081f129ab127bc",
+        "headings": [
+            {
+                "level": 2,
+                "id": "install-the-composer-package",
+                "text": "Install the Composer package"
+            },
+            {
+                "level": 2,
+                "id": "install-the-frontend-packages",
+                "text": "Install the frontend packages"
+            },
+            {
+                "level": 2,
+                "id": "refresh-a-local-package-copy",
+                "text": "Refresh a local package copy"
+            },
+            {
+                "level": 2,
+                "id": "set-up-the-application",
+                "text": "Set up the application"
+            },
+            {
+                "level": 2,
+                "id": "configure-vite-and-styles",
+                "text": "Configure Vite and styles"
+            },
+            {
+                "level": 2,
+                "id": "render-your-first-button",
+                "text": "Render your first button"
+            },
+            {
+                "level": 2,
+                "id": "build-and-check-the-result",
+                "text": "Build and check the result"
+            }
+        ],
+        "examples": [
+            {
+                "code": "composer config repositories.front-awesome path /path/to/front-awesome\ncomposer require \"artisan-toolbox/front-awesome:1.x-dev\"",
+                "language": "sh",
+                "meta": null,
+                "installationCommand": "composer"
+            },
+            {
+                "code": "npm install --install-links ./vendor/artisan-toolbox/front-awesome ./vendor/artisan-toolbox/mosaicast",
+                "language": "sh",
+                "meta": null,
+                "installationCommand": "frontend"
+            },
+            {
+                "code": "import { frontAwesome } from \"@artisan-toolbox/front-awesome/vite\";\nimport { defineConfig } from \"vite\";\n\nexport default defineConfig({\n  plugins: [\n    // Keep your existing Laravel, Inertia, Tailwind, and Vue plugins here.\n    frontAwesome({ webAwesome: \"core\" }),\n  ],\n});",
+                "language": "js",
+                "meta": null
+            },
+            {
+                "code": "@import \"tailwindcss\";\n@import \"@artisan-toolbox/front-awesome/styles.css\";",
+                "language": "css",
+                "meta": null
+            },
+            {
+                "code": "import \"../css/app.css\";\nimport \"@artisan-toolbox/front-awesome/web-awesome.css\";",
+                "language": "js",
+                "meta": null
+            },
+            {
+                "code": "import { resolvePageComponent } from \"laravel-vite-plugin/inertia-helpers\";\n\nconst resolvePage = (name) =>\n  resolvePageComponent(\n    `./pages/${name}.vue`,\n    import.meta.glob(\"./pages/**/*.vue\"),\n  );",
+                "language": "js",
+                "meta": null
+            },
+            {
+                "code": "<script setup>\nimport Button from \"@artisan-toolbox/front-awesome/components/Button.vue\";\n</script>\n\n<template>\n  <main class=\"p-8\">\n    <Button variant=\"brand\">Hello from Front Awesome</Button>\n  </main>\n</template>",
+                "language": "vue",
+                "meta": null
+            },
+            {
+                "code": "use Illuminate\\Support\\Facades\\Route;\nuse Inertia\\Inertia;\n\nRoute::get('/front-awesome-welcome', fn () => Inertia::render('FrontAwesomeWelcome'));",
+                "language": "php",
+                "meta": null
+            },
+            {
+                "code": "npm run build",
+                "language": "sh",
+                "meta": null
+            }
+        ],
+        "anchors": [],
+        "links": [
+            {
+                "slug": "front-awesome",
+                "hash": "#requirements",
+                "href": "/docs/front-awesome#requirements"
+            },
+            {
+                "href": "https://github.com/artisan-toolbox/front-awesome"
+            },
+            {
+                "slug": "front-awesome/web-awesome",
+                "hash": "",
+                "href": "/docs/front-awesome/web-awesome"
+            },
+            {
+                "slug": "front-awesome/shared-theme",
+                "hash": "",
+                "href": "/docs/front-awesome/shared-theme"
+            },
+            {
+                "slug": "front-awesome/primevue",
+                "hash": "",
+                "href": "/docs/front-awesome/primevue"
+            },
+            {
+                "slug": "front-awesome/vue-plugin",
+                "hash": "",
+                "href": "/docs/front-awesome/vue-plugin"
+            },
+            {
+                "slug": "front-awesome/button",
+                "hash": "",
+                "href": "/docs/front-awesome/button"
+            }
+        ],
+        "paragraphs": [
+            "Start in an existing Laravel application with Inertia, Vue, and Vite. Check the requirements before installing the development branch.",
+            "Clone the Front Awesome repository and check out 1.x. In the application root, point Composer to that checkout. Replace the example path with your checkout's path.",
+            "Composer installs Front Awesome and Mosaicast under vendor/artisan-toolbox. Laravel discovers the Front Awesome service provider automatically.",
+            "From the application root, run the npm command after Composer has installed both packages.",
+            "The command records both packages as file: dependencies in the application's package.json. Keep both entries. Front Awesome declares the Mosaicast JavaScript client as a peer dependency, even though Composer installs Mosaicast for PHP.",
+            "Set install-links=true in the application's .npmrc so npm ci uses the same install mode. Run Composer before npm in development, CI, and deployments. The application's Vite build compiles the installed Front Awesome sources.",
+            "With install-links=true, npm packs and copies each local dependency into node_modules. If Composer links vendor/artisan-toolbox/front-awesome to your checkout, edits reach vendor immediately. Run npm ci in the consuming application to refresh the copy in node_modules, then restart the running Vite server.",
+            "Reload the page without the browser cache after replacing the local copy. Vite serves dependency URLs with long-lived cache headers. If the package version stays the same, an open tab can load an older plugin alongside a newer Vue component.",
+            "Follow Web Awesome setup to configure Vite and choose how to load styles. Choose the shared Tailwind theme to use one branding file for Tailwind and Web Awesome. PrimeVue remains an optional styled integration.",
+            "For toast notifications, register the Vue plugin before sending your first toast.",
+            "This first example uses the bundled Web Awesome Core edition. It needs no Pro package or credentials. Front Awesome remains an unpublished development preview, so the local checkout above is required.",
+            "In the application's existing vite.config.js or vite.config.ts, add the public plugin import and the frontAwesome entry shown below. Keep all existing configuration and Laravel, Inertia, Tailwind, and Vue plugin entries. Keep one Vue plugin instance.",
+            "In resources/css/app.css, keep Tailwind and add the package stylesheet after it. This public entry lets Tailwind scan Front Awesome's Vue sources.",
+            "In the existing resources/js/app.js or resources/js/app.ts entry, keep the application CSS import and add the standard Web Awesome stylesheet. Import each stylesheet once. This example uses the default Web Awesome theme. The shared Tailwind theme linked above is an optional next step.",
+            "The example uses lowercase resources/js/pages and an Inertia page name of FrontAwesomeWelcome. In the existing JavaScript entry, add the resolver below. Set resolve: resolvePage in the existing createInertiaApp options, and preserve its existing setup, withApp(...) wrapper, plugins, and other options. If the application uses another pages directory, change both paths below and save the page in that directory.",
+            "Create resources/js/pages/FrontAwesomeWelcome.vue. The public Button export registers its Web Awesome custom element when the page mounts. This button needs no Front Awesome Vue plugin or toast configuration.",
+            "Add this public route to routes/web.php, outside authentication middleware. Reuse existing Route and Inertia imports instead of adding duplicate imports. The page name matches the resolver and file above.",
+            "From the application root, compile the frontend after the setup above.",
+            "Open /front-awesome-welcome on your running Laravel application's local URL. You see a styled button labeled Hello from Front Awesome. If a Vite development server was already running, restart it after changing its configuration.",
+            "Continue with the Button guide to add links, loading states, and button groups."
+        ],
+        "tables": []
+    },
+    {
+        "slug": "front-awesome/page",
+        "title": "Build a page layout",
+        "description": "Use wa-page with Tailwind while preserving upstream layout, responsive navigation, and slot spacing.",
+        "legacyPath": "packages/front-awesome/page",
+        "sha256": "2d17a23200b1128569193496fb1f68bc98f3f60f7bd146c866704aa25baf8425",
+        "headings": [
+            {
+                "level": 2,
+                "id": "render-the-page-and-one-navigation-tree",
+                "text": "Render the page and one navigation tree"
+            },
+            {
+                "level": 2,
+                "id": "preserve-the-upstream-prerequisites",
+                "text": "Preserve the upstream prerequisites"
+            },
+            {
+                "level": 2,
+                "id": "keep-slot-padding-and-utility-overrides",
+                "text": "Keep slot padding and utility overrides"
+            },
+            {
+                "level": 2,
+                "id": "configure-the-mobile-threshold",
+                "text": "Configure the mobile threshold"
+            },
+            {
+                "level": 2,
+                "id": "check-the-complete-layout",
+                "text": "Check the complete layout"
+            }
+        ],
+        "examples": [
+            {
+                "code": "<template>\n  <wa-page\n    class=\"project-page\"\n    mobile-breakpoint=\"48rem\"\n    disable-navigation-toggle\n  >\n    <header slot=\"header\" class=\"flex items-center gap-4\">\n      <wa-button data-toggle-nav>Menu</wa-button>\n      <a href=\"/\">Project</a>\n    </header>\n    <div slot=\"navigation-header\">Project navigation</div>\n    <div slot=\"navigation\" class=\"flex flex-col gap-2\">\n      <a href=\"/dashboard\">Dashboard</a>\n      <a href=\"/reports\">Reports</a>\n    </div>\n    <main id=\"content\">\n      <h1 class=\"text-2xl font-semibold\">Dashboard</h1>\n      <p class=\"mt-4\">Your application content.</p>\n    </main>\n    <aside slot=\"aside\" aria-label=\"On this page\">\n      <a href=\"#content\">Dashboard</a>\n    </aside>\n    <footer slot=\"footer\">Project footer</footer>\n  </wa-page>\n</template>\n\n<script setup lang=\"ts\">\nimport \"@awesome.me/webawesome/dist/components/page/page.js\";\nimport \"@awesome.me/webawesome/dist/components/button/button.js\";\n</script>\n\n<style>\n.project-page {\n  --menu-width: 16rem;\n  --aside-width: 14rem;\n}\n\n.project-page[view=\"mobile\"] {\n  --menu-width: auto;\n  --aside-width: auto;\n}\n\n.project-page[view=\"mobile\"] > [slot=\"aside\"] {\n  display: none;\n}\n</style>",
+                "language": "vue"
+            },
+            {
+                "code": "<wa-page class=\"reports-page\">\n  <main class=\"p-0\">\n    <section class=\"p-4\">A full-width report with an inner gutter.</section>\n  </main>\n</wa-page>",
+                "language": "html"
+            }
+        ],
+        "anchors": [],
+        "links": [
+            {
+                "slug": "front-awesome/shared-theme",
+                "hash": "",
+                "href": "/docs/front-awesome/shared-theme"
+            },
+            {
+                "slug": "front-awesome/web-awesome",
+                "hash": "#choose-core-or-pro",
+                "href": "/docs/front-awesome/web-awesome#choose-core-or-pro"
+            },
+            {
+                "slug": "front-awesome/shared-theme",
+                "hash": "#load-the-two-style-entries",
+                "href": "/docs/front-awesome/shared-theme#load-the-two-style-entries"
+            },
+            {
+                "href": "https://webawesome.com/docs/components/page/"
+            }
+        ],
+        "paragraphs": [
+            "Use wa-page after installing the shared Tailwind theme. Register the page element from the same Web Awesome edition used by Front Awesome. The example below uses Core.",
+            "The main content uses the unnamed slot. There is no slot=\"main\". Supply the semantic main, header, footer, and aside elements in your markup. On desktop, Web Awesome already wraps navigation content in a navigation landmark, so the example uses a div for that slot.",
+            "The same navigation content appears beside the main content on desktop and inside Web Awesome's drawer on mobile. Keep one navigation tree. Do not add a second responsive drawer around it.",
+            "The custom Menu button exists because this example has navigation. Its data-toggle-nav attribute uses Web Awesome's toggle behavior and desktop visibility helper. disable-navigation-toggle suppresses the default button, including the initial markup before custom-toggle detection. For a page without navigation, omit the custom button and navigation slots.",
+            "For Pro, replace both component import prefixes with @web.awesome.me/webawesome-pro. Keep edition selection consistent across the page.",
+            "The imported default theme keeps the html and body minimum-height and zero-gutter rules for documents containing wa-page. The upstream layer stylesheet also keeps fragment scroll offsets, custom-toggle visibility, and the wa-mobile-only and wa-desktop-only helpers.",
+            "Keep the two public style entries. Importing only component JavaScript does not install those document rules. Do not add native.css to obtain them.",
+            "Tailwind Preflight resets padding on the light-DOM elements assigned to page slots. The adapter uses a narrow base-layer revert-layer guard to restore upstream padding where the page supplies it. The guard excludes toggle and skip-link slots.",
+            "Use explicit Tailwind utilities to change padding for a page region:",
+            "The p-0 main is full bleed only for this page. p-4 remains an explicit utility override. Do not globally remove padding from every main, copy upstream padding dimensions into application CSS, or remove Preflight to fix this interaction.",
+            "Set mobile-breakpoint as the input. Web Awesome reflects the resulting layout through view=\"mobile\" or view=\"desktop\". Do not bind view as a competing layout controller.",
+            "When you customize --menu-width, reset it to auto in the mobile rule, as in the example. The mobile drawer owns navigation width. A retained desktop width can constrain the page grid after navigation moves.",
+            "The example hides the aside on mobile and resets its custom width as an application choice. Retaining --aside-width: 14rem would reserve an empty grid column after hiding its content. The adapter does not globally hide, stack, or reposition asides. To retain the aside, design a page-specific stacking rule and test its grid placement, width, and sticky behavior at your breakpoint.",
+            "Verify the header and other sticky regions while scrolling. Follow a fragment link and check that the target stays visible below the header. Use the keyboard to open and close mobile navigation and confirm focus returns to its toggle. Check both modes, long navigation labels, and pages without navigation.",
+            "See the Web Awesome Page reference for all slots, properties, methods, and CSS parts."
+        ],
+        "tables": []
+    },
+    {
+        "slug": "front-awesome/primevue",
+        "title": "Style PrimeVue components",
+        "description": "Share application branding with the optional official PrimeVue 4 styled preset integration.",
+        "legacyPath": "packages/front-awesome/primevue",
+        "sha256": "fbc3859740dd482d0889aa786b13d7aba542b4f7148b5666209e9d1f217cdaf6",
+        "headings": [
+            {
+                "level": 2,
+                "id": "install-the-optional-packages",
+                "text": "Install the optional packages"
+            },
+            {
+                "level": 2,
+                "id": "register-the-theme",
+                "text": "Register the theme"
+            },
+            {
+                "level": 2,
+                "id": "keep-branding-at-the-document-root",
+                "text": "Keep branding at the document root"
+            }
+        ],
+        "examples": [
+            {
+                "code": "npm install primevue@4.5.5 @primeuix/themes@2.0.3",
+                "language": "sh",
+                "installationCommand": "primevue"
+            },
+            {
+                "code": "import { frontAwesomePrimeVueTheme } from \"@artisan-toolbox/front-awesome/primevue\";\nimport PrimeVue from \"primevue/config\";\n\napp.use(PrimeVue, {\n  theme: frontAwesomePrimeVueTheme,\n});",
+                "language": "ts"
+            }
+        ],
+        "anchors": [],
+        "links": [
+            {
+                "slug": "front-awesome/shared-theme",
+                "hash": "",
+                "href": "/docs/front-awesome/shared-theme"
+            },
+            {
+                "slug": "front-awesome/theme-maintenance",
+                "hash": "#compatibility-record",
+                "href": "/docs/front-awesome/theme-maintenance#compatibility-record"
+            },
+            {
+                "slug": "front-awesome/shared-theme",
+                "hash": "#choose-the-color-mode-owner",
+                "href": "/docs/front-awesome/shared-theme#choose-the-color-mode-owner"
+            },
+            {
+                "slug": "front-awesome/theme-maintenance",
+                "hash": "#token-ownership",
+                "href": "/docs/front-awesome/theme-maintenance#token-ownership"
+            },
+            {
+                "href": "https://v4.primevue.org/theming/styled/"
+            },
+            {
+                "slug": "front-awesome/theme-maintenance",
+                "hash": "#compatibility-record",
+                "href": "/docs/front-awesome/theme-maintenance#compatibility-record"
+            }
+        ],
+        "paragraphs": [
+            "The optional PrimeVue entry extends the official Aura preset through definePreset. It supplies shared branding to PrimeVue 4 styled components while PrimeVue keeps its component styles. Install the shared Tailwind theme first.",
+            "Install PrimeVue 4 and its compatible official theme package in the consuming application. The base Front Awesome entries do not import PrimeVue or its theme package. Applications without PrimeVue do not need either package.",
+            "These are the integration's initial dependency pair. Check the compatibility record when updating them. Do not substitute another major theme-package version based only on its package name.",
+            "The base package does not enforce a PrimeVue version. Its optional theme peer accepts existing installations so applications can adopt the base entries without changing an older PrimeVue setup. This installation flexibility does not extend the adapter's verified compatibility beyond the recorded pair. Install that pair when enabling this preset.",
+            "This integration targets styled mode. It does not supply the component styles required by unstyled mode.",
+            "Use frontAwesomePrimeVueTheme from the optional @artisan-toolbox/front-awesome/primevue entry:",
+            "Keep PrimeVue component registration and all other application options in the application. The export is the theme configuration object, not a Vue plugin or a replacement for createFrontAwesome().",
+            "The adapter sets options.darkModeSelector to .wa-dark and options.cssLayer.name to primevue. Both its layer options and the shared Tailwind wrapper declare the complete layer order. PrimeVue can prepend its style declaration before the application's stylesheet, so a layer name alone can place its component styles below Preflight. Tailwind utilities remain above PrimeVue component styles. No extra PrimeVue CSS adapter import is required.",
+            "The preset does not add a second color-mode controller. Use the same document preference owner for all libraries.",
+            "Change shared values in resources/css/branding.css. PrimeVue's primary role uses the shared brand family. Mapped common dimensions and semantic values follow the adapter's ownership reference. Aura continues to define component-specific behavior and values outside that mapping.",
+            "Shared foundations do not make every PrimeVue component visually identical to Web Awesome. Validate the actual PrimeVue controls used by the application after changing the palette, fonts, spacing, or radius.",
+            "Overlays can teleport outside a component's subtree. A local dark class or branding override on that subtree may therefore miss the overlay. Prefer root mode and branding. If you change an overlay's append target, test its focus handling, clipping, stacking, and theme inheritance.",
+            "This preset does not promise arbitrary nested light, dark, inverted, or local Web Awesome role scopes for PrimeVue components.",
+            "Use the PrimeVue 4 styled-mode reference for the upstream configuration API. Use the compatibility record for the exact package pair exercised by Front Awesome."
+        ],
+        "tables": []
+    },
+    {
+        "slug": "front-awesome/shared-theme",
+        "title": "Use the shared Tailwind theme",
+        "description": "Install the optional Tailwind 4 adapter for Web Awesome with one editable branding file.",
+        "legacyPath": "packages/front-awesome/shared-theme",
+        "sha256": "fb39042e74383328c1bfb58d74612f79ed7fa34085dd713f021d6b169664aab6",
+        "headings": [
+            {
+                "level": 2,
+                "id": "configure-vite-first",
+                "text": "Configure Vite first"
+            },
+            {
+                "level": 2,
+                "id": "publish-the-branding-file",
+                "text": "Publish the branding file"
+            },
+            {
+                "level": 2,
+                "id": "load-the-two-style-entries",
+                "text": "Load the two style entries"
+            },
+            {
+                "level": 2,
+                "id": "check-the-result",
+                "text": "Check the result"
+            },
+            {
+                "level": 2,
+                "id": "choose-the-color-mode-owner",
+                "text": "Choose the color-mode owner"
+            },
+            {
+                "level": 2,
+                "id": "keep-an-existing-theme",
+                "text": "Keep an existing theme"
+            }
+        ],
+        "examples": [
+            {
+                "code": "php artisan vendor:publish --tag=front-awesome-branding",
+                "language": "sh"
+            },
+            {
+                "code": "/* resources/css/app.css */\n@import \"@artisan-toolbox/front-awesome/tailwind.css\";\n@import \"./branding.css\";",
+                "language": "css"
+            },
+            {
+                "code": "import \"../css/app.css\";\nimport \"@artisan-toolbox/front-awesome/web-awesome-tailwind\";",
+                "language": "js"
+            },
+            {
+                "code": "<template>\n  <div class=\"flex items-center gap-4 font-sans\">\n    <span class=\"rounded-md bg-brand-700 px-4 py-2 text-white\">Tailwind</span>\n    <Button variant=\"brand\">Web Awesome</Button>\n  </div>\n</template>\n\n<script setup lang=\"ts\">\nimport { Button } from \"@artisan-toolbox/front-awesome/components\";\n</script>",
+                "language": "vue"
+            }
+        ],
+        "anchors": [],
+        "links": [
+            {
+                "slug": "front-awesome/theme-maintenance",
+                "hash": "#compatibility-record",
+                "href": "/docs/front-awesome/theme-maintenance#compatibility-record"
+            },
+            {
+                "slug": "front-awesome/installation",
+                "hash": "",
+                "href": "/docs/front-awesome/installation"
+            },
+            {
+                "slug": "front-awesome/web-awesome",
+                "hash": "#configure-vite",
+                "href": "/docs/front-awesome/web-awesome#configure-vite"
+            },
+            {
+                "slug": "front-awesome/vue-plugin",
+                "hash": "",
+                "href": "/docs/front-awesome/vue-plugin"
+            },
+            {
+                "slug": "front-awesome/branding",
+                "hash": "",
+                "href": "/docs/front-awesome/branding"
+            },
+            {
+                "slug": "front-awesome/vue-plugin",
+                "hash": "#add-a-theme-selector",
+                "href": "/docs/front-awesome/vue-plugin#add-a-theme-selector"
+            },
+            {
+                "slug": "front-awesome/web-awesome",
+                "hash": "#load-application-owned-styles",
+                "href": "/docs/front-awesome/web-awesome#load-application-owned-styles"
+            },
+            {
+                "slug": "front-awesome/page",
+                "hash": "",
+                "href": "/docs/front-awesome/page"
+            },
+            {
+                "slug": "front-awesome/primevue",
+                "hash": "",
+                "href": "/docs/front-awesome/primevue"
+            }
+        ],
+        "paragraphs": [
+            "Use this opt-in setup to share Tailwind colors, typography, spacing, radius, and shadows with Web Awesome. Front Awesome imports the selected edition's original default theme and utilities, then applies its token adapter. Tailwind remains the source of shared design values.",
+            "This guide covers the WIP 1.x branch. Check the compatibility record before upgrading frontend dependencies.",
+            "Complete installation and Vite configuration. Keep the Tailwind Vite plugin. The frontAwesome() Vite plugin selects the Web Awesome edition for the adapter's upstream imports.",
+            "Use one Web Awesome edition per page. Direct component imports still need to match that edition.",
+            "Run this command in the Laravel application:",
+            "Laravel copies the editable template to resources/css/branding.css. This tag publishes only that file. The adapters remain in the package and receive package updates.",
+            "Keep the application file under version control. During upgrades, compare the new package template with your copy. Do not use --force over edited branding.",
+            "Replace the application's direct Tailwind import and Front Awesome styles.css import with the package Tailwind entry:",
+            "Keep any application source directives and plugins that your project requires. The wrapper imports the original Tailwind stylesheet, including its default theme and Preflight. It registers Front Awesome's component sources, declares the complete cascade layer order, and defines class-based dark:* utilities.",
+            "In the application JavaScript entry, load application CSS before the Web Awesome side-effect entry:",
+            "The second import loads the selected edition's upstream default theme, layers, and utilities. It excludes native.css, so ordinary headings and controls retain Tailwind's native-element baseline. The wrapper sets the body background and text from Web Awesome's semantic surface and text tokens in Tailwind's base layer. Tailwind utilities can override those body colors.",
+            "Keep the split CSS and JavaScript imports. They are part of the public Vite integration contract.",
+            "Remove @artisan-toolbox/front-awesome/web-awesome.css and other imports of Web Awesome's standard stylesheet from this setup. Loading both paths reintroduces native-element styles and makes the result depend on competing theme imports.",
+            "After registering the Vue plugin, render a Tailwind element beside a Front Awesome button:",
+            "Both elements use the shared brand family and font. Their component shapes and interaction details remain library-specific. Follow Customize branding to change shared values.",
+            "For Front Awesome to manage the document's preference, enable createFrontAwesome({ theme: true }). The Vue plugin guide describes persistence, system changes, and cleanup.",
+            "If the application already manages appearance, retain that controller. Apply dark and wa-dark to <html> for dark mode, or wa-light for light mode. Remove the opposite mode classes when switching. The Tailwind dark variant follows dark. Web Awesome follows wa-dark and wa-light.",
+            "SSR applications can apply these classes in the document head before the first paint. Use the same preference and fallback as the browser controller. The theme stylesheet does not read storage, set an SSR cookie, or add an appearance controller.",
+            "The existing styles.css, web-awesome.css, and theme: true APIs retain their behavior. Existing applications opt in by changing their style imports. To return to an application-owned theme, restore the original setup and remove the adapter imports.",
+            "For page layouts, follow Build a page layout. For PrimeVue 4 styled components, add the optional preset."
+        ],
+        "tables": []
+    },
+    {
+        "slug": "front-awesome/theme-maintenance",
+        "title": "Maintain the shared theme",
+        "description": "Track theme ownership and validate upstream Tailwind, Web Awesome, and PrimeVue updates.",
+        "legacyPath": "packages/front-awesome/theme-maintenance",
+        "sha256": "ac59f4fa7517a2c66f686246d0f315cd79f680c4b31d3d8cee94054e11c23b92",
+        "headings": [
+            {
+                "level": 2,
+                "id": "token-ownership",
+                "text": "Token ownership"
+            },
+            {
+                "level": 3,
+                "id": "shared-foundations",
+                "text": "Shared foundations"
+            },
+            {
+                "level": 3,
+                "id": "color-roles-and-scopes",
+                "text": "Color roles and scopes"
+            },
+            {
+                "level": 3,
+                "id": "primevue-mappings",
+                "text": "PrimeVue mappings"
+            },
+            {
+                "level": 3,
+                "id": "cascade-order",
+                "text": "Cascade order"
+            },
+            {
+                "level": 2,
+                "id": "compatibility-record",
+                "text": "Compatibility record"
+            },
+            {
+                "level": 2,
+                "id": "review-an-upstream-update",
+                "text": "Review an upstream update"
+            },
+            {
+                "level": 2,
+                "id": "run-the-maintenance-commands",
+                "text": "Run the maintenance commands"
+            },
+            {
+                "level": 2,
+                "id": "validate-the-public-entries",
+                "text": "Validate the public entries"
+            }
+        ],
+        "examples": [
+            {
+                "code": "@layer theme, base, wa-native, wa-base, wa-utilities, wa-color-palette,\n\twa-color-variant, wa-theme, wa-theme-dimension, wa-theme-overrides,\n\tapp-branding, primevue, components, utilities;",
+                "language": "css"
+            },
+            {
+                "code": "npm run theme:check\nnpm run test:theme",
+                "language": "sh"
+            },
+            {
+                "code": "npm run theme:generate",
+                "language": "sh"
+            },
+            {
+                "code": "node scripts/check-theme-compatibility.mjs --record",
+                "language": "sh"
+            }
+        ],
+        "anchors": [],
+        "links": [
+            {
+                "href": "https://webawesome.com/docs/resources/browser-support/"
+            },
+            {
+                "slug": "front-awesome/development",
+                "hash": "#validate-a-checkout",
+                "href": "/docs/front-awesome/development#validate-a-checkout"
+            },
+            {
+                "slug": "front-awesome/development",
+                "hash": "#validate-a-checkout",
+                "href": "/docs/front-awesome/development#validate-a-checkout"
+            }
+        ],
+        "paragraphs": [
+            "The optional shared theme is an adapter over original Tailwind and Web Awesome styles. It owns the mappings and affected semantic color policy. It retains upstream component defaults and page mechanics that do not require replacement.",
+            "Shared inputs flow from Tailwind into each adapter. Direct --wa-* overrides are Web Awesome-only exceptions. There is no reverse synchronization.",
+            "Mode, inversion, and supported Web Awesome role boundaries need semantic rebinding because inherited CSS aliases resolve at their declaration scope. Custom subtree variables do not create a complete independent theme automatically. PrimeVue's supported shared-theme mode is document-level light and dark.",
+            "--font-heading defaults to --font-sans. --font-longform defaults to --font-serif. Font-size, spacing, and radius mappings retain their corresponding Web Awesome scale multipliers. Shadows use complete values without dimensional composition.",
+            "The mapped physical hue families are red, orange, yellow, green, cyan, blue, indigo, purple, pink, and gray. The default roles are brand from the shared brand ramp, success from green, warning from yellow, danger from red, and neutral from gray.",
+            "Web Awesome stops 95, 90, 80, 70, 60, 50, 40, 30, 20, 10, and 05 map to Tailwind stops 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, and 950. Physical hue keys use Tailwind 700 with white foregrounds.",
+            "The pair table uses Tailwind shade numbers from the selected role family. Loud fills include contrast headroom for Web Awesome's original hover and active effects. The adapter also owns role borders and the mapped text, surface, focus, form-control, and tooltip tokens. Upstream overlay, interaction-mix, and shadow-color formulas remain imported. The final mapped shadows bypass the upstream shadow composition. This is a defined color policy, not a guarantee for arbitrary replacements of the input ramps.",
+            "Shared foundations rebind at :root, .fa-theme, .wa-theme-default, .wa-light, .wa-dark, and .wa-invert. Default role ramps rebind at :root and .fa-theme. Semantic colors also rebind at each .wa-{role}-{hue} boundary for the five roles and ten hues above. A role class changes Web Awesome semantics only.",
+            "The optional preset maps the same ten physical hue ramps, shared brand primary ramp, and gray surface ramp. PrimeVue radius xs and sm read Tailwind --radius-sm, md reads --radius-md, and lg and xl read --radius-xl.",
+            "Normal form-field horizontal and vertical padding use --spacing multiplied by 3 and 2. Select and popover overlays use --shadow-md. Modal overlays use --shadow-lg. The focus ring reads --wa-color-focus. Light and dark primary states use the shared brand ramp. Other Aura values remain upstream-owned.",
+            "The Tailwind wrapper declares this order before importing styles:",
+            "The app-branding layer follows the adapter's layered mappings. Tailwind utilities follow PrimeVue component styles. The wa-native layer name preserves upstream ordering but does not import native-element styles.",
+            "The Web Awesome palette contains unlayered physical hue declarations. The adapter's affected hue key and foreground policy also uses unlayered declarations. Named layers cannot override that upstream policy regardless of selector specificity.",
+            "The package's tests/theme-compatibility.json records these initial fixture dependencies:",
+            "An exact fixture record does not establish compatibility across every release allowed by the package's dependency constraints. Browser requirements also include Web Awesome's upstream browser support policy.",
+            "Web Awesome Pro was absent from that study. The edition resolver can select an installed Pro package, but an untested Pro version has no adapter verification claim.",
+            "The record includes upstream file hashes and a derived inventory of owned, inherited, and unresolved tokens. Keep that record separate from the package's declared installation ranges.",
+            "Read the release notes for the exact installed Web Awesome, Tailwind, and optional PrimeVue versions.",
+            "Compare upstream token declarations, selectors, layers, and page helper rules with the checked-in inventory.",
+            "Classify every changed contract as adapter-owned, upstream-owned, intentionally excluded, or requiring a new mapping. Review removals before regenerating the inventory.",
+            "Update the mappings, semantic scope policy, fixtures, and published branding template when required.",
+            "Run the package's complete validation suite and real production consumer fixtures. Inspect computed browser values after the build.",
+            "Update the exact-version record and this documentation with the verified dependency set and any new limits.",
+            "Inventory checks detect drift. They do not establish that a new semantic pair has sufficient contrast or that a component still looks correct.",
+            "Run these commands from the Front Awesome checkout:",
+            "theme:check checks generated CSS and compares installed versions, upstream hashes, and the derived token inventory with tests/theme-compatibility.json. test:theme builds the public base and optional PrimeVue consumers, then checks computed values in Chromium. It also checks that the base import graph does not import optional PrimeVue packages.",
+            "The browser command uses CHROMIUM_EXECUTABLE when set. On macOS it can use the installed Chromium application. Otherwise, install Playwright's Chromium as described in Development.",
+            "To change the mapping registry or generator, edit scripts/theme-tokens.mjs or scripts/generate-theme.mjs, then regenerate the adapter:",
+            "Do not edit the generated resources/js/theme/tokens.css file by hand. After reviewing upstream changes and passing the complete validation suite, refresh the compatibility record explicitly:",
+            "Inspect the record diff before accepting it. Recording new hashes is the last step of the review, not a fix for an unexplained check failure.",
+            "Exercise the published tailwind.css, web-awesome-tailwind, and optional primevue entries in real consuming builds. Test the base entries with optional PrimeVue peers absent. When Pro is available, test the same contracts using the selected Pro edition.",
+            "Check that Tailwind emits tokens referenced by adapters even when the application does not use their corresponding utilities. A build can succeed while a computed Web Awesome color remains empty.",
+            "Test light and dark document modes, manual mode opposite the operating-system preference, inverted scopes, local role classes, and changed branding. Measure foreground and background pairs on their actual backing surfaces. Numeric ramp correspondence does not prove contrast.",
+            "For wa-page, cover slot padding with and without p-0 and p-4, mobile width resets, sticky regions, fragment targets, drawer focus, and navigation-free layouts. Keep mobile aside recipes application-owned.",
+            "For PrimeVue, cover the official styled preset, its named layer, document mode selector, shared token changes, and teleported overlays used by the fixture. Do not extend a test of a few components into a claim about every PrimeVue component.",
+            "Run the commands in Development before completing an update. Keep implementation, tests, the inventory, changelog, and canonical guides synchronized."
+        ],
+        "tables": [
+            [
+                ["Family", "Source", "Adapter responsibility"],
+                [
+                    "Shared brand ramp",
+                    "Tailwind --color-brand-*",
+                    "Map the complete ramp to Web Awesome and the optional PrimeVue primary role."
+                ],
+                [
+                    "Physical color ramps",
+                    "Original Tailwind palettes",
+                    "Map Web Awesome lightness stops and own affected key and foreground pairs."
+                ],
+                [
+                    "Semantic colors",
+                    "Adapter policy over the shared ramps",
+                    "Define text, links, surfaces, borders, focus, tooltips, and role state pairs for supported scopes."
+                ],
+                [
+                    "Typography",
+                    "Tailwind font and size tokens",
+                    "Map common Web Awesome typography while preserving applicable Web Awesome scales."
+                ],
+                [
+                    "Spacing and radius",
+                    "Tailwind spacing and radius tokens",
+                    "Map dimensions while preserving applicable Web Awesome scales and geometric pill and circle values."
+                ],
+                [
+                    "Shadows",
+                    "Complete Tailwind shadow strings",
+                    "Replace mapped final Web Awesome shadows. Web Awesome offset, blur, spread, and color controls do not compose those results."
+                ],
+                [
+                    "Component details, motion, and interaction mixing",
+                    "Upstream Web Awesome default theme",
+                    "Retain upstream values unless an explicit adapter mapping replaces them."
+                ],
+                [
+                    "Native HTML baseline",
+                    "Tailwind Preflight",
+                    "Exclude Web Awesome native.css."
+                ],
+                [
+                    "Page prerequisites",
+                    "Upstream default theme and layers",
+                    "Retain document sizing, gutters, scroll offsets, and responsive helpers. Restore affected slot padding without copying upstream dimensions."
+                ],
+                [
+                    "PrimeVue component styles",
+                    "Official Aura preset",
+                    "Extend selected shared and semantic tokens through the official styled-mode API."
+                ]
+            ],
+            [
+                ["Web Awesome output", "Tailwind input"],
+                [
+                    "Body, heading, code, and long-form families",
+                    "--font-sans, --font-heading, --font-mono, and --font-longform"
+                ],
+                [
+                    "Font sizes xs, s, m, l, xl, 2xl, 3xl, 4xl, and 5xl",
+                    "--text-xs, --text-sm, --text-base, --text-lg, --text-xl, --text-2xl, --text-3xl, --text-4xl, and --text-5xl"
+                ],
+                [
+                    "Font sizes 3xs and 2xs",
+                    "Rounded derivations of --text-xs, divided by 1.265625 and 1.125"
+                ],
+                [
+                    "Font weights light, normal, semibold, and bold",
+                    "--font-weight-light, --font-weight-normal, --font-weight-medium, and --font-weight-semibold"
+                ],
+                [
+                    "Condensed, normal, and expanded line heights",
+                    "--leading-tight, --leading-normal, and --leading-loose"
+                ],
+                [
+                    "Spacing 3xs, 2xs, xs, s, m, l, xl, 2xl, 3xl, 4xl, and 5xl",
+                    "--spacing multiplied by 0.5, 1, 2, 3, 4, 6, 8, 10, 12, 16, and 20"
+                ],
+                [
+                    "Radius s, m, and l",
+                    "--radius-sm, --radius-md, and --radius-xl"
+                ],
+                [
+                    "Shadow s, m, and l",
+                    "--shadow-sm, --shadow-md, and --shadow-lg"
+                ]
+            ],
+            [
+                ["Role pair", "Light mode", "Dark mode"],
+                ["Quiet fill and foreground", "50 and 800", "900 and 200"],
+                ["Normal fill and foreground", "100 and 800", "800 and 200"],
+                ["Loud fill and foreground", "800 and white", "300 and 950"]
+            ],
+            [
+                ["Package", "Recorded version"],
+                ["Web Awesome Core", "3.14.0"],
+                ["Tailwind CSS", "4.3.4"],
+                ["PrimeVue", "4.5.5"],
+                ["@primeuix/themes", "2.0.3"]
+            ]
+        ]
+    },
+    {
+        "slug": "front-awesome/toasts/laravel",
+        "title": "Send toasts from Laravel",
+        "description": "Build a toast with the Laravel facade and send it through Inertia flash or Mosaicast.",
+        "legacyPath": "packages/front-awesome/toasts/laravel",
+        "sha256": "497311ecfc2803c354ed2c3bdff4ac3b3f33612d02c025c3406382628cf473a8",
+        "headings": [
+            {
+                "level": 2,
+                "id": "flash-a-toast-after-a-redirect",
+                "text": "Flash a toast after a redirect"
+            },
+            {
+                "level": 2,
+                "id": "dispatch-a-toast-through-mosaicast",
+                "text": "Dispatch a toast through Mosaicast"
+            },
+            {
+                "level": 2,
+                "id": "configure-the-toast-factory",
+                "text": "Configure the toast factory"
+            },
+            {
+                "level": 2,
+                "id": "delivery-limits",
+                "text": "Delivery limits"
+            }
+        ],
+        "examples": [
+            {
+                "code": "use ArtisanToolbox\\FrontAwesome\\Facades\\Toast;\n\nToast::success('Report saved.')->flash();\n\nreturn to_route('reports.index');",
+                "language": "php"
+            },
+            {
+                "code": "use ArtisanToolbox\\FrontAwesome\\Facades\\Toast;\nuse Inertia\\Inertia;\n\nToast::success('Report generated.')->dispatch();\n\nreturn Inertia::render('Reports/Index');",
+                "language": "php"
+            },
+            {
+                "code": "use ArtisanToolbox\\FrontAwesome\\Facades\\Toast;\nuse ArtisanToolbox\\FrontAwesome\\WebAwesome\\Size;\n\nToast::warning('Inventory is low.')\n    ->icon('box')\n    ->size(Size::L)\n    ->duration(0)\n    ->flash();",
+                "language": "php"
+            }
+        ],
+        "anchors": [],
+        "links": [
+            {
+                "slug": "front-awesome/vue-plugin",
+                "hash": "",
+                "href": "/docs/front-awesome/vue-plugin"
+            },
+            {
+                "slug": "front-awesome/vue-plugin",
+                "hash": "#configure-private-broadcasts",
+                "href": "/docs/front-awesome/vue-plugin#configure-private-broadcasts"
+            },
+            {
+                "slug": "front-awesome/configuration",
+                "hash": "#default-toast-icons",
+                "href": "/docs/front-awesome/configuration#default-toast-icons"
+            }
+        ],
+        "paragraphs": [
+            "Register the Vue plugin in your application before sending a toast. Call the Laravel facade from a route or controller with an active web session.",
+            "Use flash() for notifications that belong to the next Inertia response. Apply your application's Inertia middleware to the routes involved in the redirect.",
+            "The next Inertia response displays a success toast. Each call to flash() adds a toast to that response in call order. Inertia keeps flash out of browser history. This delivery method works without Echo.",
+            "Call dispatch() to deliver the toast through Mosaicast.",
+            "Mosaicast includes the event in an Inertia response that contains the mosaicast prop. If the response omits that prop, such as on a redirect, Mosaicast broadcasts the event on the session's private channel. The browser needs an active Echo subscription for that fallback.",
+            "Call Toast::brand($message), Toast::success($message), Toast::warning($message), Toast::danger($message), or Toast::neutral($message) to create a ToastFactory. The facade method sets the message and variant for the life of that factory. Call flash() or dispatch() on the factory to send it.",
+            "When you omit the icon, Laravel adds the configured default icon for the variant. For a custom icon library, pass new ToastIcon('box', library: 'my-icons') to icon() and register the library in your application.",
+            "With Mosaicast 1.1.1, Inertia can replay events from restored page props or miss events during history replacement, such as router.reload(). Use flash() for one-time notifications in those flows.",
+            "Inertia Laravel 3.7.0 can lose pending flash when an asset version mismatch forces a full page reload after a redirect."
+        ],
+        "tables": [
+            [
+                ["Factory method", "Accepted values"],
+                [
+                    "duration()",
+                    "A non-negative integer in milliseconds. Use 0 to wait for dismissal. A negative duration throws InvalidArgumentException when you send the toast."
+                ],
+                [
+                    "icon()",
+                    "An icon name or a WebAwesome\\ToastIcon with name and optional library, family, and variant strings."
+                ],
+                [
+                    "size()",
+                    "Size::XS, Size::S, Size::M, Size::L, or Size::XL. Web Awesome defaults to M."
+                ],
+                [
+                    "allowHtml()",
+                    "Defaults to plain text. Call allowHtml() to enable HTML for trusted content. Call allowHtml(false) to use plain text."
+                ]
+            ]
+        ]
+    },
+    {
+        "slug": "front-awesome/toasts/vue",
+        "title": "Show toasts from Vue",
+        "description": "Use the toast composable or global Vue service and configure TypeScript and ESLint.",
+        "legacyPath": "packages/front-awesome/toasts/vue",
+        "sha256": "970219cbde8549ab849be3bf8699411ee6856d959ff0d93f274bce8352ae6185",
+        "headings": [
+            {
+                "level": 2,
+                "id": "use-the-composition-api",
+                "text": "Use the Composition API"
+            },
+            {
+                "level": 2,
+                "id": "use-a-template-or-the-options-api",
+                "text": "Use a template or the Options API"
+            },
+            {
+                "level": 2,
+                "id": "toast-options",
+                "text": "Toast options"
+            },
+            {
+                "level": 2,
+                "id": "check-types-and-lint-rules",
+                "text": "Check types and lint rules"
+            }
+        ],
+        "examples": [
+            {
+                "code": "<template>\n  <button type=\"button\" @click=\"copyReportLink\">Copy link</button>\n</template>\n\n<script setup lang=\"ts\">\nimport { useToast } from \"@artisan-toolbox/front-awesome\";\n\nconst toast = useToast();\n\nasync function copyReportLink() {\n  await navigator.clipboard.writeText(window.location.href);\n  await toast.show(\"Report link copied.\", {\n    variant: \"success\",\n    icon: \"check\",\n  });\n}\n</script>",
+                "language": "vue"
+            },
+            {
+                "code": "import { defineComponent } from \"vue\";\n\nexport default defineComponent({\n  methods: {\n    async notifySaved() {\n      await this.$frontAwesome.toast.show(\"Report saved.\", {\n        variant: \"success\",\n      });\n    },\n  },\n});",
+                "language": "ts"
+            },
+            {
+                "code": "import \"@artisan-toolbox/front-awesome\";",
+                "language": "ts"
+            },
+            {
+                "code": "{\n  \"vue/no-undef-properties\": [\"error\", { \"ignores\": [\"$frontAwesome\"] }]\n}",
+                "language": "json"
+            }
+        ],
+        "anchors": [],
+        "links": [
+            {
+                "slug": "front-awesome/vue-plugin",
+                "hash": "",
+                "href": "/docs/front-awesome/vue-plugin"
+            },
+            {
+                "href": "https://vuejs.org/guide/typescript/options-api.html#augmenting-global-properties"
+            },
+            {
+                "href": "https://eslint.vuejs.org/rules/no-undef-properties.html"
+            }
+        ],
+        "paragraphs": [
+            "After you register the Vue plugin, use the toast service to respond to actions in the browser. Vue toasts use the same stack as toasts sent from Laravel.",
+            "Call useToast() in component setup and call show() when you want to display a notification.",
+            "The plugin exposes the same service as $frontAwesome.toast. In a template, call $frontAwesome.toast.show(message, options). In an Options API method, use this.$frontAwesome.toast.show(message, options).",
+            "The second argument to show() is optional. Its type is ToastOptions.",
+            "In the browser, show() resolves when Web Awesome creates the toast. It rejects if the arguments are invalid or Web Awesome cannot load or create the toast. During server rendering, a valid call resolves without displaying a toast. The browser ignores malformed toast payloads received through Inertia or Mosaicast.",
+            "The root package exports ToastOptions, ToastIconOptions, and ToastService. Use import type when declaring a shared options object or a wrapper around the service.",
+            "The root package import also declares $frontAwesome in Vue's component instance types. Run vue-tsc --noEmit against the TypeScript project that includes your Vue files. If that project excludes the entry point that imports createFrontAwesome(), add a declaration file such as resources/js/front-awesome.d.ts and include it in the project's tsconfig.",
+            "The ESLint rule vue/no-undef-properties ignores names starting with $ by default. If your Vue rules override that behavior and flag $frontAwesome, add the exact name to the rule's ignores list. Keep any existing entries."
+        ],
+        "tables": [
+            [
+                ["Option", "Accepted values"],
+                [
+                    "variant",
+                    "brand, success, warning, danger, or neutral. Defaults to neutral."
+                ],
+                [
+                    "duration",
+                    "A non-negative integer in milliseconds. Use 0 to wait for dismissal."
+                ],
+                [
+                    "icon",
+                    "An icon name or an object with name and optional library, family, and variant strings. Pass an icon to display one."
+                ],
+                ["size", "xs, s, m, l, or xl. Defaults to m."],
+                [
+                    "allowHtml",
+                    "Defaults to plain text. Set to true only for trusted HTML."
+                ]
+            ]
+        ]
+    },
+    {
+        "slug": "front-awesome/vue-plugin",
+        "title": "Vue plugin",
+        "description": "Register the toast service, enable color mode, and configure Mosaicast and Echo.",
+        "legacyPath": "packages/front-awesome/vue-plugin",
+        "sha256": "07448012b467404fca70fe17ae6a07ef3596c1a5e1ad48ca1756e672a696568a",
+        "headings": [
+            {
+                "level": 2,
+                "id": "add-a-theme-selector",
+                "text": "Add a theme selector"
+            },
+            {
+                "level": 2,
+                "id": "set-placement",
+                "text": "Set placement"
+            },
+            {
+                "level": 2,
+                "id": "configure-private-broadcasts",
+                "text": "Configure private broadcasts"
+            },
+            {
+                "level": 2,
+                "id": "start-only-the-toast-listener",
+                "text": "Start only the toast listener"
+            }
+        ],
+        "examples": [
+            {
+                "code": "import { createFrontAwesome } from \"@artisan-toolbox/front-awesome\";\n\n// In the options passed to createInertiaApp:\nwithApp(app) {\n  app.use(createFrontAwesome());\n}",
+                "language": "ts"
+            },
+            {
+                "code": "app.use(createFrontAwesome({ theme: true }));",
+                "language": "ts"
+            },
+            {
+                "code": "<template>\n  <Theme v-slot=\"{ theme, toggle, system, dark, light }\">\n    <button type=\"button\" :aria-pressed=\"theme === 'system'\" @click=\"system\">\n      System\n    </button>\n    <button type=\"button\" :aria-pressed=\"theme === 'dark'\" @click=\"dark\">\n      Dark\n    </button>\n    <button type=\"button\" :aria-pressed=\"theme === 'light'\" @click=\"light\">\n      Light\n    </button>\n    <button type=\"button\" @click=\"toggle\">Toggle theme</button>\n  </Theme>\n</template>\n\n<script setup lang=\"ts\">\nimport { Theme } from \"@artisan-toolbox/front-awesome/components\";\n</script>",
+                "language": "vue"
+            },
+            {
+                "code": "@custom-variant dark (&:where(.dark, .dark *));",
+                "language": "css"
+            },
+            {
+                "code": "app.use(\n  createFrontAwesome({\n    flashToast: { placement: \"bottom-end\" },\n  }),\n);",
+                "language": "ts"
+            },
+            {
+                "code": "import { createFrontAwesome } from \"@artisan-toolbox/front-awesome\";\nimport { echo } from \"@laravel/echo-vue\";\n\n// In the options passed to createInertiaApp:\nwithApp(app, { ssr }) {\n  app.use(\n    createFrontAwesome({\n      mosaicast: ssr ? undefined : { echo: echo<\"reverb\">() },\n    }),\n  );\n}",
+                "language": "ts"
+            }
+        ],
+        "anchors": [],
+        "links": [
+            {
+                "slug": "front-awesome/installation",
+                "hash": "",
+                "href": "/docs/front-awesome/installation"
+            },
+            {
+                "slug": "front-awesome/web-awesome",
+                "hash": "",
+                "href": "/docs/front-awesome/web-awesome"
+            },
+            {
+                "slug": "front-awesome/web-awesome",
+                "hash": "#load-application-owned-styles",
+                "href": "/docs/front-awesome/web-awesome#load-application-owned-styles"
+            },
+            {
+                "slug": "front-awesome/shared-theme",
+                "hash": "",
+                "href": "/docs/front-awesome/shared-theme"
+            },
+            {
+                "slug": "front-awesome/shared-theme",
+                "hash": "#load-the-two-style-entries",
+                "href": "/docs/front-awesome/shared-theme#load-the-two-style-entries"
+            },
+            {
+                "slug": "mosaicast/vue-plugin",
+                "hash": "",
+                "href": "/docs/mosaicast/vue-plugin"
+            },
+            {
+                "slug": "front-awesome/toasts/laravel",
+                "hash": "",
+                "href": "/docs/front-awesome/toasts/laravel"
+            },
+            {
+                "slug": "front-awesome/toasts/vue",
+                "hash": "#toast-options",
+                "href": "/docs/front-awesome/toasts/vue#toast-options"
+            }
+        ],
+        "paragraphs": [
+            "After installation and Web Awesome setup, add createFrontAwesome() to the existing withApp hook in your Inertia entry point.",
+            "The plugin provides the Vue toast service and starts the browser listeners for Inertia flash and Mosaicast events. It adds one Web Awesome toast stack to document.body. The stack stays in place as Inertia changes pages. If several Vue apps share a document, the plugin removes the stack and its listeners when the last app unmounts. Server rendering has access to the service.",
+            "Pass theme: true to let the plugin manage the page's color mode. Apps that already manage color mode can omit this option.",
+            "This option controls light, dark, and system preferences. It does not install a visual theme. Choose application-owned Web Awesome styles or the shared Tailwind theme separately.",
+            "Import Theme from @artisan-toolbox/front-awesome/components and put your controls in its default slot. The component adds no wrapper element.",
+            "theme is the selected preference: system, dark, or light. Each matching action selects that preference. toggle() selects the opposite of the color mode currently in use. For example, if system resolves to dark, toggle() selects light and stops following system changes. All selectors in the same document share the preference.",
+            "If you wrap the selector in your own component, import the ThemePreference type from @artisan-toolbox/front-awesome.",
+            "The plugin reads the appearance preference from browser storage and applies the color mode before Vue mounts. It follows the system preference if no valid choice is saved. If storage is unavailable, the controls still work for the current page. During server rendering and hydration, the slot starts at system and reads the browser preference after mount. The plugin stops listening for system changes when the last app with theme support unmounts.",
+            "The manager sets dark and wa-dark on <html> in dark mode, or wa-light in light mode. The shared Tailwind entry already defines the matching dark:* variant. With a direct Tailwind import, add this variant after that import:",
+            "Inertia resolves the initial page before it installs the plugin. If your app must apply the preference before the first paint, use an inline script in the document head that reads the same appearance key, defaults to system, and applies the same root classes.",
+            "The default placement is top-end. Set flashToast.placement to top-start, top-center, top-end, bottom-start, bottom-center, or bottom-end. The first app to start the stack sets its placement.",
+            "If your application registers createMosaicast() separately, replace that registration with createFrontAwesome() and move its options under mosaicast. The plugin accepts the Mosaicast options echo, channelPrefix, debug, and logger. The first registration supplies these options for the lifetime of the document.",
+            "To receive private broadcasts, follow the Mosaicast Vue plugin setup for your broadcaster. Pass the configured Echo instance in the browser. The example uses Reverb.",
+            "Without Echo, the plugin still receives Inertia flash and Mosaicast events delivered in Inertia responses. See Toasts from Laravel to choose a delivery method.",
+            "If you manage Mosaicast registration and app startup yourself, import initializeFlashToast() from @artisan-toolbox/front-awesome/WebAwesome/flashToast. Call it before starting Inertia. The initializer accepts the same placement option as flashToast and returns a cleanup function. If several callers start the stack, it stays active until all of them run their cleanup functions. Use the Vue plugin if you also need useToast() or $frontAwesome.",
+            "The same entry point exports showToast(message, options). It uses the active stack and the same toast options as the Vue service.",
+            "The root package exports the FrontAwesomeOptions and FlashToastOptions types."
+        ],
+        "tables": []
+    },
+    {
+        "slug": "front-awesome/web-awesome",
+        "title": "Web Awesome setup",
+        "description": "Configure Vite, use your application's theme, and select Web Awesome Core or Pro.",
+        "legacyPath": "packages/front-awesome/web-awesome",
+        "sha256": "a0b3cbcd58eea2eb269d191c2d4c0165985ccb0c7b4b05f09dd97d32ec19b301",
+        "headings": [
+            {
+                "level": 2,
+                "id": "configure-vite",
+                "text": "Configure Vite"
+            },
+            {
+                "level": 2,
+                "id": "choose-a-styling-setup",
+                "text": "Choose a styling setup"
+            },
+            {
+                "level": 2,
+                "id": "load-application-owned-styles",
+                "text": "Load application-owned styles"
+            },
+            {
+                "level": 2,
+                "id": "choose-core-or-pro",
+                "text": "Choose Core or Pro"
+            }
+        ],
+        "examples": [
+            {
+                "code": "import { frontAwesome } from \"@artisan-toolbox/front-awesome/vite\";\nimport vue from \"@vitejs/plugin-vue\";\nimport { defineConfig } from \"vite\";\n\nexport default defineConfig({\n  plugins: [\n    // Keep your existing Laravel, Inertia, and Tailwind plugins here.\n    frontAwesome(),\n    vue(),\n  ],\n});",
+                "language": "ts"
+            },
+            {
+                "code": "@import \"tailwindcss\";\n@import \"@artisan-toolbox/front-awesome/styles.css\";",
+                "language": "css"
+            },
+            {
+                "code": "import \"@artisan-toolbox/front-awesome/web-awesome.css\";",
+                "language": "ts"
+            }
+        ],
+        "anchors": [],
+        "links": [
+            {
+                "slug": "front-awesome/shared-theme",
+                "hash": "",
+                "href": "/docs/front-awesome/shared-theme"
+            },
+            {
+                "slug": "front-awesome/vue-plugin",
+                "hash": "#add-a-theme-selector",
+                "href": "/docs/front-awesome/vue-plugin#add-a-theme-selector"
+            },
+            {
+                "slug": "front-awesome/theme-maintenance",
+                "hash": "#compatibility-record",
+                "href": "/docs/front-awesome/theme-maintenance#compatibility-record"
+            }
+        ],
+        "paragraphs": [
+            "Front Awesome wraps Web Awesome custom elements. It includes Web Awesome Core and VueUse. The application supplies Vue, Inertia, and Tailwind CSS.",
+            "Add frontAwesome() from @artisan-toolbox/front-awesome/vite to your existing Vite plugins. Keep the Laravel, Inertia, Tailwind, and Vue plugins in place. Front Awesome automatically configures @vitejs/plugin-vue to recognize wa- tags as custom elements.",
+            "Keep your existing Vue plugin options. Front Awesome extends template.compilerOptions.isCustomElement so both wa- tags and your existing custom elements remain recognized. Other template and compiler options are preserved. An existing matcher for wa- tags can stay in place, but is no longer required.",
+            "You can place frontAwesome() before or after the Vue plugin. The automatic configuration applies to development, client builds, and SSR builds. If you build an Inertia SSR bundle, add \"@artisan-toolbox/front-awesome\" to Vite's ssr.noExternal list so Vite compiles the package's Vue files.",
+            "Use the shared Tailwind theme to make Tailwind tokens control common Web Awesome design choices. That setup replaces the imports below with its own public entries. It keeps Tailwind Preflight and excludes Web Awesome's global native-element styling.",
+            "For an existing application-owned theme, keep the following setup.",
+            "Import the package's Tailwind source stylesheet after Tailwind in the application CSS entry. Tailwind uses the source directive to scan the package's Vue components for utility classes.",
+            "If the application already loads Web Awesome styles, keep its existing setup. To load the standard Web Awesome stylesheet, import the optional stylesheet in the JavaScript entry. Vite can then resolve the nested CSS imports.",
+            "Front Awesome components inherit the active Web Awesome theme and the application's --wa-* tokens. Set colors, typography, and spacing in the application. To manage light and dark mode with Front Awesome, add a theme selector.",
+            "The Vite plugin prefers the application's installed @web.awesome.me/webawesome-pro package. It otherwise uses the application's Core installation or the Core copy supplied by Front Awesome. The plugin selects the edition for Front Awesome's button, button group, toast, and optional Web Awesome stylesheet entries.",
+            "Import native components directly from the edition your application uses. For example, a Pro app can import @web.awesome.me/webawesome-pro/dist/components/icon/icon.js. The Vite plugin only changes Front Awesome's internal imports. Use one edition on each page because both editions register the same custom element names. If you previously added an alias for the entire Core package, remove it and rebuild.",
+            "Edition selection does not establish theme compatibility for an untested Pro release. See the shared-theme compatibility record before adopting the adapter."
+        ],
+        "tables": [
+            [
+                ["Vite option", "Edition"],
+                ["frontAwesome()", "Pro when installed. Core otherwise."],
+                ["frontAwesome({ webAwesome: \"core\" })", "Core."],
+                [
+                    "frontAwesome({ webAwesome: \"pro\" })",
+                    "Pro. Install Pro in the application before building."
+                ]
+            ]
+        ]
+    }
+]

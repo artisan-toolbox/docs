@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Eye, EyeOff } from '@lucide/vue';
+import SiteIcon from '@/components/site/SiteIcon.vue';
 import { ref, useTemplateRef } from 'vue';
 import type { HTMLAttributes } from 'vue';
 import { Input } from '@/components/ui/input';
@@ -41,8 +41,8 @@ defineExpose({
             :aria-label="showPassword ? 'Hide password' : 'Show password'"
             :tabindex="-1"
         >
-            <EyeOff v-if="showPassword" class="size-4" />
-            <Eye v-else class="size-4" />
+            <SiteIcon name="eye-slash" v-if="showPassword" />
+            <SiteIcon name="eye" v-else />
         </button>
     </div>
 </template>

@@ -9,18 +9,25 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.3",
+        "php": "^8.5",
+        "artisan-toolbox/core": "^1.2.0",
+        "artisan-toolbox/dump-to-console": "^1.1.0",
+        "artisan-toolbox/front-awesome": "^1.0@dev",
+        "artisan-toolbox/maintainer": "^1.10.0",
+        "artisan-toolbox/mosaicast": "^1.2.0",
+        "artisan-toolbox/qztray": "^1.2.0",
         "inertiajs/inertia-laravel": "^3.0",
         "laravel/chisel": "^0.1.0",
         "laravel/fortify": "^1.37.2",
         "laravel/framework": "^13.17",
         "laravel/head": "^0.2.2",
+        "laravel/horizon": "^5.50",
+        "laravel/reverb": "^1.12",
         "laravel/tinker": "^3.0",
-        "laravel/wayfinder": "^0.1.14",
-        "opcodesio/log-viewer": "^3.24"
+        "opcodesio/log-viewer": "^3.24",
+        "tightenco/ziggy": "^2.6.5"
     },
     "require-dev": {
-        "artisan-toolbox/maintainer": "^1.10",
         "driftingly/rector-laravel": "^2.5",
         "fakerphp/faker": "^1.24",
         "larastan/larastan": "^3.9",
@@ -65,6 +72,9 @@
         ],
         "lint:check": [
             "pint --parallel --test"
+        ],
+        "distribution:check": [
+            "@php scripts/check-distribution.php"
         ],
         "ci:check": [
             "Composer\\Config::disableProcessTimeout",

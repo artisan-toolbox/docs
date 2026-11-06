@@ -20,6 +20,6 @@ abstract readonly class Package
 
     public function publishedUrl(): string
     {
-        return 'https://artisantoolbox.wsssoftware.com.br/packages/'.$this->id.'/';
+        return 'https://atb.dev.br/packages/'.$this->id.'/';
     }
 }

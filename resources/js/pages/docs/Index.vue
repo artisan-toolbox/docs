@@ -26,6 +26,10 @@ defineProps({
         </PageHeader>
         <ProseSection id="packages" title="Find your next tool">
             <p>
+                Find the Laravel package or developer tool for the task you are
+                working on.
+            </p>
+            <p>
                 Each package has its own compatibility requirements and release
                 history. Start with its overview before adding it to your
                 project.

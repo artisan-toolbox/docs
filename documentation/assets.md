@@ -54,3 +54,13 @@ Do not restore duplicate root files or the Laravel starter favicon.
 
 The manifest describes a browser-based documentation site.
 It does not imply offline support or install a service worker.
+
+## Maintain the font fallback
+
+Laravel Vite owns the Instrument Sans download and font CSS through the existing `bunny()` declaration and Blade `@fonts`. The declaration keeps normal weights 400, 500, and 600, sets `optimizedFallbacks: true`, and retains the generic `ui-sans-serif`, `system-ui`, and `sans-serif` fallbacks. Fontaine is a development dependency used by that native integration.
+
+The generated `--font-instrument-sans` variable contains the primary family, its metric-adjusted local Arial fallback, and the generic stack. Application branding sets `--font-sans: var(--font-instrument-sans)`, which also supplies Front Awesome's WA body and heading aliases. Do not replace it with a manually reconstructed font stack or add a second Fontaine transform. No handwritten fallback `@font-face` is needed. Vue SSR remains disabled.
+
+After changing fonts, weights, or Fontaine, run `npm run build`. Inspect the generated `fonts-*.css` and `fonts-manifest.json` for the expected weights, fallback family, `ascent-override`, `descent-override`, `line-gap-override`, and `size-adjust`. Confirm the browser's resolved font stack and font loading as well. Valid metric output is not a measured layout-shift result. Generated build files remain build artifacts.
+
+The integration follows Laravel's [font options](https://laravel.com/framework/docs/vite#font-options) and [Fontaine](https://github.com/unjs/fontaine).

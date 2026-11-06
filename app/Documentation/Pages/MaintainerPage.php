@@ -19,7 +19,7 @@ final readonly class MaintainerPage extends Page
             component: 'docs/maintainer/Maintainer',
             title: $package->title,
             description: 'Automated validation, quality assurance, versioning, and release workflows.',
-            sourcePath: 'src/content/docs/packages/maintainer/index.md',
+            sourcePath: 'resources/js/pages/docs/maintainer/Maintainer.vue',
             package: $package,
         );
     }

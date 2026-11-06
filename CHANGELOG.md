@@ -1,5 +1,59 @@
 # Changelog
 
+## [Unreleased]
+
+- Install the published Front Awesome `1.0.0-alpha.1` preview and public distributions of all documented packages through portable Composer and npm locks. Remove the required workspace checkout from Front Awesome installation instructions.
+- Add a dependency-free distribution check before Composer installation in CI. Reject local lock locations without changing development aliases and document clean consumer verification.
+
+- Run Horizon as the documentation server's only PM2 process and use the external WSS Software Reverb application for broadcasts. Apply PM2 after publication, allow graceful worker shutdown, and document private environment placeholders and separate scheduler ownership.
+- Require complete backend Reverb credentials before accepting queued demos. Preserve early broadcast completion and isolate late request callbacks from newer demonstration runs.
+
+- Add a versioned Deployer task that builds and verifies the documentation search index in the candidate release. Run it explicitly before migrations, process configuration, and publication, stopping deployment on either command failure.
+
+- Add an interactive Core conditional-array example that executes the installed PHP helper. Show conditional nested fields, closure evaluation, retained falsy values, and preserved numeric keys with user-controlled requests, reset, and the actual running source.
+
+- Derive the sitemap, visible breadcrumbs, and breadcrumb JSON-LD from registered documentation pages. Add Laravel Head site and page schemas, dynamic robots discovery, and noindex response headers for internal endpoints. Document maintenance and post-publication rendering checks with Vue SSR disabled.
+
+- Use the published Pest, Inertia, and six package kit identities through the shared icon component, including duotone menu and guide tags. Add icons to every footer destination and isolate Font Awesome SVG replacement from Vue updates.
+- Install Fontaine through Laravel Vite's native optimized font fallback and share its generated Instrument Sans stack with Tailwind and Web Awesome.
+
+- Split QZ Tray's long overview into a short preview-first introduction and eight task guides, preserving historical overview anchors and technical content coverage.
+- Generate installation instructions from locked dependency versions through one shared catalog, Vue component, and search adapter. Add the documented optional Echo Vue and PrimeVue dependencies to the documentation lock and prevent stale authored registry installs.
+- Clarify Core's focused helpers, Maintainer's maintenance role, Mosaicast's session broadcasting and Front Awesome integration, and manual PM2 namespace migration. Add compact package glyphs for Font Awesome, icons at every navigation depth, denser desktop navigation, and dark native code scrollbars in both themes.
+
+- Normalize both local Composer version aliases only in package displays, add package repository links to overview specifications and guide tags, and use Font Awesome throughout application controls. Link the landing page's tools to their official sites and prepare Inertia and Pest marks for kit upload.
+- Highlight shared source and terminal examples with lazy Shiki grammars, an explicit language toolbar, and Tailwind token colors while preserving exact source, accessible copying, and search extraction.
+
+### Changed
+
+- Integrate the existing Font Awesome kit through WA's native kit attribute and one shared SiteIcon component. Add themed icons to navigation groups, search, code-copy controls, callouts, outlines, and supporting links while preserving labels and excluding decorative glyphs from search.
+- Replace the unused Wayfinder packages and Vite generator with Ziggy's native Laravel JSON configuration and public Vue/JavaScript APIs. Generate login and account URLs by route name, preserve request methods, and support QZ Tray's direct route imports without a second configuration or generated route files.
+- Add local server-side documentation search with a shared accessible dialog, ranked section links, code and table content, and a single deploy-time indexing command. Derive the corpus from the existing page registry and Vue sources, validate freshness, and publish the SQLite FTS5 artifact atomically without another service or Vue SSR.
+- Show one "Documented version" value from the installed Composer package on overviews, guide tags, and cards. Normalize the artificial `1.999.999` version to `1.x-dev` dynamically without changing locked versions.
+- Add versioned Artisan Toolbox documentation and package development skills, a dependency-free synchronizer with explicit version pins and drift checks, and a CI check. Install the shared standards in the documentation repository as the first consumer.
+- Document package usage skill authoring, Composer distribution, Boost installation and refresh, consumer verification, and same-task maintenance of skills, guides, tests, and changelogs.
+- Give every package a dedicated installation journey with prerequisites, backend-before-frontend setup, a first working example, and an expected result. Order guide menus by learning prerequisites and cover that order with request tests.
+- Keep full package specifications on overviews and show compact tags on guides. Report actual Composer installation versions and identify local development branches separately from documented compatibility.
+- Install all documented packages explicitly and consume QZ Tray's frontend from Composer. Check compatible updates of the main PHP and frontend dependencies, and replace the artificial Maintainer version with `1.x-dev`.
+- Add real Mosaicast response demonstrations comparing native Laravel dispatch plus manual Inertia props with package listener delivery, including event objects and multiple event types. Share controlled demo frames, source views, actions, and cleanup.
+- Install Horizon and Reverb, isolate demo jobs on their own worker queue, restrict job submission and monitoring to verified staff, and schedule Horizon metrics. Document the service prerequisites without starting or configuring deployed services.
+- Strengthen workspace, documentation, and Mosaicast agent instructions with beginner journeys, dependency refreshes, public API reuse, documentation standards, and root-cause fixes without workarounds.
+- Add an automatic, nested "On this page" outline with active-section tracking, native deep links, a desktop rail, and a mobile disclosure. Add clear navigation from documentation back to the landing page.
+- Keep the mobile package menu in the viewport when opened from a deep guide section, with Escape dismissal and focus restoration.
+- Complete the six-package and community-content migration with 52 registered documentation pages, preserved examples and anchors, source links, enum-bound legacy redirects, and standalone frontend fixtures.
+- Replace the starter landing page with a responsive package catalog and shared public header and footer.
+- Consume Front Awesome's quick-style preview through its public Composer and frontend entries, with a published application branding file, shared red palette, fonts, dimensions, shadows, and synchronized light and dark themes.
+- Keep the active nested navigation destination visible without moving document scroll or keyboard focus.
+- Require Node.js 24.11 or newer and align CI with Node.js 24. Document the local Front Awesome and Maintainer publication prerequisites for standalone installation.
+- Align the application PHP requirement and managed README badge with the installed packages' PHP 8.5 minimum, including production.
+- Open external web links in a new tab with `noopener noreferrer` through the shared documentation link component, preserving internal Inertia navigation and native email and telephone links.
+- Standardize workspace contact metadata on `contact@atb.dev.br` and documentation references on `https://atb.dev.br`, with a repeatable source check and unchanged dependency versions.
+- Migrate the complete Maintainer Versioning section with visible guide titles, local navigation, exact legacy redirects, and explicit availability guidance for the pending-push preview.
+- Migrate Maintainer's complete Configuration section, including reference, template publishing, and SSH identity guides, with local navigation and exact legacy redirects.
+- Share package guide headers that keep each guide title visible, and clarify application publication keys, SSH helper fallback, and Deployer authentication without a stored Maintainer identity.
+- Refine the nested documentation sidebar with more label space, compact indentation, distinct package sections, and a quieter current-page marker in both themes.
+- Group documentation navigation by registered slug hierarchy, with collapsible package and guide sections, automatic opening of the active branch, and separate page links and disclosure controls on desktop and mobile.
+
 ## [1.0.0-alpha.3] - 2026-11-05
 
 ### Build
@@ -115,6 +169,8 @@ Compatibility / migration notes: if you previously used the example env for loca
 
 ### Added
 
+- Migrate the complete Maintainer fixes and CI checks guide to `/docs/maintainer/ci/quality`, with reusable accessible tables, smaller Vue sections, and an exact legacy redirect.
+- Migrate the Maintainer Code Quality overview to `/docs/maintainer/ci` using shared documentation components and an exact legacy redirect.
 - Add staff-only email-code login, session invalidation on logout, and an authenticated Log Viewer at `/logs`. Replace starter password, dashboard, and settings routes with the restricted access flow.
 - Add the application's `ArtisanToolbox` version identity and Maintainer-managed README header, with an isolated CLI regression test for discovery, header synchronization, and repeated execution.
 - Install published Maintainer 1.10, Rector, and Laravel Rector rules as development tooling, with a non-interactive Maintainer quality gate and separate Rector dry-run CI check.
@@ -127,6 +183,7 @@ Compatibility / migration notes: if you previously used the example env for loca
 
 ### Changed
 
+- Link documentation footers to the corresponding Vue source files in the published `1.x` repository.
 - Restrict staff access to `atb.dev.br`, including pending code challenges and log authorization.
 - Generate the share image with integer alpha flattening after resizing to avoid native floating-point rounding differences between macOS and Linux. Keep exact artifact checks with compact filename and SHA-256 diagnostics.
 - Configure the scoped Web Awesome Pro registry with environment-based authentication and install local file dependencies as packages while keeping dependency scripts disabled.

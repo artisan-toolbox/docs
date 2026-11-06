@@ -30,6 +30,9 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('viewLogViewer', fn (?User $user): bool => $user !== null
             && $user->email_verified_at !== null
             && User::allowsStaffEmail($user->email));
+        Gate::define('runDemos', fn (?User $user): bool => $user !== null
+            && $user->email_verified_at !== null
+            && User::allowsStaffEmail($user->email));
     }
 
     private function configureHead(): void

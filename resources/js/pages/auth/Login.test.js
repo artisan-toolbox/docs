@@ -1,6 +1,14 @@
 import { router } from '@inertiajs/vue3';
 import { mount } from '@vue/test-utils';
-import { afterEach, describe, expect, it, vi } from 'vite-plus/test';
+import {
+    afterEach,
+    beforeEach,
+    describe,
+    expect,
+    it,
+    vi,
+} from 'vite-plus/test';
+import ziggy from '../../../../tests/Fixtures/ziggy.json';
 import Login from './Login.vue';
 
 vi.mock('@inertiajs/vue3', async (importOriginal) => ({
@@ -14,9 +22,45 @@ function renderLogin(props = {}) {
     });
 }
 
-afterEach(() => vi.restoreAllMocks());
+beforeEach(() => vi.stubGlobal('Ziggy', ziggy));
+afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+});
 
 describe('Passwordless sign in', () => {
+    it('follows named routes when the application changes its authentication paths', async () => {
+        vi.stubGlobal('Ziggy', {
+            ...ziggy,
+            routes: {
+                ...ziggy.routes,
+                'docs.index': { uri: 'guides', methods: ['GET', 'HEAD'] },
+                'login.email': { uri: 'staff/code', methods: ['POST'] },
+                'login.store': { uri: 'staff/access', methods: ['POST'] },
+            },
+        });
+        const post = vi.spyOn(router, 'post').mockImplementation(() => {});
+        const wrapper = renderLogin();
+        expect(wrapper.get('header a').attributes('href')).toBe('/guides');
+        await wrapper.get('#email').setValue('you@atb.dev.br');
+        await wrapper.get('form').trigger('submit');
+        expect(post).toHaveBeenLastCalledWith(
+            '/staff/code',
+            { email: 'you@atb.dev.br' },
+            expect.any(Object),
+        );
+        await wrapper.setProps({ pendingEmail: 'you@atb.dev.br' });
+        post.mock.calls[0][2].onSuccess({});
+        await wrapper.vm.$nextTick();
+        await wrapper.get('#code').setValue('001234');
+        await wrapper.get('form').trigger('submit');
+        expect(post).toHaveBeenLastCalledWith(
+            '/staff/access',
+            { code: '001234' },
+            expect.any(Object),
+        );
+    });
+
     it('requests a code and switches to the pending email returned by the server', async () => {
         const post = vi.spyOn(router, 'post').mockImplementation(() => {});
         const wrapper = renderLogin();
