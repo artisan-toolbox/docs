@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.0.0-beta.2] - 2026-11-07
+
+### Features
+
+- **defer highlighting and document brand logo generation** (`3779ea8`)
+  Updated documentation to match the new deferred code highlighting and branding/logo generation behavior:
+- Code examples now defer syntax highlighting until the example’s figure first intersects the viewport (with a 200px vertical margin). This preserves immediate plain text/copying, native disclosures/search content, and avoids importing highlighters (with no loading indicator) until the reader reaches the content.
+- Highlighting behavior is designed to be resilient across scroll away/back, preserving admitted tokens/results and protecting against stale results when the source or language changes.
+- DemoFrame behavior was documented: code examples remain mounted inside native `<details>` and start with `highlightEnabled=false`; highlighting is permanently enabled only after the reader opens “View the running source,” with reopening retaining completed tokens and preserving native disclosure interactions.
+- Added guidance that `highlightEnabled` defaults to `true` for ordinary pages and should be controlled via the shared disclosure component rather than per-page switches; also notes that browsers without Intersection Observer may eagerly highlight eligible examples.
+- Expanded/added documentation around brand wordmarks: `scripts/build-brand-logos.mjs` generates transparent, responsive WebP brand wordmark variants (widths 192/384/576) and associated theme metadata under `resources/js/assets/brand/`.
+- Documented the intended rendering approach using the `BrandLogo` component with a single responsive image (`srcset`/`sizes`) rather than CSS-hidden dual wordmarks or multiple theme controllers.
+- Documented how Vite outputs fingerprinted WebP assets to `public/build/assets` using `?no-inline`, and that immutable caching is compatible with these fingerprinted outputs.
+- Documented the related build/generation workflow (including how `ignore-scripts=true` skips npm lifecycle hooks but generation can still be run explicitly) and warned that `dev`/`build` should fail if generation fails, with guidance to rerun the appropriate commands.
+
+User impact: readers get better initial content accessibility/performance (immediate non-highlighted text/copy; less upfront work), and operators/developers get clearer instructions to reliably generate and serve responsive brand logos and apply correct caching/rendering patterns.
+
+Compatibility/migration: ensure any custom disclosure/components follow the documented `highlightEnabled` control flow, and switch brand wordmark rendering to `BrandLogo`/responsive `srcset` usage rather than older per-page/per-theme hidden-wordmark patterns.
+
 ## [1.0.0-beta.1] - 2026-11-06
 
 ### Maintenance
