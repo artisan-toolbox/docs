@@ -16,7 +16,7 @@
             })();
         </script>
 
-        <script src="https://kit.fontawesome.com/{{ config('documentation.fontawesome_kit_code') }}.js" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/{{ config('documentation.fontawesome_kit_code') }}.js" crossorigin="anonymous" defer></script>
 
         @fonts
 

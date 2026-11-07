@@ -15,6 +15,21 @@ const links = {
 };
 
 describe('PublicSiteHeader', () => {
+    it('renders one responsive brand image with reserved dimensions', () => {
+        const wrapper = mount(PublicSiteHeader, {
+            props: { links },
+            global: { stubs: { AccountLinks: true } },
+        });
+
+        expect(wrapper.findAll('img[alt="Artisan Toolbox"]')).toHaveLength(1);
+        expect(wrapper.get('img').attributes()).toMatchObject({
+            width: '1456',
+            height: '500',
+            sizes: '(min-width: 640px) 192px, 160px',
+        });
+        expect(wrapper.get('img').attributes('src')).toContain('.webp');
+    });
+
     it('offers search whenever the server provides its endpoint', () => {
         const wrapper = mount(PublicSiteHeader, {
             props: { links: { ...links, search: '/docs/search' } },

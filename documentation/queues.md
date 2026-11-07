@@ -123,6 +123,18 @@ For deployment and supervisor options, follow the [Laravel 13 Horizon guide](htt
 
 ## Verify real delivery
 
+### Diagnose a disabled queue button
+
+The **Queue one job** button stays disabled until its access and configuration prerequisites are present. A running Horizon process does not enable the button. Read the message above the button in this order:
+
+1. **Staff access is required.** Sign in with a verified `@atb.dev.br` account in the same browser session, then reopen the guide. Access to Horizon or logs in another session does not authorize this page.
+2. **Server configuration is missing.** Check that Laravel resolves `broadcasting.default` to `reverb`, the Redis queue connection uses the `redis` driver, and the backend Reverb application ID, key, secret, and host are present. Rebuild cached configuration through the normal deployment workflow after correcting the server environment.
+3. **Browser configuration is missing.** Provide the public `VITE_REVERB_APP_KEY` and `VITE_REVERB_HOST` during the frontend build. Rebuild the assets and reload the page. Laravel's configuration cache does not update values compiled into JavaScript.
+
+The first unmet prerequisite is shown. Reopen the guide after correcting it to check the next prerequisite. Keep private settings server-side while diagnosing configuration. The ready message confirms that configuration is present; it does not check Redis connectivity, a running worker, Reverb delivery, or private-channel authorization.
+
+### Confirm a queued completion
+
 1. After applying the deployment, run `php artisan horizon:status` from the documentation release and confirm the `demos` supervisor in Horizon.
 2. Open the Inertia delivery guide with a verified staff session. Check that configuration is present and the private subscription connects.
 3. Select **Queue one job** once. Match its run identifier with the completed `CompleteDemo` job on the `demos` queue and the browser entry labeled `broadcast`.

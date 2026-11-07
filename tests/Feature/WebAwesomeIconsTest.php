@@ -11,5 +11,7 @@ test('shares the configured public Font Awesome kit with its script and native W
     $scripts = $xpath->query('//head/script[starts-with(@src, "https://kit.fontawesome.com/")]');
     expect($scripts)->toHaveCount(1)
         ->and($scripts->item(0)->getAttribute('src'))->toBe('https://kit.fontawesome.com/public-kit-example.js')
-        ->and($scripts->item(0)->getAttribute('crossorigin'))->toBe('anonymous');
+        ->and($scripts->item(0)->getAttribute('crossorigin'))->toBe('anonymous')
+        ->and($scripts->item(0)->hasAttribute('defer'))->toBeTrue()
+        ->and($scripts->item(0)->hasAttribute('async'))->toBeFalse();
 })->with(['/', '/docs', '/login']);

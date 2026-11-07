@@ -8,7 +8,7 @@ Do not redraw, trace, or replace it with a design concept.
 1. Replace the approved PNGs under `public/images/brand/` when the official artwork changes.
 2. Copy each package's `logo/<package>-light.svg`, `-dark.svg`, and `-icon.svg` into `public/images/packages/<package>/` when that package's logo changes.
 3. Run `npm run icons:build`.
-4. Run `npm test -- scripts/build-icons.test.mjs`.
+4. Run `npm test -- scripts/build-icons.test.mjs scripts/build-brand-logos.test.mjs`.
 5. Inspect the icons, share image, and both theme wordmarks before completing the change.
 
 The initial global PNGs come from `docs_old/logo/`.
@@ -31,6 +31,18 @@ All browser icon outputs and the manifest live in `public/favicons/`:
 
 The share image lives at `public/images/brand/social-card.png` and measures 1200 by 630 pixels.
 Regeneration produces byte-identical outputs for unchanged sources and dependencies.
+
+## Serve responsive wordmarks
+
+Keep the approved full-size light and dark PNGs as source artwork. `scripts/build-brand-logos.mjs` generates transparent WebP variants at widths 192, 384, and 576, plus the imported theme metadata in `resources/js/assets/brand/`. Commit those generated files with any artwork change. Do not resize the source PNGs to fit one screen.
+
+The shared `BrandLogo` component renders one image, with explicit aspect-ratio dimensions, a responsive `srcset`, and sizes matching the header's 160-pixel mobile and 192-pixel desktop widths. The browser selects one active variant. Its initial theme follows the document's existing prepaint class; subsequent changes follow `useAppearance`, including manual preferences that differ from the operating system. Reuse this component instead of rendering two CSS-hidden wordmarks or adding a second theme controller.
+
+Vite imports each generated WebP with `?no-inline`, emitting a file with a content hash under `public/build/assets`. Changing the artwork produces a new URL compatible with [immutable asset caching](nginx.md#cache-only-fingerprinted-build-assets).
+
+`npm run dev`, `npm run build`, and `npm run icons:build` run logo generation explicitly. This also works with the project's `ignore-scripts=true` setting, which would skip npm's automatic pre/post lifecycle hooks. The application build fails if generation fails. When editing artwork during an already running development session, rerun `npm run icons:build` or restart `npm run dev`.
+
+Verify the header at mobile and desktop widths, both themes, manual overrides, and system preference changes. Confirm that its first image source matches the selected theme and that initial page loading requests only that theme's selected wordmark. Package artwork and the social share image retain their own asset workflows.
 
 ## Keep share-image generation deterministic
 

@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue';
 import CodeExample from '@/components/docs/CodeExample.vue';
 
 defineProps({
@@ -6,6 +7,12 @@ defineProps({
     description: { type: String, required: true },
     sources: { type: Array, default: () => [] },
 });
+
+const sourceActivated = ref(false);
+
+function activateSource(event) {
+    if (event.currentTarget.open) sourceActivated.value = true;
+}
 </script>
 
 <template>
@@ -33,6 +40,7 @@ defineProps({
         </div>
         <details
             v-if="sources.length"
+            @toggle="activateSource"
             class="border-t border-slate-200 dark:border-slate-800"
         >
             <summary
@@ -47,6 +55,7 @@ defineProps({
                     :label="source.label"
                     :language="source.language"
                     :code="source.code"
+                    :highlight-enabled="sourceActivated"
                 />
             </div>
         </details>

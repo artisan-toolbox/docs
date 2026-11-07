@@ -35,6 +35,19 @@ const example6 =
                 console utility commands are excluded.
             </p>
             <p>
+                Type part of a task name or description to filter the list.
+                Matching ignores letter case. An empty search shows all visible
+                tasks. Use the arrow keys to highlight a task, then press Enter
+                to run it. The selector shows up to ten tasks at once and
+                reduces its height to fit smaller terminals.
+            </p>
+            <p>
+                On terminals that use the fallback prompt, enter your search
+                before selecting a result. Leave it empty to list all tasks. If
+                no tasks match, the command stops without running a task. Run it
+                again with a broader or empty search.
+            </p>
+            <p>
                 Discovery requires Deployer's native
                 <code>list --format=json</code> command. Keep the
                 <code>list</code> command name reserved and avoid writing to

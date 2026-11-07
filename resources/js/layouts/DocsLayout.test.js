@@ -432,7 +432,7 @@ describe('DocsLayout', () => {
             wrapper
                 .findAll('header img')
                 .map((image) => image.attributes('alt')),
-        ).toEqual(['Artisan Toolbox', 'Artisan Toolbox']);
+        ).toEqual(['Artisan Toolbox']);
         expect(wrapper.get('footer a').text()).toContain(
             'View page source on GitHub',
         );

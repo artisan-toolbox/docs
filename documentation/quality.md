@@ -199,6 +199,8 @@ The user configures and executes deployment separately. The local `deploy.php` r
 
 The search integration does not configure SSH identities, change server settings, or execute a deployment.
 
+After publication, follow [the Nginx verification guide](nginx.md) if Horizon's browser dashboard, WebAssembly previews, or dynamic robots discovery fail while the application and workers remain available. Server headers and exact-match static locations can override otherwise correct application behavior.
+
 ## Verify migrated content in the workspace
 
 ```bash

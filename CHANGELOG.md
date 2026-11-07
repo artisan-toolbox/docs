@@ -9,6 +9,15 @@
 
 ## [Unreleased]
 
+- Defer code highlighting until examples approach the viewport and demo sources are first opened. Preserve immediate plain text, copying, native disclosures, and search content without per-page configuration.
+- Generate responsive WebP wordmarks through the normal build and render one theme-selected header image. Improve shared version-badge contrast and defer the Font Awesome kit. Add a scoped immutable-cache recipe for fingerprinted build assets while preserving security and font/SVG CORS headers.
+
+- Document platform-specific Maintainer task search tests. Exercise fallback prompts on every platform and native keyboard and viewport behavior on macOS and Linux.
+
+- Explain the first unmet prerequisite for queued demos without starting a connection or job. Document Nginx policy requirements for Horizon and WebAssembly, and the Laravel fallback needed by dynamic robots discovery.
+
+- Document name and description search, keyboard selection, and the taller adaptive list in Maintainer's interactive `deploy:run` selector.
+
 - Install the published Front Awesome `1.0.0-alpha.1` preview and public distributions of all documented packages through portable Composer and npm locks. Remove the required workspace checkout from Front Awesome installation instructions.
 - Add a dependency-free distribution check before Composer installation in CI. Reject local lock locations without changing development aliases and document clean consumer verification.
 

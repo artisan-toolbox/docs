@@ -33,6 +33,8 @@ The Blade document renders `@head`. Inertia's native `serverHead: true` integrat
 
 `GET /robots.txt` is a Laravel response that advertises the named sitemap URL and permits crawling. Do not restore `public/robots.txt`, which would shadow the route at the web server. JavaScript and stylesheet assets remain crawlable so search engines can render the application.
 
+An exact Nginx `/robots.txt` location must also forward missing physical files to Laravel. Verify the origin before evaluating a Cloudflare-managed response; content-signal comments alone do not advertise the sitemap. Follow [the Nginx procedure](nginx.md#forward-dynamic-robots-discovery-to-laravel) for the inspected server configuration and cache checks.
+
 `PreventInternalIndexing` applies `X-Robots-Tag: noindex, nofollow` by route name to authentication, internal search, demo endpoints, QZ Tray connector APIs, Horizon, and Log Viewer. This includes successful responses, authentication redirects, and rendered validation or authorization errors. Route-name matching follows configured dashboard paths without excluding similarly named public guides. Authentication and authorization still control access; indexing directives are not access control.
 
 Robots permits crawlers to fetch these URLs and observe their noindex response. A robots disallow would prevent that observation. Unknown routes still return their normal 404 status.

@@ -2,6 +2,7 @@
 import AccountLinks from '@/components/AccountLinks.vue';
 import DocsLink from '@/components/docs/DocsLink.vue';
 import DocumentationSearch from '@/components/docs/search/DocumentationSearch.vue';
+import BrandLogo from '@/components/site/BrandLogo.vue';
 import SiteIcon from '@/components/site/SiteIcon.vue';
 import { useAppearance } from '@/composables/useAppearance';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
@@ -51,16 +52,7 @@ onBeforeUnmount(() => resizeObserver?.disconnect());
                 "
                 class="inline-flex min-h-11 min-w-0 items-center rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-600"
             >
-                <img
-                    src="/images/brand/artisan-toolbox-logo-light.png"
-                    alt="Artisan Toolbox"
-                    class="h-auto w-40 max-w-full sm:w-48 dark:hidden"
-                />
-                <img
-                    src="/images/brand/artisan-toolbox-logo-dark.png"
-                    alt="Artisan Toolbox"
-                    class="hidden h-auto w-40 max-w-full sm:w-48 dark:block"
-                />
+                <BrandLogo class="h-auto w-40 max-w-full sm:w-48" />
             </DocsLink>
             <div class="flex flex-wrap items-center gap-3 sm:gap-6">
                 <DocumentationSearch

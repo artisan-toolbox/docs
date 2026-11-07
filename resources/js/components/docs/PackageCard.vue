@@ -17,7 +17,7 @@ defineProps({
             <img :src="package.artwork.icon" alt="" class="size-11 shrink-0" />
             <PackageVersion
                 :package="package"
-                class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-500 dark:bg-slate-800 dark:text-slate-400"
+                class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-400"
             />
         </div>
         <div class="flex flex-col gap-2">

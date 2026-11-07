@@ -4,13 +4,13 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vp build",
-        "dev": "vp dev",
+        "build": "node scripts/build-brand-logos.mjs && vp build",
+        "dev": "node scripts/build-brand-logos.mjs && vp dev",
         "test": "vp test run --config vite.test.config.js",
         "test:migration": "vp test run --config vite.migration.test.config.js",
         "standards:check": "node scripts/sync-agent-standards.mjs --check",
         "standards:sync": "node scripts/sync-agent-standards.mjs --write",
-        "icons:build": "node scripts/build-icons.mjs",
+        "icons:build": "node scripts/build-icons.mjs && node scripts/build-brand-logos.mjs",
         "check": "vp check",
         "check:fix": "vp check --fix",
         "types:check": "vue-tsc --noEmit"

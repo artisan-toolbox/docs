@@ -43,10 +43,20 @@ The current plain source appears immediately while highlighting loads. A stale a
 
 Search reads the original `CodeExample` props and explanation, not the rendered tokens or toolbar. Keep that semantic adapter when changing presentation. Do not add copied search text or page-specific renderers.
 
+## Start highlighting when readers need it
+
+`CodeExample` renders the complete plain source and copy control immediately. It waits until its figure first intersects the viewport with a 200-pixel vertical margin before importing the highlighter. This margin starts the work shortly before the reader reaches the block; it is not a measured performance optimum. Deferred code remains readable and does not announce a loading state. Only an active highlighting request sets `aria-busy`.
+
+First intersection admits the component once. Scrolling away and back does not discard tokens or repeat work for unchanged code. Later source or language changes retain the existing stale-result protection and use the latest authored text. VueUse's installed `useIntersectionObserver` owns observation and scope cleanup. Do not add a second observer controller, scroll polling, timers, or a highlighter instance to each page.
+
+`DemoFrame` keeps its source examples mounted inside native `details`. It passes `highlightEnabled=false` until the reader first opens **View the running source**, then permanently enables those examples for that mounted demo. Each source still waits for its own first intersection. Closing and reopening the disclosure retains admitted work and completed tokens. Native pointer, keyboard, and browser disclosure behavior remain intact.
+
+Ordinary pages need no new prop. The optional `highlightEnabled` prop defaults to `true` and lets an owning disclosure delay permission without removing source text from the DOM. Keep that permission in the shared disclosure component rather than adding switches to individual documentation pages. A browser without Intersection Observer highlights permitted examples eagerly; unopened demo sources remain plain until first opening. No observer polyfill is required to read or copy code.
+
 ## Verify a change
 
 ```sh
-npm test -- resources/js/lib/codeHighlighter.test.js resources/js/components/docs/CodeExample.test.js
+npm test -- resources/js/lib/codeHighlighter.test.js resources/js/components/docs/CodeExample.test.js resources/js/components/demo/DemoFrame.test.js
 php artisan docs:search:index --no-interaction
 php artisan docs:search:index --check --no-interaction
 composer ci:check
@@ -55,4 +65,6 @@ npm run build
 
 Inspect actual shell, PHP, and Vue examples on desktop and mobile. Check token colors, long-line scrolling, readable labels, keyboard focus, both themes, and the copy result. A mocked highlighter verifies component lifecycle behavior; the helper tests must also exercise real grammars.
 
-The implementation follows Shiki's [fine-grained bundles](https://shiki.style/guide/bundles), [JavaScript regex engine](https://shiki.style/guide/regex-engines), and [custom theme API](https://shiki.style/guide/load-theme). Front Awesome's public exports were reviewed and provide no code-display component, so this presentation belongs to the documentation application.
+On a fresh QZ Tray overview, inspect the plain offscreen examples before scrolling. Approach each block and confirm highlighting appears without changing its exact source. Keep the demo source closed until its turn, then open it with the keyboard. Confirm closing and reopening retains its tokens and that the label renderer still waits for its separate **Preview label** action. Compare actual work and source preservation before reporting a performance gain; token counts do not establish a Lighthouse or CPU-time improvement.
+
+The implementation follows Shiki's [fine-grained bundles](https://shiki.style/guide/bundles), [JavaScript regex engine](https://shiki.style/guide/regex-engines), and [custom theme API](https://shiki.style/guide/load-theme). The activation boundary uses VueUse's [intersection observer](https://vueuse.org/core/useIntersectionObserver/) and the native [details disclosure](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/details). Verify observer behavior against the installed VueUse version when changing it. Front Awesome's public exports were reviewed and provide no code-display component, so this presentation belongs to the documentation application.

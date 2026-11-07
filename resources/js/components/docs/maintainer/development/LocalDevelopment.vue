@@ -99,6 +99,15 @@ const example7 = 'vendor/bin/pint --test\nvendor/bin/pint';
                 parallel wrapper before executing tests.
             </p>
             <p>
+                Task search tests exercise Laravel's fallback prompts on every
+                platform. macOS and Linux also exercise native keyboard input
+                and the ten-task viewport. Windows uses the supported fallback
+                to verify matching, selected task identity, unmatched-query
+                recovery, and access to the complete task catalog. Laravel
+                Prompts rejects native rendering on Windows even when its
+                terminal is faked.
+            </p>
+            <p>
                 After changing <code>Maintainer::readmeHead()</code>, run
                 <code>php maintainer readme:update</code> from the source
                 checkout. <code>tests/Feature/MaintainerTest.php</code> checks

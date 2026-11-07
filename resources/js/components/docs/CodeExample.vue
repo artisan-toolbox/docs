@@ -1,4 +1,5 @@
 <script setup>
+import { useIntersectionObserver } from '@vueuse/core';
 import { computed, ref, shallowRef, watch } from 'vue';
 import SiteIcon from '@/components/site/SiteIcon.vue';
 import { codeLanguage } from '@/lib/codeLanguages';
@@ -7,9 +8,28 @@ const props = defineProps({
     code: { type: String, required: true },
     label: { type: String, required: true },
     language: { type: String, default: 'bash' },
+    highlightEnabled: { type: Boolean, default: true },
 });
 
 const languageInfo = computed(() => codeLanguage(props.language));
+const figure = ref(null);
+const highlightRequested = ref(false);
+const { isSupported, stop } = useIntersectionObserver(
+    () => (props.highlightEnabled ? figure.value : null),
+    (entries) => {
+        if (!props.highlightEnabled || highlightRequested.value) return;
+        if (entries.some((entry) => entry.isIntersecting)) {
+            highlightRequested.value = true;
+            stop();
+        }
+    },
+    { rootMargin: '200px 0px' },
+);
+const canHighlight = computed(
+    () =>
+        props.highlightEnabled &&
+        (highlightRequested.value || !isSupported.value),
+);
 const tokens = shallowRef(null);
 const highlightState = ref('plain');
 const presentations = {
@@ -19,18 +39,20 @@ const presentations = {
 };
 
 watch(
-    [() => props.code, languageInfo],
-    async ([code, language], _previous, onCleanup) => {
+    [() => props.code, languageInfo, canHighlight],
+    async ([code, language, allowed], _previous, onCleanup) => {
         let active = true;
         onCleanup(() => {
             active = false;
         });
         tokens.value = null;
-        highlightState.value = language.kind === 'plain' ? 'plain' : 'loading';
-        if (language.kind === 'plain') return;
+        highlightState.value =
+            !allowed || language.kind === 'plain' ? 'plain' : 'loading';
+        if (!allowed || language.kind === 'plain') return;
 
         try {
             const { highlightCode } = await import('@/lib/codeHighlighter');
+            if (!active) return;
             const highlighted = await highlightCode(code, language.id);
             if (active) {
                 tokens.value = highlighted;
@@ -68,6 +90,7 @@ async function copyCode() {
 
 <template>
     <figure
+        ref="figure"
         :data-code-language="languageInfo.id"
         class="min-w-0 overflow-hidden rounded-xl border border-slate-800 bg-slate-950 text-slate-100 shadow-lg shadow-slate-950/10"
     >

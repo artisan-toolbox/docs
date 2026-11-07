@@ -6,6 +6,8 @@ All application utility and brand icons use Font Awesome through the shared `Sit
 
 `documentation.fontawesome_kit_code` contains the browser-visible kit identifier. The root Blade document derives both the existing Font Awesome script URL and `html[data-fa-kit-code]` from that value. Do not duplicate the identifier in JavaScript or individual components.
 
+The classic kit script uses `defer`, without `async`, so downloading it does not block HTML parsing. Keep its existing domain configuration and native DOM observation. WA reads the root kit identifier independently; uploaded icons remain discoverable through the kit's own renderer. Verify both official and uploaded SVGs in the browser after changing script loading, including navigation that mounts icons after the initial document.
+
 Loading the Font Awesome script alone does not configure Web Awesome. WA reads the native data attribute when resolving its icons. The application entry imports the public WA icon module once. Its default library handles SVG URLs, registration, caching, and kit access. Do not add a custom resolver, poll for the Font Awesome script, mutate SVG markup, or implement another icon cache.
 
 The kit identifier is public because browsers use it to load the kit. Private package-registry credentials and Font Awesome API credentials do not belong in this setting or the HTML. Keep the kit's permitted domains, available families, and icon selection configured in the Font Awesome account. Reload the document after changing the kit identifier.

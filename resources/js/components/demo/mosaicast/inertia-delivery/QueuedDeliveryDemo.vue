@@ -143,19 +143,22 @@ onUnmounted(() => {
                 start those services.
             </p>
             <p v-if="!configuration.queueAllowed" class="mt-2">
-                Sign in with a verified staff account to enqueue this public
-                site's demonstration job. The source remains available to
+                Staff access is required. Sign in with a verified staff account,
+                then reopen this guide. The source remains available to
                 everyone.
             </p>
-            <p
-                v-else-if="
-                    !configuration.queueConfigured || !hasDemoBroadcast()
-                "
-                class="mt-2"
-            >
-                The host has not configured all queue and browser broadcasting
-                settings. The Inertia examples above work without these
-                services.
+            <p v-else-if="!configuration.queueConfigured" class="mt-2">
+                Server configuration is missing. The operator must configure the
+                Reverb broadcaster, its backend application settings, and the
+                Redis queue connection. The Inertia examples above work without
+                these services.
+            </p>
+            <p v-else-if="!hasDemoBroadcast()" class="mt-2">
+                Browser configuration is missing. The operator must provide the
+                public VITE_REVERB_APP_KEY and VITE_REVERB_HOST settings during
+                the frontend build, rebuild the assets, and reload this page.
+                Laravel's configuration cache does not update compiled browser
+                settings.
             </p>
             <p v-else class="mt-2">
                 Configuration is present. Starting checks the private

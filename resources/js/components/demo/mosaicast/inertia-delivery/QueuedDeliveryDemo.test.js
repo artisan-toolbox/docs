@@ -11,10 +11,10 @@ import { createMosaicast } from '@artisan-toolbox/mosaicast';
 import { router } from '@inertiajs/vue3';
 import DemoAction from '@/components/demo/DemoAction.vue';
 import QueuedDeliveryDemo from './QueuedDeliveryDemo.vue';
-import { connectDemoBroadcast } from './broadcast';
+import { connectDemoBroadcast, hasDemoBroadcast } from './broadcast';
 
 vi.mock('./broadcast', () => ({
-    hasDemoBroadcast: () => true,
+    hasDemoBroadcast: vi.fn(),
     connectDemoBroadcast: vi.fn(),
 }));
 vi.mock('@inertiajs/vue3', async (importOriginal) => ({
@@ -27,6 +27,7 @@ let post;
 let broadcast;
 
 beforeEach(() => {
+    hasDemoBroadcast.mockReset().mockReturnValue(true);
     connectDemoBroadcast.mockReset().mockResolvedValue(undefined);
     const handlers = new Map();
     vi.spyOn(router, 'on').mockImplementation((name, callback) => {
@@ -124,6 +125,56 @@ describe('queued delivery example', () => {
         expect(wrapper.text()).toContain(
             'Sign in with a verified staff account',
         );
+    });
+
+    it.each([
+        [
+            'staff access',
+            { queueAllowed: false },
+            true,
+            'Staff access is required',
+        ],
+        [
+            'server configuration',
+            { queueConfigured: false },
+            true,
+            'Server configuration is missing',
+        ],
+        [
+            'browser configuration',
+            {},
+            false,
+            'Browser configuration is missing',
+        ],
+    ])(
+        'identifies missing %s before any connection or job starts',
+        async (_name, configuration, browserConfigured, message) => {
+            hasDemoBroadcast.mockReturnValue(browserConfigured);
+            const wrapper = mountQueue(configuration);
+
+            expect(wrapper.text()).toContain(message);
+            expect(
+                wrapper.findAllComponents(DemoAction)[0].props('disabled'),
+            ).toBe(true);
+            await wrapper.findAllComponents(DemoAction)[0].trigger('click');
+            expect(connectDemoBroadcast).not.toHaveBeenCalled();
+            expect(post).not.toHaveBeenCalled();
+        },
+    );
+
+    it('requests staff access before reporting operator configuration to a public visitor', () => {
+        hasDemoBroadcast.mockReturnValue(false);
+        const wrapper = mountQueue({
+            queueAllowed: false,
+            queueConfigured: false,
+        });
+
+        expect(wrapper.text()).toContain('Staff access is required');
+        expect(wrapper.text()).not.toContain('Server configuration is missing');
+        expect(wrapper.text()).not.toContain(
+            'Browser configuration is missing',
+        );
+        expect(wrapper.text()).not.toContain('Configuration is present');
     });
 
     it.each([
