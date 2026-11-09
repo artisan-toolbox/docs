@@ -1,12 +1,5 @@
 import { enableAutoUnmount, mount } from '@vue/test-utils';
-import {
-    afterEach,
-    beforeEach,
-    describe,
-    expect,
-    it,
-    vi,
-} from 'vite-plus/test';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test';
 import { defineComponent, h, nextTick } from 'vue';
 import { initializeTheme, useAppearance } from '@/composables/useAppearance';
 import BrandLogo from './BrandLogo.vue';
@@ -45,26 +38,16 @@ describe('BrandLogo', () => {
             systemDark = dark;
             localStorage.setItem('appearance', preference);
             initializeTheme();
-            const sourceAssignments = vi.spyOn(
-                HTMLImageElement.prototype,
-                'src',
-                'set',
-            );
+            const sourceAssignments = vi.spyOn(HTMLImageElement.prototype, 'src', 'set');
 
             const wrapper = mount(BrandLogo);
             await nextTick();
 
             expect(wrapper.findAll('img')).toHaveLength(1);
             const image = wrapper.get('img');
-            expect(image.attributes('src')).toContain(
-                `logo-${expected}-192.webp`,
-            );
-            expect(image.attributes('srcset')).toContain(
-                `logo-${expected}-384.webp`,
-            );
-            expect(image.attributes('srcset')).toContain(
-                `logo-${expected}-576.webp`,
-            );
+            expect(image.attributes('src')).toContain(`logo-${expected}-192.webp`);
+            expect(image.attributes('srcset')).toContain(`logo-${expected}-384.webp`);
+            expect(image.attributes('srcset')).toContain(`logo-${expected}-576.webp`);
             expect(image.attributes('srcset')).not.toContain(
                 `logo-${expected === 'dark' ? 'light' : 'dark'}-`,
             );
@@ -91,8 +74,7 @@ describe('BrandLogo', () => {
                         h(
                             'select',
                             {
-                                onChange: (event) =>
-                                    updateAppearance(event.target.value),
+                                onChange: (event) => updateAppearance(event.target.value),
                             },
                             ['system', 'light', 'dark'].map((value) =>
                                 h('option', { value }, value),

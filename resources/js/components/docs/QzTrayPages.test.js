@@ -60,9 +60,7 @@ const render = (slug, prefix = '/docs') =>
             navigation: navigation(prefix),
             page: {
                 slug,
-                title:
-                    fixtures.find((fixture) => fixture.slug === slug)?.title ??
-                    slug,
+                title: fixtures.find((fixture) => fixture.slug === slug)?.title ?? slug,
                 description: 'QZ Tray package guide.',
                 requirements: fixtures[1].requirements,
                 package: packageMetadata,
@@ -70,9 +68,7 @@ const render = (slug, prefix = '/docs') =>
         },
     });
 const renderGuides = () =>
-    Object.fromEntries(
-        Object.keys(components).map((slug) => [slug, render(slug)]),
-    );
+    Object.fromEntries(Object.keys(components).map((slug) => [slug, render(slug)]));
 
 // The introduction now starts with a complete preview before optional authenticated printing.
 // These exact source paragraphs are replaced by the overview and ordered installation steps.
@@ -122,18 +118,12 @@ describe('QZ Tray documentation learning journey', () => {
                 .map((table) =>
                     table
                         .findAll('tr')
-                        .map((row) =>
-                            row
-                                .findAll('th, td')
-                                .map((cell) => normalize(cell.text())),
-                        ),
+                        .map((row) => row.findAll('th, td').map((cell) => normalize(cell.text()))),
                 ),
         );
         for (const fixture of fixtures) {
             for (const table of fixture.tables)
-                expect(tables).toContainEqual(
-                    table.map((row) => row.map(normalize)),
-                );
+                expect(tables).toContainEqual(table.map((row) => row.map(normalize)));
         }
         for (const wrapper of wrappers) wrapper.unmount();
     });
@@ -144,38 +134,20 @@ describe('QZ Tray documentation learning journey', () => {
         expect(
             overview
                 .findAll('pre code')
-                .filter(
-                    (code) =>
-                        !code.element.closest('[data-docs-outline-exclude]'),
-                ),
+                .filter((code) => !code.element.closest('[data-docs-outline-exclude]')),
         ).toHaveLength(2);
         expect(overview.text()).toContain('Preview label');
-        expect(overview.text()).toContain(
-            'A PNG image containing Hello appears.',
-        );
+        expect(overview.text()).toContain('A PNG image containing Hello appears.');
         expect(overview.find('table').exists()).toBe(false);
         for (const heading of fixtures[1].headings) {
             const anchor = overview.findAll(`[id="${heading.id}"]`);
             expect(anchor, heading.id).toHaveLength(1);
-            if (
-                [
-                    'requirements',
-                    'installation',
-                    'quickstart',
-                    'guides',
-                ].includes(heading.id)
-            )
+            if (['requirements', 'installation', 'quickstart', 'guides'].includes(heading.id))
                 continue;
-            const href = anchor[0].element
-                .closest('li')
-                .querySelector('a')
-                .getAttribute('href');
+            const href = anchor[0].element.closest('li').querySelector('a').getAttribute('href');
             const guide = guides[href.replace('/docs/', '')];
             expect(guide, href).toBeDefined();
-            expect(
-                guide.findAll(`[id="${heading.id}"]`),
-                href + '#' + heading.id,
-            ).toHaveLength(1);
+            expect(guide.findAll(`[id="${heading.id}"]`), href + '#' + heading.id).toHaveLength(1);
         }
         for (const wrapper of Object.values(guides)) wrapper.unmount();
     });
@@ -186,18 +158,11 @@ describe('QZ Tray documentation learning journey', () => {
             for (const link of wrapper.findAll('a')) {
                 const href = link.attributes('href');
                 if (href.startsWith('#')) {
-                    expect(
-                        wrapper.findAll(`[id="${href.slice(1)}"]`),
-                        href,
-                    ).toHaveLength(1);
+                    expect(wrapper.findAll(`[id="${href.slice(1)}"]`), href).toHaveLength(1);
                 } else if (href.startsWith('/docs/qztray')) {
                     const [path, hash] = href.replace('/docs/', '').split('#');
                     expect(guides[path], href).toBeDefined();
-                    if (hash)
-                        expect(
-                            guides[path].findAll(`[id="${hash}"]`),
-                            href,
-                        ).toHaveLength(1);
+                    if (hash) expect(guides[path].findAll(`[id="${hash}"]`), href).toHaveLength(1);
                 }
             }
             await wrapper.setProps({ navigation: navigation('/reference') });
@@ -210,21 +175,15 @@ describe('QZ Tray documentation learning journey', () => {
     it('includes a reader-triggered preview beside the static quickstart', () => {
         const overview = render('qztray');
         expect(overview.getComponent(ZplPreviewDemo).exists()).toBe(true);
-        expect(
-            overview.find('img[alt="Label containing Hello"]').exists(),
-        ).toBe(false);
+        expect(overview.find('img[alt="Label containing Hello"]').exists()).toBe(false);
         overview.unmount();
     });
 
     it('keeps compatibility anchors and updates overview requirements from page metadata', async () => {
         const compatibility = render('qztray/compatibility');
         for (const heading of fixtures[0].headings) {
-            expect(compatibility.findAll(`[id="${heading.id}"]`)).toHaveLength(
-                1,
-            );
-            expect(compatibility.get(`[id="${heading.id}"]`).text()).toBe(
-                heading.text,
-            );
+            expect(compatibility.findAll(`[id="${heading.id}"]`)).toHaveLength(1);
+            expect(compatibility.get(`[id="${heading.id}"]`).text()).toBe(heading.text);
         }
         const overview = render('qztray');
         await overview.setProps({
@@ -245,9 +204,7 @@ describe('QZ Tray documentation learning journey', () => {
 
     it('places credential prerequisites before connecting and keeps active work in reader actions', () => {
         const security = render('qztray/security');
-        const ids = security
-            .findAll('[id]')
-            .map((element) => element.attributes('id'));
+        const ids = security.findAll('[id]').map((element) => element.attributes('id'));
         expect(ids.indexOf('configure-printing-credentials')).toBeLessThan(
             ids.indexOf('ziggy-route-configuration'),
         );
@@ -258,14 +215,10 @@ describe('QZ Tray documentation learning journey', () => {
                 .map((code) => code.text())
                 .join('\n'),
         ).toContain('@click="findPrinters"');
-        expect(installation.text()).toContain(
-            'submission, not physical print completion',
-        );
+        expect(installation.text()).toContain('submission, not physical print completion');
         expect(
             installation
-                .get(
-                    'a[href="/docs/qztray/security#configure-printing-credentials"]',
-                )
+                .get('a[href="/docs/qztray/security#configure-printing-credentials"]')
                 .text(),
         ).toBe('credential configuration');
         security.unmount();

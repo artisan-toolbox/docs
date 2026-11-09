@@ -1,19 +1,11 @@
+import { sourceNavigation } from './sourceNavigationFixture';
 import { installationCommands } from './installationFixture';
 import { parse, compileScript } from '@vue/compiler-sfc';
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vite-plus/test';
 import Installation from '../../pages/docs/front-awesome/Installation.vue';
 
-const slugs = [
-    'front-awesome',
-    'front-awesome/web-awesome',
-    'front-awesome/shared-theme',
-    'front-awesome/primevue',
-    'front-awesome/vue-plugin',
-    'front-awesome/button',
-];
-const navigation = (prefix = '/docs') =>
-    slugs.map((slug) => ({ slug, href: `${prefix}/${slug}`, children: [] }));
+const navigation = sourceNavigation;
 
 function render() {
     const commands = installationCommands('front-awesome');
@@ -57,21 +49,13 @@ describe('Front Awesome first success', () => {
         expect(examples[3]).toContain(
             '@import "tailwindcss";\n@import "@artisan-toolbox/front-awesome/styles.css";',
         );
-        expect(examples[4]).toContain(
-            '@artisan-toolbox/front-awesome/web-awesome.css',
-        );
+        expect(examples[4]).toContain('@artisan-toolbox/front-awesome/web-awesome.css');
         expect(examples[5]).toContain('resolvePageComponent');
-        expect(examples[6]).toContain(
-            '<Button variant="brand">Hello from Front Awesome</Button>',
-        );
+        expect(examples[6]).toContain('<Button variant="brand">Hello from Front Awesome</Button>');
         expect(examples[7]).toContain("Route::get('/front-awesome-welcome'");
         expect(examples[8]).toBe('npm run build');
-        expect(wrapper.text()).toContain(
-            'Front Awesome is a published preview.',
-        );
-        expect(wrapper.text()).toContain(
-            'Its API can change before the first stable release.',
-        );
+        expect(wrapper.text()).toContain('Front Awesome is a published preview.');
+        expect(wrapper.text()).toContain('Its API can change before the first stable release.');
         expect(wrapper.text()).toContain(
             'After Composer installs a new package version, rerun the frontend installation command above and commit the updated package-lock.json.',
         );
@@ -79,9 +63,7 @@ describe('Front Awesome first success', () => {
             'For source edits that keep the same package version, run npm ci to refresh node_modules.',
         );
         expect(wrapper.text()).toContain('optional Composer path repository');
-        expect(wrapper.text()).toContain(
-            'It needs no Pro package or credentials.',
-        );
+        expect(wrapper.text()).toContain('It needs no Pro package or credentials.');
         expect(wrapper.text()).toContain(
             'preserve its existing setup, withApp(...) wrapper, plugins, and other options',
         );
@@ -98,30 +80,24 @@ describe('Front Awesome first success', () => {
 
         expect(errors).toEqual([]);
         expect(descriptor.scriptSetup.lang).toBeUndefined();
-        expect(() =>
-            compileScript(descriptor, { id: 'first-button' }),
-        ).not.toThrow();
+        expect(() => compileScript(descriptor, { id: 'first-button' })).not.toThrow();
         expect(descriptor.scriptSetup.content).toContain(
             'import Button from "@artisan-toolbox/front-awesome/components/Button.vue"',
         );
         expect(examples[5]).toContain('`./pages/${name}.vue`');
         expect(examples[5]).toContain('import.meta.glob("./pages/**/*.vue")');
         expect(examples[7]).toContain("Inertia::render('FrontAwesomeWelcome')");
-        expect(wrapper.text()).toContain(
-            'resources/js/pages/FrontAwesomeWelcome.vue',
-        );
+        expect(wrapper.text()).toContain('resources/js/pages/FrontAwesomeWelcome.vue');
         expect(wrapper.text()).toContain(
             'Set resolve: resolvePage in the existing createInertiaApp options',
         );
-        expect(wrapper.get('a[href="/docs/front-awesome/button"]').text()).toBe(
-            'Button guide',
-        );
+        expect(wrapper.get('a[href="/docs/front-awesome/button"]').text()).toBe('Button guide');
 
         await wrapper.setProps({ navigation: navigation('/reference') });
 
-        expect(
-            wrapper.get('a[href="/reference/front-awesome/button"]').text(),
-        ).toBe('Button guide');
+        expect(wrapper.get('a[href="/reference/front-awesome/button"]').text()).toBe(
+            'Button guide',
+        );
         wrapper.unmount();
     });
 });

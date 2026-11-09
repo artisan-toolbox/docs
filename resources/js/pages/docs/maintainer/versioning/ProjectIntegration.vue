@@ -22,17 +22,11 @@ const example1 =
             <p>
                 Maintainer explicitly maps its lightweight
                 <code>ArtisanToolbox\Maintainer\Versionable\Contracts</code>
-                namespace through the consuming project's Composer autoloader.
-                Project-specific integrations can implement these contracts
-                without exposing Maintainer's complete
-                <code>app/</code> directory or loading the Laravel Zero runtime
-                used by the PHAR:
+                namespace through the consuming project's Composer autoloader. Project-specific
+                integrations can implement these contracts without exposing Maintainer's complete
+                <code>app/</code> directory or loading the Laravel Zero runtime used by the PHAR:
             </p>
-            <CodeExample
-                label="Integrate versioning hooks"
-                language="php"
-                :code="example1"
-            />
+            <CodeExample label="Integrate versioning hooks" language="php" :code="example1" />
         </ProseSection>
         <VersionClassHooks />
         <ReadmeHead />

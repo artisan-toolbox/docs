@@ -15,9 +15,7 @@ const navigation = [index, maintainer];
 
 describe('documentation navigation lookup', () => {
     it('finds a nested guide without changing its route-generated destination', () => {
-        expect(findNavigationItem(navigation, 'maintainer/ci/quality')).toBe(
-            guide,
-        );
+        expect(findNavigationItem(navigation, 'maintainer/ci/quality')).toBe(guide);
     });
 
     it('finds root pages including the empty index slug', () => {
@@ -26,9 +24,7 @@ describe('documentation navigation lookup', () => {
     });
 
     it('returns no item for missing pages or an empty navigation', () => {
-        expect(
-            findNavigationItem(navigation, 'maintainer/missing'),
-        ).toBeUndefined();
+        expect(findNavigationItem(navigation, 'maintainer/missing')).toBeUndefined();
         expect(findNavigationItem([], 'maintainer')).toBeUndefined();
     });
 });

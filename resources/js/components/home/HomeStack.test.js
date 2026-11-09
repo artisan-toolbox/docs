@@ -6,9 +6,7 @@ describe('the documentation application tools', () => {
     it('links each named tool to its official site in a safe new tab', () => {
         const wrapper = mount(HomeStack);
         const links = wrapper.findAll('a');
-        expect(
-            links.map((link) => [link.text(), link.attributes('href')]),
-        ).toEqual([
+        expect(links.map((link) => [link.text(), link.attributes('href')])).toEqual([
             ['Laravel', 'https://laravel.com'],
             ['Vue', 'https://vuejs.org'],
             ['Inertia', 'https://inertiajs.com'],
@@ -20,11 +18,7 @@ describe('the documentation application tools', () => {
             expect(link.attributes('rel')).toBe('noopener noreferrer');
         }
         for (const name of ['pest', 'inertia']) {
-            expect(
-                wrapper
-                    .get(`site-icon-stub[name="${name}"]`)
-                    .attributes('family'),
-            ).toBe('kit');
+            expect(wrapper.get(`site-icon-stub[name="${name}"]`).attributes('family')).toBe('kit');
         }
     });
 });

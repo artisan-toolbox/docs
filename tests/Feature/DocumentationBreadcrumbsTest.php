@@ -38,12 +38,12 @@ test('orders deep registered ancestors before the current guide', function () {
     ]);
 });
 
-test('skips unregistered path segments instead of inventing breadcrumb pages', function () {
+test('includes the registered Toasts hub before its existing Vue guide', function () {
     $breadcrumbs = resolve(Documentation::class)->breadcrumbs(PageSlug::FrontAwesomeToastsVue);
 
     expect(array_column($breadcrumbs, 'href'))->toBe([
-        '/', '/docs', '/docs/front-awesome', '/docs/front-awesome/toasts/vue',
-    ])->and(array_column($breadcrumbs, 'current'))->toBe([false, false, false, true]);
+        '/', '/docs', '/docs/front-awesome', '/docs/front-awesome/toasts', '/docs/front-awesome/toasts/vue',
+    ])->and(array_column($breadcrumbs, 'current'))->toBe([false, false, false, false, true]);
 });
 
 test('generates breadcrumbs from renamed routes and the configured application origin', function () {
@@ -62,5 +62,26 @@ test('generates breadcrumbs from renamed routes and the configured application o
         'https://documentation.example/guides',
         'https://documentation.example/guides/core',
         'https://documentation.example/guides/core/installation',
+    ])->and(array_column($documentation->breadcrumbs(PageSlug::FrontAwesomeButton), 'href'))->toBe([
+        '/welcome', '/guides', '/guides/front-awesome', '/guides/front-awesome/web-awesome',
+        '/guides/front-awesome/web-awesome/components', '/guides/front-awesome/web-awesome/components/actions',
+        '/guides/front-awesome/button',
     ]);
 });
+
+test('uses editorial ancestors without changing historical guide URLs', function (PageSlug $slug, array $ancestors) {
+    $breadcrumbs = resolve(Documentation::class)->breadcrumbs($slug);
+
+    expect(array_column($breadcrumbs, 'href'))->toBe([
+        '/', '/docs', ...array_map(fn (string $ancestor): string => '/docs/'.$ancestor, $ancestors),
+    ])->and(array_column($breadcrumbs, 'current'))->toBe([
+        ...array_fill(0, count($ancestors) + 1, false), true,
+    ]);
+})->with([
+    [PageSlug::FrontAwesomeButton, ['front-awesome', 'front-awesome/web-awesome', 'front-awesome/web-awesome/components', 'front-awesome/web-awesome/components/actions', 'front-awesome/button']],
+    [PageSlug::FrontAwesomeInput, ['front-awesome', 'front-awesome/web-awesome', 'front-awesome/web-awesome/components', 'front-awesome/web-awesome/components/forms', 'front-awesome/input']],
+    [PageSlug::FrontAwesomeIcon, ['front-awesome', 'front-awesome/web-awesome', 'front-awesome/web-awesome/components', 'front-awesome/web-awesome/components/media', 'front-awesome/icon']],
+    [PageSlug::FrontAwesomePageLayout, ['front-awesome', 'front-awesome/web-awesome', 'front-awesome/web-awesome/components', 'front-awesome/web-awesome/components/layout', 'front-awesome/page']],
+    [PageSlug::FrontAwesomeConfiguration, ['front-awesome', 'front-awesome/setup', 'front-awesome/configuration']],
+    [PageSlug::FrontAwesomeSharedTheme, ['front-awesome', 'front-awesome/styling', 'front-awesome/shared-theme']],
+]);

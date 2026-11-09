@@ -17,10 +17,7 @@ defineProps({
 
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <Introduction :navigation="navigation" />
-            <InstallFromTheComposerPackage
-                :page="page"
-                :navigation="navigation"
-            />
+            <InstallFromTheComposerPackage :page="page" :navigation="navigation" />
             <RegisterThePlugin :navigation="navigation" />
             <VerifyBothDeliveryPaths :navigation="navigation" />
             <ListenForEvents :navigation="navigation" />

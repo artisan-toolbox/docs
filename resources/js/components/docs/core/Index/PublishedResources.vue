@@ -15,37 +15,23 @@ const example3 = `php artisan migrate`;
     <ProseSection>
         <h2
             id="published-resources"
-            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white"
-        >
+            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Published resources
         </h2>
         <p>
-            The features above work without publishing resources or running
-            migrations. Run the following command to publish all bundled
-            resources together.
+            The features above work without publishing resources or running migrations. Run the
+            following command to publish all bundled resources together.
         </p>
-        <CodeExample
-            label="Published resources example 1"
-            language="bash"
-            :code="example1"
-        />
+        <CodeExample label="Published resources example 1" language="bash" :code="example1" />
         <p>
-            Individual publish tags are available for configuration, migrations,
-            views, translations, and public assets:
+            Individual publish tags are available for configuration, migrations, views,
+            translations, and public assets:
         </p>
-        <CodeExample
-            label="Published resources example 2"
-            language="bash"
-            :code="example2"
-        />
+        <CodeExample label="Published resources example 2" language="bash" :code="example2" />
         <p>
-            The bundled migration creates a <code>core_placeholder</code> table.
-            Run it only if you need that table in a development application.
+            The bundled migration creates a <code>core_placeholder</code> table. Run it only if you
+            need that table in a development application.
         </p>
-        <CodeExample
-            label="Published resources example 3"
-            language="bash"
-            :code="example3"
-        />
+        <CodeExample label="Published resources example 3" language="bash" :code="example3" />
     </ProseSection>
 </template>

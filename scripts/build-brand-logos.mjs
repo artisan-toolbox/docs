@@ -12,10 +12,7 @@ export async function buildBrandLogos({ sourceDirectory, outputDirectory }) {
     const variants = [];
 
     for (const theme of themes) {
-        const source = resolve(
-            sourceDirectory,
-            `artisan-toolbox-logo-${theme}.png`,
-        );
+        const source = resolve(sourceDirectory, `artisan-toolbox-logo-${theme}.png`);
         const { width, height } = await sharp(source).metadata();
 
         for (const size of widths) {
@@ -43,16 +40,9 @@ export async function buildBrandLogos({ sourceDirectory, outputDirectory }) {
     );
 }
 
-if (
-    process.argv[1] &&
-    import.meta.url === pathToFileURL(resolve(process.argv[1])).href
-) {
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
     await buildBrandLogos({
-        sourceDirectory: fileURLToPath(
-            new URL('../public/images/brand', import.meta.url),
-        ),
-        outputDirectory: fileURLToPath(
-            new URL('../resources/js/assets/brand', import.meta.url),
-        ),
+        sourceDirectory: fileURLToPath(new URL('../public/images/brand', import.meta.url)),
+        outputDirectory: fileURLToPath(new URL('../resources/js/assets/brand', import.meta.url)),
     });
 }

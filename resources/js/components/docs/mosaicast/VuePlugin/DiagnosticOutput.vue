@@ -13,28 +13,22 @@ const example1 = `[Mosaicast] Session identifier: 8b1f…
     <ProseSection>
         <h2
             id="diagnostic-output"
-            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white"
-        >
+            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Diagnostic output
         </h2>
         <p>With <code>debug: true</code>, the plugin logs:</p>
-        <CodeExample
-            label="Diagnostic output example 1"
-            language="text"
-            :code="example1"
-        />
+        <CodeExample label="Diagnostic output example 1" language="text" :code="example1" />
         <p>
-            If the Echo instance is not provided or the private-channel
-            authorization fails, the plugin logs the reason as an error.
+            If the Echo instance is not provided or the private-channel authorization fails, the
+            plugin logs the reason as an error.
         </p>
         <p>
-            Diagnostics include event payloads. Enable <code>debug</code> only
-            where console output may safely contain the event's application
-            data.
+            Diagnostics include event payloads. Enable <code>debug</code> only where console output
+            may safely contain the event's application data.
         </p>
         <p>
-            Do not log, persist, or expose the raw Laravel session ID. Mosaicast
-            only uses its HMAC-derived identifier.
+            Do not log, persist, or expose the raw Laravel session ID. Mosaicast only uses its
+            HMAC-derived identifier.
         </p>
     </ProseSection>
 </template>

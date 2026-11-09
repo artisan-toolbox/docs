@@ -14,10 +14,5 @@ defineProps<Props>();
 </script>
 
 <template>
-    <SiteIcon
-        name="laravel"
-        family="brands"
-        :class="className"
-        v-bind="$attrs"
-    />
+    <SiteIcon name="laravel" family="brands" :class="className" v-bind="$attrs" />
 </template>

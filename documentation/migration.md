@@ -1,7 +1,7 @@
 # Laravel documentation migration
 
-This plan tracks the migration from `docs_old` to the Laravel application in `docs`.
-The published documentation stays authoritative until the replacement passes its migration checks.
+This document preserves the historical migration from `docs_old` to the Laravel application in `docs`.
+As of 2026-11-09, `docs` is the only documentation source and application. `docs_old` has been retired and no longer exists. Historical entries below describe the state at their recorded time and do not impose legacy synchronization on current tasks.
 
 ## Workflow for the first unit
 

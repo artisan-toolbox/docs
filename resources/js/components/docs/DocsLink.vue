@@ -8,9 +8,7 @@ const props = defineProps({
     href: { type: String, required: true },
 });
 
-const isInternal = computed(
-    () => props.href.startsWith('/') && !props.href.startsWith('//'),
-);
+const isInternal = computed(() => props.href.startsWith('/') && !props.href.startsWith('//'));
 const isExternal = computed(() => {
     const destination = new URL(props.href, window.location.origin);
 
@@ -28,8 +26,7 @@ const isExternal = computed(() => {
         v-bind="$attrs"
         :href="href"
         :target="isExternal ? '_blank' : $attrs.target"
-        :rel="isExternal ? 'noopener noreferrer' : $attrs.rel"
-    >
+        :rel="isExternal ? 'noopener noreferrer' : $attrs.rel">
         <slot />
     </a>
 </template>

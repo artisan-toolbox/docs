@@ -13,10 +13,7 @@ defineProps({ navigation: { type: Array, required: true } });
                     <p>
                         <DocsLink
                             :href="
-                                findNavigationItem(
-                                    navigation,
-                                    'maintainer/deployment/deploy',
-                                ).href
+                                findNavigationItem(navigation, 'maintainer/deployment/deploy').href
                             "
                             ><code>deploy</code></DocsLink
                         >: run the consuming project's Deployer binary.
@@ -26,10 +23,7 @@ defineProps({ navigation: { type: Array, required: true } });
                     <p>
                         <DocsLink
                             :href="
-                                findNavigationItem(
-                                    navigation,
-                                    'maintainer/deployment/unlock',
-                                ).href
+                                findNavigationItem(navigation, 'maintainer/deployment/unlock').href
                             "
                             ><code>deploy:unlock</code></DocsLink
                         >: unlock a failed deployment.
@@ -39,14 +33,12 @@ defineProps({ navigation: { type: Array, required: true } });
                     <p>
                         <DocsLink
                             :href="
-                                findNavigationItem(
-                                    navigation,
-                                    'maintainer/deployment/deploy',
-                                ).href + '#run-another-deployer-task'
+                                findNavigationItem(navigation, 'maintainer/deployment/deploy')
+                                    .href + '#run-another-deployer-task'
                             "
                             ><code>deploy:run</code></DocsLink
-                        >: select or execute any declared Deployer task,
-                        including explicit server maintenance tasks.
+                        >: select or execute any declared Deployer task, including explicit server
+                        maintenance tasks.
                     </p>
                 </li>
                 <li>
@@ -65,15 +57,9 @@ defineProps({ navigation: { type: Array, required: true } });
                 <li>
                     <p>
                         <DocsLink
-                            :href="
-                                findNavigationItem(
-                                    navigation,
-                                    'maintainer/deployment/pm2',
-                                ).href
-                            "
+                            :href="findNavigationItem(navigation, 'maintainer/deployment/pm2').href"
                             ><code>pm2:config</code></DocsLink
-                        >: replace PM2 processes by application namespace from
-                        an ecosystem file.
+                        >: replace PM2 processes by application namespace from an ecosystem file.
                     </p>
                 </li>
             </ul>
@@ -84,10 +70,7 @@ defineProps({ navigation: { type: Array, required: true } });
                     <p>
                         <DocsLink
                             :href="
-                                findNavigationItem(
-                                    navigation,
-                                    'maintainer/versioning/commits',
-                                ).href
+                                findNavigationItem(navigation, 'maintainer/versioning/commits').href
                             "
                             ><code>commit</code></DocsLink
                         >: select files and create a commit.
@@ -97,24 +80,19 @@ defineProps({ navigation: { type: Array, required: true } });
                     <p>
                         <DocsLink
                             :href="
-                                findNavigationItem(
-                                    navigation,
-                                    'maintainer/versioning/commits',
-                                ).href + '#push-existing-commits'
+                                findNavigationItem(navigation, 'maintainer/versioning/commits')
+                                    .href + '#push-existing-commits'
                             "
                             ><code>push</code></DocsLink
-                        >: review pending branches and push already-created
-                        commits.
+                        >: review pending branches and push already-created commits.
                     </p>
                 </li>
                 <li>
                     <p>
                         <DocsLink
                             :href="
-                                findNavigationItem(
-                                    navigation,
-                                    'maintainer/versioning/html-diffs',
-                                ).href
+                                findNavigationItem(navigation, 'maintainer/versioning/html-diffs')
+                                    .href
                             "
                             ><code>diff:html</code></DocsLink
                         >: render a Git comparison in the browser.
@@ -124,10 +102,8 @@ defineProps({ navigation: { type: Array, required: true } });
                     <p>
                         <DocsLink
                             :href="
-                                findNavigationItem(
-                                    navigation,
-                                    'maintainer/versioning/releases',
-                                ).href
+                                findNavigationItem(navigation, 'maintainer/versioning/releases')
+                                    .href
                             "
                             ><code>release:create</code></DocsLink
                         >: prepare and publish a GitHub release.
@@ -156,8 +132,7 @@ defineProps({ navigation: { type: Array, required: true } });
                                 ).href
                             "
                             >Project integration</DocsLink
-                        >: configure the version class, hooks, and managed
-                        README header.
+                        >: configure the version class, hooks, and managed README header.
                     </p>
                 </li>
             </ul>

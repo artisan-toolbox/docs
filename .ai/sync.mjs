@@ -17,17 +17,14 @@ const defaultSource = fileURLToPath(new URL('./', import.meta.url));
 const hash = (content) => createHash('sha256').update(content).digest('hex');
 const json = (value) => JSON.stringify(value, null, 4) + '\n';
 const isVersion = (value) =>
-    typeof value === 'string' &&
-    /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.test(value);
+    typeof value === 'string' && /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.test(value);
 const skillName = /^atb-[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 function regularPath(root, relative) {
     const segments = relative.split('/');
     if (
         path.isAbsolute(relative) ||
-        segments.some(
-            (segment) => !segment || segment === '..' || segment === '.',
-        ) ||
+        segments.some((segment) => !segment || segment === '..' || segment === '.') ||
         relative.includes('\\')
     ) {
         throw new Error(`Unsafe standards path: ${relative}`);
@@ -41,36 +38,23 @@ function regularPath(root, relative) {
                 .split(path.sep)
                 .join('/')
                 .match(/^\.agents\/skills\/(atb-[a-z0-9-]+)$/);
-            const destination = path.resolve(
-                path.dirname(current),
-                readlinkSync(current),
-            );
-            if (
-                skill &&
-                destination === path.resolve(root, '.ai/skills', skill[1])
-            )
-                continue;
-            throw new Error(
-                `Standards paths must not use symlinks: ${current}`,
-            );
+            const destination = path.resolve(path.dirname(current), readlinkSync(current));
+            if (skill && destination === path.resolve(root, '.ai/skills', skill[1])) continue;
+            throw new Error(`Standards paths must not use symlinks: ${current}`);
         }
     }
     return current;
 }
 
 function readBundle(source, { unsealed = false } = {}) {
-    const manifest = JSON.parse(
-        readFileSync(path.join(source, 'manifest.json')),
-    );
+    const manifest = JSON.parse(readFileSync(path.join(source, 'manifest.json')));
     if (
         manifest.schemaVersion !== 1 ||
         !isVersion(manifest.version) ||
         !Array.isArray(manifest.skills) ||
         manifest.skills.length === 0 ||
         new Set(manifest.skills).size !== manifest.skills.length ||
-        manifest.skills.some(
-            (name) => !skillName.test(name) || name.length > 64,
-        )
+        manifest.skills.some((name) => !skillName.test(name) || name.length > 64)
     ) {
         throw new Error('Invalid standards manifest.');
     }
@@ -108,28 +92,20 @@ function readBundle(source, { unsealed = false } = {}) {
     );
     const sha256 = hash(json(digests));
     if (!unsealed && sha256 !== manifest.sha256) {
-        throw new Error(
-            'Source changed. Release a new standards version before synchronizing.',
-        );
+        throw new Error('Source changed. Release a new standards version before synchronizing.');
     }
     return { manifest, files, digests, sha256 };
 }
 
 export function releaseStandards(source, version) {
     const bundle = readBundle(source, { unsealed: true });
-    if (!isVersion(version))
-        throw new Error('Use a numeric major.minor.patch version.');
-    if (
-        version === bundle.manifest.version &&
-        bundle.sha256 === bundle.manifest.sha256
-    ) {
+    if (!isVersion(version)) throw new Error('Use a numeric major.minor.patch version.');
+    if (version === bundle.manifest.version && bundle.sha256 === bundle.manifest.sha256) {
         return;
     }
     const next = version.split('.').map(Number);
     const previous = bundle.manifest.version.split('.').map(Number);
-    const difference = next.findIndex(
-        (number, index) => number !== previous[index],
-    );
+    const difference = next.findIndex((number, index) => number !== previous[index]);
     if (difference === -1 || next[difference] < previous[difference]) {
         throw new Error('Changed standards require a higher version.');
     }
@@ -139,46 +115,25 @@ export function releaseStandards(source, version) {
     );
 }
 
-export function syncStandards({
-    source = defaultSource,
-    target,
-    write = false,
-    version,
-}) {
+export function syncStandards({ source = defaultSource, target, write = false, version }) {
     source = path.resolve(source);
     target = path.resolve(target);
     const bundle = readBundle(source);
-    if (
-        (write || version !== undefined) &&
-        version !== bundle.manifest.version
-    ) {
-        throw new Error(
-            `Pin the source version with --version ${bundle.manifest.version}.`,
-        );
+    if ((write || version !== undefined) && version !== bundle.manifest.version) {
+        throw new Error(`Pin the source version with --version ${bundle.manifest.version}.`);
     }
     const desired = {};
     for (const [relative, content] of Object.entries(bundle.files)) {
         desired[`.ai/${relative}`] = content;
-        if (relative.startsWith('skills/'))
-            desired[`.agents/${relative}`] = content;
+        if (relative.startsWith('skills/')) desired[`.agents/${relative}`] = content;
     }
-    desired['.ai/manifest.json'] = readFileSync(
-        path.join(source, 'manifest.json'),
-    );
+    desired['.ai/manifest.json'] = readFileSync(path.join(source, 'manifest.json'));
     const lockPath = regularPath(target, '.ai/standards.lock.json');
-    const previous = existsSync(lockPath)
-        ? JSON.parse(readFileSync(lockPath))
-        : { files: {} };
-    if (
-        !previous.files ||
-        typeof previous.files !== 'object' ||
-        Array.isArray(previous.files)
-    ) {
+    const previous = existsSync(lockPath) ? JSON.parse(readFileSync(lockPath)) : { files: {} };
+    if (!previous.files || typeof previous.files !== 'object' || Array.isArray(previous.files)) {
         throw new Error('Invalid standards lock file.');
     }
-    const paths = [
-        ...new Set([...Object.keys(desired), ...Object.keys(previous.files)]),
-    ].sort();
+    const paths = [...new Set([...Object.keys(desired), ...Object.keys(previous.files)])].sort();
     const changes = [];
     const conflicts = [];
     for (const relative of paths) {
@@ -189,9 +144,7 @@ export function syncStandards({
             throw new Error(`Unmanaged path in standards lock: ${relative}`);
         }
         const filename = regularPath(target, relative);
-        const current = existsSync(filename)
-            ? hash(readFileSync(filename))
-            : null;
+        const current = existsSync(filename) ? hash(readFileSync(filename)) : null;
         const wanted = desired[relative] ? hash(desired[relative]) : null;
         if (current === wanted) continue;
         changes.push(relative);
@@ -204,27 +157,17 @@ export function syncStandards({
         version: bundle.manifest.version,
         sha256: bundle.sha256,
         files: Object.fromEntries(
-            Object.entries(desired).map(([relative, content]) => [
-                relative,
-                hash(content),
-            ]),
+            Object.entries(desired).map(([relative, content]) => [relative, hash(content)]),
         ),
     };
-    if (
-        !existsSync(lockPath) ||
-        readFileSync(lockPath, 'utf8') !== json(lock)
-    ) {
+    if (!existsSync(lockPath) || readFileSync(lockPath, 'utf8') !== json(lock)) {
         changes.push('.ai/standards.lock.json');
     }
     if (write) {
         if (conflicts.length) {
-            throw new Error(
-                `Preserve local edits before synchronizing: ${conflicts.join(', ')}`,
-            );
+            throw new Error(`Preserve local edits before synchronizing: ${conflicts.join(', ')}`);
         }
-        for (const relative of changes.filter(
-            (name) => name !== '.ai/standards.lock.json',
-        )) {
+        for (const relative of changes.filter((name) => name !== '.ai/standards.lock.json')) {
             const filename = regularPath(target, relative);
             if (desired[relative]) {
                 mkdirSync(path.dirname(filename), { recursive: true });
@@ -234,8 +177,7 @@ export function syncStandards({
             }
         }
         mkdirSync(path.dirname(lockPath), { recursive: true });
-        if (changes.includes('.ai/standards.lock.json'))
-            writeFileSync(lockPath, json(lock));
+        if (changes.includes('.ai/standards.lock.json')) writeFileSync(lockPath, json(lock));
     }
     return { version: bundle.manifest.version, changes };
 }
@@ -252,13 +194,8 @@ export function runCLI() {
                 check: { type: 'boolean', default: false },
             },
         });
-        if (
-            (values.write && values.check) ||
-            (values.release && (values.write || values.check))
-        ) {
-            throw new Error(
-                'Choose one operation: --check, --write, or --release <version>.',
-            );
+        if ((values.write && values.check) || (values.release && (values.write || values.check))) {
+            throw new Error('Choose one operation: --check, --write, or --release <version>.');
         }
         if (values.release) {
             releaseStandards(values.source, values.release);
@@ -277,8 +214,4 @@ export function runCLI() {
     }
 }
 
-if (
-    process.argv[1] &&
-    path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
-)
-    runCLI();
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) runCLI();

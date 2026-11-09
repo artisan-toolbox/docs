@@ -28,6 +28,30 @@ Compatibility/migration: ensure any custom disclosure/components follow the docu
 
 ## [Unreleased]
 
+- Reseal shared contributor standards as 1.0.6 after synchronizer formatting changed the bundle fingerprint. Synchronize the documentation application's installed manifest and lock, and update the installation and release examples.
+
+- Configure frontend formatting with 100-column lines, closing brackets on the last attribute line, and a generated Ziggy file exclusion. Retain Tailwind sorting through the installed formatter's `stylesheet` option.
+
+- Clarify that Page layout options are optional, including when registering the wrapper with the Vue Options API.
+
+- Mark the Front Awesome `Page` wrapper as implemented in the Layout catalog, document its preview imports and native region behavior, and group its existing guide under Layout without changing its URL.
+
+- Wrap long documentation breadcrumbs without horizontal scrolling. Keep separators with their destinations and preserve complete labels and keyboard-accessible ancestor links.
+
+- Organize Front Awesome documentation into nested Web Awesome, Vue integration, appearance, and toast sections while preserving existing guide URLs and anchors. Add a categorized wrapper catalog with compact status tags, linked Popover information, basic examples, upstream references, and searchable implementation states. Keep larger group cards on the catalog overview. Use one native public Button per component to open Popover information and example links, and document the new public Tag, Tooltip, and Popover wrappers.
+
+- Document the Front Awesome Icon preview with public imports, native Web Awesome attributes and accessibility, application-owned styling, upstream-derived props, and typed native load events. Register its guide after Input without changing the site icon integration.
+
+- Make `docs` the only documentation source and application. Retire `docs_old` synchronization and legacy-checkout completion requirements in workspace guidance, the public policy, and shared contributor standards 1.0.5. Keep historical migration records and self-contained content coverage.
+
+- Document Front Awesome's commented status and neutral branding ramps, physical Tailwind palette ownership, and the optional PrimeVue preset's color mappings, including Aura's orange and yellow warning groups.
+
+- Rename the Front Awesome preview color-mode API to `Appearance`, `AppearancePreference`, the `appearance: true` plugin option, and the `appearance` slot property. Update examples, contributor guidance, and the migration from the removed `Theme` component and preference names. Preference values, actions, persistence, and lifecycle behavior remain unchanged.
+
+- Document the dedicated Front Awesome `components/WebAwesome` exports and the retained component import paths.
+
+- Document the Front Awesome Input preview with exclusive Vue and Inertia bindings, nested array fields, server errors, and native Web Awesome behavior. Add its registered guide after buttons and restore the overview's short installation command.
+
 - Defer code highlighting until examples approach the viewport and demo sources are first opened. Preserve immediate plain text, copying, native disclosures, and search content without per-page configuration.
 - Generate responsive WebP wordmarks through the normal build and render one theme-selected header image. Improve shared version-badge contrast and defer the Font Awesome kit. Add a scoped immutable-cache recipe for fingerprinted build assets while preserving security and font/SVG CORS headers.
 

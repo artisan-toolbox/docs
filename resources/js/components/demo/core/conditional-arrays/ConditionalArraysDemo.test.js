@@ -1,13 +1,6 @@
 import { http } from '@inertiajs/core';
 import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils';
-import {
-    afterEach,
-    beforeEach,
-    describe,
-    expect,
-    it,
-    vi,
-} from 'vite-plus/test';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test';
 import DemoAction from '@/components/demo/DemoAction.vue';
 import CodeExample from '@/components/docs/CodeExample.vue';
 import ConditionalArraysDemo from './ConditionalArraysDemo.vue';
@@ -40,9 +33,7 @@ const response = (data, status = 200) => ({
     data: JSON.stringify(data),
     headers: {},
 });
-const result = (
-    options = { includeContact: false, includeExtraItem: false },
-) => ({
+const result = (options = { includeContact: false, includeExtraItem: false }) => ({
     options,
     payload: {
         profile: {
@@ -82,9 +73,7 @@ describe('Core conditional arrays', () => {
         expect(sources).toContain('ConditionalArraysDemo.vue');
         expect(sources).toContain('Arr::sift');
         expect(sources).toContain('useHttp');
-        expect(sources).toContain(
-            "'includeContact' => ['required', 'boolean']",
-        );
+        expect(sources).toContain("'includeContact' => ['required', 'boolean']");
         await actions(wrapper)[0].trigger('click');
         await actions(wrapper)[0].trigger('click');
         expect(request).toHaveBeenCalledTimes(1);
@@ -100,15 +89,11 @@ describe('Core conditional arrays', () => {
         expect(configuration.headers.Accept).toBe('application/json');
         expect(wrapper.get('fieldset').attributes()).toHaveProperty('disabled');
         expect(actions(wrapper)[0].props('busy')).toBe(true);
-        expect(wrapper.get('[role="status"]').text()).toBe(
-            'Running the Core helper…',
-        );
+        expect(wrapper.get('[role="status"]').text()).toBe('Running the Core helper…');
         const actual = result();
         pending.resolve(response(actual));
         await flushPromises();
-        expect(output(wrapper).props('code')).toBe(
-            JSON.stringify(actual, null, 2),
-        );
+        expect(output(wrapper).props('code')).toBe(JSON.stringify(actual, null, 2));
         expect(wrapper.text()).toContain('Contact closure not evaluated.');
         await wrapper.findAll('input')[0].setValue(true);
         expect(wrapper.text()).toContain('Last run inputs. Contact omitted;');
@@ -120,8 +105,7 @@ describe('Core conditional arrays', () => {
             response(result({ includeContact: true, includeExtraItem: true })),
         );
         const wrapper = mount(ConditionalArraysDemo);
-        for (const input of wrapper.findAll('input'))
-            await input.setValue(true);
+        for (const input of wrapper.findAll('input')) await input.setValue(true);
         expect(request).not.toHaveBeenCalled();
         await actions(wrapper)[0].trigger('click');
         await flushPromises();
@@ -131,9 +115,7 @@ describe('Core conditional arrays', () => {
         });
         expect(wrapper.text()).toContain('Contact closure evaluated.');
         await actions(wrapper)[1].trigger('click');
-        expect(
-            wrapper.findAll('input').every((input) => !input.element.checked),
-        ).toBe(true);
+        expect(wrapper.findAll('input').every((input) => !input.element.checked)).toBe(true);
         expect(output(wrapper)).toBeUndefined();
         expect(wrapper.get('[role="status"]').text()).toBe(
             'Ready. Choose options and run the example.',
@@ -147,9 +129,7 @@ describe('Core conditional arrays', () => {
                 response(
                     {
                         errors: {
-                            includeContact: [
-                                'The contact option must be true or false.',
-                            ],
+                            includeContact: ['The contact option must be true or false.'],
                         },
                     },
                     422,
@@ -170,27 +150,19 @@ describe('Core conditional arrays', () => {
         await actions(wrapper)[0].trigger('click');
         await flushPromises();
         expect(wrapper.find('[role="alert"]').exists()).toBe(false);
-        expect(output(wrapper).props('code')).toBe(
-            JSON.stringify(result(), null, 2),
-        );
+        expect(output(wrapper).props('code')).toBe(JSON.stringify(result(), null, 2));
     });
 
     it('reports server and network failures and clears them on reset', async () => {
         request
-            .mockResolvedValueOnce(
-                response({ message: 'Internal details' }, 500),
-            )
+            .mockResolvedValueOnce(response({ message: 'Internal details' }, 500))
             .mockRejectedValueOnce(new Error('Connection unavailable'));
         const wrapper = mount(ConditionalArraysDemo);
         for (let attempt = 0; attempt < 2; attempt++) {
             await actions(wrapper)[0].trigger('click');
             await flushPromises();
-            expect(wrapper.get('[role="alert"]').text()).toContain(
-                'The example could not run.',
-            );
-            expect(wrapper.get('[role="alert"]').text()).not.toContain(
-                'Internal details',
-            );
+            expect(wrapper.get('[role="alert"]').text()).toContain('The example could not run.');
+            expect(wrapper.get('[role="alert"]').text()).not.toContain('Internal details');
             expect(actions(wrapper)[0].props('busy')).toBe(false);
         }
         await actions(wrapper)[1].trigger('click');
@@ -203,9 +175,7 @@ describe('Core conditional arrays', () => {
         async (status) => {
             const older = deferred();
             const newer = deferred();
-            request
-                .mockReturnValueOnce(older.promise)
-                .mockReturnValueOnce(newer.promise);
+            request.mockReturnValueOnce(older.promise).mockReturnValueOnce(newer.promise);
             const wrapper = mount(ConditionalArraysDemo);
             await actions(wrapper)[0].trigger('click');
             const signal = request.mock.calls[0][0].signal;
@@ -215,16 +185,12 @@ describe('Core conditional arrays', () => {
             await actions(wrapper)[0].trigger('click');
             older.resolve(
                 response(
-                    status === 200
-                        ? result()
-                        : { errors: { includeContact: ['Stale error'] } },
+                    status === 200 ? result() : { errors: { includeContact: ['Stale error'] } },
                     status,
                 ),
             );
             await flushPromises();
-            expect(wrapper.get('[role="status"]').text()).toBe(
-                'Running the Core helper…',
-            );
+            expect(wrapper.get('[role="status"]').text()).toBe('Running the Core helper…');
             expect(actions(wrapper)[0].props('busy')).toBe(true);
             expect(wrapper.find('[role="alert"]').exists()).toBe(false);
             expect(output(wrapper)).toBeUndefined();
@@ -236,9 +202,7 @@ describe('Core conditional arrays', () => {
             });
             newer.resolve(response(actual));
             await flushPromises();
-            expect(output(wrapper).props('code')).toBe(
-                JSON.stringify(actual, null, 2),
-            );
+            expect(output(wrapper).props('code')).toBe(JSON.stringify(actual, null, 2));
         },
     );
 

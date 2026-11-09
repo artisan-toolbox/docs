@@ -34,30 +34,15 @@ const guides = [
         installationCommands('maintainer').composer.code,
         'config:publish',
     ],
-    [
-        Core,
-        'Install Core',
-        installationCommands('core').composer.code,
-        "['name' => 'Ada']",
-    ],
+    [Core, 'Install Core', installationCommands('core').composer.code, "['name' => 'Ada']"],
     [
         DumpToConsole,
         'Install Dump to Console',
         installationCommands('dump-to-console').composer.code,
         'Response unchanged',
     ],
-    [
-        Mosaicast,
-        'Install Mosaicast',
-        installationCommands('mosaicast').composer.code,
-        'inertia',
-    ],
-    [
-        QzTray,
-        'Install QZ Tray Connector',
-        installationCommands('qztray').composer.code,
-        'Hello',
-    ],
+    [Mosaicast, 'Install Mosaicast', installationCommands('mosaicast').composer.code, 'inertia'],
+    [QzTray, 'Install QZ Tray Connector', installationCommands('qztray').composer.code, 'Hello'],
 ];
 
 function render(component, title) {
@@ -95,29 +80,21 @@ describe('Package installation journeys', () => {
             const wrapper = render(component, title);
 
             expect(wrapper.get('h1').text()).toBe(title);
-            expect(
-                wrapper.get('#requirements').element.parentElement.textContent,
-            ).toContain('PHP 8.5');
-            const content = wrapper.get('[data-document-content]').text();
-            expect(content.indexOf('Requirements')).toBeLessThan(
-                content.indexOf(install),
+            expect(wrapper.get('#requirements').element.parentElement.textContent).toContain(
+                'PHP 8.5',
             );
+            const content = wrapper.get('[data-document-content]').text();
+            expect(content.indexOf('Requirements')).toBeLessThan(content.indexOf(install));
             expect(content).toContain(result);
             expect(
-                wrapper
-                    .get('#next-steps')
-                    .element.parentElement.querySelectorAll('a').length,
+                wrapper.get('#next-steps').element.parentElement.querySelectorAll('a').length,
             ).toBeGreaterThan(0);
-            const links = wrapper
-                .findAll('a')
-                .map((link) => link.attributes('href'));
+            const links = wrapper.findAll('a').map((link) => link.attributes('href'));
             expect(links.every((href) => href.startsWith('/docs/'))).toBe(true);
 
             await wrapper.setProps({ navigation: navigation('/reference') });
 
-            expect(
-                wrapper.findAll('a').map((link) => link.attributes('href')),
-            ).toEqual(
+            expect(wrapper.findAll('a').map((link) => link.attributes('href'))).toEqual(
                 links.map((href) => href.replace('/docs/', '/reference/')),
             );
             wrapper.unmount();
@@ -132,9 +109,7 @@ describe('Package installation journeys', () => {
         expect(examples[1]).toContain('./vendor/artisan-toolbox/mosaicast');
         expect(examples[2]).toContain('withApp(app, { ssr })');
         expect(examples[2]).toContain('app.use(createMosaicast())');
-        expect(examples[3]).toContain(
-            "Mosaicast::dispatch('orders.updated', ['orderId' => 42])",
-        );
+        expect(examples[3]).toContain("Mosaicast::dispatch('orders.updated', ['orderId' => 42])");
         expect(examples[3]).toContain("Inertia::render('MosaicastExample')");
         expect(examples[4]).toContain('/mosaicast-example?send=1');
         expect(wrapper.text()).toContain(

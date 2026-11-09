@@ -4,6 +4,10 @@ The application installs Maintainer, Rector, Laravel Rector rules, Pest, Pint, a
 The application requires PHP 8.5 in production, development, and CI. Its installed Front Awesome, Core, and Mosaicast dependencies require that version, as does Maintainer's development tooling.
 Frontend checks use the existing Vite Plus and Vue tooling.
 
+Formatting is configured in `vite.config.ts` under `fmt`: 100-column lines, four-space indentation, single quotes, semicolons, and closing brackets on the last attribute line. Attributes may share a line, and HTML whitespace sensitivity follows CSS display rules. The formatter excludes `.github/**`, `composer.json`, `resources/js/components/ui/*`, `resources/views/mail/*`, and `resources/js/ziggy.js`.
+Tailwind class sorting covers `clsx`, `cn`, and `cva` and reads `resources/css/app.css` through `sortTailwindcss.stylesheet`, the option supported by the installed formatter.
+From the documentation checkout, run `npx vp fmt vite.config.ts --check` to check the configuration file, or `npm run check` to check the project without rewriting files.
+
 ## Check shared agent standards
 
 Run `npm run standards:check` from the documentation checkout. This dependency-free check verifies the selected standards version, source fingerprint, installed skills, and standalone checker.
@@ -201,10 +205,10 @@ The search integration does not configure SSH identities, change server settings
 
 After publication, follow [the Nginx verification guide](nginx.md) if Horizon's browser dashboard, WebAssembly previews, or dynamic robots discovery fail while the application and workers remain available. Server headers and exact-match static locations can override otherwise correct application behavior.
 
-## Verify migrated content in the workspace
+## Consult archived migration checks
 
 ```bash
 npm run test:migration
 ```
 
-Run this from `docs` with the sibling `docs_old` checkout and its frontend dependencies installed. It checks the original source fingerprints, migration rendering, and code-block escaping. Normal `npm test` and the standard CI workflow do not read that sibling repository. Their rendered-content fixtures are self-contained and have also been verified in an isolated temporary checkout.
+This command is archived migration tooling and requires historical source files that are no longer present in the workspace. It is not a current documentation completion check. Do not recreate `docs_old` to run it. Use the self-contained `npm test` suite and the normal quality, build, and search checks when maintaining the `docs` application.

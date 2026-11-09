@@ -4,11 +4,7 @@ import { describe, expect, it, vi } from 'vite-plus/test';
 import DocsLink from './DocsLink.vue';
 
 describe('DocsLink', () => {
-    it.each([
-        'http://example.com/guide',
-        'https://example.com/guide',
-        '//example.com/guide',
-    ])(
+    it.each(['http://example.com/guide', 'https://example.com/guide', '//example.com/guide'])(
         'opens an external web destination in a protected new tab for %s',
         (href) => {
             const wrapper = mount(DocsLink, { props: { href } });

@@ -10,15 +10,9 @@ defineProps({
 
 <template>
     <footer
-        class="border-t border-slate-200 py-8 text-sm text-slate-500 dark:border-slate-800 dark:text-slate-400"
-    >
-        <div
-            class="flex flex-wrap items-center justify-between gap-x-8 gap-y-4"
-        >
-            <p>
-                Artisan Toolbox <span aria-hidden="true">·</span> Built for
-                Laravel.
-            </p>
+        class="border-t border-slate-200 py-8 text-sm text-slate-500 dark:border-slate-800 dark:text-slate-400">
+        <div class="flex flex-wrap items-center justify-between gap-x-8 gap-y-4">
+            <p>Artisan Toolbox <span aria-hidden="true">·</span> Built for Laravel.</p>
             <DocsLink
                 v-if="source"
                 :href="source.sourceUrl"

@@ -6,10 +6,9 @@ defineProps({ navigation: { type: Array, required: true } });
 <template>
     <ProseSection>
         <p>
-            Mosaicast registers a private broadcast channel for each Laravel
-            session. The channel is available to guests as well as signed-in
-            users; authorization checks the current Laravel session, including
-            for visitors who have never signed in.
+            Mosaicast registers a private broadcast channel for each Laravel session. The channel is
+            available to guests as well as signed-in users; authorization checks the current Laravel
+            session, including for visitors who have never signed in.
         </p>
     </ProseSection>
 </template>

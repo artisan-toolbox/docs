@@ -296,6 +296,10 @@ test('nests every registered page once and marks only the current page and its a
             }
 
             $page->where('navigation', function (Collection $navigation) use ($currentSlug): bool {
+                $ancestorSlugs = [];
+                for ($ancestor = $currentSlug->parent(); $ancestor !== null; $ancestor = $ancestor->parent()) {
+                    $ancestorSlugs[] = $ancestor->value;
+                }
                 $nodes = [];
                 $visit = function (array $items) use (&$visit, &$nodes): void {
                     foreach ($items as $item) {
@@ -308,7 +312,7 @@ test('nests every registered page once and marks only the current page and its a
                 expect(array_column($nodes, 'slug'))->toHaveCount(count($expected))->toEqualCanonicalizing($expected);
                 foreach ($nodes as $node) {
                     expect($node['active'])->toBe($node['slug'] === $currentSlug->value);
-                    expect($node['activeAncestor'])->toBe($node['slug'] !== '' && str_starts_with($currentSlug->value, $node['slug'].'/'));
+                    expect($node['activeAncestor'])->toBe(in_array($node['slug'], $ancestorSlugs, true));
                     expect($node['href'])->toBe(PageSlug::from($node['slug'])->url(absolute: false));
                 }
 
@@ -380,3 +384,28 @@ test('serves versioning guides with canonical metadata, package navigation, and 
     'releases' => ['/releases', 'Releases', 'Create Releases', 'Select a semantic version, generate release content, and publish a GitHub release.'],
     'project integration' => ['/project-integration', 'ProjectIntegration', 'Project Integration', 'Integrate versioning hooks, managed README headers, and version badges with Maintainer.'],
 ]);
+
+test('keeps every editorial parent registered and every ancestor walk acyclic', function () {
+    foreach (PageSlug::cases() as $slug) {
+        $visited = [$slug->value];
+
+        for ($parent = $slug->parent(); $parent !== null; $parent = $parent->parent()) {
+            expect($parent)->toBeIn(PageSlug::cases());
+            expect($visited)->not->toContain($parent->value);
+            $visited[] = $parent->value;
+        }
+    }
+});
+
+test('preserves nearest registered URL prefix ancestry outside Front Awesome', function () {
+    foreach (PageSlug::cases() as $slug) {
+        if (str_starts_with($slug->value, 'front-awesome')) {
+            continue;
+        }
+
+        $prefixes = array_filter(PageSlug::cases(), fn (PageSlug $candidate): bool => $candidate->value !== '' && str_starts_with($slug->value, $candidate->value.'/'));
+        usort($prefixes, fn (PageSlug $left, PageSlug $right): int => strlen($right->value) <=> strlen($left->value));
+
+        expect($slug->parent())->toBe($prefixes[0] ?? null);
+    }
+});

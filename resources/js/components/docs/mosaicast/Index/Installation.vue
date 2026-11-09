@@ -13,36 +13,26 @@ defineProps({
     <ProseSection>
         <h2
             id="installation"
-            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white"
-        >
+            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Installation
         </h2>
         <p>
-            Start in the root of an existing Laravel application with Vue and
-            Inertia 3. Install the backend package before the frontend client:
+            Start in the root of an existing Laravel application with Vue and Inertia 3. Install the
+            backend package before the frontend client:
         </p>
         <InstallCommand
             label="Installation example 1"
             language="bash"
             :package="page.package"
-            command="composer"
-        />
+            command="composer" />
         <p>
-            Laravel discovers the package service provider automatically. Keep
-            Laravel's session middleware on routes that call
-            <code>Mosaicast::dispatch()</code>. For private broadcasts, enable
-            the
-            <DocsLink
-                :href="
-                    findNavigationItem(navigation, 'mosaicast/session-channels')
-                        .href
-                "
+            Laravel discovers the package service provider automatically. Keep Laravel's session
+            middleware on routes that call
+            <code>Mosaicast::dispatch()</code>. For private broadcasts, enable the
+            <DocsLink :href="findNavigationItem(navigation, 'mosaicast/session-channels').href"
                 >broadcast authentication route</DocsLink
             >. Install and register the
-            <DocsLink
-                :href="
-                    findNavigationItem(navigation, 'mosaicast/vue-plugin').href
-                "
+            <DocsLink :href="findNavigationItem(navigation, 'mosaicast/vue-plugin').href"
                 >Vue plugin</DocsLink
             >
             to receive events in the browser.

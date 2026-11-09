@@ -1,0 +1,1033 @@
+{
+    "reviewedOn": "2026-11-09",
+    "coreBaseline": "3.14.0",
+    "upstream": "https://webawesome.com/docs/",
+    "statuses": {
+        "implemented": {
+            "label": "Implemented",
+            "countLabel": "implemented",
+            "icon": "circle-check",
+            "variant": "success",
+            "appearance": "accent"
+        },
+        "in-progress": {
+            "label": "In progress",
+            "countLabel": "in progress",
+            "icon": "spinner",
+            "variant": "warning",
+            "appearance": "accent",
+            "description": "This Vue wrapper is in progress."
+        },
+        "planned": {
+            "label": "In future",
+            "countLabel": "in future",
+            "icon": "clock",
+            "variant": "neutral",
+            "appearance": "filled",
+            "description": "This Vue wrapper is planned."
+        }
+    },
+    "groups": [
+        {
+            "id": "actions",
+            "title": "Actions",
+            "help": "Trigger an action or group related controls.",
+            "components": [
+                {
+                    "name": "Button",
+                    "tag": "wa-button",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/button/",
+                    "help": "Trigger a labeled action.",
+                    "implementation": {
+                        "state": "implemented",
+                        "export": "Button",
+                        "anchor": "button",
+                        "guide": "front-awesome/button",
+                        "guideFragment": ""
+                    }
+                },
+                {
+                    "name": "Button Group",
+                    "tag": "wa-button-group",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/button-group/",
+                    "help": "Keep related buttons together.",
+                    "implementation": {
+                        "state": "implemented",
+                        "export": "ButtonGroup",
+                        "anchor": "button-group",
+                        "guide": "front-awesome/button",
+                        "guideFragment": "#group-related-buttons"
+                    }
+                },
+                {
+                    "name": "Copy Button",
+                    "tag": "wa-copy-button",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/copy-button/",
+                    "help": "Copy a value to the clipboard.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Dropdown",
+                    "tag": "wa-dropdown",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/dropdown/",
+                    "help": "Show a menu of actions.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Dropdown Item",
+                    "tag": "wa-dropdown-item",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/dropdown-item/",
+                    "help": "Define one action in a dropdown menu.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "forms",
+            "title": "Forms",
+            "help": "Collect and validate values in forms.",
+            "components": [
+                {
+                    "name": "Checkbox",
+                    "tag": "wa-checkbox",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/checkbox/",
+                    "help": "Toggle an independent choice.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Checkbox Group",
+                    "tag": "wa-checkbox-group",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/checkbox-group/",
+                    "help": "Label related checkbox choices.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Color Picker",
+                    "tag": "wa-color-picker",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/color-picker/",
+                    "help": "Choose a color value.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Combobox",
+                    "tag": "wa-combobox",
+                    "edition": "Pro",
+                    "reference": "https://webawesome.com/docs/components/combobox/",
+                    "help": "Combine text entry with suggested choices.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Date Input",
+                    "tag": "wa-date-input",
+                    "edition": "Pro",
+                    "reference": "https://webawesome.com/docs/components/date-input/",
+                    "help": "Enter a date in a form.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Date Picker",
+                    "tag": "wa-date-picker",
+                    "edition": "Pro",
+                    "reference": "https://webawesome.com/docs/components/date-picker/",
+                    "help": "Choose a date from a calendar.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "File Input",
+                    "tag": "wa-file-input",
+                    "edition": "Pro",
+                    "reference": "https://webawesome.com/docs/components/file-input/",
+                    "help": "Select files for a form.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Input",
+                    "tag": "wa-input",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/input/",
+                    "help": "Bind text to a Vue model or an Inertia form.",
+                    "implementation": {
+                        "state": "implemented",
+                        "export": "Input",
+                        "anchor": "input",
+                        "guide": "front-awesome/input",
+                        "guideFragment": ""
+                    }
+                },
+                {
+                    "name": "Known Date",
+                    "tag": "wa-known-date",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/known-date/",
+                    "help": "Represent a known calendar date.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Number Input",
+                    "tag": "wa-number-input",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/number-input/",
+                    "help": "Enter a numeric value.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "OTP Input",
+                    "tag": "wa-otp-input",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/otp-input/",
+                    "help": "Enter a one-time code.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Radio Group",
+                    "tag": "wa-radio-group",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/radio-group/",
+                    "help": "Choose one value from related options.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Radio",
+                    "tag": "wa-radio",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/radio/",
+                    "help": "Define one choice in a radio group.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Rating",
+                    "tag": "wa-rating",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/rating/",
+                    "help": "Choose a rating value.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Select",
+                    "tag": "wa-select",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/select/",
+                    "help": "Choose from a list of options.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Option",
+                    "tag": "wa-option",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/option/",
+                    "help": "Define one option in a select.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Slider",
+                    "tag": "wa-slider",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/slider/",
+                    "help": "Choose a value along a range.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Switch",
+                    "tag": "wa-switch",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/switch/",
+                    "help": "Toggle a setting on or off.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Tag Input",
+                    "tag": "wa-tag-input",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/tag-input/",
+                    "help": "Enter a collection of tags.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Textarea",
+                    "tag": "wa-textarea",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/textarea/",
+                    "help": "Enter multiple lines of text.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Time Input",
+                    "tag": "wa-time-input",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/time-input/",
+                    "help": "Enter a time value.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "layout",
+            "title": "Layout",
+            "help": "Structure content, panels, and application space.",
+            "components": [
+                {
+                    "name": "Accordion",
+                    "tag": "wa-accordion",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/accordion/",
+                    "help": "Organize expandable sections.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Accordion Item",
+                    "tag": "wa-accordion-item",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/accordion-item/",
+                    "help": "Define one section in an accordion.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Card",
+                    "tag": "wa-card",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/card/",
+                    "help": "Group related content in a container.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Details",
+                    "tag": "wa-details",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/details/",
+                    "help": "Reveal supporting content on demand.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Dialog",
+                    "tag": "wa-dialog",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/dialog/",
+                    "help": "Present content in a modal window.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Divider",
+                    "tag": "wa-divider",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/divider/",
+                    "help": "Separate adjacent content.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Drawer",
+                    "tag": "wa-drawer",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/drawer/",
+                    "help": "Reveal a panel beside the page.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Page",
+                    "tag": "wa-page",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/page/",
+                    "help": "Arrange application regions around main content.",
+                    "implementation": {
+                        "state": "implemented",
+                        "export": "Page",
+                        "anchor": "page",
+                        "guide": "front-awesome/page",
+                        "guideFragment": "#render-the-page-and-one-navigation-tree"
+                    }
+                },
+                {
+                    "name": "Scroller",
+                    "tag": "wa-scroller",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/scroller/",
+                    "help": "Navigate content within a scrollable region.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Split Panel",
+                    "tag": "wa-split-panel",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/split-panel/",
+                    "help": "Resize two adjacent content panels.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "navigation",
+            "title": "Navigation",
+            "help": "Move between destinations and content sections.",
+            "components": [
+                {
+                    "name": "Breadcrumb",
+                    "tag": "wa-breadcrumb",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/breadcrumb/",
+                    "help": "Show the path to the current location.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Breadcrumb Item",
+                    "tag": "wa-breadcrumb-item",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/breadcrumb-item/",
+                    "help": "Define one destination in a breadcrumb.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Pagination",
+                    "tag": "wa-pagination",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/pagination/",
+                    "help": "Move between pages of results.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Stepper",
+                    "tag": "wa-stepper",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/stepper/",
+                    "help": "Show progress through a sequence.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Step",
+                    "tag": "wa-step",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/step/",
+                    "help": "Define one item in a stepper.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Tab Group",
+                    "tag": "wa-tab-group",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/tab-group/",
+                    "help": "Switch between related content panels.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Tab",
+                    "tag": "wa-tab",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/tab/",
+                    "help": "Label a panel in a tab group.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Tab Panel",
+                    "tag": "wa-tab-panel",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/tab-panel/",
+                    "help": "Provide the content for a tab.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Tree",
+                    "tag": "wa-tree",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/tree/",
+                    "help": "Navigate a hierarchy of items.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Tree Item",
+                    "tag": "wa-tree-item",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/tree-item/",
+                    "help": "Define one node in a tree.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "feedback",
+            "title": "Feedback",
+            "help": "Communicate status, progress, and contextual help.",
+            "components": [
+                {
+                    "name": "Badge",
+                    "tag": "wa-badge",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/badge/",
+                    "help": "Display a compact status or count.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Callout",
+                    "tag": "wa-callout",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/callout/",
+                    "help": "Draw attention to contextual information.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Progress Bar",
+                    "tag": "wa-progress-bar",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/progress-bar/",
+                    "help": "Display progress along a horizontal track.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Progress Ring",
+                    "tag": "wa-progress-ring",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/progress-ring/",
+                    "help": "Display progress around a circular track.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Skeleton",
+                    "tag": "wa-skeleton",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/skeleton/",
+                    "help": "Reserve space while content loads.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Spinner",
+                    "tag": "wa-spinner",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/spinner/",
+                    "help": "Indicate ongoing work.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Tag",
+                    "tag": "wa-tag",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/tag/",
+                    "help": "Label or categorize an item.",
+                    "implementation": {
+                        "state": "implemented",
+                        "export": "Tag",
+                        "anchor": "tag",
+                        "guide": "front-awesome/web-awesome/components/feedback",
+                        "guideFragment": "#tag"
+                    }
+                },
+                {
+                    "name": "Toast",
+                    "tag": "wa-toast",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/toast/",
+                    "help": "Manage brief notifications.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Toast Item",
+                    "tag": "wa-toast-item",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/toast-item/",
+                    "help": "Display one toast notification.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Tooltip",
+                    "tag": "wa-tooltip",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/tooltip/",
+                    "help": "Provide contextual help for a control.",
+                    "implementation": {
+                        "state": "implemented",
+                        "export": "Tooltip",
+                        "anchor": "tooltip",
+                        "guide": "front-awesome/web-awesome/components/feedback",
+                        "guideFragment": "#tooltip"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "media",
+            "title": "Media",
+            "help": "Present images, icons, code, and other media.",
+            "components": [
+                {
+                    "name": "Animated Image",
+                    "tag": "wa-animated-image",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/animated-image/",
+                    "help": "Control playback of an animated image.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Avatar",
+                    "tag": "wa-avatar",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/avatar/",
+                    "help": "Represent a person or entity.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Carousel",
+                    "tag": "wa-carousel",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/carousel/",
+                    "help": "Browse a sequence of slides.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Carousel Item",
+                    "tag": "wa-carousel-item",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/carousel-item/",
+                    "help": "Define one slide in a carousel.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Code Highlighter",
+                    "tag": "wa-code-highlighter",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/code-highlighter/",
+                    "help": "Present code with syntax highlighting.",
+                    "implementation": {
+                        "state": "planned"
+                    },
+                    "since": "3.15",
+                    "availability": "Experimental; newer than the Core 3.14.0 baseline."
+                },
+                {
+                    "name": "Comparison",
+                    "tag": "wa-comparison",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/comparison/",
+                    "help": "Compare two overlaid images.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Icon",
+                    "tag": "wa-icon",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/icon/",
+                    "help": "Render an icon with accessible labeling.",
+                    "implementation": {
+                        "state": "implemented",
+                        "export": "Icon",
+                        "anchor": "icon",
+                        "guide": "front-awesome/icon",
+                        "guideFragment": ""
+                    }
+                },
+                {
+                    "name": "Markdown",
+                    "tag": "wa-markdown",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/markdown/",
+                    "help": "Render Markdown content.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "QR Code",
+                    "tag": "wa-qr-code",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/qr-code/",
+                    "help": "Encode a value as a QR code.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Video",
+                    "tag": "wa-video",
+                    "edition": "Pro",
+                    "reference": "https://webawesome.com/docs/components/video/",
+                    "help": "Play video with media controls.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Video Playlist",
+                    "tag": "wa-video-playlist",
+                    "edition": "Pro",
+                    "reference": "https://webawesome.com/docs/components/video-playlist/",
+                    "help": "Organize multiple videos for playback.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Zoomable Frame",
+                    "tag": "wa-zoomable-frame",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/zoomable-frame/",
+                    "help": "Inspect content in a zoomable region.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "data-viz",
+            "title": "Data Viz",
+            "help": "Present structured data and chart series.",
+            "components": [
+                {
+                    "name": "Bar Chart",
+                    "tag": "wa-bar-chart",
+                    "edition": "Pro",
+                    "reference": "https://webawesome.com/docs/components/bar-chart/",
+                    "help": "Compare values with bars.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Bubble Chart",
+                    "tag": "wa-bubble-chart",
+                    "edition": "Pro",
+                    "reference": "https://webawesome.com/docs/components/bubble-chart/",
+                    "help": "Compare points with a size dimension.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Data Grid",
+                    "tag": "wa-data-grid",
+                    "edition": "Pro",
+                    "reference": "https://webawesome.com/docs/components/data-grid/",
+                    "help": "Present data in a structured grid.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Doughnut Chart",
+                    "tag": "wa-doughnut-chart",
+                    "edition": "Pro",
+                    "reference": "https://webawesome.com/docs/components/doughnut-chart/",
+                    "help": "Compare proportions around a ring.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Line Chart",
+                    "tag": "wa-line-chart",
+                    "edition": "Pro",
+                    "reference": "https://webawesome.com/docs/components/line-chart/",
+                    "help": "Show a series across an ordered axis.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Pie Chart",
+                    "tag": "wa-pie-chart",
+                    "edition": "Pro",
+                    "reference": "https://webawesome.com/docs/components/pie-chart/",
+                    "help": "Compare proportions of a whole.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Polar Area Chart",
+                    "tag": "wa-polar-area-chart",
+                    "edition": "Pro",
+                    "reference": "https://webawesome.com/docs/components/polar-area-chart/",
+                    "help": "Compare values on a radial scale.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Radar Chart",
+                    "tag": "wa-radar-chart",
+                    "edition": "Pro",
+                    "reference": "https://webawesome.com/docs/components/radar-chart/",
+                    "help": "Compare values across several dimensions.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Scatter Chart",
+                    "tag": "wa-scatter-chart",
+                    "edition": "Pro",
+                    "reference": "https://webawesome.com/docs/components/scatter-chart/",
+                    "help": "Show relationships between numeric values.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Sparkline",
+                    "tag": "wa-sparkline",
+                    "edition": "Pro",
+                    "reference": "https://webawesome.com/docs/components/sparkline/",
+                    "help": "Show a compact trend alongside content.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Chart",
+                    "tag": "wa-chart",
+                    "edition": "Pro",
+                    "reference": "https://webawesome.com/docs/components/chart/",
+                    "help": "Configure chart types, datasets, and plugins.",
+                    "implementation": {
+                        "state": "planned"
+                    },
+                    "since": "3.3"
+                }
+            ]
+        },
+        {
+            "id": "helpers",
+            "title": "Helpers",
+            "help": "Format values and coordinate browser behavior.",
+            "components": [
+                {
+                    "name": "Animation",
+                    "tag": "wa-animation",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/animation/",
+                    "help": "Apply an animation to an element.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Format Bytes",
+                    "tag": "wa-format-bytes",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/format-bytes/",
+                    "help": "Format a byte count for display.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Format Date",
+                    "tag": "wa-format-date",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/format-date/",
+                    "help": "Format a date for a locale.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Format Number",
+                    "tag": "wa-format-number",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/format-number/",
+                    "help": "Format a numeric value for a locale.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Include",
+                    "tag": "wa-include",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/include/",
+                    "help": "Load external HTML into a region.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Intersection Observer",
+                    "tag": "wa-intersection-observer",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/intersection-observer/",
+                    "help": "Observe when an element enters a region.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Mutation Observer",
+                    "tag": "wa-mutation-observer",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/mutation-observer/",
+                    "help": "Observe changes to an element.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Popover",
+                    "tag": "wa-popover",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/popover/",
+                    "help": "Reveal contextual content beside a trigger.",
+                    "implementation": {
+                        "state": "implemented",
+                        "export": "Popover",
+                        "anchor": "popover",
+                        "guide": "front-awesome/web-awesome/components/helpers",
+                        "guideFragment": "#popover"
+                    }
+                },
+                {
+                    "name": "Popup",
+                    "tag": "wa-popup",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/popup/",
+                    "help": "Position floating content near an anchor.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Random Content",
+                    "tag": "wa-random-content",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/random-content/",
+                    "help": "Generate placeholder content.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Relative Time",
+                    "tag": "wa-relative-time",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/relative-time/",
+                    "help": "Display a date relative to the current time.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                },
+                {
+                    "name": "Resize Observer",
+                    "tag": "wa-resize-observer",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/resize-observer/",
+                    "help": "Observe changes to an element's size.",
+                    "implementation": {
+                        "state": "planned"
+                    }
+                }
+            ]
+        }
+    ]
+}

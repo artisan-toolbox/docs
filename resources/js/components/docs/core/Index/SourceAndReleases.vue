@@ -8,22 +8,18 @@ defineProps({ navigation: { type: Array, required: true } });
     <ProseSection>
         <h2
             id="source-and-releases"
-            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white"
-        >
+            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Source and releases
         </h2>
         <ul>
             <li>
                 <p>
-                    <DocsLink href="https://github.com/artisan-toolbox/core"
-                        >Source code</DocsLink
-                    >
+                    <DocsLink href="https://github.com/artisan-toolbox/core">Source code</DocsLink>
                 </p>
             </li>
             <li>
                 <p>
-                    <DocsLink
-                        href="https://packagist.org/packages/artisan-toolbox/core"
+                    <DocsLink href="https://packagist.org/packages/artisan-toolbox/core"
                         >Packagist releases</DocsLink
                     >
                 </p>

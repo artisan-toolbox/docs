@@ -9,12 +9,7 @@ defineProps({
 </script>
 
 <template>
-    <Button
-        type="button"
-        :variant="variant"
-        :loading="busy"
-        :disabled="disabled || busy"
-    >
+    <Button type="button" :variant="variant" :loading="busy" :disabled="disabled || busy">
         <slot />
     </Button>
 </template>

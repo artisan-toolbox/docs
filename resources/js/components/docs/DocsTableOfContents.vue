@@ -1,15 +1,6 @@
 <script setup>
 import SiteIcon from '@/components/site/SiteIcon.vue';
-import {
-    computed,
-    nextTick,
-    onBeforeUnmount,
-    onMounted,
-    ref,
-    shallowRef,
-    useId,
-    watch,
-} from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, shallowRef, useId, watch } from 'vue';
 
 const props = defineProps({
     content: { type: Object, default: null },
@@ -47,8 +38,7 @@ function updateActiveHeading() {
 
     if (
         window.scrollY > 0 &&
-        window.scrollY + window.innerHeight >=
-            document.documentElement.scrollHeight - 2
+        window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2
     ) {
         activeId.value = headings.at(-1).id;
         return;
@@ -58,9 +48,7 @@ function updateActiveHeading() {
 
     for (const heading of headings) {
         const scrollMargin =
-            Number.parseFloat(
-                window.getComputedStyle(heading.element).scrollMarginTop,
-            ) || 112;
+            Number.parseFloat(window.getComputedStyle(heading.element).scrollMarginTop) || 112;
 
         if (heading.element.getBoundingClientRect().top <= scrollMargin + 2) {
             current = heading.id;
@@ -96,17 +84,11 @@ async function refreshHeadings() {
     const ids = new Set();
     let hasSection = false;
 
-    for (const element of props.content?.querySelectorAll('h2[id], h3[id]') ??
-        []) {
+    for (const element of props.content?.querySelectorAll('h2[id], h3[id]') ?? []) {
         const id = element.id;
         const title = element.textContent.trim();
 
-        if (
-            !id.trim() ||
-            !title ||
-            ids.has(id) ||
-            element.closest('[data-docs-outline-exclude]')
-        ) {
+        if (!id.trim() || !title || ids.has(id) || element.closest('[data-docs-outline-exclude]')) {
             continue;
         }
 
@@ -165,8 +147,7 @@ onBeforeUnmount(() => {
 <template>
     <nav v-if="entries.length" aria-label="On this page" class="min-w-0">
         <p
-            class="hidden items-center gap-2 text-sm font-semibold text-slate-950 xl:flex dark:text-white"
-        >
+            class="hidden items-center gap-2 text-sm font-semibold text-slate-950 xl:flex dark:text-white">
             <SiteIcon name="list-ul" class="text-slate-400" />
             On this page
         </p>
@@ -175,22 +156,18 @@ onBeforeUnmount(() => {
             :aria-expanded="expanded"
             :aria-controls="listId"
             class="flex min-h-11 w-full items-center justify-between gap-3 rounded-md text-sm font-semibold text-slate-950 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-600 xl:hidden dark:text-white"
-            @click="expanded = !expanded"
-        >
+            @click="expanded = !expanded">
             On this page
             <SiteIcon name="chevron-down" :class="{ 'rotate-180': expanded }" />
         </button>
         <ul
             :id="listId"
             class="mt-3 border-l border-slate-200 xl:block dark:border-slate-800"
-            :class="{ hidden: !expanded }"
-        >
+            :class="{ hidden: !expanded }">
             <li v-for="section in sections" :key="section.heading.id">
                 <a
                     :href="`#${encodeURIComponent(section.heading.id)}`"
-                    :aria-current="
-                        activeId === section.heading.id ? 'location' : undefined
-                    "
+                    :aria-current="activeId === section.heading.id ? 'location' : undefined"
                     class="-ml-px flex min-h-11 items-center border-l-2 py-2 pl-4 text-[13px] leading-5 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 motion-reduce:transition-none xl:min-h-7 xl:py-1"
                     :class="
                         activeId === section.heading.id
@@ -204,9 +181,7 @@ onBeforeUnmount(() => {
                     <li v-for="child in section.children" :key="child.id">
                         <a
                             :href="`#${encodeURIComponent(child.id)}`"
-                            :aria-current="
-                                activeId === child.id ? 'location' : undefined
-                            "
+                            :aria-current="activeId === child.id ? 'location' : undefined"
                             class="-ml-px flex min-h-11 items-center border-l-2 py-2 pl-7 text-xs leading-5 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 motion-reduce:transition-none xl:min-h-7 xl:py-1"
                             :class="
                                 activeId === child.id

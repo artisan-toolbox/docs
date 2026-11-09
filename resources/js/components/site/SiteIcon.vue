@@ -25,20 +25,14 @@ const customKit = computed(() => ['kit', 'kit-duotone'].includes(props.family));
         :aria-hidden="label ? undefined : 'true'"
         class="inline-flex size-[1.25em] shrink-0 items-center justify-center align-middle leading-none"
         :class="sizes[size]"
-        data-search-exclude
-    >
+        data-search-exclude>
         <span
             :key="`${family}:${name}`"
             class="inline-flex size-full items-center justify-center [&_svg]:max-h-full [&_svg]:max-w-full"
-            data-kit-icon
-        >
+            data-kit-icon>
             <i
-                :class="[
-                    family === 'kit-duotone' ? 'fa-kit-duotone' : 'fa-kit',
-                    `fa-${name}`,
-                ]"
-                aria-hidden="true"
-            />
+                :class="[family === 'kit-duotone' ? 'fa-kit-duotone' : 'fa-kit', `fa-${name}`]"
+                aria-hidden="true" />
         </span>
     </span>
     <wa-icon
@@ -51,6 +45,5 @@ const customKit = computed(() => ['kit', 'kit-duotone'].includes(props.family));
         :aria-hidden="label ? undefined : 'true'"
         class="inline-block shrink-0 align-middle"
         :class="sizes[size]"
-        data-search-exclude
-    />
+        data-search-exclude />
 </template>

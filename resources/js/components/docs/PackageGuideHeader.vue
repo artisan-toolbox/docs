@@ -9,9 +9,7 @@ const props = defineProps({
 });
 
 const isOverview = computed(
-    () =>
-        Boolean(props.page.package.id) &&
-        props.page.slug === props.page.package.id,
+    () => Boolean(props.page.package.id) && props.page.slug === props.page.package.id,
 );
 </script>
 
@@ -20,8 +18,7 @@ const isOverview = computed(
         :title="page.title"
         :description="page.description"
         eyebrow="Package documentation"
-        :artwork="isOverview ? page.package.artwork : null"
-    >
+        :artwork="isOverview ? page.package.artwork : null">
         <template v-if="!isOverview" #eyebrow>
             <PackageBadges :package="page.package" />
         </template>

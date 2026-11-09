@@ -773,11 +773,7 @@
                     "Connect, read live status, and disconnect when needed.",
                     "connect(), isConnected(), disconnect()"
                 ],
-                [
-                    "Discovery",
-                    "Return fresh installed printer names.",
-                    "getPrinters()"
-                ],
+                ["Discovery", "Return fresh installed printer names.", "getPrinters()"],
                 [
                     "Printing",
                     "Prepare typed jobs and QZ options, preserving caller payloads.",
@@ -800,12 +796,7 @@
                 ]
             ],
             [
-                [
-                    "type",
-                    "Prepared QZ data",
-                    "Default flavor",
-                    "Default configuration"
-                ],
+                ["type", "Prepared QZ data", "Default flavor", "Default configuration"],
                 [
                     "escpos",
                     "raw / command",
@@ -824,12 +815,7 @@
                     "plain",
                     "copies: 1, encoding: \"ISO-8859-1\", platform-dependent forceRaw"
                 ],
-                [
-                    "pdf",
-                    "pixel / pdf",
-                    "file",
-                    "copies: 1, forceRaw: false, scaleContent: true"
-                ]
+                ["pdf", "pixel / pdf", "file", "copies: 1, forceRaw: false, scaleContent: true"]
             ],
             [
                 ["ZPL declaration", "QZ encoding"],
@@ -844,11 +830,7 @@
             ],
             [
                 ["Image option", "Default", "Supported values and behavior"],
-                [
-                    "language",
-                    "ESCPOS",
-                    "Only ESCPOS is accepted by this preview function."
-                ],
+                ["language", "ESCPOS", "Only ESCPOS is accepted by this preview function."],
                 [
                     "dotDensity",
                     "single",
@@ -864,11 +846,7 @@
                     "luma",
                     "luma, alpha, or black, following QZ monochrome pixel rules."
                 ],
-                [
-                    "threshold",
-                    "127",
-                    "Integer from 0 to 255 used by luma and alpha quantization."
-                ]
+                ["threshold", "127", "Integer from 0 to 255 used by luma and alpha quantization."]
             ],
             [
                 ["Option", "Default", "Behavior"],
@@ -900,26 +878,14 @@
                     "false",
                     "Return every label as an array of PNG data URLs instead of only the first as a string."
                 ],
-                [
-                    "widthMm",
-                    "101.6",
-                    "Label width in millimeters; must be finite and positive."
-                ],
-                [
-                    "heightMm",
-                    "203.2",
-                    "Label height in millimeters; must be finite and positive."
-                ],
+                ["widthMm", "101.6", "Label width in millimeters; must be finite and positive."],
+                ["heightMm", "203.2", "Label height in millimeters; must be finite and positive."],
                 [
                     "dpmm",
                     "8",
                     "Positive integer dots per millimeter; 8 is approximately 203 DPI, 12 approximately 305 DPI, and 24 approximately 610 DPI."
                 ],
-                [
-                    "grayscaleOutput",
-                    "false",
-                    "Preserve anti-aliasing in an 8-bit grayscale PNG."
-                ],
+                ["grayscaleOutput", "false", "Preserve anti-aliasing in an 8-bit grayscale PNG."],
                 [
                     "enableInvertedLabels",
                     "false",

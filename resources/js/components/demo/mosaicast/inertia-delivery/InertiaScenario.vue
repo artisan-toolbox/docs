@@ -48,8 +48,7 @@ function start() {
 
     unsubscribe = props.eventNames.map((name) =>
         mosaicast().on(name, (payload, source) => {
-            if (payload.runId === activeRun)
-                received.value.push({ name, payload, source });
+            if (payload.runId === activeRun) received.value.push({ name, payload, source });
         }),
     );
 
@@ -74,8 +73,7 @@ function start() {
                 phase.value = 'failed';
             },
             onCancel() {
-                error.value =
-                    'The visit was canceled. Start this example again.';
+                error.value = 'The visit was canceled. Start this example again.';
                 phase.value = 'failed';
             },
             onFinish() {
@@ -97,8 +95,7 @@ onUnmounted(stopListening);
     <DemoFrame :title="title" :description="description" :sources="sources">
         <form class="flex flex-wrap items-end gap-3" @submit.prevent="start">
             <label
-                class="flex min-w-0 flex-1 flex-col gap-2 text-sm font-medium text-slate-700 dark:text-slate-300"
-            >
+                class="flex min-w-0 flex-1 flex-col gap-2 text-sm font-medium text-slate-700 dark:text-slate-300">
                 Message for both paths
                 <input
                     v-model="message"
@@ -106,14 +103,10 @@ onUnmounted(stopListening);
                     type="text"
                     required
                     maxlength="120"
-                    class="min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-slate-950 focus:outline-2 focus:outline-brand-500 dark:border-slate-700 dark:bg-slate-900 dark:text-white"
-                />
+                    class="min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-slate-950 focus:outline-2 focus:outline-brand-500 dark:border-slate-700 dark:bg-slate-900 dark:text-white" />
             </label>
             <DemoAction :busy="phase === 'requesting'" @click="start"
-                >Run
-                {{
-                    scenario === 'multiple' ? 'three events' : 'one event'
-                }}</DemoAction
+                >Run {{ scenario === 'multiple' ? 'three events' : 'one event' }}</DemoAction
             >
             <DemoAction
                 variant="neutral"
@@ -125,16 +118,13 @@ onUnmounted(stopListening);
         <div
             role="status"
             aria-live="polite"
-            class="my-4 text-sm text-slate-600 dark:text-slate-400"
-        >
+            class="my-4 text-sm text-slate-600 dark:text-slate-400">
             <p v-if="phase === 'idle'">Ready. No request has started.</p>
-            <p v-else-if="phase === 'requesting'">
-                Sending one same-session Inertia request…
-            </p>
+            <p v-else-if="phase === 'requesting'">Sending one same-session Inertia request…</p>
             <p v-else-if="phase === 'complete'">
-                Laravel dispatched {{ nativeDispatched }}. The manual Inertia
-                prop contains {{ manual.length }}. Mosaicast listeners received
-                {{ received.length }} of {{ eventNames.length }}.
+                Laravel dispatched {{ nativeDispatched }}. The manual Inertia prop contains
+                {{ manual.length }}. Mosaicast listeners received {{ received.length }} of
+                {{ eventNames.length }}.
             </p>
             <p v-else class="text-red-700 dark:text-red-300">{{ error }}</p>
         </div>
@@ -143,13 +133,11 @@ onUnmounted(stopListening);
                 title="Native Laravel + manual Inertia prop"
                 description="Laravel events run on the server. This controller explicitly returns the same envelopes in demoResult.manualEvents. That prop is the browser bridge."
                 :events="manual"
-                empty="No response prop received. A native event alone does not notify this browser."
-            />
+                empty="No response prop received. A native event alone does not notify this browser." />
             <DeliveryLog
                 title="Mosaicast listener"
                 description="The installed Vue plugin consumes mosaicast.events from the same response. These entries come only from mosaicast().on()."
-                :events="received"
-            />
+                :events="received" />
         </div>
     </DemoFrame>
 </template>

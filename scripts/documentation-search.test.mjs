@@ -6,8 +6,7 @@ import { extractDocumentation } from './documentation-search.mjs';
 
 const temporaryRoots = [];
 afterEach(() => {
-    for (const root of temporaryRoots.splice(0))
-        rmSync(root, { recursive: true, force: true });
+    for (const root of temporaryRoots.splice(0)) rmSync(root, { recursive: true, force: true });
 });
 
 function fixture(files) {
@@ -78,9 +77,7 @@ defineProps({ requirements: Array });
             'first-example',
             'details',
         ]);
-        expect(result[0].body).toBe(
-            'Learn the package. Introductory guide text.',
-        );
+        expect(result[0].body).toBe('Learn the package. Introductory guide text.');
         expect(result[1].body).toBe('PHP 8.5');
         expect(result[2]).toMatchObject({
             heading: 'First example',
@@ -130,30 +127,20 @@ defineProps({ requirements: Array });
         const setup = fixture({
             'pages/docs/Fixture.vue':
                 '<script setup>import Body from "../../components/docs/Body.vue";</script><template><Body /></template>',
-            'components/docs/Body.vue':
-                '<template><p>Original text.</p></template>',
+            'components/docs/Body.vue': '<template><p>Original text.</p></template>',
             'pages/docs/Unregistered.vue':
                 '<template><p>Unregistered secret fixture.</p></template>',
         });
         const second = { ...setup.page, slug: 'second', title: 'Second guide' };
         expect(setup.extract()).toHaveLength(1);
-        setup.write(
-            'components/docs/Body.vue',
-            '<template><p>Updated shared text.</p></template>',
-        );
+        setup.write('components/docs/Body.vue', '<template><p>Updated shared text.</p></template>');
         const updated = setup.extract([setup.page, second]);
         expect(updated).toHaveLength(2);
-        expect(
-            updated.every((document) =>
-                document.body.includes('Updated shared text.'),
-            ),
-        ).toBe(true);
-        expect(JSON.stringify(updated)).not.toContain(
-            'Unregistered secret fixture',
+        expect(updated.every((document) => document.body.includes('Updated shared text.'))).toBe(
+            true,
         );
-        expect(setup.extract([second]).map(({ slug }) => slug)).toEqual([
-            'second',
-        ]);
+        expect(JSON.stringify(updated)).not.toContain('Unregistered secret fixture');
+        expect(setup.extract([second]).map(({ slug }) => slug)).toEqual(['second']);
         expect(setup.extract([second])).toEqual(setup.extract([second]));
     });
 
@@ -162,9 +149,7 @@ defineProps({ requirements: Array });
             'pages/docs/Fixture.vue': `<script setup>import Demo from '@/components/demo/package/Runtime.vue'; import Glyph from '@/components/site/SiteIcon.vue';</script>
 <template><p>Authored explanation.</p><Glyph name="book-open" /><Demo /><div data-docs-outline-exclude>{{fetch('/private')}}</div><p data-search-exclude>Excluded fixture.</p></template>`,
         });
-        expect(setup.extract()[0].body).toBe(
-            'Learn the package. Authored explanation.',
-        );
+        expect(setup.extract()[0].body).toBe('Learn the package. Authored explanation.');
     });
 
     it('preserves ordinary template literal escapes in code examples', () => {
@@ -196,36 +181,17 @@ defineProps({ requirements: Array });
     it('rejects runtime scoped slot content instead of omitting it', () => {
         const setup = fixture({
             'pages/docs/Fixture.vue': `<script setup>import Partial from '../../components/docs/Partial.vue';</script><template><Partial v-slot="{value}"><p>{{value}}</p></Partial></template>`,
-            'components/docs/Partial.vue':
-                '<template><slot value="example" /></template>',
+            'components/docs/Partial.vue': '<template><slot value="example" /></template>',
         });
-        expect(() => setup.extract()).toThrow(
-            'must not depend on runtime slot props',
-        );
+        expect(() => setup.extract()).toThrow('must not depend on runtime slot props');
     });
 
     it.each([
-        [
-            'a visible function call',
-            '<p>{{fetch("/private")}}</p>',
-            'unsupported CallExpression',
-        ],
-        [
-            'a runtime prose branch',
-            '<p v-if="enabled">Conditional text.</p>',
-            'runtime directives',
-        ],
+        ['a visible function call', '<p>{{fetch("/private")}}</p>', 'unsupported CallExpression'],
+        ['a runtime prose branch', '<p v-if="enabled">Conditional text.</p>', 'runtime directives'],
         ['raw HTML', '<div v-html="body" />', 'runtime directives'],
-        [
-            'dynamic text content',
-            '<p v-text="fetch(\'/private\')" />',
-            'runtime directives',
-        ],
-        [
-            'conditionally hidden prose',
-            '<p v-show="false">Hidden text</p>',
-            'runtime directives',
-        ],
+        ['dynamic text content', '<p v-text="fetch(\'/private\')" />', 'runtime directives'],
+        ['conditionally hidden prose', '<p v-show="false">Hidden text</p>', 'runtime directives'],
         [
             'runtime content inside a heading',
             '<h2 id="title">Title <span v-text="fetch(\'/private\')" /></h2>',
@@ -284,12 +250,9 @@ defineProps({ requirements: Array });
         const setup = fixture({
             'pages/docs/Fixture.vue': '<template><p>Valid text.</p></template>',
         });
-        writeFileSync(
-            resolve(setup.root, 'outside.vue'),
-            '<template><p>Outside.</p></template>',
+        writeFileSync(resolve(setup.root, 'outside.vue'), '<template><p>Outside.</p></template>');
+        expect(() => setup.extract([{ ...setup.page, sourcePath: 'outside.vue' }])).toThrow(
+            'inside resources/js',
         );
-        expect(() =>
-            setup.extract([{ ...setup.page, sourcePath: 'outside.vue' }]),
-        ).toThrow('inside resources/js');
     });
 });

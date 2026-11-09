@@ -5,10 +5,7 @@ import { highlightCode } from './codeHighlighter';
 const examples = [
     ['bash', 'composer require artisan-toolbox/core # Install the package'],
     ['sh', 'export APP_ENV="local"'],
-    [
-        'php',
-        '<?php\nfinal class Example { public function name(): string { return "Ada"; } }',
-    ],
+    ['php', '<?php\nfinal class Example { public function name(): string { return "Ada"; } }'],
     ['php', "set('pm2_namespace', 'my-application');"],
     ['js', 'const greeting = "Hello"; console.log(greeting);'],
     ['ts', 'const greeting: string = "Hello";'],
@@ -33,30 +30,22 @@ describe('documentation code highlighting', () => {
 
             expect(tokens.map((token) => token.content).join('')).toBe(code);
             expect(tokens.some((token) => token.className !== '')).toBe(true);
-            expect(
-                tokens.every((token) => typeof token.className === 'string'),
-            ).toBe(true);
+            expect(tokens.every((token) => typeof token.className === 'string')).toBe(true);
         },
     );
 
-    it.each([
-        'text',
-        'plain',
-        'txt',
-        'unknown-language',
-        '../../javascript',
-        '__proto__',
-    ])('keeps %s readable as plain source', async (language) => {
-        const code = '<img src=x onerror=alert(1)>\r\n\t\n';
+    it.each(['text', 'plain', 'txt', 'unknown-language', '../../javascript', '__proto__'])(
+        'keeps %s readable as plain source',
+        async (language) => {
+            const code = '<img src=x onerror=alert(1)>\r\n\t\n';
 
-        expect(await highlightCode(code, language)).toEqual([
-            { content: code, className: '' },
-        ]);
-        expect(codeLanguage(language)).toMatchObject({
-            id: 'text',
-            kind: 'plain',
-        });
-    });
+            expect(await highlightCode(code, language)).toEqual([{ content: code, className: '' }]);
+            expect(codeLanguage(language)).toMatchObject({
+                id: 'text',
+                kind: 'plain',
+            });
+        },
+    );
 
     it.each([
         '',
@@ -71,34 +60,24 @@ describe('documentation code highlighting', () => {
     });
 
     it('returns hostile markup as token text', async () => {
-        const code =
-            '<script>alert("example")</script><img src=x onerror=alert(1)>';
+        const code = '<script>alert("example")</script><img src=x onerror=alert(1)>';
         const tokens = await highlightCode(code, 'html');
 
         expect(tokens.map((token) => token.content).join('')).toBe(code);
-        expect(tokens.every((token) => !token.className.includes('<'))).toBe(
-            true,
-        );
+        expect(tokens.every((token) => !token.className.includes('<'))).toBe(true);
     });
 
     it('highlights concurrent requests without mixing their source', async () => {
         const source = ['const first = "one";', 'const second = "two";'];
-        const results = await Promise.all(
-            source.map((code) => highlightCode(code, 'js')),
-        );
+        const results = await Promise.all(source.map((code) => highlightCode(code, 'js')));
 
-        expect(
-            results.map((tokens) =>
-                tokens.map((token) => token.content).join(''),
-            ),
-        ).toEqual(source);
+        expect(results.map((tokens) => tokens.map((token) => token.content).join(''))).toEqual(
+            source,
+        );
     });
 
     it('distinguishes keywords, strings and comments through the grammar', async () => {
-        const tokens = await highlightCode(
-            'const greeting = "Hello"; // Example',
-            'js',
-        );
+        const tokens = await highlightCode('const greeting = "Hello"; // Example', 'js');
 
         expect(tokens).toEqual(
             expect.arrayContaining([
@@ -148,9 +127,7 @@ describe('code highlighting recovery', () => {
         const { highlightCode: highlight } = await import('./codeHighlighter');
         const code = 'const value = "Ready";';
 
-        await expect(highlight(code, 'js')).rejects.toThrow(
-            'Initialization failed',
-        );
+        await expect(highlight(code, 'js')).rejects.toThrow('Initialization failed');
         const tokens = await highlight(code, 'js');
 
         expect(tokens.map((token) => token.content).join('')).toBe(code);
@@ -165,8 +142,7 @@ describe('code highlighting recovery', () => {
             return {
                 ...original,
                 createHighlighterCore: async (options) => {
-                    const instance =
-                        await original.createHighlighterCore(options);
+                    const instance = await original.createHighlighterCore(options);
                     vi.spyOn(instance, 'loadLanguage').mockRejectedValueOnce(
                         new Error('Grammar unavailable'),
                     );
@@ -178,9 +154,7 @@ describe('code highlighting recovery', () => {
         const { highlightCode: highlight } = await import('./codeHighlighter');
         const code = 'const value = "Ready";';
 
-        await expect(highlight(code, 'js')).rejects.toThrow(
-            'Grammar unavailable',
-        );
+        await expect(highlight(code, 'js')).rejects.toThrow('Grammar unavailable');
         const tokens = await highlight(code, 'js');
 
         expect(tokens.map((token) => token.content).join('')).toBe(code);

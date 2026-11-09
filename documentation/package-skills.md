@@ -109,9 +109,9 @@ Update the affected instructions in the same task as the implementation and test
 Remove obsolete recommendations when replacing a workflow and explain deprecations and migration steps when required.
 If the guidance remains correct, record what you reviewed and why no edit is needed.
 
-Update the central package guides, legacy pages, corresponding Vue pages, and changelog together.
+Update the central package guides and Vue pages in `docs`, the usage skill, and the package changelog together. `docs_old` is retired and requires no synchronization.
 Keep detailed instructions out of the package README. Change its minimal example or compatibility statement only when affected.
-Use [the documentation authoring checklist](authoring.md) for writing standards, beginner journeys, dependency refreshes, and migration parity.
+Use [the documentation authoring checklist](authoring.md) for writing standards, beginner journeys, dependency refreshes, and rendered-content checks.
 
 ## Verify before review
 

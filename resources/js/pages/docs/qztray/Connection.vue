@@ -17,21 +17,14 @@ defineProps({
         <ProseSection id="before-you-start" title="Before you start">
             <p>
                 Complete
-                <DocsLink
-                    :href="
-                        findNavigationItem(navigation, 'qztray/installation')
-                            .href
-                    "
+                <DocsLink :href="findNavigationItem(navigation, 'qztray/installation').href"
                     >installation</DocsLink
                 >
                 and
-                <DocsLink
-                    :href="
-                        findNavigationItem(navigation, 'qztray/security').href
-                    "
+                <DocsLink :href="findNavigationItem(navigation, 'qztray/security').href"
                     >credential and Ziggy configuration</DocsLink
-                >. Open an authenticated application page with its session and
-                CSRF cookie, and start QZ Tray on the user's computer.
+                >. Open an authenticated application page with its session and CSRF cookie, and
+                start QZ Tray on the user's computer.
             </p>
         </ProseSection>
         <ConnectionContent :navigation="navigation" />

@@ -16,60 +16,49 @@ const example1 = 'vendor/bin/maintainer config:publish';
         <PackageGuideHeader :page="page" />
         <ProseSection>
             <p>
-                The task selector, server maintenance tasks, optional deployment
-                retry after unlock, and namespace-isolated PM2 replacement are
-                previews available on the current
-                <code>1.x</code> branch after the <code>1.10.0</code> release.
-                They are not included in that stable release.
+                The task selector, server maintenance tasks, optional deployment retry after unlock,
+                and namespace-isolated PM2 replacement are previews available on the current
+                <code>1.x</code> branch after the <code>1.10.0</code> release. They are not included
+                in that stable release.
             </p>
         </ProseSection>
         <ProseSection>
             <p>
                 The Deployment group delegates to the consuming project's
-                <code>vendor/bin/dep</code> while Maintainer manages the shared
-                task recipe and temporary SSH identity lifecycle.
+                <code>vendor/bin/dep</code> while Maintainer manages the shared task recipe and
+                temporary SSH identity lifecycle.
             </p>
             <ul>
                 <li>
                     <p>
                         <DocsLink
                             :href="
-                                findNavigationItem(
-                                    navigation,
-                                    'maintainer/deployment/deploy',
-                                ).href
+                                findNavigationItem(navigation, 'maintainer/deployment/deploy').href
                             "
                             >Run a deployment</DocsLink
-                        >: configure <code>deploy.php</code>, select hosts, and
-                        forward Deployer options.
+                        >: configure <code>deploy.php</code>, select hosts, and forward Deployer
+                        options.
                     </p>
                 </li>
                 <li>
                     <p>
                         <DocsLink
                             :href="
-                                findNavigationItem(
-                                    navigation,
-                                    'maintainer/deployment/deploy',
-                                ).href + '#run-another-deployer-task'
+                                findNavigationItem(navigation, 'maintainer/deployment/deploy')
+                                    .href + '#run-another-deployer-task'
                             "
                             >Run another task</DocsLink
-                        >: select a declared task or run server maintenance
-                        explicitly.
+                        >: select a declared task or run server maintenance explicitly.
                     </p>
                 </li>
                 <li>
                     <p>
                         <DocsLink
                             :href="
-                                findNavigationItem(
-                                    navigation,
-                                    'maintainer/deployment/unlock',
-                                ).href
+                                findNavigationItem(navigation, 'maintainer/deployment/unlock').href
                             "
                             >Unlock a deployment</DocsLink
-                        >: remove a lock left by a failed deployment and
-                        optionally deploy again.
+                        >: remove a lock left by a failed deployment and optionally deploy again.
                     </p>
                 </li>
                 <li>
@@ -88,24 +77,15 @@ const example1 = 'vendor/bin/maintainer config:publish';
                 <li>
                     <p>
                         <DocsLink
-                            :href="
-                                findNavigationItem(
-                                    navigation,
-                                    'maintainer/deployment/pm2',
-                                ).href
-                            "
+                            :href="findNavigationItem(navigation, 'maintainer/deployment/pm2').href"
                             >PM2 configuration</DocsLink
-                        >: replace the application's PM2 processes by namespace
-                        and persist each change.
+                        >: replace the application's PM2 processes by namespace and persist each
+                        change.
                     </p>
                 </li>
             </ul>
             <p>Publish <code>deploy.php</code> before the first deployment:</p>
-            <CodeExample
-                label="Deployment example 1"
-                language="bash"
-                :code="example1"
-            />
+            <CodeExample label="Deployment example 1" language="bash" :code="example1" />
         </ProseSection>
     </article>
 </template>

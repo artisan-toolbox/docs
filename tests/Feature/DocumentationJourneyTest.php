@@ -27,7 +27,7 @@ test('orders package guides by learning prerequisites rather than their titles',
     'core' => ['core', ['installation', 'conditional-arrays', 'multi-domain-inertia', 'translated-attributes']],
     'dump-to-console' => ['dump-to-console', ['installation', 'usage']],
     'mosaicast' => ['mosaicast', ['installation', 'vue-plugin', 'inertia-delivery', 'session-channels', 'roadmap']],
-    'front-awesome' => ['front-awesome', ['installation', 'web-awesome', 'vue-plugin', 'configuration', 'button', 'page', 'toasts/laravel', 'toasts/vue', 'shared-theme', 'branding', 'primevue', 'theme-maintenance', 'development']],
+    'front-awesome' => ['front-awesome', ['installation', 'web-awesome', 'setup', 'styling', 'toasts', 'development']],
     'qztray' => ['qztray', ['installation', 'security', 'connection', 'printing', 'escpos-previews', 'zpl-previews', 'pdf-previews', 'compatibility', 'frontend-tooling', 'development']],
 ]);
 
@@ -47,4 +47,32 @@ test('places setup and inspection before their dependent maintainer actions', fu
         'maintainer/versioning/commits',
         'maintainer/versioning/releases',
     ]);
+});
+
+test('groups Front Awesome by reader tasks while keeping published guide slugs', function () {
+    $frontAwesome = collect(resolve(Documentation::class)->navigation(PageSlug::FrontAwesome))->firstWhere('slug', 'front-awesome');
+    $groups = [
+        'front-awesome/web-awesome' => ['front-awesome/web-awesome/components'],
+        'front-awesome/web-awesome/components' => array_map(fn (string $group): string => 'front-awesome/web-awesome/components/'.$group, ['actions', 'forms', 'layout', 'navigation', 'feedback', 'media', 'data-viz', 'helpers']),
+        'front-awesome/web-awesome/components/actions' => ['front-awesome/button'],
+        'front-awesome/web-awesome/components/forms' => ['front-awesome/input'],
+        'front-awesome/web-awesome/components/layout' => ['front-awesome/page'],
+        'front-awesome/web-awesome/components/media' => ['front-awesome/icon'],
+        'front-awesome/setup' => ['front-awesome/vue-plugin', 'front-awesome/configuration'],
+        'front-awesome/styling' => ['front-awesome/shared-theme', 'front-awesome/branding', 'front-awesome/primevue', 'front-awesome/theme-maintenance'],
+        'front-awesome/toasts' => ['front-awesome/toasts/laravel', 'front-awesome/toasts/vue'],
+    ];
+    $childrenBySlug = [];
+    $inspect = function (array $nodes) use (&$inspect, &$childrenBySlug): void {
+        foreach ($nodes as $node) {
+            $childrenBySlug[$node->slug] = array_column($node->children, 'slug');
+            $inspect($node->children);
+        }
+    };
+
+    $inspect($frontAwesome->children);
+
+    foreach ($groups as $slug => $children) {
+        expect($childrenBySlug[$slug])->toBe($children);
+    }
 });

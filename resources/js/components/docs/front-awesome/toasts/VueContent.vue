@@ -43,52 +43,39 @@ const example4 = `{
     <ProseSection>
         <p>
             After you
-            <DocsLink
-                :href="
-                    findNavigationItem(navigation, 'front-awesome/vue-plugin')
-                        .href
-                "
+            <DocsLink :href="findNavigationItem(navigation, 'front-awesome/vue-plugin').href"
                 >register the Vue plugin</DocsLink
-            >, use the toast service to respond to actions in the browser. Vue
-            toasts use the same stack as toasts sent from Laravel.
+            >, use the toast service to respond to actions in the browser. Vue toasts use the same
+            stack as toasts sent from Laravel.
         </p>
         <h2
             id="use-the-composition-api"
-            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white"
-        >
+            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Use the Composition API
         </h2>
         <p>
-            Call <code>useToast()</code> in component setup and call
-            <code>show()</code> when you want to display a notification.
+            Call <code>useToast()</code> in component setup and call <code>show()</code> when you
+            want to display a notification.
         </p>
-        <CodeExample
-            label="Use the Composition API example 1"
-            language="vue"
-            :code="example1"
-        />
+        <CodeExample label="Use the Composition API example 1" language="vue" :code="example1" />
         <h2
             id="use-a-template-or-the-options-api"
-            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white"
-        >
+            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Use a template or the Options API
         </h2>
         <p>
             The plugin exposes the same service as
             <code>$frontAwesome.toast</code>. In a template, call
-            <code>$frontAwesome.toast.show(message, options)</code>. In an
-            Options API method, use
+            <code>$frontAwesome.toast.show(message, options)</code>. In an Options API method, use
             <code>this.$frontAwesome.toast.show(message, options)</code>.
         </p>
         <CodeExample
             label="Use a template or the Options API example 2"
             language="ts"
-            :code="example2"
-        />
+            :code="example2" />
         <h2
             id="toast-options"
-            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white"
-        >
+            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Toast options
         </h2>
         <p>
@@ -106,9 +93,9 @@ const example4 = `{
                 <tr>
                     <td><code>variant</code></td>
                     <td>
-                        <code>brand</code>, <code>success</code>,
-                        <code>warning</code>, <code>danger</code>, or
-                        <code>neutral</code>. Defaults to <code>neutral</code>.
+                        <code>brand</code>, <code>success</code>, <code>warning</code>,
+                        <code>danger</code>, or <code>neutral</code>. Defaults to
+                        <code>neutral</code>.
                     </td>
                 </tr>
                 <tr>
@@ -121,80 +108,64 @@ const example4 = `{
                 <tr>
                     <td><code>icon</code></td>
                     <td>
-                        An icon name or an object with <code>name</code> and
-                        optional <code>library</code>, <code>family</code>, and
-                        <code>variant</code> strings. Pass an icon to display
-                        one.
+                        An icon name or an object with <code>name</code> and optional
+                        <code>library</code>, <code>family</code>, and <code>variant</code> strings.
+                        Pass an icon to display one.
                     </td>
                 </tr>
                 <tr>
                     <td><code>size</code></td>
                     <td>
-                        <code>xs</code>, <code>s</code>, <code>m</code>,
-                        <code>l</code>, or <code>xl</code>. Defaults to
-                        <code>m</code>.
+                        <code>xs</code>, <code>s</code>, <code>m</code>, <code>l</code>, or
+                        <code>xl</code>. Defaults to <code>m</code>.
                     </td>
                 </tr>
                 <tr>
                     <td><code>allowHtml</code></td>
-                    <td>
-                        Defaults to plain text. Set to <code>true</code> only
-                        for trusted HTML.
-                    </td>
+                    <td>Defaults to plain text. Set to <code>true</code> only for trusted HTML.</td>
                 </tr>
             </tbody></DocsTable
         >
         <p>
-            In the browser, <code>show()</code> resolves when Web Awesome
-            creates the toast. It rejects if the arguments are invalid or Web
-            Awesome cannot load or create the toast. During server rendering, a
-            valid call resolves without displaying a toast. The browser ignores
-            malformed toast payloads received through Inertia or Mosaicast.
+            In the browser, <code>show()</code> resolves when Web Awesome creates the toast. It
+            rejects if the arguments are invalid or Web Awesome cannot load or create the toast.
+            During server rendering, a valid call resolves without displaying a toast. The browser
+            ignores malformed toast payloads received through Inertia or Mosaicast.
         </p>
         <h2
             id="check-types-and-lint-rules"
-            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white"
-        >
+            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Check types and lint rules
         </h2>
         <p>
-            The root package exports <code>ToastOptions</code>,
-            <code>ToastIconOptions</code>, and <code>ToastService</code>. Use
-            <code>import type</code> when declaring a shared options object or a
-            wrapper around the service.
+            The root package exports <code>ToastOptions</code>, <code>ToastIconOptions</code>, and
+            <code>ToastService</code>. Use <code>import type</code> when declaring a shared options
+            object or a wrapper around the service.
         </p>
         <p>
             The root package import also declares <code>$frontAwesome</code> in
             <DocsLink
                 href="https://vuejs.org/guide/typescript/options-api.html#augmenting-global-properties"
                 >Vue's component instance types</DocsLink
-            >. Run <code>vue-tsc --noEmit</code> against the TypeScript project
-            that includes your Vue files. If that project excludes the entry
-            point that imports <code>createFrontAwesome()</code>, add a
-            declaration file such as
-            <code>resources/js/front-awesome.d.ts</code> and include it in the
-            project's <code>tsconfig</code>.
+            >. Run <code>vue-tsc --noEmit</code> against the TypeScript project that includes your
+            Vue files. If that project excludes the entry point that imports
+            <code>createFrontAwesome()</code>, add a declaration file such as
+            <code>resources/js/front-awesome.d.ts</code> and include it in the project's
+            <code>tsconfig</code>.
         </p>
-        <CodeExample
-            label="Check types and lint rules example 3"
-            language="ts"
-            :code="example3"
-        />
+        <CodeExample label="Check types and lint rules example 3" language="ts" :code="example3" />
         <p>
             The ESLint rule
-            <DocsLink
-                href="https://eslint.vuejs.org/rules/no-undef-properties.html"
+            <DocsLink href="https://eslint.vuejs.org/rules/no-undef-properties.html"
                 ><code>vue/no-undef-properties</code></DocsLink
             >
-            ignores names starting with <code>$</code> by default. If your Vue
-            rules override that behavior and flag <code>$frontAwesome</code>,
-            add the exact name to the rule's <code>ignores</code> list. Keep any
-            existing entries.
+            ignores names starting with <code>$</code> by default. If your Vue rules override that
+            behavior and flag <code>$frontAwesome</code>, add the exact name to the rule's
+            <code>ignores</code> list. Keep any existing entries.
         </p>
         <CodeExample
             label="Check types and lint rules example 4"
             language="json"
-            :code="example4"
-        />
+            :code="example4" />
     </ProseSection>
 </template>

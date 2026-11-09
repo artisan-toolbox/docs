@@ -22,27 +22,20 @@ defineProps({
             <APIAtAGlance :navigation="navigation" />
             <BuildAConditionalArray :navigation="navigation" />
             <section class="flex min-w-0 flex-col gap-5">
-                <ProseSection
-                    id="try-conditional-arrays"
-                    title="Try conditional arrays"
-                >
+                <ProseSection id="try-conditional-arrays" title="Try conditional arrays">
                     <p>
-                        Run the example with the fixed fictional profile Alex
-                        Example. Your click sends two options to this Laravel
-                        application, which executes Core's
-                        <code>sift_when()</code> and <code>Arr::sift()</code>.
-                        Changing an option or resetting the demo sends no
-                        request.
+                        Run the example with the fixed fictional profile Alex Example. Your click
+                        sends two options to this Laravel application, which executes Core's
+                        <code>sift_when()</code> and <code>Arr::sift()</code>. Changing an option or
+                        resetting the demo sends no request.
                     </p>
                     <p>
-                        First run with both options off. The nested contact is
-                        omitted without evaluating its closure, while
-                        <code>false</code>, <code>null</code>, <code>0</code>,
-                        and the empty string remain. Removing the middle item
-                        preserves numeric keys <code>0</code> and
-                        <code>2</code>, so JSON represents those items as an
-                        object. Include the middle item to see a JSON array
-                        instead.
+                        First run with both options off. The nested contact is omitted without
+                        evaluating its closure, while
+                        <code>false</code>, <code>null</code>, <code>0</code>, and the empty string
+                        remain. Removing the middle item preserves numeric keys <code>0</code> and
+                        <code>2</code>, so JSON represents those items as an object. Include the
+                        middle item to see a JSON array instead.
                     </p>
                 </ProseSection>
                 <ConditionalArraysDemo />

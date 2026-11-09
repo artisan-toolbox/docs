@@ -19,11 +19,7 @@ const example1 = 'vendor/bin/maintainer release:create';
         <PackageGuideHeader :page="page" />
         <ProseSection>
             <p>Create a release for the consuming project:</p>
-            <CodeExample
-                label="Create a release"
-                language="bash"
-                :code="example1"
-            />
+            <CodeExample label="Create a release" language="bash" :code="example1" />
         </ProseSection>
         <ReleasePreparation :navigation="navigation" />
         <ReleaseWorkflow />

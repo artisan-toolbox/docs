@@ -27,13 +27,7 @@ defineProps({
             <ProseSection>
                 <p>
                     Follow
-                    <DocsLink
-                        :href="
-                            findNavigationItem(
-                                navigation,
-                                'mosaicast/installation',
-                            ).href
-                        "
+                    <DocsLink :href="findNavigationItem(navigation, 'mosaicast/installation').href"
                         >Install Mosaicast</DocsLink
                     >
                     for the complete setup and a first working example.

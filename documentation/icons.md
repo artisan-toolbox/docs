@@ -12,7 +12,7 @@ Loading the Font Awesome script alone does not configure Web Awesome. WA reads t
 
 The kit identifier is public because browsers use it to load the kit. Private package-registry credentials and Font Awesome API credentials do not belong in this setting or the HTML. Keep the kit's permitted domains, available families, and icon selection configured in the Font Awesome account. Reload the document after changing the kit identifier.
 
-The application explicitly declares the already-installed `@awesome.me/webawesome` dependency because it imports that package's public icon module. Front Awesome's installed public exports were reviewed; it provides Button, ButtonGroup, and Theme, but no Icon wrapper. `SiteIcon` therefore remains application presentation rather than a copy of package internals.
+The application explicitly declares the already-installed `@awesome.me/webawesome` dependency because it imports that package's public icon module. Front Awesome's installed public exports were reviewed; it provides Button, ButtonGroup, and Appearance, but no Icon wrapper. `SiteIcon` therefore remains application presentation rather than a copy of package internals.
 
 ## Add an icon
 

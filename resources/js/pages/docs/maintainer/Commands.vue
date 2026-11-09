@@ -16,19 +16,16 @@ const example1 = 'vendor/bin/maintainer';
         <PackageGuideHeader :page="page" />
         <ProseSection>
             <p>
-                The <code>push</code> and <code>deploy:run</code> workflows,
-                optional deployment retry after unlock, server maintenance
-                tasks, and namespace-isolated PM2 replacement are previews
-                available on the current <code>1.x</code> branch after the
-                <code>1.10.0</code> release. They are not included in that
-                stable release.
+                The <code>push</code> and <code>deploy:run</code> workflows, optional deployment
+                retry after unlock, server maintenance tasks, and namespace-isolated PM2 replacement
+                are previews available on the current <code>1.x</code> branch after the
+                <code>1.10.0</code> release. They are not included in that stable release.
             </p>
         </ProseSection>
         <ProseSection>
             <p>
-                Maintainer commands are documented with their setup and
-                configuration under the same four groups shown in the
-                interactive menu.
+                Maintainer commands are documented with their setup and configuration under the same
+                four groups shown in the interactive menu.
             </p>
         </ProseSection>
         <CommandsQualityConfiguration :navigation="navigation" />
@@ -38,18 +35,16 @@ const example1 = 'vendor/bin/maintainer';
             <CodeExample
                 label="Commands and Workflows example 1"
                 language="bash"
-                :code="example1"
-            />
+                :code="example1" />
             <p>
-                Press <code>Ctrl+C</code> inside a submenu to return to
-                <strong>Main Menu</strong>. Choose <strong>Exit</strong> from
-                the main menu to close Maintainer. Compatible terminals are
-                cleared before the banner and breadcrumb are redrawn;
-                unsupported terminals continue without clearing.
+                Press <code>Ctrl+C</code> inside a submenu to return to <strong>Main Menu</strong>.
+                Choose <strong>Exit</strong> from the main menu to close Maintainer. Compatible
+                terminals are cleared before the banner and breadcrumb are redrawn; unsupported
+                terminals continue without clearing.
             </p>
             <p>
-                The menu requires interactive input. Invoke the individual
-                commands directly in automation and continuous integration.
+                The menu requires interactive input. Invoke the individual commands directly in
+                automation and continuous integration.
             </p>
         </ProseSection>
     </article>

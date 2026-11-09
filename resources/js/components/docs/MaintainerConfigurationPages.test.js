@@ -30,12 +30,7 @@ const guideCases = [
             'Configure environment variables',
             'Configure Maintainer secrets',
         ],
-        languages: [
-            'language-php',
-            'language-php',
-            'language-dotenv',
-            'language-php',
-        ],
+        languages: ['language-php', 'language-php', 'language-dotenv', 'language-php'],
         title: 'Configuration Reference',
         slug: 'maintainer/configuration/reference',
         headings: [
@@ -129,11 +124,7 @@ return [
     },
     {
         component: SshKeys,
-        labels: [
-            'Display the private key',
-            'Display the public key',
-            'Use the SSH helpers',
-        ],
+        labels: ['Display the private key', 'Display the public key', 'Use the SSH helpers'],
         languages: ['language-bash', 'language-bash', 'language-php'],
         title: 'SSH Keys',
         slug: 'maintainer/configuration/ssh-keys',
@@ -141,10 +132,7 @@ return [
             ['generate-the-identity', 'Generate the identity'],
             ['display-the-keys', 'Display the keys'],
             ['use-the-helpers', 'Use the helpers'],
-            [
-                'use-the-identity-for-deployment',
-                'Use the identity for deployment',
-            ],
+            ['use-the-identity-for-deployment', 'Use the identity for deployment'],
         ],
         examples: [
             String.raw`vendor/bin/maintainer ssh:key`,
@@ -164,13 +152,11 @@ function navigation(prefix = '/docs') {
                 {
                     slug: 'maintainer/configuration',
                     href: `${prefix}/maintainer/configuration`,
-                    children: ['reference', 'publishing', 'ssh-keys'].map(
-                        (slug) => ({
-                            slug: `maintainer/configuration/${slug}`,
-                            href: `${prefix}/maintainer/configuration/${slug}`,
-                            children: [],
-                        }),
-                    ),
+                    children: ['reference', 'publishing', 'ssh-keys'].map((slug) => ({
+                        slug: `maintainer/configuration/${slug}`,
+                        href: `${prefix}/maintainer/configuration/${slug}`,
+                        children: [],
+                    })),
                 },
             ],
         },
@@ -196,63 +182,38 @@ describe('Maintainer Configuration guides', () => {
             const wrapper = render(guide);
 
             expect(wrapper.get('h1').text()).toBe(guide.title);
-            expect(wrapper.get('h1').find('.sr-only, img').exists()).toBe(
-                false,
-            );
+            expect(wrapper.get('h1').find('.sr-only, img').exists()).toBe(false);
             expect(wrapper.find('dl').exists()).toBe(false);
+            expect(wrapper.get('[aria-label="Package details"]').text()).toContain('Maintainer');
+            expect(wrapper.get('[aria-label="Package details"]').text()).toContain(
+                'Documented version 1.10',
+            );
+            expect(wrapper.get('[aria-label="Package details"]').text()).toContain('Stable');
             expect(
-                wrapper.get('[aria-label="Package details"]').text(),
-            ).toContain('Maintainer');
-            expect(
-                wrapper.get('[aria-label="Package details"]').text(),
-            ).toContain('Documented version 1.10');
-            expect(
-                wrapper.get('[aria-label="Package details"]').text(),
-            ).toContain('Stable');
-            expect(
-                wrapper
-                    .findAll('h2')
-                    .map((heading) => [
-                        heading.attributes('id'),
-                        heading.text(),
-                    ]),
+                wrapper.findAll('h2').map((heading) => [heading.attributes('id'), heading.text()]),
             ).toEqual(guide.headings);
+            expect(wrapper.findAll('pre code').map((code) => code.text())).toEqual(guide.examples);
             expect(
-                wrapper.findAll('pre code').map((code) => code.text()),
-            ).toEqual(guide.examples);
-            expect(
-                wrapper
-                    .findAll('button')
-                    .map((button) => button.attributes('aria-label')),
+                wrapper.findAll('button').map((button) => button.attributes('aria-label')),
             ).toEqual(guide.labels.map((label) => `Copy ${label}`));
             expect(
                 wrapper
                     .findAll('pre code')
-                    .map((code) =>
-                        code
-                            .classes()
-                            .find((name) => name.startsWith('language-')),
-                    ),
+                    .map((code) => code.classes().find((name) => name.startsWith('language-'))),
             ).toEqual(guide.languages);
         });
 
         it(`updates ${guide.title} local guide links when route data changes`, async () => {
             const wrapper = render(guide);
-            const before = wrapper
-                .findAll('a')
-                .map((link) => link.attributes('href'));
+            const before = wrapper.findAll('a').map((link) => link.attributes('href'));
             const local = before.filter((href) => href.startsWith('/docs/'));
 
             expect(local.length).toBeGreaterThan(0);
             await wrapper.setProps({ navigation: navigation('/reference') });
 
-            expect(
-                wrapper.findAll('a').map((link) => link.attributes('href')),
-            ).toEqual(
+            expect(wrapper.findAll('a').map((link) => link.attributes('href'))).toEqual(
                 before.map((href) =>
-                    href.startsWith('/docs/')
-                        ? href.replace('/docs/', '/reference/')
-                        : href,
+                    href.startsWith('/docs/') ? href.replace('/docs/', '/reference/') : href,
                 ),
             );
         });

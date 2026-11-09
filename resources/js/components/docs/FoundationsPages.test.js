@@ -1,7 +1,4 @@
-import {
-    installationCommands,
-    installationExample,
-} from './installationFixture';
+import { installationCommands, installationExample } from './installationFixture';
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vite-plus/test';
 import CoreIndex from '../../pages/docs/core/Index.vue';
@@ -102,12 +99,7 @@ describe('Core, Dump to Console, and Mosaicast documentation', () => {
             const authored = (selector) =>
                 content
                     .findAll(selector)
-                    .filter(
-                        (node) =>
-                            !node.element.closest(
-                                '[data-docs-outline-exclude]',
-                            ),
-                    );
+                    .filter((node) => !node.element.closest('[data-docs-outline-exclude]'));
             const demoHeading =
                 fixture.slug === 'mosaicast/inertia-delivery'
                     ? [
@@ -120,9 +112,7 @@ describe('Core, Dump to Console, and Mosaicast documentation', () => {
                     : [];
             expect(wrapper.get('h1').text()).toBe(fixture.title);
             if (fixture.slug === fixture.package) {
-                expect(
-                    wrapper.findAll('dl dd').map((value) => value.text()),
-                ).toEqual([
+                expect(wrapper.findAll('dl dd').map((value) => value.text())).toEqual([
                     `artisan-toolbox/${fixture.package}`,
                     '1.x-dev',
                     'Stable',
@@ -171,24 +161,17 @@ describe('Core, Dump to Console, and Mosaicast documentation', () => {
                 });
             }
             expect(authored('pre code').map((code) => code.text())).toEqual(
-                expectedExamples.map((example) =>
-                    installationExample(example, fixture.package),
-                ),
+                expectedExamples.map((example) => installationExample(example, fixture.package)),
             );
             expect(
                 authored('pre code').map((code) =>
                     code.classes().find((name) => name.startsWith('language-')),
                 ),
-            ).toEqual(
-                expectedExamples.map(
-                    (example) => `language-${example.language}`,
-                ),
-            );
+            ).toEqual(expectedExamples.map((example) => `language-${example.language}`));
             const paragraphs = authored('p')
                 .filter(
                     (paragraph) =>
-                        !paragraph.attributes('role') &&
-                        !paragraph.element.closest('figure'),
+                        !paragraph.attributes('role') && !paragraph.element.closest('figure'),
                 )
                 .map((paragraph) => normalize(paragraph.text()));
             const extraParagraphs = (allowedExtraLinks[fixture.slug] ?? [])
@@ -214,19 +197,15 @@ describe('Core, Dump to Console, and Mosaicast documentation', () => {
                     'These examples send real requests to this Laravel application. Each registers its own listeners before your click sends the request and removes them afterward. All use order 42, your message, the same session, and no artificial delay. Counts describe delivery, not performance.',
                 );
             for (const paragraph of extraParagraphs) {
-                expect(
-                    paragraphs.filter((text) => text === paragraph),
-                ).toHaveLength(1);
+                expect(paragraphs.filter((text) => text === paragraph)).toHaveLength(1);
             }
-            expect(
-                paragraphs.filter(
-                    (paragraph) => !extraParagraphs.includes(paragraph),
-                ),
-            ).toEqual(fixture.paragraphs.map(normalize));
+            expect(paragraphs.filter((paragraph) => !extraParagraphs.includes(paragraph))).toEqual(
+                fixture.paragraphs.map(normalize),
+            );
             for (const requirement of fixture.requirements)
-                expect(
-                    content.findAll('li').map((item) => normalize(item.text())),
-                ).toContain(normalize(requirement));
+                expect(content.findAll('li').map((item) => normalize(item.text()))).toContain(
+                    normalize(requirement),
+                );
             expect(
                 content
                     .findAll('table')
@@ -234,21 +213,13 @@ describe('Core, Dump to Console, and Mosaicast documentation', () => {
                         table
                             .findAll('tr')
                             .map((row) =>
-                                row
-                                    .findAll('th, td')
-                                    .map((cell) => normalize(cell.text())),
+                                row.findAll('th, td').map((cell) => normalize(cell.text())),
                             ),
                     ),
             ).toEqual(fixture.tables);
-            expectLegacyLinks(
-                content.findAll('a'),
-                fixture.links,
-                allowedExtraLinks[fixture.slug],
-            );
+            expectLegacyLinks(content.findAll('a'), fixture.links, allowedExtraLinks[fixture.slug]);
             for (const anchor of fixture.anchors)
-                expect(content.find(`[id="${String(anchor)}"]`).exists()).toBe(
-                    true,
-                );
+                expect(content.find(`[id="${String(anchor)}"]`).exists()).toBe(true);
         });
 
         it(`updates every ${fixture.slug} navigation destination from current route props`, async () => {
@@ -262,9 +233,7 @@ describe('Core, Dump to Console, and Mosaicast documentation', () => {
                 allowedExtraLinks[fixture.slug],
                 '/reference',
             );
-            for (const link of wrapper
-                .get('[data-document-content]')
-                .findAll('a')) {
+            for (const link of wrapper.get('[data-document-content]').findAll('a')) {
                 if (/^https?:\/\//.test(link.attributes('href'))) {
                     expect(link.attributes('target')).toBe('_blank');
                     expect(link.attributes('rel')).toBe('noopener noreferrer');
@@ -295,9 +264,7 @@ describe('Core, Dump to Console, and Mosaicast documentation', () => {
 
     it('keeps published stable package overviews free of preview notices', () => {
         for (const index of [0, 4, 6]) {
-            expect(render(fixtures[index], index).find('aside').exists()).toBe(
-                false,
-            );
+            expect(render(fixtures[index], index).find('aside').exists()).toBe(false);
         }
     });
 });

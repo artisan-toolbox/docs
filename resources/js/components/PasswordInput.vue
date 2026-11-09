@@ -28,8 +28,7 @@ defineExpose({
             ref="inputRef"
             :type="showPassword ? 'text' : 'password'"
             :class="cn('pr-10', props.class)"
-            v-bind="$attrs"
-        />
+            v-bind="$attrs" />
         <button
             type="button"
             @click="showPassword = !showPassword"
@@ -39,8 +38,7 @@ defineExpose({
                 )
             "
             :aria-label="showPassword ? 'Hide password' : 'Show password'"
-            :tabindex="-1"
-        >
+            :tabindex="-1">
             <SiteIcon name="eye-slash" v-if="showPassword" />
             <SiteIcon name="eye" v-else />
         </button>

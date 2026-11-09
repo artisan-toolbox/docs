@@ -54,16 +54,11 @@ async function revealCurrentNavigation() {
     }
 
     const linkBounds = currentLink.getBoundingClientRect();
-    const visibleTop =
-        panelBounds.top + (Number.parseFloat(style.paddingTop) || 0);
-    const visibleBottom =
-        panelBounds.bottom - (Number.parseFloat(style.paddingBottom) || 0);
+    const visibleTop = panelBounds.top + (Number.parseFloat(style.paddingTop) || 0);
+    const visibleBottom = panelBounds.bottom - (Number.parseFloat(style.paddingBottom) || 0);
 
     if (linkBounds.top < visibleTop) {
-        panel.scrollTop = Math.max(
-            0,
-            panel.scrollTop + linkBounds.top - visibleTop,
-        );
+        panel.scrollTop = Math.max(0, panel.scrollTop + linkBounds.top - visibleTop);
     } else if (linkBounds.bottom > visibleBottom) {
         panel.scrollTop += linkBounds.bottom - visibleBottom;
     }
@@ -83,8 +78,7 @@ watch(
 <template>
     <div
         :style="{ '--site-header-height': `${headerHeight}px` }"
-        class="min-h-screen bg-white text-slate-800 selection:bg-brand-100 dark:bg-slate-950 dark:text-slate-200 dark:selection:bg-brand-900"
-    >
+        class="min-h-screen bg-white text-slate-800 selection:bg-brand-100 dark:bg-slate-950 dark:text-slate-200 dark:selection:bg-brand-900">
         <a
             href="#main-content"
             class="sr-only rounded-md bg-brand-700 px-4 py-2 text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:outline-2 focus:outline-offset-4 focus:outline-brand-500"
@@ -93,8 +87,7 @@ watch(
         <PublicSiteHeader
             :links="links"
             wide
-            @resize="headerHeight = Math.max(80, Math.ceil($event))"
-        >
+            @resize="headerHeight = Math.max(80, Math.ceil($event))">
             <template #actions>
                 <button
                     ref="menuButton"
@@ -102,34 +95,28 @@ watch(
                     aria-controls="docs-navigation"
                     :aria-expanded="mobileNavigationOpen"
                     class="min-h-11 rounded-lg border border-slate-200 px-3 py-2 text-xs font-medium hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 lg:hidden dark:border-slate-700 dark:hover:bg-slate-800"
-                    @click="mobileNavigationOpen = !mobileNavigationOpen"
-                >
+                    @click="mobileNavigationOpen = !mobileNavigationOpen">
                     <SiteIcon name="bars" class="mr-2" />Menu
                 </button>
             </template>
         </PublicSiteHeader>
 
-        <div
-            class="mx-auto grid max-w-[96rem] grid-cols-1 lg:grid-cols-[18rem_minmax(0,1fr)]"
-        >
+        <div class="mx-auto grid max-w-[96rem] grid-cols-1 lg:grid-cols-[18rem_minmax(0,1fr)]">
             <aside
                 id="docs-navigation"
                 ref="navigationPanel"
                 :class="mobileNavigationOpen ? 'block' : 'hidden'"
                 class="fixed inset-x-0 top-[var(--site-header-height)] z-20 max-h-[calc(100dvh-var(--site-header-height))] [scrollbar-width:thin] [scrollbar-color:var(--color-slate-300)_transparent] overflow-y-auto overscroll-contain border-b border-slate-200 bg-white px-5 py-5 sm:px-8 lg:sticky lg:inset-x-auto lg:z-auto lg:block lg:border-r lg:border-b-0 lg:px-4 dark:[scrollbar-color:var(--color-slate-700)_transparent] dark:border-slate-800 dark:bg-slate-950"
-                @keydown.esc.prevent="dismissMobileNavigation"
-            >
+                @keydown.esc.prevent="dismissMobileNavigation">
                 <nav aria-label="Documentation" class="flex flex-col gap-1">
                     <DocsLink
                         :href="links.home"
                         class="mb-2 inline-flex min-h-11 w-fit items-center gap-2 rounded-md px-3 text-sm font-medium text-slate-600 hover:text-brand-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600 lg:min-h-8 dark:text-slate-400 dark:hover:text-brand-400"
-                        @click="mobileNavigationOpen = false"
-                    >
+                        @click="mobileNavigationOpen = false">
                         <SiteIcon name="arrow-left" /> Back to home
                     </DocsLink>
                     <p
-                        class="mb-2 px-3 text-[11px] leading-5 font-medium tracking-[0.12em] text-slate-500 uppercase dark:text-slate-400"
-                    >
+                        class="mb-2 px-3 text-[11px] leading-5 font-medium tracking-[0.12em] text-slate-500 uppercase dark:text-slate-400">
                         Browse the toolbox
                     </p>
                     <ul class="flex flex-col">
@@ -138,16 +125,12 @@ watch(
                             :key="item.slug"
                             :item="item"
                             :current-url="inertiaPage.url"
-                            @navigate="mobileNavigationOpen = false"
-                        />
+                            @navigate="mobileNavigationOpen = false" />
                     </ul>
                 </nav>
                 <div
-                    class="mx-3 mt-4 flex flex-col gap-1.5 border-t border-slate-200 pt-4 dark:border-slate-800"
-                >
-                    <p
-                        class="text-[11px] leading-5 text-slate-500 dark:text-slate-400"
-                    >
+                    class="mx-3 mt-4 flex flex-col gap-1.5 border-t border-slate-200 pt-4 dark:border-slate-800">
+                    <p class="text-[11px] leading-5 text-slate-500 dark:text-slate-400">
                         Open source. Built for Laravel.
                     </p>
                     <DocsLink
@@ -163,19 +146,16 @@ watch(
                 <DocsTableOfContents
                     :content="articleContent"
                     :page-key="inertiaPage.url.split(/[?#]/)[0]"
-                    class="mx-5 border-b border-slate-200 py-4 sm:mx-10 xl:sticky xl:top-[calc(var(--site-header-height)+1rem)] xl:col-start-2 xl:row-start-1 xl:mx-0 xl:max-h-[calc(100dvh-var(--site-header-height)-1rem)] xl:self-start xl:overflow-y-auto xl:border-0 xl:py-8 xl:pr-5 xl:pl-3 dark:border-slate-800"
-                />
+                    class="mx-5 border-b border-slate-200 py-4 sm:mx-10 xl:sticky xl:top-[calc(var(--site-header-height)+1rem)] xl:col-start-2 xl:row-start-1 xl:mx-0 xl:max-h-[calc(100dvh-var(--site-header-height)-1rem)] xl:self-start xl:overflow-y-auto xl:border-0 xl:py-8 xl:pr-5 xl:pl-3 dark:border-slate-800" />
                 <main
                     id="main-content"
                     tabindex="-1"
-                    class="min-w-0 px-5 py-10 sm:px-10 sm:py-12 xl:col-start-1 xl:row-start-1"
-                >
+                    class="min-w-0 px-5 py-10 sm:px-10 sm:py-12 xl:col-start-1 xl:row-start-1">
                     <div class="mx-auto flex max-w-3xl flex-col gap-10">
                         <DocsBreadcrumbs :items="page.breadcrumbs" />
                         <div
                             ref="articleContent"
-                            class="min-w-0 [&_h2]:scroll-mt-[calc(var(--site-header-height)+1rem)] [&_h3]:scroll-mt-[calc(var(--site-header-height)+1rem)]"
-                        >
+                            class="min-w-0 [&_h2]:scroll-mt-[calc(var(--site-header-height)+1rem)] [&_h3]:scroll-mt-[calc(var(--site-header-height)+1rem)]">
                             <slot />
                         </div>
                         <PublicSiteFooter :links="links" :source="page" />

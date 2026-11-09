@@ -4,8 +4,7 @@ import Quality from '../../pages/docs/maintainer/Quality.vue';
 
 const page = {
     title: 'Fixes and CI Checks',
-    description:
-        'Apply automated fixes and run configured PHP and frontend quality checks.',
+    description: 'Apply automated fixes and run configured PHP and frontend quality checks.',
     package: {
         title: 'Maintainer',
         composerName: 'artisan-toolbox/maintainer',
@@ -24,35 +23,23 @@ describe('Maintainer fixes and CI checks guide', () => {
         const wrapper = mount(Quality, { props: { page } });
         const requirements = wrapper
             .findAll('table')
-            .find(
-                (table) =>
-                    table.get('caption').text() ===
-                    'PHP quality command requirements',
-            );
+            .find((table) => table.get('caption').text() === 'PHP quality command requirements');
 
         expect(wrapper.get('h1').text()).toBe('Fixes and CI Checks');
         expect(wrapper.get('h1').find('.sr-only, img').exists()).toBe(false);
         expect(wrapper.find('dl').exists()).toBe(false);
-        expect(wrapper.get('[aria-label="Package details"]').text()).toContain(
-            'Maintainer',
-        );
+        expect(wrapper.get('[aria-label="Package details"]').text()).toContain('Maintainer');
         expect(wrapper.get('[aria-label="Package details"]').text()).toContain(
             'Documented version 1.10',
         );
-        expect(wrapper.get('[aria-label="Package details"]').text()).toContain(
-            'Stable',
-        );
+        expect(wrapper.get('[aria-label="Package details"]').text()).toContain('Stable');
         expect(
             wrapper
                 .findAll('table')[0]
                 .findAll('tbody tr')
                 .map((row) => row.findAll('td').map((cell) => cell.text())),
         ).toEqual([
-            [
-                'quality:fix',
-                'Applies changes',
-                'Rector, Pint, and vp check --fix',
-            ],
+            ['quality:fix', 'Applies changes', 'Rector, Pint, and vp check --fix'],
             [
                 'quality:check',
                 'Runs checks',
@@ -68,25 +55,19 @@ describe('Maintainer fixes and CI checks guide', () => {
                     heading.text(),
                 ]),
         ).toEqual([
-            [
-                'H2',
-                'requirements-and-skipped-commands',
-                'Requirements and skipped commands',
-            ],
+            ['H2', 'requirements-and-skipped-commands', 'Requirements and skipped commands'],
             ['H2', 'apply-fixes', 'Apply fixes'],
             ['H2', 'run-ci-checks', 'Run CI checks'],
             ['H3', 'github-actions', 'GitHub Actions'],
             ['H2', 'select-a-subset', 'Select a subset'],
-            [
-                'H2',
-                'configure-workflow-commands',
-                'Configure workflow commands',
-            ],
+            ['H2', 'configure-workflow-commands', 'Configure workflow commands'],
             ['H2', 'pest-and-phpstan-options', 'Pest and PHPStan options'],
         ]);
-        expect(
-            requirements.findAll('thead th').map((cell) => cell.text()),
-        ).toEqual(['Command', 'Required binary', 'Recognized configuration']);
+        expect(requirements.findAll('thead th').map((cell) => cell.text())).toEqual([
+            'Command',
+            'Required binary',
+            'Recognized configuration',
+        ]);
         expect(
             requirements
                 .findAll('tbody tr')
@@ -106,15 +87,11 @@ describe('Maintainer fixes and CI checks guide', () => {
     it('preserves all ten copyable examples including workflow versions and public contract namespaces', () => {
         const wrapper = mount(Quality, { props: { page } });
 
-        expect(wrapper.findAll('pre code').map((code) => code.text())).toEqual(
-            expectedExamples,
-        );
+        expect(wrapper.findAll('pre code').map((code) => code.text())).toEqual(expectedExamples);
         expect(
             wrapper
                 .findAll('pre code')
-                .map((code) =>
-                    code.classes().find((name) => name.startsWith('language-')),
-                ),
+                .map((code) => code.classes().find((name) => name.startsWith('language-'))),
         ).toEqual([
             'language-json',
             'language-bash',
@@ -127,11 +104,7 @@ describe('Maintainer fixes and CI checks guide', () => {
             'language-php',
             'language-php',
         ]);
-        expect(
-            wrapper
-                .findAll('button')
-                .map((button) => button.attributes('aria-label')),
-        ).toEqual([
+        expect(wrapper.findAll('button').map((button) => button.attributes('aria-label'))).toEqual([
             'Copy Discover frontend scripts',
             'Copy Apply automated fixes',
             'Copy Run CI checks',

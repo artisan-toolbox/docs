@@ -33,8 +33,7 @@ defineProps({
     variant: {
         type: String,
         default: 'note',
-        validator: (value) =>
-            ['info', 'note', 'tip', 'caution', 'danger'].includes(value),
+        validator: (value) => ['info', 'note', 'tip', 'caution', 'danger'].includes(value),
     },
 });
 </script>
@@ -43,11 +42,8 @@ defineProps({
     <aside
         :aria-label="variants[variant].title"
         class="flex flex-col gap-3 rounded-xl border-l-4 p-5 text-slate-700 dark:text-slate-200"
-        :class="variants[variant].style"
-    >
-        <p
-            class="flex items-center gap-2.5 font-semibold text-slate-950 dark:text-white"
-        >
+        :class="variants[variant].style">
+        <p class="flex items-center gap-2.5 font-semibold text-slate-950 dark:text-white">
             <SiteIcon :name="variants[variant].icon" class="opacity-75" />
             <slot name="title">{{ variants[variant].title }}</slot>
         </p>

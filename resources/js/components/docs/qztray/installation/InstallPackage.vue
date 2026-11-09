@@ -4,9 +4,5 @@ const props = defineProps({ package: { type: Object, required: true } });
 </script>
 
 <template>
-    <InstallCommand
-        :package="props.package"
-        command="setup"
-        label="Install QZ Tray Connector"
-    />
+    <InstallCommand :package="props.package" command="setup" label="Install QZ Tray Connector" />
 </template>

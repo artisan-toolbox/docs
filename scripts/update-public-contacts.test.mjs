@@ -24,10 +24,7 @@ async function fixture(path, content) {
 }
 
 test('reports stale public references without writing and converges after an explicit update', async () => {
-    const readme = await fixture(
-        'core/README.md',
-        `https://${oldHost}/packages/core/`,
-    );
+    const readme = await fixture('core/README.md', `https://${oldHost}/packages/core/`);
     const composer = await fixture(
         'core/composer.json',
         JSON.stringify({
@@ -38,9 +35,7 @@ test('reports stale public references without writing and converges after an exp
     expect(await updatePublicContacts(workspace)).toHaveLength(2);
     expect(await readFile(readme, 'utf8')).toContain(oldHost);
     await updatePublicContacts(workspace, { write: true });
-    expect(await readFile(readme, 'utf8')).toBe(
-        'https://atb.dev.br/packages/core/',
-    );
+    expect(await readFile(readme, 'utf8')).toBe('https://atb.dev.br/packages/core/');
     expect(JSON.parse(await readFile(composer, 'utf8'))).toEqual({
         authors: [{ email: 'contact@atb.dev.br' }],
         require: { php: '^8.5' },
@@ -78,13 +73,10 @@ test('renames the public NGINX template and refuses to overwrite an existing des
         `docs_old/deploy/nginx/${oldHost}.conf`,
         `server_name ${oldHost};`,
     );
-    const newPath = await fixture(
-        'docs_old/deploy/nginx/atb.dev.br.conf',
-        'existing template',
+    const newPath = await fixture('docs_old/deploy/nginx/atb.dev.br.conf', 'existing template');
+    await expect(updatePublicContacts(workspace, { write: true })).rejects.toThrow(
+        'Both NGINX templates exist',
     );
-    await expect(
-        updatePublicContacts(workspace, { write: true }),
-    ).rejects.toThrow('Both NGINX templates exist');
     expect(await readFile(newPath, 'utf8')).toBe('existing template');
     await rm(newPath);
     await updatePublicContacts(workspace, { write: true });

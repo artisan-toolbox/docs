@@ -11,7 +11,7 @@ If a reviewed skill needs no edit, record why its existing guidance remains accu
 
 ## Plan the beginner journey
 
-Audit the affected package's legacy and Vue pages before changing either. Record the learner's starting environment, prerequisite pages, installation actions, first example, expected result, and next guide.
+Audit the affected package's current Vue pages in `docs` before changing them. Record the learner's starting environment, prerequisite pages, installation actions, first example, expected result, and next guide.
 Every package needs a dedicated Installation page and an overview quickstart.
 The overview opens with purpose, stability, and documented version, followed by requirements, installation, first success, configuration, task guides, advanced explanations, reference, and development.
 Move configuration before the first example when that example requires it.
@@ -50,11 +50,16 @@ All package overviews and guides now use local registered destinations.
 
 ### Place the page in the menu
 
-Use slash-separated slugs to express package and guide nesting.
-Each page belongs to its nearest registered nonempty prefix. For example, `maintainer/ci/quality` appears under `maintainer/ci`, which appears under `maintainer`.
-If an intermediate prefix is not registered, the page belongs to the nearest registered ancestor. A page without a registered ancestor appears at the top level.
+Use `PageSlug::parent()` as the single owner of editorial ancestry.
+It uses the nearest registered nonempty URL prefix by default. For example, `maintainer/ci/quality` appears under `maintainer/ci`, which appears under `maintainer`.
+Declare a parent override in the enum when a new editorial group must preserve an existing guide URL. Front Awesome's existing Button, Input, and Icon guides use this option to join their component groups without redirecting published links.
+A page without a registered parent appears at the top level. Keep the parent graph acyclic. Navigation, active ancestors, and breadcrumbs follow the same relationship.
 The empty index slug stays a top-level link. Enum declaration order determines sibling order.
 That order is an editorial learning sequence. Place Installation first beneath each package, then prerequisites and guided tasks before advanced explanations, reference, and development. Never alphabetize siblings or create a second menu list.
+
+For Web Awesome wrapper guides, keep the group overview separate from complete component guides. Group pages use compact wrapping pill Buttons and interactive Popover information panels from Front Awesome's public exports. Buttons own native keyboard and focus behavior; Tag remains a noninteractive label. Each component has one status control that opens its information panel. Implemented panels link to real sections with basic examples and expected results, with full guides and upstream references when available. `In progress` and `In future` controls open information with an upstream reference, without a fake example destination. Keep implementation status separate from Core or Pro access and published preview availability. Reserve larger group cards for the catalog overview. Update the shared catalog and its search adapter together when adding a wrapper.
+
+`resources/js/components/docs/front-awesome/catalog/components.json` owns the component inventory, status presentation, and wrapper state. Group pages under `resources/js/pages/docs/front-awesome/web-awesome/components/` own basic examples. Full component guides retain their existing URLs, contracts, and anchors. When a wrapper becomes available, update its catalog state, add its actual section and public API example, and verify the control destination, inventory coverage, search output, and package export together.
 
 `Documentation::navigation()` returns one recursive tree of `NavigationNode` objects, including named-route destinations, exact current-page state, ancestor state, and children.
 `DocsNavigationItem` renders each branch. Its page link navigates; its separate button expands or collapses children without navigating or closing the mobile menu.
@@ -84,7 +89,7 @@ Keep serialization out of the definitions and preserve the existing unwrapped In
 Use `DocsLink` for documentation destinations, including source references, repositories, and package registry links. Outbound HTTP(S) links, including protocol-relative URLs, open in a new tab with `noopener noreferrer`. Same-origin links, local anchors, email links, and telephone links retain their native behavior; root-relative page links use Inertia.
 Do not duplicate external-link attributes across guide pages or intercept every click with a document-level handler.
 
-For theme selection, inspect Front Awesome's public `Theme` export and `createFrontAwesome({ theme: true })` before creating a selector or appearance controller.
+For appearance selection, inspect Front Awesome's public `Appearance` export and `createFrontAwesome({ appearance: true })` before creating a selector or appearance controller.
 Install and consume the package through its documented entry points. Keep one appearance controller per document.
 
 ## Compose the page
@@ -120,7 +125,7 @@ Reserve the large identity header and heading artwork for package overview pages
 Use one "Documented version" value on overviews, child pages, and package cards. It is the actual Composer-installed version, independent of manually authored compatibility requirements and stability. `InstallationCommands::composerVersion()`, shared by `PackageResource` and installation recipes, dynamically displays the exact local aliases `1.99.99` and `1.999.999` as `1.x-dev` for every package; preserve every other Composer version unchanged. Never rewrite the lockfile to change a displayed label, fall back to a catalog version, or add a second compatibility version badge. Keep missing packages and unavailable versions explicit. Overview specifications and compact guide tags link to the package repository through `DocsLink`; use the existing `repositoryUrl` resource field rather than authoring repository URLs in pages. Development versions retain their branch label, and unpublished APIs remain identified as previews in the guide content.
 
 When migrating a section, keep its overview and directly related guides in the same verifiable unit where practical. Preserve heading anchors and code examples, switch links only after the destination is registered, and add exact legacy redirects.
-Check examples against the documented package version, including any difference between a command's requirements and a helper's fallback behavior. Correct demonstrated inaccuracies in both the legacy source and migrated pages.
+Check examples against the documented package version, including any difference between a command's requirements and a helper's fallback behavior. Correct demonstrated inaccuracies in the owning Vue pages and examples in `docs`.
 
 For example, compose a section with normal Vue markup:
 
@@ -135,8 +140,7 @@ import ProseSection from '@/components/docs/ProseSection.vue';
         <p>Install Maintainer as a development dependency:</p>
         <CodeExample
             label="Install Maintainer"
-            code="composer require --dev artisan-toolbox/maintainer:^1.10"
-        />
+            code="composer require --dev artisan-toolbox/maintainer:^1.10" />
     </ProseSection>
 </template>
 ```
@@ -182,20 +186,19 @@ Tracking parameters do not belong in canonical URLs.
 The sitemap and both visible and structured breadcrumbs follow `PageSlug` automatically. Keep registered ancestor titles accurate and do not add another URL list. Follow [the SEO maintenance guide](seo.md) for response-owned schemas, internal noindex rules, initial metadata checks, and post-publication rendering verification with Vue SSR disabled.
 Use registered local destinations for migrated guides. The generic legacy package redirect resolves only valid enum cases. Add an explicit alias only when an old path differs from the registered slug.
 
-## Migrate existing content
+## Maintain existing content
 
-1. Read the entire source page in `docs_old` before editing.
-2. Preserve its purpose, stability, documented version, requirements, commands, explanations, heading anchors, and links.
-3. Use the current public destination for guides that have not migrated.
-4. Add an exact legacy redirect only when its replacement page exists.
-5. Compare the rendered page with the source. Confirm code blocks render as text and links remain usable.
-6. Update the migration plan and decision log with the source, destination, and verification result.
+The `docs` repository is the only documentation source and application. `docs_old` has been retired and no longer exists. Do not recreate it or make legacy synchronization a task requirement.
 
-Until cutover, keep package documentation changes synchronized with `docs_old`.
-Do not replace unrelated changes already present in that repository.
+1. Read the current registered Vue page and its authored partials before editing.
+2. Verify its purpose, stability, documented version, requirements, commands, explanations, heading anchors, and links against the package's public behavior.
+3. Update the owning page, shared component, or registry and preserve working historical URLs.
+4. Compare rendered content and examples with the intended behavior. Confirm code blocks render as text and links remain usable.
+5. Update the affected content expectations and changelog in the same task.
 
-The offline `scripts/migrate-legacy-documentation.mjs` aid converts a legacy source into ordinary editable Vue. For example, `node scripts/migrate-legacy-documentation.mjs packages/core/index` writes a candidate to standard output without changing files. Read the source and review the result; generated fragments do not replace editorial judgment. The application does not load Markdown or compiler dependencies at runtime.
-Normal frontend tests compare rendered headings, prose, examples, links, and tables against committed fixtures. The separate `npm run test:migration` workspace suite verifies frozen source hashes and the converter against `docs_old`; it requires the sibling source checkout and its installed dependencies. Both suites must pass for a migration change. Do not silently refresh fixtures to conceal lost content.
+Normal frontend tests compare rendered headings, prose, examples, links, and tables against self-contained committed fixtures. Review the content before changing those expectations. Historical source hashes and migration records document earlier verification; they do not require a legacy checkout for current authoring.
+
+The offline converter and `npm run test:migration` suite are archived migration tooling. They require historical source files if intentionally used for archaeology and are not part of current documentation completion checks.
 
 ## Keep demos independent
 
@@ -258,11 +261,7 @@ See [brand asset maintenance](assets.md) for source ownership and generated path
 Use the shared `InstallCommand` for named Composer and npm registry installs. Pass the serialized package explicitly, including through nested authored partials:
 
 ```vue
-<InstallCommand
-    :package="page.package"
-    command="composer"
-    label="Install Core"
-/>
+<InstallCommand :package="page.package" command="composer" label="Install Core" />
 ```
 
 `App\Documentation\InstallationCommands` owns the small set of command recipes. Keys such as `composer`, `frontend`, `broadcast`, `setup`, `security`, and `primevue` identify a package's supported installation tasks. Add a recipe there when a new guide needs another command. `PackageResource` supplies that data to the page and `SearchCatalog` supplies the same data to extraction. No page, search adapter, or test fixture reconstructs dependency versions independently.

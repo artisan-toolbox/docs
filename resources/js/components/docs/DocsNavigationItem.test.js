@@ -1,3 +1,4 @@
+import { sourceNavigation } from './sourceNavigationFixture';
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vite-plus/test';
 import DocsNavigationItem from './DocsNavigationItem.vue';
@@ -44,30 +45,20 @@ describe('documentation navigation branches', () => {
     it('renders three semantic levels with one current page and open ancestors', () => {
         const wrapper = mountNavigation();
         expect(wrapper.element.tagName).toBe('LI');
-        expect(wrapper.get('li > ul > li > ul > li a').text()).toBe(
-            'Fixes and CI Checks',
-        );
+        expect(wrapper.get('li > ul > li > ul > li a').text()).toBe('Fixes and CI Checks');
         expect(wrapper.findAll('a[aria-current="page"]')).toHaveLength(1);
         expect(wrapper.get('a[aria-current="page"]').attributes('href')).toBe(
             '/docs/maintainer/ci/quality',
         );
         expect(
-            wrapper
-                .get('a[href="/docs/maintainer"]')
-                .attributes('aria-current'),
+            wrapper.get('a[href="/docs/maintainer"]').attributes('aria-current'),
         ).toBeUndefined();
         expect(
-            wrapper
-                .get('a[href="/docs/maintainer/ci"]')
-                .attributes('aria-current'),
+            wrapper.get('a[href="/docs/maintainer/ci"]').attributes('aria-current'),
         ).toBeUndefined();
-        expect(
-            wrapper.get('a[href="/docs/maintainer"]').classes(),
-        ).not.toContain('bg-brand-50');
+        expect(wrapper.get('a[href="/docs/maintainer"]').classes()).not.toContain('bg-brand-50');
         const controls = wrapper.findAll('button');
-        const ids = controls.map((button) =>
-            button.attributes('aria-controls'),
-        );
+        const ids = controls.map((button) => button.attributes('aria-controls'));
         expect(new Set(ids).size).toBe(2);
         for (const button of controls) {
             expect(button.attributes('type')).toBe('button');
@@ -75,8 +66,7 @@ describe('documentation navigation branches', () => {
             expect(button.classes()).toContain('min-w-11');
             expect(button.classes()).toContain('min-h-11');
             expect(
-                wrapper.get(`[id="${button.attributes('aria-controls')}"]`)
-                    .element.tagName,
+                wrapper.get(`[id="${button.attributes('aria-controls')}"]`).element.tagName,
             ).toBe('UL');
         }
     });
@@ -86,24 +76,24 @@ describe('documentation navigation branches', () => {
         const controls = wrapper.findAll('button');
         await controls[1].trigger('click');
         await controls[0].trigger('click');
+        expect(controls.map((button) => button.attributes('aria-expanded'))).toEqual([
+            'false',
+            'false',
+        ]);
         expect(
-            controls.map((button) => button.attributes('aria-expanded')),
-        ).toEqual(['false', 'false']);
-        expect(
-            wrapper.get(`[id="${controls[0].attributes('aria-controls')}"]`)
-                .element.style.display,
+            wrapper.get(`[id="${controls[0].attributes('aria-controls')}"]`).element.style.display,
         ).toBe('none');
         expect(wrapper.emitted('navigate')).toBeUndefined();
 
         await wrapper.setProps({
             currentUrl: '/docs/maintainer/ci/quality?next=1',
         });
+        expect(controls.map((button) => button.attributes('aria-expanded'))).toEqual([
+            'true',
+            'true',
+        ]);
         expect(
-            controls.map((button) => button.attributes('aria-expanded')),
-        ).toEqual(['true', 'true']);
-        expect(
-            wrapper.get(`[id="${controls[0].attributes('aria-controls')}"]`)
-                .element.style.display,
+            wrapper.get(`[id="${controls[0].attributes('aria-controls')}"]`).element.style.display,
         ).toBe('');
 
         await controls[0].trigger('click');
@@ -119,17 +109,11 @@ describe('documentation navigation branches', () => {
         const wrapper = mount(DocsNavigationItem, {
             props: { item, currentUrl: '/docs' },
         });
-        const control = wrapper.get(
-            'button[aria-label="Expand Maintainer section"]',
-        );
+        const control = wrapper.get('button[aria-label="Expand Maintainer section"]');
         expect(control.attributes('aria-expanded')).toBe('false');
         await control.trigger('click');
-        expect(control.attributes('aria-label')).toBe(
-            'Collapse Maintainer section',
-        );
-        await wrapper
-            .get('a[href="/docs/maintainer/ci/quality"]')
-            .trigger('click', { button: 1 });
+        expect(control.attributes('aria-label')).toBe('Collapse Maintainer section');
+        await wrapper.get('a[href="/docs/maintainer/ci/quality"]').trigger('click', { button: 1 });
         expect(wrapper.emitted('navigate')).toHaveLength(1);
     });
 
@@ -140,9 +124,40 @@ describe('documentation navigation branches', () => {
         const wrapper = mount(DocsNavigationItem, {
             props: { item, currentUrl: '/docs' },
         });
-        const ids = wrapper
-            .findAll('button')
-            .map((button) => button.attributes('aria-controls'));
+        const ids = wrapper.findAll('button').map((button) => button.attributes('aria-controls'));
         expect(new Set(ids).size).toBe(ids.length);
     });
+});
+
+it('opens the real editorial component path while marking only the stable Button guide current', async () => {
+    const item = sourceNavigation('/docs', 'front-awesome/button').find(
+        (node) => node.slug === 'front-awesome',
+    );
+    const wrapper = mount(DocsNavigationItem, {
+        props: { item, currentUrl: '/docs/front-awesome/button' },
+    });
+    const activePath = [
+        'front-awesome',
+        'front-awesome/web-awesome',
+        'front-awesome/web-awesome/components',
+        'front-awesome/web-awesome/components/actions',
+    ];
+
+    expect(
+        wrapper.findAll('a[aria-current="page"]').map((link) => link.attributes('href')),
+    ).toEqual(['/docs/front-awesome/button']);
+    for (const slug of activePath) {
+        const link = wrapper.get(`a[href="/docs/${slug}"]`);
+        expect(link.attributes('aria-current')).toBeUndefined();
+        const disclosure = link.element.parentElement.querySelector('button');
+        expect(disclosure.getAttribute('aria-expanded')).toBe('true');
+    }
+    const group = wrapper
+        .get('a[href="/docs/front-awesome/web-awesome/components/actions"]')
+        .element.parentElement.querySelector('button');
+    group.click();
+    await wrapper.vm.$nextTick();
+    expect(group.getAttribute('aria-expanded')).toBe('false');
+    expect(wrapper.emitted('navigate')).toBeUndefined();
+    wrapper.unmount();
 });

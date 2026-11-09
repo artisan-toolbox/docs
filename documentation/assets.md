@@ -11,7 +11,7 @@ Do not redraw, trace, or replace it with a design concept.
 4. Run `npm test -- scripts/build-icons.test.mjs scripts/build-brand-logos.test.mjs`.
 5. Inspect the icons, share image, and both theme wordmarks before completing the change.
 
-The initial global PNGs come from `docs_old/logo/`.
+The approved global PNGs are owned by `docs/public/images/brand/` in the workspace. The initial artwork was migrated from the retired site; regeneration uses only the current files.
 Package SVGs come from each owning package's `logo/` directory.
 The concept image and unused Houston illustration are not production assets.
 

@@ -1,63 +1,20 @@
-const slugs = [
-    'maintainer/installation',
-    'core/installation',
-    'dump-to-console/installation',
-    'mosaicast/installation',
-    'qztray/installation',
+import { execFileSync } from 'node:child_process';
 
-    'core/conditional-arrays',
-    'core',
-    'core/multi-domain-inertia',
-    'core/translated-attributes',
-    'dump-to-console',
-    'dump-to-console/usage',
-    'front-awesome/branding',
-    'front-awesome/button',
-    'front-awesome/configuration',
-    'front-awesome/development',
-    'front-awesome',
-    'front-awesome/installation',
-    'front-awesome/page',
-    'front-awesome/primevue',
-    'front-awesome/shared-theme',
-    'front-awesome/theme-maintenance',
-    'front-awesome/toasts/laravel',
-    'front-awesome/toasts/vue',
-    'front-awesome/vue-plugin',
-    'front-awesome/web-awesome',
-    'maintainer/ci',
-    'maintainer/ci/quality',
-    'maintainer/commands',
-    'maintainer/configuration',
-    'maintainer/configuration/publishing',
-    'maintainer/configuration/reference',
-    'maintainer/configuration/ssh-keys',
-    'maintainer/deployment/deploy',
-    'maintainer/deployment',
-    'maintainer/deployment/pm2',
-    'maintainer/deployment/repository-tags',
-    'maintainer/deployment/unlock',
-    'maintainer/development',
-    'maintainer',
-    'maintainer/project-integration',
-    'maintainer/versioning/commits',
-    'maintainer/versioning/html-diffs',
-    'maintainer/versioning',
-    'maintainer/versioning/project-integration',
-    'maintainer/versioning/releases',
-    'mosaicast',
-    'mosaicast/inertia-delivery',
-    'mosaicast/roadmap',
-    'mosaicast/session-channels',
-    'mosaicast/vue-plugin',
-    'qztray/compatibility',
-    'qztray',
-];
+const cache = new Map();
 
-export function sourceNavigation(prefix = '/docs') {
-    return slugs.map((slug) => ({
-        slug,
-        href: prefix + '/' + slug,
-        children: [],
-    }));
+export function sourceNavigation(prefix = '/docs', current = '') {
+    const key = JSON.stringify([prefix, current]);
+    if (!cache.has(key)) {
+        const code = `require 'vendor/autoload.php'; $app = require 'bootstrap/app.php'; $app->make(Illuminate\\Contracts\\Console\\Kernel::class)->bootstrap(); $app->make('router')->getRoutes()->getByName('docs.index')->setUri($argv[1]); $app->make('router')->getRoutes()->getByName('docs.show')->setUri($argv[1].'/{slug}'); echo json_encode($app->make(App\\Documentation\\Documentation::class)->navigation(App\\Documentation\\PageSlug::from($argv[2])), JSON_THROW_ON_ERROR);`;
+        cache.set(
+            key,
+            JSON.parse(
+                execFileSync('php', ['-r', code, prefix.replace(/^\//, ''), current], {
+                    cwd: process.cwd(),
+                    encoding: 'utf8',
+                }),
+            ),
+        );
+    }
+    return structuredClone(cache.get(key));
 }

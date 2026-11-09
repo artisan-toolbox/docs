@@ -9,14 +9,9 @@ defineProps({
 
 const { resolvedAppearance } = useAppearance();
 const mounted = ref(false);
-const initialAppearance = document.documentElement.classList.contains('dark')
-    ? 'dark'
-    : 'light';
+const initialAppearance = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
 const logo = computed(
-    () =>
-        brandLogos[
-            mounted.value ? resolvedAppearance.value : initialAppearance
-        ],
+    () => brandLogos[mounted.value ? resolvedAppearance.value : initialAppearance],
 );
 
 onMounted(() => {
@@ -31,6 +26,5 @@ onMounted(() => {
         :sizes="sizes"
         :width="logo.width"
         :height="logo.height"
-        alt="Artisan Toolbox"
-    />
+        alt="Artisan Toolbox" />
 </template>

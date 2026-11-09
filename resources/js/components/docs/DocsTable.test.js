@@ -18,28 +18,20 @@ describe('Documentation tables', () => {
 
         expect(wrapper.get('caption').text()).toBe('Available checks');
         expect(
-            wrapper
-                .findAll('thead th')
-                .map((cell) => [cell.text(), cell.attributes('scope')]),
+            wrapper.findAll('thead th').map((cell) => [cell.text(), cell.attributes('scope')]),
         ).toEqual([
             ['Tool', 'col'],
             ['Requirement', 'col'],
         ]);
         expect(
-            wrapper
-                .findAll('tbody tr')
-                .map((row) => row.findAll('td').map((cell) => cell.text())),
+            wrapper.findAll('tbody tr').map((row) => row.findAll('td').map((cell) => cell.text())),
         ).toEqual([
             ['Pint', '<script>alert("unsafe")</script>'],
             ['Pest', 'phpunit.xml'],
         ]);
         expect(wrapper.find('script').exists()).toBe(false);
-        expect(wrapper.get('[tabindex="0"]').classes()).toContain(
-            'overflow-x-auto',
-        );
-        expect(wrapper.get('[tabindex="0"]').attributes('aria-label')).toBe(
-            'Available checks',
-        );
+        expect(wrapper.get('[tabindex="0"]').classes()).toContain('overflow-x-auto');
+        expect(wrapper.get('[tabindex="0"]').attributes('aria-label')).toBe('Available checks');
     });
 
     it('lets callers format cells using their value and row and column indexes', () => {
@@ -65,12 +57,8 @@ describe('Documentation tables', () => {
         });
 
         const rows = wrapper.findAll('tbody tr');
-        expect(rows[0].findAll('code').map((cell) => cell.text())).toEqual([
-            'vendor/bin/pint',
-        ]);
-        expect(rows[1].findAll('code').map((cell) => cell.text())).toEqual([
-            'vendor/bin/pest',
-        ]);
+        expect(rows[0].findAll('code').map((cell) => cell.text())).toEqual(['vendor/bin/pint']);
+        expect(rows[1].findAll('code').map((cell) => cell.text())).toEqual(['vendor/bin/pest']);
         expect(rows[0].find('.font-semibold').exists()).toBe(false);
         expect(rows[1].get('code').classes()).toContain('font-semibold');
         expect(rows[1].get('span').text()).toBe('Pest');
@@ -92,8 +80,6 @@ describe('Documentation tables', () => {
         expect(wrapper.get('code').text()).toBe('mosaicast.events');
         expect(wrapper.get('a').attributes('href')).toBe('#fallback');
         expect(wrapper.findAll('table').length).toBe(1);
-        expect(wrapper.get('[role="region"]').attributes('aria-label')).toBe(
-            'Event delivery',
-        );
+        expect(wrapper.get('[role="region"]').attributes('aria-label')).toBe('Event delivery');
     });
 });

@@ -9,18 +9,14 @@ defineProps({ navigation: { type: Array, required: true } });
     <ProseSection>
         <h2
             id="documentation-and-contact"
-            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white"
-        >
+            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Documentation and contact
         </h2>
         <p>
             The canonical documentation is available at
-            <DocsLink :href="findNavigationItem(navigation, 'mosaicast').href"
-                >atb.dev.br</DocsLink
+            <DocsLink :href="findNavigationItem(navigation, 'mosaicast').href">atb.dev.br</DocsLink
             >. Contact the project at
-            <DocsLink href="mailto:contact@atb.dev.br"
-                >contact@atb.dev.br</DocsLink
-            >.
+            <DocsLink href="mailto:contact@atb.dev.br">contact@atb.dev.br</DocsLink>.
         </p>
     </ProseSection>
 </template>

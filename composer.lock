@@ -170,17 +170,11 @@
         },
         {
             "name": "artisan-toolbox/front-awesome",
-            "version": "1.0.0-alpha.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/artisan-toolbox/front-awesome.git",
-                "reference": "a55e06f24b599f87d039e45e6e09ef1e7da301f9"
-            },
+            "version": "1.999.999",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/front-awesome/zipball/a55e06f24b599f87d039e45e6e09ef1e7da301f9",
-                "reference": "a55e06f24b599f87d039e45e6e09ef1e7da301f9",
-                "shasum": ""
+                "type": "path",
+                "url": "/Users/allancarvalho/ArtisanToolbox/front-awesome",
+                "reference": "a55e06f24b599f87d039e45e6e09ef1e7da301f9"
             },
             "require": {
                 "artisan-toolbox/maintainer": "^1.10.0",
@@ -215,7 +209,58 @@
                     "ArtisanToolbox\\FrontAwesome\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "ArtisanToolbox\\FrontAwesome\\Tests\\": "tests/",
+                    "Workbench\\App\\": "workbench/app/",
+                    "Workbench\\Database\\Factories\\": "workbench/database/factories/",
+                    "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@clear",
+                    "@prepare"
+                ],
+                "prepare": [
+                    "@php vendor/bin/testbench package:discover --ansi"
+                ],
+                "build": [
+                    "@php vendor/bin/testbench workbench:build --ansi"
+                ],
+                "serve": [
+                    "Composer\\Config::disableProcessTimeout",
+                    "@build",
+                    "@php vendor/bin/testbench serve --ansi"
+                ],
+                "lint": [
+                    "vendor/bin/pint --parallel"
+                ],
+                "lint:check": [
+                    "vendor/bin/pint --parallel --test"
+                ],
+                "analyse": [
+                    "vendor/bin/phpstan analyse"
+                ],
+                "test:types": [
+                    "vendor/bin/pest --type-coverage --min=100"
+                ],
+                "test:coverage": [
+                    "vendor/bin/pest --coverage"
+                ],
+                "test:unit": [
+                    "vendor/bin/pest --parallel"
+                ],
+                "test": [
+                    "@analyse",
+                    "@lint:check",
+                    "@test:types",
+                    "@test:unit"
+                ],
+                "clear": [
+                    "@php vendor/bin/testbench package:purge-skeleton --ansi"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -238,17 +283,10 @@
                 "vue",
                 "web-awesome"
             ],
-            "support": {
-                "issues": "https://github.com/artisan-toolbox/front-awesome/issues",
-                "source": "https://github.com/artisan-toolbox/front-awesome/tree/1.0.0-alpha.1"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/artisan-toolbox",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-11-06T21:49:33+00:00"
+            "transport-options": {
+                "symlink": true,
+                "relative": false
+            }
         },
         {
             "name": "artisan-toolbox/maintainer",

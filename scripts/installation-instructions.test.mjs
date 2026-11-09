@@ -6,11 +6,7 @@ import { parse } from 'vue/compiler-sfc';
 function vueFiles(directory) {
     return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
         const path = resolve(directory, entry.name);
-        return entry.isDirectory()
-            ? vueFiles(path)
-            : entry.name.endsWith('.vue')
-              ? [path]
-              : [];
+        return entry.isDirectory() ? vueFiles(path) : entry.name.endsWith('.vue') ? [path] : [];
     });
 }
 
@@ -19,17 +15,12 @@ function authoredRegistryInstall(source) {
         /composer\s+require\s+(?:--[\w-]+\s+)*["']?[a-z0-9][a-z0-9_-]*\/[a-z0-9][a-z0-9_-]*/gu;
     const npm =
         /npm\s+install\s+(?:--[\w-]+\s+)*(?:@[a-z0-9_-]+\/)?[a-z0-9][a-z0-9_-]*(?:@[^\s`"'<>]+)?/gu;
-    return [...source.matchAll(composer), ...source.matchAll(npm)].map(
-        (match) => match[0],
-    );
+    return [...source.matchAll(composer), ...source.matchAll(npm)].map((match) => match[0]);
 }
 
 function instructionsInVue(source) {
     const { descriptor } = parse(source);
-    const content = [
-        descriptor.script?.content ?? '',
-        descriptor.scriptSetup?.content ?? '',
-    ];
+    const content = [descriptor.script?.content ?? '', descriptor.scriptSetup?.content ?? ''];
     function visit(node) {
         if (node.type === 1 && node.tag === 'code')
             content.push(
@@ -39,8 +30,7 @@ function instructionsInVue(source) {
                     .join(''),
             );
         for (const prop of node.props ?? []) {
-            if (prop.type === 6 && prop.name === 'code')
-                content.push(prop.value?.content ?? '');
+            if (prop.type === 6 && prop.name === 'code') content.push(prop.value?.content ?? '');
         }
         for (const child of node.children ?? []) visit(child);
     }
@@ -51,9 +41,7 @@ function instructionsInVue(source) {
 describe('Installation instruction ownership', () => {
     it('keeps named dependency installs in the lock-backed catalog rather than authored Vue snippets', () => {
         const violations = vueFiles(resolve('resources/js')).flatMap((path) =>
-            instructionsInVue(readFileSync(path, 'utf8')).map(
-                (command) => `${path}: ${command}`,
-            ),
+            instructionsInVue(readFileSync(path, 'utf8')).map((command) => `${path}: ${command}`),
         );
         expect(
             violations,
@@ -63,17 +51,13 @@ describe('Installation instruction ownership', () => {
 
     it('detects stale Composer and npm instructions while allowing generic selection and vendor file distribution', () => {
         expect(
-            authoredRegistryInstall(
-                'composer require --dev artisan-toolbox/maintainer:^1.10',
-            ),
+            authoredRegistryInstall('composer require --dev artisan-toolbox/maintainer:^1.10'),
         ).toEqual(['composer require --dev artisan-toolbox/maintainer']);
+        expect(authoredRegistryInstall('composer require "tightenco/ziggy:^2.0"')).toEqual([
+            'composer require "tightenco/ziggy',
+        ]);
         expect(
-            authoredRegistryInstall('composer require "tightenco/ziggy:^2.0"'),
-        ).toEqual(['composer require "tightenco/ziggy']);
-        expect(
-            authoredRegistryInstall(
-                'npm install --save-dev @laravel/echo-vue@2.6.3 laravel-echo',
-            ),
+            authoredRegistryInstall('npm install --save-dev @laravel/echo-vue@2.6.3 laravel-echo'),
         ).toEqual(['npm install --save-dev @laravel/echo-vue@2.6.3']);
         expect(
             instructionsInVue(

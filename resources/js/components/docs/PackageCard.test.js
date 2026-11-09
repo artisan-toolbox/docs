@@ -74,9 +74,7 @@ describe('PackageCard', () => {
         });
 
         expect(wrapper.findComponent(Link).exists()).toBe(false);
-        expect(wrapper.get('a').attributes('href')).toBe(
-            'https://atb.dev.br/packages/core/',
-        );
+        expect(wrapper.get('a').attributes('href')).toBe('https://atb.dev.br/packages/core/');
         expect(wrapper.get('a').attributes('target')).toBe('_blank');
         expect(wrapper.get('a').attributes('rel')).toBe('noopener noreferrer');
         expect(wrapper.text()).toContain('Documented version Not installed');

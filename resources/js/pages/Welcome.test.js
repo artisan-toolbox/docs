@@ -1,12 +1,5 @@
 import { enableAutoUnmount, mount } from '@vue/test-utils';
-import {
-    afterEach,
-    beforeEach,
-    describe,
-    expect,
-    it,
-    vi,
-} from 'vite-plus/test';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test';
 import ziggy from '../../../tests/Fixtures/ziggy.json';
 import PackageCard from '@/components/docs/PackageCard.vue';
 import Welcome from './Welcome.vue';
@@ -33,8 +26,7 @@ const links = {
     contact: 'mailto:contact@atb.dev.br',
 };
 const source = {
-    sourceUrl:
-        'https://github.com/artisan-toolbox/docs/blob/1.x/resources/js/pages/Welcome.vue',
+    sourceUrl: 'https://github.com/artisan-toolbox/docs/blob/1.x/resources/js/pages/Welcome.vue',
     sourceLabel: 'View page source on GitHub',
 };
 const packages = [
@@ -64,16 +56,14 @@ describe('Welcome', () => {
             expect(card.text()).toContain(item.title);
             expect(card.text()).toContain(item.stability);
         }
-        expect(
-            wrapper.get('a[href="/reference/front-awesome"]').text(),
-        ).toContain('Documented version Not installed');
-        expect(wrapper.findAll('h1')).toHaveLength(1);
-        expect(
-            wrapper.get(`footer a[href="${source.sourceUrl}"]`).text(),
-        ).toContain(source.sourceLabel);
-        expect(wrapper.get('a[href="#main-content"]').text()).toBe(
-            'Skip to content',
+        expect(wrapper.get('a[href="/reference/front-awesome"]').text()).toContain(
+            'Documented version Not installed',
         );
+        expect(wrapper.findAll('h1')).toHaveLength(1);
+        expect(wrapper.get(`footer a[href="${source.sourceUrl}"]`).text()).toContain(
+            source.sourceLabel,
+        );
+        expect(wrapper.get('a[href="#main-content"]').text()).toBe('Skip to content');
         expect(wrapper.get('main').attributes('id')).toBe('main-content');
         expect(wrapper.get('main').text()).toContain(
             'This documentation application uses Laravel, Vue, and Inertia',
@@ -82,17 +72,11 @@ describe('Welcome', () => {
 
     it('uses supplied destinations and updates navigation when props change', async () => {
         const wrapper = mount(Welcome, { props: { packages, links, source } });
-        expect(
-            wrapper
-                .get('a[aria-label="Artisan Toolbox home"]')
-                .attributes('href'),
-        ).toBe('/start');
-        expect(wrapper.get('footer a[href="/reference"]').text()).toBe(
-            'Documentation',
+        expect(wrapper.get('a[aria-label="Artisan Toolbox home"]').attributes('href')).toBe(
+            '/start',
         );
-        expect(
-            wrapper.get('footer a[href="mailto:contact@atb.dev.br"]').text(),
-        ).toBe('Contact');
+        expect(wrapper.get('footer a[href="/reference"]').text()).toBe('Documentation');
+        expect(wrapper.get('footer a[href="mailto:contact@atb.dev.br"]').text()).toBe('Contact');
         expect(wrapper.find('a[href="/docs"]').exists()).toBe(false);
         for (const link of wrapper.findAll('a[href^="https://"]')) {
             expect(link.attributes('target')).toBe('_blank');
@@ -102,11 +86,9 @@ describe('Welcome', () => {
             links: { ...links, home: '/new-home', docs: '/new-docs' },
             packages: packages.slice(0, 1),
         });
-        expect(
-            wrapper
-                .get('a[aria-label="Artisan Toolbox home"]')
-                .attributes('href'),
-        ).toBe('/new-home');
+        expect(wrapper.get('a[aria-label="Artisan Toolbox home"]').attributes('href')).toBe(
+            '/new-home',
+        );
         expect(wrapper.get('footer a[href="/new-docs"]').exists()).toBe(true);
         expect(wrapper.findAllComponents(PackageCard)).toHaveLength(1);
     });

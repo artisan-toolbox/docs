@@ -88,13 +88,10 @@ function compileExample(source) {
         inlineTemplate: true,
     });
     const code = compiled.content
-        .replace(
-            /import\s*\{([^}]+)\}\s*from\s*['"]([^'"]+)['"];?/g,
-            (_, names, module) => {
-                const bindings = names.trim().replace(/\s+as\s+/g, ': ');
-                return `const { ${bindings} } = modules[${JSON.stringify(module)}];`;
-            },
-        )
+        .replace(/import\s*\{([^}]+)\}\s*from\s*['"]([^'"]+)['"];?/g, (_, names, module) => {
+            const bindings = names.trim().replace(/\s+as\s+/g, ': ');
+            return `const { ${bindings} } = modules[${JSON.stringify(module)}];`;
+        })
         .replace('export default', 'return');
     return runInNewContext(`(() => { ${code} })()`, {
         console,
@@ -111,30 +108,22 @@ describe('Mosaicast first successful Inertia event', () => {
         const overview = render(Overview, 'mosaicast');
         const installation = render(Installation, 'mosaicast/installation');
         const examples = (wrapper) =>
-            [
-                ...wrapper
-                    .get('#first-event')
-                    .element.parentElement.querySelectorAll('pre code'),
-            ].map((node) => node.textContent);
+            [...wrapper.get('#first-event').element.parentElement.querySelectorAll('pre code')].map(
+                (node) => node.textContent,
+            );
         const overviewCode = examples(overview);
 
         expect(overviewCode).toEqual(examples(installation));
         expect(overviewCode[0]).toContain(
             "Mosaicast::dispatch('orders.updated', ['orderId' => 42])",
         );
-        expect(overviewCode[0]).toContain(
-            "return Inertia::render('MosaicastExample')",
-        );
+        expect(overviewCode[0]).toContain("return Inertia::render('MosaicastExample')");
         expect(overviewCode.join('\n')).not.toContain('$order');
+        expect(overview.get('#first-event').element.parentElement.textContent).toContain(
+            'once for that visit',
+        );
         expect(
-            overview.get('#first-event').element.parentElement.textContent,
-        ).toContain('once for that visit');
-        expect(
-            overview
-                .find(
-                    'a[href="/docs/mosaicast/installation#register-the-client"]',
-                )
-                .exists(),
+            overview.find('a[href="/docs/mosaicast/installation#register-the-client"]').exists(),
         ).toBe(true);
         expect(installation.find('#send-your-first-event').exists()).toBe(true);
         overview.unmount();
@@ -155,16 +144,10 @@ describe('Mosaicast first successful Inertia event', () => {
 
         expect(log).not.toHaveBeenCalled();
         await sample.get('a').trigger('click');
-        expect(visits).toEqual([
-            { href: '/mosaicast-example?send=1', preserveState: true },
-        ]);
+        expect(visits).toEqual([{ href: '/mosaicast-example?send=1', preserveState: true }]);
         expect(log).toHaveBeenCalledExactlyOnceWith(42, 'inertia');
         sample.unmount();
-        Mosaicast.mosaicast().emit(
-            'orders.updated',
-            { orderId: 43 },
-            'inertia',
-        );
+        Mosaicast.mosaicast().emit('orders.updated', { orderId: 43 }, 'inertia');
         expect(log).toHaveBeenCalledTimes(1);
         documentation.unmount();
         log.mockRestore();

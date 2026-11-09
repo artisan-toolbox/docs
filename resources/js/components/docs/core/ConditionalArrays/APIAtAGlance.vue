@@ -8,8 +8,7 @@ defineProps({ navigation: { type: Array, required: true } });
     <ProseSection>
         <h2
             id="api-at-a-glance"
-            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white"
-        >
+            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             API at a glance
         </h2>
         <DocsTable caption="API at a glance reference 1"
@@ -26,10 +25,7 @@ defineProps({ navigation: { type: Array, required: true } });
                         <code>sift_when(bool $condition, mixed $value)</code>
                     </td>
                     <td>A direct value or zero-argument closure</td>
-                    <td>
-                        The value when allowed; an internal exclusion marker
-                        when rejected
-                    </td>
+                    <td>The value when allowed; an internal exclusion marker when rejected</td>
                 </tr>
                 <tr>
                     <td><code>Arr::sift(iterable $items)</code></td>
@@ -49,9 +45,8 @@ defineProps({ navigation: { type: Array, required: true } });
             </tbody></DocsTable
         >
         <p>
-            Import <code>sift_when()</code> with its namespace. The
-            <code>sift()</code> methods are Laravel macros registered by Core,
-            so no import is needed for them.
+            Import <code>sift_when()</code> with its namespace. The <code>sift()</code> methods are
+            Laravel macros registered by Core, so no import is needed for them.
         </p>
     </ProseSection>
 </template>

@@ -11,9 +11,11 @@ Vue SSR is disabled in both PHP and Vite.
 `Packages/` contains immutable definitions extending the abstract `Package` contract. The same package object supplies catalog identity, overview specifications, requirements, and an explicit optional overview destination.
 `Documentation` coordinates the six-package catalog and derives navigation from `PageSlug::cases()`.
 
-Navigation is a recursive `NavigationNode` tree. The nearest registered nonempty slug prefix owns each descendant, while the index remains a top-level leaf.
+Navigation is a recursive `NavigationNode` tree. `PageSlug::parent()` owns ancestry, while the index remains a top-level leaf.
 Nodes expose `slug`, `title`, `href`, `active`, `activeAncestor`, and `children`; sibling order follows the enum.
-This uses the existing URL hierarchy instead of a second parent registry that authors would need to keep synchronized.
+The parent defaults to the nearest registered nonempty URL prefix. Sparse enum overrides preserve public guide URLs when editorial groups change. Navigation, active ancestors, and breadcrumbs share this relationship, so grouped links and breadcrumb structured data agree. Parent-graph tests reject cycles and verify that every page appears exactly once. Vue receives the resulting tree rather than maintaining another menu.
+
+`DocsBreadcrumbs` wraps long trails onto additional lines. Each separator stays with its destination, and individual labels can wrap within the available width. All ancestor links and the current-page label remain visible without horizontal scrolling. The navigation landmark adds no extra tab stop; keyboard users reach its links directly.
 One recursive Vue component renders real page links and separate disclosure buttons, with unique control IDs and exact current-page semantics.
 The shared recursive lookup serves page-level guide links as well as the layout, so consumers do not depend on a flat list.
 
@@ -97,7 +99,7 @@ Front Awesome supplies the public Vite plugin, `tailwind.css`, and `web-awesome-
 
 Laravel Vite supplies the font files, optimized Fontaine fallback, and `--font-instrument-sans` stack through `@fonts`. Branding consumes that variable once, and Tailwind and WA share it without a second font transform. See [font maintenance](assets.md#maintain-the-font-fallback).
 
-The package also exports `Theme` and `createFrontAwesome({ theme: true })`. The documentation retains its existing single appearance controller because it additionally owns the server cookie and prepaint behavior. Installing the general Vue plugin would also initialize unrelated toast and Mosaicast lifecycles. The shared-theme guide explicitly supports an existing appearance manager. The controller synchronizes `dark`, `wa-dark`, and `wa-light`, validates persisted values, and follows operating-system changes in system mode. It does not introduce a second theme store.
+The package also exports `Appearance` and `createFrontAwesome({ appearance: true })`. The documentation retains its existing single appearance controller because it additionally owns the server cookie and prepaint behavior. Installing the general Vue plugin would also initialize unrelated toast and Mosaicast lifecycles. The shared-theme guide explicitly supports an existing appearance manager. The controller synchronizes `dark`, `wa-dark`, and `wa-light`, validates persisted values, and follows operating-system changes in system mode. It does not introduce a second theme store.
 
 The real styling demo consumes the Composer-installed public `Button.vue` export. It lives under `components/demo/front-awesome/`, can be resized, and sits next to the source example. It does not start network, printing, or background activity.
 
@@ -130,13 +132,13 @@ The catalog preserves all six package identities. Every legacy content page has 
 The `/packages/{slug}` redirect uses implicit enum binding, so only registered pages redirect. Unknown paths remain 404. Historical aliases and former community paths are explicit named-route redirects; trailing slashes preserve the same destination.
 
 Source references point to the corresponding Vue file on the documentation repository's `1.x` branch. Changes must be published with those files so the collaboration links resolve in the public checkout.
-The existing `docs_old` publication remains authoritative until that cutover.
+The `docs` repository is the only documentation source and application. The retired `docs_old` checkout no longer exists and is not required for authoring, synchronization, or validation. Historical redirects and migration records remain supported independently of that source checkout.
 
 The application now has dedicated installation pages for all six packages, compact guide headers, and Composer-derived installation metadata. The registry has 65 documentation pages. Mosaicast's live response comparisons consume its public client and server APIs. Horizon separates normal jobs from the bounded demo queue, and Reverb supplies the optional broadcast path. Installing these integrations does not claim that their external services or a production worker have been started.
 
 Horizon belongs to the documentation server and is its sole PM2 application. Broadcast delivery uses the external WSS Software Reverb application, which does not run Horizon for this site. Only public connection settings enter the frontend build. PM2 configuration is applied after publication so the Horizon process boots the new current release. Scheduler ownership remains separate. Follow [queue and broadcast operation](queues.md).
 
-Additional package demos and production cutover remain separate units in [the migration plan](migration.md). Ziggy replacement is complete. See [Mosaicast demos](mosaicast-demos.md) and [queue operation](queues.md) for the implemented boundaries and verification.
+The [migration record](migration.md) preserves earlier decisions. New package demos and deployment work are separate tasks in the current application. Ziggy replacement is complete. See [Mosaicast demos](mosaicast-demos.md) and [queue operation](queues.md) for the implemented boundaries and verification.
 
 ## Documentation search
 

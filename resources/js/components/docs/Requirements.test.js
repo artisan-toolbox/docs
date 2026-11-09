@@ -4,10 +4,7 @@ import Requirements from './Requirements.vue';
 
 describe('Requirements', () => {
     it.each([
-        [
-            'Maintainer',
-            ['PHP 8.5 or later within the PHP 8.x series', 'Composer', 'Git'],
-        ],
+        ['Maintainer', ['PHP 8.5 or later within the PHP 8.x series', 'Composer', 'Git']],
         ['a Laravel package', ['PHP 8.3 or later', 'Laravel 12 or later']],
     ])('renders the requirements for %s', (_packageName, items) => {
         const wrapper = mount(Requirements, { props: { items } });
@@ -31,8 +28,6 @@ describe('Requirements', () => {
 
         expect(wrapper.get('h2').text()).toBe('Runtime requirements');
         expect(wrapper.get('h2').attributes('id')).toBe('runtime');
-        expect(wrapper.get('p').text()).toBe(
-            'Install these tools before continuing.',
-        );
+        expect(wrapper.get('p').text()).toBe('Install these tools before continuing.');
     });
 });

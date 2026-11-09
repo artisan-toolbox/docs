@@ -32,11 +32,7 @@ const guideCases = [
             'vendor/bin/maintainer push --branch=1.x --yes --no-interaction',
         ],
         languages: ['bash', 'bash', 'bash'],
-        labels: [
-            'Create a commit',
-            'Push existing commits',
-            'Push a named branch',
-        ],
+        labels: ['Create a commit', 'Push existing commits', 'Push a named branch'],
     },
     {
         component: HtmlDiffs,
@@ -85,11 +81,7 @@ const guideCases = [
             [2, 'Versioning hooks', 'versioning-hooks'],
             [2, 'Managed README header', 'managed-readme-header'],
             [3, 'Update the README locally', 'update-the-readme-locally'],
-            [
-                2,
-                'Migrate an existing version badge',
-                'migrate-an-existing-version-badge',
-            ],
+            [2, 'Migrate an existing version badge', 'migrate-an-existing-version-badge'],
         ],
         examples: [
             "<?php\n\nnamespace App;\n\nuse ArtisanToolbox\\Maintainer\\Versionable\\Contracts\\AfterVersioning;\nuse ArtisanToolbox\\Maintainer\\Versionable\\Contracts\\BeforeVersioning;\nuse ArtisanToolbox\\Maintainer\\Versionable\\Contracts\\Versionable;\n\nfinal class ApplicationVersion implements Versionable, BeforeVersioning, AfterVersioning\n{\n    public const string VERSION = '1.0.0';\n\n    public static function beforeVersioning(string $current, string $next): void\n    {\n        // Prepare project-specific files for the selected version transition.\n    }\n\n    public static function afterVersioning(string $current, string $next): void\n    {\n        // Run project-specific follow-up after GitHub publishes the release.\n    }\n}",
@@ -127,16 +119,13 @@ function navigation(prefix = '/docs') {
                 {
                     slug: 'maintainer/versioning',
                     href: `${prefix}/maintainer/versioning`,
-                    children: [
-                        'commits',
-                        'html-diffs',
-                        'releases',
-                        'project-integration',
-                    ].map((slug) => ({
-                        slug: `maintainer/versioning/${slug}`,
-                        href: `${prefix}/maintainer/versioning/${slug}`,
-                        children: [],
-                    })),
+                    children: ['commits', 'html-diffs', 'releases', 'project-integration'].map(
+                        (slug) => ({
+                            slug: `maintainer/versioning/${slug}`,
+                            href: `${prefix}/maintainer/versioning/${slug}`,
+                            children: [],
+                        }),
+                    ),
                 },
             ],
         },
@@ -168,19 +157,13 @@ describe('Maintainer Versioning guides', () => {
             const wrapper = render(guide);
 
             expect(wrapper.get('h1').text()).toBe(guide.title);
-            expect(wrapper.get('h1').find('.sr-only, img').exists()).toBe(
-                false,
-            );
+            expect(wrapper.get('h1').find('.sr-only, img').exists()).toBe(false);
             expect(wrapper.find('dl').exists()).toBe(false);
-            expect(
-                wrapper.get('[aria-label="Package details"]').text(),
-            ).toContain('Maintainer');
-            expect(
-                wrapper.get('[aria-label="Package details"]').text(),
-            ).toContain('Documented version 1.10');
-            expect(
-                wrapper.get('[aria-label="Package details"]').text(),
-            ).toContain('Stable');
+            expect(wrapper.get('[aria-label="Package details"]').text()).toContain('Maintainer');
+            expect(wrapper.get('[aria-label="Package details"]').text()).toContain(
+                'Documented version 1.10',
+            );
+            expect(wrapper.get('[aria-label="Package details"]').text()).toContain('Stable');
             expect(
                 wrapper
                     .findAll('h2, h3')
@@ -190,24 +173,14 @@ describe('Maintainer Versioning guides', () => {
                         heading.attributes('id'),
                     ]),
             ).toEqual(guide.headings);
-            expect(
-                wrapper.findAll('pre code').map((code) => code.text()),
-            ).toEqual(guide.examples);
+            expect(wrapper.findAll('pre code').map((code) => code.text())).toEqual(guide.examples);
             expect(
                 wrapper
                     .findAll('pre code')
-                    .map((code) =>
-                        code
-                            .classes()
-                            .find((name) => name.startsWith('language-')),
-                    ),
-            ).toEqual(
-                guide.languages.map((language) => `language-${language}`),
-            );
+                    .map((code) => code.classes().find((name) => name.startsWith('language-'))),
+            ).toEqual(guide.languages.map((language) => `language-${language}`));
             expect(
-                wrapper
-                    .findAll('button')
-                    .map((button) => button.attributes('aria-label')),
+                wrapper.findAll('button').map((button) => button.attributes('aria-label')),
             ).toEqual(guide.labels.map((label) => `Copy ${label}`));
         });
     }
@@ -215,18 +188,12 @@ describe('Maintainer Versioning guides', () => {
     for (const guide of [guideCases[0], guideCases[1], guideCases[3]]) {
         it(`follows route-provided destinations in ${guide.title} after navigation data changes`, async () => {
             const wrapper = render(guide);
-            const before = wrapper
-                .findAll('a')
-                .map((link) => link.attributes('href'));
+            const before = wrapper.findAll('a').map((link) => link.attributes('href'));
 
-            expect(
-                before.filter((href) => href.startsWith('/docs/')).length,
-            ).toBeGreaterThan(0);
+            expect(before.filter((href) => href.startsWith('/docs/')).length).toBeGreaterThan(0);
             await wrapper.setProps({ navigation: navigation('/reference') });
 
-            expect(
-                wrapper.findAll('a').map((link) => link.attributes('href')),
-            ).toEqual(
+            expect(wrapper.findAll('a').map((link) => link.attributes('href'))).toEqual(
                 before.map((href) => href.replace('/docs/', '/reference/')),
             );
         });
@@ -235,9 +202,7 @@ describe('Maintainer Versioning guides', () => {
     it('keeps every Versioning group link local including the pending push anchor', () => {
         const wrapper = render(guideCases[0]);
 
-        expect(
-            wrapper.findAll('a').map((link) => link.attributes('href')),
-        ).toEqual([
+        expect(wrapper.findAll('a').map((link) => link.attributes('href'))).toEqual([
             '/docs/maintainer/versioning/commits',
             '/docs/maintainer/versioning/commits#push-existing-commits',
             '/docs/maintainer/versioning/html-diffs',
@@ -279,9 +244,7 @@ describe('Maintainer Versioning guides', () => {
         ]) {
             expect(text).toContain(phrase);
         }
-        expect(
-            wrapper.findAll('a').map((link) => link.attributes('href')),
-        ).toEqual([
+        expect(wrapper.findAll('a').map((link) => link.attributes('href'))).toEqual([
             '/docs/maintainer/versioning/html-diffs',
             '/docs/maintainer/configuration/reference',
         ]);
@@ -369,9 +332,7 @@ describe('Maintainer Versioning guides', () => {
         expect(wrapper.get('#migrate-an-existing-version-badge').text()).toBe(
             'Migrate an existing version badge',
         );
-        expect(wrapper.get('#update-the-readme-locally').text()).toBe(
-            'Update the README locally',
-        );
+        expect(wrapper.get('#update-the-readme-locally').text()).toBe('Update the README locally');
         expect(wrapper.findAll('ol li')).toHaveLength(4);
     });
 });

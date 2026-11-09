@@ -12,12 +12,7 @@ defineProps({ navigation: { type: Array, required: true } });
                 <li>
                     <p>
                         <DocsLink
-                            :href="
-                                findNavigationItem(
-                                    navigation,
-                                    'maintainer/ci/quality',
-                                ).href
-                            "
+                            :href="findNavigationItem(navigation, 'maintainer/ci/quality').href"
                             ><code>quality:fix</code></DocsLink
                         >: apply Rector, Pint, and Vite+ fixes.
                     </p>
@@ -25,12 +20,7 @@ defineProps({ navigation: { type: Array, required: true } });
                 <li>
                     <p>
                         <DocsLink
-                            :href="
-                                findNavigationItem(
-                                    navigation,
-                                    'maintainer/ci/quality',
-                                ).href
-                            "
+                            :href="findNavigationItem(navigation, 'maintainer/ci/quality').href"
                             ><code>quality:check</code></DocsLink
                         >: run Pest, Pint, Vite+, vue-tsc, and PHPStan checks.
                     </p>
@@ -49,21 +39,17 @@ defineProps({ navigation: { type: Array, required: true } });
                                 ).href
                             "
                             ><code>config:publish</code></DocsLink
-                        >: publish Maintainer, quality, testing, and deployment
-                        templates.
+                        >: publish Maintainer, quality, testing, and deployment templates.
                     </p>
                 </li>
                 <li>
                     <p>
                         <DocsLink
                             :href="
-                                findNavigationItem(
-                                    navigation,
-                                    'maintainer/configuration/ssh-keys',
-                                ).href
+                                findNavigationItem(navigation, 'maintainer/configuration/ssh-keys')
+                                    .href
                             "
-                            ><code>ssh:key</code> and
-                            <code>ssh:public</code></DocsLink
+                            ><code>ssh:key</code> and <code>ssh:public</code></DocsLink
                         >: display the encrypted Maintainer identity.
                     </p>
                 </li>
@@ -71,14 +57,12 @@ defineProps({ navigation: { type: Array, required: true } });
                     <p>
                         <DocsLink
                             :href="
-                                findNavigationItem(
-                                    navigation,
-                                    'maintainer/configuration/reference',
-                                ).href
+                                findNavigationItem(navigation, 'maintainer/configuration/reference')
+                                    .href
                             "
                             >Configuration reference</DocsLink
-                        >: configure defaults, secrets, environment variables,
-                        encryption, and AI providers.
+                        >: configure defaults, secrets, environment variables, encryption, and AI
+                        providers.
                     </p>
                 </li>
             </ul>

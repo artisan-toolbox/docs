@@ -18,12 +18,9 @@ describe('Legacy documentation fixture integrity in the workspace', () => {
         {
             slug: 'mosaicast/installation',
             legacyPath: 'packages/mosaicast/installation',
-            sourceSha256:
-                'dbc08e88b8a774630b2e8367b0647eb1638c998db86b61fb5412f3e3aca7be9d',
+            sourceSha256: 'dbc08e88b8a774630b2e8367b0647eb1638c998db86b61fb5412f3e3aca7be9d',
         },
-        ...community.filter(
-            (page) => page.slug === 'project/documentation-policy',
-        ),
+        ...community.filter((page) => page.slug === 'project/documentation-policy'),
     ]) {
         it(`matches the frozen ${fixture.slug} fixture to its legacy source`, () => {
             const source = readFileSync(
@@ -56,9 +53,7 @@ describe('Offline legacy documentation conversion', () => {
         expect(source).not.toContain('v-html');
         const { descriptor, errors } = parse(source);
         expect(errors).toEqual([]);
-        expect(() =>
-            compileScript(descriptor, { id: 'converted-core' }),
-        ).not.toThrow();
+        expect(() => compileScript(descriptor, { id: 'converted-core' })).not.toThrow();
         expect(convert('packages/mosaicast/index')).toContain(
             "findNavigationItem(navigation, 'mosaicast/vue-plugin').href",
         );
@@ -71,25 +66,14 @@ describe('Offline legacy documentation conversion', () => {
         try {
             const filename = path.join(directory, 'Converted.vue');
             writeFileSync(filename, source);
-            execFileSync(path.resolve('node_modules/.bin/vp'), [
-                'fmt',
-                filename,
-            ]);
-            execFileSync(path.resolve('node_modules/.bin/vp'), [
-                'lint',
-                '--fix',
-                filename,
-            ]);
+            execFileSync(path.resolve('node_modules/.bin/vp'), ['fmt', filename]);
+            execFileSync(path.resolve('node_modules/.bin/vp'), ['lint', '--fix', filename]);
             const formatted = readFileSync(filename, 'utf8');
             const { descriptor, errors } = parse(formatted);
             expect(errors).toEqual([]);
-            expect(() =>
-                compileScript(descriptor, { id: 'converted-qztray' }),
-            ).not.toThrow();
+            expect(() => compileScript(descriptor, { id: 'converted-qztray' })).not.toThrow();
             const examples = [
-                ...formatted.matchAll(
-                    /const example\d+ =\s*(`(?:\\[\s\S]|[^`])*`);/g,
-                ),
+                ...formatted.matchAll(/const example\d+ =\s*(`(?:\\[\s\S]|[^`])*`);/g),
             ].map((match) =>
                 match[1]
                     .slice(1, -1)
@@ -98,14 +82,12 @@ describe('Offline legacy documentation conversion', () => {
                     ),
             );
             const markdown = readFileSync(
-                path.resolve(
-                    '../docs_old/src/content/docs/packages/qztray/index.md',
-                ),
+                path.resolve('../docs_old/src/content/docs/packages/qztray/index.md'),
                 'utf8',
             );
-            const originalExamples = [
-                ...markdown.matchAll(/^```[^\n]*\n([\s\S]*?)\n```/gm),
-            ].map((match) => match[1]);
+            const originalExamples = [...markdown.matchAll(/^```[^\n]*\n([\s\S]*?)\n```/gm)].map(
+                (match) => match[1],
+            );
             expect(examples).toEqual(originalExamples);
         } finally {
             rmSync(directory, { recursive: true, force: true });
@@ -116,8 +98,6 @@ describe('Offline legacy documentation conversion', () => {
         const source = convert('packages/front-awesome/index');
         expect(source).toContain('<DocsCallout variant=');
         expect(source).toContain('id="frontend-distribution"');
-        expect(source).toContain(
-            '<template #title>Work in progress (WIP)</template>',
-        );
+        expect(source).toContain('<template #title>Work in progress (WIP)</template>');
     });
 });

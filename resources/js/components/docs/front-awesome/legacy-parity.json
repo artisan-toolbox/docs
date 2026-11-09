@@ -312,10 +312,7 @@
                     "php vendor/bin/maintainer quality:check --no-interaction",
                     "Runs the configured PHP and frontend checks."
                 ],
-                [
-                    "composer test",
-                    "Runs PHPStan, Pint, Pest, and PHP type coverage."
-                ],
+                ["composer test", "Runs PHPStan, Pint, Pest, and PHP type coverage."],
                 [
                     "npm run build",
                     "Builds the Vite consumer fixture. It uses Pro when Pro is installed and Core otherwise."
@@ -709,16 +706,20 @@
         ],
         "examples": [
             {
-                "code": "<template>\n  <wa-page\n    class=\"project-page\"\n    mobile-breakpoint=\"48rem\"\n    disable-navigation-toggle\n  >\n    <header slot=\"header\" class=\"flex items-center gap-4\">\n      <wa-button data-toggle-nav>Menu</wa-button>\n      <a href=\"/\">Project</a>\n    </header>\n    <div slot=\"navigation-header\">Project navigation</div>\n    <div slot=\"navigation\" class=\"flex flex-col gap-2\">\n      <a href=\"/dashboard\">Dashboard</a>\n      <a href=\"/reports\">Reports</a>\n    </div>\n    <main id=\"content\">\n      <h1 class=\"text-2xl font-semibold\">Dashboard</h1>\n      <p class=\"mt-4\">Your application content.</p>\n    </main>\n    <aside slot=\"aside\" aria-label=\"On this page\">\n      <a href=\"#content\">Dashboard</a>\n    </aside>\n    <footer slot=\"footer\">Project footer</footer>\n  </wa-page>\n</template>\n\n<script setup lang=\"ts\">\nimport \"@awesome.me/webawesome/dist/components/page/page.js\";\nimport \"@awesome.me/webawesome/dist/components/button/button.js\";\n</script>\n\n<style>\n.project-page {\n  --menu-width: 16rem;\n  --aside-width: 14rem;\n}\n\n.project-page[view=\"mobile\"] {\n  --menu-width: auto;\n  --aside-width: auto;\n}\n\n.project-page[view=\"mobile\"] > [slot=\"aside\"] {\n  display: none;\n}\n</style>",
+                "code": "<script setup>\nimport { Button, Page } from '@artisan-toolbox/front-awesome/components';\n</script>\n\n<template>\n  <Page\n    class=\"project-page\"\n    mobile-breakpoint=\"48rem\"\n    disable-navigation-toggle\n  >\n    <header slot=\"header\" class=\"flex items-center gap-4\">\n      <Button data-toggle-nav>Menu</Button>\n      <a href=\"/\">Project</a>\n    </header>\n    <div slot=\"navigation-header\">Project navigation</div>\n    <div slot=\"navigation\" class=\"flex flex-col gap-2\">\n      <a href=\"/dashboard\">Dashboard</a>\n      <a href=\"/reports\">Reports</a>\n    </div>\n    <main id=\"content\">\n      <h1 class=\"text-2xl font-semibold\">Dashboard</h1>\n      <p class=\"mt-4\">Your application content.</p>\n    </main>\n    <aside slot=\"aside\" aria-label=\"On this page\">\n      <a href=\"#content\">Dashboard</a>\n    </aside>\n    <footer slot=\"footer\">Project footer</footer>\n  </Page>\n</template>\n\n\n<style>\n.project-page {\n  --menu-width: 16rem;\n  --aside-width: 14rem;\n}\n\n.project-page[view=\"mobile\"] {\n  --menu-width: auto;\n  --aside-width: auto;\n}\n\n.project-page[view=\"mobile\"] > [slot=\"aside\"] {\n  display: none;\n}\n</style>",
                 "language": "vue"
             },
             {
-                "code": "<wa-page class=\"reports-page\">\n  <main class=\"p-0\">\n    <section class=\"p-4\">A full-width report with an inner gutter.</section>\n  </main>\n</wa-page>",
-                "language": "html"
+                "code": "<script setup>\nimport { Page } from '@artisan-toolbox/front-awesome/components';\n</script>\n\n<template>\n  <Page class=\"reports-page\">\n    <main class=\"p-0\">\n      <section class=\"p-4\">A full-width report with an inner gutter.</section>\n    </main>\n  </Page>\n</template>",
+                "language": "vue"
             }
         ],
         "anchors": [],
         "links": [
+            {
+                "slug": "front-awesome/installation",
+                "href": "/docs/front-awesome/installation"
+            },
             {
                 "slug": "front-awesome/shared-theme",
                 "hash": "",
@@ -739,16 +740,17 @@
             }
         ],
         "paragraphs": [
-            "Use wa-page after installing the shared Tailwind theme. Register the page element from the same Web Awesome edition used by Front Awesome. The example below uses Core.",
+            "Start in the Laravel, Inertia, and Vue application from Installation. Keep its Vite plugin and Web Awesome styles. This layout example uses the shared Tailwind theme. Add the example to a Vue page in that application. The Page wrapper registers wa-page after browser mount and adds no classes, styles, theme, or layout defaults. It needs no toast plugin.",
             "The main content uses the unnamed slot. There is no slot=\"main\". Supply the semantic main, header, footer, and aside elements in your markup. On desktop, Web Awesome already wraps navigation content in a navigation landmark, so the example uses a div for that slot.",
             "The same navigation content appears beside the main content on desktop and inside Web Awesome's drawer on mobile. Keep one navigation tree. Do not add a second responsive drawer around it.",
             "The custom Menu button exists because this example has navigation. Its data-toggle-nav attribute uses Web Awesome's toggle behavior and desktop visibility helper. disable-navigation-toggle suppresses the default button, including the initial markup before custom-toggle detection. For a page without navigation, omit the custom button and navigation slots.",
-            "For Pro, replace both component import prefixes with @web.awesome.me/webawesome-pro. Keep edition selection consistent across the page.",
+            "The wrapper's runtime imports follow the Front Awesome Vite plugin's Core or Pro selection. Keep edition selection consistent across the page.",
             "The imported default theme keeps the html and body minimum-height and zero-gutter rules for documents containing wa-page. The upstream layer stylesheet also keeps fragment scroll offsets, custom-toggle visibility, and the wa-mobile-only and wa-desktop-only helpers.",
             "Keep the two public style entries. Importing only component JavaScript does not install those document rules. Do not add native.css to obtain them.",
             "Tailwind Preflight resets padding on the light-DOM elements assigned to page slots. The adapter uses a narrow base-layer revert-layer guard to restore upstream padding where the page supplies it. The guard excludes toggle and skip-link slots.",
             "Use explicit Tailwind utilities to change padding for a page region:",
             "The p-0 main is full bleed only for this page. p-4 remains an explicit utility override. Do not globally remove padding from every main, copy upstream padding dimensions into application CSS, or remove Preflight to fix this interaction.",
+            "All Page options are optional. A page can omit nav-open, mobile-breakpoint, navigation-placement, and nonce. Web Awesome supplies the native defaults; no placeholder attributes are required when registering Page through Vue's Options API.",
             "Set mobile-breakpoint as the input. Web Awesome reflects the resulting layout through view=\"mobile\" or view=\"desktop\". Do not bind view as a competing layout controller.",
             "When you customize --menu-width, reset it to auto in the mobile rule, as in the example. The mobile drawer owns navigation width. A retained desktop width can constrain the page grid after navigation moves.",
             "The example hides the aside on mobile and resets its custom width as an application choice. Retaining --aside-width: 14rem would reserve an empty grid column after hiding its content. The adapter does not globally hide, stack, or reposition asides. To retain the aside, design a page-specific stacking rule and test its grid placement, width, and sticky behavior at your breakpoint.",
@@ -960,10 +962,10 @@
             "Remove @artisan-toolbox/front-awesome/web-awesome.css and other imports of Web Awesome's standard stylesheet from this setup. Loading both paths reintroduces native-element styles and makes the result depend on competing theme imports.",
             "After registering the Vue plugin, render a Tailwind element beside a Front Awesome button:",
             "Both elements use the shared brand family and font. Their component shapes and interaction details remain library-specific. Follow Customize branding to change shared values.",
-            "For Front Awesome to manage the document's preference, enable createFrontAwesome({ theme: true }). The Vue plugin guide describes persistence, system changes, and cleanup.",
+            "For Front Awesome to manage the document's preference, enable createFrontAwesome({ appearance: true }). The Vue plugin guide describes persistence, system changes, and cleanup.",
             "If the application already manages appearance, retain that controller. Apply dark and wa-dark to <html> for dark mode, or wa-light for light mode. Remove the opposite mode classes when switching. The Tailwind dark variant follows dark. Web Awesome follows wa-dark and wa-light.",
             "SSR applications can apply these classes in the document head before the first paint. Use the same preference and fallback as the browser controller. The theme stylesheet does not read storage, set an SSR cookie, or add an appearance controller.",
-            "The existing styles.css, web-awesome.css, and theme: true APIs retain their behavior. Existing applications opt in by changing their style imports. To return to an application-owned theme, restore the original setup and remove the adapter imports.",
+            "The existing styles.css, web-awesome.css, and appearance: true APIs retain their behavior. Existing applications opt in by changing their style imports. To return to an application-owned theme, restore the original setup and remove the adapter imports.",
             "For page layouts, follow Build a page layout. For PrimeVue 4 styled components, add the optional preset."
         ],
         "tables": []
@@ -1131,11 +1133,7 @@
                     "Upstream Web Awesome default theme",
                     "Retain upstream values unless an explicit adapter mapping replaces them."
                 ],
-                [
-                    "Native HTML baseline",
-                    "Tailwind Preflight",
-                    "Exclude Web Awesome native.css."
-                ],
+                ["Native HTML baseline", "Tailwind Preflight", "Exclude Web Awesome native.css."],
                 [
                     "Page prerequisites",
                     "Upstream default theme and layers",
@@ -1173,14 +1171,8 @@
                     "Spacing 3xs, 2xs, xs, s, m, l, xl, 2xl, 3xl, 4xl, and 5xl",
                     "--spacing multiplied by 0.5, 1, 2, 3, 4, 6, 8, 10, 12, 16, and 20"
                 ],
-                [
-                    "Radius s, m, and l",
-                    "--radius-sm, --radius-md, and --radius-xl"
-                ],
-                [
-                    "Shadow s, m, and l",
-                    "--shadow-sm, --shadow-md, and --shadow-lg"
-                ]
+                ["Radius s, m, and l", "--radius-sm, --radius-md, and --radius-xl"],
+                ["Shadow s, m, and l", "--shadow-sm, --shadow-md, and --shadow-lg"]
             ],
             [
                 ["Role pair", "Light mode", "Dark mode"],
@@ -1363,10 +1355,7 @@
         "tables": [
             [
                 ["Option", "Accepted values"],
-                [
-                    "variant",
-                    "brand, success, warning, danger, or neutral. Defaults to neutral."
-                ],
+                ["variant", "brand, success, warning, danger, or neutral. Defaults to neutral."],
                 [
                     "duration",
                     "A non-negative integer in milliseconds. Use 0 to wait for dismissal."
@@ -1376,10 +1365,7 @@
                     "An icon name or an object with name and optional library, family, and variant strings. Pass an icon to display one."
                 ],
                 ["size", "xs, s, m, l, or xl. Defaults to m."],
-                [
-                    "allowHtml",
-                    "Defaults to plain text. Set to true only for trusted HTML."
-                ]
+                ["allowHtml", "Defaults to plain text. Set to true only for trusted HTML."]
             ]
         ]
     },
@@ -1393,7 +1379,7 @@
             {
                 "level": 2,
                 "id": "add-a-theme-selector",
-                "text": "Add a theme selector"
+                "text": "Add an appearance selector"
             },
             {
                 "level": 2,
@@ -1417,11 +1403,11 @@
                 "language": "ts"
             },
             {
-                "code": "app.use(createFrontAwesome({ theme: true }));",
+                "code": "app.use(createFrontAwesome({ appearance: true }));",
                 "language": "ts"
             },
             {
-                "code": "<template>\n  <Theme v-slot=\"{ theme, toggle, system, dark, light }\">\n    <button type=\"button\" :aria-pressed=\"theme === 'system'\" @click=\"system\">\n      System\n    </button>\n    <button type=\"button\" :aria-pressed=\"theme === 'dark'\" @click=\"dark\">\n      Dark\n    </button>\n    <button type=\"button\" :aria-pressed=\"theme === 'light'\" @click=\"light\">\n      Light\n    </button>\n    <button type=\"button\" @click=\"toggle\">Toggle theme</button>\n  </Theme>\n</template>\n\n<script setup lang=\"ts\">\nimport { Theme } from \"@artisan-toolbox/front-awesome/components\";\n</script>",
+                "code": "<template>\n  <Appearance v-slot=\"{ appearance, toggle, system, dark, light }\">\n    <button type=\"button\" :aria-pressed=\"appearance === 'system'\" @click=\"system\">\n      System\n    </button>\n    <button type=\"button\" :aria-pressed=\"appearance === 'dark'\" @click=\"dark\">\n      Dark\n    </button>\n    <button type=\"button\" :aria-pressed=\"appearance === 'light'\" @click=\"light\">\n      Light\n    </button>\n    <button type=\"button\" @click=\"toggle\">Toggle appearance</button>\n  </Appearance>\n</template>\n\n<script setup lang=\"ts\">\nimport { Appearance } from \"@artisan-toolbox/front-awesome/components\";\n</script>",
                 "language": "vue"
             },
             {
@@ -1483,12 +1469,12 @@
         "paragraphs": [
             "After installation and Web Awesome setup, add createFrontAwesome() to the existing withApp hook in your Inertia entry point.",
             "The plugin provides the Vue toast service and starts the browser listeners for Inertia flash and Mosaicast events. It adds one Web Awesome toast stack to document.body. The stack stays in place as Inertia changes pages. If several Vue apps share a document, the plugin removes the stack and its listeners when the last app unmounts. Server rendering has access to the service.",
-            "Pass theme: true to let the plugin manage the page's color mode. Apps that already manage color mode can omit this option.",
+            "Pass appearance: true to let the plugin manage the page's color mode. Apps that already manage color mode can omit this option.",
             "This option controls light, dark, and system preferences. It does not install a visual theme. Choose application-owned Web Awesome styles or the shared Tailwind theme separately.",
-            "Import Theme from @artisan-toolbox/front-awesome/components and put your controls in its default slot. The component adds no wrapper element.",
-            "theme is the selected preference: system, dark, or light. Each matching action selects that preference. toggle() selects the opposite of the color mode currently in use. For example, if system resolves to dark, toggle() selects light and stops following system changes. All selectors in the same document share the preference.",
-            "If you wrap the selector in your own component, import the ThemePreference type from @artisan-toolbox/front-awesome.",
-            "The plugin reads the appearance preference from browser storage and applies the color mode before Vue mounts. It follows the system preference if no valid choice is saved. If storage is unavailable, the controls still work for the current page. During server rendering and hydration, the slot starts at system and reads the browser preference after mount. The plugin stops listening for system changes when the last app with theme support unmounts.",
+            "Import Appearance from @artisan-toolbox/front-awesome/components and put your controls in its default slot. The component adds no wrapper element.",
+            "appearance is the selected preference: system, dark, or light. Each matching action selects that preference. toggle() selects the opposite of the color mode currently in use. For example, if system resolves to dark, toggle() selects light and stops following system changes. All selectors in the same document share the preference.",
+            "If you wrap the selector in your own component, import the AppearancePreference type from @artisan-toolbox/front-awesome.",
+            "The plugin reads the appearance preference from browser storage and applies the color mode before Vue mounts. It follows the system preference if no valid choice is saved. If storage is unavailable, the controls still work for the current page. During server rendering and hydration, the slot starts at system and reads the browser preference after mount. The plugin stops listening for system changes when the last app with appearance support unmounts.",
             "The manager sets dark and wa-dark on <html> in dark mode, or wa-light in light mode. The shared Tailwind entry already defines the matching dark:* variant. With a direct Tailwind import, add this variant after that import:",
             "Inertia resolves the initial page before it installs the plugin. If your app must apply the preference before the first paint, use an inline script in the document head that reads the same appearance key, defaults to system, and applies the same root classes.",
             "The default placement is top-end. Set flashToast.placement to top-start, top-center, top-end, bottom-start, bottom-center, or bottom-end. The first app to start the stack sets its placement.",
@@ -1570,7 +1556,7 @@
             "For an existing application-owned theme, keep the following setup.",
             "Import the package's Tailwind source stylesheet after Tailwind in the application CSS entry. Tailwind uses the source directive to scan the package's Vue components for utility classes.",
             "If the application already loads Web Awesome styles, keep its existing setup. To load the standard Web Awesome stylesheet, import the optional stylesheet in the JavaScript entry. Vite can then resolve the nested CSS imports.",
-            "Front Awesome components inherit the active Web Awesome theme and the application's --wa-* tokens. Set colors, typography, and spacing in the application. To manage light and dark mode with Front Awesome, add a theme selector.",
+            "Front Awesome components inherit the active Web Awesome theme and the application's --wa-* tokens. Set colors, typography, and spacing in the application. To manage light and dark mode with Front Awesome, add an appearance selector.",
             "The Vite plugin prefers the application's installed @web.awesome.me/webawesome-pro package. It otherwise uses the application's Core installation or the Core copy supplied by Front Awesome. The plugin selects the edition for Front Awesome's button, button group, toast, and optional Web Awesome stylesheet entries.",
             "Import native components directly from the edition your application uses. For example, a Pro app can import @web.awesome.me/webawesome-pro/dist/components/icon/icon.js. The Vite plugin only changes Front Awesome's internal imports. Use one edition on each page because both editions register the same custom element names. If you previously added an alias for the entire Core package, remove it and rebuild.",
             "Edition selection does not establish theme compatibility for an untested Pro release. See the shared-theme compatibility record before adopting the adapter."

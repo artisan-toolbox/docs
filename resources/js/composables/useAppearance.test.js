@@ -1,12 +1,5 @@
 import { enableAutoUnmount, mount } from '@vue/test-utils';
-import {
-    afterEach,
-    beforeEach,
-    describe,
-    expect,
-    it,
-    vi,
-} from 'vite-plus/test';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test';
 import { defineComponent, h, nextTick } from 'vue';
 import { initializeTheme, updateTheme, useAppearance } from './useAppearance';
 
@@ -16,8 +9,7 @@ let systemChange;
 
 const AppearanceControl = defineComponent({
     setup() {
-        const { appearance, resolvedAppearance, updateAppearance } =
-            useAppearance();
+        const { appearance, resolvedAppearance, updateAppearance } = useAppearance();
         return () =>
             h(
                 'select',
@@ -26,9 +18,7 @@ const AppearanceControl = defineComponent({
                     'data-resolved': resolvedAppearance.value,
                     onChange: (event) => updateAppearance(event.target.value),
                 },
-                ['system', 'light', 'dark'].map((value) =>
-                    h('option', { value }, value),
-                ),
+                ['system', 'light', 'dark'].map((value) => h('option', { value }, value)),
             );
     },
 });
@@ -50,15 +40,9 @@ beforeEach(() => {
 afterEach(() => vi.unstubAllGlobals());
 
 function expectMode(mode) {
-    expect(document.documentElement.classList.contains('dark')).toBe(
-        mode === 'dark',
-    );
-    expect(document.documentElement.classList.contains('wa-dark')).toBe(
-        mode === 'dark',
-    );
-    expect(document.documentElement.classList.contains('wa-light')).toBe(
-        mode === 'light',
-    );
+    expect(document.documentElement.classList.contains('dark')).toBe(mode === 'dark');
+    expect(document.documentElement.classList.contains('wa-dark')).toBe(mode === 'dark');
+    expect(document.documentElement.classList.contains('wa-light')).toBe(mode === 'light');
 }
 
 describe('shared appearance controller', () => {

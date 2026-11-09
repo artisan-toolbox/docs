@@ -37,10 +37,7 @@ describe('shared site icons', () => {
             size: 'sm',
         });
         const ownedContainer = wrapper.get('[data-kit-icon]').element;
-        const svg = document.createElementNS(
-            'http://www.w3.org/2000/svg',
-            'svg',
-        );
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         wrapper.get('i').element.replaceWith(svg);
 
         await wrapper.setProps({ label: 'Pest framework', size: 'lg' });
@@ -56,20 +53,14 @@ describe('shared site icons', () => {
         });
         expect(wrapper.get('[data-kit-icon]').element).not.toBe(ownedContainer);
         expect(wrapper.find('svg').exists()).toBe(false);
-        expect(wrapper.get('i').classes()).toEqual([
-            'fa-kit-duotone',
-            'fa-atb-mosaicast',
-        ]);
+        expect(wrapper.get('i').classes()).toEqual(['fa-kit-duotone', 'fa-atb-mosaicast']);
         expect(wrapper.attributes('aria-hidden')).toBe('true');
         expect(wrapper.attributes('aria-label')).toBeUndefined();
     });
 
     it('switches between replaced kit icons and native WA icons without stale nodes', async () => {
         const wrapper = render({ name: 'atb-core', family: 'kit-duotone' });
-        const svg = document.createElementNS(
-            'http://www.w3.org/2000/svg',
-            'svg',
-        );
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         wrapper.get('i').element.replaceWith(svg);
         await wrapper.setProps({ name: 'house', family: 'classic' });
         expect(wrapper.element.tagName).toBe('WA-ICON');
@@ -116,15 +107,8 @@ describe('shared site icons', () => {
 
     it('lets the installed WA default library resolve the public kit identifier without a custom resolver', () => {
         setKitCode('');
-        document.documentElement.setAttribute(
-            'data-fa-kit-code',
-            'public-kit-example',
-        );
-        const url = getIconLibrary('default').resolver(
-            'book-open',
-            'classic',
-            'solid',
-        );
+        document.documentElement.setAttribute('data-fa-kit-code', 'public-kit-example');
+        const url = getIconLibrary('default').resolver('book-open', 'classic', 'solid');
         expect(url).toMatch(
             /^https:\/\/ka-p\.fontawesome\.com\/releases\/v[\d.]+\/svgs\/solid\/book-open\.svg\?token=public-kit-example$/,
         );

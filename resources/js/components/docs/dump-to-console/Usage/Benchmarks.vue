@@ -11,18 +11,13 @@ $report = Benchmark::dc(fn () => $service->generateReport());`;
     <ProseSection>
         <h2
             id="benchmarks"
-            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white"
-        >
+            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Benchmarks
         </h2>
         <p>
-            The package registers <code>Benchmark::dc()</code> to measure a
-            callback once, dump its duration and result, and return the result:
+            The package registers <code>Benchmark::dc()</code> to measure a callback once, dump its
+            duration and result, and return the result:
         </p>
-        <CodeExample
-            label="Benchmarks example 1"
-            language="php"
-            :code="example1"
-        />
+        <CodeExample label="Benchmarks example 1" language="php" :code="example1" />
     </ProseSection>
 </template>

@@ -28,11 +28,7 @@ defineProps({
             <ProseSection>
                 <p>
                     Follow
-                    <DocsLink
-                        :href="
-                            findNavigationItem(navigation, 'core/installation')
-                                .href
-                        "
+                    <DocsLink :href="findNavigationItem(navigation, 'core/installation').href"
                         >Install Core</DocsLink
                     >
                     for the complete setup and a first working example.

@@ -23,15 +23,13 @@ async function previewLabel() {
             heightMm: 150,
             dpmm: 8,
         });
-        if (request === generation)
-            state.value = { status: 'ready', url, error: '' };
+        if (request === generation) state.value = { status: 'ready', url, error: '' };
     } catch (error) {
         if (request === generation) {
             state.value = {
                 status: 'error',
                 url: '',
-                error:
-                    error instanceof Error ? error.message : 'Preview failed.',
+                error: error instanceof Error ? error.message : 'Preview failed.',
             };
         }
     }
@@ -44,24 +42,14 @@ onBeforeUnmount(clear);
     <DemoFrame
         title="Try a local label preview"
         description="Render the Hello label in your browser. No printer or credentials are required."
-        :sources="[
-            { label: 'ZplPreviewDemo.vue', language: 'vue', code: source },
-        ]"
-        data-search-exclude
-    >
+        :sources="[{ label: 'ZplPreviewDemo.vue', language: 'vue', code: source }]"
+        data-search-exclude>
         <div class="flex flex-col items-start gap-4">
             <div class="flex flex-wrap gap-2">
-                <DemoAction
-                    :busy="state.status === 'loading'"
-                    @click="previewLabel"
-                >
+                <DemoAction :busy="state.status === 'loading'" @click="previewLabel">
                     Preview label
                 </DemoAction>
-                <DemoAction
-                    variant="neutral"
-                    :disabled="state.status === 'idle'"
-                    @click="clear"
-                >
+                <DemoAction variant="neutral" :disabled="state.status === 'idle'" @click="clear">
                     Clear preview
                 </DemoAction>
             </div>
@@ -74,19 +62,14 @@ onBeforeUnmount(clear);
                           : 'Select Preview label to render Hello.'
                 }}
             </p>
-            <p
-                v-if="state.error"
-                role="alert"
-                class="text-sm text-red-700 dark:text-red-300"
-            >
+            <p v-if="state.error" role="alert" class="text-sm text-red-700 dark:text-red-300">
                 {{ state.error }}
             </p>
             <img
                 v-if="state.url"
                 :src="state.url"
                 alt="Label containing Hello"
-                class="max-h-80 max-w-full rounded border border-slate-200 bg-white"
-            />
+                class="max-h-80 max-w-full rounded border border-slate-200 bg-white" />
         </div>
     </DemoFrame>
 </template>

@@ -5,11 +5,7 @@ const palette = [
     {
         color: '#C4B5FD',
         className: 'text-violet-300',
-        scopes: [
-            'keyword',
-            'storage',
-            'punctuation.definition.template-expression',
-        ],
+        scopes: ['keyword', 'storage', 'punctuation.definition.template-expression'],
     },
     {
         color: '#6EE7B7',
@@ -43,9 +39,7 @@ const palette = [
     },
 ];
 
-const tokenClasses = new Map(
-    palette.map(({ color, className }) => [color, className]),
-);
+const tokenClasses = new Map(palette.map(({ color, className }) => [color, className]));
 
 const theme = {
     name: 'atb-dark',
@@ -61,10 +55,7 @@ let highlighterPromise;
 const languagePromises = new Map();
 
 async function highlighter() {
-    highlighterPromise ??= Promise.all([
-        import('shiki/core'),
-        import('shiki/engine/javascript'),
-    ])
+    highlighterPromise ??= Promise.all([import('shiki/core'), import('shiki/engine/javascript')])
         .then(([{ createHighlighterCore }, { createJavaScriptRegexEngine }]) =>
             createHighlighterCore({
                 engine: createJavaScriptRegexEngine(),

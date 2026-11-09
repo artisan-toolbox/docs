@@ -26,41 +26,30 @@ mosaicast().off("orders.updated", onOrderUpdated);`;
     <ProseSection>
         <h2
             id="listen-for-events"
-            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white"
-        >
+            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Listen for events
         </h2>
         <p>
-            Use <code>mosaicast()</code> anywhere in the client application
-            after importing it from the package. <code>on()</code> returns an
-            unsubscribe callback, and <code>off()</code> removes a specific
-            listener.
+            Use <code>mosaicast()</code> anywhere in the client application after importing it from
+            the package. <code>on()</code> returns an unsubscribe callback, and
+            <code>off()</code> removes a specific listener.
         </p>
-        <CodeExample
-            label="Listen for events example 1"
-            language="ts"
-            :code="example1"
-        />
+        <CodeExample label="Listen for events example 1" language="ts" :code="example1" />
         <p>
-            Register component listeners during component setup and call the
-            returned function on unmount. The plugin itself registers navigation
-            and Echo subscriptions during installation; Vue lifecycle hooks such
-            as <code>onMounted()</code> belong inside components or composables.
+            Register component listeners during component setup and call the returned function on
+            unmount. The plugin itself registers navigation and Echo subscriptions during
+            installation; Vue lifecycle hooks such as <code>onMounted()</code> belong inside
+            components or composables.
         </p>
         <p>Laravel Echo-style leading dots are accepted too:</p>
-        <CodeExample
-            label="Listen for events example 2"
-            language="ts"
-            :code="example2"
-        />
+        <CodeExample label="Listen for events example 2" language="ts" :code="example2" />
         <p>
-            The event name is identical for shared-prop and broadcast delivery.
-            A Laravel event object without <code>broadcastAs()</code> uses its
-            class name, such as <code>App\Events\OrderUpdated</code>; register
-            its short class name (<code>OrderUpdated</code>) when the class is
-            in the default <code>App\Events</code> namespace. For events in
-            other namespaces, register the full class name to avoid matching
-            another event with the same short class name. A
+            The event name is identical for shared-prop and broadcast delivery. A Laravel event
+            object without <code>broadcastAs()</code> uses its class name, such as
+            <code>App\Events\OrderUpdated</code>; register its short class name
+            (<code>OrderUpdated</code>) when the class is in the default
+            <code>App\Events</code> namespace. For events in other namespaces, register the full
+            class name to avoid matching another event with the same short class name. A
             <code>broadcastAs()</code> method uses its returned value.
         </p>
     </ProseSection>

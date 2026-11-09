@@ -15,10 +15,9 @@ defineProps({
         <PackageGuideHeader :page="page" />
         <ProseSection>
             <p>
-                The <code>deploy:run</code> workflow and server maintenance
-                tasks are previews available on the current
-                <code>1.x</code> branch after the <code>1.10.0</code> release.
-                They are not included in that stable release.
+                The <code>deploy:run</code> workflow and server maintenance tasks are previews
+                available on the current <code>1.x</code> branch after the
+                <code>1.10.0</code> release. They are not included in that stable release.
             </p>
         </ProseSection>
         <DeploymentExecution :navigation="navigation" />

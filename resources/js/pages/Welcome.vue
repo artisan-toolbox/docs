@@ -14,19 +14,14 @@ defineProps({
 
 <template>
     <div
-        class="min-h-screen bg-white text-slate-800 selection:bg-brand-100 dark:bg-slate-950 dark:text-slate-200 dark:selection:bg-brand-900"
-    >
+        class="min-h-screen bg-white text-slate-800 selection:bg-brand-100 dark:bg-slate-950 dark:text-slate-200 dark:selection:bg-brand-900">
         <a
             href="#main-content"
             class="sr-only rounded-md bg-brand-700 px-4 py-3 text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:outline-2 focus:outline-offset-4 focus:outline-brand-500"
             >Skip to content</a
         >
         <PublicSiteHeader :links="links" />
-        <main
-            id="main-content"
-            tabindex="-1"
-            class="mx-auto max-w-7xl px-5 sm:px-8"
-        >
+        <main id="main-content" tabindex="-1" class="mx-auto max-w-7xl px-5 sm:px-8">
             <HomeHero :links="links" />
             <HomePackages :packages="packages" />
             <HomeStack />

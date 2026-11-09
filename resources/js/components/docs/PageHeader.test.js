@@ -31,11 +31,10 @@ describe('PageHeader', () => {
         });
 
         expect(wrapper.get('h1').text()).toBe('Maintainer');
-        expect(
-            wrapper.findAll('img').map((image) => image.attributes('src')),
-        ).toEqual(['/maintainer-light.svg', '/maintainer-dark.svg']);
-        expect(
-            wrapper.findAll('img').map((image) => image.attributes('alt')),
-        ).toEqual(['', '']);
+        expect(wrapper.findAll('img').map((image) => image.attributes('src'))).toEqual([
+            '/maintainer-light.svg',
+            '/maintainer-dark.svg',
+        ]);
+        expect(wrapper.findAll('img').map((image) => image.attributes('alt'))).toEqual(['', '']);
     });
 });

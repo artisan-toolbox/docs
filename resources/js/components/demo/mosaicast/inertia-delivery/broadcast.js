@@ -30,9 +30,7 @@ export function connectDemoBroadcast(sessionIdentifier, channelPrefix) {
         typeof sessionIdentifier !== 'string' ||
         !/^[a-f0-9]{64}$/.test(sessionIdentifier)
     ) {
-        return Promise.reject(
-            new Error('Broadcasting requires a configured session.'),
-        );
+        return Promise.reject(new Error('Broadcasting requires a configured session.'));
     }
 
     const channel = demoEcho.private(`${channelPrefix}.${sessionIdentifier}`);
@@ -41,10 +39,7 @@ export function connectDemoBroadcast(sessionIdentifier, channelPrefix) {
     return new Promise((resolve, reject) => {
         function cleanup() {
             clearTimeout(timeout);
-            channel.subscription.unbind(
-                'pusher:subscription_succeeded',
-                subscribed,
-            );
+            channel.subscription.unbind('pusher:subscription_succeeded', subscribed);
             channel.subscription.unbind('pusher:subscription_error', denied);
         }
         function subscribed() {

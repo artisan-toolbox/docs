@@ -1,25 +1,16 @@
-import {
-    installationCommands,
-    installationExample,
-} from '../installationFixture';
+import { installationCommands, installationExample } from '../installationFixture';
+import { sourceNavigation } from '../sourceNavigationFixture';
 import { mount } from '@vue/test-utils';
 import { expect, it } from 'vite-plus/test';
 
 const normalize = (text) => text.replace(/\s+/g, ' ').trim();
 
-export function expectLegacyLinks(
-    links,
-    legacyLinks,
-    allowedExtraLinks = [],
-    prefix = '/docs',
-) {
+export function expectLegacyLinks(links, legacyLinks, allowedExtraLinks = [], prefix = '/docs') {
     const destination = (link) =>
         link.slug ? `${prefix}/${link.slug}${link.hash ?? ''}` : link.href;
 
     for (const extra of allowedExtraLinks) {
-        const matches = links.filter(
-            (link) => link.attributes('href') === destination(extra),
-        );
+        const matches = links.filter((link) => link.attributes('href') === destination(extra));
         expect(matches).toHaveLength(1);
         expect(matches[0].text()).toBe(extra.text);
     }
@@ -29,8 +20,7 @@ export function expectLegacyLinks(
             .filter(
                 (link) =>
                     !allowedExtraLinks.some(
-                        (extra) =>
-                            link.attributes('href') === destination(extra),
+                        (extra) => link.attributes('href') === destination(extra),
                     ),
             )
             .map((link) => link.attributes('href')),
@@ -46,23 +36,7 @@ export function verifyLegacyPages({
     installation,
     allowedExtraLinks = {},
 }) {
-    const slugs = [
-        ...new Set(
-            fixtures.flatMap((guide) => [
-                guide.slug,
-                ...guide.links.map((link) => link.slug).filter(Boolean),
-                ...(allowedExtraLinks[guide.slug] ?? []).map(
-                    (link) => link.slug,
-                ),
-            ]),
-        ),
-    ];
-    const navigation = (prefix = '/docs') =>
-        slugs.map((slug) => ({
-            slug,
-            href: `${prefix}/${slug}`,
-            children: [],
-        }));
+    const navigation = sourceNavigation;
 
     function render(guide) {
         return mount(components[guide.slug], {
@@ -75,9 +49,7 @@ export function verifyLegacyPages({
                     requirements: guide.requirements ?? [],
                     package: {
                         id: guide.slug.split('/')[0],
-                        installationCommands: installationCommands(
-                            guide.slug.split('/')[0],
-                        ),
+                        installationCommands: installationCommands(guide.slug.split('/')[0]),
                         title: packageTitle,
                         composerName: `artisan-toolbox/${guide.slug.split('/')[0]}`,
                         documentedVersion: version,
@@ -95,9 +67,7 @@ export function verifyLegacyPages({
 
             expect(wrapper.get('h1').text()).toBe(guide.title);
             if (guide.slug === guide.slug.split('/')[0]) {
-                expect(
-                    wrapper.findAll('dl dd').map((value) => value.text()),
-                ).toEqual([
+                expect(wrapper.findAll('dl dd').map((value) => value.text())).toEqual([
                     `artisan-toolbox/${guide.slug}`,
                     installation.installedVersion,
                     stability,
@@ -123,11 +93,7 @@ export function verifyLegacyPages({
                     text: heading.text(),
                 })),
             ).toEqual(guide.headings);
-            expect(
-                wrapper
-                    .findAll('pre code')
-                    .map((code) => code.element.textContent),
-            ).toEqual(
+            expect(wrapper.findAll('pre code').map((code) => code.element.textContent)).toEqual(
                 guide.examples.map((example) =>
                     installationExample(example, guide.slug.split('/')[0]),
                 ),
@@ -135,14 +101,8 @@ export function verifyLegacyPages({
             expect(
                 wrapper
                     .findAll('pre code')
-                    .map((code) =>
-                        code
-                            .classes()
-                            .find((name) => name.startsWith('language-')),
-                    ),
-            ).toEqual(
-                guide.examples.map((example) => `language-${example.language}`),
-            );
+                    .map((code) => code.classes().find((name) => name.startsWith('language-'))),
+            ).toEqual(guide.examples.map((example) => `language-${example.language}`));
             expect(
                 wrapper
                     .findAll('table')
@@ -150,24 +110,15 @@ export function verifyLegacyPages({
                         table
                             .findAll('tr')
                             .map((row) =>
-                                row
-                                    .findAll('th, td')
-                                    .map((cell) => normalize(cell.text())),
+                                row.findAll('th, td').map((cell) => normalize(cell.text())),
                             ),
                     ),
-            ).toEqual(
-                guide.tables.map((table) =>
-                    table.map((row) => row.map(normalize)),
-                ),
-            );
+            ).toEqual(guide.tables.map((table) => table.map((row) => row.map(normalize))));
             const visibleText = normalize(wrapper.text());
             let paragraphEnd = 0;
             for (const paragraph of guide.paragraphs) {
                 const sourceParagraph = normalize(paragraph);
-                const paragraphStart = visibleText.indexOf(
-                    sourceParagraph,
-                    paragraphEnd,
-                );
+                const paragraphStart = visibleText.indexOf(sourceParagraph, paragraphEnd);
                 expect(
                     paragraphStart,
                     `Source paragraph in sequence in ${guide.slug}: ${sourceParagraph}`,
@@ -185,11 +136,7 @@ export function verifyLegacyPages({
 
         it(`preserves destinations and reactive route metadata in ${guide.slug}`, async () => {
             const wrapper = render(guide);
-            expectLegacyLinks(
-                wrapper.findAll('a'),
-                guide.links,
-                allowedExtraLinks[guide.slug],
-            );
+            expectLegacyLinks(wrapper.findAll('a'), guide.links, allowedExtraLinks[guide.slug]);
             for (const link of wrapper.findAll('a')) {
                 if (/^https?:\/\//.test(link.attributes('href'))) {
                     expect(link.attributes('target')).toBe('_blank');

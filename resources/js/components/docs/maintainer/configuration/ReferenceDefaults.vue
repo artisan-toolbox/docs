@@ -8,11 +8,7 @@ import ProseSection from '@/components/docs/ProseSection.vue';
 const props = defineProps({ navigation: { type: Array, required: true } });
 
 const publishingHref = computed(
-    () =>
-        findNavigationItem(
-            props.navigation,
-            'maintainer/configuration/publishing',
-        ).href,
+    () => findNavigationItem(props.navigation, 'maintainer/configuration/publishing').href,
 );
 const defaultConfiguration = String.raw`<?php
 
@@ -68,40 +64,33 @@ return [
     <div class="flex min-w-0 flex-col gap-10">
         <ProseSection>
             <p>
-                Maintainer resolves the consuming Composer project's root
-                automatically and reads project values from its
-                <code>config</code> directory even when invoked from
-                <code>vendor/bin</code> or another subdirectory. Use
-                <DocsLink :href="publishingHref"
-                    >Publish Configuration</DocsLink
-                >
+                Maintainer resolves the consuming Composer project's root automatically and reads
+                project values from its
+                <code>config</code> directory even when invoked from <code>vendor/bin</code> or
+                another subdirectory. Use
+                <DocsLink :href="publishingHref">Publish Configuration</DocsLink>
                 to create these files with per-file overwrite protection.
             </p>
             <p>The published file starts with Maintainer's current defaults:</p>
             <CodeExample
                 label="Default Maintainer configuration"
                 language="php"
-                :code="defaultConfiguration"
-            />
+                :code="defaultConfiguration" />
             <p>
-                The <code>quality.fix</code> and <code>quality.test</code> lists
-                use readable public command contracts under
-                <code>ArtisanToolbox\Maintainer\Quality\Contracts</code>. Their
-                names describe intent, such as <code>RunsPintFix</code> and
-                <code>RunsPintCheck</code>, instead of exposing generic
-                implementation names. Composer explicitly exports the quality
-                and versioning contracts, SSH helpers, encryption support, and
-                Deployer integration without exposing the package's complete
-                <code>app/</code> directory. Maintainer resolves every quality
-                contract to its bundled implementation at runtime. Project
-                configuration must use these contracts instead of the private
-                <code>App\...</code> implementation namespace.
+                The <code>quality.fix</code> and <code>quality.test</code> lists use readable public
+                command contracts under <code>ArtisanToolbox\Maintainer\Quality\Contracts</code>.
+                Their names describe intent, such as <code>RunsPintFix</code> and
+                <code>RunsPintCheck</code>, instead of exposing generic implementation names.
+                Composer explicitly exports the quality and versioning contracts, SSH helpers,
+                encryption support, and Deployer integration without exposing the package's complete
+                <code>app/</code> directory. Maintainer resolves every quality contract to its
+                bundled implementation at runtime. Project configuration must use these contracts
+                instead of the private <code>App\...</code> implementation namespace.
             </p>
             <p>
-                The four <code>ai.providers</code> values select the Laravel AI
-                provider used for commit messages, release type suggestions,
-                release notes, and release changelog updates. Every configured
-                release agent delegates model selection to the provider's
+                The four <code>ai.providers</code> values select the Laravel AI provider used for
+                commit messages, release type suggestions, release notes, and release changelog
+                updates. Every configured release agent delegates model selection to the provider's
                 cheapest compatible model through Laravel AI's
                 <code>UseCheapestModel</code> attribute.
             </p>

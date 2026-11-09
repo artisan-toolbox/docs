@@ -28,12 +28,7 @@ defineProps({
                 <p>
                     Follow
                     <DocsLink
-                        :href="
-                            findNavigationItem(
-                                navigation,
-                                'dump-to-console/installation',
-                            ).href
-                        "
+                        :href="findNavigationItem(navigation, 'dump-to-console/installation').href"
                         >Install Dump to Console</DocsLink
                     >
                     for the complete setup and a first working example.

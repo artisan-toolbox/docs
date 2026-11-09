@@ -38,35 +38,24 @@ const save = { variant: "brand", type: "submit" } satisfies ButtonProps;
     <ProseSection>
         <p>
             After
-            <DocsLink
-                :href="
-                    findNavigationItem(navigation, 'front-awesome/web-awesome')
-                        .href
-                "
+            <DocsLink :href="findNavigationItem(navigation, 'front-awesome/web-awesome').href"
                 >configuring Web Awesome</DocsLink
             >, import <code>Button</code> from
-            <code>@artisan-toolbox/front-awesome/components</code> in a Vue
-            page. The default slot becomes the button content.
+            <code>@artisan-toolbox/front-awesome/components</code> in a Vue page. The default slot
+            becomes the button content.
         </p>
-        <CodeExample
-            label="Buttons and button groups example 1"
-            language="vue"
-            :code="example1"
-        />
+        <CodeExample label="Buttons and button groups example 1" language="vue" :code="example1" />
         <p>
-            The wrapper passes attributes such as <code>variant</code>,
-            <code>type</code>, and <code>disabled</code> to
-            <code>&lt;wa-button&gt;</code>. It registers the custom element when
-            the Vue component mounts in the browser. The button follows the
-            application's Web Awesome theme.
+            The wrapper passes attributes such as <code>variant</code>, <code>type</code>, and
+            <code>disabled</code> to <code>&lt;wa-button&gt;</code>. It registers the custom element
+            when the Vue component mounts in the browser. The button follows the application's Web
+            Awesome theme.
         </p>
         <p>
-            Bind boolean flags such as <code>disabled</code> and
-            <code>loading</code> as booleans. A false value leaves the
-            corresponding HTML boolean attribute absent, including before the
-            custom element registers and during server rendering. Changing the
-            value updates the same element; a false flag does not enable a
-            loading or disabled state.
+            Bind boolean flags such as <code>disabled</code> and <code>loading</code> as booleans. A
+            false value leaves the corresponding HTML boolean attribute absent, including before the
+            custom element registers and during server rendering. Changing the value updates the
+            same element; a false flag does not enable a loading or disabled state.
         </p>
         <p>
             For supported attributes, see the
@@ -74,38 +63,40 @@ const save = { variant: "brand", type: "submit" } satisfies ButtonProps;
                 >Web Awesome button reference</DocsLink
             >.
         </p>
+        <p>
+            In the current checkout, Web Awesome wrappers live under
+            <code>resources/js/components/WebAwesome</code>. The public
+            <code>@artisan-toolbox/front-awesome/components/WebAwesome</code>
+            entry exports <code>Button</code>, <code>ButtonGroup</code>, and <code>Input</code>.
+            Individual exports also use this directory, such as
+            <code>@artisan-toolbox/front-awesome/components/WebAwesome/Button.vue</code>. The
+            existing components entry and direct component imports remain compatible. Check the
+            installed package exports before using the new paths in an older preview.
+        </p>
         <h2
             id="group-related-buttons"
-            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white"
-        >
+            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Group related buttons
         </h2>
         <p>
             Use <code>ButtonGroup.vue</code> to group buttons. Give the group a
-            <code>label</code> so assistive technologies can identify it. The
-            default slot contains the buttons. Set <code>orientation</code> to
-            <code>vertical</code> to stack them.
+            <code>label</code> so assistive technologies can identify it. The default slot contains
+            the buttons. Set <code>orientation</code> to <code>vertical</code> to stack them.
         </p>
-        <CodeExample
-            label="Group related buttons example 2"
-            language="vue"
-            :code="example2"
-        />
+        <CodeExample label="Group related buttons example 2" language="vue" :code="example2" />
         <p>
-            The wrappers combine Vue's HTML attributes with Web Awesome's
-            TypeScript declarations for template completion and option checking.
-            All wrapper attributes are optional. If you omit
-            <code>orientation</code>, the group uses Web Awesome's horizontal
-            default. Use <code>ButtonProps</code> or
-            <code>ButtonGroupProps</code> to check an object before passing it
-            with <code>v-bind</code>. Vue forwards the attributes and listeners
-            to the Web Awesome element. The group registers
-            <code>wa-button-group</code> when it mounts in the browser.
+            The wrappers combine Vue's HTML attributes with Web Awesome's TypeScript declarations
+            for template completion and option checking. All wrapper attributes are optional. If you
+            omit
+            <code>orientation</code>, the group uses Web Awesome's horizontal default. Use
+            <code>ButtonProps</code> or <code>ButtonGroupProps</code> to check an object before
+            passing it with <code>v-bind</code>. Vue forwards the attributes and listeners to the
+            Web Awesome element. The group registers <code>wa-button-group</code> when it mounts in
+            the browser.
         </p>
         <p>
             See the
-            <DocsLink
-                href="https://webawesome.com/docs/components/button-group/"
+            <DocsLink href="https://webawesome.com/docs/components/button-group/"
                 >Web Awesome button group reference</DocsLink
             >
             for group behavior and attributes.

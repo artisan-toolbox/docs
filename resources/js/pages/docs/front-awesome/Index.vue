@@ -10,9 +10,6 @@ defineProps({
 <template>
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
-        <IndexContent
-            :navigation="navigation"
-            :requirements="page.requirements"
-        />
+        <IndexContent :page="page" :navigation="navigation" :requirements="page.requirements" />
     </article>
 </template>

@@ -16,48 +16,32 @@ defineProps({
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection id="documentation" title="Documentation">
                 <p>
-                    Artisan Toolbox keeps complete package documentation in one
-                    repository. Package READMEs provide a concise introduction
-                    and link to the guides for each tool.
+                    Artisan Toolbox keeps complete package documentation in one repository. Package
+                    READMEs provide a concise introduction and link to the guides for each tool.
                 </p>
                 <p>
                     Read the
                     <DocsLink
-                        :href="
-                            findNavigationItem(
-                                navigation,
-                                'project/documentation-policy',
-                            ).href
-                        "
+                        :href="findNavigationItem(navigation, 'project/documentation-policy').href"
                         >documentation policy</DocsLink
                     >
-                    for content ownership, contributor requirements, frontend
-                    installation conventions, and the Laravel migration
-                    workflow.
+                    for content ownership, contributor requirements, frontend installation
+                    conventions, and the Laravel migration workflow.
                 </p>
             </ProseSection>
             <ProseSection id="releases" title="Releases">
                 <p>
-                    The documentation application and its packages have
-                    independent release histories. The
-                    <DocsLink
-                        :href="
-                            findNavigationItem(navigation, 'project/versioning')
-                                .href
-                        "
+                    The documentation application and its packages have independent release
+                    histories. The
+                    <DocsLink :href="findNavigationItem(navigation, 'project/versioning').href"
                         >versioning guide</DocsLink
                     >
-                    explains application identity, README metadata, package
-                    generations, development previews, and public URL
-                    continuity.
+                    explains application identity, README metadata, package generations, development
+                    previews, and public URL continuity.
                 </p>
                 <p>
                     Start with
-                    <DocsLink
-                        :href="
-                            findNavigationItem(navigation, 'getting-started')
-                                .href
-                        "
+                    <DocsLink :href="findNavigationItem(navigation, 'getting-started').href"
                         >Getting Started</DocsLink
                     >
                     to install a package, or browse the

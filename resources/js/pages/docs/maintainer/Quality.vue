@@ -30,18 +30,16 @@ const workflowRows = [
             <DocsTable
                 caption="Maintainer quality workflows"
                 :columns="workflowColumns"
-                :rows="workflowRows"
-            >
+                :rows="workflowRows">
                 <template #cell="{ value, columnIndex }">
                     <code v-if="columnIndex === 0">{{ value }}</code>
                     <template v-else>{{ value }}</template>
                 </template>
             </DocsTable>
             <p>
-                Each workflow reads an ordered list of public command contracts
-                from the Maintainer configuration. All configured commands are
-                selected by default in the interactive multi-select. A
-                non-interactive invocation runs the complete configured list.
+                Each workflow reads an ordered list of public command contracts from the Maintainer
+                configuration. All configured commands are selected by default in the interactive
+                multi-select. A non-interactive invocation runs the complete configured list.
             </p>
         </ProseSection>
 

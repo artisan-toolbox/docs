@@ -1,45 +1,28 @@
 import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils';
-import {
-    afterEach,
-    beforeEach,
-    describe,
-    expect,
-    it,
-    vi,
-} from 'vite-plus/test';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test';
 import { highlightCode } from '@/lib/codeHighlighter';
 import CodeExample from './CodeExample.vue';
 
 vi.mock('@/lib/codeHighlighter', () => ({ highlightCode: vi.fn() }));
 
-const observerDescriptor = Object.getOwnPropertyDescriptor(
-    window,
-    'IntersectionObserver',
-);
+const observerDescriptor = Object.getOwnPropertyDescriptor(window, 'IntersectionObserver');
 enableAutoUnmount(afterEach);
 
 beforeEach(() => {
     delete window.IntersectionObserver;
     highlightCode
         .mockReset()
-        .mockImplementation(async (code) => [
-            { content: code, className: 'text-sky-300' },
-        ]);
+        .mockImplementation(async (code) => [{ content: code, className: 'text-sky-300' }]);
 });
 afterEach(() => {
     vi.unstubAllGlobals();
     if (observerDescriptor)
-        Object.defineProperty(
-            window,
-            'IntersectionObserver',
-            observerDescriptor,
-        );
+        Object.defineProperty(window, 'IntersectionObserver', observerDescriptor);
 });
 
 describe('CodeExample', () => {
     it('displays highlighted markup as escaped code instead of executable elements', async () => {
-        const code =
-            '<script>alert("example")</script><img src=x onerror=alert(1)>';
+        const code = '<script>alert("example")</script><img src=x onerror=alert(1)>';
         const wrapper = mount(CodeExample, {
             props: { code, label: 'HTML example', language: 'html' },
         });
@@ -66,9 +49,7 @@ describe('CodeExample', () => {
         await flushPromises();
         expect(wrapper.attributes('data-code-language')).toBe('shellscript');
         expect(wrapper.get('figcaption').text()).toContain('Shell');
-        expect(wrapper.get('code').element.textContent).toBe(
-            'composer install',
-        );
+        expect(wrapper.get('code').element.textContent).toBe('composer install');
     });
 
     it('keeps unknown languages readable without guessing a grammar', async () => {
@@ -82,9 +63,7 @@ describe('CodeExample', () => {
         await flushPromises();
         expect(highlightCode).not.toHaveBeenCalled();
         expect(wrapper.get('figcaption').text()).toContain('Plain text');
-        expect(wrapper.get('code').element.textContent).toBe(
-            '<custom>example</custom>',
-        );
+        expect(wrapper.get('code').element.textContent).toBe('<custom>example</custom>');
         expect(wrapper.find('custom').exists()).toBe(false);
     });
 
@@ -136,13 +115,9 @@ describe('CodeExample', () => {
         await flushPromises();
 
         expect(writeText).toHaveBeenCalledWith('vendor/bin/maintainer');
-        expect(wrapper.get('[role="status"]').text()).toBe(
-            'Code copied to clipboard.',
-        );
+        expect(wrapper.get('[role="status"]').text()).toBe('Code copied to clipboard.');
         expect(wrapper.get('button').text()).toBe('Copied');
-        expect(wrapper.get('button').attributes('aria-label')).toBe(
-            'Copy Open the menu',
-        );
+        expect(wrapper.get('button').attributes('aria-label')).toBe('Copy Open the menu');
     });
 
     it.each([
@@ -150,9 +125,7 @@ describe('CodeExample', () => {
             'clipboard access is denied',
             {
                 clipboard: {
-                    writeText: vi
-                        .fn()
-                        .mockRejectedValue(new Error('Permission denied')),
+                    writeText: vi.fn().mockRejectedValue(new Error('Permission denied')),
                 },
             },
         ],
@@ -192,9 +165,7 @@ describe('CodeExample highlighting admission', () => {
                     this.target = target;
                 }
                 emit(isIntersecting) {
-                    this.callback([
-                        { target: this.target, isIntersecting, time: 1 },
-                    ]);
+                    this.callback([{ target: this.target, isIntersecting, time: 1 }]);
                 }
             },
         );
@@ -233,17 +204,12 @@ describe('CodeExample highlighting admission', () => {
         observers[0].emit(false);
         await flushPromises();
         expect(highlightCode).not.toHaveBeenCalled();
-        expect(wrapper.get('code').element.textContent).toBe(
-            '<?php echo "Current";\r\n',
-        );
+        expect(wrapper.get('code').element.textContent).toBe('<?php echo "Current";\r\n');
 
         observers[0].emit(true);
         await flushPromises();
         const highlightedNode = wrapper.get('code span').element;
-        expect(highlightCode).toHaveBeenCalledExactlyOnceWith(
-            '<?php echo "Current";\r\n',
-            'php',
-        );
+        expect(highlightCode).toHaveBeenCalledExactlyOnceWith('<?php echo "Current";\r\n', 'php');
         expect(observers[0].disconnect).toHaveBeenCalledOnce();
         observers[0].emit(false);
         observers[0].emit(true);
@@ -289,10 +255,7 @@ describe('CodeExample highlighting admission', () => {
         observers[0].emit(true);
         await wrapper.setProps({ code: 'current source', language: 'php' });
         await flushPromises();
-        expect(highlightCode).toHaveBeenCalledExactlyOnceWith(
-            'current source',
-            'php',
-        );
+        expect(highlightCode).toHaveBeenCalledExactlyOnceWith('current source', 'php');
         expect(wrapper.get('code').element.textContent).toBe('current source');
     });
 
@@ -336,9 +299,7 @@ describe('CodeExample highlighting admission', () => {
         await flushPromises();
         const code = wrapper.get('code').element;
         wrapper.unmount();
-        finish([
-            { content: 'unexpected late tokens', className: 'text-sky-300' },
-        ]);
+        finish([{ content: 'unexpected late tokens', className: 'text-sky-300' }]);
         await flushPromises();
         expect(code.textContent).toBe('source');
         expect(code.querySelector('span')).toBeNull();

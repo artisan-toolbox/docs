@@ -89,21 +89,13 @@ async function sourceFiles(directory) {
 }
 
 export async function updatePublicContacts(workspace, { write = false } = {}) {
-    const oldNginx = join(
-        workspace,
-        'docs_old/deploy/nginx',
-        `${oldHost}.conf`,
-    );
+    const oldNginx = join(workspace, 'docs_old/deploy/nginx', `${oldHost}.conf`);
     const newNginx = join(workspace, 'docs_old/deploy/nginx/atb.dev.br.conf');
     const renameNginx = await exists(oldNginx);
     if (renameNginx && (await exists(newNginx)))
-        throw new Error(
-            'Both NGINX templates exist; reconcile them before updating contacts.',
-        );
+        throw new Error('Both NGINX templates exist; reconcile them before updating contacts.');
     const files = (
-        await Promise.all(
-            projects.map((project) => sourceFiles(join(workspace, project))),
-        )
+        await Promise.all(projects.map((project) => sourceFiles(join(workspace, project))))
     ).flat();
     const guidance = join(workspace, 'AGENTS.md');
     if (await exists(guidance)) files.push(guidance);
@@ -113,11 +105,7 @@ export async function updatePublicContacts(workspace, { write = false } = {}) {
         const before = bytes.toString('utf8');
         if (!Buffer.from(before).equals(bytes)) continue;
         let after = before.replaceAll(oldHost, 'atb.dev.br');
-        if (
-            ['composer.json', 'composer.lock', 'SECURITY.md'].includes(
-                basename(path),
-            )
-        )
+        if (['composer.json', 'composer.lock', 'SECURITY.md'].includes(basename(path)))
             after = after.replaceAll(oldEmail, 'contact@atb.dev.br');
         if (before === after) continue;
         changed.push(relative(workspace, path));
@@ -130,10 +118,7 @@ export async function updatePublicContacts(workspace, { write = false } = {}) {
     return changed;
 }
 
-if (
-    process.argv[1] &&
-    import.meta.url === pathToFileURL(resolve(process.argv[1])).href
-) {
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
     const { values } = parseArgs({
         options: {
             check: { type: 'boolean' },
@@ -144,8 +129,7 @@ if (
             },
         },
     });
-    if (values.check && values.write)
-        throw new Error('Choose --check or --write.');
+    if (values.check && values.write) throw new Error('Choose --check or --write.');
     const changed = await updatePublicContacts(values.workspace, {
         write: values.write,
     });

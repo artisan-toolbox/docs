@@ -227,11 +227,7 @@
                     "A new array"
                 ],
                 ["Collection::sift()", "A Collection", "A new Collection"],
-                [
-                    "LazyCollection::sift()",
-                    "A LazyCollection",
-                    "A new, lazy LazyCollection"
-                ]
+                ["LazyCollection::sift()", "A LazyCollection", "A new, lazy LazyCollection"]
             ]
         ],
         "legacyPath": "packages/core/conditional-arrays",
@@ -482,10 +478,7 @@
             "Packagist releases",
             "The canonical documentation is available at atb.dev.br. Contact the project at contact@atb.dev.br."
         ],
-        "requirements": [
-            "PHP 8.5 or later within the PHP 8.x series",
-            "Laravel 13 components"
-        ],
+        "requirements": ["PHP 8.5 or later within the PHP 8.x series", "Laravel 13 components"],
         "tables": [],
         "legacyPath": "packages/dump-to-console/index",
         "sourceSha256": "05544f0251acc934c04af42025be70461d7ebd37111cd6feccb0b88c172e2f71"
@@ -911,10 +904,7 @@
         "tables": [
             [
                 ["Final response", "Delivery"],
-                [
-                    "Inertia response with mosaicast resolved",
-                    "mosaicast.events shared prop"
-                ],
+                ["Inertia response with mosaicast resolved", "mosaicast.events shared prop"],
                 [
                     "Partial reload that omits mosaicast",
                     "Private session broadcast channel; the identifier still arrives in mosaicastSessionIdentifier"
@@ -1146,10 +1136,7 @@
                     "channelPrefix",
                     "The backend's session-channel prefix. Defaults to mosaicast.sessions."
                 ],
-                [
-                    "debug",
-                    "Enables subscription, event, and validation logs. Defaults to false."
-                ],
+                ["debug", "Enables subscription, event, and validation logs. Defaults to false."],
                 [
                     "logger",
                     "Replaces console for diagnostics when debug is enabled; it must provide info() and error()."

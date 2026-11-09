@@ -14,12 +14,10 @@ defineProps({
         <PackageGuideHeader :page="page" />
         <ProseSection>
             <p>
-                The namespace-isolated PM2 replacement and persistence behavior,
-                and the
-                <code>deploy:run</code> command shown here, are previews
-                available on the current <code>1.x</code> branch after the
-                <code>1.10.0</code> release. They are not included in that
-                stable release.
+                The namespace-isolated PM2 replacement and persistence behavior, and the
+                <code>deploy:run</code> command shown here, are previews available on the current
+                <code>1.x</code> branch after the <code>1.10.0</code> release. They are not included
+                in that stable release.
             </p>
         </ProseSection>
         <Pm2Configuration />

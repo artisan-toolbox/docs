@@ -1,21 +1,11 @@
 import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils';
-import {
-    afterEach,
-    beforeEach,
-    describe,
-    expect,
-    it,
-    vi,
-} from 'vite-plus/test';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test';
 import { highlightCode } from '@/lib/codeHighlighter';
 import DemoFrame from './DemoFrame.vue';
 
 vi.mock('@/lib/codeHighlighter', () => ({ highlightCode: vi.fn() }));
 
-const observerDescriptor = Object.getOwnPropertyDescriptor(
-    window,
-    'IntersectionObserver',
-);
+const observerDescriptor = Object.getOwnPropertyDescriptor(window, 'IntersectionObserver');
 enableAutoUnmount(afterEach);
 let observers;
 
@@ -23,9 +13,7 @@ beforeEach(() => {
     observers = [];
     highlightCode
         .mockReset()
-        .mockImplementation(async (code) => [
-            { content: code, className: 'text-sky-300' },
-        ]);
+        .mockImplementation(async (code) => [{ content: code, className: 'text-sky-300' }]);
     vi.stubGlobal(
         'IntersectionObserver',
         class {
@@ -38,9 +26,7 @@ beforeEach(() => {
                 this.target = target;
             }
             emit(isIntersecting) {
-                this.callback([
-                    { target: this.target, isIntersecting, time: 1 },
-                ]);
+                this.callback([{ target: this.target, isIntersecting, time: 1 }]);
             }
         },
     );
@@ -48,11 +34,7 @@ beforeEach(() => {
 afterEach(() => {
     vi.unstubAllGlobals();
     if (observerDescriptor)
-        Object.defineProperty(
-            window,
-            'IntersectionObserver',
-            observerDescriptor,
-        );
+        Object.defineProperty(window, 'IntersectionObserver', observerDescriptor);
 });
 
 function mountDemo() {
@@ -91,9 +73,7 @@ describe('DemoFrame source activation', () => {
 
         expect(wrapper.get('details').element.open).toBe(false);
         expect(wrapper.get('summary').text()).toBe('View the running source');
-        expect(
-            wrapper.findAll('code').map((code) => code.element.textContent),
-        ).toEqual([
+        expect(wrapper.findAll('code').map((code) => code.element.textContent)).toEqual([
             '\tconst first = "<example>";\r\n',
             '<?php echo "Second";\n',
         ]);
@@ -143,11 +123,9 @@ describe('DemoFrame source activation', () => {
         const wrapper = mountDemo();
         await flushPromises();
         expect(highlightCode).not.toHaveBeenCalled();
-        expect(
-            wrapper
-                .findAll('pre')
-                .every((pre) => pre.attributes('aria-busy') === 'false'),
-        ).toBe(true);
+        expect(wrapper.findAll('pre').every((pre) => pre.attributes('aria-busy') === 'false')).toBe(
+            true,
+        );
         await wrapper.setProps({
             sources: [
                 {
@@ -157,15 +135,10 @@ describe('DemoFrame source activation', () => {
                 },
             ],
         });
-        expect(wrapper.get('code').element.textContent).toBe(
-            '<?php echo "Latest";\r\n',
-        );
+        expect(wrapper.get('code').element.textContent).toBe('<?php echo "Latest";\r\n');
         expect(highlightCode).not.toHaveBeenCalled();
         await toggleSource(wrapper, true);
-        expect(highlightCode).toHaveBeenCalledExactlyOnceWith(
-            '<?php echo "Latest";\r\n',
-            'php',
-        );
+        expect(highlightCode).toHaveBeenCalledExactlyOnceWith('<?php echo "Latest";\r\n', 'php');
         const token = wrapper.get('code span').element;
         await toggleSource(wrapper, false);
         await toggleSource(wrapper, true);

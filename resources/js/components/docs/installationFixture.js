@@ -14,6 +14,4 @@ const commands = JSON.parse(
 
 export const installationCommands = (id) => commands[id];
 export const installationExample = (example, id) =>
-    example.installationCommand
-        ? commands[id][example.installationCommand].code
-        : example.code;
+    example.installationCommand ? commands[id][example.installationCommand].code : example.code;

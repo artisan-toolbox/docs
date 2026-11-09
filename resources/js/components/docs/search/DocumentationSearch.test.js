@@ -1,12 +1,5 @@
 import { flushPromises, mount } from '@vue/test-utils';
-import {
-    afterEach,
-    beforeEach,
-    describe,
-    expect,
-    it,
-    vi,
-} from 'vite-plus/test';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test';
 import DocumentationSearch from './DocumentationSearch.vue';
 
 let wrapper;
@@ -71,10 +64,9 @@ describe('DocumentationSearch', () => {
             'Search documentation',
         );
         expect(document.activeElement).toBe(input);
-        expect(
-            document.querySelector('label[for="documentation-search-input"]')
-                .textContent,
-        ).toBe('Search query');
+        expect(document.querySelector('label[for="documentation-search-input"]').textContent).toBe(
+            'Search query',
+        );
         expect(document.querySelector('[role="status"]').textContent).toContain(
             'at least 2 characters',
         );
@@ -93,16 +85,10 @@ describe('DocumentationSearch', () => {
         expect(String(fetchMock.mock.calls[0][0])).toBe(
             `${window.location.origin}/docs/search?q=core`,
         );
-        expect(fetchMock.mock.calls[0][1].headers.Accept).toBe(
-            'application/json',
-        );
-        expect(document.querySelector('[role="status"]').textContent).toContain(
-            '1 result found',
-        );
+        expect(fetchMock.mock.calls[0][1].headers.Accept).toBe('application/json');
+        expect(document.querySelector('[role="status"]').textContent).toContain('1 result found');
         expect(
-            document
-                .querySelector('ul[aria-label="Search results"] a')
-                .getAttribute('href'),
+            document.querySelector('ul[aria-label="Search results"] a').getAttribute('href'),
         ).toBe(result.href);
         expect(document.querySelector('[role="listbox"]')).toBeNull();
 
@@ -129,21 +115,16 @@ describe('DocumentationSearch', () => {
         expect(document.querySelector('[role="status"]').textContent).toContain(
             'Searching documentation',
         );
-        expect(document.querySelector('input').getAttribute('aria-busy')).toBe(
-            'true',
-        );
+        expect(document.querySelector('input').getAttribute('aria-busy')).toBe('true');
         resolve(response([]));
         await flushPromises();
-        expect(document.querySelector('[role="status"]').textContent).toContain(
-            'No results found',
-        );
+        expect(document.querySelector('[role="status"]').textContent).toContain('No results found');
 
         fetchMock.mockResolvedValueOnce(
             response([
                 {
                     ...result,
-                    excerpt:
-                        '<img src=x onerror=alert(1)> <script>bad()</script>',
+                    excerpt: '<img src=x onerror=alert(1)> <script>bad()</script>',
                 },
             ]),
         );
@@ -155,10 +136,7 @@ describe('DocumentationSearch', () => {
     });
 
     it.each([
-        [
-            'an unavailable server',
-            () => Promise.resolve({ ok: false, status: 503 }),
-        ],
+        ['an unavailable server', () => Promise.resolve({ ok: false, status: 503 })],
         ['a network error', () => Promise.reject(new Error('offline'))],
         [
             'an invalid response',
@@ -184,9 +162,7 @@ describe('DocumentationSearch', () => {
         await flushPromises();
 
         expect(fetchMock).toHaveBeenCalledTimes(2);
-        expect(document.querySelector('ul').textContent).toContain(
-            'Install Core',
-        );
+        expect(document.querySelector('ul').textContent).toContain('Install Core');
     });
 
     it('aborts previous requests and keeps only results for the newest query', async () => {
@@ -205,18 +181,12 @@ describe('DocumentationSearch', () => {
         await typeQuery('newer');
         expect(oldSignal.aborted).toBe(true);
         await finishDebounce();
-        expect(document.querySelector('ul').textContent).toContain(
-            'Install Core',
-        );
+        expect(document.querySelector('ul').textContent).toContain('Install Core');
 
         resolveOld(response([{ ...result, pageTitle: 'Stale result' }]));
         await flushPromises();
-        expect(document.querySelector('ul').textContent).toContain(
-            'Install Core',
-        );
-        expect(document.querySelector('ul').textContent).not.toContain(
-            'Stale result',
-        );
+        expect(document.querySelector('ul').textContent).toContain('Install Core');
+        expect(document.querySelector('ul').textContent).not.toContain('Stale result');
     });
 
     it('closes on Escape, returns focus, and discards late responses', async () => {

@@ -16,18 +16,16 @@ $payload = Arr::sift([
     <ProseSection>
         <h2
             id="build-a-conditional-payload"
-            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white"
-        >
+            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Build a conditional payload
         </h2>
         <CodeExample
             label="Build a conditional payload example 1"
             language="php"
-            :code="example1"
-        />
+            :code="example1" />
         <p>
-            When <code>$canViewEmail</code> is <code>false</code>,
-            <code>$payload</code> contains only <code>name</code>.
+            When <code>$canViewEmail</code> is <code>false</code>, <code>$payload</code> contains
+            only <code>name</code>.
         </p>
     </ProseSection>
 </template>

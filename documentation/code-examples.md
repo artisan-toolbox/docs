@@ -3,11 +3,7 @@
 Use `CodeExample` for source and terminal examples. Its existing `code`, `label`, and `language` props define the example. The default slot provides an optional explanation. Keep install steps and expected results in the surrounding guide.
 
 ```vue
-<CodeExample
-    label="Install Core"
-    language="bash"
-    code="composer require artisan-toolbox/core"
-/>
+<CodeExample label="Install Core" language="bash" code="composer require artisan-toolbox/core" />
 ```
 
 Set a descriptive label such as a filename or the task the command performs. Use the example's actual language. Do not add decorative shell prompts, line numbers, or escape sequences to the source. Readers copy the exact `code` prop, including tabs, blank lines, and line endings.

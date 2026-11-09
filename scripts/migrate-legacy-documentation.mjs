@@ -5,11 +5,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const workspace = fileURLToPath(new URL('../../', import.meta.url));
 const legacyRoot = path.join(workspace, 'docs_old/src/content/docs');
-const legacyRequire = createRequire(
-    path.join(workspace, 'docs_old/package.json'),
-);
-const loadLegacy = (name) =>
-    import(pathToFileURL(legacyRequire.resolve(name)).href);
+const legacyRequire = createRequire(path.join(workspace, 'docs_old/package.json'));
+const loadLegacy = (name) => import(pathToFileURL(legacyRequire.resolve(name)).href);
 const [
     { fromMarkdown },
     { directive },
@@ -24,14 +21,11 @@ const [
     loadLegacy('yaml'),
 ]);
 const aliases = {
-    'maintainer/project-integration':
-        'maintainer/versioning/project-integration',
+    'maintainer/project-integration': 'maintainer/versioning/project-integration',
     'qztray/v1-readiness': 'qztray/compatibility',
 };
 
-export function legacySourceSlugs(
-    directory = path.join(legacyRoot, 'packages'),
-) {
+export function legacySourceSlugs(directory = path.join(legacyRoot, 'packages')) {
     return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
         const filename = path.join(directory, entry.name);
         if (entry.isDirectory()) return legacySourceSlugs(filename);
@@ -47,9 +41,7 @@ export function legacySourceSlugs(
 
 export function resolveLegacyLink(destination, legacyPath) {
     if (destination.startsWith('#')) return { href: destination };
-    const base = new URL(
-        `https://atb.dev.br/${legacyPath.replace(/\/index$/, '')}/`,
-    );
+    const base = new URL(`https://atb.dev.br/${legacyPath.replace(/\/index$/, '')}/`);
     const url = new URL(destination, base);
     if (url.origin !== base.origin || !url.pathname.startsWith('/packages/'))
         return { href: destination };
@@ -92,8 +84,7 @@ export function readLegacyDocument(legacyPath) {
                 language: node.lang ?? 'text',
                 meta: node.meta,
             });
-        if (node.type === 'link')
-            links.push(resolveLegacyLink(node.url, legacyPath));
+        if (node.type === 'link') links.push(resolveLegacyLink(node.url, legacyPath));
         if (node.type === 'html') {
             for (const match of node.value.matchAll(/\bid=["']([^"']+)["']/g))
                 anchors.push(match[1]);
@@ -189,15 +180,10 @@ export function renderLegacyDocument(document, nodes = document.tree.children) {
                     node.position.end.offset,
                 );
                 const lines = raw.split('\n');
-                if (
-                    /^\s*\|/.test(lines[0]) &&
-                    /^\s*\|?[\s:|-]+\|\s*$/.test(lines[1] ?? '')
-                ) {
+                if (/^\s*\|/.test(lines[0]) && /^\s*\|?[\s:|-]+\|\s*$/.test(lines[1] ?? '')) {
                     imports.add('DocsTable');
                     tableIndex += 1;
-                    const rows = lines
-                        .filter((_, index) => index !== 1)
-                        .map(tableCells);
+                    const rows = lines.filter((_, index) => index !== 1).map(tableCells);
                     return `<DocsTable caption="${attribute(`${currentHeading} reference ${tableIndex}`)}"><thead><tr>${rows[0].map((cell) => `<th scope="col">${inline(cell).replace(/^<p>|<\/p>$/g, '')}</th>`).join('')}</tr></thead><tbody>${rows
                         .slice(1)
                         .map(
@@ -231,27 +217,15 @@ export function renderLegacyDocument(document, nodes = document.tree.children) {
             }
             case 'containerDirective': {
                 imports.add('DocsCallout');
-                const variant = [
-                    'note',
-                    'tip',
-                    'caution',
-                    'danger',
-                    'info',
-                ].includes(node.name)
+                const variant = ['note', 'tip', 'caution', 'danger', 'info'].includes(node.name)
                     ? node.name
                     : 'note';
-                const label = node.children?.[0]?.data?.directiveLabel
-                    ? node.children[0]
-                    : null;
-                const body = (label ? node.children.slice(1) : node.children)
-                    .map(render)
-                    .join('');
+                const label = node.children?.[0]?.data?.directiveLabel ? node.children[0] : null;
+                const body = (label ? node.children.slice(1) : node.children).map(render).join('');
                 return `<DocsCallout variant="${variant}">${label ? `<template #title>${render(label).replace(/^<p>|<\/p>$/g, '')}</template>` : ''}${body}</DocsCallout>`;
             }
             default:
-                throw new Error(
-                    `Unsupported Markdown node ${node.type} in ${document.legacyPath}`,
-                );
+                throw new Error(`Unsupported Markdown node ${node.type} in ${document.legacyPath}`);
         }
     }
     const template = `<ProseSection>\n${nodes.map(render).join('\n')}\n</ProseSection>`;
@@ -271,10 +245,7 @@ export function vueContentSource(document, nodes = document.tree.children) {
     return `<script setup>\n${content.imports}\n${content.template.includes('findNavigationItem(') ? "import { findNavigationItem } from '@/lib/docsNavigation';\n" : ''}defineProps({ navigation: { type: Array, required: true } });\n${content.declarations}\n</script>\n\n<template>\n${content.template}\n</template>\n`;
 }
 
-if (
-    process.argv[1] &&
-    path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
-) {
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
     const legacyPath = process.argv[2];
     if (!legacyPath) {
         throw new Error(

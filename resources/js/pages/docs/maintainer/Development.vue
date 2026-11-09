@@ -16,12 +16,11 @@ defineProps({
         <PackageGuideHeader :page="page" />
         <ProseSection>
             <p>
-                The grouped Deployer tests, standard-input preservation and
-                Windows input inheritance, isolated APT test environment, and
-                Symfony 8.1.11 security updates described here are previews
-                available on the current
-                <code>1.x</code> branch after the <code>1.10.0</code> release.
-                They are not included in that stable release.
+                The grouped Deployer tests, standard-input preservation and Windows input
+                inheritance, isolated APT test environment, and Symfony 8.1.11 security updates
+                described here are previews available on the current
+                <code>1.x</code> branch after the <code>1.10.0</code> release. They are not included
+                in that stable release.
             </p>
         </ProseSection>
         <DevelopmentPaths />

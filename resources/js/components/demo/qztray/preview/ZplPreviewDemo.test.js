@@ -1,12 +1,5 @@
 import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils';
-import {
-    afterEach,
-    beforeEach,
-    describe,
-    expect,
-    it,
-    vi,
-} from 'vite-plus/test';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test';
 import { renderZpl } from '@artisan-toolbox/qztray';
 import DemoAction from '@/components/demo/DemoAction.vue';
 import ZplPreviewDemo from './ZplPreviewDemo.vue';
@@ -38,18 +31,15 @@ describe('local ZPL preview', () => {
         await actions(wrapper)[0].trigger('click');
         await flushPromises();
         expect(wrapper.get('[role="status"]').text()).toBe('Rendering label…');
-        expect(renderZpl).toHaveBeenCalledExactlyOnceWith(
-            '^XA^FO20,20^A0N,30,30^FDHello^FS^XZ',
-            { widthMm: 100, heightMm: 150, dpmm: 8 },
-        );
+        expect(renderZpl).toHaveBeenCalledExactlyOnceWith('^XA^FO20,20^A0N,30,30^FDHello^FS^XZ', {
+            widthMm: 100,
+            heightMm: 150,
+            dpmm: 8,
+        });
         pending.resolve('data:image/png;base64,first');
         await flushPromises();
-        expect(wrapper.get('img').attributes('src')).toBe(
-            'data:image/png;base64,first',
-        );
-        expect(wrapper.get('img').attributes('alt')).toBe(
-            'Label containing Hello',
-        );
+        expect(wrapper.get('img').attributes('src')).toBe('data:image/png;base64,first');
+        expect(wrapper.get('img').attributes('alt')).toBe('Label containing Hello');
         await actions(wrapper)[1].trigger('click');
         expect(wrapper.find('img').exists()).toBe(false);
         expect(renderZpl).toHaveBeenCalledTimes(1);
@@ -62,15 +52,11 @@ describe('local ZPL preview', () => {
         const wrapper = mount(ZplPreviewDemo);
         await actions(wrapper)[0].trigger('click');
         await flushPromises();
-        expect(wrapper.get('[role="alert"]').text()).toBe(
-            'Renderer unavailable.',
-        );
+        expect(wrapper.get('[role="alert"]').text()).toBe('Renderer unavailable.');
         await actions(wrapper)[0].trigger('click');
         await flushPromises();
         expect(wrapper.find('[role="alert"]').exists()).toBe(false);
-        expect(wrapper.get('img').attributes('src')).toBe(
-            'data:image/png;base64,retry',
-        );
+        expect(wrapper.get('img').attributes('src')).toBe('data:image/png;base64,retry');
     });
 
     it('keeps a newer preview when a cleared request finishes later', async () => {
@@ -86,11 +72,7 @@ describe('local ZPL preview', () => {
         await flushPromises();
         older.resolve('data:image/png;base64,stale');
         await flushPromises();
-        expect(wrapper.get('img').attributes('src')).toBe(
-            'data:image/png;base64,new',
-        );
-        expect(wrapper.get('[role="status"]').text()).toBe(
-            'Label preview ready.',
-        );
+        expect(wrapper.get('img').attributes('src')).toBe('data:image/png;base64,new');
+        expect(wrapper.get('[role="status"]').text()).toBe('Label preview ready.');
     });
 });

@@ -24,9 +24,7 @@ const guides = [
 }));
 const destinations = [
     ...new Set(
-        guides.flatMap(({ document }) =>
-            document.links.map(({ slug }) => slug).filter(Boolean),
-        ),
+        guides.flatMap(({ document }) => document.links.map(({ slug }) => slug).filter(Boolean)),
     ),
 ];
 const normalize = (text) => text.replace(/\s+/g, ' ').trim();
@@ -63,15 +61,11 @@ describe('Maintainer deployment and contributor guides', () => {
             const { document } = guide;
             expect(wrapper.get('h1').text()).toBe(document.metadata.title);
             expect(wrapper.find('dl').exists()).toBe(false);
-            expect(
-                wrapper.get('[aria-label="Package details"]').text(),
-            ).toContain('Maintainer');
-            expect(
-                wrapper.get('[aria-label="Package details"]').text(),
-            ).toContain('Documented version 1.10');
-            expect(
-                wrapper.get('[aria-label="Package details"]').text(),
-            ).toContain('Stable');
+            expect(wrapper.get('[aria-label="Package details"]').text()).toContain('Maintainer');
+            expect(wrapper.get('[aria-label="Package details"]').text()).toContain(
+                'Documented version 1.10',
+            );
+            expect(wrapper.get('[aria-label="Package details"]').text()).toContain('Stable');
             expect(
                 wrapper.findAll('h2, h3').map((heading) => ({
                     level: Number(heading.element.tagName.slice(1)),
@@ -81,30 +75,20 @@ describe('Maintainer deployment and contributor guides', () => {
             ).toEqual(document.headings);
             for (const anchor of document.anchors)
                 expect(wrapper.get(`[id="${anchor}"]`).exists()).toBe(true);
-            expect(
-                wrapper.findAll('pre code').map((code) => code.text()),
-            ).toEqual(document.examples.map(({ code }) => code));
+            expect(wrapper.findAll('pre code').map((code) => code.text())).toEqual(
+                document.examples.map(({ code }) => code),
+            );
             expect(
                 wrapper
                     .findAll('pre code')
-                    .map((code) =>
-                        code
-                            .classes()
-                            .find((name) => name.startsWith('language-')),
-                    ),
-            ).toEqual(
-                document.examples.map(({ language }) => `language-${language}`),
-            );
+                    .map((code) => code.classes().find((name) => name.startsWith('language-'))),
+            ).toEqual(document.examples.map(({ language }) => `language-${language}`));
             expect(
                 wrapper
                     .findAll('button')
-                    .every((button) =>
-                        button.attributes('aria-label').startsWith('Copy '),
-                    ),
+                    .every((button) => button.attributes('aria-label').startsWith('Copy ')),
             ).toBe(true);
-            expect(wrapper.findAll('button')).toHaveLength(
-                document.examples.length,
-            );
+            expect(wrapper.findAll('button')).toHaveLength(document.examples.length);
             const text = normalize(wrapper.text());
             for (const paragraph of document.paragraphs)
                 expect(text).toContain(normalize(paragraph));
@@ -113,25 +97,19 @@ describe('Maintainer deployment and contributor guides', () => {
             it(`resolves every source link from navigation and reacts to updated routes in ${guide.source}`, async () => {
                 const wrapper = render(guide);
                 const expected = guide.document.links.map(({ href }) => href);
-                expect(
-                    wrapper.findAll('a').map((link) => link.attributes('href')),
-                ).toEqual(expected);
+                expect(wrapper.findAll('a').map((link) => link.attributes('href'))).toEqual(
+                    expected,
+                );
                 await wrapper.setProps({
                     navigation: navigation('/reference'),
                 });
-                expect(
-                    wrapper.findAll('a').map((link) => link.attributes('href')),
-                ).toEqual(
-                    expected.map((href) =>
-                        href.replace(/^\/docs\//, '/reference/'),
-                    ),
+                expect(wrapper.findAll('a').map((link) => link.attributes('href'))).toEqual(
+                    expected.map((href) => href.replace(/^\/docs\//, '/reference/')),
                 );
                 expect(
                     wrapper
                         .findAll('a')
-                        .some((link) =>
-                            link.attributes('href').startsWith('/packages/'),
-                        ),
+                        .some((link) => link.attributes('href').startsWith('/packages/')),
                 ).toBe(false);
             });
         }
@@ -142,42 +120,28 @@ describe('Maintainer deployment and contributor guides', () => {
         )) {
             const text = normalize(render(guide).text());
             expect(text).toContain('preview');
-            expect(text).toContain(
-                'current 1.x branch after the 1.10.0 release',
-            );
-            expect(text).toMatch(
-                /(?:They are|It is) not included in that stable release\./,
-            );
+            expect(text).toContain('current 1.x branch after the 1.10.0 release');
+            expect(text).toMatch(/(?:They are|It is) not included in that stable release\./);
         }
     });
     it('retains the PM2 process replacement order and isolation constraints', () => {
-        const wrapper = render(
-            guides.find(({ source }) => source === 'deployment/pm2'),
-        );
-        expect(
-            wrapper.findAll('ol li').map((item) => normalize(item.text())),
-        ).toEqual([
+        const wrapper = render(guides.find(({ source }) => source === 'deployment/pm2'));
+        expect(wrapper.findAll('ol li').map((item) => normalize(item.text()))).toEqual([
             'It identifies application processes and any enabled legacy processes by their validated PM2 IDs.',
             'It deletes each selected ID and immediately runs pm2 save --force.',
             'It starts the ecosystem with --namespace and --update-env from release_path.',
             'It runs pm2 save --force again.',
         ]);
-        expect(normalize(wrapper.text())).toContain(
-            'The task never runs pm2 delete all.',
-        );
+        expect(normalize(wrapper.text())).toContain('The task never runs pm2 delete all.');
         expect(normalize(wrapper.text())).toContain(
             'PM2 modules marked with pm2_env.pmx_module = true are always preserved.',
         );
     });
     it('keeps repository tag examples scoped to arbitrary consuming projects', () => {
         const wrapper = render(
-            guides.find(
-                ({ source }) => source === 'deployment/repository-tags',
-            ),
+            guides.find(({ source }) => source === 'deployment/repository-tags'),
         );
-        expect(wrapper.get('pre code').text()).toContain(
-            "set('branch', '2.x');",
-        );
+        expect(wrapper.get('pre code').text()).toContain("set('branch', '2.x');");
         expect(wrapper.findAll('pre code').at(-1).text()).toBe(
             'vendor/bin/maintainer deploy production --tag=v2.1.0',
         );

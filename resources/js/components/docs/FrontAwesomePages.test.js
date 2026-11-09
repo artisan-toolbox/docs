@@ -1,5 +1,11 @@
+import { mount } from '@vue/test-utils';
+import { sourceNavigation } from './sourceNavigationFixture';
+import Setup from '../../pages/docs/front-awesome/Setup.vue';
+import Styling from '../../pages/docs/front-awesome/Styling.vue';
+import Toasts from '../../pages/docs/front-awesome/Toasts.vue';
 import { describe, expect, it } from 'vite-plus/test';
 import fixtures from './front-awesome/legacy-parity.json';
+import { installationCommands } from './installationFixture';
 import { verifyLegacyPages } from './front-awesome/legacyParity';
 import Guide0 from '../../pages/docs/front-awesome/Branding.vue';
 import Guide1 from '../../pages/docs/front-awesome/Button.vue';
@@ -52,18 +58,31 @@ const publishedInstallationParagraphs = new Map([
     ],
 ]);
 
-const publishedFixtures = fixtures.map((guide) =>
-    guide.slug === 'front-awesome/installation'
+const publishedFixtures = fixtures.map((guide) => {
+    if (guide.slug === 'front-awesome/web-awesome') {
+        return { ...guide, title: 'Web Awesome' };
+    }
+    if (guide.slug === 'front-awesome') {
+        return {
+            ...guide,
+            examples: [
+                {
+                    language: 'bash',
+                    code: installationCommands('front-awesome').composer.code,
+                },
+                ...guide.examples,
+            ],
+        };
+    }
+    return guide.slug === 'front-awesome/installation'
         ? {
               ...guide,
               paragraphs: guide.paragraphs.map(
-                  (paragraph) =>
-                      publishedInstallationParagraphs.get(paragraph) ??
-                      paragraph,
+                  (paragraph) => publishedInstallationParagraphs.get(paragraph) ?? paragraph,
               ),
           }
-        : guide,
-);
+        : guide;
+});
 
 describe('Front Awesome documentation migration', () => {
     const { render } = verifyLegacyPages({
@@ -72,6 +91,38 @@ describe('Front Awesome documentation migration', () => {
         packageTitle: 'Front Awesome',
         version: '1.x development branch',
         stability: 'Work in progress',
+        allowedExtraLinks: {
+            'front-awesome': [
+                {
+                    slug: 'front-awesome/web-awesome/components',
+                    text: 'Vue components catalog',
+                },
+                {
+                    slug: 'front-awesome/input',
+                    text: 'Bind input values and form errors',
+                },
+                {
+                    slug: 'front-awesome/icon',
+                    text: 'Render icons with Web Awesome',
+                },
+            ],
+            'front-awesome/web-awesome': [
+                {
+                    slug: 'front-awesome/web-awesome/components',
+                    text: 'Vue components catalog',
+                },
+            ],
+            'front-awesome/installation': [
+                {
+                    slug: 'front-awesome/web-awesome/components',
+                    text: 'Vue components catalog',
+                },
+                {
+                    slug: 'front-awesome/input',
+                    text: 'Bind input values and form errors',
+                },
+            ],
+        },
         installation: {
             installedVersion: '1.x-dev',
             installationStatus: 'installed',
@@ -84,13 +135,74 @@ describe('Front Awesome documentation migration', () => {
             expect(wrapper.text()).toContain('Work in progress');
             wrapper.unmount();
         }
-        const overview = render(
-            fixtures.find((guide) => guide.slug === 'front-awesome'),
-        );
+        const overview = render(fixtures.find((guide) => guide.slug === 'front-awesome'));
         expect(overview.get('aside[aria-label="Caution"]').text()).toContain(
             'Front Awesome has no stable Composer release.',
         );
         expect(overview.findAll('span[id]')).toHaveLength(15);
         overview.unmount();
     });
+});
+
+describe('Front Awesome task hubs', () => {
+    it.each([
+        [
+            Setup,
+            'Vue integration',
+            [
+                'front-awesome/installation',
+                'front-awesome/vue-plugin',
+                'front-awesome/configuration',
+            ],
+        ],
+        [
+            Styling,
+            'Appearance and branding',
+            [
+                'front-awesome/shared-theme',
+                'front-awesome/branding',
+                'front-awesome/primevue',
+                'front-awesome/theme-maintenance',
+            ],
+        ],
+        [
+            Toasts,
+            'Toasts',
+            [
+                'front-awesome/vue-plugin',
+                'front-awesome/toasts/laravel',
+                'front-awesome/toasts/vue',
+            ],
+        ],
+    ])(
+        'links from %s to prerequisite and task guides through the shared registry',
+        async (component, title, destinations) => {
+            const wrapper = mount(component, {
+                props: {
+                    navigation: sourceNavigation(),
+                    page: {
+                        title,
+                        description: title,
+                        package: {
+                            title: 'Front Awesome',
+                            documentedVersion: '1.x-dev',
+                            stability: 'Work in progress',
+                        },
+                    },
+                },
+            });
+            expect(wrapper.get('h1').text()).toBe(title);
+            expect(wrapper.findAll('h2[id]')).toHaveLength(destinations.length);
+            expect(wrapper.findAll('a').map((link) => link.attributes('href'))).toEqual(
+                destinations.map((slug) => `/docs/${slug}`),
+            );
+            await wrapper.setProps({
+                navigation: sourceNavigation('/reference'),
+            });
+            expect(wrapper.findAll('a').map((link) => link.attributes('href'))).toEqual(
+                destinations.map((slug) => `/reference/${slug}`),
+            );
+            wrapper.unmount();
+        },
+    );
 });

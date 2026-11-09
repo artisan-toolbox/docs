@@ -85,12 +85,7 @@ afterEach(() => {
     document.body.scrollTop = 0;
 });
 
-function sidebarGeometry({
-    top = 1054,
-    bottom = 1098,
-    position = 'sticky',
-    height = 640,
-} = {}) {
+function sidebarGeometry({ top = 1054, bottom = 1098, position = 'sticky', height = 640 } = {}) {
     const getComputedStyle = window.getComputedStyle.bind(window);
     vi.spyOn(window, 'getComputedStyle').mockImplementation((element) => {
         const style = getComputedStyle(element);
@@ -102,10 +97,7 @@ function sidebarGeometry({
                         return position;
                     }
 
-                    if (
-                        property === 'paddingTop' ||
-                        property === 'paddingBottom'
-                    ) {
+                    if (property === 'paddingTop' || property === 'paddingBottom') {
                         return '32px';
                     }
 
@@ -116,23 +108,21 @@ function sidebarGeometry({
 
         return style;
     });
-    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(
-        function () {
-            if (this.id === 'docs-navigation') {
-                return new DOMRect(0, 98, 288, height);
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function () {
+        if (this.id === 'docs-navigation') {
+            return new DOMRect(0, 98, 288, height);
+        }
+
+        if (this.getAttribute('aria-current') === 'page') {
+            if (this.closest('ul[style*="display: none"]')) {
+                return new DOMRect();
             }
 
-            if (this.getAttribute('aria-current') === 'page') {
-                if (this.closest('ul[style*="display: none"]')) {
-                    return new DOMRect();
-                }
+            return new DOMRect(0, top, 240, bottom - top);
+        }
 
-                return new DOMRect(0, top, 240, bottom - top);
-            }
-
-            return new DOMRect();
-        },
-    );
+        return new DOMRect();
+    });
 }
 
 describe('DocsLayout', () => {
@@ -141,18 +131,13 @@ describe('DocsLayout', () => {
         const wrapper = mount(DocsLayout, {
             slots: { default: '<h1>Documentation</h1><h2>Installation</h2>' },
         });
-        const breadcrumb = () =>
-            wrapper.get('main nav[aria-label="Breadcrumb"]');
+        const breadcrumb = () => wrapper.get('main nav[aria-label="Breadcrumb"]');
 
-        expect(breadcrumb().get('[aria-current="page"]').text()).toBe(
+        expect(breadcrumb().get('[aria-current="page"]').text()).toBe('Documentation');
+        expect(breadcrumb().element.parentElement.querySelector('h1').textContent).toBe(
             'Documentation',
         );
-        expect(
-            breadcrumb().element.parentElement.querySelector('h1').textContent,
-        ).toBe('Documentation');
-        expect(
-            breadcrumb().element.nextElementSibling.querySelector('h1'),
-        ).not.toBeNull();
+        expect(breadcrumb().element.nextElementSibling.querySelector('h1')).not.toBeNull();
 
         currentPage.props.page.breadcrumbs = [
             { label: 'Home', href: '/', current: false },
@@ -162,9 +147,7 @@ describe('DocsLayout', () => {
         currentPage.url = '/docs/maintainer';
         await nextTick();
 
-        expect(breadcrumb().get('[aria-current="page"]').text()).toBe(
-            'Maintainer',
-        );
+        expect(breadcrumb().get('[aria-current="page"]').text()).toBe('Maintainer');
         expect(
             breadcrumb()
                 .findAll('a')
@@ -174,18 +157,13 @@ describe('DocsLayout', () => {
     });
 
     it('uses the rendered header height for navigation and anchor clearance', async () => {
-        vi.spyOn(
-            HTMLElement.prototype,
-            'getBoundingClientRect',
-        ).mockImplementation(function () {
+        vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function () {
             return new DOMRect(0, 0, 320, this.tagName === 'HEADER' ? 148 : 0);
         });
         const wrapper = mount(DocsLayout);
         await nextTick();
 
-        expect(
-            wrapper.element.style.getPropertyValue('--site-header-height'),
-        ).toBe('148px');
+        expect(wrapper.element.style.getPropertyValue('--site-header-height')).toBe('148px');
     });
 
     it('derives the page outline from article headings and refreshes it after navigation', async () => {
@@ -207,8 +185,7 @@ describe('DocsLayout', () => {
             global: {
                 stubs: {
                     PublicSiteFooter: {
-                        template:
-                            '<footer><h2 id="footer-heading">Footer section</h2></footer>',
+                        template: '<footer><h2 id="footer-heading">Footer section</h2></footer>',
                     },
                 },
             },
@@ -227,12 +204,8 @@ describe('DocsLayout', () => {
         await flushPromises();
         const refreshedOutline = wrapper.get('nav[aria-label="On this page"]');
 
-        expect(
-            refreshedOutline.findAll('a').map((link) => link.text()),
-        ).toEqual(['Configuration']);
-        expect(refreshedOutline.get('button').attributes('aria-expanded')).toBe(
-            'false',
-        );
+        expect(refreshedOutline.findAll('a').map((link) => link.text())).toEqual(['Configuration']);
+        expect(refreshedOutline.get('button').attributes('aria-expanded')).toBe('false');
     });
 
     it('returns to the supplied home destination through the logo, sidebar, and footer', async () => {
@@ -244,13 +217,9 @@ describe('DocsLayout', () => {
             const wrapper = mount(DocsLayout);
 
             expect(
-                wrapper
-                    .get('header a[aria-label="Artisan Toolbox home"]')
-                    .attributes('href'),
+                wrapper.get('header a[aria-label="Artisan Toolbox home"]').attributes('href'),
             ).toBe('/welcome');
-            expect(wrapper.get('footer a[href="/welcome"]').text()).toBe(
-                'Home',
-            );
+            expect(wrapper.get('footer a[href="/welcome"]').text()).toBe('Home');
             const menu = wrapper.get('button[aria-controls="docs-navigation"]');
             await menu.trigger('click');
             const home = wrapper.get('#docs-navigation a[href="/welcome"]');
@@ -295,9 +264,7 @@ describe('DocsLayout', () => {
         await nextTick();
         await nextTick();
 
-        expect(wrapper.get('a[aria-current="page"]').text()).toBe(
-            'Code Quality',
-        );
+        expect(wrapper.get('a[aria-current="page"]').text()).toBe('Code Quality');
         expect(
             wrapper
                 .get('button[aria-label="Collapse Maintainer section"]')
@@ -326,9 +293,7 @@ describe('DocsLayout', () => {
         await nextTick();
 
         expect(sidebar.scrollTop).toBe(0);
-        await wrapper
-            .get('button[aria-controls="docs-navigation"]')
-            .trigger('click');
+        await wrapper.get('button[aria-controls="docs-navigation"]').trigger('click');
         reactive(page).url = '/docs?section=toolbox';
         await nextTick();
         await nextTick();
@@ -356,15 +321,9 @@ describe('DocsLayout', () => {
         await menu.trigger('click');
 
         expect(menu.attributes('aria-expanded')).toBe('true');
-        expect(wrapper.get('#docs-navigation').classes()).not.toContain(
-            'hidden',
-        );
-        expect(wrapper.get('a[aria-current="page"]').text()).toBe(
-            'Introduction',
-        );
-        expect(
-            wrapper.get('a[href="https://atb.dev.br/packages/core/"]').text(),
-        ).toBe('Core');
+        expect(wrapper.get('#docs-navigation').classes()).not.toContain('hidden');
+        expect(wrapper.get('a[aria-current="page"]').text()).toBe('Introduction');
+        expect(wrapper.get('a[href="https://atb.dev.br/packages/core/"]').text()).toBe('Core');
 
         await menu.trigger('click');
 
@@ -389,15 +348,11 @@ describe('DocsLayout', () => {
         const wrapper = mount(DocsLayout);
         const menu = wrapper.get('button[aria-controls="docs-navigation"]');
         await menu.trigger('click');
-        const disclosure = wrapper.get(
-            'button[aria-label="Expand Maintainer section"]',
-        );
+        const disclosure = wrapper.get('button[aria-label="Expand Maintainer section"]');
         await disclosure.trigger('click');
         expect(menu.attributes('aria-expanded')).toBe('true');
         expect(disclosure.attributes('aria-expanded')).toBe('true');
-        await wrapper
-            .get('nav a[href="/docs/maintainer/ci"]')
-            .trigger('click', { button: 1 });
+        await wrapper.get('nav a[href="/docs/maintainer/ci"]').trigger('click', { button: 1 });
         expect(menu.attributes('aria-expanded')).toBe('false');
     });
 
@@ -425,20 +380,12 @@ describe('DocsLayout', () => {
         });
 
         expect(wrapper.get('main h1').text()).toBe('Introduction');
-        expect(wrapper.get('a[href="#main-content"]').text()).toBe(
-            'Skip to content',
-        );
-        expect(
-            wrapper
-                .findAll('header img')
-                .map((image) => image.attributes('alt')),
-        ).toEqual(['Artisan Toolbox']);
-        expect(wrapper.get('footer a').text()).toContain(
-            'View page source on GitHub',
-        );
-        expect(wrapper.get('footer a').attributes('href')).toBe(
-            page.props.page.sourceUrl,
-        );
+        expect(wrapper.get('a[href="#main-content"]').text()).toBe('Skip to content');
+        expect(wrapper.findAll('header img').map((image) => image.attributes('alt'))).toEqual([
+            'Artisan Toolbox',
+        ]);
+        expect(wrapper.get('footer a').text()).toContain('View page source on GitHub');
+        expect(wrapper.get('footer a').attributes('href')).toBe(page.props.page.sourceUrl);
         const outboundLinks = wrapper.findAll('a[href^="https://"]');
 
         expect(outboundLinks).toHaveLength(5);
@@ -446,8 +393,6 @@ describe('DocsLayout', () => {
             expect(link.attributes('target')).toBe('_blank');
             expect(link.attributes('rel')).toBe('noopener noreferrer');
         }
-        expect(
-            wrapper.get('a[href="#main-content"]').attributes('target'),
-        ).toBeUndefined();
+        expect(wrapper.get('a[href="#main-content"]').attributes('target')).toBeUndefined();
     });
 });

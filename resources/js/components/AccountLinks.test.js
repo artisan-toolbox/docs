@@ -1,12 +1,5 @@
 import { mount } from '@vue/test-utils';
-import {
-    afterEach,
-    beforeEach,
-    describe,
-    expect,
-    it,
-    vi,
-} from 'vite-plus/test';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test';
 import ziggy from '../../../tests/Fixtures/ziggy.json';
 import AccountLinks from './AccountLinks.vue';
 

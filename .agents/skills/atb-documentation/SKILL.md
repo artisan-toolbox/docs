@@ -29,9 +29,9 @@ Label unpublished APIs and local development branches as previews.
 Run changed examples and compare their actual observable result with the documented result.
 
 For the documentation application, read `documentation/authoring.md` and reuse its shared components and registered navigation.
-During the migration, synchronize `docs_old` and corresponding Vue pages when both sources are available.
-In a standalone checkout, report unavailable companion repositories and the exact updates still needed.
-Do not claim cross-repository synchronization without inspecting those sources.
+The workspace `docs` repository is the only documentation source and application. Implement and maintain all documentation there.
+`docs_old` has been retired and no longer exists. Do not require, recreate, or synchronize that checkout.
+Use current Vue content and package behavior for authoring and verification. Historical migration records and fingerprints remain provenance, not a completion gate.
 
 ## Keep changes together
 

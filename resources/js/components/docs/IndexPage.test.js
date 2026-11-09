@@ -16,10 +16,7 @@ describe('Documentation catalog', () => {
             title,
             summary: `${title} documentation.`,
             version: '1.x',
-            href:
-                id === 'maintainer'
-                    ? '/docs/maintainer'
-                    : `https://atb.dev.br/packages/${id}/`,
+            href: id === 'maintainer' ? '/docs/maintainer' : `https://atb.dev.br/packages/${id}/`,
             migrated: id === 'maintainer',
             artwork: { icon: `/images/packages/${id}/${id}-icon.svg` },
         }));
@@ -46,11 +43,9 @@ describe('Documentation catalog', () => {
             'Mosaicast',
             'QZ Tray Connector',
         ]);
-        expect(wrapper.get('a[href="/docs/maintainer"]').text()).toContain(
-            'Maintainer',
+        expect(wrapper.get('a[href="/docs/maintainer"]').text()).toContain('Maintainer');
+        expect(wrapper.get('a[href="https://atb.dev.br/packages/qztray/"]').text()).toContain(
+            'QZ Tray Connector',
         );
-        expect(
-            wrapper.get('a[href="https://atb.dev.br/packages/qztray/"]').text(),
-        ).toContain('QZ Tray Connector');
     });
 });

@@ -1,12 +1,5 @@
 import { enableAutoUnmount, mount } from '@vue/test-utils';
-import {
-    afterEach,
-    beforeEach,
-    describe,
-    expect,
-    it,
-    vi,
-} from 'vite-plus/test';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test';
 import { createMosaicast, mosaicast } from '@artisan-toolbox/mosaicast';
 import { router } from '@inertiajs/vue3';
 import DemoAction from '@/components/demo/DemoAction.vue';
@@ -113,14 +106,10 @@ describe('interactive Inertia delivery scenario', () => {
             'Mosaicast listeners received 3 of 3',
         );
         const logs = wrapper.findAll('ol');
-        expect(
-            logs[1].findAll('li').map((item) => item.find('p').text()),
-        ).toEqual(names);
+        expect(logs[1].findAll('li').map((item) => item.find('p').text())).toEqual(names);
         await wrapper.findAllComponents(DemoAction)[1].trigger('click');
         expect(wrapper.findAll('ol')).toHaveLength(0);
-        expect(wrapper.get('[role="status"]').text()).toContain(
-            'No request has started.',
-        );
+        expect(wrapper.get('[role="status"]').text()).toContain('No request has started.');
         expect(boundary.post).toHaveBeenCalledTimes(1);
     });
 
@@ -131,18 +120,14 @@ describe('interactive Inertia delivery scenario', () => {
         first.onError({ message: 'The message is too long.' });
         first.onFinish();
         await wrapper.vm.$nextTick();
-        expect(wrapper.get('[role="status"]').text()).toBe(
-            'The message is too long.',
-        );
+        expect(wrapper.get('[role="status"]').text()).toBe('The message is too long.');
         expect(wrapper.findAll('ol')).toHaveLength(0);
         await wrapper.findAllComponents(DemoAction)[0].trigger('click');
         const second = boundary.post.mock.calls[1][2];
         second.onCancel();
         second.onFinish();
         await wrapper.vm.$nextTick();
-        expect(wrapper.get('[role="status"]').text()).toContain(
-            'The visit was canceled',
-        );
+        expect(wrapper.get('[role="status"]').text()).toContain('The visit was canceled');
     });
 
     it('removes its listener when the reader leaves before the response', async () => {
@@ -150,9 +135,6 @@ describe('interactive Inertia delivery scenario', () => {
         const wrapper = mountScenario();
         await wrapper.findAllComponents(DemoAction)[0].trigger('click');
         wrapper.unmount();
-        expect(off).toHaveBeenCalledWith(
-            'demo.orders.updated',
-            expect.any(Function),
-        );
+        expect(off).toHaveBeenCalledWith('demo.orders.updated', expect.any(Function));
     });
 });

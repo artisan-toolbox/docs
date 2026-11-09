@@ -21,9 +21,12 @@ describe('public site footer', () => {
             'GitHub',
             'Contact',
         ]);
-        expect(
-            links.map((link) => link.get('site-icon-stub').attributes('name')),
-        ).toEqual(['house', 'book-open', 'github', 'envelope']);
+        expect(links.map((link) => link.get('site-icon-stub').attributes('name'))).toEqual([
+            'house',
+            'book-open',
+            'github',
+            'envelope',
+        ]);
         expect(links[2].attributes('target')).toBe('_blank');
         expect(links[3].attributes('href')).toBe('mailto:contact@atb.dev.br');
     });

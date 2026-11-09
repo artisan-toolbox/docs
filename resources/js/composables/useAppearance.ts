@@ -16,8 +16,7 @@ export function updateTheme(value: Appearance): void {
     }
 
     systemAppearance.value = prefersDark() ? 'dark' : 'light';
-    const isDark =
-        (value === 'system' ? systemAppearance.value : value) === 'dark';
+    const isDark = (value === 'system' ? systemAppearance.value : value) === 'dark';
 
     document.documentElement.classList.toggle('dark', isDark);
     document.documentElement.classList.toggle('wa-dark', isDark);

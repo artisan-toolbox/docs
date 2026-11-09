@@ -1,13 +1,6 @@
 import { router } from '@inertiajs/vue3';
 import { mount } from '@vue/test-utils';
-import {
-    afterEach,
-    beforeEach,
-    describe,
-    expect,
-    it,
-    vi,
-} from 'vite-plus/test';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test';
 import ziggy from '../../../../tests/Fixtures/ziggy.json';
 import Login from './Login.vue';
 
@@ -66,9 +59,7 @@ describe('Passwordless sign in', () => {
         const wrapper = renderLogin();
 
         expect(wrapper.find('input[type="password"]').exists()).toBe(false);
-        expect(wrapper.get('#email').attributes('placeholder')).toBe(
-            'you@atb.dev.br',
-        );
+        expect(wrapper.get('#email').attributes('placeholder')).toBe('you@atb.dev.br');
         await wrapper.get('#email').setValue('you@atb.dev.br');
         await wrapper.get('form').trigger('submit');
 
@@ -97,9 +88,7 @@ describe('Passwordless sign in', () => {
         const options = post.mock.calls[0][2];
         options.onStart({});
         await wrapper.vm.$nextTick();
-        expect(
-            wrapper.get('button[type="submit"]').attributes('disabled'),
-        ).toBeDefined();
+        expect(wrapper.get('button[type="submit"]').attributes('disabled')).toBeDefined();
         options.onError({ email: 'Use your work email.' });
         options.onFinish({});
         await wrapper.vm.$nextTick();
@@ -112,26 +101,17 @@ describe('Passwordless sign in', () => {
     it('submits all six code digits as text and renders verification errors', async () => {
         const post = vi.spyOn(router, 'post').mockImplementation(() => {});
         const wrapper = renderLogin({ pendingEmail: 'you@atb.dev.br' });
-        expect(wrapper.get('#code').attributes('autocomplete')).toBe(
-            'one-time-code',
-        );
+        expect(wrapper.get('#code').attributes('autocomplete')).toBe('one-time-code');
         await wrapper.get('#code').setValue('001234');
         await wrapper.get('form').trigger('submit');
 
-        expect(post).toHaveBeenCalledWith(
-            '/login',
-            { code: '001234' },
-            expect.any(Object),
-        );
+        expect(post).toHaveBeenCalledWith('/login', { code: '001234' }, expect.any(Object));
         post.mock.calls[0][2].onError({ code: 'The code has expired.' });
         await wrapper.vm.$nextTick();
         expect(wrapper.get('#code-error').text()).toBe('The code has expired.');
     });
 
-    it.each([
-        'The code has expired.',
-        'Too many attempts. Please request a new code.',
-    ])(
+    it.each(['The code has expired.', 'Too many attempts. Please request a new code.'])(
         'returns to the email form when the pending code is cleared: %s',
         async (message) => {
             const post = vi.spyOn(router, 'post').mockImplementation(() => {});
@@ -195,9 +175,7 @@ describe('Passwordless sign in', () => {
             email: 'Please wait before requesting another code.',
         });
         await wrapper.vm.$nextTick();
-        expect(wrapper.text()).toContain(
-            'Please wait before requesting another code.',
-        );
+        expect(wrapper.text()).toContain('Please wait before requesting another code.');
 
         await wrapper
             .findAll('button')

@@ -55,10 +55,7 @@ export async function buildIcons({
         offset += image.length;
     }
 
-    await writeFile(
-        resolve(outputDirectory, 'favicon.ico'),
-        Buffer.concat([header, ...entries]),
-    );
+    await writeFile(resolve(outputDirectory, 'favicon.ico'), Buffer.concat([header, ...entries]));
 
     await sharp(icon)
         .resize(384, 384)
@@ -132,13 +129,8 @@ export async function buildIcons({
     );
 }
 
-if (
-    process.argv[1] &&
-    import.meta.url === pathToFileURL(resolve(process.argv[1])).href
-) {
-    const publicDirectory = fileURLToPath(
-        new URL('../public', import.meta.url),
-    );
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+    const publicDirectory = fileURLToPath(new URL('../public', import.meta.url));
     await buildIcons({
         sourceDirectory: resolve(publicDirectory, 'images/brand'),
         outputDirectory: resolve(publicDirectory, 'favicons'),

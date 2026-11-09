@@ -45,16 +45,8 @@ beforeEach(() => {
         }),
     );
     put(source, skill, entry);
-    put(
-        source,
-        'sync.mjs',
-        readFileSync('documentation/agent-standards/sync.mjs'),
-    );
-    put(
-        source,
-        'skills/atb-example/references/example.md',
-        '# Example reference\n',
-    );
+    put(source, 'sync.mjs', readFileSync('documentation/agent-standards/sync.mjs'));
+    put(source, 'skills/atb-example/references/example.md', '# Example reference\n');
     releaseStandards(source, '1.0.0');
 });
 
@@ -66,29 +58,21 @@ test('checks without writing, installs pinned skills for Codex and Boost, and co
     sync({ write: true, version: '1.0.0' });
     expect(read(`.agents/${skill}`)).toBe(entry);
     expect(read(`.ai/${skill}`)).toBe(entry);
-    expect(read('.agents/skills/atb-example/references/example.md')).toBe(
-        '# Example reference\n',
-    );
+    expect(read('.agents/skills/atb-example/references/example.md')).toBe('# Example reference\n');
     const lock = JSON.parse(read('.ai/standards.lock.json'));
     expect(lock.version).toBe('1.0.0');
     expect(lock.files).toHaveProperty(`.agents/${skill}`);
     const modified = statSync(path.join(target, `.agents/${skill}`)).mtimeMs;
     expect(sync({ write: true, version: '1.0.0' }).changes).toEqual([]);
-    expect(statSync(path.join(target, `.agents/${skill}`)).mtimeMs).toBe(
-        modified,
-    );
+    expect(statSync(path.join(target, `.agents/${skill}`)).mtimeMs).toBe(modified);
     expect(sync().changes).toEqual([]);
 });
 
 test('requires an explicit matching version before installation or upgrades', () => {
     expect(() => sync({ write: true })).toThrow('Pin the source version');
-    expect(() => sync({ write: true, version: '2.0.0' })).toThrow(
-        'Pin the source version',
-    );
+    expect(() => sync({ write: true, version: '2.0.0' })).toThrow('Pin the source version');
     expect(() => read('.ai/standards.lock.json')).toThrow();
-    expect(() => releaseStandards(source, '01.0.1')).toThrow(
-        'major.minor.patch',
-    );
+    expect(() => releaseStandards(source, '01.0.1')).toThrow('major.minor.patch');
 });
 
 test('detects consumer drift and preserves local edits before making any writes', () => {
@@ -98,9 +82,7 @@ test('detects consumer drift and preserves local edits before making any writes'
     put(source, skill, entry + 'A new recommendation.\n');
     releaseStandards(source, '1.0.1');
     expect(sync().changes).toContain(`.agents/${skill}`);
-    expect(() => sync({ write: true, version: '1.0.1' })).toThrow(
-        'Preserve local edits',
-    );
+    expect(() => sync({ write: true, version: '1.0.1' })).toThrow('Preserve local edits');
     expect(read(`.agents/${skill}`)).toBe('Local edits');
     expect(read(`.ai/${skill}`)).toBe(original);
     expect(JSON.parse(read('.ai/standards.lock.json')).version).toBe('1.0.0');
@@ -109,9 +91,7 @@ test('detects consumer drift and preserves local edits before making any writes'
 test('preserves unrelated skills and rejects a colliding unmanaged file', () => {
     put(target, '.agents/skills/personal/SKILL.md', 'Personal skill');
     put(target, `.agents/${skill}`, 'Existing instruction');
-    expect(() => sync({ write: true, version: '1.0.0' })).toThrow(
-        'Preserve local edits',
-    );
+    expect(() => sync({ write: true, version: '1.0.0' })).toThrow('Preserve local edits');
     expect(read('.agents/skills/personal/SKILL.md')).toBe('Personal skill');
     expect(() => read(`.ai/${skill}`)).toThrow();
 });
@@ -142,12 +122,8 @@ test('removes obsolete managed resources during upgrades while retaining unrelat
     rmSync(path.join(source, 'skills/atb-example/references/example.md'));
     releaseStandards(source, '1.1.0');
     sync({ write: true, version: '1.1.0' });
-    expect(() =>
-        read('.agents/skills/atb-example/references/example.md'),
-    ).toThrow();
-    expect(() =>
-        read('.ai/skills/atb-example/references/example.md'),
-    ).toThrow();
+    expect(() => read('.agents/skills/atb-example/references/example.md')).toThrow();
+    expect(() => read('.ai/skills/atb-example/references/example.md')).toThrow();
     expect(read('.agents/skills/personal/SKILL.md')).toBe('Personal skill');
     expect(sync().changes).toEqual([]);
 });
@@ -158,33 +134,21 @@ test('rejects traversal and unrelated lock entries before modifying the consumer
         '.agents/skills/personal/SKILL.md',
         '.ai/skills/atb-example/../../outside.txt',
     ]) {
-        put(
-            target,
-            '.ai/standards.lock.json',
-            JSON.stringify({ files: { [relative]: 'old' } }),
-        );
-        expect(() => sync({ write: true, version: '1.0.0' })).toThrow(
-            /Unsafe|Unmanaged/,
-        );
+        put(target, '.ai/standards.lock.json', JSON.stringify({ files: { [relative]: 'old' } }));
+        expect(() => sync({ write: true, version: '1.0.0' })).toThrow(/Unsafe|Unmanaged/);
         expect(() => read(`.agents/${skill}`)).toThrow();
     }
 });
 
 test('rejects symlinked destinations including dangling file links', () => {
     mkdirSync(path.join(target, '.agents'), { recursive: true });
-    symlinkSync(
-        path.join(directory, 'outside'),
-        path.join(target, '.agents/skills'),
-    );
+    symlinkSync(path.join(directory, 'outside'), path.join(target, '.agents/skills'));
     expect(() => sync({ write: true, version: '1.0.0' })).toThrow('symlinks');
     rmSync(path.join(target, '.agents/skills'));
     mkdirSync(path.join(target, '.agents/skills/atb-example'), {
         recursive: true,
     });
-    symlinkSync(
-        path.join(directory, 'missing.md'),
-        path.join(target, `.agents/${skill}`),
-    );
+    symlinkSync(path.join(directory, 'missing.md'), path.join(target, `.agents/${skill}`));
     expect(() => sync({ write: true, version: '1.0.0' })).toThrow('symlinks');
 });
 
@@ -203,9 +167,7 @@ test('supports Boost links from a Codex skill to the matching canonical skill du
     rmSync(path.join(source, 'skills/atb-example/references/example.md'));
     releaseStandards(source, '1.0.2');
     sync({ write: true, version: '1.0.2' });
-    expect(() =>
-        read('.ai/skills/atb-example/references/example.md'),
-    ).toThrow();
+    expect(() => read('.ai/skills/atb-example/references/example.md')).toThrow();
     expect(sync().changes).toEqual([]);
     rmSync(link);
     symlinkSync(path.join(directory, 'unrelated'), link);
@@ -230,11 +192,10 @@ test('the CLI reports drift with a failing exit status and supports explicit pin
     });
     expect(after.status).toBe(0);
     expect(after.stdout).toContain('0 pending files');
-    const standalone = spawnSync(
-        process.execPath,
-        ['.ai/sync.mjs', '--check'],
-        { cwd: target, encoding: 'utf8' },
-    );
+    const standalone = spawnSync(process.execPath, ['.ai/sync.mjs', '--check'], {
+        cwd: target,
+        encoding: 'utf8',
+    });
     expect(standalone.status).toBe(0);
     put(target, `.agents/${skill}`, 'Consumer drift');
     const drift = spawnSync(process.execPath, ['.ai/sync.mjs', '--check'], {
@@ -245,20 +206,14 @@ test('the CLI reports drift with a failing exit status and supports explicit pin
 });
 
 test('installs the real standards bundle with readable references and a working standalone check', () => {
-    const manifest = JSON.parse(
-        readFileSync('documentation/agent-standards/manifest.json'),
-    );
+    const manifest = JSON.parse(readFileSync('documentation/agent-standards/manifest.json'));
     syncStandards({ target, write: true, version: manifest.version });
     for (const name of manifest.skills) {
         const filename = path.join(target, '.agents/skills', name, 'SKILL.md');
         const contents = readFileSync(filename, 'utf8');
         for (const match of contents.matchAll(/\]\(([^)]+)\)/g)) {
             if (/^https?:|^#/.test(match[1])) continue;
-            expect(
-                statSync(
-                    path.resolve(path.dirname(filename), match[1]),
-                ).isFile(),
-            ).toBe(true);
+            expect(statSync(path.resolve(path.dirname(filename), match[1])).isFile()).toBe(true);
         }
     }
     const result = spawnSync(process.execPath, ['.ai/sync.mjs', '--check'], {

@@ -40,78 +40,56 @@ const helper = `mosaicast('orders.updated', ['orderId' => 42]);`;
             Complete
             <DocsLink
                 :href="
-                    findNavigationItem(navigation, 'mosaicast/installation')
-                        .href + '#register-the-client'
+                    findNavigationItem(navigation, 'mosaicast/installation').href +
+                    '#register-the-client'
                 "
                 >Install Mosaicast through Register the client</DocsLink
             >
-            before this example. Use an existing Laravel application with Vue
-            and Inertia 3, a nonempty <code>APP_KEY</code>, and working web
-            sessions. Run Composer before npm from the application root. This
-            Inertia path needs no Echo instance, broadcast server, or queue
-            worker.
+            before this example. Use an existing Laravel application with Vue and Inertia 3, a
+            nonempty <code>APP_KEY</code>, and working web sessions. Run Composer before npm from
+            the application root. This Inertia path needs no Echo instance, broadcast server, or
+            queue worker.
         </p>
         <p>
-            Add this temporary route to <code>routes/web.php</code>. The web
-            middleware supplies the session, and the action returns an Inertia
-            response in the same request:
+            Add this temporary route to <code>routes/web.php</code>. The web middleware supplies the
+            session, and the action returns an Inertia response in the same request:
         </p>
-        <CodeExample
-            label="Return an event in an Inertia response"
-            language="php"
-            :code="route"
-        />
+        <CodeExample label="Return an event in an Inertia response" language="php" :code="route" />
         <p>
-            Create <code>MosaicastExample.vue</code> in the page directory used
-            by your application's resolver. Register the listener in component
-            setup before the user can send the request, and remove it when the
-            component unmounts:
+            Create <code>MosaicastExample.vue</code> in the page directory used by your
+            application's resolver. Register the listener in component setup before the user can
+            send the request, and remove it when the component unmounts:
         </p>
         <CodeExample
             label="Listen before triggering an Inertia visit"
             language="vue"
-            :code="pageExample"
-        />
+            :code="pageExample" />
         <p>
-            Build the application with <code>npm run build</code>, or use its
-            existing Vite development command. Visit
-            <code>/mosaicast-example</code>, open the browser console, and
-            select <strong>Send an event</strong>. The request returns the event
-            under <code>mosaicast.events</code>. The console logs
-            <code>42</code> and <code>inertia</code> once for that visit.
+            Build the application with <code>npm run build</code>, or use its existing Vite
+            development command. Visit <code>/mosaicast-example</code>, open the browser console,
+            and select <strong>Send an event</strong>. The request returns the event under
+            <code>mosaicast.events</code>. The console logs <code>42</code> and
+            <code>inertia</code> once for that visit.
         </p>
         <p>
-            The link preserves component state so the listener stays registered
-            during the request. Use the Inertia link in the same browser
-            session. Remove the temporary route and page when you finish.
+            The link preserves component state so the listener stays registered during the request.
+            Use the Inertia link in the same browser session. Remove the temporary route and page
+            when you finish.
         </p>
         <p>
-            The global <code>mosaicast()</code> helper dispatches with the same
-            event and payload arguments. You can replace the facade call in the
-            route with:
+            The global <code>mosaicast()</code> helper dispatches with the same event and payload
+            arguments. You can replace the facade call in the route with:
         </p>
-        <CodeExample
-            label="Dispatch with the global helper"
-            language="php"
-            :code="helper"
-        />
+        <CodeExample label="Dispatch with the global helper" language="php" :code="helper" />
         <p>
             An Inertia response that resolves the shared
-            <code>mosaicast</code> prop includes this event under
-            <code>mosaicast.events</code>. On another response, Mosaicast
-            broadcasts it to the current session's private channel. The
-            <DocsLink
-                :href="
-                    findNavigationItem(navigation, 'mosaicast/vue-plugin').href
-                "
+            <code>mosaicast</code> prop includes this event under <code>mosaicast.events</code>. On
+            another response, Mosaicast broadcasts it to the current session's private channel. The
+            <DocsLink :href="findNavigationItem(navigation, 'mosaicast/vue-plugin').href"
                 >Vue plugin</DocsLink
             >
             delivers both paths to the same listener. Configure
-            <DocsLink
-                :href="
-                    findNavigationItem(navigation, 'mosaicast/session-channels')
-                        .href
-                "
+            <DocsLink :href="findNavigationItem(navigation, 'mosaicast/session-channels').href"
                 >session broadcast channels</DocsLink
             >
             before using the broadcast path.

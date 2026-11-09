@@ -8,12 +8,8 @@ import sharp from 'sharp';
 import { afterAll, beforeAll, expect, test } from 'vite-plus/test';
 import { buildBrandLogos } from './build-brand-logos.mjs';
 
-const sourceDirectory = fileURLToPath(
-    new URL('../public/images/brand', import.meta.url),
-);
-const publishedDirectory = fileURLToPath(
-    new URL('../resources/js/assets/brand', import.meta.url),
-);
+const sourceDirectory = fileURLToPath(new URL('../public/images/brand', import.meta.url));
+const publishedDirectory = fileURLToPath(new URL('../resources/js/assets/brand', import.meta.url));
 let outputDirectory;
 
 async function fileDigest(file) {
@@ -41,10 +37,7 @@ test.each(['light', 'dark'])(
 
         for (const width of [192, 384, 576]) {
             const file = await readFile(
-                resolve(
-                    outputDirectory,
-                    `artisan-toolbox-logo-${theme}-${width}.webp`,
-                ),
+                resolve(outputDirectory, `artisan-toolbox-logo-${theme}-${width}.webp`),
             );
             const metadata = await sharp(file).metadata();
             expect(metadata).toMatchObject({
@@ -76,8 +69,6 @@ test('regenerates byte-identical assets without changing their module contract',
 
     expect((await readdir(outputDirectory)).sort()).toEqual(files);
     expect(
-        await Promise.all(
-            files.map((file) => fileDigest(resolve(outputDirectory, file))),
-        ),
+        await Promise.all(files.map((file) => fileDigest(resolve(outputDirectory, file)))),
     ).toEqual(before);
 });

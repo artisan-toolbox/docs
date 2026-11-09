@@ -8,9 +8,7 @@ const props = defineProps({
     label: { type: String, required: true },
     language: { type: String, default: 'bash' },
 });
-const instruction = computed(
-    () => props.package.installationCommands?.[props.command],
-);
+const instruction = computed(() => props.package.installationCommands?.[props.command]);
 </script>
 
 <template>
@@ -19,17 +17,12 @@ const instruction = computed(
             v-if="instruction?.code"
             :code="instruction.code"
             :label="label"
-            :language="language"
-        >
+            :language="language">
             <slot />
         </CodeExample>
-        <p
-            v-else
-            role="status"
-            class="text-sm text-slate-600 dark:text-slate-300"
-        >
-            Installation command unavailable. The documentation has no locked
-            version for a required dependency.
+        <p v-else role="status" class="text-sm text-slate-600 dark:text-slate-300">
+            Installation command unavailable. The documentation has no locked version for a required
+            dependency.
         </p>
     </div>
 </template>

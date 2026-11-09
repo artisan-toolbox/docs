@@ -52,22 +52,16 @@ describe('Maintainer Code Quality overview', () => {
                 },
             },
         });
-        const paragraphs = wrapper
-            .findAll('p')
-            .map((paragraph) => paragraph.text());
+        const paragraphs = wrapper.findAll('p').map((paragraph) => paragraph.text());
 
         expect(wrapper.get('h1').text()).toBe('Code Quality');
         expect(wrapper.get('h1').find('.sr-only, img').exists()).toBe(false);
         expect(wrapper.find('dl').exists()).toBe(false);
-        expect(wrapper.get('[aria-label="Package details"]').text()).toContain(
-            'Maintainer',
-        );
+        expect(wrapper.get('[aria-label="Package details"]').text()).toContain('Maintainer');
         expect(wrapper.get('[aria-label="Package details"]').text()).toContain(
             'Documented version 1.10',
         );
-        expect(wrapper.get('[aria-label="Package details"]').text()).toContain(
-            'Stable',
-        );
+        expect(wrapper.get('[aria-label="Package details"]').text()).toContain('Stable');
         expect(paragraphs).toContain(
             'The Code Quality group separates commands that modify files from checks intended for continuous integration. Open Code Quality from the interactive menu, choose Fix or CI Check, and then select from the commands configured for that workflow.',
         );
@@ -81,16 +75,11 @@ describe('Maintainer Code Quality overview', () => {
             'vendor/bin/maintainer quality:check',
             'vendor/bin/maintainer quality:fix',
         ]);
-        expect(
-            wrapper
-                .findAll('button')
-                .map((button) => button.attributes('aria-label')),
-        ).toEqual(['Copy Run CI checks', 'Copy Run automated fixes']);
-        expect(
-            wrapper
-                .findAll('a')
-                .map((link) => [link.text(), link.attributes('href')]),
-        ).toEqual([
+        expect(wrapper.findAll('button').map((button) => button.attributes('aria-label'))).toEqual([
+            'Copy Run CI checks',
+            'Copy Run automated fixes',
+        ]);
+        expect(wrapper.findAll('a').map((link) => [link.text(), link.attributes('href')])).toEqual([
             ['Fixes and CI checks', '/docs/maintainer/ci/quality'],
             ['Fixes and CI checks guide', '/docs/maintainer/ci/quality'],
         ]);
@@ -125,9 +114,7 @@ describe('Maintainer Code Quality overview', () => {
                 },
             ],
         });
-        expect(
-            wrapper.findAll('a').map((link) => link.attributes('href')),
-        ).toEqual([
+        expect(wrapper.findAll('a').map((link) => link.attributes('href'))).toEqual([
             '/reference/maintainer/ci/quality',
             '/reference/maintainer/ci/quality',
         ]);

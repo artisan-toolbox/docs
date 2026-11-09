@@ -65,42 +65,31 @@ for (const fixture of fixtures) {
                     text: heading.text(),
                 })),
             ).toEqual(fixture.headings);
-            expect(
-                content.findAll('pre code').map((code) => code.text()),
-            ).toEqual(fixture.examples.map((example) => example.code));
+            expect(content.findAll('pre code').map((code) => code.text())).toEqual(
+                fixture.examples.map((example) => example.code),
+            );
             expect(
                 content
                     .findAll('pre code')
-                    .map((code) =>
-                        code
-                            .classes()
-                            .find((name) => name.startsWith('language-')),
-                    ),
-            ).toEqual(
-                fixture.examples.map(
-                    (example) => `language-${example.language}`,
-                ),
-            );
+                    .map((code) => code.classes().find((name) => name.startsWith('language-'))),
+            ).toEqual(fixture.examples.map((example) => `language-${example.language}`));
             expect(
                 content
                     .findAll('p')
                     .filter(
                         (paragraph) =>
-                            !paragraph.attributes('role') &&
-                            !paragraph.element.closest('figure'),
+                            !paragraph.attributes('role') && !paragraph.element.closest('figure'),
                     )
                     .map((paragraph) => normalize(paragraph.text())),
             ).toEqual(fixture.paragraphs.map(normalize));
-            expect(
-                content.findAll('li').map((item) => normalize(item.text())),
-            ).toEqual(fixture.listItems.map(normalize));
-            expect(
-                content.findAll('a').map((link) => link.attributes('href')),
-            ).toEqual(fixture.links.map((link) => link.href));
+            expect(content.findAll('li').map((item) => normalize(item.text()))).toEqual(
+                fixture.listItems.map(normalize),
+            );
+            expect(content.findAll('a').map((link) => link.attributes('href'))).toEqual(
+                fixture.links.map((link) => link.href),
+            );
             for (const anchor of fixture.anchors)
-                expect(content.find(`[id="${String(anchor)}"]`).exists()).toBe(
-                    true,
-                );
+                expect(content.find(`[id="${String(anchor)}"]`).exists()).toBe(true);
             wrapper.unmount();
         });
 
@@ -117,9 +106,7 @@ for (const fixture of fixtures) {
             ).toEqual(
                 fixture.links.map((link) =>
                     Object.hasOwn(link, 'slug')
-                        ? '/reference' +
-                          (link.slug ? '/' + link.slug : '') +
-                          link.hash
+                        ? '/reference' + (link.slug ? '/' + link.slug : '') + link.hash
                         : link.href,
                 ),
             );
@@ -137,27 +124,15 @@ it('renders the server package catalog in the chooser and updates it after navig
         },
     });
 
-    expect(wrapper.get('[data-package-catalog]').text()).toContain(
-        'First package',
-    );
-    expect(wrapper.get('[data-package-catalog] a').attributes('href')).toBe(
-        '/docs/first',
-    );
+    expect(wrapper.get('[data-package-catalog]').text()).toContain('First package');
+    expect(wrapper.get('[data-package-catalog] a').attributes('href')).toBe('/docs/first');
     await wrapper.setProps({
-        packages: [
-            packageEntry('second', 'Second package', '/reference/second'),
-        ],
+        packages: [packageEntry('second', 'Second package', '/reference/second')],
     });
 
-    expect(wrapper.get('[data-package-catalog]').text()).toContain(
-        'Second package',
-    );
-    expect(wrapper.get('[data-package-catalog]').text()).not.toContain(
-        'First package',
-    );
-    expect(wrapper.get('[data-package-catalog] a').attributes('href')).toBe(
-        '/reference/second',
-    );
+    expect(wrapper.get('[data-package-catalog]').text()).toContain('Second package');
+    expect(wrapper.get('[data-package-catalog]').text()).not.toContain('First package');
+    expect(wrapper.get('[data-package-catalog] a').attributes('href')).toBe('/reference/second');
     wrapper.unmount();
 });
 
@@ -173,13 +148,12 @@ it('links the project overview to ownership, versioning, getting started, and th
     });
 
     expect(wrapper.get('h1').text()).toBe('About the project');
+    expect(wrapper.findAll('h2').map((heading) => heading.attributes('id'))).toEqual([
+        'documentation',
+        'releases',
+    ]);
     expect(
-        wrapper.findAll('h2').map((heading) => heading.attributes('id')),
-    ).toEqual(['documentation', 'releases']);
-    expect(
-        wrapper
-            .findAll('[data-document-content] a')
-            .map((link) => link.attributes('href')),
+        wrapper.findAll('[data-document-content] a').map((link) => link.attributes('href')),
     ).toEqual([
         '/docs/project/documentation-policy',
         '/docs/project/versioning',
@@ -188,9 +162,7 @@ it('links the project overview to ownership, versioning, getting started, and th
     ]);
     await wrapper.setProps({ navigation: navigation('/reference') });
     expect(
-        wrapper
-            .findAll('[data-document-content] a')
-            .map((link) => link.attributes('href')),
+        wrapper.findAll('[data-document-content] a').map((link) => link.attributes('href')),
     ).toEqual([
         '/reference/project/documentation-policy',
         '/reference/project/versioning',

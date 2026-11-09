@@ -57,7 +57,8 @@ export default defineConfig({
         },
     },
     fmt: {
-        printWidth: 80,
+        bracketSameLine: true,
+        printWidth: 100,
         tabWidth: 4,
         singleQuote: true,
         semi: true,
@@ -68,6 +69,7 @@ export default defineConfig({
             'composer.json',
             'resources/js/components/ui/*',
             'resources/views/mail/*',
+            'resources/js/ziggy.js',
         ],
         sortTailwindcss: {
             functions: ['clsx', 'cn', 'cva'],

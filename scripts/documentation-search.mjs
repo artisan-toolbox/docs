@@ -18,36 +18,34 @@ const ignoredComponents = new Set([
     'PackageBadges',
     'PackageCard',
 ]);
-const runtimeDirectives = new Set([
-    'if',
-    'else',
-    'else-if',
-    'for',
-    'html',
-    'text',
-    'show',
-]);
+const runtimeDirectives = new Set(['if', 'else', 'else-if', 'for', 'html', 'text', 'show']);
 const normalized = (value) => String(value).replace(/\s+/gu, ' ').trim();
-const propName = (name) =>
-    name.replace(/-([a-z])/gu, (_, letter) => letter.toUpperCase());
+const propName = (name) => name.replace(/-([a-z])/gu, (_, letter) => letter.toUpperCase());
 
 export function extractDocumentation(pages, { root = process.cwd() } = {}) {
     const sourceRoot = realpathSync(resolve(root, 'resources/js'));
     const parsed = new Map();
     const documents = [];
+    let componentCatalog;
+
+    function catalog() {
+        componentCatalog ??= JSON.parse(
+            readFileSync(
+                resolve(sourceRoot, 'components/docs/front-awesome/catalog/components.json'),
+                'utf8',
+            ),
+        );
+        return componentCatalog;
+    }
 
     function fail(file, node, message) {
-        throw new Error(
-            `${relative(root, file)}:${node?.loc?.start?.line ?? 1}: ${message}`,
-        );
+        throw new Error(`${relative(root, file)}:${node?.loc?.start?.line ?? 1}: ${message}`);
     }
 
     function assertStatic(node, component) {
         if (
             node.props.some(
-                (item) =>
-                    item.type === NodeType.directive &&
-                    runtimeDirectives.has(item.name),
+                (item) => item.type === NodeType.directive && runtimeDirectives.has(item.name),
             )
         ) {
             fail(
@@ -60,10 +58,7 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
 
     function readComponent(file) {
         const canonical = realpathSync(file);
-        if (
-            relative(sourceRoot, canonical).startsWith('..') ||
-            !canonical.endsWith('.vue')
-        ) {
+        if (relative(sourceRoot, canonical).startsWith('..') || !canonical.endsWith('.vue')) {
             throw new Error(
                 `Search content must be a Vue file inside resources/js: ${relative(root, file)}`,
             );
@@ -71,8 +66,7 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
         if (parsed.has(canonical)) return parsed.get(canonical);
         const source = readFileSync(canonical, 'utf8');
         const { descriptor, errors } = parse(source, { filename: canonical });
-        if (errors.length)
-            throw new Error(`${relative(root, canonical)}: ${errors[0]}`);
+        if (errors.length) throw new Error(`${relative(root, canonical)}: ${errors[0]}`);
         if (!descriptor.template?.ast || descriptor.template.lang) {
             throw new Error(
                 `${relative(root, canonical)}: Search requires a standard Vue template.`,
@@ -80,9 +74,7 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
         }
         const imports = new Map();
         const bindings = new Map();
-        for (const script of [descriptor.script, descriptor.scriptSetup].filter(
-            Boolean,
-        )) {
+        for (const script of [descriptor.script, descriptor.scriptSetup].filter(Boolean)) {
             const ast = babelParse(script.content, {
                 sourceType: 'module',
                 plugins: ['typescript'],
@@ -96,8 +88,7 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
                 const declaration = statement.declaration ?? statement;
                 if (declaration.type === 'VariableDeclaration') {
                     for (const item of declaration.declarations) {
-                        if (item.id.type === 'Identifier')
-                            bindings.set(item.id.name, item.init);
+                        if (item.id.type === 'Identifier') bindings.set(item.id.name, item.init);
                     }
                 }
             }
@@ -114,11 +105,7 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
 
     function value(node, scope, component) {
         if (!node) fail(component.file, node, 'Missing static content value.');
-        if (
-            ['StringLiteral', 'NumericLiteral', 'BooleanLiteral'].includes(
-                node.type,
-            )
-        )
+        if (['StringLiteral', 'NumericLiteral', 'BooleanLiteral'].includes(node.type))
             return node.value;
         if (node.type === 'NullLiteral') return null;
         if (node.type === 'Identifier') return scope.lookup(node.name, node);
@@ -145,11 +132,7 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
                     (part, index) =>
                         part.value.raw +
                         (index < node.quasi.expressions.length
-                            ? value(
-                                  node.quasi.expressions[index],
-                                  scope,
-                                  component,
-                              )
+                            ? value(node.quasi.expressions[index], scope, component)
                             : ''),
                 )
                 .join('');
@@ -175,25 +158,12 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
         }
         if (node.type === 'MemberExpression' && !node.optional) {
             const object = value(node.object, scope, component);
-            const key = node.computed
-                ? value(node.property, scope, component)
-                : node.property.name;
-            if (
-                object !== null &&
-                typeof object === 'object' &&
-                Object.hasOwn(object, key)
-            )
+            const key = node.computed ? value(node.property, scope, component) : node.property.name;
+            if (object !== null && typeof object === 'object' && Object.hasOwn(object, key))
                 return object[key];
-            fail(
-                component.file,
-                node,
-                `Unresolved searchable property ${key}.`,
-            );
+            fail(component.file, node, `Unresolved searchable property ${key}.`);
         }
-        if (
-            node.type === 'CallExpression' &&
-            node.callee.name === 'defineProps'
-        )
+        if (node.type === 'CallExpression' && node.callee.name === 'defineProps')
             return scope.props;
         fail(
             component.file,
@@ -205,14 +175,9 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
     function expression(source, scope, component, node) {
         let ast;
         try {
-            ast = babelParse(`(${source})`, { sourceType: 'module' }).program
-                .body[0].expression;
+            ast = babelParse(`(${source})`, { sourceType: 'module' }).program.body[0].expression;
         } catch {
-            fail(
-                component.file,
-                node,
-                `Cannot parse searchable expression ${source}.`,
-            );
+            fail(component.file, node, `Cannot parse searchable expression ${source}.`);
         }
         return value(ast, scope, component);
     }
@@ -225,24 +190,12 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
             lookup(name, node) {
                 if (Object.hasOwn(props, name)) return props[name];
                 if (!component.bindings.has(name))
-                    fail(
-                        component.file,
-                        node,
-                        `Unresolved searchable binding ${name}.`,
-                    );
+                    fail(component.file, node, `Unresolved searchable binding ${name}.`);
                 if (resolving.has(name))
-                    fail(
-                        component.file,
-                        node,
-                        `Circular searchable binding ${name}.`,
-                    );
+                    fail(component.file, node, `Circular searchable binding ${name}.`);
                 resolving.add(name);
                 try {
-                    return value(
-                        component.bindings.get(name),
-                        scope,
-                        component,
-                    );
+                    return value(component.bindings.get(name), scope, component);
                 } finally {
                     resolving.delete(name);
                 }
@@ -260,14 +213,14 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
                     item.arg?.content === name),
         );
         if (!property) return fallback;
-        if (property.type === NodeType.attribute)
-            return property.value?.content ?? '';
+        if (property.type === NodeType.attribute) return property.value?.content ?? '';
         return expression(property.exp.content, scope, component, property);
     }
 
     for (const page of pages) {
         const pageDocuments = [];
         const anchors = new Set();
+        const catalogTargets = new Set();
         let current = {
             heading: null,
             anchor: null,
@@ -284,22 +237,14 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
             });
         }
         function heading(title, anchor, component, node) {
-            if (
-                typeof title !== 'string' ||
-                typeof anchor !== 'string' ||
-                !anchor
-            )
+            if (typeof title !== 'string' || typeof anchor !== 'string' || !anchor)
                 fail(
                     component.file,
                     node,
                     'Every searchable heading needs a static title and a stable nonempty ID.',
                 );
             if (anchor && anchors.has(anchor))
-                fail(
-                    component.file,
-                    node,
-                    `Duplicate search anchor ${anchor}.`,
-                );
+                fail(component.file, node, `Duplicate search anchor ${anchor}.`);
             if (anchor) anchors.add(anchor);
             flush();
             current = { heading: normalized(title), anchor, chunks: [] };
@@ -314,19 +259,13 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
                 .map((node) => {
                     if (node.type === NodeType.text) return node.content;
                     if (node.type === NodeType.interpolation)
-                        return expression(
-                            node.content.content,
-                            scope,
-                            component,
-                            node,
-                        );
+                        return expression(node.content.content, scope, component, node);
                     if (node.type === NodeType.element) {
                         assertStatic(node, component);
                         const imported = component.imports.get(node.tag);
                         if (
                             node.tagType === 1 &&
-                            basename(imported ?? node.tag, '.vue') !==
-                                'DocsLink'
+                            basename(imported ?? node.tag, '.vue') !== 'DocsLink'
                         ) {
                             fail(
                                 component.file,
@@ -343,12 +282,10 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
             const component = readComponent(file);
             if (stack.includes(component.file))
                 fail(component.file, null, 'Circular Vue content import.');
-            visit(
-                component.template.children,
-                scopeFor(component, props, slots),
-                component,
-                [...stack, component.file],
-            );
+            visit(component.template.children, scopeFor(component, props, slots), component, [
+                ...stack,
+                component.file,
+            ]);
         }
         function visit(nodes, scope, component, stack) {
             for (const node of nodes) {
@@ -357,53 +294,112 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
                     continue;
                 }
                 if (node.type === NodeType.interpolation) {
-                    append(
-                        expression(
-                            node.content.content,
-                            scope,
-                            component,
-                            node,
-                        ),
-                    );
+                    append(expression(node.content.content, scope, component, node));
                     continue;
                 }
                 if (node.type !== NodeType.element) continue;
                 const hasAttribute = (name) =>
                     node.props.some(
-                        (item) =>
-                            item.type === NodeType.attribute &&
-                            item.name === name,
+                        (item) => item.type === NodeType.attribute && item.name === name,
                     );
                 if (
                     hasAttribute('data-search-exclude') ||
                     hasAttribute('data-docs-outline-exclude') ||
-                    [
-                        'script',
-                        'style',
-                        'svg',
-                        'button',
-                        'input',
-                        'select',
-                        'textarea',
-                    ].includes(node.tag)
+                    ['script', 'style', 'svg', 'button', 'input', 'select', 'textarea'].includes(
+                        node.tag,
+                    )
                 )
                     continue;
                 const imported = component.imports.get(node.tag);
                 const name = imported ? basename(imported, '.vue') : node.tag;
-                if (
-                    ignoredComponents.has(name) ||
-                    imported?.includes('/components/demo/')
-                )
+                const importedFile = imported?.endsWith('.vue')
+                    ? imported.startsWith('@/')
+                        ? resolve(sourceRoot, imported.slice(2))
+                        : resolve(dirname(component.file), imported)
+                    : null;
+                if (ignoredComponents.has(name) || imported?.includes('/components/demo/'))
                     continue;
                 assertStatic(node, component);
+                if (
+                    importedFile ===
+                        resolve(
+                            sourceRoot,
+                            'components/docs/front-awesome/catalog/ComponentCatalog.vue',
+                        ) ||
+                    importedFile ===
+                        resolve(
+                            sourceRoot,
+                            'components/docs/front-awesome/catalog/CatalogOverview.vue',
+                        )
+                ) {
+                    if (name === 'CatalogOverview') {
+                        for (const group of catalog().groups) {
+                            const counts = Object.entries(catalog().statuses)
+                                .map(
+                                    ([state, status]) =>
+                                        `${group.components.filter((item) => item.implementation.state === state).length} ${status.countLabel}`,
+                                )
+                                .join(' · ');
+                            append([group.title, group.help, counts]);
+                        }
+                    } else {
+                        const groupId = attribute(node, 'group', scope, component);
+                        const group = catalog().groups.find((item) => item.id === groupId);
+                        if (!group)
+                            fail(
+                                component.file,
+                                node,
+                                `Unknown component catalog group ${groupId}.`,
+                            );
+                        for (const item of group.components) {
+                            const implemented = item.implementation.state === 'implemented';
+                            if (implemented) {
+                                if (!item.implementation.anchor)
+                                    fail(
+                                        component.file,
+                                        node,
+                                        `Missing implementation anchor for ${item.name}.`,
+                                    );
+                                catalogTargets.add(item.implementation.anchor);
+                            } else if (
+                                !['in-progress', 'planned'].includes(item.implementation.state) ||
+                                Object.keys(item.implementation).length !== 1
+                            ) {
+                                fail(
+                                    component.file,
+                                    node,
+                                    `Invalid planned wrapper state for ${item.name}.`,
+                                );
+                            }
+                            append([
+                                item.name,
+                                catalog().statuses[item.implementation.state].label,
+                                item.help,
+                                item.tag,
+                                item.edition,
+                                item.since ? `Since ${item.since}` : null,
+                                `Reviewed baseline ${catalog().coreBaseline}`,
+                                item.availability,
+                                implemented
+                                    ? 'Basic example'
+                                    : catalog().statuses[item.implementation.state].description,
+                                implemented &&
+                                !(
+                                    item.implementation.guide ===
+                                        `front-awesome/web-awesome/components/${group.id}` &&
+                                    item.implementation.guideFragment ===
+                                        `#${item.implementation.anchor}`
+                                )
+                                    ? 'Full guide'
+                                    : null,
+                                'Web Awesome reference',
+                            ]);
+                        }
+                    }
+                    continue;
+                }
                 if (node.tag === 'slot') {
-                    const name = attribute(
-                        node,
-                        'name',
-                        scope,
-                        component,
-                        'default',
-                    );
+                    const name = attribute(node, 'name', scope, component, 'default');
                     const slot = scope.slots.get(name);
                     if (slot) {
                         if (slot.scoped)
@@ -412,12 +408,7 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
                                 node,
                                 'Searchable authored slots must not depend on runtime slot props.',
                             );
-                        visit(
-                            slot.nodes,
-                            slot.scope,
-                            slot.component,
-                            slot.stack,
-                        );
+                        visit(slot.nodes, slot.scope, slot.component, slot.stack);
                     } else visit(node.children, scope, component, stack);
                     continue;
                 }
@@ -457,26 +448,11 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
                     continue;
                 }
                 if (name === 'InstallCommand') {
-                    const metadata = attribute(
-                        node,
-                        'package',
-                        scope,
-                        component,
-                    );
-                    const key = attribute(
-                        node,
-                        'command',
-                        scope,
-                        component,
-                        'composer',
-                    );
+                    const metadata = attribute(node, 'package', scope, component);
+                    const key = attribute(node, 'command', scope, component, 'composer');
                     const instruction = metadata?.installationCommands?.[key];
                     if (!instruction || !Object.hasOwn(instruction, 'code'))
-                        fail(
-                            component.file,
-                            node,
-                            `Unknown installation command ${key}.`,
-                        );
+                        fail(component.file, node, `Unknown installation command ${key}.`);
                     if (instruction.code) {
                         append(attribute(node, 'label', scope, component));
                         append(instruction.code);
@@ -505,9 +481,7 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
                     append(attribute(node, 'caption', scope, component));
                     const rows = attribute(node, 'rows', scope, component);
                     if (rows !== null) {
-                        append(
-                            attribute(node, 'columns', scope, component, []),
-                        );
+                        append(attribute(node, 'columns', scope, component, []));
                         append(rows);
                     } else visit(node.children, scope, component, stack);
                     continue;
@@ -520,8 +494,7 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
                     const props = Object.create(null);
                     for (const property of node.props) {
                         if (property.type === NodeType.attribute)
-                            props[propName(property.name)] =
-                                property.value?.content ?? '';
+                            props[propName(property.name)] = property.value?.content ?? '';
                         if (
                             property.type === NodeType.directive &&
                             property.name === 'bind' &&
@@ -531,12 +504,7 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
                             Object.defineProperty(props, key, {
                                 enumerable: true,
                                 get: () =>
-                                    expression(
-                                        property.exp.content,
-                                        scope,
-                                        component,
-                                        property,
-                                    ),
+                                    expression(property.exp.content, scope, component, property),
                             });
                         }
                     }
@@ -545,24 +513,16 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
                         : resolve(dirname(component.file), imported);
                     const slots = new Map();
                     const directSlot = node.props.find(
-                        (item) =>
-                            item.type === NodeType.directive &&
-                            item.name === 'slot',
+                        (item) => item.type === NodeType.directive && item.name === 'slot',
                     );
                     if (directSlot?.arg && !directSlot.arg.isStatic)
-                        fail(
-                            component.file,
-                            node,
-                            'Searchable slot names must be static.',
-                        );
+                        fail(component.file, node, 'Searchable slot names must be static.');
                     const defaultNodes = [];
                     for (const child of node.children) {
                         const slot =
                             child.type === NodeType.element &&
                             child.props.find(
-                                (item) =>
-                                    item.type === NodeType.directive &&
-                                    item.name === 'slot',
+                                (item) => item.type === NodeType.directive && item.name === 'slot',
                             );
                         if (slot) {
                             if (slot.arg && !slot.arg.isStatic)
@@ -582,9 +542,7 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
                     }
                     if (
                         defaultNodes.some(
-                            (child) =>
-                                child.type !== NodeType.text ||
-                                child.content.trim(),
+                            (child) => child.type !== NodeType.text || child.content.trim(),
                         )
                     ) {
                         slots.set(directSlot?.arg?.content ?? 'default', {
@@ -616,16 +574,19 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
             requirements: page.requirements,
         };
         visitComponent(resolve(root, page.sourcePath), props, []);
+        for (const target of catalogTargets) {
+            if (!anchors.has(target))
+                throw new Error(
+                    `${page.sourcePath}: Missing catalog implementation section ${target}.`,
+                );
+        }
         flush();
         documents.push(...pageDocuments);
     }
     return documents;
 }
 
-if (
-    process.argv[1] &&
-    resolve(process.argv[1]) === fileURLToPath(import.meta.url)
-) {
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
     try {
         let input = '';
         for await (const chunk of process.stdin) input += chunk;

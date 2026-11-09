@@ -25,65 +25,49 @@ dump($payload);`;
     <div data-document-content class="flex min-w-0 flex-col gap-10">
         <ProseSection>
             <p>
-                Build a conditional array in an existing Laravel application.
-                This first example needs no frontend package, database, or
-                model.
+                Build a conditional array in an existing Laravel application. This first example
+                needs no frontend package, database, or model.
             </p>
         </ProseSection>
         <Requirements :items="page.requirements">
             <p>
-                Use Composer and run the commands from your Laravel application
-                root, where <code>composer.json</code> and
-                <code>artisan</code> live.
+                Use Composer and run the commands from your Laravel application root, where
+                <code>composer.json</code> and <code>artisan</code> live.
             </p>
         </Requirements>
         <InstallPackage :page="page" :navigation="navigation" />
         <ProseSection id="configure-core" title="Configure Core">
             <p>
-                Core registers its provider and Sift macros automatically. Sift
-                needs no configuration, migrations, or published resources.
+                Core registers its provider and Sift macros automatically. Sift needs no
+                configuration, migrations, or published resources.
             </p>
             <p>
-                The optional placeholder migration belongs to package
-                development. Leave it unpublished for this example.
+                The optional placeholder migration belongs to package development. Leave it
+                unpublished for this example.
             </p>
         </ProseSection>
-        <ProseSection
-            id="build-your-first-array"
-            title="Build your first array"
-        >
+        <ProseSection id="build-your-first-array" title="Build your first array">
             <p>
-                Add this example to a temporary application route or command,
-                then run that route or command:
+                Add this example to a temporary application route or command, then run that route or
+                command:
             </p>
             <CodeExample
                 label="Build your first conditional array"
                 language="php"
-                :code="firstArray"
-            />
+                :code="firstArray" />
             <p>
-                The dump contains exactly <code>['name' =&gt; 'Ada']</code>. The
-                rejected email entry is absent.
+                The dump contains exactly <code>['name' =&gt; 'Ada']</code>. The rejected email
+                entry is absent.
             </p>
         </ProseSection>
         <ProseSection id="next-steps" title="Next steps">
             <p>
                 Continue with
-                <DocsLink
-                    :href="
-                        findNavigationItem(
-                            navigation,
-                            'core/conditional-arrays',
-                        ).href
-                    "
+                <DocsLink :href="findNavigationItem(navigation, 'core/conditional-arrays').href"
                     >Sift conditional arrays</DocsLink
                 >
                 for nested arrays and lazy values. The
-                <DocsLink
-                    :href="
-                        findNavigationItem(navigation, 'core').href +
-                        '#features'
-                    "
+                <DocsLink :href="findNavigationItem(navigation, 'core').href + '#features'"
                     >Core overview</DocsLink
                 >
                 links the other independent features.

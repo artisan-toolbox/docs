@@ -6,8 +6,8 @@ defineProps({ navigation: { type: Array, required: true } });
 <template>
     <ProseSection>
         <p>
-            This repository is the source of truth for complete, user-facing
-            Artisan Toolbox documentation.
+            This repository is the source of truth for complete, user-facing Artisan Toolbox
+            documentation.
         </p>
     </ProseSection>
 </template>

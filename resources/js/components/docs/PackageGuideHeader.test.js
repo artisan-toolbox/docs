@@ -22,8 +22,7 @@ function render(slug, packageOverrides = {}) {
             page: {
                 slug,
                 title: slug === 'maintainer' ? 'Maintainer' : 'SSH Keys',
-                description:
-                    'Generate, display, and consume the encrypted identity.',
+                description: 'Generate, display, and consume the encrypted identity.',
                 package: { ...packageDetails, ...packageOverrides },
             },
         },
@@ -54,9 +53,7 @@ it.each(['maintainer', 'maintainer/configuration/ssh-keys'])(
     'links to the package repository with an accessible label and decorative icon on %s',
     (slug) => {
         const wrapper = render(slug);
-        const link = wrapper.get(
-            'a[href="https://github.com/artisan-toolbox/maintainer"]',
-        );
+        const link = wrapper.get('a[href="https://github.com/artisan-toolbox/maintainer"]');
 
         expect(link.text()).toBe('GitHub');
         expect(link.attributes()).toMatchObject({
@@ -95,9 +92,7 @@ it('shows a visible guide title and compact package, documented version, and sta
             .findAll('span')
             .map((item) => item.text()),
     ).toEqual(['Maintainer', 'Documented version 1.x-dev', 'Stable']);
-    expect(wrapper.text()).toContain(
-        'Generate, display, and consume the encrypted identity.',
-    );
+    expect(wrapper.text()).toContain('Generate, display, and consume the encrypted identity.');
 });
 
 it('does not present a documented version as installed when a package is missing', () => {
@@ -120,9 +115,7 @@ it('labels the installed version as the documented version without a second vers
     });
 
     expect(wrapper.text()).toContain('Documented version 1.10');
-    expect(wrapper.findAll('[aria-label="Package details"] span')).toHaveLength(
-        3,
-    );
+    expect(wrapper.findAll('[aria-label="Package details"] span')).toHaveLength(3);
 });
 
 it('keeps an installed package with unavailable version distinct from a missing package', () => {

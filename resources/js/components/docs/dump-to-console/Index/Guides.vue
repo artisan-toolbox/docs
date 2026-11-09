@@ -9,20 +9,15 @@ defineProps({ navigation: { type: Array, required: true } });
     <ProseSection>
         <h2
             id="guides"
-            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white"
-        >
+            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Guides
         </h2>
         <p>
             Continue with the
-            <DocsLink
-                :href="
-                    findNavigationItem(navigation, 'dump-to-console/usage').href
-                "
+            <DocsLink :href="findNavigationItem(navigation, 'dump-to-console/usage').href"
                 >usage and configuration guide</DocsLink
             >
-            for listener options, named values, fluent dumps, benchmarks, and
-            configuration.
+            for listener options, named values, fluent dumps, benchmarks, and configuration.
         </p>
     </ProseSection>
 </template>

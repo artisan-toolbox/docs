@@ -40,11 +40,7 @@ function reset() {
 }
 
 async function start() {
-    if (
-        !available.value ||
-        ['connecting', 'requesting', 'waiting'].includes(phase.value)
-    )
-        return;
+    if (!available.value || ['connecting', 'requesting', 'waiting'].includes(phase.value)) return;
     reset();
     activeRun = crypto.randomUUID();
     const runId = activeRun;
@@ -131,39 +127,32 @@ onUnmounted(() => {
     <DemoFrame
         title="A queued session event"
         description="A real Horizon worker processes one Redis job and broadcasts its completion to the captured session independently of Inertia props. The event can arrive before or after the HTTP response. No polling or simulated delivery runs here."
-        :sources="sources"
-    >
+        :sources="sources">
         <div
-            class="rounded-lg bg-slate-50 p-4 text-sm leading-6 text-slate-600 dark:bg-slate-900 dark:text-slate-400"
-        >
+            class="rounded-lg bg-slate-50 p-4 text-sm leading-6 text-slate-600 dark:bg-slate-900 dark:text-slate-400">
             <p>
-                This optional example needs a configured Reverb server, the
-                private-session authorization endpoint, and a Horizon worker
-                consuming the Redis <code>demos</code> queue. This page does not
-                start those services.
+                This optional example needs a configured Reverb server, the private-session
+                authorization endpoint, and a Horizon worker consuming the Redis
+                <code>demos</code> queue. This page does not start those services.
             </p>
             <p v-if="!configuration.queueAllowed" class="mt-2">
-                Staff access is required. Sign in with a verified staff account,
-                then reopen this guide. The source remains available to
-                everyone.
+                Staff access is required. Sign in with a verified staff account, then reopen this
+                guide. The source remains available to everyone.
             </p>
             <p v-else-if="!configuration.queueConfigured" class="mt-2">
-                Server configuration is missing. The operator must configure the
-                Reverb broadcaster, its backend application settings, and the
-                Redis queue connection. The Inertia examples above work without
-                these services.
+                Server configuration is missing. The operator must configure the Reverb broadcaster,
+                its backend application settings, and the Redis queue connection. The Inertia
+                examples above work without these services.
             </p>
             <p v-else-if="!hasDemoBroadcast()" class="mt-2">
-                Browser configuration is missing. The operator must provide the
-                public VITE_REVERB_APP_KEY and VITE_REVERB_HOST settings during
-                the frontend build, rebuild the assets, and reload this page.
-                Laravel's configuration cache does not update compiled browser
-                settings.
+                Browser configuration is missing. The operator must provide the public
+                VITE_REVERB_APP_KEY and VITE_REVERB_HOST settings during the frontend build, rebuild
+                the assets, and reload this page. Laravel's configuration cache does not update
+                compiled browser settings.
             </p>
             <p v-else class="mt-2">
-                Configuration is present. Starting checks the private
-                subscription before submitting the job. Worker availability is
-                confirmed only when a completion arrives.
+                Configuration is present. Starting checks the private subscription before submitting
+                the job. Worker availability is confirmed only when a completion arrives.
             </p>
         </div>
         <div class="my-4 flex flex-wrap gap-3">
@@ -180,33 +169,23 @@ onUnmounted(() => {
                 >Reset display</DemoAction
             >
         </div>
-        <p
-            role="status"
-            aria-live="polite"
-            class="mb-4 text-sm text-slate-600 dark:text-slate-400"
-        >
+        <p role="status" aria-live="polite" class="mb-4 text-sm text-slate-600 dark:text-slate-400">
             <template v-if="phase === 'idle'">No job has started.</template>
             <template v-else-if="phase === 'connecting'"
-                >Connecting and authorizing this session's private
-                channel…</template
+                >Connecting and authorizing this session's private channel…</template
             >
-            <template v-else-if="phase === 'requesting'"
-                >Submitting one job to Redis…</template
-            >
+            <template v-else-if="phase === 'requesting'">Submitting one job to Redis…</template>
             <template v-else-if="phase === 'waiting'"
-                >The response has finished. Waiting for the actual queued
-                completion…</template
+                >The response has finished. Waiting for the actual queued completion…</template
             >
             <template v-else-if="phase === 'complete'"
-                >The queued completion arrived through
-                {{ received[0]?.source }}.</template
+                >The queued completion arrived through {{ received[0]?.source }}.</template
             >
             <template v-else>{{ error }}</template>
         </p>
         <DeliveryLog
             title="Queued Mosaicast listener"
             description="A worker calls Mosaicast::toSession($identifier)->dispatch(). This log only changes when the public listener receives the event."
-            :events="received"
-        />
+            :events="received" />
     </DemoFrame>
 </template>

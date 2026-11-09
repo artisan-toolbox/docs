@@ -34,8 +34,7 @@ describe('Ziggy application integration', () => {
         publishRoutes();
         const wrapper = mount(
             {
-                template:
-                    '<a :href="route(\'docs.index\', undefined, false)">Documentation</a>',
+                template: '<a :href="route(\'docs.index\', undefined, false)">Documentation</a>',
             },
             {
                 global: { plugins: [ZiggyVue] },

@@ -8,7 +8,5 @@ const names = {
 };
 
 export function packageIcon(id) {
-    return Object.hasOwn(names, id)
-        ? { name: names[id], family: 'kit-duotone' }
-        : null;
+    return Object.hasOwn(names, id) ? { name: names[id], family: 'kit-duotone' } : null;
 }

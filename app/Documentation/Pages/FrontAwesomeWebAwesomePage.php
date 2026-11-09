@@ -15,8 +15,8 @@ final readonly class FrontAwesomeWebAwesomePage extends Page
         parent::__construct(
             slug: self::SLUG,
             component: 'docs/front-awesome/WebAwesome',
-            title: 'Web Awesome setup',
-            description: 'Configure Vite, use your application\'s theme, and select Web Awesome Core or Pro.',
+            title: 'Web Awesome',
+            description: 'Configure Web Awesome, browse Vue wrappers, and build application layouts.',
             sourcePath: 'resources/js/pages/docs/front-awesome/WebAwesome.vue',
             package: new FrontAwesomePackage,
         );

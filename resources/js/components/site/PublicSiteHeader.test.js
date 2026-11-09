@@ -36,9 +36,7 @@ describe('PublicSiteHeader', () => {
             global: { stubs: { AccountLinks: true } },
         });
 
-        expect(
-            wrapper.get('button[aria-label="Search documentation"]').exists(),
-        ).toBe(true);
+        expect(wrapper.get('button[aria-label="Search documentation"]').exists()).toBe(true);
     });
 
     it('does not offer search when an endpoint is unavailable', () => {
@@ -47,9 +45,7 @@ describe('PublicSiteHeader', () => {
             global: { stubs: { AccountLinks: true } },
         });
 
-        expect(
-            wrapper.find('button[aria-label="Search documentation"]').exists(),
-        ).toBe(false);
+        expect(wrapper.find('button[aria-label="Search documentation"]').exists()).toBe(false);
     });
 
     it('reports its rendered height when controls wrap or resize, then releases observation', () => {
@@ -67,10 +63,9 @@ describe('PublicSiteHeader', () => {
                 disconnect = disconnect;
             },
         );
-        vi.spyOn(
-            HTMLElement.prototype,
-            'getBoundingClientRect',
-        ).mockImplementation(() => new DOMRect(0, 0, 320, height));
+        vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(
+            () => new DOMRect(0, 0, 320, height),
+        );
         const wrapper = mount(PublicSiteHeader, {
             props: { links, onResize },
             global: { stubs: { AccountLinks: true } },

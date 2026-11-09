@@ -1,12 +1,5 @@
 import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils';
-import {
-    afterEach,
-    beforeEach,
-    describe,
-    expect,
-    it,
-    vi,
-} from 'vite-plus/test';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test';
 import { createMosaicast } from '@artisan-toolbox/mosaicast';
 import { router } from '@inertiajs/vue3';
 import DemoAction from '@/components/demo/DemoAction.vue';
@@ -94,10 +87,7 @@ describe('queued delivery example', () => {
         expect(connectDemoBroadcast).not.toHaveBeenCalled();
         await wrapper.findAllComponents(DemoAction)[0].trigger('click');
         await flushPromises();
-        expect(connectDemoBroadcast).toHaveBeenCalledWith(
-            'a'.repeat(64),
-            'mosaicast.sessions',
-        );
+        expect(connectDemoBroadcast).toHaveBeenCalledWith('a'.repeat(64), 'mosaicast.sessions');
         expect(post).toHaveBeenCalledOnce();
         const [, input, options] = post.mock.calls[0];
         options.onSuccess();
@@ -112,9 +102,7 @@ describe('queued delivery example', () => {
             sequence: 1,
         });
         await wrapper.vm.$nextTick();
-        expect(wrapper.get('[role="status"]').text()).toContain(
-            'arrived through broadcast',
-        );
+        expect(wrapper.get('[role="status"]').text()).toContain('arrived through broadcast');
         expect(wrapper.text()).toContain('Source: broadcast');
     });
 
@@ -122,30 +110,18 @@ describe('queued delivery example', () => {
         const wrapper = mountQueue({ queueAllowed: false });
         await wrapper.findAllComponents(DemoAction)[0].trigger('click');
         expect(post).not.toHaveBeenCalled();
-        expect(wrapper.text()).toContain(
-            'Sign in with a verified staff account',
-        );
+        expect(wrapper.text()).toContain('Sign in with a verified staff account');
     });
 
     it.each([
-        [
-            'staff access',
-            { queueAllowed: false },
-            true,
-            'Staff access is required',
-        ],
+        ['staff access', { queueAllowed: false }, true, 'Staff access is required'],
         [
             'server configuration',
             { queueConfigured: false },
             true,
             'Server configuration is missing',
         ],
-        [
-            'browser configuration',
-            {},
-            false,
-            'Browser configuration is missing',
-        ],
+        ['browser configuration', {}, false, 'Browser configuration is missing'],
     ])(
         'identifies missing %s before any connection or job starts',
         async (_name, configuration, browserConfigured, message) => {
@@ -153,9 +129,7 @@ describe('queued delivery example', () => {
             const wrapper = mountQueue(configuration);
 
             expect(wrapper.text()).toContain(message);
-            expect(
-                wrapper.findAllComponents(DemoAction)[0].props('disabled'),
-            ).toBe(true);
+            expect(wrapper.findAllComponents(DemoAction)[0].props('disabled')).toBe(true);
             await wrapper.findAllComponents(DemoAction)[0].trigger('click');
             expect(connectDemoBroadcast).not.toHaveBeenCalled();
             expect(post).not.toHaveBeenCalled();
@@ -171,9 +145,7 @@ describe('queued delivery example', () => {
 
         expect(wrapper.text()).toContain('Staff access is required');
         expect(wrapper.text()).not.toContain('Server configuration is missing');
-        expect(wrapper.text()).not.toContain(
-            'Browser configuration is missing',
-        );
+        expect(wrapper.text()).not.toContain('Browser configuration is missing');
         expect(wrapper.text()).not.toContain('Configuration is present');
     });
 
@@ -181,10 +153,7 @@ describe('queued delivery example', () => {
         ['onSuccess', [{ props: { demoResult: { status: 'queued' } } }]],
         ['onError', [{ queue: 'The earlier request failed.' }]],
         ['onCancel', []],
-        [
-            'onFinish',
-            [{ completed: true, cancelled: false, interrupted: false }],
-        ],
+        ['onFinish', [{ completed: true, cancelled: false, interrupted: false }]],
     ])(
         'keeps a newer run subscribed when an earlier request calls %s after early completion',
         async (callback, parameters) => {
@@ -194,9 +163,7 @@ describe('queued delivery example', () => {
             const [, firstInput, firstOptions] = post.mock.calls[0];
             broadcast.event('demo.jobs.completed', { runId: firstInput.runId });
             await wrapper.vm.$nextTick();
-            expect(wrapper.get('[role="status"]').text()).toContain(
-                'arrived through broadcast',
-            );
+            expect(wrapper.get('[role="status"]').text()).toContain('arrived through broadcast');
             await wrapper.findAllComponents(DemoAction)[1].trigger('click');
             await wrapper.findAllComponents(DemoAction)[0].trigger('click');
             await flushPromises();
@@ -206,19 +173,13 @@ describe('queued delivery example', () => {
             firstOptions[callback](...parameters);
             await wrapper.vm.$nextTick();
 
-            expect(wrapper.get('[role="status"]').text()).toContain(
-                'Submitting one job to Redis',
-            );
+            expect(wrapper.get('[role="status"]').text()).toContain('Submitting one job to Redis');
             broadcast.event('demo.jobs.completed', { runId: firstInput.runId });
             await wrapper.vm.$nextTick();
-            expect(wrapper.get('[role="status"]').text()).toContain(
-                'Submitting one job to Redis',
-            );
+            expect(wrapper.get('[role="status"]').text()).toContain('Submitting one job to Redis');
             broadcast.event('demo.jobs.completed', { runId: nextInput.runId });
             await wrapper.vm.$nextTick();
-            expect(wrapper.get('[role="status"]').text()).toContain(
-                'arrived through broadcast',
-            );
+            expect(wrapper.get('[role="status"]').text()).toContain('arrived through broadcast');
         },
     );
 
@@ -238,9 +199,7 @@ describe('queued delivery example', () => {
             options[callback](...parameters);
             await wrapper.vm.$nextTick();
 
-            expect(wrapper.get('[role="status"]').text()).toContain(
-                'arrived through broadcast',
-            );
+            expect(wrapper.get('[role="status"]').text()).toContain('arrived through broadcast');
         },
     );
 
@@ -250,9 +209,7 @@ describe('queued delivery example', () => {
         await wrapper.findAllComponents(DemoAction)[0].trigger('click');
         await flushPromises();
         expect(post).not.toHaveBeenCalled();
-        expect(wrapper.get('[role="status"]').text()).toContain(
-            'could not connect',
-        );
+        expect(wrapper.get('[role="status"]').text()).toContain('could not connect');
     });
 
     it('does not submit a job if the reader leaves while connecting', async () => {
@@ -278,9 +235,7 @@ describe('queued delivery example', () => {
         await vi.advanceTimersByTimeAsync(0);
         post.mock.calls[0][2].onSuccess();
         await vi.advanceTimersByTimeAsync(20000);
-        expect(wrapper.get('[role="status"]').text()).toContain(
-            'The job may still be queued',
-        );
+        expect(wrapper.get('[role="status"]').text()).toContain('The job may still be queued');
         expect(post).toHaveBeenCalledOnce();
     });
 });
