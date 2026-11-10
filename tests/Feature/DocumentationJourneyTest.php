@@ -27,8 +27,8 @@ test('orders package guides by learning prerequisites rather than their titles',
     'core' => ['core', ['installation', 'conditional-arrays', 'multi-domain-inertia', 'translated-attributes']],
     'dump-to-console' => ['dump-to-console', ['installation', 'usage']],
     'mosaicast' => ['mosaicast', ['installation', 'vue-plugin', 'inertia-delivery', 'session-channels', 'roadmap']],
-    'front-awesome' => ['front-awesome', ['installation', 'web-awesome', 'setup', 'styling', 'toasts', 'development']],
-    'qztray' => ['qztray', ['installation', 'security', 'connection', 'printing', 'escpos-previews', 'zpl-previews', 'pdf-previews', 'compatibility', 'frontend-tooling', 'development']],
+    'front-awesome' => ['front-awesome', ['installation', 'web-awesome', 'setup', 'localization', 'preferences', 'styling', 'toasts', 'printing', 'development']],
+    'qztray' => ['qztray', ['installation', 'security', 'connection', 'printing', 'escpos-writer', 'escpos-previews', 'zpl-previews', 'pdf-previews', 'compatibility', 'frontend-tooling', 'development']],
 ]);
 
 test('places setup and inspection before their dependent maintainer actions', function () {
@@ -61,6 +61,8 @@ test('groups Front Awesome by reader tasks while keeping published guide slugs',
         'front-awesome/setup' => ['front-awesome/vue-plugin', 'front-awesome/configuration'],
         'front-awesome/styling' => ['front-awesome/shared-theme', 'front-awesome/branding', 'front-awesome/primevue', 'front-awesome/theme-maintenance'],
         'front-awesome/toasts' => ['front-awesome/toasts/laravel', 'front-awesome/toasts/vue'],
+        'front-awesome/localization' => ['front-awesome/localization/reference'],
+        'front-awesome/printing' => ['front-awesome/printing/reference'],
     ];
     $childrenBySlug = [];
     $inspect = function (array $nodes) use (&$inspect, &$childrenBySlug): void {

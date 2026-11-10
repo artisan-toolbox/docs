@@ -29,6 +29,9 @@ final class InstallationCommands
 
         if ($id === 'front-awesome') {
             $commands['primevue'] = $this->npm(['primevue', '@primeuix/themes']);
+            $qztray = self::composerVersion('artisan-toolbox/qztray');
+            $ziggy = self::composerVersion('tightenco/ziggy');
+            $commands['printing'] = $this->command($qztray === null || $ziggy === null ? null : 'composer require artisan-toolbox/qztray:'.$qztray.' tightenco/ziggy:'.$ziggy."\n".'npm install --install-links ./vendor/artisan-toolbox/front-awesome ./vendor/artisan-toolbox/mosaicast ./vendor/artisan-toolbox/qztray');
         }
 
         if ($id === 'mosaicast') {
@@ -36,6 +39,8 @@ final class InstallationCommands
         }
 
         if ($id === 'qztray') {
+            $escpos = self::composerVersion('mike42/escpos-php');
+            $commands['escpos'] = $this->command($escpos === null ? null : 'composer require mike42/escpos-php:'.$escpos);
             $ziggy = self::composerVersion('tightenco/ziggy');
             $commands['composer'] = $this->command($composer === null || $ziggy === null ? null : $composer.' tightenco/ziggy:'.$ziggy);
             $commands['setup'] = $this->command($commands['composer']['code'] === null ? null : $commands['composer']['code']."\n".$frontend."\nphp artisan vendor:publish --tag=qztray-config");

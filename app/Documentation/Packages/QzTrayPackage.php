@@ -22,7 +22,7 @@ final readonly class QzTrayPackage extends Package
                 'PHP OpenSSL extension (ext-openssl, enforced by Composer)',
                 'Laravel 13 components',
                 'Artisan Toolbox Core 1.x',
-                'Artisan Toolbox Maintainer 1.10 or later within 1.x. Composer installs Core and Maintainer automatically.',
+                'Artisan Toolbox Maintainer 1.11 or later within 1.x. Composer installs Core and Maintainer automatically.',
                 'Ziggy 2.x (tightenco/ziggy in Laravel and ziggy-js in the frontend), with the connector\'s named routes available through a global Ziggy configuration',
                 'Node.js 20.19 or later within 20.x, 22.18 or later within 22.x, or 24.11 and later for frontend installation',
                 'QZ Tray installed and running on the user\'s computer for printing; SHA-512 signing requires QZ Tray 2.1 or later',

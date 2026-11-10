@@ -14,7 +14,7 @@ defineProps({
     wide: { type: Boolean, default: false },
 });
 
-const { appearance, updateAppearance } = useAppearance();
+const { appearance, updateAppearance, pending, error } = useAppearance();
 const emit = defineEmits(['resize']);
 /** @type {import('vue').Ref<HTMLElement | null>} */
 const headerElement = ref(null);
@@ -67,6 +67,7 @@ onBeforeUnmount(() => resizeObserver?.disconnect());
                 >
                 <Select
                     :value="appearance"
+                    :disabled="pending"
                     size="s"
                     label="Color theme"
                     class="w-28 [--wa-form-control-height:2.75rem] [&::part(form-control-label)]:sr-only"
@@ -75,6 +76,9 @@ onBeforeUnmount(() => resizeObserver?.disconnect());
                     <Option value="dark">Dark</Option>
                     <Option value="system">System</Option>
                 </Select>
+                <p v-if="error" role="alert" class="text-sm text-red-700 dark:text-red-300">
+                    {{ error }}
+                </p>
                 <slot name="actions" />
             </div>
         </div>

@@ -77,6 +77,17 @@ async function previewLabel() {
         </ProseSection>
         <ProseSection id="guides" title="Continue with a guide">
             <p>
+                The new source-preview
+                <DocsLink :href="findNavigationItem(navigation, 'qztray/escpos-writer').href"
+                    >PHP receipt writer</DocsLink
+                >
+                generates ESC/POS using an optional Mike42 dependency. The
+                <DocsLink :href="findNavigationItem(navigation, 'front-awesome/printing').href"
+                    >Front Awesome print workspace</DocsLink
+                >
+                adds previews, printer settings, shared promise results, and multi-step review.
+            </p>
+            <p>
                 After installation, configure credentials before connecting to a printer. Preview
                 guides work independently of physical printing. Existing overview section links lead
                 to their corresponding guide below.

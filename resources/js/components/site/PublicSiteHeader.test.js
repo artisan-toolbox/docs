@@ -1,6 +1,16 @@
 import { enableAutoUnmount, mount } from '@vue/test-utils';
-import { afterEach, describe, expect, it, vi } from 'vite-plus/test';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test';
 import PublicSiteHeader from './PublicSiteHeader.vue';
+import { preferencesFixture } from '../../../../tests/Fixtures/preferences';
+
+const preferencesContext = vi.hoisted(() => ({ fixture: undefined }));
+vi.mock('@artisan-toolbox/front-awesome', async (importOriginal) => ({
+    ...(await importOriginal()),
+    usePreferences: () => preferencesContext.fixture.service,
+}));
+beforeEach(() => {
+    preferencesContext.fixture = preferencesFixture();
+});
 
 enableAutoUnmount(afterEach);
 afterEach(() => {

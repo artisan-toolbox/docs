@@ -2,7 +2,9 @@ import '../css/app.css';
 import '@artisan-toolbox/front-awesome/web-awesome-tailwind';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { createMosaicast } from '@artisan-toolbox/mosaicast';
-import { initializeTheme } from '@/composables/useAppearance';
+import { createLocalization } from '@artisan-toolbox/front-awesome/localization';
+import { createPreferences } from '@artisan-toolbox/front-awesome';
+import translations from './generated/front-awesome-translations.json';
 import DocsLayout from '@/layouts/DocsLayout.vue';
 import { initializeFlashToast } from '@/lib/flashToast';
 import { demoEcho } from '@/components/demo/mosaicast/inertia-delivery/broadcast';
@@ -13,6 +15,21 @@ void createInertiaApp<{ mosaicastChannelPrefix: string }>({
     layout: (name) => (name.startsWith('docs/') ? DocsLayout : null),
     withApp: (app, { page }) => {
         app.use(ZiggyVue);
+        app.use(createPreferences(page.props.preferences));
+        app.use(
+            createLocalization(translations, {
+                numberFormats: {
+                    en: { money: { style: 'currency', currency: 'USD' } },
+                    es: { money: { style: 'currency', currency: 'EUR' } },
+                    'pt-BR': { money: { style: 'currency', currency: 'BRL' } },
+                },
+                datetimeFormats: {
+                    en: { short: { dateStyle: 'short', timeZone: 'UTC' } },
+                    es: { short: { dateStyle: 'short', timeZone: 'UTC' } },
+                    'pt-BR': { short: { dateStyle: 'short', timeZone: 'UTC' } },
+                },
+            }),
+        );
         app.use(
             createMosaicast({
                 echo: demoEcho,
@@ -31,7 +48,5 @@ void createInertiaApp<{ mosaicastChannelPrefix: string }>({
         color: '#4B5563',
     },
 });
-
-initializeTheme();
 
 initializeFlashToast();

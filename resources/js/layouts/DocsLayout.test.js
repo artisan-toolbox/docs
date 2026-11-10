@@ -3,7 +3,7 @@ vi.mock('@web.awesome.me/webawesome-pro/dist/components/select/select.js', () =>
 // Page imports native form controls that need ElementInternals. Browser tests cover its skip link.
 vi.mock('@web.awesome.me/webawesome-pro/dist/components/page/page.js', () => ({}));
 import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils';
-import { afterEach, describe, expect, it, vi } from 'vite-plus/test';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test';
 import { h, nextTick, reactive } from 'vue';
 import DocsLayout from './DocsLayout.vue';
 
@@ -71,6 +71,17 @@ vi.mock('@inertiajs/vue3', async (importOriginal) => {
     return { ...(await importOriginal()), usePage: () => reactive(page) };
 });
 
+import { preferencesFixture } from '../../../tests/Fixtures/preferences';
+
+const preferencesContext = vi.hoisted(() => ({ fixture: undefined }));
+vi.mock('@artisan-toolbox/front-awesome', async (importOriginal) => ({
+    ...(await importOriginal()),
+    usePreferences: () => preferencesContext.fixture.service,
+}));
+beforeEach(() => {
+    preferencesContext.fixture = preferencesFixture();
+});
+
 enableAutoUnmount(afterEach);
 
 afterEach(() => {
@@ -83,7 +94,6 @@ afterEach(() => {
         { label: 'Home', href: '/', current: false },
         { label: 'Documentation', href: '/docs', current: true },
     ];
-    localStorage.clear();
     document.documentElement.classList.remove('dark');
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
@@ -360,28 +370,23 @@ describe('DocsLayout', () => {
         expect(menu.attributes('aria-expanded')).toBe('false');
     });
 
-    it('applies and persists the selected theme through the existing appearance preference', async () => {
+    it('delegates theme changes to package persistence and renders confirmed state', async () => {
         const wrapper = mount(DocsLayout);
-
         await flushPromises();
         wrapper.get('wa-select').element.value = 'dark';
         await wrapper.get('wa-select').trigger('change');
-
-        expect(document.documentElement.classList.contains('dark')).toBe(true);
-        expect(localStorage.getItem('appearance')).toBe('dark');
-
+        expect(preferencesContext.fixture.service.setAppearance).toHaveBeenCalledExactlyOnceWith(
+            'dark',
+        );
+        expect(preferencesContext.fixture.service.appearance.value).toBe('system');
+        preferencesContext.fixture.confirm({ appearance: 'dark', resolvedAppearance: 'dark' });
         await flushPromises();
-        wrapper.get('wa-select').element.value = 'light';
-        await wrapper.get('wa-select').trigger('change');
-
-        expect(document.documentElement.classList.contains('dark')).toBe(false);
-        expect(localStorage.getItem('appearance')).toBe('light');
-
+        expect(wrapper.get('wa-select').element.value).toBe('dark');
+        preferencesContext.fixture.setPending(true);
+        preferencesContext.fixture.setError('Preferences could not be confirmed.');
         await flushPromises();
-        wrapper.get('wa-select').element.value = 'system';
-        await wrapper.get('wa-select').trigger('change');
-
-        expect(localStorage.getItem('appearance')).toBe('system');
+        expect(wrapper.get('wa-select').attributes('disabled')).toBeDefined();
+        expect(wrapper.get('[role="alert"]').text()).toBe('Preferences could not be confirmed.');
     });
 
     it('renders the public brand, native Page skip destination, and page source link', () => {

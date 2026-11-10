@@ -22,10 +22,20 @@ use App\Documentation\Pages\FrontAwesomeFormsPage;
 use App\Documentation\Pages\FrontAwesomeHelpersPage;
 use App\Documentation\Pages\FrontAwesomeInstallationPage;
 use App\Documentation\Pages\FrontAwesomeLayoutPage;
+use App\Documentation\Pages\FrontAwesomeLocalizationPage;
+use App\Documentation\Pages\FrontAwesomeLocalizationReferencePage;
 use App\Documentation\Pages\FrontAwesomeMediaPage;
 use App\Documentation\Pages\FrontAwesomeNavigationPage;
 use App\Documentation\Pages\FrontAwesomePage;
+use App\Documentation\Pages\FrontAwesomePreferencesAppearancePage;
+use App\Documentation\Pages\FrontAwesomePreferencesCurrencyPage;
+use App\Documentation\Pages\FrontAwesomePreferencesLanguagePage;
+use App\Documentation\Pages\FrontAwesomePreferencesPage;
+use App\Documentation\Pages\FrontAwesomePreferencesReferencePage;
+use App\Documentation\Pages\FrontAwesomePreferencesTimezonePage;
 use App\Documentation\Pages\FrontAwesomePrimevuePage;
+use App\Documentation\Pages\FrontAwesomePrintingPage;
+use App\Documentation\Pages\FrontAwesomePrintingReferencePage;
 use App\Documentation\Pages\FrontAwesomeSetupPage;
 use App\Documentation\Pages\FrontAwesomeSharedThemePage;
 use App\Documentation\Pages\FrontAwesomeStylingPage;
@@ -70,6 +80,7 @@ use App\Documentation\Pages\QzTrayCompatibilityPage;
 use App\Documentation\Pages\QzTrayConnectionPage;
 use App\Documentation\Pages\QzTrayDevelopmentPage;
 use App\Documentation\Pages\QzTrayEscposPreviewsPage;
+use App\Documentation\Pages\QzTrayEscposWriterPage;
 use App\Documentation\Pages\QzTrayFrontendToolingPage;
 use App\Documentation\Pages\QzTrayInstallationPage;
 use App\Documentation\Pages\QzTrayPage;
@@ -137,6 +148,14 @@ enum PageSlug: string
     case FrontAwesomeSetup = 'front-awesome/setup';
     case FrontAwesomeVuePlugin = 'front-awesome/vue-plugin';
     case FrontAwesomeConfiguration = 'front-awesome/configuration';
+    case FrontAwesomeLocalization = 'front-awesome/localization';
+    case FrontAwesomeLocalizationReference = 'front-awesome/localization/reference';
+    case FrontAwesomePreferences = 'front-awesome/preferences';
+    case FrontAwesomePreferencesAppearance = 'front-awesome/preferences/appearance';
+    case FrontAwesomePreferencesLanguage = 'front-awesome/preferences/language';
+    case FrontAwesomePreferencesTimezone = 'front-awesome/preferences/timezone';
+    case FrontAwesomePreferencesCurrency = 'front-awesome/preferences/currency';
+    case FrontAwesomePreferencesReference = 'front-awesome/preferences/reference';
     case FrontAwesomeStyling = 'front-awesome/styling';
     case FrontAwesomeSharedTheme = 'front-awesome/shared-theme';
     case FrontAwesomeBranding = 'front-awesome/branding';
@@ -145,6 +164,8 @@ enum PageSlug: string
     case FrontAwesomeToasts = 'front-awesome/toasts';
     case FrontAwesomeToastsLaravel = 'front-awesome/toasts/laravel';
     case FrontAwesomeToastsVue = 'front-awesome/toasts/vue';
+    case FrontAwesomePrinting = 'front-awesome/printing';
+    case FrontAwesomePrintingReference = 'front-awesome/printing/reference';
     case FrontAwesomeDevelopment = 'front-awesome/development';
 
     case QzTray = 'qztray';
@@ -152,6 +173,7 @@ enum PageSlug: string
     case QzTraySecurity = 'qztray/security';
     case QzTrayConnection = 'qztray/connection';
     case QzTrayPrinting = 'qztray/printing';
+    case QzTrayEscposWriter = 'qztray/escpos-writer';
     case QzTrayEscposPreviews = 'qztray/escpos-previews';
     case QzTrayZplPreviews = 'qztray/zpl-previews';
     case QzTrayPdfPreviews = 'qztray/pdf-previews';
@@ -220,6 +242,16 @@ enum PageSlug: string
             self::FrontAwesome => new FrontAwesomePage,
             self::FrontAwesomeInstallation => new FrontAwesomeInstallationPage,
             self::FrontAwesomePrimevue => new FrontAwesomePrimevuePage,
+            self::FrontAwesomePrinting => new FrontAwesomePrintingPage,
+            self::FrontAwesomePrintingReference => new FrontAwesomePrintingReferencePage,
+            self::FrontAwesomeLocalization => new FrontAwesomeLocalizationPage,
+            self::FrontAwesomeLocalizationReference => new FrontAwesomeLocalizationReferencePage,
+            self::FrontAwesomePreferences => new FrontAwesomePreferencesPage,
+            self::FrontAwesomePreferencesAppearance => new FrontAwesomePreferencesAppearancePage,
+            self::FrontAwesomePreferencesLanguage => new FrontAwesomePreferencesLanguagePage,
+            self::FrontAwesomePreferencesTimezone => new FrontAwesomePreferencesTimezonePage,
+            self::FrontAwesomePreferencesReference => new FrontAwesomePreferencesReferencePage,
+            self::FrontAwesomePreferencesCurrency => new FrontAwesomePreferencesCurrencyPage,
             self::FrontAwesomeSharedTheme => new FrontAwesomeSharedThemePage,
             self::FrontAwesomeThemeMaintenance => new FrontAwesomeThemeMaintenancePage,
             self::FrontAwesomeToastsLaravel => new FrontAwesomeToastsLaravelPage,
@@ -231,6 +263,7 @@ enum PageSlug: string
             self::QzTraySecurity => new QzTraySecurityPage,
             self::QzTrayConnection => new QzTrayConnectionPage,
             self::QzTrayPrinting => new QzTrayPrintingPage,
+            self::QzTrayEscposWriter => new QzTrayEscposWriterPage,
             self::QzTrayEscposPreviews => new QzTrayEscposPreviewsPage,
             self::QzTrayZplPreviews => new QzTrayZplPreviewsPage,
             self::QzTrayPdfPreviews => new QzTrayPdfPreviewsPage,

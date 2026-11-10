@@ -33,6 +33,16 @@ await qztray.print({
   },
   dataOptions: { pageRanges: "1-3" },
 });`;
+const requestPreview = `import { preparePrintDocument, renderPrintRequest } from '@artisan-toolbox/qztray';
+
+const document = await preparePrintDocument({
+    type: 'zpl',
+    payload: '^XA^FO20,20^A0N,30,30^FDHello^FS^XZ',
+});
+const pages = await renderPrintRequest(document, {
+    zpl: { widthMm: 100, heightMm: 50, dpmm: 8 },
+});
+// Display pages before the operator confirms a separate qztray.print call.`;
 const example2 = `await qztray.printEscpos("Receipt Printer", ["\\x1B\\x40", "Receipt\\n"]);
 await qztray.printZpl("Zebra", "^XA^CI28^FO20,20^FDLabel^FS^XZ", { copies: 2 });
 await qztray.printRaw("Label Printer", "\\nN\\nP1\\n");
@@ -89,6 +99,51 @@ const example6 = `await qztray.print({
 
 <template>
     <ProseSection>
+        <h2 id="preview-a-print-document">Preview a print document</h2>
+        <p>
+            The new source-preview <code>QzTrayPrintDocument</code> type is the public request union
+            without its printer. <code>renderPrintRequest(document, options)</code> returns every
+            PNG page from PDF, ESC/POS, or ZPL data without connecting to QZ Tray.
+        </p>
+        <CodeExample
+            label="Preview the same document used for submission"
+            language="javascript"
+            :code="requestPreview" />
+        <p>
+            The adapter supports plain, hex, base64, and file raw flavors, mixed ESC/POS image
+            parts, and PDF file or base64 data. Preview options contain <code>pdf</code>,
+            <code>escpos</code>, <code>zpl</code>, and <code>requestInit</code>. File downloads use
+            same-origin credentials by default. Set fetch headers or credentials only for sources
+            your application trusts.
+        </p>
+        <p>
+            <code>preparePrintDocument(document, { requestInit })</code> returns a copied document.
+            It downloads file payloads and ESC/POS file images once and replaces them with base64.
+            Render and submit that returned document so a URL cannot change between review and
+            printing. Browser credentials and blob URLs are resolved before QZ receives the data.
+            Direct <code>qztray.print()</code> retains its existing file behavior; preparation is an
+            explicit browser-side step.
+        </p>
+        <p>
+            PDF <code>dataOptions.pageRanges</code> selects the same pages for preview and
+            submission. Unsupported QZ-only page dimensions, transparency handling, or
+            font-rendering transformations fail explicitly. The adapter also rejects print bounds,
+            nonzero rotation, password options, and internal whitespace in page ranges such as
+            <code>2 - 2</code>. Use QZ-compatible ranges such as <code>1,3-5</code>. Set ESC/POS
+            transport encoding in <code>document.options.encoding</code>; preview options cannot
+            replace it. Printer copies, margins, orientation, duplex, and color are device settings,
+            not a simulated physical print result. Raw data has no known page language and produces
+            an explanatory preview error.
+        </p>
+        <p>
+            For a complete review interface, use the
+            <DocsLink :href="findNavigationItem(navigation, 'front-awesome/printing').href"
+                >Front Awesome print workspace</DocsLink
+            >. To generate receipt data in Laravel, follow
+            <DocsLink :href="findNavigationItem(navigation, 'qztray/escpos-writer').href"
+                >Generate ESC/POS receipts</DocsLink
+            >.
+        </p>
         <h2
             id="printing"
             class="scroll-mt-28 text-xl font-semibold tracking-tight text-slate-950 dark:text-white">

@@ -20,13 +20,10 @@ try {
     for (const width of [1440, 390]) {
         for (const theme of ['light', 'dark']) {
             const context = await browser.newContext({
+                locale: 'en-US',
                 viewport: { width, height: 1000 },
                 colorScheme: theme,
             });
-            await context.addInitScript(
-                (value) => localStorage.setItem('appearance', value),
-                theme,
-            );
             await context.addInitScript(() => {
                 window.signInValidation = [];
                 document.addEventListener('wa-invalid', (event) =>

@@ -2,6 +2,23 @@
 
 ## Unreleased
 
+- Document build-host Node locale validation, full cached-page preference reconciliation, and nested authenticated PDF preview options. Keep public distribution checks separate from local Maintainer validation while the required QZ and Front Awesome APIs remain unpublished.
+
+- Group Front Awesome appearance, language, timezone, and optional currency guides under Preferences. Adopt the public backend preference middleware and frontend service in the documentation application, demonstrate Inertia persistence and native Vue I18n formats, and link translation guides to language preference setup.
+
+- Document wildcard locale discovery, ordered selector allowlists, availableLocales catalog compatibility, and the distinction between selectable languages and internal fallback catalogs.
+
+- Document APP_FALLBACK_LOCALE as the default Front Awesome translation fallback.
+
+- Demonstrate the simplified print workflow by default. Make confirmation between documents and the final report explicit options, and distinguish simulated missing submission responses from normal printing.
+
+- Add optional Laravel-source Vue I18n localization guides, export and filter reference, HTML-language demonstration, and reactive printing guidance. Keep preview availability and native Portuguese translation limits explicit.
+
+- Keep prose formatting outside the live print workspace so documentation list rules cannot inflate completed-job spacing. Demonstrate the compact review and summary layouts.
+
+- Document the preview-first Front Awesome printing workspace, shared promise jobs, printer preferences, result states, and extension points as source-preview APIs. Add a reader-triggered demonstration using real PHP-generated ESC/POS, a two-page PDF, and ZPL previews with explicitly simulated submission.
+- Document the optional Mike42-backed QZ Tray receipt writer and the adapter that renders a public print document without connecting to a printer. Keep setup prerequisites and learning order in the canonical page registry.
+
 - Run the existing interactive documentation browser chain in CI against an isolated Laravel server with file sessions, after the production build and search checks. Keep the distribution lock prerequisite and all Maintainer checks.
 
 - Clear stale clipboard feedback and ignore obsolete copy completions when a code example changes, while preserving copy focus. Preserve CRLF line endings in synchronized live demo source.

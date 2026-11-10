@@ -69,6 +69,15 @@ Toast::success('Report saved.')->flash();`;
         <ul>
             <li>
                 <p>
+                    <DocsLink :href="findNavigationItem(navigation, 'front-awesome/printing').href"
+                        >Preview and print documents</DocsLink
+                    >
+                    combines PDF, ESC/POS, and ZPL documents in an ordered review flow. The printing
+                    service is a source preview and requires the optional QZ Tray package.
+                </p>
+            </li>
+            <li>
+                <p>
                     <span id="frontend-distribution"></span
                     ><DocsLink
                         :href="findNavigationItem(navigation, 'front-awesome/installation').href"
@@ -213,6 +222,13 @@ Toast::success('Report saved.')->flash();`;
                 :href="`${findNavigationItem(navigation, 'front-awesome/web-awesome/components/media').href}#icon`"
                 >Render icons with Web Awesome</DocsLink
             >.
+        </p>
+        <p>
+            To translate browser UI from Laravel language files, follow
+            <DocsLink :href="findNavigationItem(navigation, 'front-awesome/localization').href"
+                >Translate the browser from Laravel</DocsLink
+            >. This optional source preview includes an unstyled language selector and reactive
+            printing text without changing the application's server locale.
         </p>
         <p>
             <span id="resources"></span>Find the

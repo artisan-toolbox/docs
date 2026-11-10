@@ -1,21 +1,32 @@
 import { enableAutoUnmount, mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test';
 import { defineComponent, h, nextTick } from 'vue';
-import { initializeTheme, updateTheme, useAppearance } from './useAppearance';
+import { preferencesFixture } from '../../../tests/Fixtures/preferences';
+import { useAppearance } from './useAppearance';
+
+const context = vi.hoisted(() => ({ fixture: undefined }));
+vi.mock('@artisan-toolbox/front-awesome', async (importOriginal) => ({
+    ...(await importOriginal()),
+    usePreferences: () => context.fixture.service,
+}));
 
 enableAutoUnmount(afterEach);
-let systemDark;
-let systemChange;
+beforeEach(() => {
+    context.fixture = preferencesFixture();
+});
 
 const AppearanceControl = defineComponent({
     setup() {
-        const { appearance, resolvedAppearance, updateAppearance } = useAppearance();
+        const { appearance, resolvedAppearance, updateAppearance, pending, error } =
+            useAppearance();
         return () =>
             h(
                 'select',
                 {
                     value: appearance.value,
                     'data-resolved': resolvedAppearance.value,
+                    'data-error': error.value,
+                    disabled: pending.value,
                     onChange: (event) => updateAppearance(event.target.value),
                 },
                 ['system', 'light', 'dark'].map((value) => h('option', { value }, value)),
@@ -23,76 +34,44 @@ const AppearanceControl = defineComponent({
     },
 });
 
-beforeEach(() => {
-    systemDark = false;
-    systemChange = undefined;
-    localStorage.clear();
-    document.cookie = 'appearance=;path=/;max-age=0';
-    document.documentElement.classList.remove('dark', 'wa-dark', 'wa-light');
-    vi.stubGlobal('matchMedia', () => ({
-        matches: systemDark,
-        addEventListener: (event, listener) => {
-            if (event === 'change') systemChange = listener;
-        },
-    }));
-});
-
-afterEach(() => vi.unstubAllGlobals());
-
-function expectMode(mode) {
-    expect(document.documentElement.classList.contains('dark')).toBe(mode === 'dark');
-    expect(document.documentElement.classList.contains('wa-dark')).toBe(mode === 'dark');
-    expect(document.documentElement.classList.contains('wa-light')).toBe(mode === 'light');
-}
-
-describe('shared appearance controller', () => {
-    it('keeps Tailwind and Web Awesome classes synchronized in both directions', () => {
-        updateTheme('dark');
-        expectMode('dark');
-        updateTheme('light');
-        expectMode('light');
-        systemDark = true;
-        updateTheme('system');
-        expectMode('dark');
-    });
-
-    it('persists the preference for the browser and Blade prepaint and restores the control', async () => {
+describe('package appearance adapter', () => {
+    it('delegates selection to the package and keeps the confirmed preference until its response', async () => {
         const wrapper = mount(AppearanceControl);
         await wrapper.get('select').setValue('dark');
-        expect(localStorage.getItem('appearance')).toBe('dark');
-        expect(document.cookie).toContain('appearance=dark');
-        expectMode('dark');
-        wrapper.unmount();
-        const restored = mount(AppearanceControl);
-        expect(restored.get('select').element.value).toBe('dark');
-        expect(restored.get('select').attributes('data-resolved')).toBe('dark');
-    });
-
-    it('follows system changes reactively while retaining an explicit user preference', async () => {
-        initializeTheme();
-        const wrapper = mount(AppearanceControl);
+        expect(context.fixture.service.setAppearance).toHaveBeenCalledExactlyOnceWith('dark');
+        expect(context.fixture.service.appearance.value).toBe('system');
+        context.fixture.confirm({ appearance: 'dark', resolvedAppearance: 'dark' });
         await nextTick();
-        expectMode('light');
-        expect(wrapper.get('select').attributes('data-resolved')).toBe('light');
-        systemDark = true;
-        systemChange();
-        await nextTick();
-        expectMode('dark');
+        expect(wrapper.get('select').element.value).toBe('dark');
         expect(wrapper.get('select').attributes('data-resolved')).toBe('dark');
-        await wrapper.get('select').setValue('light');
-        systemChange();
-        await nextTick();
-        expectMode('light');
-        expect(localStorage.getItem('appearance')).toBe('light');
     });
 
-    it('falls back to system for an invalid stored preference', async () => {
-        localStorage.setItem('appearance', 'sepia');
-        systemDark = true;
-        initializeTheme();
-        const wrapper = mount(AppearanceControl);
+    it('shares confirmed values across consumers and remounts without a second preference store', async () => {
+        const first = mount(AppearanceControl);
+        const second = mount(AppearanceControl);
+        context.fixture.confirm({ appearance: 'light', resolvedAppearance: 'light' });
         await nextTick();
-        expect(wrapper.get('select').element.value).toBe('system');
-        expectMode('dark');
+        expect(first.get('select').element.value).toBe('light');
+        expect(second.get('select').element.value).toBe('light');
+        first.unmount();
+        const remounted = mount(AppearanceControl);
+        expect(remounted.get('select').element.value).toBe('light');
+        expect(context.fixture.service.setAppearance).not.toHaveBeenCalled();
+    });
+
+    it('exposes the package pending state and persistence failure', async () => {
+        const wrapper = mount(AppearanceControl);
+        context.fixture.setPending(true);
+        context.fixture.setError('Preferences could not be confirmed.');
+        await nextTick();
+        expect(wrapper.get('select').element.disabled).toBe(true);
+        expect(wrapper.get('select').attributes('data-error')).toBe(
+            'Preferences could not be confirmed.',
+        );
+        context.fixture.setPending(false);
+        context.fixture.setError(undefined);
+        await nextTick();
+        expect(wrapper.get('select').element.disabled).toBe(false);
+        expect(wrapper.get('select').attributes('data-error')).toBeUndefined();
     });
 });

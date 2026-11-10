@@ -14,10 +14,17 @@ const browser = await chromium.launch({
     executablePath: process.env.CHROMIUM_EXECUTABLE,
 });
 const context = await browser.newContext({
+    locale: 'en-US',
     viewport: { width: 1440, height: 1000 },
     colorScheme: 'light',
 });
+context.setDefaultTimeout(30_000);
 const page = await context.newPage();
+if (process.env.DOCS_BROWSER_TRACE) {
+    page.on('framenavigated', (frame) => {
+        if (frame === page.mainFrame()) console.log(`Documentation browser route: ${frame.url()}`);
+    });
+}
 const errors = [];
 page.on('pageerror', (error) => errors.push(error.message));
 await page.addInitScript(() => {

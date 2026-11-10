@@ -217,3 +217,12 @@ This command is archived migration tooling and requires historical source files 
 After the production build and search checks, CI installs Playwright Chromium and runs the catalog, application, and sign-in browser chain against a disposable local Laravel server. The step sets `APP_URL` and `DOCS_BASE_URL` to the same localhost origin, uses file sessions for actual request-forgery protection, and migrates an isolated SQLite file under the runner temporary directory. It stops the server when the step exits. It does not start mail, Redis, broadcasting, or external services. Sign-in requests remain intercepted by the browser harness.
 
 The browser step complements Maintainer's six configured checks; it does not replace them or the earlier distribution lock check. The current local development lock must pass that distribution check through a real public package resolution before the workflow can reach dependency installation. Passing local browser checks does not make a local-path lock portable.
+
+The Front Awesome source-preview review identified an additional release dependency. The
+current public QZ Tray and Front Awesome artifacts lack APIs used by the new print demo.
+Resolving a portable lock against those older artifacts is insufficient. Follow the
+[review's release sequence](preferences.md#distribution-remains-blocked-by-unpublished-apis)
+before replacing the development lock or claiming a clean remote workflow run.
+
+For catalog failures, set `DOCS_BROWSER_TRACE=1` to print the current route. The harness
+uses a 30-second default timeout so a failed state expectation cannot wait indefinitely.

@@ -69,6 +69,15 @@ withApp(app, { ssr }) {
             several Vue apps share a document, the plugin removes the stack and its listeners when
             the last app unmounts. Server rendering has access to the service.
         </p>
+        <p>
+            The optional source-preview localization service is installed with
+            <code>createFrontAwesome({ localization })</code>. It exports Laravel messages through
+            Vite and follows <code>html.lang</code>. Follow
+            <DocsLink :href="findNavigationItem(navigation, 'front-awesome/localization').href"
+                >Translate the browser from Laravel</DocsLink
+            >
+            for the generated catalog, Vue I18n formats, and unstyled Language selector.
+        </p>
         <h2
             id="add-a-theme-selector"
             class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
@@ -77,6 +86,14 @@ withApp(app, { ssr }) {
         <p>
             Pass <code>appearance: true</code> to let the plugin manage the page's color mode. Apps
             that already manage color mode can omit this option.
+        </p>
+        <p>
+            For server persistence, use the grouped
+            <DocsLink
+                :href="findNavigationItem(navigation, 'front-awesome/preferences/appearance').href"
+                >Appearance preferences guide</DocsLink
+            >. The same component then saves through Laravel's active preference store, alongside
+            language, timezone, and optional currency.
         </p>
         <p>
             This option controls light, dark, and system preferences. It does not install a visual

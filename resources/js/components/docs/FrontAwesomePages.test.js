@@ -78,6 +78,13 @@ const publishedFixtures = fixtures.map((source) => {
                 : link,
         ),
     };
+    if (guide.slug === 'front-awesome/vue-plugin') {
+        guide.links.splice(2, 0, {
+            slug: 'front-awesome/preferences/appearance',
+            hash: '',
+            text: 'Appearance preferences guide',
+        });
+    }
     if (guide.slug === 'front-awesome/shared-theme') {
         const index = guide.headings.findIndex((heading) => heading.id === 'check-the-result') + 1;
         return {
@@ -122,7 +129,18 @@ describe('Front Awesome documentation migration', () => {
         version: '1.x development branch',
         stability: 'Work in progress',
         allowedExtraLinks: {
+            'front-awesome/vue-plugin': [
+                { slug: 'front-awesome/localization', text: 'Translate the browser from Laravel' },
+            ],
+            'front-awesome/configuration': [
+                { slug: 'front-awesome/localization/reference', text: 'localization reference' },
+            ],
             'front-awesome': [
+                { slug: 'front-awesome/localization', text: 'Translate the browser from Laravel' },
+                {
+                    slug: 'front-awesome/printing',
+                    text: 'Preview and print documents',
+                },
                 {
                     slug: 'front-awesome/web-awesome/components',
                     text: 'Vue components catalog',

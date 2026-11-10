@@ -1,12 +1,14 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vite-plus/test';
 import fixtures from './qztray/legacy-parity.json';
+import { sourceNavigation } from './sourceNavigationFixture';
 import Overview from '../../pages/docs/qztray/Index.vue';
 import ZplPreviewDemo from '@/components/demo/qztray/preview/ZplPreviewDemo.vue';
 import Installation from '../../pages/docs/qztray/Installation.vue';
 import Security from '../../pages/docs/qztray/Security.vue';
 import Connection from '../../pages/docs/qztray/Connection.vue';
 import Printing from '../../pages/docs/qztray/Printing.vue';
+import EscposWriter from '../../pages/docs/qztray/EscposWriter.vue';
 import EscposPreviews from '../../pages/docs/qztray/EscposPreviews.vue';
 import ZplPreviews from '../../pages/docs/qztray/ZplPreviews.vue';
 import PdfPreviews from '../../pages/docs/qztray/PdfPreviews.vue';
@@ -20,6 +22,7 @@ const components = {
     'qztray/security': Security,
     'qztray/connection': Connection,
     'qztray/printing': Printing,
+    'qztray/escpos-writer': EscposWriter,
     'qztray/escpos-previews': EscposPreviews,
     'qztray/zpl-previews': ZplPreviews,
     'qztray/pdf-previews': PdfPreviews,
@@ -28,12 +31,7 @@ const components = {
     'qztray/development': Development,
 };
 const normalize = (text) => text.replace(/\s+/g, ' ').trim();
-const navigation = (prefix = '/docs') =>
-    Object.keys(components).map((slug) => ({
-        slug,
-        href: `${prefix}/${slug}`,
-        children: [],
-    }));
+const navigation = sourceNavigation;
 const packageMetadata = {
     id: 'qztray',
     title: 'QZ Tray Connector',

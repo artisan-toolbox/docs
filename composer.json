@@ -24,6 +24,7 @@
         "laravel/horizon": "^5.50",
         "laravel/reverb": "^1.12",
         "laravel/tinker": "^3.0",
+        "mike42/escpos-php": "^5.0",
         "opcodesio/log-viewer": "^3.24",
         "tightenco/ziggy": "^2.6.5"
     },

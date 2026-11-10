@@ -14,11 +14,21 @@ vi.mock('@inertiajs/vue3', async (importOriginal) => ({
     usePage: () => page,
 }));
 
+import { preferencesFixture } from '../../../tests/Fixtures/preferences';
+
+const preferencesContext = vi.hoisted(() => ({ fixture: undefined }));
+vi.mock('@artisan-toolbox/front-awesome', async (importOriginal) => ({
+    ...(await importOriginal()),
+    usePreferences: () => preferencesContext.fixture.service,
+}));
+beforeEach(() => {
+    preferencesContext.fixture = preferencesFixture();
+});
+
 enableAutoUnmount(afterEach);
 beforeEach(() => vi.stubGlobal('Ziggy', ziggy));
 afterEach(() => {
     page.props = {};
-    localStorage.clear();
     document.documentElement.classList.remove('dark');
     vi.unstubAllGlobals();
 });
@@ -112,8 +122,10 @@ describe('Welcome', () => {
         await flushPromises();
         wrapper.get('wa-select').element.value = 'dark';
         await wrapper.get('wa-select').trigger('change');
-        expect(localStorage.getItem('appearance')).toBe('dark');
-        expect(document.documentElement.classList.contains('dark')).toBe(true);
+        expect(preferencesContext.fixture.service.setAppearance).toHaveBeenCalledExactlyOnceWith(
+            'dark',
+        );
+        preferencesContext.fixture.confirm({ appearance: 'dark', resolvedAppearance: 'dark' });
         wrapper.unmount();
         const remounted = mount(Welcome, {
             props: { packages, links, source },

@@ -11,6 +11,7 @@ test('orders QZ Tray documentation by prerequisites and serves each guide with i
         'qztray/security',
         'qztray/connection',
         'qztray/printing',
+        'qztray/escpos-writer',
         'qztray/escpos-previews',
         'qztray/zpl-previews',
         'qztray/pdf-previews',

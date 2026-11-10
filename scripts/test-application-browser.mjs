@@ -17,13 +17,11 @@ try {
     for (const width of [1440, 390]) {
         for (const theme of ['light', 'dark']) {
             const context = await browser.newContext({
+                locale: 'en-US',
                 viewport: { width, height: 1000 },
                 colorScheme: theme,
                 permissions: ['clipboard-read', 'clipboard-write'],
             });
-            await context.addInitScript((value) => {
-                if (!localStorage.getItem('appearance')) localStorage.setItem('appearance', value);
-            }, theme);
             const page = await context.newPage();
             const errors = [];
             page.on('pageerror', (error) => errors.push(error.message));
@@ -179,10 +177,8 @@ try {
                         value,
                     );
                     assert(
-                        (await context.cookies()).some(
-                            (cookie) => cookie.name === 'appearance' && cookie.value === value,
-                        ),
-                        'Theme selection persists the prepaint cookie.',
+                        !(await context.cookies()).some((cookie) => cookie.name === 'appearance'),
+                        'Theme selection uses backend session preferences.',
                     );
                 }
                 await selectTheme(other);
