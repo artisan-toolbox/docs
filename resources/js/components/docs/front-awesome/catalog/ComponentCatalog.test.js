@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vite-plus/test';
 import catalog from './components.json';
 import ComponentCatalog from './ComponentCatalog.vue';
 import ProseSection from '@/components/docs/ProseSection.vue';
+import DemoFrame from '@/components/demo/DemoFrame.vue';
 
 const pages = import.meta.glob(
     '../../../../pages/docs/front-awesome/web-awesome/components/*.vue',
@@ -24,10 +25,7 @@ const groupNames = {
 const slugs = [
     'front-awesome/installation',
     'front-awesome/web-awesome',
-    'front-awesome/button',
-    'front-awesome/input',
-    'front-awesome/icon',
-    'front-awesome/page',
+    'front-awesome/shared-theme',
     'front-awesome/toasts/laravel',
     'front-awesome/toasts/vue',
     ...catalog.groups.map((group) => `front-awesome/web-awesome/components/${group.id}`),
@@ -82,7 +80,7 @@ describe('Front Awesome wrapper catalog', () => {
         const core = manifest.modules
             .flatMap((module) => module.declarations ?? [])
             .flatMap((item) => (item.tagName ? [item.tagName] : []))
-            .sort();
+            .sort((left, right) => left.localeCompare(right));
         const components = catalog.groups.flatMap((group) => group.components);
         expect(catalog.groups.map((group) => group.title)).toEqual([
             'Actions',
@@ -100,14 +98,21 @@ describe('Front Awesome wrapper catalog', () => {
             components
                 .filter((item) => item.edition === 'Core' && !item.since)
                 .map((item) => item.tag)
-                .sort(),
+                .sort((left, right) => left.localeCompare(right)),
         ).toEqual(core);
         expect(components.filter((item) => item.edition === 'Pro')).toHaveLength(17);
         expect(
             components
                 .filter((item) => item.implementation.state === 'implemented')
                 .map((item) => item.implementation.export),
-        ).toEqual(['Button', 'ButtonGroup', 'Input', 'Page', 'Tag', 'Tooltip', 'Icon', 'Popover']);
+        ).toEqual(
+            components
+                .filter((item) => item.edition === 'Pro' || !item.since)
+                .map((item) => item.implementation.export),
+        );
+        expect(
+            components.filter((item) => item.implementation.state === 'implemented'),
+        ).toHaveLength(90);
         expect(components.find((item) => item.name === 'Chart')).toMatchObject({
             tag: 'wa-chart',
             edition: 'Pro',
@@ -147,12 +152,26 @@ describe('Front Awesome wrapper catalog', () => {
                 const reference = wrapper.get(`a[href="${component.reference}"]`);
                 expect(reference.attributes('target')).toBe('_blank');
                 if (component.implementation.state === 'implemented') {
-                    const { anchor, guide, guideFragment } = component.implementation;
+                    const { anchor, guide, guideFragment, demoOwner } = component.implementation;
+                    const owner = group.components.find(
+                        (item) => item.implementation.export === demoOwner,
+                    );
+                    expect(owner?.implementation.demoOwner).toBe(demoOwner);
                     expect(card.get('wa-button').text()).toContain('Implemented');
                     expect(card.get(`wa-popover a[href="#${anchor}"]`).text()).toBe(
                         'Basic example',
                     );
                     expect(wrapper.findAll(`[id="${anchor}"]`)).toHaveLength(1);
+                    if (demoOwner !== component.implementation.export) {
+                        expect(card.get(`a[href="#${owner.implementation.anchor}"]`).text()).toBe(
+                            `Example with ${owner.name}`,
+                        );
+                        const section = wrapper.get(`section[aria-labelledby="${anchor}"]`);
+                        expect(section.find('[data-demo-frame]').exists()).toBe(false);
+                        expect(
+                            section.get(`a[href="#${owner.implementation.anchor}"]`).text(),
+                        ).toContain(demoOwner);
+                    }
                     if (guide !== `front-awesome/web-awesome/components/${group.id}`) {
                         expect(
                             wrapper.find(`a[href="/docs/${guide}${guideFragment}"]`).exists(),
@@ -165,10 +184,24 @@ describe('Front Awesome wrapper catalog', () => {
                     );
                 }
             }
-            const examples = wrapper.findAll('pre code').map((block) => block.text());
-            expect(examples).toHaveLength(
-                group.components.filter((item) => item.implementation.state === 'implemented')
-                    .length,
+            const owners = group.components.filter(
+                (item) =>
+                    item.implementation.state === 'implemented' &&
+                    item.implementation.demoOwner === item.implementation.export,
+            );
+            const catalogFrames = wrapper.findAll('[data-catalog-demo]');
+            expect(catalogFrames).toHaveLength(owners.length);
+            const frames = wrapper.findAllComponents(DemoFrame);
+            for (const frame of frames) {
+                expect(frame.get('[data-demo-viewport]').exists()).toBe(true);
+                expect(frame.props('sources').length).toBeGreaterThan(0);
+                expect(frame.get('details summary').text()).toBe('View source');
+            }
+            const examples = frames.flatMap((frame) =>
+                frame
+                    .props('sources')
+                    .filter((source) => source.language === 'vue')
+                    .map((source) => source.code),
             );
             for (const [index, code] of examples.entries()) {
                 const { descriptor, errors } = parse(code);
@@ -177,8 +210,22 @@ describe('Front Awesome wrapper catalog', () => {
                 expect(() =>
                     compileScript(descriptor, { id: `${group.id}-${index}` }),
                 ).not.toThrow();
-                expect(descriptor.scriptSetup.content).toContain(
-                    '@artisan-toolbox/front-awesome/components',
+                expect(descriptor.scriptSetup.content).toContain('@artisan-toolbox/front-awesome');
+            }
+            for (const item of group.components.filter(
+                (component) => component.implementation.state === 'implemented',
+            )) {
+                const owner = item.implementation.demoOwner;
+                const source = readFileSync(
+                    resolve(
+                        process.cwd(),
+                        `resources/js/components/demo/front-awesome/${group.id}/${owner}Demo.vue`,
+                    ),
+                    'utf8',
+                );
+                expect(source).toContain(`<${item.implementation.export}`);
+                expect(wrapper.get(`[data-catalog-demo="${owner}"] pre code`).text()).toBe(
+                    source.trim(),
                 );
             }
             if (examples.length) expect(wrapper.text()).toContain('Expected result.');
@@ -206,7 +253,7 @@ describe('Front Awesome wrapper catalog', () => {
             expect(control.text()).toContain(item.get('h3').text());
             expect(control.attributes('pill')).toBe('');
             expect(nativeValue(trigger, 'type')).toBe('button');
-            expect(trigger.classes()).toContain('min-h-11');
+            expect(trigger.classes()).toContain('max-sm:min-h-11');
             expect(trigger.attributes('aria-label')).toContain('Component details');
             expect(trigger.attributes('aria-haspopup')).toBe('dialog');
             expect(trigger.attributes('aria-controls')).toBe(panel.attributes('id'));
@@ -225,24 +272,30 @@ describe('Front Awesome wrapper catalog', () => {
         expect(nativeValue(implemented.get('wa-button'), 'variant')).toBe('success');
         expect(nativeValue(implemented.get('wa-button'), 'appearance')).toBe('accent');
         expect(implemented.get('wa-popover a[href="#button"]').text()).toBe('Basic example');
-        expect(implemented.get('wa-popover a[href="/docs/front-awesome/button"]').text()).toBe(
-            'Full guide',
-        );
-        const future = wrapper.get('[data-component="wa-copy-button"]');
-        expect(nativeValue(future.get('wa-button'), 'variant')).toBe('neutral');
-        expect(nativeValue(future.get('wa-button'), 'appearance')).toBe('filled');
-        expect(future.find('a[href^="#"]').exists()).toBe(false);
+        expect(
+            implemented
+                .find(
+                    'wa-popover a[href="/docs/front-awesome/web-awesome/components/actions#button"]',
+                )
+                .exists(),
+        ).toBe(false);
+        const copy = wrapper.get('[data-component="wa-copy-button"]');
+        expect(nativeValue(copy.get('wa-button'), 'variant')).toBe('success');
+        expect(copy.get('wa-popover a[href="#copy-button"]').text()).toBe('Basic example');
         const panel = implemented.get('wa-popover');
         panel.element.open = true;
         await panel.trigger('wa-after-show');
         expect(implemented.get('wa-button[id]').attributes('aria-expanded')).toBe('true');
-        expect(future.get('wa-button[id]').attributes('aria-expanded')).toBe('false');
+        expect(copy.get('wa-button[id]').attributes('aria-expanded')).toBe('false');
         panel.element.open = false;
         await panel.trigger('wa-after-hide');
         expect(implemented.get('wa-button[id]').attributes('aria-expanded')).toBe('false');
         await wrapper.setProps({ navigation: navigation('/reference') });
         expect(
-            implemented.get('wa-popover a[href="/reference/front-awesome/button"]').exists(),
+            wrapper
+                .get('[data-component="wa-copy-button"]')
+                .get('wa-popover a[href="/reference/front-awesome/web-awesome/components/actions"]')
+                .exists(),
         ).toBe(true);
         wrapper.unmount();
     });
@@ -328,18 +381,17 @@ describe('Front Awesome wrapper catalog', () => {
         wrapper.unmount();
     });
 
-    it('links the Page wrapper to its layout guide while toast remains a service', () => {
+    it('links the Page wrapper to its layout guide and keeps toast service guides available', () => {
         const layout = render('Layout');
         const feedback = render('Feedback');
         expect(
             layout
-                .get(
-                    'section[aria-labelledby="page"] a[href="/docs/front-awesome/page#render-the-page-and-one-navigation-tree"]',
-                )
+                .get('section[aria-labelledby="page"] #render-the-page-and-one-navigation-tree')
                 .text(),
-        ).toBe('Page layout guide');
+        ).toBe('Render the page and one navigation tree');
         expect(layout.get('[data-component="wa-page"]').text()).toContain('Implemented');
-        expect(feedback.get('[data-component="wa-toast"]').text()).toContain('In future');
+        expect(feedback.get('[data-component="wa-toast"]').text()).toContain('Implemented');
+        expect(feedback.get('#toast').text()).toBe('Toast');
         expect(feedback.findAll('a[href^="/docs/front-awesome/toasts/"]')).toHaveLength(2);
         layout.unmount();
         feedback.unmount();

@@ -23,7 +23,8 @@ async function openSearch() {
         props: { endpoint: '/docs/search' },
         attachTo: document.body,
     });
-    await wrapper.get('button').trigger('click');
+    await flushPromises();
+    await wrapper.get('button[aria-label="Search documentation"]').trigger('click');
     await vi.advanceTimersByTimeAsync(1);
 
     return document.querySelector('input[type="search"]');
@@ -57,16 +58,18 @@ afterEach(() => {
 });
 
 describe('DocumentationSearch', () => {
-    it('opens an accessible dialog, focuses its labeled input, and waits for a valid query', async () => {
+    it('opens an accessible dialog with a labeled input and waits for a valid query', async () => {
         const input = await openSearch();
+        const dialog = document.querySelector('[role="dialog"]');
+        const title = document.getElementById(dialog.getAttribute('aria-labelledby'));
+        const description = document.getElementById(dialog.getAttribute('aria-describedby'));
 
-        expect(document.querySelector('[role="dialog"]').textContent).toContain(
-            'Search documentation',
-        );
-        expect(document.activeElement).toBe(input);
+        expect(title.textContent).toBe('Search documentation');
+        expect(description.textContent).toContain('Find guides, examples, and API details');
         expect(document.querySelector('label[for="documentation-search-input"]').textContent).toBe(
             'Search query',
         );
+        expect(document.activeElement).toBe(input);
         expect(document.querySelector('[role="status"]').textContent).toContain(
             'at least 2 characters',
         );
@@ -198,14 +201,15 @@ describe('DocumentationSearch', () => {
                 }),
         );
         await openSearch();
-        const trigger = wrapper.get('button').element;
+        const trigger = wrapper.get('button[aria-label="Search documentation"]').element;
         await typeQuery('core');
         await finishDebounce();
         const signal = fetchMock.mock.calls[0][1].signal;
 
-        document.activeElement.dispatchEvent(
-            new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
-        );
+        const input = document.querySelector('input');
+        input.focus();
+        expect(document.activeElement).toBe(input);
+        input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
         await vi.advanceTimersByTimeAsync(1);
         await flushPromises();
 
@@ -253,7 +257,7 @@ describe('DocumentationSearch', () => {
             }),
         );
         await vi.advanceTimersByTimeAsync(1);
-        expect(document.activeElement).toBe(document.querySelector('input'));
+        expect(document.querySelector('[role="dialog"]')).not.toBeNull();
         document.querySelector('[aria-label="Close search"]').click();
         await vi.advanceTimersByTimeAsync(1);
         window.dispatchEvent(
@@ -266,6 +270,115 @@ describe('DocumentationSearch', () => {
         await vi.advanceTimersByTimeAsync(1);
         expect(document.querySelector('[role="dialog"]')).not.toBeNull();
         expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('cancels pending debounce work when closed and starts cleanly after reopening', async () => {
+        await openSearch();
+        await typeQuery('core');
+        await vi.advanceTimersByTimeAsync(199);
+        document.querySelector('[aria-label="Close search"]').click();
+        await finishDebounce();
+
+        expect(document.querySelector('[role="dialog"]')).toBeNull();
+        expect(fetchMock).not.toHaveBeenCalled();
+
+        await wrapper.get('button[aria-label="Search documentation"]').trigger('click');
+        await vi.advanceTimersByTimeAsync(1);
+        expect(document.querySelector('input').value).toBe('');
+        expect(document.querySelector('[role="status"]').textContent).toContain(
+            'at least 2 characters',
+        );
+        await typeQuery('newer');
+        await finishDebounce();
+        expect(fetchMock).toHaveBeenCalledOnce();
+        expect(String(fetchMock.mock.calls[0][0])).toBe(
+            `${window.location.origin}/docs/search?q=newer`,
+        );
+        expect(document.querySelector('ul').textContent).toContain('Install Core');
+    });
+
+    it.each(['input', 'textarea', 'select', 'wa-input', 'wa-select'])(
+        'preserves editing shortcuts in a shadow %s control',
+        async (tag) => {
+            wrapper = mount(DocumentationSearch, {
+                props: { endpoint: '/docs/search' },
+                attachTo: document.body,
+            });
+            const host = document.createElement('editing-example');
+            const shadow = host.attachShadow({ mode: 'open' });
+            const control = document.createElement(tag);
+            shadow.append(control);
+            document.body.append(host);
+            const shortcut = new KeyboardEvent('keydown', {
+                key: 'k',
+                ctrlKey: true,
+                bubbles: true,
+                composed: true,
+                cancelable: true,
+            });
+            control.dispatchEvent(shortcut);
+            await flushPromises();
+
+            expect(shortcut.defaultPrevented).toBe(false);
+            expect(document.querySelector('[role="dialog"]')).toBeNull();
+        },
+    );
+
+    it.each([
+        { key: 'k' },
+        { key: 'k', ctrlKey: true, repeat: true },
+        { key: 'k', ctrlKey: true, altKey: true },
+        { key: 'k', ctrlKey: true, shiftKey: true },
+        { key: 'j', ctrlKey: true },
+    ])('ignores nonmatching shortcut modifiers %j', async (keys) => {
+        wrapper = mount(DocumentationSearch, {
+            props: { endpoint: '/docs/search' },
+            attachTo: document.body,
+        });
+        const shortcut = new KeyboardEvent('keydown', { ...keys, cancelable: true });
+        window.dispatchEvent(shortcut);
+        await flushPromises();
+
+        expect(shortcut.defaultPrevented).toBe(false);
+        expect(document.querySelector('[role="dialog"]')).toBeNull();
+    });
+
+    it('preserves an already handled shortcut', async () => {
+        wrapper = mount(DocumentationSearch, {
+            props: { endpoint: '/docs/search' },
+            attachTo: document.body,
+        });
+        const shortcut = new KeyboardEvent('keydown', {
+            key: 'k',
+            ctrlKey: true,
+            cancelable: true,
+        });
+        shortcut.preventDefault();
+        window.dispatchEvent(shortcut);
+        await flushPromises();
+
+        expect(document.querySelector('[role="dialog"]')).toBeNull();
+    });
+
+    it('preserves server result order and limits the displayed results to twelve', async () => {
+        fetchMock.mockResolvedValueOnce(
+            response(
+                Array.from({ length: 15 }, (_, index) => ({
+                    ...result,
+                    id: `result-${index}`,
+                    pageTitle: `Result ${index + 1}`,
+                })),
+            ),
+        );
+        await openSearch();
+        await typeQuery('core');
+        await finishDebounce();
+
+        const links = [...document.querySelectorAll('ul a')];
+        expect(links).toHaveLength(12);
+        expect(links[0].textContent).toContain('Result 1');
+        expect(links[11].textContent).toContain('Result 12');
+        expect(document.querySelector('[role="status"]').textContent).toContain('12 results found');
     });
 
     it('closes after choosing a result without cancelling a modified link click', async () => {

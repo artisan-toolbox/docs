@@ -69,8 +69,6 @@ describe('CodeExample', () => {
 
     it('retains readable and copyable source when highlighting fails', async () => {
         highlightCode.mockRejectedValue(new Error('Grammar unavailable'));
-        const writeText = vi.fn().mockResolvedValue(undefined);
-        vi.stubGlobal('navigator', { clipboard: { writeText } });
         const code = '<?php echo "Still readable";\n';
         const wrapper = mount(CodeExample, {
             props: { code, label: 'PHP example', language: 'php' },
@@ -79,9 +77,11 @@ describe('CodeExample', () => {
         expect(wrapper.get('code').element.textContent).toBe(code);
         expect(wrapper.text()).toContain('Syntax highlighting is unavailable.');
         expect(wrapper.get('pre').attributes('aria-busy')).toBe('false');
-        await wrapper.get('button').trigger('click');
-        await flushPromises();
-        expect(writeText).toHaveBeenCalledWith(code);
+        expect(wrapper.get('wa-copy-button').attributes('value')).toBe(code);
+        await wrapper.get('wa-copy-button').trigger('wa-copy');
+        expect(wrapper.get('[role="status"][aria-live="polite"]').text()).toBe(
+            'Code copied to clipboard.',
+        );
     });
 
     it('ignores a late highlight result after the source changes', async () => {
@@ -104,46 +104,107 @@ describe('CodeExample', () => {
         expect(wrapper.get('figcaption').text()).toContain('PHP');
     });
 
-    it('copies the exact code and announces success', async () => {
-        const writeText = vi.fn().mockResolvedValue(undefined);
-        vi.stubGlobal('navigator', { clipboard: { writeText } });
+    it('passes exact source to the public copy control and announces native success', async () => {
         const wrapper = mount(CodeExample, {
             props: { code: 'vendor/bin/maintainer', label: 'Open the menu' },
         });
 
-        await wrapper.get('button').trigger('click');
-        await flushPromises();
-
-        expect(writeText).toHaveBeenCalledWith('vendor/bin/maintainer');
-        expect(wrapper.get('[role="status"]').text()).toBe('Code copied to clipboard.');
-        expect(wrapper.get('button').text()).toBe('Copied');
-        expect(wrapper.get('button').attributes('aria-label')).toBe('Copy Open the menu');
+        expect(wrapper.get('wa-copy-button').attributes('value')).toBe('vendor/bin/maintainer');
+        await wrapper.get('wa-copy-button').trigger('wa-copy');
+        expect(wrapper.get('[role="status"][aria-live="polite"]').text()).toBe(
+            'Code copied to clipboard.',
+        );
+        expect(wrapper.get('wa-button').text()).toContain('Copied');
+        expect(wrapper.get('wa-button').attributes('aria-label')).toBe('Copy Open the menu');
     });
 
-    it.each([
-        [
-            'clipboard access is denied',
-            {
-                clipboard: {
-                    writeText: vi.fn().mockRejectedValue(new Error('Permission denied')),
-                },
-            },
-        ],
-        ['the clipboard API is unavailable', {}],
-    ])('announces a manual fallback when %s', async (_condition, navigator) => {
-        vi.stubGlobal('navigator', navigator);
+    it('announces the native copy failure and keeps the source available for manual copying', async () => {
         const wrapper = mount(CodeExample, {
             props: { code: 'composer install', label: 'Install dependencies' },
         });
 
-        await wrapper.get('button').trigger('click');
-        await flushPromises();
+        await wrapper.get('wa-copy-button').trigger('wa-error');
 
-        expect(wrapper.get('[role="status"]').text()).toBe(
+        expect(wrapper.get('[role="status"][aria-live="polite"]').text()).toBe(
             'Unable to copy. Select the code and copy it manually.',
         );
         expect(wrapper.get('code').text()).toBe('composer install');
-        expect(wrapper.get('button').attributes('disabled')).toBeUndefined();
+        expect(wrapper.get('wa-button').attributes('disabled')).toBeUndefined();
+    });
+
+    it.each(['wa-copy', 'wa-error'])(
+        'clears the previous clipboard result after replacing source following %s',
+        async (event) => {
+            const wrapper = mount(CodeExample, {
+                props: { code: 'composer install', label: 'Install dependencies' },
+            });
+            await wrapper.get('wa-copy-button').trigger(event);
+            expect(wrapper.get('[role="status"][aria-live="polite"]').text()).not.toBe('');
+
+            await wrapper.setProps({ code: 'npm install' });
+
+            expect(wrapper.get('[role="status"][aria-live="polite"]').text()).toBe('');
+            expect(wrapper.get('wa-button').text()).not.toContain('Copied');
+            expect(wrapper.get('wa-copy-button').attributes('value')).toBe('npm install');
+            await wrapper.get('wa-copy-button').trigger('wa-copy');
+            expect(wrapper.get('[role="status"][aria-live="polite"]').text()).toBe(
+                'Code copied to clipboard.',
+            );
+        },
+    );
+
+    it.each(['wa-copy', 'wa-error'])(
+        'ignores an obsolete %s while the new source has not been copied',
+        async (event) => {
+            const wrapper = mount(CodeExample, {
+                props: { code: 'composer install', label: 'Install dependencies' },
+            });
+            const previousCopy = wrapper.get('wa-copy-button');
+
+            await wrapper.setProps({ code: 'npm install' });
+            await previousCopy.trigger(event);
+
+            expect(wrapper.get('[role="status"][aria-live="polite"]').text()).toBe('');
+            expect(wrapper.get('wa-button').text()).not.toContain('Copied');
+            expect(wrapper.get('wa-copy-button').attributes('value')).toBe('npm install');
+        },
+    );
+
+    it.each([
+        ['wa-copy', 'wa-copy', 'Code copied to clipboard.'],
+        ['wa-error', 'wa-copy', 'Code copied to clipboard.'],
+        ['wa-copy', 'wa-error', 'Unable to copy. Select the code and copy it manually.'],
+        ['wa-error', 'wa-error', 'Unable to copy. Select the code and copy it manually.'],
+    ])(
+        'ignores obsolete %s after the current source reports %s',
+        async (event, currentEvent, expectedStatus) => {
+            const wrapper = mount(CodeExample, {
+                props: { code: 'composer install', label: 'Install dependencies' },
+            });
+            const previousCopy = wrapper.get('wa-copy-button');
+            await wrapper.setProps({ code: 'npm install' });
+            await wrapper.get('wa-copy-button').trigger(currentEvent);
+
+            await previousCopy.trigger(event);
+
+            expect(wrapper.get('[role="status"][aria-live="polite"]').text()).toBe(expectedStatus);
+            expect(wrapper.get('wa-button').text().includes('Copied')).toBe(
+                currentEvent === 'wa-copy',
+            );
+        },
+    );
+
+    it.each(['wa-copy', 'wa-error'])('does not announce a late %s after unmount', async (event) => {
+        const wrapper = mount(CodeExample, {
+            props: { code: 'composer install', label: 'Install dependencies' },
+        });
+        const copy = wrapper.get('wa-copy-button');
+        const status = wrapper.get('[role="status"][aria-live="polite"]').element;
+        wrapper.unmount();
+
+        await copy.trigger(event);
+
+        expect(status.textContent.trim()).toBe('');
     });
 });
 
@@ -173,8 +234,6 @@ describe('CodeExample highlighting admission', () => {
 
     it('keeps exact source readable and copyable without processing before proximity', async () => {
         const code = '\t<script>example()</script>\r\n\r\n';
-        const writeText = vi.fn().mockResolvedValue(undefined);
-        vi.stubGlobal('navigator', { clipboard: { writeText } });
         const wrapper = mount(CodeExample, {
             props: { code, label: 'Deferred source', language: 'html' },
         });
@@ -185,9 +244,11 @@ describe('CodeExample highlighting admission', () => {
         expect(wrapper.find('script').exists()).toBe(false);
         expect(wrapper.get('pre').attributes('tabindex')).toBe('0');
         expect(wrapper.get('pre').attributes('aria-busy')).toBe('false');
-        await wrapper.get('button').trigger('click');
-        await flushPromises();
-        expect(writeText).toHaveBeenCalledWith(code);
+        expect(wrapper.get('wa-copy-button').attributes('value')).toBe(code);
+        await wrapper.get('wa-copy-button').trigger('wa-copy');
+        expect(wrapper.get('[role="status"][aria-live="polite"]').text()).toBe(
+            'Code copied to clipboard.',
+        );
         expect(observers[0].target).toBe(wrapper.element);
         expect(observers[0].options.rootMargin).toBe('200px 0px');
     });

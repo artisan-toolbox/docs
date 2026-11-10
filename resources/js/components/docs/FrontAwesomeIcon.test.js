@@ -1,7 +1,10 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { compileScript, parse } from '@vue/compiler-sfc';
 import { mount } from '@vue/test-utils';
 import { expect, it } from 'vite-plus/test';
-import Icon from '../../pages/docs/front-awesome/Icon.vue';
+import DemoFrame from '@/components/demo/DemoFrame.vue';
+import Media from '../../pages/docs/front-awesome/web-awesome/components/Media.vue';
 
 it('provides executable Setup examples and native icon guidance without extra setup', async () => {
     const navigation = (prefix) => [
@@ -11,11 +14,11 @@ it('provides executable Setup examples and native icon guidance without extra se
             children: [],
         },
     ];
-    const wrapper = mount(Icon, {
+    const page = mount(Media, {
         props: {
             navigation: navigation('/docs'),
             page: {
-                title: 'Render icons with Web Awesome',
+                title: 'Media',
                 description: 'Use native attributes and typed events.',
                 package: {
                     title: 'Front Awesome',
@@ -24,10 +27,15 @@ it('provides executable Setup examples and native icon guidance without extra se
                 },
             },
         },
+        global: { stubs: { ComponentCatalog: true, CatalogContext: true } },
     });
-    const examples = wrapper.findAll('pre code.language-vue').map((code) => code.text());
+    const wrapper = page.get('[data-component-reference="icon"]');
+    const frames = wrapper.findAllComponents(DemoFrame);
+    expect(frames).toHaveLength(3);
+    const examples = frames.flatMap((frame) => frame.props('sources').map((source) => source.code));
+    expect(page.findAll('[data-catalog-demo="Icon"]')).toHaveLength(1);
 
-    expect(wrapper.get('h1').text()).toBe('Render icons with Web Awesome');
+    expect(page.get('h1').text()).toBe('Media');
     expect(examples).toHaveLength(3);
     for (const [index, example] of examples.entries()) {
         const { descriptor, errors } = parse(example);
@@ -44,13 +52,21 @@ it('provides executable Setup examples and native icon guidance without extra se
         );
     }
     expect(examples[0]).toContain('name="house" label="Home"');
-    expect(examples[1]).toContain('canvas="auto"');
-    expect(examples[1]).toContain('animation="spin"');
-    expect(examples[2]).toContain('src="/icons/add.svg"');
+    expect(examples[1]).toContain("['auto', 'fixed', 'square', 'roomy']");
+    expect(examples[1]).toContain("spinning ? 'spin' : undefined");
+    expect(examples[2]).toContain("'icon-add' : 'icon-missing'");
+    expect(examples[2]).toContain('/examples/front-awesome/');
     expect(examples[2]).toContain("IconProps['onWaLoad']");
     expect(examples[2]).toContain("IconProps['onWaError']");
-    expect(examples[2]).toContain('@wa-load="onLoad" @wa-error="onError"');
+    expect(examples[2]).toContain('@wa-load="onLoad"');
+    expect(examples[2]).toContain('@wa-error="onError"');
     expect(wrapper.get('pre code.language-html').text()).toContain('viewBox="0 0 16 16"');
+    expect(wrapper.get('pre code.language-html').text()).toBe(
+        readFileSync(
+            resolve(process.cwd(), 'public/examples/front-awesome/icon-add.svg'),
+            'utf8',
+        ).trim(),
+    );
     expect(wrapper.text()).toContain('The toast plugin is not required.');
     expect(wrapper.text()).toContain('Older published previews may not include it.');
     expect(wrapper.text()).toContain(
@@ -61,9 +77,22 @@ it('provides executable Setup examples and native icon guidance without extra se
     expect(wrapper.text()).toContain('HTMLAttributes');
     expect(wrapper.text()).toContain('deprecated in favor of canvas="auto"');
     expect(wrapper.find('wa-icon').exists()).toBe(false);
-    await wrapper.setProps({ navigation: navigation('/reference') });
+    await frames[0].get('[data-demo-viewport] wa-button').trigger('click');
+    expect(wrapper.findAll('wa-icon')).toHaveLength(2);
+    await frames[1].get('[data-demo-viewport] wa-button').trigger('click');
+    expect(frames[1].findAll('wa-icon').length).toBeGreaterThan(2);
+    await frames[2].get('[data-demo-viewport] wa-button').trigger('click');
+    const icon = frames[2].get('wa-icon');
+    await icon.trigger('wa-load');
+    expect(frames[2].get('[data-demo-viewport] output').text()).toBe('Icon loaded.');
+    await frames[2].findAll('[data-demo-viewport] wa-button')[1].trigger('click');
+    await icon.trigger('wa-error');
+    expect(frames[2].get('[data-demo-viewport] output').text()).toBe('Icon failed to load.');
+    await frames[2].findAll('[data-demo-viewport] wa-button')[2].trigger('click');
+    expect(frames[2].find('wa-icon').exists()).toBe(false);
+    await page.setProps({ navigation: navigation('/reference') });
     expect(wrapper.get('a[href="/reference/front-awesome/installation"]').text()).toBe(
         'Installation',
     );
-    wrapper.unmount();
+    page.unmount();
 });

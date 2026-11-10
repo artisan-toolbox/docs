@@ -1,4 +1,5 @@
 <script setup>
+import { Icon } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 import { computed } from 'vue';
 
 const props = defineProps({
@@ -35,7 +36,7 @@ const customKit = computed(() => ['kit', 'kit-duotone'].includes(props.family));
                 aria-hidden="true" />
         </span>
     </span>
-    <wa-icon
+    <Icon
         v-else
         :name="name"
         :family="family"

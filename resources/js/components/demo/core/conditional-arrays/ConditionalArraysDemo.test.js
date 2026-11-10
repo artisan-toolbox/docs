@@ -1,6 +1,7 @@
 import { http } from '@inertiajs/core';
 import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test';
+import { settleDetachedHostUpdates } from '@/testSetup';
 import DemoAction from '@/components/demo/DemoAction.vue';
 import CodeExample from '@/components/docs/CodeExample.vue';
 import ConditionalArraysDemo from './ConditionalArraysDemo.vue';
@@ -88,6 +89,12 @@ describe('Core conditional arrays', () => {
         });
         expect(configuration.headers.Accept).toBe('application/json');
         expect(wrapper.get('fieldset').attributes()).toHaveProperty('disabled');
+        expect(wrapper.findAll('wa-checkbox')).toHaveLength(2);
+        expect(
+            wrapper
+                .findAll('wa-checkbox')
+                .every((input) => input.attributes('disabled') !== undefined),
+        ).toBe(true);
         expect(actions(wrapper)[0].props('busy')).toBe(true);
         expect(wrapper.get('[role="status"]').text()).toBe('Running the Core helper…');
         const actual = result();
@@ -95,7 +102,9 @@ describe('Core conditional arrays', () => {
         await flushPromises();
         expect(output(wrapper).props('code')).toBe(JSON.stringify(actual, null, 2));
         expect(wrapper.text()).toContain('Contact closure not evaluated.');
-        await wrapper.findAll('input')[0].setValue(true);
+        const contact = wrapper.findAll('wa-checkbox')[0];
+        contact.element.checked = true;
+        await contact.trigger('change');
         expect(wrapper.text()).toContain('Last run inputs. Contact omitted;');
         expect(request).toHaveBeenCalledTimes(1);
     });
@@ -105,7 +114,11 @@ describe('Core conditional arrays', () => {
             response(result({ includeContact: true, includeExtraItem: true })),
         );
         const wrapper = mount(ConditionalArraysDemo);
-        for (const input of wrapper.findAll('input')) await input.setValue(true);
+        await settleDetachedHostUpdates(wrapper);
+        for (const input of wrapper.findAll('wa-checkbox')) {
+            input.element.checked = true;
+            await input.trigger('change');
+        }
         expect(request).not.toHaveBeenCalled();
         await actions(wrapper)[0].trigger('click');
         await flushPromises();
@@ -115,7 +128,8 @@ describe('Core conditional arrays', () => {
         });
         expect(wrapper.text()).toContain('Contact closure evaluated.');
         await actions(wrapper)[1].trigger('click');
-        expect(wrapper.findAll('input').every((input) => !input.element.checked)).toBe(true);
+        await flushPromises();
+        expect(wrapper.findAll('wa-checkbox').every((input) => !input.element.checked)).toBe(true);
         expect(output(wrapper)).toBeUndefined();
         expect(wrapper.get('[role="status"]').text()).toBe(
             'Ready. Choose options and run the example.',

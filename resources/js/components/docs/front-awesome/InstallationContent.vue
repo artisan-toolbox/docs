@@ -217,14 +217,19 @@ const example9 = `npm run build`;
         </p>
         <p>
             Continue with the
-            <DocsLink :href="findNavigationItem(navigation, 'front-awesome/button').href"
+            <DocsLink
+                :href="
+                    findNavigationItem(navigation, 'front-awesome/web-awesome/components/actions')
+                        .href + '#button'
+                "
                 >Button guide</DocsLink
             >
             to add links, loading states, and button groups.
         </p>
         <p>
             Continue with
-            <DocsLink :href="findNavigationItem(navigation, 'front-awesome/input').href"
+            <DocsLink
+                :href="`${findNavigationItem(navigation, 'front-awesome/web-awesome/components/forms').href}#input`"
                 >Bind input values and form errors</DocsLink
             >
             when you need v-model or an Inertia form field in a compatible local preview.

@@ -14,5 +14,6 @@ describe('shared branding preview', () => {
         expect(wrapper.get('.bg-brand-700').text()).toBe('Tailwind');
         expect(wrapper.getComponent(Button).text()).toBe('Web Awesome');
         expect(wrapper.get('wa-button').attributes('variant')).toBe('brand');
+        expect(wrapper.find('[class*="resize-"]').exists()).toBe(false);
     });
 });

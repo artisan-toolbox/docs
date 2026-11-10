@@ -104,7 +104,11 @@ describe('Maintainer fixes and CI checks guide', () => {
             'language-php',
             'language-php',
         ]);
-        expect(wrapper.findAll('button').map((button) => button.attributes('aria-label'))).toEqual([
+        expect(
+            wrapper
+                .findAll('wa-button[aria-label^="Copy "]')
+                .map((button) => button.attributes('aria-label')),
+        ).toEqual([
             'Copy Discover frontend scripts',
             'Copy Apply automated fixes',
             'Copy Run CI checks',

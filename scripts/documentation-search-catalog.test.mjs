@@ -6,6 +6,23 @@ import { extractDocumentation } from './documentation-search.mjs';
 
 const catalogPath = 'resources/js/components/docs/front-awesome/catalog/components.json';
 const canonicalCatalog = JSON.parse(readFileSync(resolve(process.cwd(), catalogPath), 'utf8'));
+const mixedStatusCatalog = structuredClone(canonicalCatalog);
+const fixtureExports = new Set([
+    'Button',
+    'ButtonGroup',
+    'Input',
+    'Page',
+    'Tag',
+    'Tooltip',
+    'Icon',
+    'Popover',
+]);
+for (const group of mixedStatusCatalog.groups) {
+    for (const component of group.components) {
+        if (!fixtureExports.has(component.implementation.export))
+            component.implementation = { state: 'planned' };
+    }
+}
 const temporaryRoots = [];
 afterEach(() => {
     for (const root of temporaryRoots.splice(0)) rmSync(root, { recursive: true, force: true });
@@ -14,7 +31,7 @@ function fixture({
     group = 'actions',
     sections = '<h2 id="button">Button</h2><p>Basic action example.</p><h2 id="button-group">Button Group</h2>',
     overview = false,
-    catalog = canonicalCatalog,
+    catalog = mixedStatusCatalog,
     directive = '',
     importPath = '@/components/docs/front-awesome/catalog/ComponentCatalog.vue',
 } = {}) {
@@ -42,7 +59,7 @@ function fixture({
 
 describe('catalog semantic search adapter', () => {
     it('indexes visible names, statuses, help, tags, and editions from the same JSON as runtime tags', () => {
-        const catalog = structuredClone(canonicalCatalog);
+        const catalog = structuredClone(mixedStatusCatalog);
         catalog.groups[0].components[0].help = 'A changed purpose from the shared catalog.';
         const result = fixture({ catalog }).extract();
         const cards = result.find((document) => document.anchor === 'components');
@@ -51,7 +68,7 @@ describe('catalog semantic search adapter', () => {
         );
         expect(cards.body).toContain('Copy Button In future');
         expect(cards.body).toContain('Reviewed baseline 3.14.0');
-        expect(cards.body).toContain('Basic example Full guide Web Awesome reference');
+        expect(cards.body).toContain('Basic example Web Awesome reference');
         expect(cards.body).toContain('This Vue wrapper is planned.');
         expect(result.find((document) => document.anchor === 'button').body).toBe(
             'Basic action example.',
@@ -85,7 +102,7 @@ describe('catalog semantic search adapter', () => {
     });
 
     it('uses shared state labels and counts without treating work in progress as planned', () => {
-        const catalog = structuredClone(canonicalCatalog);
+        const catalog = structuredClone(mixedStatusCatalog);
         catalog.statuses['in-progress'].label = 'Work underway';
         catalog.statuses['in-progress'].countLabel = 'underway';
         catalog.groups[0].components[2].implementation = {
@@ -130,10 +147,13 @@ describe('catalog semantic search adapter', () => {
     });
 
     it('rejects unknown groups, phantom planned destinations, and runtime directives', () => {
+        const invalidOwner = structuredClone(mixedStatusCatalog);
+        invalidOwner.groups[0].components[0].implementation.demoOwner = 'Missing';
+        expect(fixture({ catalog: invalidOwner }).extract).toThrow('Invalid demo owner for Button');
         expect(fixture({ group: 'unknown' }).extract).toThrow(
             'Unknown component catalog group unknown',
         );
-        const catalog = structuredClone(canonicalCatalog);
+        const catalog = structuredClone(mixedStatusCatalog);
         catalog.groups[0].components[2].implementation.anchor = 'phantom';
         expect(fixture({ catalog }).extract).toThrow(
             'Invalid planned wrapper state for Copy Button',
@@ -170,12 +190,14 @@ describe('catalog semantic search adapter', () => {
         ).toContain('<script setup>');
         expect(
             result.find(
-                (document) => document.slug === 'catalog/Forms' && document.anchor === 'input',
+                (document) =>
+                    document.slug === 'catalog/Forms' && document.anchor === 'use-v-model',
             ).body,
         ).toContain('v-model="name"');
         expect(
             result.find(
-                (document) => document.slug === 'catalog/Media' && document.anchor === 'icon',
+                (document) =>
+                    document.slug === 'catalog/Media' && document.anchor === 'render-an-icon',
             ).body,
         ).toContain('name="download"');
         expect(
@@ -189,6 +211,16 @@ describe('catalog semantic search adapter', () => {
                     document.slug === 'catalog/Helpers' && document.anchor === 'components',
             ).body,
         ).toContain('Popover Implemented');
+        const section = (slug, anchor) =>
+            result.find((document) => document.slug === slug && document.anchor === anchor)?.body;
+        expect(section('catalog/Forms', 'bind-an-inertia-form')).toContain('users.0.email');
+        expect(section('catalog/Forms', 'reuse-the-bridge')).toContain('useFormBridge');
+        expect(section('catalog/Forms', 'display-server-errors')).toContain('setCustomValidity()');
+        expect(section('catalog/Forms', 'option')).toContain('Select');
+        expect(section('catalog/Forms', 'option')).toContain('Combobox');
+        expect(section('catalog/Navigation', 'tab-panel')).toContain('TabPanel');
+        expect(section('catalog/Navigation', 'tab-panel')).toContain('TabGroup');
+        expect(section('catalog/Forms', 'components')).toContain('Used with Select.');
         for (const page of pages) {
             const documents = result.filter((document) => document.slug === page.slug);
             expect(new Set(documents.map((document) => document.anchor)).size).toBe(

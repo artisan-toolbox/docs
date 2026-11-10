@@ -1,5 +1,8 @@
 <script setup>
 import CodeExample from '@/components/docs/CodeExample.vue';
+import DemoFrame from '@/components/demo/DemoFrame.vue';
+import IconTransformsDemo from '@/components/demo/front-awesome/media/IconTransformsDemo.vue';
+import IconEventsDemo from '@/components/demo/front-awesome/media/IconEventsDemo.vue';
 import DocsCallout from '@/components/docs/DocsCallout.vue';
 import DocsLink from '@/components/docs/DocsLink.vue';
 import ProseSection from '@/components/docs/ProseSection.vue';
@@ -7,65 +10,116 @@ import { findNavigationItem } from '@/lib/docsNavigation';
 
 defineProps({ navigation: { type: Array, required: true } });
 
-const basicExample = `<script setup>
-import { Icon } from '@artisan-toolbox/front-awesome/components';
-\x3C/script>
-
-<template>
-  <div>
-    <Icon name="house" label="Home" />
-    <button type="button">
-      <Icon name="download" />
-      Download
-    </button>
-  </div>
-</template>`;
-
-const transformExample = `<script setup>
-import { Icon } from '@artisan-toolbox/front-awesome/components/WebAwesome';
-\x3C/script>
-
-<template>
-  <div>
-    <Icon name="arrow-up" family="classic" variant="solid" canvas="auto" :rotate="90" label="Right" />
-    <Icon name="arrow-up" flip="y" label="Down" />
-    <Icon name="spinner" animation="spin" label="Loading" />
-  </div>
-</template>`;
-
 const svgExample = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
   <path fill="currentColor" d="M2 7h5V2h2v5h5v2H9v5H7V9H2z" />
 </svg>`;
 
-const eventExample = `<script setup>
-import { shallowRef } from 'vue';
-import Icon from '@artisan-toolbox/front-awesome/components/Icon.vue';
+const transformDemoSource = `<script setup>
+import { ref } from 'vue';
+import { Icon, Button } from '@artisan-toolbox/front-awesome/components';
 
-const status = shallowRef('Loading icon.');
+const visible = ref(false);
+const spinning = ref(false);
 
-/** @type {NonNullable<import('@artisan-toolbox/front-awesome/components').IconProps['onWaLoad']>} */
-const onLoad = (event) => {
-  status.value = 'Icon loaded.';
-  console.log(event.type);
-};
-
-/** @type {NonNullable<import('@artisan-toolbox/front-awesome/components').IconProps['onWaError']>} */
-const onError = (event) => {
-  status.value = 'Icon failed to load.';
-  console.error(event.type);
-};
+function reset() {
+    visible.value = false;
+    spinning.value = false;
+}
 \x3C/script>
 
 <template>
-  <div>
-    <Icon src="/icons/add.svg" label="Add" @wa-load="onLoad" @wa-error="onError" />
-    <p role="status">{{ status }}</p>
-  </div>
-</template>`;
+    <div class="flex min-w-0 flex-col gap-5" data-docs-outline-exclude>
+        <div class="flex flex-wrap gap-2">
+            <Button type="button" @click="visible = true">Show transformations</Button>
+            <Button type="button" appearance="plain" @click="reset">Reset transformations</Button>
+        </div>
+        <div v-if="visible" class="grid grid-cols-2 gap-5 text-sm @sm:grid-cols-3">
+            <div class="flex flex-col items-start gap-2">
+                <Icon name="arrow-up" :rotate="90" label="Right" class="text-2xl" /><span
+                    >Rotate 90°</span
+                >
+            </div>
+            <div class="flex flex-col items-start gap-2">
+                <Icon name="arrow-up" flip="y" label="Down" class="text-2xl" /><span
+                    >Flip vertically</span
+                >
+            </div>
+            <div
+                v-for="canvas in ['auto', 'fixed', 'square', 'roomy']"
+                :key="canvas"
+                class="flex flex-col items-start gap-2">
+                <Icon
+                    name="house"
+                    :canvas="canvas"
+                    :label="\`\${canvas} canvas\`"
+                    class="text-2xl" /><span>{{ canvas }} canvas</span>
+            </div>
+        </div>
+        <div v-if="visible" class="flex flex-wrap items-center gap-3">
+            <Button type="button" @click="spinning = !spinning">{{
+                spinning ? 'Pause icon animation' : 'Start icon animation'
+            }}</Button>
+            <Icon
+                name="spinner"
+                :animation="spinning ? 'spin' : undefined"
+                label="Loading"
+                class="text-2xl" />
+        </div>
+    </div>
+</template>
+`;
+const eventsDemoSource = `<script setup>
+import { ref } from 'vue';
+import { Icon, Button } from '@artisan-toolbox/front-awesome/components';
+
+const source = ref(null);
+const status = ref('Choose a local icon source.');
+let attempt = 0;
+
+function load(valid) {
+    source.value = \`/examples/front-awesome/\${valid ? 'icon-add' : 'icon-missing'}.svg?attempt=\${++attempt}\`;
+    status.value = 'Loading icon.';
+}
+
+/** @type {NonNullable<import('@artisan-toolbox/front-awesome').IconProps['onWaLoad']>} */
+const onLoad = () => {
+    if (source.value) status.value = 'Icon loaded.';
+};
+
+/** @type {NonNullable<import('@artisan-toolbox/front-awesome').IconProps['onWaError']>} */
+const onError = () => {
+    if (source.value) status.value = 'Icon failed to load.';
+};
+
+function reset() {
+    source.value = null;
+    status.value = 'Choose a local icon source.';
+}
+\x3C/script>
+
+<template>
+    <div class="flex min-w-0 flex-col gap-4" data-docs-outline-exclude>
+        <div class="flex flex-wrap gap-2">
+            <Button type="button" @click="load(true)">Load local SVG</Button>
+            <Button type="button" @click="load(false)">Try a missing SVG</Button>
+            <Button type="button" appearance="plain" @click="reset">Reset icon events</Button>
+        </div>
+        <div v-if="source" class="min-w-0">
+            <Icon
+                :src="source"
+                label="Add"
+                class="text-3xl"
+                @wa-load="onLoad"
+                @wa-error="onError" />
+        </div>
+        <output role="status" aria-live="polite">{{ status }}</output>
+    </div>
+</template>
+`;
 </script>
 
 <template>
-    <ProseSection>
+    <ProseSection data-component-reference="icon">
         <p>
             Start in the Laravel, Inertia, and Vue application from
             <DocsLink :href="findNavigationItem(navigation, 'front-awesome/installation').href"
@@ -82,16 +136,16 @@ const onError = (event) => {
                 Follow Installation to refresh the frontend package copy after updating Composer.
             </p>
         </DocsCallout>
-        <h2 id="render-an-icon">Render an icon</h2>
+        <h3 id="render-an-icon">Render an icon</h3>
         <p>
             Import <code>Icon</code> from <code>@artisan-toolbox/front-awesome/components</code>.
             The wrapper registers <code>wa-icon</code> and forwards native attributes and listeners
             to that element.
         </p>
-        <CodeExample label="Render accessible icons" language="vue" :code="basicExample" />
+        <slot />
         <p>
-            The page displays a house icon named Home for assistive technology and a Download button
-            with a decorative icon. Without a
+            Activate Load icons to display a house icon named Home for assistive technology and a
+            Download button with a decorative icon. Without a
             <code>label</code>, Web Awesome hides the icon from assistive technology. Keep a visible
             label on the containing control, or give an icon-only control its own accessible name.
         </p>
@@ -108,20 +162,27 @@ const onError = (event) => {
             <code>@artisan-toolbox/front-awesome/components/WebAwesome/Icon.vue</code>. Choose one
             import path for each use.
         </p>
-        <h2 id="use-native-options">Use native options</h2>
+        <h3 id="use-native-options">Use native options</h3>
         <p>
             Set <code>name</code>, <code>family</code>, and <code>variant</code> for the chosen
             library. Use <code>library</code> for a library already registered through Web Awesome,
             or <code>src</code> for a trusted SVG URL. Available names and families depend on that
             source. The wrapper does not resolve, fetch, or transform icons itself.
         </p>
-        <CodeExample
-            label="Choose a canvas and transform icons"
-            language="vue"
-            :code="transformExample" />
+        <DemoFrame
+            title="Icon transformations"
+            :sources="[
+                {
+                    label: 'Choose a canvas and transform icons',
+                    language: 'vue',
+                    code: transformDemoSource,
+                },
+            ]">
+            <IconTransformsDemo />
+        </DemoFrame>
         <p>
-            The arrows use native rotation and flipping. The spinner uses Web Awesome's spin
-            animation. Set
+            The arrows use native rotation and flipping. Start icon animation enables Web Awesome's
+            spin effect; Pause icon animation stops it. Set
             <code>rotate</code> to a number of degrees and <code>flip</code> to <code>x</code>,
             <code>y</code>, or <code>both</code>. Choose an <code>animation</code> supported by your
             installed Web Awesome version, such as <code>spin</code>, <code>bounce</code>, or
@@ -136,7 +197,7 @@ const onError = (event) => {
             <code>:auto-width="false"</code> or <code>:swap-opacity="false"</code> to disable either
             flag.
         </p>
-        <h2 id="keep-application-styles">Keep application styles</h2>
+        <h3 id="keep-application-styles">Keep application styles</h3>
         <p>
             Icon adds no default classes, theme, color, size, spacing, or stylesheet. Web Awesome
             retains its own rendering and native defaults. The icon inherits the surrounding font
@@ -144,18 +205,26 @@ const onError = (event) => {
             choices, including Web Awesome's animation and duotone CSS custom properties. Other HTML
             attributes and listeners fall through to <code>wa-icon</code>.
         </p>
-        <h2 id="handle-load-and-error">Handle load and error events</h2>
+        <h3 id="handle-load-and-error">Handle load and error events</h3>
         <p>
             To try a local SVG, save this trusted content in
-            <code>public/icons/add.svg</code> in your Laravel application. The browser must be able
-            to request <code>/icons/add.svg</code>.
+            <code>public/examples/front-awesome/icon-add.svg</code> in your Laravel application. The
+            browser must be able to request <code>/examples/front-awesome/icon-add.svg</code>.
         </p>
         <CodeExample label="Create the local icon asset" language="html" :code="svgExample" />
         <p>
-            Add this Vue page to display the SVG and its load status. The JSDoc annotations use the
-            exported <code>IconProps</code> type while keeping Setup in JavaScript.
+            Load local SVG displays the asset and its status. Try a missing SVG demonstrates
+            failure; load the valid source again to retry. Reset icon events removes the example.
+            The JSDoc annotations use the exported <code>IconProps</code> type while keeping Setup
+            in JavaScript.
         </p>
-        <CodeExample label="Observe native icon events" language="vue" :code="eventExample" />
+        <DemoFrame
+            title="Native icon events"
+            :sources="[
+                { label: 'Observe native icon events', language: 'vue', code: eventsDemoSource },
+            ]">
+            <IconEventsDemo />
+        </DemoFrame>
         <p>
             A successful request displays the plus icon and Icon loaded. If the URL cannot load an
             SVG, Web Awesome emits <code>wa-error</code> and the status becomes Icon failed to load.
@@ -169,7 +238,7 @@ const onError = (event) => {
             emit either load event in Web Awesome, so do not use these events to determine sprite
             readiness.
         </p>
-        <h2 id="use-the-public-types">Use the public types</h2>
+        <h3 id="use-the-public-types">Use the public types</h3>
         <p>
             Import <code>IconProps</code> as a type from
             <code>@artisan-toolbox/front-awesome</code> or either components barrel. Its native

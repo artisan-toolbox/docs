@@ -43,8 +43,9 @@
                         "state": "implemented",
                         "export": "Button",
                         "anchor": "button",
-                        "guide": "front-awesome/button",
-                        "guideFragment": ""
+                        "guide": "front-awesome/web-awesome/components/actions",
+                        "guideFragment": "#button",
+                        "demoOwner": "Button"
                     }
                 },
                 {
@@ -57,8 +58,9 @@
                         "state": "implemented",
                         "export": "ButtonGroup",
                         "anchor": "button-group",
-                        "guide": "front-awesome/button",
-                        "guideFragment": "#group-related-buttons"
+                        "guide": "front-awesome/web-awesome/components/actions",
+                        "guideFragment": "#button-group",
+                        "demoOwner": "ButtonGroup"
                     }
                 },
                 {
@@ -68,7 +70,12 @@
                     "reference": "https://webawesome.com/docs/components/copy-button/",
                     "help": "Copy a value to the clipboard.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "CopyButton",
+                        "anchor": "copy-button",
+                        "guide": "front-awesome/web-awesome/components/actions",
+                        "guideFragment": "",
+                        "demoOwner": "CopyButton"
                     }
                 },
                 {
@@ -78,7 +85,12 @@
                     "reference": "https://webawesome.com/docs/components/dropdown/",
                     "help": "Show a menu of actions.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Dropdown",
+                        "anchor": "dropdown",
+                        "guide": "front-awesome/web-awesome/components/actions",
+                        "guideFragment": "",
+                        "demoOwner": "Dropdown"
                     }
                 },
                 {
@@ -88,7 +100,12 @@
                     "reference": "https://webawesome.com/docs/components/dropdown-item/",
                     "help": "Define one action in a dropdown menu.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "DropdownItem",
+                        "anchor": "dropdown-item",
+                        "guide": "front-awesome/web-awesome/components/actions",
+                        "guideFragment": "",
+                        "demoOwner": "Dropdown"
                     }
                 }
             ]
@@ -105,7 +122,12 @@
                     "reference": "https://webawesome.com/docs/components/checkbox/",
                     "help": "Toggle an independent choice.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Checkbox",
+                        "anchor": "checkbox",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "Checkbox"
                     }
                 },
                 {
@@ -115,7 +137,12 @@
                     "reference": "https://webawesome.com/docs/components/checkbox-group/",
                     "help": "Label related checkbox choices.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "CheckboxGroup",
+                        "anchor": "checkbox-group",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "CheckboxGroup"
                     }
                 },
                 {
@@ -125,7 +152,12 @@
                     "reference": "https://webawesome.com/docs/components/color-picker/",
                     "help": "Choose a color value.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "ColorPicker",
+                        "anchor": "color-picker",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "ColorPicker"
                     }
                 },
                 {
@@ -135,7 +167,12 @@
                     "reference": "https://webawesome.com/docs/components/combobox/",
                     "help": "Combine text entry with suggested choices.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Combobox",
+                        "anchor": "combobox",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "Combobox"
                     }
                 },
                 {
@@ -145,7 +182,12 @@
                     "reference": "https://webawesome.com/docs/components/date-input/",
                     "help": "Enter a date in a form.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "DateInput",
+                        "anchor": "date-input",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "DateInput"
                     }
                 },
                 {
@@ -155,7 +197,12 @@
                     "reference": "https://webawesome.com/docs/components/date-picker/",
                     "help": "Choose a date from a calendar.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "DatePicker",
+                        "anchor": "date-picker",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "DatePicker"
                     }
                 },
                 {
@@ -165,7 +212,12 @@
                     "reference": "https://webawesome.com/docs/components/file-input/",
                     "help": "Select files for a form.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "FileInput",
+                        "anchor": "file-input",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "FileInput"
                     }
                 },
                 {
@@ -178,8 +230,9 @@
                         "state": "implemented",
                         "export": "Input",
                         "anchor": "input",
-                        "guide": "front-awesome/input",
-                        "guideFragment": ""
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "#input",
+                        "demoOwner": "Input"
                     }
                 },
                 {
@@ -189,7 +242,12 @@
                     "reference": "https://webawesome.com/docs/components/known-date/",
                     "help": "Represent a known calendar date.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "KnownDate",
+                        "anchor": "known-date",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "KnownDate"
                     }
                 },
                 {
@@ -199,7 +257,12 @@
                     "reference": "https://webawesome.com/docs/components/number-input/",
                     "help": "Enter a numeric value.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "NumberInput",
+                        "anchor": "number-input",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "NumberInput"
                     }
                 },
                 {
@@ -209,7 +272,12 @@
                     "reference": "https://webawesome.com/docs/components/otp-input/",
                     "help": "Enter a one-time code.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "OtpInput",
+                        "anchor": "otp-input",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "OtpInput"
                     }
                 },
                 {
@@ -219,7 +287,12 @@
                     "reference": "https://webawesome.com/docs/components/radio-group/",
                     "help": "Choose one value from related options.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "RadioGroup",
+                        "anchor": "radio-group",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "RadioGroup"
                     }
                 },
                 {
@@ -229,7 +302,12 @@
                     "reference": "https://webawesome.com/docs/components/radio/",
                     "help": "Define one choice in a radio group.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Radio",
+                        "anchor": "radio",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "RadioGroup"
                     }
                 },
                 {
@@ -239,7 +317,12 @@
                     "reference": "https://webawesome.com/docs/components/rating/",
                     "help": "Choose a rating value.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Rating",
+                        "anchor": "rating",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "Rating"
                     }
                 },
                 {
@@ -249,7 +332,12 @@
                     "reference": "https://webawesome.com/docs/components/select/",
                     "help": "Choose from a list of options.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Select",
+                        "anchor": "select",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "Select"
                     }
                 },
                 {
@@ -259,7 +347,12 @@
                     "reference": "https://webawesome.com/docs/components/option/",
                     "help": "Define one option in a select.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Option",
+                        "anchor": "option",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "Select"
                     }
                 },
                 {
@@ -269,7 +362,12 @@
                     "reference": "https://webawesome.com/docs/components/slider/",
                     "help": "Choose a value along a range.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Slider",
+                        "anchor": "slider",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "Slider"
                     }
                 },
                 {
@@ -279,7 +377,12 @@
                     "reference": "https://webawesome.com/docs/components/switch/",
                     "help": "Toggle a setting on or off.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Switch",
+                        "anchor": "switch",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "Switch"
                     }
                 },
                 {
@@ -289,7 +392,12 @@
                     "reference": "https://webawesome.com/docs/components/tag-input/",
                     "help": "Enter a collection of tags.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "TagInput",
+                        "anchor": "tag-input",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "TagInput"
                     }
                 },
                 {
@@ -299,7 +407,12 @@
                     "reference": "https://webawesome.com/docs/components/textarea/",
                     "help": "Enter multiple lines of text.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Textarea",
+                        "anchor": "textarea",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "Textarea"
                     }
                 },
                 {
@@ -309,7 +422,12 @@
                     "reference": "https://webawesome.com/docs/components/time-input/",
                     "help": "Enter a time value.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "TimeInput",
+                        "anchor": "time-input",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "TimeInput"
                     }
                 }
             ]
@@ -326,7 +444,12 @@
                     "reference": "https://webawesome.com/docs/components/accordion/",
                     "help": "Organize expandable sections.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Accordion",
+                        "anchor": "accordion",
+                        "guide": "front-awesome/web-awesome/components/layout",
+                        "guideFragment": "",
+                        "demoOwner": "Accordion"
                     }
                 },
                 {
@@ -336,7 +459,12 @@
                     "reference": "https://webawesome.com/docs/components/accordion-item/",
                     "help": "Define one section in an accordion.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "AccordionItem",
+                        "anchor": "accordion-item",
+                        "guide": "front-awesome/web-awesome/components/layout",
+                        "guideFragment": "",
+                        "demoOwner": "Accordion"
                     }
                 },
                 {
@@ -346,7 +474,12 @@
                     "reference": "https://webawesome.com/docs/components/card/",
                     "help": "Group related content in a container.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Card",
+                        "anchor": "card",
+                        "guide": "front-awesome/web-awesome/components/layout",
+                        "guideFragment": "",
+                        "demoOwner": "Card"
                     }
                 },
                 {
@@ -356,7 +489,12 @@
                     "reference": "https://webawesome.com/docs/components/details/",
                     "help": "Reveal supporting content on demand.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Details",
+                        "anchor": "details",
+                        "guide": "front-awesome/web-awesome/components/layout",
+                        "guideFragment": "",
+                        "demoOwner": "Details"
                     }
                 },
                 {
@@ -366,7 +504,12 @@
                     "reference": "https://webawesome.com/docs/components/dialog/",
                     "help": "Present content in a modal window.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Dialog",
+                        "anchor": "dialog",
+                        "guide": "front-awesome/web-awesome/components/layout",
+                        "guideFragment": "",
+                        "demoOwner": "Dialog"
                     }
                 },
                 {
@@ -376,7 +519,12 @@
                     "reference": "https://webawesome.com/docs/components/divider/",
                     "help": "Separate adjacent content.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Divider",
+                        "anchor": "divider",
+                        "guide": "front-awesome/web-awesome/components/layout",
+                        "guideFragment": "",
+                        "demoOwner": "Divider"
                     }
                 },
                 {
@@ -386,7 +534,12 @@
                     "reference": "https://webawesome.com/docs/components/drawer/",
                     "help": "Reveal a panel beside the page.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Drawer",
+                        "anchor": "drawer",
+                        "guide": "front-awesome/web-awesome/components/layout",
+                        "guideFragment": "",
+                        "demoOwner": "Drawer"
                     }
                 },
                 {
@@ -399,8 +552,9 @@
                         "state": "implemented",
                         "export": "Page",
                         "anchor": "page",
-                        "guide": "front-awesome/page",
-                        "guideFragment": "#render-the-page-and-one-navigation-tree"
+                        "guide": "front-awesome/web-awesome/components/layout",
+                        "guideFragment": "#page",
+                        "demoOwner": "Page"
                     }
                 },
                 {
@@ -410,7 +564,12 @@
                     "reference": "https://webawesome.com/docs/components/scroller/",
                     "help": "Navigate content within a scrollable region.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Scroller",
+                        "anchor": "scroller",
+                        "guide": "front-awesome/web-awesome/components/layout",
+                        "guideFragment": "",
+                        "demoOwner": "Scroller"
                     }
                 },
                 {
@@ -420,7 +579,12 @@
                     "reference": "https://webawesome.com/docs/components/split-panel/",
                     "help": "Resize two adjacent content panels.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "SplitPanel",
+                        "anchor": "split-panel",
+                        "guide": "front-awesome/web-awesome/components/layout",
+                        "guideFragment": "",
+                        "demoOwner": "SplitPanel"
                     }
                 }
             ]
@@ -437,7 +601,12 @@
                     "reference": "https://webawesome.com/docs/components/breadcrumb/",
                     "help": "Show the path to the current location.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Breadcrumb",
+                        "anchor": "breadcrumb",
+                        "guide": "front-awesome/web-awesome/components/navigation",
+                        "guideFragment": "",
+                        "demoOwner": "Breadcrumb"
                     }
                 },
                 {
@@ -447,7 +616,12 @@
                     "reference": "https://webawesome.com/docs/components/breadcrumb-item/",
                     "help": "Define one destination in a breadcrumb.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "BreadcrumbItem",
+                        "anchor": "breadcrumb-item",
+                        "guide": "front-awesome/web-awesome/components/navigation",
+                        "guideFragment": "",
+                        "demoOwner": "Breadcrumb"
                     }
                 },
                 {
@@ -457,7 +631,12 @@
                     "reference": "https://webawesome.com/docs/components/pagination/",
                     "help": "Move between pages of results.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Pagination",
+                        "anchor": "pagination",
+                        "guide": "front-awesome/web-awesome/components/navigation",
+                        "guideFragment": "",
+                        "demoOwner": "Pagination"
                     }
                 },
                 {
@@ -467,7 +646,12 @@
                     "reference": "https://webawesome.com/docs/components/stepper/",
                     "help": "Show progress through a sequence.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Stepper",
+                        "anchor": "stepper",
+                        "guide": "front-awesome/web-awesome/components/navigation",
+                        "guideFragment": "",
+                        "demoOwner": "Stepper"
                     }
                 },
                 {
@@ -477,7 +661,12 @@
                     "reference": "https://webawesome.com/docs/components/step/",
                     "help": "Define one item in a stepper.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Step",
+                        "anchor": "step",
+                        "guide": "front-awesome/web-awesome/components/navigation",
+                        "guideFragment": "",
+                        "demoOwner": "Stepper"
                     }
                 },
                 {
@@ -487,7 +676,12 @@
                     "reference": "https://webawesome.com/docs/components/tab-group/",
                     "help": "Switch between related content panels.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "TabGroup",
+                        "anchor": "tab-group",
+                        "guide": "front-awesome/web-awesome/components/navigation",
+                        "guideFragment": "",
+                        "demoOwner": "TabGroup"
                     }
                 },
                 {
@@ -497,7 +691,12 @@
                     "reference": "https://webawesome.com/docs/components/tab/",
                     "help": "Label a panel in a tab group.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Tab",
+                        "anchor": "tab",
+                        "guide": "front-awesome/web-awesome/components/navigation",
+                        "guideFragment": "",
+                        "demoOwner": "TabGroup"
                     }
                 },
                 {
@@ -507,7 +706,12 @@
                     "reference": "https://webawesome.com/docs/components/tab-panel/",
                     "help": "Provide the content for a tab.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "TabPanel",
+                        "anchor": "tab-panel",
+                        "guide": "front-awesome/web-awesome/components/navigation",
+                        "guideFragment": "",
+                        "demoOwner": "TabGroup"
                     }
                 },
                 {
@@ -517,7 +721,12 @@
                     "reference": "https://webawesome.com/docs/components/tree/",
                     "help": "Navigate a hierarchy of items.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Tree",
+                        "anchor": "tree",
+                        "guide": "front-awesome/web-awesome/components/navigation",
+                        "guideFragment": "",
+                        "demoOwner": "Tree"
                     }
                 },
                 {
@@ -527,7 +736,12 @@
                     "reference": "https://webawesome.com/docs/components/tree-item/",
                     "help": "Define one node in a tree.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "TreeItem",
+                        "anchor": "tree-item",
+                        "guide": "front-awesome/web-awesome/components/navigation",
+                        "guideFragment": "",
+                        "demoOwner": "Tree"
                     }
                 }
             ]
@@ -544,7 +758,12 @@
                     "reference": "https://webawesome.com/docs/components/badge/",
                     "help": "Display a compact status or count.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Badge",
+                        "anchor": "badge",
+                        "guide": "front-awesome/web-awesome/components/feedback",
+                        "guideFragment": "",
+                        "demoOwner": "Badge"
                     }
                 },
                 {
@@ -554,7 +773,12 @@
                     "reference": "https://webawesome.com/docs/components/callout/",
                     "help": "Draw attention to contextual information.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Callout",
+                        "anchor": "callout",
+                        "guide": "front-awesome/web-awesome/components/feedback",
+                        "guideFragment": "",
+                        "demoOwner": "Callout"
                     }
                 },
                 {
@@ -564,7 +788,12 @@
                     "reference": "https://webawesome.com/docs/components/progress-bar/",
                     "help": "Display progress along a horizontal track.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "ProgressBar",
+                        "anchor": "progress-bar",
+                        "guide": "front-awesome/web-awesome/components/feedback",
+                        "guideFragment": "",
+                        "demoOwner": "ProgressBar"
                     }
                 },
                 {
@@ -574,7 +803,12 @@
                     "reference": "https://webawesome.com/docs/components/progress-ring/",
                     "help": "Display progress around a circular track.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "ProgressRing",
+                        "anchor": "progress-ring",
+                        "guide": "front-awesome/web-awesome/components/feedback",
+                        "guideFragment": "",
+                        "demoOwner": "ProgressRing"
                     }
                 },
                 {
@@ -584,7 +818,12 @@
                     "reference": "https://webawesome.com/docs/components/skeleton/",
                     "help": "Reserve space while content loads.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Skeleton",
+                        "anchor": "skeleton",
+                        "guide": "front-awesome/web-awesome/components/feedback",
+                        "guideFragment": "",
+                        "demoOwner": "Skeleton"
                     }
                 },
                 {
@@ -594,7 +833,12 @@
                     "reference": "https://webawesome.com/docs/components/spinner/",
                     "help": "Indicate ongoing work.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Spinner",
+                        "anchor": "spinner",
+                        "guide": "front-awesome/web-awesome/components/feedback",
+                        "guideFragment": "",
+                        "demoOwner": "Spinner"
                     }
                 },
                 {
@@ -608,7 +852,8 @@
                         "export": "Tag",
                         "anchor": "tag",
                         "guide": "front-awesome/web-awesome/components/feedback",
-                        "guideFragment": "#tag"
+                        "guideFragment": "#tag",
+                        "demoOwner": "Tag"
                     }
                 },
                 {
@@ -618,7 +863,12 @@
                     "reference": "https://webawesome.com/docs/components/toast/",
                     "help": "Manage brief notifications.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Toast",
+                        "anchor": "toast",
+                        "guide": "front-awesome/web-awesome/components/feedback",
+                        "guideFragment": "",
+                        "demoOwner": "Toast"
                     }
                 },
                 {
@@ -628,7 +878,12 @@
                     "reference": "https://webawesome.com/docs/components/toast-item/",
                     "help": "Display one toast notification.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "ToastItem",
+                        "anchor": "toast-item",
+                        "guide": "front-awesome/web-awesome/components/feedback",
+                        "guideFragment": "",
+                        "demoOwner": "ToastItem"
                     }
                 },
                 {
@@ -642,7 +897,8 @@
                         "export": "Tooltip",
                         "anchor": "tooltip",
                         "guide": "front-awesome/web-awesome/components/feedback",
-                        "guideFragment": "#tooltip"
+                        "guideFragment": "#tooltip",
+                        "demoOwner": "Tooltip"
                     }
                 }
             ]
@@ -659,7 +915,12 @@
                     "reference": "https://webawesome.com/docs/components/animated-image/",
                     "help": "Control playback of an animated image.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "AnimatedImage",
+                        "anchor": "animated-image",
+                        "guide": "front-awesome/web-awesome/components/media",
+                        "guideFragment": "",
+                        "demoOwner": "AnimatedImage"
                     }
                 },
                 {
@@ -669,7 +930,12 @@
                     "reference": "https://webawesome.com/docs/components/avatar/",
                     "help": "Represent a person or entity.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Avatar",
+                        "anchor": "avatar",
+                        "guide": "front-awesome/web-awesome/components/media",
+                        "guideFragment": "",
+                        "demoOwner": "Avatar"
                     }
                 },
                 {
@@ -679,7 +945,12 @@
                     "reference": "https://webawesome.com/docs/components/carousel/",
                     "help": "Browse a sequence of slides.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Carousel",
+                        "anchor": "carousel",
+                        "guide": "front-awesome/web-awesome/components/media",
+                        "guideFragment": "",
+                        "demoOwner": "Carousel"
                     }
                 },
                 {
@@ -689,7 +960,12 @@
                     "reference": "https://webawesome.com/docs/components/carousel-item/",
                     "help": "Define one slide in a carousel.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "CarouselItem",
+                        "anchor": "carousel-item",
+                        "guide": "front-awesome/web-awesome/components/media",
+                        "guideFragment": "",
+                        "demoOwner": "Carousel"
                     }
                 },
                 {
@@ -711,7 +987,12 @@
                     "reference": "https://webawesome.com/docs/components/comparison/",
                     "help": "Compare two overlaid images.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Comparison",
+                        "anchor": "comparison",
+                        "guide": "front-awesome/web-awesome/components/media",
+                        "guideFragment": "",
+                        "demoOwner": "Comparison"
                     }
                 },
                 {
@@ -724,8 +1005,9 @@
                         "state": "implemented",
                         "export": "Icon",
                         "anchor": "icon",
-                        "guide": "front-awesome/icon",
-                        "guideFragment": ""
+                        "guide": "front-awesome/web-awesome/components/media",
+                        "guideFragment": "#icon",
+                        "demoOwner": "Icon"
                     }
                 },
                 {
@@ -735,7 +1017,12 @@
                     "reference": "https://webawesome.com/docs/components/markdown/",
                     "help": "Render Markdown content.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Markdown",
+                        "anchor": "markdown",
+                        "guide": "front-awesome/web-awesome/components/media",
+                        "guideFragment": "",
+                        "demoOwner": "Markdown"
                     }
                 },
                 {
@@ -745,7 +1032,12 @@
                     "reference": "https://webawesome.com/docs/components/qr-code/",
                     "help": "Encode a value as a QR code.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "QrCode",
+                        "anchor": "qr-code",
+                        "guide": "front-awesome/web-awesome/components/media",
+                        "guideFragment": "",
+                        "demoOwner": "QrCode"
                     }
                 },
                 {
@@ -755,7 +1047,12 @@
                     "reference": "https://webawesome.com/docs/components/video/",
                     "help": "Play video with media controls.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Video",
+                        "anchor": "video",
+                        "guide": "front-awesome/web-awesome/components/media",
+                        "guideFragment": "",
+                        "demoOwner": "Video"
                     }
                 },
                 {
@@ -765,7 +1062,12 @@
                     "reference": "https://webawesome.com/docs/components/video-playlist/",
                     "help": "Organize multiple videos for playback.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "VideoPlaylist",
+                        "anchor": "video-playlist",
+                        "guide": "front-awesome/web-awesome/components/media",
+                        "guideFragment": "",
+                        "demoOwner": "VideoPlaylist"
                     }
                 },
                 {
@@ -775,7 +1077,12 @@
                     "reference": "https://webawesome.com/docs/components/zoomable-frame/",
                     "help": "Inspect content in a zoomable region.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "ZoomableFrame",
+                        "anchor": "zoomable-frame",
+                        "guide": "front-awesome/web-awesome/components/media",
+                        "guideFragment": "",
+                        "demoOwner": "ZoomableFrame"
                     }
                 }
             ]
@@ -792,7 +1099,12 @@
                     "reference": "https://webawesome.com/docs/components/bar-chart/",
                     "help": "Compare values with bars.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "BarChart",
+                        "anchor": "bar-chart",
+                        "guide": "front-awesome/web-awesome/components/data-viz",
+                        "guideFragment": "",
+                        "demoOwner": "BarChart"
                     }
                 },
                 {
@@ -802,7 +1114,12 @@
                     "reference": "https://webawesome.com/docs/components/bubble-chart/",
                     "help": "Compare points with a size dimension.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "BubbleChart",
+                        "anchor": "bubble-chart",
+                        "guide": "front-awesome/web-awesome/components/data-viz",
+                        "guideFragment": "",
+                        "demoOwner": "BubbleChart"
                     }
                 },
                 {
@@ -812,7 +1129,12 @@
                     "reference": "https://webawesome.com/docs/components/data-grid/",
                     "help": "Present data in a structured grid.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "DataGrid",
+                        "anchor": "data-grid",
+                        "guide": "front-awesome/web-awesome/components/data-viz",
+                        "guideFragment": "",
+                        "demoOwner": "DataGrid"
                     }
                 },
                 {
@@ -822,7 +1144,12 @@
                     "reference": "https://webawesome.com/docs/components/doughnut-chart/",
                     "help": "Compare proportions around a ring.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "DoughnutChart",
+                        "anchor": "doughnut-chart",
+                        "guide": "front-awesome/web-awesome/components/data-viz",
+                        "guideFragment": "",
+                        "demoOwner": "DoughnutChart"
                     }
                 },
                 {
@@ -832,7 +1159,12 @@
                     "reference": "https://webawesome.com/docs/components/line-chart/",
                     "help": "Show a series across an ordered axis.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "LineChart",
+                        "anchor": "line-chart",
+                        "guide": "front-awesome/web-awesome/components/data-viz",
+                        "guideFragment": "",
+                        "demoOwner": "LineChart"
                     }
                 },
                 {
@@ -842,7 +1174,12 @@
                     "reference": "https://webawesome.com/docs/components/pie-chart/",
                     "help": "Compare proportions of a whole.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "PieChart",
+                        "anchor": "pie-chart",
+                        "guide": "front-awesome/web-awesome/components/data-viz",
+                        "guideFragment": "",
+                        "demoOwner": "PieChart"
                     }
                 },
                 {
@@ -852,7 +1189,12 @@
                     "reference": "https://webawesome.com/docs/components/polar-area-chart/",
                     "help": "Compare values on a radial scale.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "PolarAreaChart",
+                        "anchor": "polar-area-chart",
+                        "guide": "front-awesome/web-awesome/components/data-viz",
+                        "guideFragment": "",
+                        "demoOwner": "PolarAreaChart"
                     }
                 },
                 {
@@ -862,7 +1204,12 @@
                     "reference": "https://webawesome.com/docs/components/radar-chart/",
                     "help": "Compare values across several dimensions.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "RadarChart",
+                        "anchor": "radar-chart",
+                        "guide": "front-awesome/web-awesome/components/data-viz",
+                        "guideFragment": "",
+                        "demoOwner": "RadarChart"
                     }
                 },
                 {
@@ -872,7 +1219,12 @@
                     "reference": "https://webawesome.com/docs/components/scatter-chart/",
                     "help": "Show relationships between numeric values.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "ScatterChart",
+                        "anchor": "scatter-chart",
+                        "guide": "front-awesome/web-awesome/components/data-viz",
+                        "guideFragment": "",
+                        "demoOwner": "ScatterChart"
                     }
                 },
                 {
@@ -882,7 +1234,12 @@
                     "reference": "https://webawesome.com/docs/components/sparkline/",
                     "help": "Show a compact trend alongside content.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Sparkline",
+                        "anchor": "sparkline",
+                        "guide": "front-awesome/web-awesome/components/data-viz",
+                        "guideFragment": "",
+                        "demoOwner": "Sparkline"
                     }
                 },
                 {
@@ -892,7 +1249,12 @@
                     "reference": "https://webawesome.com/docs/components/chart/",
                     "help": "Configure chart types, datasets, and plugins.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Chart",
+                        "anchor": "chart",
+                        "guide": "front-awesome/web-awesome/components/data-viz",
+                        "guideFragment": "",
+                        "demoOwner": "Chart"
                     },
                     "since": "3.3"
                 }
@@ -910,7 +1272,12 @@
                     "reference": "https://webawesome.com/docs/components/animation/",
                     "help": "Apply an animation to an element.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Animation",
+                        "anchor": "animation",
+                        "guide": "front-awesome/web-awesome/components/helpers",
+                        "guideFragment": "",
+                        "demoOwner": "Animation"
                     }
                 },
                 {
@@ -920,7 +1287,12 @@
                     "reference": "https://webawesome.com/docs/components/format-bytes/",
                     "help": "Format a byte count for display.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "FormatBytes",
+                        "anchor": "format-bytes",
+                        "guide": "front-awesome/web-awesome/components/helpers",
+                        "guideFragment": "",
+                        "demoOwner": "FormatBytes"
                     }
                 },
                 {
@@ -930,7 +1302,12 @@
                     "reference": "https://webawesome.com/docs/components/format-date/",
                     "help": "Format a date for a locale.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "FormatDate",
+                        "anchor": "format-date",
+                        "guide": "front-awesome/web-awesome/components/helpers",
+                        "guideFragment": "",
+                        "demoOwner": "FormatDate"
                     }
                 },
                 {
@@ -940,7 +1317,12 @@
                     "reference": "https://webawesome.com/docs/components/format-number/",
                     "help": "Format a numeric value for a locale.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "FormatNumber",
+                        "anchor": "format-number",
+                        "guide": "front-awesome/web-awesome/components/helpers",
+                        "guideFragment": "",
+                        "demoOwner": "FormatNumber"
                     }
                 },
                 {
@@ -950,7 +1332,12 @@
                     "reference": "https://webawesome.com/docs/components/include/",
                     "help": "Load external HTML into a region.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Include",
+                        "anchor": "include",
+                        "guide": "front-awesome/web-awesome/components/helpers",
+                        "guideFragment": "",
+                        "demoOwner": "Include"
                     }
                 },
                 {
@@ -960,7 +1347,12 @@
                     "reference": "https://webawesome.com/docs/components/intersection-observer/",
                     "help": "Observe when an element enters a region.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "IntersectionObserver",
+                        "anchor": "intersection-observer",
+                        "guide": "front-awesome/web-awesome/components/helpers",
+                        "guideFragment": "",
+                        "demoOwner": "IntersectionObserver"
                     }
                 },
                 {
@@ -970,7 +1362,12 @@
                     "reference": "https://webawesome.com/docs/components/mutation-observer/",
                     "help": "Observe changes to an element.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "MutationObserver",
+                        "anchor": "mutation-observer",
+                        "guide": "front-awesome/web-awesome/components/helpers",
+                        "guideFragment": "",
+                        "demoOwner": "MutationObserver"
                     }
                 },
                 {
@@ -984,7 +1381,8 @@
                         "export": "Popover",
                         "anchor": "popover",
                         "guide": "front-awesome/web-awesome/components/helpers",
-                        "guideFragment": "#popover"
+                        "guideFragment": "#popover",
+                        "demoOwner": "Popover"
                     }
                 },
                 {
@@ -994,7 +1392,12 @@
                     "reference": "https://webawesome.com/docs/components/popup/",
                     "help": "Position floating content near an anchor.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "Popup",
+                        "anchor": "popup",
+                        "guide": "front-awesome/web-awesome/components/helpers",
+                        "guideFragment": "",
+                        "demoOwner": "Popup"
                     }
                 },
                 {
@@ -1004,7 +1407,12 @@
                     "reference": "https://webawesome.com/docs/components/random-content/",
                     "help": "Generate placeholder content.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "RandomContent",
+                        "anchor": "random-content",
+                        "guide": "front-awesome/web-awesome/components/helpers",
+                        "guideFragment": "",
+                        "demoOwner": "RandomContent"
                     }
                 },
                 {
@@ -1014,7 +1422,12 @@
                     "reference": "https://webawesome.com/docs/components/relative-time/",
                     "help": "Display a date relative to the current time.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "RelativeTime",
+                        "anchor": "relative-time",
+                        "guide": "front-awesome/web-awesome/components/helpers",
+                        "guideFragment": "",
+                        "demoOwner": "RelativeTime"
                     }
                 },
                 {
@@ -1024,7 +1437,12 @@
                     "reference": "https://webawesome.com/docs/components/resize-observer/",
                     "help": "Observe changes to an element's size.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "ResizeObserver",
+                        "anchor": "resize-observer",
+                        "guide": "front-awesome/web-awesome/components/helpers",
+                        "guideFragment": "",
+                        "demoOwner": "ResizeObserver"
                     }
                 }
             ]

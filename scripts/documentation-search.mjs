@@ -317,6 +317,26 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
                         ? resolve(sourceRoot, imported.slice(2))
                         : resolve(dirname(component.file), imported)
                     : null;
+                if (importedFile === resolve(sourceRoot, 'components/demo/DemoFrame.vue')) {
+                    assertStatic(node, component);
+                    const sources = attribute(node, 'sources', scope, component, []);
+                    if (!Array.isArray(sources))
+                        fail(component.file, node, 'DemoFrame sources must be a static array.');
+                    for (const source of sources) {
+                        if (
+                            !source ||
+                            typeof source.label !== 'string' ||
+                            typeof source.code !== 'string'
+                        )
+                            fail(
+                                component.file,
+                                node,
+                                'DemoFrame sources need static labels and code.',
+                            );
+                        append([source.label, source.code]);
+                    }
+                    continue;
+                }
                 if (ignoredComponents.has(name) || imported?.includes('/components/demo/'))
                     continue;
                 assertStatic(node, component);
@@ -371,6 +391,21 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
                                     `Invalid planned wrapper state for ${item.name}.`,
                                 );
                             }
+                            const owner = implemented
+                                ? group.components.find(
+                                      (entry) =>
+                                          entry.implementation.export ===
+                                          item.implementation.demoOwner,
+                                  )
+                                : null;
+                            if (
+                                implemented &&
+                                (!owner ||
+                                    owner.implementation.state !== 'implemented' ||
+                                    owner.implementation.demoOwner !== owner.implementation.export)
+                            ) {
+                                fail(component.file, node, `Invalid demo owner for ${item.name}.`);
+                            }
                             append([
                                 item.name,
                                 catalog().statuses[item.implementation.state].label,
@@ -393,6 +428,9 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
                                     ? 'Full guide'
                                     : null,
                                 'Web Awesome reference',
+                                owner && owner !== item
+                                    ? `Used with ${owner.name}. Their shared example includes this public wrapper. Example with ${owner.name}`
+                                    : null,
                             ]);
                         }
                     }

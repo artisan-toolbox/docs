@@ -125,7 +125,13 @@ watch(open, (isOpen) => {
 });
 
 function openFromShortcut(event) {
-    const target = event.target;
+    const editing = event
+        .composedPath()
+        .some((target) =>
+            target?.closest?.(
+                'input, textarea, select, wa-input, wa-textarea, wa-select, wa-number-input, wa-otp-input, wa-date-input, wa-time-input, wa-tag-input, wa-file-input, [contenteditable]:not([contenteditable="false"])',
+            ),
+        );
 
     if (
         event.defaultPrevented ||
@@ -134,9 +140,7 @@ function openFromShortcut(event) {
         event.altKey ||
         event.shiftKey ||
         event.key.toLowerCase() !== 'k' ||
-        target?.closest?.(
-            'input, textarea, select, [contenteditable]:not([contenteditable="false"])',
-        )
+        editing
     ) {
         return;
     }

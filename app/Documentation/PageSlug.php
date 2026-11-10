@@ -13,7 +13,6 @@ use App\Documentation\Pages\DumpToConsolePage;
 use App\Documentation\Pages\DumpToConsoleUsagePage;
 use App\Documentation\Pages\FrontAwesomeActionsPage;
 use App\Documentation\Pages\FrontAwesomeBrandingPage;
-use App\Documentation\Pages\FrontAwesomeButtonPage;
 use App\Documentation\Pages\FrontAwesomeComponentsPage;
 use App\Documentation\Pages\FrontAwesomeConfigurationPage;
 use App\Documentation\Pages\FrontAwesomeDataVizPage;
@@ -21,14 +20,11 @@ use App\Documentation\Pages\FrontAwesomeDevelopmentPage;
 use App\Documentation\Pages\FrontAwesomeFeedbackPage;
 use App\Documentation\Pages\FrontAwesomeFormsPage;
 use App\Documentation\Pages\FrontAwesomeHelpersPage;
-use App\Documentation\Pages\FrontAwesomeIconPage;
-use App\Documentation\Pages\FrontAwesomeInputPage;
 use App\Documentation\Pages\FrontAwesomeInstallationPage;
 use App\Documentation\Pages\FrontAwesomeLayoutPage;
 use App\Documentation\Pages\FrontAwesomeMediaPage;
 use App\Documentation\Pages\FrontAwesomeNavigationPage;
 use App\Documentation\Pages\FrontAwesomePage;
-use App\Documentation\Pages\FrontAwesomePageLayoutPage;
 use App\Documentation\Pages\FrontAwesomePrimevuePage;
 use App\Documentation\Pages\FrontAwesomeSetupPage;
 use App\Documentation\Pages\FrontAwesomeSharedThemePage;
@@ -131,17 +127,13 @@ enum PageSlug: string
     case FrontAwesomeWebAwesome = 'front-awesome/web-awesome';
     case FrontAwesomeComponents = 'front-awesome/web-awesome/components';
     case FrontAwesomeActions = 'front-awesome/web-awesome/components/actions';
-    case FrontAwesomeButton = 'front-awesome/button';
     case FrontAwesomeForms = 'front-awesome/web-awesome/components/forms';
-    case FrontAwesomeInput = 'front-awesome/input';
     case FrontAwesomeLayout = 'front-awesome/web-awesome/components/layout';
     case FrontAwesomeNavigation = 'front-awesome/web-awesome/components/navigation';
     case FrontAwesomeFeedback = 'front-awesome/web-awesome/components/feedback';
     case FrontAwesomeMedia = 'front-awesome/web-awesome/components/media';
-    case FrontAwesomeIcon = 'front-awesome/icon';
     case FrontAwesomeDataViz = 'front-awesome/web-awesome/components/data-viz';
     case FrontAwesomeHelpers = 'front-awesome/web-awesome/components/helpers';
-    case FrontAwesomePageLayout = 'front-awesome/page';
     case FrontAwesomeSetup = 'front-awesome/setup';
     case FrontAwesomeVuePlugin = 'front-awesome/vue-plugin';
     case FrontAwesomeConfiguration = 'front-awesome/configuration';
@@ -223,14 +215,10 @@ enum PageSlug: string
             self::FrontAwesomeStyling => new FrontAwesomeStylingPage,
             self::FrontAwesomeToasts => new FrontAwesomeToastsPage,
             self::FrontAwesomeBranding => new FrontAwesomeBrandingPage,
-            self::FrontAwesomeButton => new FrontAwesomeButtonPage,
-            self::FrontAwesomeInput => new FrontAwesomeInputPage,
-            self::FrontAwesomeIcon => new FrontAwesomeIconPage,
             self::FrontAwesomeConfiguration => new FrontAwesomeConfigurationPage,
             self::FrontAwesomeDevelopment => new FrontAwesomeDevelopmentPage,
             self::FrontAwesome => new FrontAwesomePage,
             self::FrontAwesomeInstallation => new FrontAwesomeInstallationPage,
-            self::FrontAwesomePageLayout => new FrontAwesomePageLayoutPage,
             self::FrontAwesomePrimevue => new FrontAwesomePrimevuePage,
             self::FrontAwesomeSharedTheme => new FrontAwesomeSharedThemePage,
             self::FrontAwesomeThemeMaintenance => new FrontAwesomeThemeMaintenancePage,
@@ -260,10 +248,6 @@ enum PageSlug: string
     public function parent(): ?self
     {
         $editorialParent = match ($this) {
-            self::FrontAwesomeButton => self::FrontAwesomeActions,
-            self::FrontAwesomeInput => self::FrontAwesomeForms,
-            self::FrontAwesomeIcon => self::FrontAwesomeMedia,
-            self::FrontAwesomePageLayout => self::FrontAwesomeLayout,
             self::FrontAwesomeVuePlugin, self::FrontAwesomeConfiguration => self::FrontAwesomeSetup,
             self::FrontAwesomeSharedTheme, self::FrontAwesomeBranding,
             self::FrontAwesomePrimevue, self::FrontAwesomeThemeMaintenance => self::FrontAwesomeStyling,

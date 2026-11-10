@@ -21,7 +21,7 @@ export default defineConfig({
         }),
         inertia({ ssr: false }),
         tailwindcss(),
-        frontAwesome({ webAwesome: 'core' }),
+        frontAwesome({ webAwesome: 'pro' }),
         vue({
             template: {
                 transformAssetUrls: {

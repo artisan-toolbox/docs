@@ -123,7 +123,7 @@ describe('Core, Dump to Console, and Mosaicast documentation', () => {
                 expect(
                     wrapper
                         .get('[aria-label="Package details"]')
-                        .findAll('span')
+                        .findAll('wa-tag')
                         .map((value) => value.text()),
                 ).toEqual([
                     packageDetails[fixture.package].title,

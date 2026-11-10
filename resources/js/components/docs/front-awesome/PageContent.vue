@@ -65,7 +65,7 @@ import { Page } from '@artisan-toolbox/front-awesome/components';
 </script>
 
 <template>
-    <ProseSection>
+    <ProseSection data-component-reference="page">
         <p>
             Start in the Laravel, Inertia, and Vue application from
             <DocsLink :href="findNavigationItem(navigation, 'front-awesome/installation').href"
@@ -87,11 +87,11 @@ import { Page } from '@artisan-toolbox/front-awesome/components';
                 Composer.
             </p>
         </DocsCallout>
-        <h2
+        <h3
             id="render-the-page-and-one-navigation-tree"
             class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Render the page and one navigation tree
-        </h2>
+        </h3>
         <CodeExample
             label="Render the page and one navigation tree example 1"
             language="vue"
@@ -141,11 +141,11 @@ import { Page } from '@artisan-toolbox/front-awesome/components';
             >
             consistent across the page.
         </p>
-        <h2
+        <h3
             id="preserve-the-upstream-prerequisites"
             class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Preserve the upstream prerequisites
-        </h2>
+        </h3>
         <p>
             The imported default theme keeps the <code>html</code> and
             <code>body</code> minimum-height and zero-gutter rules for documents containing
@@ -164,11 +164,11 @@ import { Page } from '@artisan-toolbox/front-awesome/components';
             >. Importing only component JavaScript does not install those document rules. Do not add
             <code>native.css</code> to obtain them.
         </p>
-        <h2
+        <h3
             id="keep-slot-padding-and-utility-overrides"
             class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Keep slot padding and utility overrides
-        </h2>
+        </h3>
         <p>
             Tailwind Preflight resets padding on the light-DOM elements assigned to page slots. The
             adapter uses a narrow base-layer
@@ -186,11 +186,11 @@ import { Page } from '@artisan-toolbox/front-awesome/components';
             copy upstream padding dimensions into application CSS, or remove Preflight to fix this
             interaction.
         </p>
-        <h2
+        <h3
             id="configure-the-mobile-threshold"
             class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Configure the mobile threshold
-        </h2>
+        </h3>
         <p>
             All Page options are optional. A page can omit
             <code>nav-open</code>, <code>mobile-breakpoint</code>,
@@ -245,11 +245,11 @@ import { Page } from '@artisan-toolbox/front-awesome/components';
             <code>wa-page</code> element after
             <code>customElements.whenDefined('wa-page')</code> resolves.
         </p>
-        <h2
+        <h3
             id="check-the-complete-layout"
             class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Check the complete layout
-        </h2>
+        </h3>
         <p>
             Verify the header and other sticky regions while scrolling. Follow a fragment link and
             check that the target stays visible below the header. Use the keyboard to open and close

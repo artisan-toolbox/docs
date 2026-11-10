@@ -1,5 +1,31 @@
 # Changelog
 
+## Unreleased
+
+- Run the existing interactive documentation browser chain in CI against an isolated Laravel server with file sessions, after the production build and search checks. Keep the distribution lock prerequisite and all Maintainer checks.
+
+- Clear stale clipboard feedback and ignore obsolete copy completions when a code example changes, while preserving copy focus. Preserve CRLF line endings in synchronized live demo source.
+- Document rejection of sparse form-value arrays while preserving valid empty collections.
+
+- Consolidate compound Web Awesome examples under their owner controls while retaining catalog discovery and historical anchors. Move Input and shared form binding guidance into Forms, with redirects from the former guide.
+- Demonstrate two-way models, Inertia values and server errors, manual danger validation, collections and calendars through runnable examples with exact source. Expand Icon source, transformation and failure/recovery demos, and document supported named component models.
+
+- Consolidate Button, Button Group, Page and Icon references in their category sections, preserving integration content, historical anchors and permanent legacy redirects.
+- Use public Page as the base of documentation, home and sign-in layouts. Keep the existing reading/navigation contracts, native skip navigation and consistently sized header controls.
+- Preserve direct and Inertia fragment destinations after native element initialization while retaining history scroll restoration.
+- Tighten component status spacing, distinguish Page demo regions, fix programmatic Tooltip dismissal and restore Skeleton indicators. Add reader-controlled pulse/sheen effects and real browser regressions.
+
+- Keep programmatically opened Popover demos visible by stopping the opening click before native outside-click dismissal. Synchronize the displayed source with all 90 live catalog demos, including the original wrappers.
+
+- Consume public Front Awesome controls for editorial callouts, code copying, appearance selection, package identity labels, official icons, sign-in forms and interactive demo actions. Preserve existing domain ownership, routing, theme cookies and native controls where integration constraints require them.
+- Fix sign-in step focus after processing completes. Add a compiler-based application usage inventory and desktop/mobile, light/dark browser checks for real clipboard behavior, theme persistence, Core controls, source presentation and isolated sign-in workflows.
+
+- Place all catalog demos in one discreet responsive frame with measured width, presets, pointer/keyboard resizing, and deferred source highlighting. Preserve natural control geometry and fix Rating pointer selection/output. Add real local browser verification for every frame.
+
+- Add working Vue examples and source snippets for all 90 Web Awesome 3.14 Core and Pro wrappers, with preview and licensing requirements, shared catalog destinations, and local reader-controlled media fixtures.
+- Document the shared Tailwind host reset policy and wrapper verification requirements, including native comparisons without Preflight and interactive states.
+- Install the licensed Pro runtime for reproducible documentation examples while keeping credentials in the configured environment.
+
 ## [1.0.0-beta.2] - 2026-11-07
 
 ### Features

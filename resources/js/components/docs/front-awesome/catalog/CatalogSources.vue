@@ -13,8 +13,8 @@ import ProseSection from '@/components/docs/ProseSection.vue';
             upstream 3.15 experimental element, outside the 3.14.0 baseline.
         </p>
         <p>
-            The catalog tracks planned Vue wrapper coverage. Core and Pro describe upstream access,
-            separately from implementation status.
+            The catalog tracks implemented Core and Pro wrappers and planned upstream additions.
+            Core and Pro describe upstream access, separately from implementation status.
         </p>
     </ProseSection>
 </template>

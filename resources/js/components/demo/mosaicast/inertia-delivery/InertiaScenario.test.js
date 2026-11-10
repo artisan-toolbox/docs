@@ -67,8 +67,17 @@ describe('interactive Inertia delivery scenario', () => {
         const wrapper = mountScenario();
         expect(boundary.post).not.toHaveBeenCalled();
         expect(wrapper.text()).toContain('No request has started.');
-        await wrapper.get('input').setValue('The same message.');
+        const message = wrapper.get('wa-input');
+        expect(message.attributes()).toMatchObject({
+            label: 'Message for both paths',
+            required: '',
+            maxlength: '120',
+        });
+        expect(message.attributes('hint')).toContain('same message');
+        message.element.value = 'The same message.';
+        await message.trigger('input');
         await wrapper.findAllComponents(DemoAction)[0].trigger('click');
+        expect(wrapper.get('wa-input').attributes('disabled')).toBeDefined();
         const [url, input, options] = boundary.post.mock.calls[0];
         expect(url).toBe('/demo/mosaicast/delivery');
         expect(input).toMatchObject({
@@ -85,6 +94,8 @@ describe('interactive Inertia delivery scenario', () => {
         expect(wrapper.get('[role="status"]').text()).toContain(
             'Mosaicast listeners received 1 of 1',
         );
+        expect(wrapper.get('wa-input').attributes('disabled')).toBeUndefined();
+        expect(wrapper.get('wa-input').element.value).toBe('The same message.');
         expect(wrapper.text()).toContain('Source: inertia');
         expect(wrapper.text()).toContain('The same message.');
     });

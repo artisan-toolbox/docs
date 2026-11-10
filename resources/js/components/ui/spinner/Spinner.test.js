@@ -1,7 +1,7 @@
 import { flushPromises, mount } from '@vue/test-utils';
 import { afterAll, beforeAll, expect, it } from 'vite-plus/test';
-import '@awesome.me/webawesome/dist/components/icon/icon.js';
-import { getIconLibrary, registerIconLibrary } from '@awesome.me/webawesome/dist/components/icon/library.js';
+import '@web.awesome.me/webawesome-pro/dist/components/icon/icon.js';
+import { getIconLibrary, registerIconLibrary } from '@web.awesome.me/webawesome-pro/dist/components/icon/library.js';
 import Spinner from './Spinner.vue';
 
 const defaultLibrary = getIconLibrary('default');

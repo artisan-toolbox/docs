@@ -85,10 +85,12 @@ describe('Maintainer deployment and contributor guides', () => {
             ).toEqual(document.examples.map(({ language }) => `language-${language}`));
             expect(
                 wrapper
-                    .findAll('button')
+                    .findAll('wa-button[aria-label^="Copy "]')
                     .every((button) => button.attributes('aria-label').startsWith('Copy ')),
             ).toBe(true);
-            expect(wrapper.findAll('button')).toHaveLength(document.examples.length);
+            expect(wrapper.findAll('wa-button[aria-label^="Copy "]')).toHaveLength(
+                document.examples.length,
+            );
             const text = normalize(wrapper.text());
             for (const paragraph of document.paragraphs)
                 expect(text).toContain(normalize(paragraph));

@@ -152,6 +152,33 @@ defineProps({ requirements: Array });
         expect(setup.extract()[0].body).toBe('Learn the package. Authored explanation.');
     });
 
+    it('indexes static DemoFrame source labels and code without visiting its live slot', () => {
+        const setup = fixture({
+            'pages/docs/Fixture.vue': `<script setup>
+import Preview from '@/components/demo/DemoFrame.vue';
+const code = 'import { Rating } from "@artisan-toolbox/front-awesome/components/WebAwesome";';
+</script><template><h2 id="rating">Rating</h2><Preview title="Runtime preview title" :sources="[{label: 'Rating source', language: 'vue', code}]"><output>{{fetch('/private')}}</output><p>Runtime-only value.</p></Preview></template>`,
+        });
+        const result = setup.extract();
+        expect(result[1]).toMatchObject({
+            anchor: 'rating',
+            body: 'Rating source import { Rating } from "@artisan-toolbox/front-awesome/components/WebAwesome";',
+        });
+        expect(JSON.stringify(result)).not.toContain('Runtime');
+        expect(JSON.stringify(result)).not.toContain('/private');
+    });
+
+    it.each([
+        ['[{ label: "Source", code: fetch("/private") }]', 'unsupported CallExpression'],
+        ['{ label: "Source", code: "example" }', 'sources must be a static array'],
+        ['[{ label: "Source", code: 5 }]', 'need static labels and code'],
+    ])('rejects invalid DemoFrame sources %s', (sources, message) => {
+        const setup = fixture({
+            'pages/docs/Fixture.vue': `<script setup>import DemoFrame from '@/components/demo/DemoFrame.vue';</script><template><DemoFrame :sources='${sources}' /></template>`,
+        });
+        expect(() => setup.extract()).toThrow(message);
+    });
+
     it('preserves ordinary template literal escapes in code examples', () => {
         const setup = fixture({
             'pages/docs/Fixture.vue': [

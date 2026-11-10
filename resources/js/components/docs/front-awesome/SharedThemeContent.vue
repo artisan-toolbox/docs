@@ -1,4 +1,5 @@
 <script setup>
+import DemoFrame from '@/components/demo/DemoFrame.vue';
 import SharedBrandingDemo from '@/components/demo/front-awesome/SharedBrandingDemo.vue';
 import CodeExample from '@/components/docs/CodeExample.vue';
 import DocsLink from '@/components/docs/DocsLink.vue';
@@ -30,6 +31,14 @@ import { Button } from "@artisan-toolbox/front-awesome/components";
             with Web Awesome. Front Awesome imports the selected edition's original default theme
             and utilities, then applies its token adapter. Tailwind remains the source of shared
             design values.
+        </p>
+        <p>
+            Check slotted content as well as native component parts. Web Awesome 3.14 containers
+            including Details and Dialog use a local <code>--spacing</code> property, which also
+            names Tailwind's numeric spacing unit. A container value can therefore change padding
+            and gaps in slotted Tailwind content. This adapter preserves both public inputs and does
+            not rename them or reset each container's children. Verify the resulting layout and
+            nested <code>fa-theme</code> scopes before replacing an application container.
         </p>
         <p>
             This guide covers the WIP <code>1.x</code> branch. Check the
@@ -112,11 +121,12 @@ import { Button } from "@artisan-toolbox/front-awesome/components";
             utilities can override those body colors.
         </p>
         <p>
-            The current development preview also restores the native
-            <code>wa-tag</code> padding and border that Tailwind Preflight resets on the
-            custom-element host. Tags retain their upstream spacing and appearance, while
-            application padding and border utilities still take precedence. The Tag wrapper itself
-            adds no styling.
+            The current development preview restores upstream margin, padding, and border rules for
+            every Core and Pro custom-element host affected by Tailwind Preflight. Dropdown items,
+            tags, and other host-rendered controls retain their native dimensions and appearance.
+            Application utilities such as <code>p-0</code>, <code>p-4</code>, and
+            <code>border-0</code> still take precedence. This behavior belongs to the shared theme
+            adapter. The Vue wrappers add no host styling.
         </p>
         <p>
             Keep the split CSS and JavaScript imports. They are part of the public Vite integration
@@ -139,7 +149,6 @@ import { Button } from "@artisan-toolbox/front-awesome/components";
                 >registering the Vue plugin</DocsLink
             >, render a Tailwind element beside a Front Awesome button:
         </p>
-        <CodeExample label="Check the result example 4" language="vue" :code="example4" />
         <p>
             Both elements use the shared brand family and font. Their component shapes and
             interaction details remain library-specific. Follow
@@ -148,7 +157,11 @@ import { Button } from "@artisan-toolbox/front-awesome/components";
             >
             to change shared values.
         </p>
-        <SharedBrandingDemo />
+        <DemoFrame
+            title="Shared branding preview"
+            :sources="[{ label: 'Check the result example 4', language: 'vue', code: example4 }]">
+            <SharedBrandingDemo />
+        </DemoFrame>
         <h2
             id="choose-the-color-mode-owner"
             class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
@@ -198,7 +211,8 @@ import { Button } from "@artisan-toolbox/front-awesome/components";
         </p>
         <p>
             For page layouts, follow
-            <DocsLink :href="findNavigationItem(navigation, 'front-awesome/page').href"
+            <DocsLink
+                :href="`${findNavigationItem(navigation, 'front-awesome/web-awesome/components/layout').href}#page`"
                 >Build a page layout</DocsLink
             >. For PrimeVue 4 styled components, add the
             <DocsLink :href="findNavigationItem(navigation, 'front-awesome/primevue').href"

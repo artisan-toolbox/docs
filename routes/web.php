@@ -21,6 +21,14 @@ Route::get('/docs', [DocumentationController::class, 'show'])->name('docs.index'
 Route::get('/docs/search', DocumentationSearchController::class)
     ->middleware([DocumentationSearchHeaders::class, 'throttle:60,1'])
     ->name('docs.search');
+Route::get('/docs/front-awesome/button', fn (): RedirectResponse => redirect(PageSlug::FrontAwesomeActions->url(absolute: false), 301));
+Route::get('/packages/front-awesome/button', fn (): RedirectResponse => redirect(PageSlug::FrontAwesomeActions->url(absolute: false), 301));
+Route::get('/docs/front-awesome/page', fn (): RedirectResponse => redirect(PageSlug::FrontAwesomeLayout->url(absolute: false), 301));
+Route::get('/packages/front-awesome/page', fn (): RedirectResponse => redirect(PageSlug::FrontAwesomeLayout->url(absolute: false), 301));
+Route::get('/docs/front-awesome/icon', fn (): RedirectResponse => redirect(PageSlug::FrontAwesomeMedia->url(absolute: false), 301));
+Route::get('/packages/front-awesome/icon', fn (): RedirectResponse => redirect(PageSlug::FrontAwesomeMedia->url(absolute: false), 301));
+Route::get('/docs/front-awesome/input', fn (): RedirectResponse => redirect(PageSlug::FrontAwesomeForms->url(absolute: false), 301));
+Route::get('/packages/front-awesome/input', fn (): RedirectResponse => redirect(PageSlug::FrontAwesomeForms->url(absolute: false), 301));
 Route::get('/docs/{slug}', [DocumentationController::class, 'show'])
     ->where('slug', '[a-z0-9-]+(?:/[a-z0-9-]+)*')
     ->name('docs.show');

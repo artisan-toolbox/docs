@@ -1,4 +1,8 @@
-import { enableAutoUnmount, mount } from '@vue/test-utils';
+import { Page } from '@artisan-toolbox/front-awesome/components/WebAwesome';
+vi.mock('@web.awesome.me/webawesome-pro/dist/components/select/select.js', () => ({}));
+// Page imports native form controls that need ElementInternals. Browser tests cover its skip link.
+vi.mock('@web.awesome.me/webawesome-pro/dist/components/page/page.js', () => ({}));
+import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test';
 import ziggy from '../../../tests/Fixtures/ziggy.json';
 import PackageCard from '@/components/docs/PackageCard.vue';
@@ -63,7 +67,13 @@ describe('Welcome', () => {
         expect(wrapper.get(`footer a[href="${source.sourceUrl}"]`).text()).toContain(
             source.sourceLabel,
         );
-        expect(wrapper.get('a[href="#main-content"]').text()).toBe('Skip to content');
+        const nativePage = wrapper.getComponent(Page);
+        expect(nativePage.get('wa-page').attributes('disable-navigation-toggle')).toBeDefined();
+        expect(nativePage.get('wa-page').attributes('disable-sticky')).toBe('menu aside');
+        expect(nativePage.get('header').attributes('slot')).toBe('header');
+        expect(nativePage.findAll('#main-content')).toHaveLength(1);
+        expect(nativePage.get('main').attributes('tabindex')).toBe('-1');
+        expect(nativePage.find('a[href="#main-content"]').exists()).toBe(false);
         expect(wrapper.get('main').attributes('id')).toBe('main-content');
         expect(wrapper.get('main').text()).toContain(
             'This documentation application uses Laravel, Vue, and Inertia',
@@ -96,16 +106,19 @@ describe('Welcome', () => {
     it('keeps one persistent theme control and staff account actions in the shared header', async () => {
         page.props = { auth: { user: { id: 1 } } };
         const wrapper = mount(Welcome, { props: { packages, links, source } });
-        expect(wrapper.findAll('select')).toHaveLength(1);
+        expect(wrapper.findAll('wa-select')).toHaveLength(1);
         expect(wrapper.get('header a[href="/logs"]').text()).toBe('Logs');
         expect(wrapper.get('header button').text()).toBe('Sign out');
-        await wrapper.get('select').setValue('dark');
+        await flushPromises();
+        wrapper.get('wa-select').element.value = 'dark';
+        await wrapper.get('wa-select').trigger('change');
         expect(localStorage.getItem('appearance')).toBe('dark');
         expect(document.documentElement.classList.contains('dark')).toBe(true);
         wrapper.unmount();
         const remounted = mount(Welcome, {
             props: { packages, links, source },
         });
-        expect(remounted.get('select').element.value).toBe('dark');
+        await flushPromises();
+        expect(remounted.get('wa-select').element.value).toBe('dark');
     });
 });

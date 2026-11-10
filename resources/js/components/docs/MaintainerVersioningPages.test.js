@@ -180,7 +180,9 @@ describe('Maintainer Versioning guides', () => {
                     .map((code) => code.classes().find((name) => name.startsWith('language-'))),
             ).toEqual(guide.languages.map((language) => `language-${language}`));
             expect(
-                wrapper.findAll('button').map((button) => button.attributes('aria-label')),
+                wrapper
+                    .findAll('wa-button[aria-label^="Copy "]')
+                    .map((button) => button.attributes('aria-label')),
             ).toEqual(guide.labels.map((label) => `Copy ${label}`));
         });
     }

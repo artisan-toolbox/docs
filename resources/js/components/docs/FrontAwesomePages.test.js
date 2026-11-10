@@ -8,12 +8,12 @@ import fixtures from './front-awesome/legacy-parity.json';
 import { installationCommands } from './installationFixture';
 import { verifyLegacyPages } from './front-awesome/legacyParity';
 import Guide0 from '../../pages/docs/front-awesome/Branding.vue';
-import Guide1 from '../../pages/docs/front-awesome/Button.vue';
+import Actions from '../../pages/docs/front-awesome/web-awesome/components/Actions.vue';
 import Guide2 from '../../pages/docs/front-awesome/Configuration.vue';
 import Guide3 from '../../pages/docs/front-awesome/Development.vue';
 import Guide4 from '../../pages/docs/front-awesome/Index.vue';
 import Guide5 from '../../pages/docs/front-awesome/Installation.vue';
-import Guide6 from '../../pages/docs/front-awesome/Page.vue';
+import Layout from '../../pages/docs/front-awesome/web-awesome/components/Layout.vue';
 import Guide7 from '../../pages/docs/front-awesome/Primevue.vue';
 import Guide8 from '../../pages/docs/front-awesome/SharedTheme.vue';
 import Guide9 from '../../pages/docs/front-awesome/ThemeMaintenance.vue';
@@ -24,12 +24,10 @@ import Guide13 from '../../pages/docs/front-awesome/WebAwesome.vue';
 
 const components = {
     'front-awesome/branding': Guide0,
-    'front-awesome/button': Guide1,
     'front-awesome/configuration': Guide2,
     'front-awesome/development': Guide3,
     'front-awesome': Guide4,
     'front-awesome/installation': Guide5,
-    'front-awesome/page': Guide6,
     'front-awesome/primevue': Guide7,
     'front-awesome/shared-theme': Guide8,
     'front-awesome/theme-maintenance': Guide9,
@@ -58,7 +56,39 @@ const publishedInstallationParagraphs = new Map([
     ],
 ]);
 
-const publishedFixtures = fixtures.map((guide) => {
+const canonicalReferences = {
+    'front-awesome/button': {
+        slug: 'front-awesome/web-awesome/components/actions',
+        hash: '#button',
+    },
+    'front-awesome/page': { slug: 'front-awesome/web-awesome/components/layout', hash: '#page' },
+    'front-awesome/icon': { slug: 'front-awesome/web-awesome/components/media', hash: '#icon' },
+};
+
+const publishedFixtures = fixtures.map((source) => {
+    const guide = {
+        ...source,
+        links: source.links.map((link) =>
+            canonicalReferences[link.slug]
+                ? {
+                      ...link,
+                      ...canonicalReferences[link.slug],
+                      hash: link.hash || canonicalReferences[link.slug].hash,
+                  }
+                : link,
+        ),
+    };
+    if (guide.slug === 'front-awesome/shared-theme') {
+        const index = guide.headings.findIndex((heading) => heading.id === 'check-the-result') + 1;
+        return {
+            ...guide,
+            headings: [
+                ...guide.headings.slice(0, index),
+                { level: 3, id: undefined, text: 'Shared branding preview' },
+                ...guide.headings.slice(index),
+            ],
+        };
+    }
     if (guide.slug === 'front-awesome/web-awesome') {
         return { ...guide, title: 'Web Awesome' };
     }
@@ -86,7 +116,7 @@ const publishedFixtures = fixtures.map((guide) => {
 
 describe('Front Awesome documentation migration', () => {
     const { render } = verifyLegacyPages({
-        fixtures: publishedFixtures,
+        fixtures: publishedFixtures.filter((guide) => !canonicalReferences[guide.slug]),
         components,
         packageTitle: 'Front Awesome',
         version: '1.x development branch',
@@ -98,11 +128,13 @@ describe('Front Awesome documentation migration', () => {
                     text: 'Vue components catalog',
                 },
                 {
-                    slug: 'front-awesome/input',
+                    slug: 'front-awesome/web-awesome/components/forms',
+                    hash: '#input',
                     text: 'Bind input values and form errors',
                 },
                 {
-                    slug: 'front-awesome/icon',
+                    slug: 'front-awesome/web-awesome/components/media',
+                    hash: '#icon',
                     text: 'Render icons with Web Awesome',
                 },
             ],
@@ -118,7 +150,8 @@ describe('Front Awesome documentation migration', () => {
                     text: 'Vue components catalog',
                 },
                 {
-                    slug: 'front-awesome/input',
+                    slug: 'front-awesome/web-awesome/components/forms',
+                    hash: '#input',
                     text: 'Bind input values and form errors',
                 },
             ],
@@ -130,7 +163,7 @@ describe('Front Awesome documentation migration', () => {
         },
     });
     it('keeps the development status explicit and preserves compatibility scope', () => {
-        for (const guide of fixtures) {
+        for (const guide of publishedFixtures.filter((guide) => !canonicalReferences[guide.slug])) {
             const wrapper = render(guide);
             expect(wrapper.text()).toContain('Work in progress');
             wrapper.unmount();
@@ -186,6 +219,8 @@ describe('Front Awesome task hubs', () => {
                         package: {
                             title: 'Front Awesome',
                             documentedVersion: '1.x-dev',
+                            installedVersion: '1.x-dev',
+                            installationStatus: 'installed',
                             stability: 'Work in progress',
                         },
                     },
@@ -201,6 +236,103 @@ describe('Front Awesome task hubs', () => {
             });
             expect(wrapper.findAll('a').map((link) => link.attributes('href'))).toEqual(
                 destinations.map((slug) => `/reference/${slug}`),
+            );
+            wrapper.unmount();
+        },
+    );
+});
+
+describe('consolidated Front Awesome references', () => {
+    it.each([
+        ['front-awesome/button', Actions, ['button', 'button-group']],
+        ['front-awesome/page', Layout, ['page']],
+    ])(
+        'preserves every reviewed source contract and anchor from %s in its category',
+        async (oldSlug, component, references) => {
+            const guide = publishedFixtures.find((fixture) => fixture.slug === oldSlug);
+            const wrapper = mount(component, {
+                props: {
+                    page: {
+                        title: oldSlug === 'front-awesome/button' ? 'Actions' : 'Layout',
+                        description: 'Component reference',
+                        package: {
+                            title: 'Front Awesome',
+                            documentedVersion: '1.x-dev',
+                            installedVersion: '1.x-dev',
+                            installationStatus: 'installed',
+                            stability: 'Work in progress',
+                        },
+                    },
+                    navigation: sourceNavigation(),
+                },
+                global: { stubs: { DemoFrame: true, ComponentCatalog: true } },
+            });
+            expect(wrapper.get('h1').text()).toBe(
+                oldSlug === 'front-awesome/button' ? 'Actions' : 'Layout',
+            );
+            expect(wrapper.find('dl').exists()).toBe(false);
+            expect(
+                wrapper
+                    .get('[aria-label="Package details"]')
+                    .findAll('wa-tag')
+                    .map((tag) => tag.text()),
+            ).toEqual(['Front Awesome', 'Documented version 1.x-dev', 'Work in progress']);
+            const scopes = references.map((name) =>
+                wrapper.get(`[data-component-reference="${name}"]`),
+            );
+            const elements = (selector) => scopes.flatMap((scope) => scope.findAll(selector));
+            const normalize = (text) => text.replace(/\s+/g, ' ').trim();
+            const text = normalize(scopes.map((scope) => scope.text()).join(' '));
+
+            expect(
+                elements('h3').map((heading) => ({
+                    level: 2,
+                    id: heading.attributes('id'),
+                    text: heading.text(),
+                })),
+            ).toEqual(guide.headings);
+            expect(elements('pre code').map((code) => code.element.textContent)).toEqual(
+                guide.examples.map((example) => example.code),
+            );
+            expect(
+                elements('pre code').map((code) =>
+                    code.classes().find((name) => name.startsWith('language-')),
+                ),
+            ).toEqual(guide.examples.map((example) => `language-${example.language}`));
+            expect(
+                elements('table').map((table) =>
+                    table
+                        .findAll('tr')
+                        .map((row) => row.findAll('th, td').map((cell) => normalize(cell.text()))),
+                ),
+            ).toEqual(guide.tables.map((table) => table.map((row) => row.map(normalize))));
+            let paragraphEnd = 0;
+            for (const paragraph of guide.paragraphs) {
+                const expected = normalize(paragraph);
+                const start = text.indexOf(expected, paragraphEnd);
+                expect(start, expected).toBeGreaterThanOrEqual(paragraphEnd);
+                paragraphEnd = start + expected.length;
+            }
+            for (const anchor of guide.anchors) {
+                expect(wrapper.findAll(`[id="${anchor}"]`)).toHaveLength(1);
+            }
+            expect(elements('wa-button[aria-label^="Copy "]')).toHaveLength(guide.examples.length);
+            const expectedLinks = (prefix) =>
+                guide.links.map((link) =>
+                    link.slug ? `${prefix}/${link.slug}${link.hash ?? ''}` : link.href,
+                );
+            expect(elements('a').map((link) => link.attributes('href'))).toEqual(
+                expectedLinks('/docs'),
+            );
+            for (const link of elements('a').filter((link) =>
+                /^https?:\/\//.test(link.attributes('href')),
+            )) {
+                expect(link.attributes('target')).toBe('_blank');
+                expect(link.attributes('rel')).toBe('noopener noreferrer');
+            }
+            await wrapper.setProps({ navigation: sourceNavigation('/reference') });
+            expect(elements('a').map((link) => link.attributes('href'))).toEqual(
+                expectedLinks('/reference'),
             );
             wrapper.unmount();
         },

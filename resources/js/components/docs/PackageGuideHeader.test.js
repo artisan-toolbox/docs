@@ -89,7 +89,7 @@ it('shows a visible guide title and compact package, documented version, and sta
     expect(
         wrapper
             .get('[aria-label="Package details"]')
-            .findAll('span')
+            .findAll('wa-tag')
             .map((item) => item.text()),
     ).toEqual(['Maintainer', 'Documented version 1.x-dev', 'Stable']);
     expect(wrapper.text()).toContain('Generate, display, and consume the encrypted identity.');
@@ -115,7 +115,7 @@ it('labels the installed version as the documented version without a second vers
     });
 
     expect(wrapper.text()).toContain('Documented version 1.10');
-    expect(wrapper.findAll('[aria-label="Package details"] span')).toHaveLength(3);
+    expect(wrapper.findAll('[aria-label="Package details"] wa-tag')).toHaveLength(3);
 });
 
 it('keeps an installed package with unavailable version distinct from a missing package', () => {

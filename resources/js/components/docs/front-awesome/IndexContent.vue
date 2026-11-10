@@ -109,7 +109,8 @@ Toast::success('Report saved.')->flash();`;
             </li>
             <li>
                 <p>
-                    <DocsLink :href="findNavigationItem(navigation, 'front-awesome/page').href"
+                    <DocsLink
+                        :href="`${findNavigationItem(navigation, 'front-awesome/web-awesome/components/layout').href}#page`"
                         >Build a page layout</DocsLink
                     >
                     covers <code>wa-page</code>, responsive navigation, and application layout
@@ -147,7 +148,8 @@ Toast::success('Report saved.')->flash();`;
             <li>
                 <p>
                     <span id="render-a-button"></span
-                    ><DocsLink :href="findNavigationItem(navigation, 'front-awesome/button').href"
+                    ><DocsLink
+                        :href="`${findNavigationItem(navigation, 'front-awesome/web-awesome/components/actions').href}#button`"
                         >Buttons and button groups</DocsLink
                     >
                     shows how to use the typed Vue wrappers.
@@ -200,13 +202,15 @@ Toast::success('Report saved.')->flash();`;
         </ul>
         <p>
             To bind a Web Awesome input to Vue or an Inertia form, follow
-            <DocsLink :href="findNavigationItem(navigation, 'front-awesome/input').href"
+            <DocsLink
+                :href="`${findNavigationItem(navigation, 'front-awesome/web-awesome/components/forms').href}#input`"
                 >Bind input values and form errors</DocsLink
             >. The guide covers nested array fields and automatic server errors.
         </p>
         <p>
             To render icons with native Web Awesome attributes and typed load events, follow
-            <DocsLink :href="findNavigationItem(navigation, 'front-awesome/icon').href"
+            <DocsLink
+                :href="`${findNavigationItem(navigation, 'front-awesome/web-awesome/components/media').href}#icon`"
                 >Render icons with Web Awesome</DocsLink
             >.
         </p>

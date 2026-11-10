@@ -53,3 +53,32 @@ test('preserves the published community destinations and trailing slashes', func
         }
     }
 });
+
+test('redirects consolidated Front Awesome references without replacing historical fragments', function (string $old, PageSlug $canonical) {
+    foreach (['/docs', '/packages'] as $prefix) {
+        foreach (['', '/'] as $trailingSlash) {
+            $this->get($prefix.'/front-awesome/'.$old.$trailingSlash)
+                ->assertStatus(301)
+                ->assertRedirect($canonical->url(absolute: false));
+        }
+    }
+
+    expect(PageSlug::tryFrom('front-awesome/'.$old))->toBeNull();
+})->with([
+    'buttons' => ['button', PageSlug::FrontAwesomeActions],
+    'page layout' => ['page', PageSlug::FrontAwesomeLayout],
+    'icons' => ['icon', PageSlug::FrontAwesomeMedia],
+    'form bindings' => ['input', PageSlug::FrontAwesomeForms],
+]);
+
+test('generates consolidated reference redirects from the current named documentation route', function () {
+    Route::getRoutes()->getByName('docs.show')->setUri('/reference/{slug}');
+
+    foreach (['button' => PageSlug::FrontAwesomeActions, 'page' => PageSlug::FrontAwesomeLayout, 'icon' => PageSlug::FrontAwesomeMedia, 'input' => PageSlug::FrontAwesomeForms] as $old => $canonical) {
+        foreach (['/docs', '/packages'] as $prefix) {
+            $this->get($prefix.'/front-awesome/'.$old)
+                ->assertStatus(301)
+                ->assertRedirect($canonical->url(absolute: false));
+        }
+    }
+});

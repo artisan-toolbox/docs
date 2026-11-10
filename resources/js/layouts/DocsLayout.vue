@@ -1,6 +1,7 @@
 <script setup>
-import { usePage } from '@inertiajs/vue3';
-import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import { Page } from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import { router, usePage } from '@inertiajs/vue3';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import DocsLink from '@/components/docs/DocsLink.vue';
 import DocsBreadcrumbs from '@/components/docs/DocsBreadcrumbs.vue';
 import DocsNavigationItem from '@/components/docs/DocsNavigationItem.vue';
@@ -13,6 +14,7 @@ const inertiaPage = usePage();
 const navigation = computed(() => inertiaPage.props.navigation);
 const page = computed(() => inertiaPage.props.page);
 const links = computed(() => inertiaPage.props.links);
+const shell = ref(null);
 const mobileNavigationOpen = ref(false);
 const headerHeight = ref(80);
 /** @type {import('vue').Ref<HTMLElement | null>} */
@@ -64,6 +66,31 @@ async function revealCurrentNavigation() {
     }
 }
 
+async function revealFragment() {
+    const destination = window.location.href;
+    const fragment = window.location.hash;
+    if (!fragment) return;
+    await nextTick();
+    const element = shell.value.$el;
+    const controls = [element, ...element.querySelectorAll('*')].filter((control) =>
+        control.localName.startsWith('wa-'),
+    );
+    await Promise.all(
+        controls.map(async (control) => {
+            await customElements.whenDefined(control.localName);
+            await control.updateComplete;
+        }),
+    );
+    await new Promise(requestAnimationFrame);
+    if (!element.isConnected || window.location.href !== destination) return;
+    document.getElementById(fragment.slice(1))?.scrollIntoView();
+}
+
+onBeforeUnmount(
+    router.on('navigate', (event) => {
+        if (event.detail.type !== 'history') void revealFragment();
+    }),
+);
 onMounted(revealCurrentNavigation);
 watch(() => inertiaPage.url, revealCurrentNavigation, { flush: 'post' });
 
@@ -76,15 +103,14 @@ watch(
 </script>
 
 <template>
-    <div
+    <Page
+        ref="shell"
+        :disable-navigation-toggle="true"
+        disable-sticky="menu aside"
         :style="{ '--site-header-height': `${headerHeight}px` }"
-        class="min-h-screen bg-white text-slate-800 selection:bg-brand-100 dark:bg-slate-950 dark:text-slate-200 dark:selection:bg-brand-900">
-        <a
-            href="#main-content"
-            class="sr-only rounded-md bg-brand-700 px-4 py-2 text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:outline-2 focus:outline-offset-4 focus:outline-brand-500"
-            >Skip to content</a
-        >
+        class="site-page min-h-screen bg-white text-slate-800 selection:bg-brand-100 dark:bg-slate-950 dark:text-slate-200 dark:selection:bg-brand-900">
         <PublicSiteHeader
+            slot="header"
             :links="links"
             wide
             @resize="headerHeight = Math.max(80, Math.ceil($event))">
@@ -155,7 +181,7 @@ watch(
                         <DocsBreadcrumbs :items="page.breadcrumbs" />
                         <div
                             ref="articleContent"
-                            class="min-w-0 [&_h2]:scroll-mt-[calc(var(--site-header-height)+1rem)] [&_h3]:scroll-mt-[calc(var(--site-header-height)+1rem)]">
+                            class="min-w-0 [&_h2]:scroll-mt-[calc(var(--site-header-height)+1rem)] [&_h3]:scroll-mt-[calc(var(--site-header-height)+1rem)] [&_h4]:scroll-mt-[calc(var(--site-header-height)+1rem)]">
                             <slot />
                         </div>
                         <PublicSiteFooter :links="links" :source="page" />
@@ -163,5 +189,5 @@ watch(
                 </main>
             </div>
         </div>
-    </div>
+    </Page>
 </template>

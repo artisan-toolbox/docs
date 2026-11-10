@@ -75,10 +75,11 @@ describe('Maintainer Code Quality overview', () => {
             'vendor/bin/maintainer quality:check',
             'vendor/bin/maintainer quality:fix',
         ]);
-        expect(wrapper.findAll('button').map((button) => button.attributes('aria-label'))).toEqual([
-            'Copy Run CI checks',
-            'Copy Run automated fixes',
-        ]);
+        expect(
+            wrapper
+                .findAll('wa-button[aria-label^="Copy "]')
+                .map((button) => button.attributes('aria-label')),
+        ).toEqual(['Copy Run CI checks', 'Copy Run automated fixes']);
         expect(wrapper.findAll('a').map((link) => [link.text(), link.attributes('href')])).toEqual([
             ['Fixes and CI checks', '/docs/maintainer/ci/quality'],
             ['Fixes and CI checks guide', '/docs/maintainer/ci/quality'],

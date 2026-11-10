@@ -1,4 +1,5 @@
 <script setup>
+import { Tag } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 import SiteIcon from '@/components/site/SiteIcon.vue';
 import DocsLink from './DocsLink.vue';
 import PackageVersion from './PackageVersion.vue';
@@ -16,19 +17,18 @@ const icon = computed(() => packageIcon(props.package.id));
         role="group"
         aria-label="Package details"
         class="flex min-w-0 flex-wrap items-center gap-2 text-xs leading-5">
-        <span
-            class="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1 font-medium text-brand-800 dark:bg-brand-950 dark:text-brand-300">
+        <Tag variant="brand" size="s" pill>
             <SiteIcon v-if="icon" v-bind="icon" size="sm" />
             {{ package.title }}
-        </span>
-        <PackageVersion
-            :package="package"
-            class="max-w-full rounded-full bg-slate-100 px-3 py-1 break-words text-slate-700 dark:bg-slate-800 dark:text-slate-300" />
-        <span
-            v-if="package.stability"
-            class="rounded-full border border-slate-200 px-3 py-1 text-slate-600 dark:border-slate-700 dark:text-slate-400">
+        </Tag>
+        <Tag variant="neutral" appearance="filled" size="s" pill class="max-w-full min-w-0">
+            <PackageVersion
+                :package="package"
+                class="min-w-0 [overflow-wrap:anywhere] whitespace-normal" />
+        </Tag>
+        <Tag v-if="package.stability" variant="neutral" appearance="outlined" size="s" pill>
             {{ package.stability }}
-        </span>
+        </Tag>
         <DocsLink
             v-if="package.repositoryUrl"
             :href="package.repositoryUrl"

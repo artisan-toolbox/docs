@@ -17,6 +17,14 @@ const components = computed(() =>
         .find((group) => group.id === props.group)
         .components.map((component) => {
             const implemented = component.implementation.state === 'implemented';
+            const owner = implemented
+                ? catalog.groups
+                      .find((group) => group.id === props.group)
+                      .components.find(
+                          (item) =>
+                              item.implementation.export === component.implementation.demoOwner,
+                      )
+                : null;
             const guide = implemented
                 ? findNavigationItem(props.navigation, component.implementation.guide)
                 : null;
@@ -27,6 +35,8 @@ const components = computed(() =>
                 triggerId: `${catalogId}-${component.tag}-trigger`,
                 panelId: `${catalogId}-${component.tag}-details`,
                 exampleHref: implemented ? `#${component.implementation.anchor}` : null,
+                ownerHref: owner && owner !== component ? `#${owner.implementation.anchor}` : null,
+                ownerName: owner?.name,
                 guideHref:
                     guide &&
                     !(
@@ -49,7 +59,7 @@ function syncExpanded(tag, event) {
 <template>
     <div
         role="list"
-        class="flex flex-wrap items-center gap-x-3 gap-y-2"
+        class="flex flex-wrap items-center gap-1.5"
         aria-label="Component wrapper status">
         <div
             v-for="component in components"
@@ -68,8 +78,8 @@ function syncExpanded(tag, event) {
                 :pill="true"
                 :variant="component.status.variant"
                 :appearance="component.status.appearance"
-                class="min-h-11">
-                <span class="inline-flex items-center gap-2">
+                class="max-sm:min-h-11">
+                <span class="inline-flex items-center gap-1.5">
                     <SiteIcon :name="component.status.icon" />
                     {{ component.name }}
                     <span class="sr-only">{{ component.status.label }}</span>
@@ -105,6 +115,10 @@ function syncExpanded(tag, event) {
                             <dd>{{ component.since }}</dd></template
                         >
                     </dl>
+                    <p v-if="component.ownerHref">
+                        Used with {{ component.ownerName }}. Their shared example includes this
+                        public wrapper.
+                    </p>
                     <p v-if="component.availability">
                         {{ component.availability }}
                     </p>
@@ -119,6 +133,13 @@ function syncExpanded(tag, event) {
                             data-popover="close"
                             class="font-medium text-brand-700 underline underline-offset-4 dark:text-brand-400"
                             >Basic example</DocsLink
+                        >
+                        <DocsLink
+                            v-if="component.ownerHref"
+                            :href="component.ownerHref"
+                            data-popover="close"
+                            class="font-medium text-brand-700 underline underline-offset-4 dark:text-brand-400"
+                            >Example with {{ component.ownerName }}</DocsLink
                         >
                         <DocsLink
                             v-if="component.guideHref"

@@ -129,23 +129,22 @@ describe('documentation navigation branches', () => {
     });
 });
 
-it('opens the real editorial component path while marking only the stable Button guide current', async () => {
-    const item = sourceNavigation('/docs', 'front-awesome/button').find(
+it('opens the editorial component path while marking only the canonical Actions reference current', async () => {
+    const item = sourceNavigation('/docs', 'front-awesome/web-awesome/components/actions').find(
         (node) => node.slug === 'front-awesome',
     );
     const wrapper = mount(DocsNavigationItem, {
-        props: { item, currentUrl: '/docs/front-awesome/button' },
+        props: { item, currentUrl: '/docs/front-awesome/web-awesome/components/actions' },
     });
     const activePath = [
         'front-awesome',
         'front-awesome/web-awesome',
         'front-awesome/web-awesome/components',
-        'front-awesome/web-awesome/components/actions',
     ];
 
     expect(
         wrapper.findAll('a[aria-current="page"]').map((link) => link.attributes('href')),
-    ).toEqual(['/docs/front-awesome/button']);
+    ).toEqual(['/docs/front-awesome/web-awesome/components/actions']);
     for (const slug of activePath) {
         const link = wrapper.get(`a[href="/docs/${slug}"]`);
         expect(link.attributes('aria-current')).toBeUndefined();
@@ -153,7 +152,7 @@ it('opens the real editorial component path while marking only the stable Button
         expect(disclosure.getAttribute('aria-expanded')).toBe('true');
     }
     const group = wrapper
-        .get('a[href="/docs/front-awesome/web-awesome/components/actions"]')
+        .get('a[href="/docs/front-awesome/web-awesome/components"]')
         .element.parentElement.querySelector('button');
     group.click();
     await wrapper.vm.$nextTick();

@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import { describe, expect, it, vi } from 'vite-plus/test';
+import { describe, expect, it } from 'vite-plus/test';
 import InstallCommand from './InstallCommand.vue';
 
 const metadata = (code) => ({
@@ -7,9 +7,7 @@ const metadata = (code) => ({
 });
 
 describe('Installed dependency commands', () => {
-    it('renders and copies the exact current metadata and reacts to dependency refreshes', async () => {
-        const writeText = vi.fn().mockResolvedValue(undefined);
-        vi.stubGlobal('navigator', { clipboard: { writeText } });
+    it('renders and delivers exact metadata to the copy control after dependency refreshes', async () => {
         const first = 'composer require --dev artisan-toolbox/maintainer:1.x-dev';
         const wrapper = mount(InstallCommand, {
             props: { package: metadata(first), label: 'Install Maintainer' },
@@ -18,18 +16,24 @@ describe('Installed dependency commands', () => {
             },
         });
         expect(wrapper.get('pre code').text()).toBe(first);
-        await wrapper.get('button').trigger('click');
-        expect(writeText).toHaveBeenLastCalledWith(first);
+        expect(wrapper.get('wa-copy-button').attributes('value')).toBe(first);
+        expect(wrapper.get('wa-button[aria-label="Copy Install Maintainer"]').exists()).toBe(true);
+        await wrapper.get('wa-copy-button').trigger('wa-copy');
+        expect(wrapper.get('[role="status"]').text()).toBe('Code copied to clipboard.');
         const next = 'composer require --dev artisan-toolbox/maintainer:v1.11.0';
         await wrapper.setProps({
             package: metadata(next),
         });
         expect(wrapper.get('pre code').text()).toBe(next);
+        expect(wrapper.get('wa-copy-button').attributes('value')).toBe(next);
         expect(wrapper.text()).toContain('Run Composer before the frontend package manager.');
-        await wrapper.get('button').trigger('click');
-        expect(writeText).toHaveBeenLastCalledWith(next);
+        await wrapper.get('wa-copy-button').trigger('wa-error');
+        expect(wrapper.get('[role="status"]').text()).toBe(
+            'Unable to copy. Select the code and copy it manually.',
+        );
+        await wrapper.get('wa-copy-button').trigger('wa-copy');
+        expect(wrapper.get('[role="status"]').text()).toBe('Code copied to clipboard.');
         wrapper.unmount();
-        vi.unstubAllGlobals();
     });
 
     it('explains missing locked dependencies without displaying a fabricated command', () => {

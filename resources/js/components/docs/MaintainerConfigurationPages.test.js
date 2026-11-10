@@ -194,7 +194,9 @@ describe('Maintainer Configuration guides', () => {
             ).toEqual(guide.headings);
             expect(wrapper.findAll('pre code').map((code) => code.text())).toEqual(guide.examples);
             expect(
-                wrapper.findAll('button').map((button) => button.attributes('aria-label')),
+                wrapper
+                    .findAll('wa-button[aria-label^="Copy "]')
+                    .map((button) => button.attributes('aria-label')),
             ).toEqual(guide.labels.map((label) => `Copy ${label}`));
             expect(
                 wrapper

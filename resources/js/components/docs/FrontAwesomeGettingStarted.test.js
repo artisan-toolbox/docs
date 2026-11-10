@@ -91,13 +91,19 @@ describe('Front Awesome first success', () => {
         expect(wrapper.text()).toContain(
             'Set resolve: resolvePage in the existing createInertiaApp options',
         );
-        expect(wrapper.get('a[href="/docs/front-awesome/button"]').text()).toBe('Button guide');
+        expect(
+            wrapper
+                .get('a[href="/docs/front-awesome/web-awesome/components/actions#button"]')
+                .text(),
+        ).toBe('Button guide');
 
         await wrapper.setProps({ navigation: navigation('/reference') });
 
-        expect(wrapper.get('a[href="/reference/front-awesome/button"]').text()).toBe(
-            'Button guide',
-        );
+        expect(
+            wrapper
+                .get('a[href="/reference/front-awesome/web-awesome/components/actions#button"]')
+                .text(),
+        ).toBe('Button guide');
         wrapper.unmount();
     });
 });

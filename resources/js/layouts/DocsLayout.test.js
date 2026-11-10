@@ -1,3 +1,7 @@
+import { Page } from '@artisan-toolbox/front-awesome/components/WebAwesome';
+vi.mock('@web.awesome.me/webawesome-pro/dist/components/select/select.js', () => ({}));
+// Page imports native form controls that need ElementInternals. Browser tests cover its skip link.
+vi.mock('@web.awesome.me/webawesome-pro/dist/components/page/page.js', () => ({}));
 import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils';
 import { afterEach, describe, expect, it, vi } from 'vite-plus/test';
 import { h, nextTick, reactive } from 'vue';
@@ -359,28 +363,40 @@ describe('DocsLayout', () => {
     it('applies and persists the selected theme through the existing appearance preference', async () => {
         const wrapper = mount(DocsLayout);
 
-        await wrapper.get('select').setValue('dark');
+        await flushPromises();
+        wrapper.get('wa-select').element.value = 'dark';
+        await wrapper.get('wa-select').trigger('change');
 
         expect(document.documentElement.classList.contains('dark')).toBe(true);
         expect(localStorage.getItem('appearance')).toBe('dark');
 
-        await wrapper.get('select').setValue('light');
+        await flushPromises();
+        wrapper.get('wa-select').element.value = 'light';
+        await wrapper.get('wa-select').trigger('change');
 
         expect(document.documentElement.classList.contains('dark')).toBe(false);
         expect(localStorage.getItem('appearance')).toBe('light');
 
-        await wrapper.get('select').setValue('system');
+        await flushPromises();
+        wrapper.get('wa-select').element.value = 'system';
+        await wrapper.get('wa-select').trigger('change');
 
         expect(localStorage.getItem('appearance')).toBe('system');
     });
 
-    it('renders the public brand, page content, skip link, and page source link', () => {
+    it('renders the public brand, native Page skip destination, and page source link', () => {
         const wrapper = mount(DocsLayout, {
             slots: { default: '<h1>Introduction</h1>' },
         });
 
         expect(wrapper.get('main h1').text()).toBe('Introduction');
-        expect(wrapper.get('a[href="#main-content"]').text()).toBe('Skip to content');
+        const nativePage = wrapper.getComponent(Page);
+        expect(nativePage.get('wa-page').attributes('disable-navigation-toggle')).toBeDefined();
+        expect(nativePage.get('wa-page').attributes('disable-sticky')).toBe('menu aside');
+        expect(nativePage.get('header').attributes('slot')).toBe('header');
+        expect(nativePage.findAll('#main-content')).toHaveLength(1);
+        expect(nativePage.get('main').attributes('tabindex')).toBe('-1');
+        expect(nativePage.find('a[href="#main-content"]').exists()).toBe(false);
         expect(wrapper.findAll('header img').map((image) => image.attributes('alt'))).toEqual([
             'Artisan Toolbox',
         ]);
@@ -393,6 +409,5 @@ describe('DocsLayout', () => {
             expect(link.attributes('target')).toBe('_blank');
             expect(link.attributes('rel')).toBe('noopener noreferrer');
         }
-        expect(wrapper.get('a[href="#main-content"]').attributes('target')).toBeUndefined();
     });
 });

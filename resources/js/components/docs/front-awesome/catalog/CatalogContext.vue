@@ -18,12 +18,39 @@ defineProps({ navigation: { type: Array, required: true } });
             >. Keep its Vite plugin and styles. Add examples to a Vue page.
         </p>
         <p>
-            <strong>Source preview.</strong> Implemented describes the current checkout's Button,
-            ButtonGroup, Input, Page, Tag, Tooltip, Icon, and Popover wrappers. The published
-            1.0.0-alpha.1 archive lacks Input, Page, Icon, and the WebAwesome barrel entry. Tag,
-            Tooltip, and Popover also require the source preview. Check your Composer-installed
-            exports before use.
+            <strong>Source preview.</strong> Implemented describes all 73 Core and 17 Pro wrappers
+            in the current checkout's Web Awesome 3.14.0 baseline. The published 1.0.0-alpha.1
+            archive lacks Input, Page, Icon, and the WebAwesome barrel entry. The additional Core
+            wrappers require the source preview. Code Highlighter 3.15 remains planned. Check your
+            Composer-installed exports before use. Wrappers forward native properties and events.
+            Data-entry controls share <code>v-model</code> and Inertia form binding, including
+            server errors and manual <code>failed</code> states. See
+            <DocsLink
+                :href="`${findNavigationItem(navigation, 'front-awesome/web-awesome/components/forms').href}#use-v-model`"
+                >Forms binding</DocsLink
+            >
+            for value types and limits. Other mutable native state uses
+            <DocsLink
+                :href="`${findNavigationItem(navigation, 'front-awesome/web-awesome/components').href}#named-models`"
+                >named models</DocsLink
+            >, such as <code>v-model:open</code>, where supported. Compound exports remain
+            individually discoverable and share one complete example with their owning component.
         </p>
+        <p>
+            Pro examples require a licensed Web Awesome Pro 3.14.0 installation and the Pro runtime
+            selected in
+            <DocsLink
+                :href="
+                    findNavigationItem(navigation, 'front-awesome/web-awesome').href +
+                    '#choose-core-or-pro'
+                "
+                >Web Awesome setup</DocsLink
+            >. Import Pro wrappers and their TypeScript props from
+            <code>@artisan-toolbox/front-awesome/components/WebAwesome/Pro</code>. Core imports
+            remain separate. A missing Pro installation produces an explicit setup error. A wrapper
+            does not grant a Pro license. Keep registry credentials outside browser code.
+        </p>
+
         <p>
             In progress means wrapper work has started but is not available. In future means a
             planned Vue wrapper with no release date. Upstream availability is separate. Pro

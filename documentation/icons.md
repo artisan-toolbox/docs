@@ -1,6 +1,6 @@
 # Maintain site icons
 
-All application utility and brand icons use Font Awesome through the shared `SiteIcon`. Official families use Web Awesome's public `wa-icon`; uploaded families use the configured Font Awesome kit's native markup. This includes starter components, password visibility controls, alerts, spinners, and navigation. Package artwork and background textures remain artwork. Existing navigation text, button labels, and accessible names remain the source of meaning; icons supplement them. `scripts/site-icons.test.mjs` protects this ownership against Lucide imports and new inline utility SVGs.
+All application utility and brand icons use Font Awesome through the shared `SiteIcon`. Official families consume Front Awesome's public `Icon` wrapper; uploaded families use the configured Font Awesome kit's native markup. This includes starter components, password visibility controls, alerts, spinners, and navigation. Package artwork and background textures remain artwork. Existing navigation text, button labels, and accessible names remain the source of meaning; icons supplement them. `scripts/site-icons.test.mjs` protects this ownership against Lucide imports and new inline utility SVGs.
 
 ## Configure the kit once
 
@@ -8,11 +8,11 @@ All application utility and brand icons use Font Awesome through the shared `Sit
 
 The classic kit script uses `defer`, without `async`, so downloading it does not block HTML parsing. Keep its existing domain configuration and native DOM observation. WA reads the root kit identifier independently; uploaded icons remain discoverable through the kit's own renderer. Verify both official and uploaded SVGs in the browser after changing script loading, including navigation that mounts icons after the initial document.
 
-Loading the Font Awesome script alone does not configure Web Awesome. WA reads the native data attribute when resolving its icons. The application entry imports the public WA icon module once. Its default library handles SVG URLs, registration, caching, and kit access. Do not add a custom resolver, poll for the Font Awesome script, mutate SVG markup, or implement another icon cache.
+Loading the Font Awesome script alone does not configure Web Awesome. WA reads the native data attribute when resolving its icons. The public Icon wrapper registers the selected Web Awesome edition when it mounts. Its native default library handles SVG URLs, registration, caching, and kit access. Do not add a custom resolver, poll for the Font Awesome script, mutate SVG markup, or implement another icon cache.
 
 The kit identifier is public because browsers use it to load the kit. Private package-registry credentials and Font Awesome API credentials do not belong in this setting or the HTML. Keep the kit's permitted domains, available families, and icon selection configured in the Font Awesome account. Reload the document after changing the kit identifier.
 
-The application explicitly declares the already-installed `@awesome.me/webawesome` dependency because it imports that package's public icon module. Front Awesome's installed public exports were reviewed; it provides Button, ButtonGroup, and Appearance, but no Icon wrapper. `SiteIcon` therefore remains application presentation rather than a copy of package internals.
+The current Front Awesome source preview exports Icon through its public component entry. SiteIcon consumes that wrapper for official families and retains application-specific sizes, decorative accessibility and uploaded-kit handling. The Vite plugin selects the licensed Pro runtime used by this application. There is no duplicate application import of the native icon registration module. Keep Core and Pro dependency requirements separate from the preview's published release availability.
 
 ## Add an icon
 

@@ -1,7 +1,8 @@
-import { enableAutoUnmount, mount } from '@vue/test-utils';
+import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils';
 import { afterEach, describe, expect, it } from 'vite-plus/test';
-import { getIconLibrary } from '@awesome.me/webawesome/dist/components/icon/library.js';
-import { setKitCode } from '@awesome.me/webawesome/dist/utilities/base-path.js';
+import '@web.awesome.me/webawesome-pro/dist/components/icon/icon.js';
+import { getIconLibrary } from '@web.awesome.me/webawesome-pro/dist/components/icon/library.js';
+import { setKitCode } from '@web.awesome.me/webawesome-pro/dist/utilities/base-path.js';
 import SiteIcon from './SiteIcon.vue';
 
 enableAutoUnmount(afterEach);
@@ -70,15 +71,16 @@ describe('shared site icons', () => {
         wrapper.unmount();
     });
 
-    it('renders a decorative native Web Awesome icon with consistent defaults', () => {
+    it('renders a decorative native Web Awesome icon with consistent defaults', async () => {
         const wrapper = render({ name: 'book-open' });
         expect(wrapper.element.tagName).toBe('WA-ICON');
-        expect(wrapper.attributes()).toMatchObject({
+        await flushPromises();
+        expect(wrapper.element).toMatchObject({
             name: 'book-open',
             family: 'classic',
             variant: 'solid',
-            'aria-hidden': 'true',
         });
+        expect(wrapper.attributes('aria-hidden')).toBe('true');
         expect(wrapper.text()).toBe('');
     });
 
@@ -88,8 +90,9 @@ describe('shared site icons', () => {
             family: 'brands',
             label: 'GitHub',
         });
-        expect(wrapper.attributes('label')).toBe('GitHub');
-        expect(wrapper.attributes('family')).toBe('brands');
+        await flushPromises();
+        expect(wrapper.element.label).toBe('GitHub');
+        expect(wrapper.element.family).toBe('brands');
         expect(wrapper.attributes('aria-hidden')).toBeUndefined();
         await wrapper.setProps({
             name: 'check',
@@ -97,12 +100,13 @@ describe('shared site icons', () => {
             variant: 'regular',
             label: '',
         });
-        expect(wrapper.attributes()).toMatchObject({
+        await flushPromises();
+        expect(wrapper.element).toMatchObject({
             name: 'check',
             family: 'classic',
             variant: 'regular',
-            'aria-hidden': 'true',
         });
+        expect(wrapper.attributes('aria-hidden')).toBe('true');
     });
 
     it('lets the installed WA default library resolve the public kit identifier without a custom resolver', () => {

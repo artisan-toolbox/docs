@@ -16,7 +16,8 @@ describe('Documentation callouts', () => {
                 slots: { default: '<p>Keep the session cookie.</p>' },
             });
             expect(wrapper.get('aside').attributes('aria-label')).toBe(title);
-            expect(wrapper.get('aside > p').text()).toBe(title);
+            expect(wrapper.find('wa-callout').exists()).toBe(true);
+            expect(wrapper.get('aside p').text()).toBe(title);
             expect(wrapper.text()).toContain('Keep the session cookie.');
             expect(wrapper.find('[role="alert"]').exists()).toBe(false);
         });
@@ -28,7 +29,7 @@ describe('Documentation callouts', () => {
                 default: '<p>Use <code>1.x</code>.</p>',
             },
         });
-        expect(wrapper.get('aside > p').text()).toBe('Preview release');
+        expect(wrapper.get('aside p').text()).toBe('Preview release');
         expect(wrapper.get('code').text()).toBe('1.x');
     });
 });

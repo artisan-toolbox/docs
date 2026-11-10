@@ -37,6 +37,8 @@ Render token content through Vue text interpolation. Do not use `v-html`, inject
 
 The current plain source appears immediately while highlighting loads. A stale asynchronous result cannot replace a newer example. Failed initialization and grammar loads can be retried; the component leaves the source readable and reports unavailable highlighting. Clipboard behavior remains available independently of tokenization, with accessible success and manual-copy failure feedback.
 
+Changing the `code` prop clears the previous clipboard feedback. The copy control returns to **Copy** so a success message never describes source the reader has not copied. Each source owns its public Front Awesome `CopyButton` instance. A pending clipboard operation can still finish for the previous source, but its success or failure cannot change the current source's feedback or block its copy control. Keyboard focus remains on the replacement copy control when the previous control held focus. Source rendering and highlighting retain their existing component state.
+
 Search reads the original `CodeExample` props and explanation, not the rendered tokens or toolbar. Keep that semantic adapter when changing presentation. Do not add copied search text or page-specific renderers.
 
 ## Start highlighting when readers need it
@@ -45,7 +47,7 @@ Search reads the original `CodeExample` props and explanation, not the rendered 
 
 First intersection admits the component once. Scrolling away and back does not discard tokens or repeat work for unchanged code. Later source or language changes retain the existing stale-result protection and use the latest authored text. VueUse's installed `useIntersectionObserver` owns observation and scope cleanup. Do not add a second observer controller, scroll polling, timers, or a highlighter instance to each page.
 
-`DemoFrame` keeps its source examples mounted inside native `details`. It passes `highlightEnabled=false` until the reader first opens **View the running source**, then permanently enables those examples for that mounted demo. Each source still waits for its own first intersection. Closing and reopening the disclosure retains admitted work and completed tokens. Native pointer, keyboard, and browser disclosure behavior remain intact.
+`DemoFrame` keeps its source examples mounted inside native `details`. It passes `highlightEnabled=false` until the reader first opens **View source**, then permanently enables those examples for that mounted demo. Each source still waits for its own first intersection. Closing and reopening the disclosure retains admitted work and completed tokens. Native pointer, keyboard, and browser disclosure behavior remain intact.
 
 Ordinary pages need no new prop. The optional `highlightEnabled` prop defaults to `true` and lets an owning disclosure delay permission without removing source text from the DOM. Keep that permission in the shared disclosure component rather than adding switches to individual documentation pages. A browser without Intersection Observer highlights permitted examples eagerly; unopened demo sources remain plain until first opening. No observer polyfill is required to read or copy code.
 

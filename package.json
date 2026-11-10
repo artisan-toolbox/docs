@@ -13,7 +13,10 @@
         "icons:build": "node scripts/build-icons.mjs && node scripts/build-brand-logos.mjs",
         "check": "vp check",
         "check:fix": "vp check --fix",
-        "types:check": "vue-tsc --noEmit"
+        "types:check": "vue-tsc --noEmit",
+        "test:browser": "node scripts/test-demo-browser.mjs && node scripts/test-application-browser.mjs && node scripts/test-login-browser.mjs",
+        "demos:sync": "node scripts/sync-front-awesome-demos.mjs",
+        "demos:check": "node scripts/sync-front-awesome-demos.mjs --check"
     },
     "dependencies": {
         "@artisan-toolbox/front-awesome": "file:vendor/artisan-toolbox/front-awesome",
@@ -23,6 +26,7 @@
         "@inertiajs/vite": "^3.0.0",
         "@inertiajs/vue3": "^3.0.0",
         "@vueuse/core": "^12.8.2",
+        "@web.awesome.me/webawesome-pro": "^3.14.0",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "laravel-echo": "^2.6.3",
@@ -47,6 +51,7 @@
         "concurrently": "^10.0.3",
         "fontaine": "^1.0.3",
         "happy-dom": "^21.0.4",
+        "playwright": "^1.65.0",
         "primevue": "^4.5.5",
         "sharp": "^0.35.5",
         "typescript": "^5.2.2",

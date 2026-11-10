@@ -5,7 +5,7 @@ import { configDefaults, defineConfig } from 'vite-plus';
 
 export default defineConfig({
     plugins: [
-        frontAwesome({ webAwesome: 'core' }),
+        frontAwesome({ webAwesome: 'pro' }),
         vue({
             template: {
                 transformAssetUrls: { base: null, includeAbsolute: false },

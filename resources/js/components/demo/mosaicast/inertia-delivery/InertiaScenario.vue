@@ -1,4 +1,5 @@
 <script setup>
+import { Input } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 import { onUnmounted, ref } from 'vue';
 import { router } from '@inertiajs/vue3';
 import { mosaicast } from '@artisan-toolbox/mosaicast';
@@ -94,17 +95,15 @@ onUnmounted(stopListening);
 <template>
     <DemoFrame :title="title" :description="description" :sources="sources">
         <form class="flex flex-wrap items-end gap-3" @submit.prevent="start">
-            <label
-                class="flex min-w-0 flex-1 flex-col gap-2 text-sm font-medium text-slate-700 dark:text-slate-300">
-                Message for both paths
-                <input
-                    v-model="message"
-                    :disabled="phase === 'requesting'"
-                    type="text"
-                    required
-                    maxlength="120"
-                    class="min-h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-slate-950 focus:outline-2 focus:outline-brand-500 dark:border-slate-700 dark:bg-slate-900 dark:text-white" />
-            </label>
+            <Input
+                v-model="message"
+                label="Message for both paths"
+                hint="Both delivery paths receive this same message."
+                :disabled="phase === 'requesting'"
+                type="text"
+                required
+                maxlength="120"
+                class="min-w-0 flex-1" />
             <DemoAction :busy="phase === 'requesting'" @click="start"
                 >Run {{ scenario === 'multiple' ? 'three events' : 'one event' }}</DemoAction
             >

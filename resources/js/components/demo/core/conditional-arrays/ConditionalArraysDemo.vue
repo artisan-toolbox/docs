@@ -1,4 +1,5 @@
 <script setup>
+import { Checkbox } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 import { useHttp } from '@inertiajs/vue3';
 import { onBeforeUnmount, ref } from 'vue';
 import { route } from 'ziggy-js';
@@ -82,20 +83,18 @@ onBeforeUnmount(() => {
                 :disabled="state.status === 'running'"
                 class="flex flex-col gap-3 text-sm text-slate-700 dark:text-slate-300">
                 <legend class="mb-3 font-medium">Inputs for the next run</legend>
-                <label class="flex min-h-11 items-center gap-3">
-                    <input
-                        v-model="form.includeContact"
-                        type="checkbox"
-                        class="size-4 accent-brand-600 focus-visible:outline-2 focus-visible:outline-brand-500" />
+                <Checkbox
+                    :checked="form.includeContact"
+                    :disabled="state.status === 'running'"
+                    @change="form.includeContact = $event.target.checked">
                     Include the nested contact
-                </label>
-                <label class="flex min-h-11 items-center gap-3">
-                    <input
-                        v-model="form.includeExtraItem"
-                        type="checkbox"
-                        class="size-4 accent-brand-600 focus-visible:outline-2 focus-visible:outline-brand-500" />
+                </Checkbox>
+                <Checkbox
+                    :checked="form.includeExtraItem"
+                    :disabled="state.status === 'running'"
+                    @change="form.includeExtraItem = $event.target.checked">
                     Include the middle item (QZ Tray)
-                </label>
+                </Checkbox>
             </fieldset>
             <div class="flex flex-wrap gap-3">
                 <DemoAction :busy="state.status === 'running'" @click="run">Run example</DemoAction>

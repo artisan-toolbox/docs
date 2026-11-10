@@ -78,7 +78,7 @@ export function verifyLegacyPages({
                 expect(
                     wrapper
                         .get('[aria-label="Package details"]')
-                        .findAll('span')
+                        .findAll('wa-tag')
                         .map((value) => value.text()),
                 ).toEqual([
                     packageTitle,
@@ -128,7 +128,7 @@ export function verifyLegacyPages({
             for (const id of guide.anchors) {
                 expect(wrapper.findAll(`[id="${id}"]`)).toHaveLength(1);
             }
-            expect(wrapper.findAll('button[aria-label^="Copy "]')).toHaveLength(
+            expect(wrapper.findAll('wa-button[aria-label^="Copy "]')).toHaveLength(
                 guide.examples.length,
             );
             wrapper.unmount();

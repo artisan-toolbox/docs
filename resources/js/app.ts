@@ -1,6 +1,5 @@
 import '../css/app.css';
 import '@artisan-toolbox/front-awesome/web-awesome-tailwind';
-import '@awesome.me/webawesome/dist/components/icon/icon.js';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { createMosaicast } from '@artisan-toolbox/mosaicast';
 import { initializeTheme } from '@/composables/useAppearance';

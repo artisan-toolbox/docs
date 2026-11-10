@@ -62,10 +62,9 @@ test('generates breadcrumbs from renamed routes and the configured application o
         'https://documentation.example/guides',
         'https://documentation.example/guides/core',
         'https://documentation.example/guides/core/installation',
-    ])->and(array_column($documentation->breadcrumbs(PageSlug::FrontAwesomeButton), 'href'))->toBe([
+    ])->and(array_column($documentation->breadcrumbs(PageSlug::FrontAwesomeActions), 'href'))->toBe([
         '/welcome', '/guides', '/guides/front-awesome', '/guides/front-awesome/web-awesome',
         '/guides/front-awesome/web-awesome/components', '/guides/front-awesome/web-awesome/components/actions',
-        '/guides/front-awesome/button',
     ]);
 });
 
@@ -78,10 +77,10 @@ test('uses editorial ancestors without changing historical guide URLs', function
         ...array_fill(0, count($ancestors) + 1, false), true,
     ]);
 })->with([
-    [PageSlug::FrontAwesomeButton, ['front-awesome', 'front-awesome/web-awesome', 'front-awesome/web-awesome/components', 'front-awesome/web-awesome/components/actions', 'front-awesome/button']],
-    [PageSlug::FrontAwesomeInput, ['front-awesome', 'front-awesome/web-awesome', 'front-awesome/web-awesome/components', 'front-awesome/web-awesome/components/forms', 'front-awesome/input']],
-    [PageSlug::FrontAwesomeIcon, ['front-awesome', 'front-awesome/web-awesome', 'front-awesome/web-awesome/components', 'front-awesome/web-awesome/components/media', 'front-awesome/icon']],
-    [PageSlug::FrontAwesomePageLayout, ['front-awesome', 'front-awesome/web-awesome', 'front-awesome/web-awesome/components', 'front-awesome/web-awesome/components/layout', 'front-awesome/page']],
+    [PageSlug::FrontAwesomeActions, ['front-awesome', 'front-awesome/web-awesome', 'front-awesome/web-awesome/components', 'front-awesome/web-awesome/components/actions']],
+    [PageSlug::FrontAwesomeForms, ['front-awesome', 'front-awesome/web-awesome', 'front-awesome/web-awesome/components', 'front-awesome/web-awesome/components/forms']],
+    [PageSlug::FrontAwesomeMedia, ['front-awesome', 'front-awesome/web-awesome', 'front-awesome/web-awesome/components', 'front-awesome/web-awesome/components/media']],
+    [PageSlug::FrontAwesomeLayout, ['front-awesome', 'front-awesome/web-awesome', 'front-awesome/web-awesome/components', 'front-awesome/web-awesome/components/layout']],
     [PageSlug::FrontAwesomeConfiguration, ['front-awesome', 'front-awesome/setup', 'front-awesome/configuration']],
     [PageSlug::FrontAwesomeSharedTheme, ['front-awesome', 'front-awesome/styling', 'front-awesome/shared-theme']],
 ]);

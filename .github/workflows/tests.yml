@@ -70,6 +70,31 @@ jobs:
           php artisan docs:search:index --no-interaction
           php artisan docs:search:index --check --no-interaction
 
+      - name: Install Chromium for interactive documentation
+        run: npx playwright install --with-deps chromium --only-shell
+
+      - name: Verify interactive documentation
+        env:
+          APP_URL: http://127.0.0.1:8080
+          DOCS_BASE_URL: http://127.0.0.1:8080
+          SESSION_DRIVER: file
+          DB_DATABASE: ${{ runner.temp }}/documentation-browser.sqlite
+        run: |
+          touch "$DB_DATABASE"
+          php artisan migrate --force --no-interaction
+          php artisan serve --no-reload --host=127.0.0.1 --port=8080 > storage/logs/browser-server.log 2>&1 &
+          browser_server_pid=$!
+          trap 'kill "$browser_server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..50}; do
+            if curl --fail --silent "$APP_URL/up" > /dev/null; then break; fi
+            sleep 0.2
+          done
+          if ! curl --fail --silent "$APP_URL/up" > /dev/null; then
+            cat storage/logs/browser-server.log
+            exit 1
+          fi
+          npm run test:browser
+
       - name: Run Rector check
         run: composer rector:check
 

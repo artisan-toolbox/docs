@@ -163,14 +163,13 @@ The standalone binary preserves fixture isolation because the Composer proxy res
 The tests workflow checks the distribution lock and installs locked Composer dependencies before running `npm ci` with Node.js 24. Use the standalone verification procedure above when refreshing release dependencies.
 The frontend installation receives `WEBAWESOME_NPM_TOKEN` from the repository secret with the same name.
 Keep the token in GitHub secrets rather than repository files.
-The current frontend dependencies do not require that token.
+The Web Awesome Pro dependency requires a licensed registry token. Fork pull requests do not automatically receive repository secrets and need an authorized trusted workflow to install that dependency.
 
 The workflow prepares the application key, clears cached configuration, and builds client assets.
 It then runs `composer rector:check` and invokes Maintainer directly with `php vendor/bin/maintainer quality:check --no-interaction`.
 This sequence preserves the checks provided by the local `composer ci:check` command.
 
-The job uses `APP_ENV=testing`, array cache, session and mail stores, synchronous queues, and SQLite in memory.
-Pest creates its own test schema, so this workflow does not migrate a persistent database.
+The PHP quality steps use `APP_ENV=testing`, array cache, session and mail stores, synchronous queues, and SQLite in memory. Pest creates its own test schema. The [browser step](#verify-interactive-documentation-in-ci) overrides sessions with file storage and migrates a disposable SQLite file for its real HTTP requests.
 
 ## Apply fixes
 
@@ -212,3 +211,9 @@ npm run test:migration
 ```
 
 This command is archived migration tooling and requires historical source files that are no longer present in the workspace. It is not a current documentation completion check. Do not recreate `docs_old` to run it. Use the self-contained `npm test` suite and the normal quality, build, and search checks when maintaining the `docs` application.
+
+## Verify interactive documentation in CI
+
+After the production build and search checks, CI installs Playwright Chromium and runs the catalog, application, and sign-in browser chain against a disposable local Laravel server. The step sets `APP_URL` and `DOCS_BASE_URL` to the same localhost origin, uses file sessions for actual request-forgery protection, and migrates an isolated SQLite file under the runner temporary directory. It stops the server when the step exits. It does not start mail, Redis, broadcasting, or external services. Sign-in requests remain intercepted by the browser harness.
+
+The browser step complements Maintainer's six configured checks; it does not replace them or the earlier distribution lock check. The current local development lock must pass that distribution check through a real public package resolution before the workflow can reach dependency installation. Passing local browser checks does not make a local-path lock portable.

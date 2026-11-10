@@ -11,31 +11,10 @@ const example1 = `<template>
 <script setup lang="ts">
 import { Button } from "@artisan-toolbox/front-awesome/components";
 \x3C/script>`;
-const example2 = `<template>
-  <ButtonGroup v-bind="group">
-    <Button v-bind="save">Save changes</Button>
-    <Button type="button">Cancel</Button>
-  </ButtonGroup>
-</template>
-
-<script setup lang="ts">
-import {
-  Button,
-  ButtonGroup,
-  type ButtonGroupProps,
-  type ButtonProps,
-} from "@artisan-toolbox/front-awesome/components";
-
-const group = {
-  label: "Form actions",
-  orientation: "vertical",
-} satisfies ButtonGroupProps;
-const save = { variant: "brand", type: "submit" } satisfies ButtonProps;
-\x3C/script>`;
 </script>
 
 <template>
-    <ProseSection>
+    <ProseSection data-component-reference="button">
         <p>
             After
             <DocsLink :href="findNavigationItem(navigation, 'front-awesome/web-awesome').href"
@@ -73,33 +52,12 @@ const save = { variant: "brand", type: "submit" } satisfies ButtonProps;
             existing components entry and direct component imports remain compatible. Check the
             installed package exports before using the new paths in an older preview.
         </p>
-        <h2
-            id="group-related-buttons"
-            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
-            Group related buttons
-        </h2>
         <p>
-            Use <code>ButtonGroup.vue</code> to group buttons. Give the group a
-            <code>label</code> so assistive technologies can identify it. The default slot contains
-            the buttons. Set <code>orientation</code> to <code>vertical</code> to stack them.
-        </p>
-        <CodeExample label="Group related buttons example 2" language="vue" :code="example2" />
-        <p>
-            The wrappers combine Vue's HTML attributes with Web Awesome's TypeScript declarations
-            for template completion and option checking. All wrapper attributes are optional. If you
-            omit
-            <code>orientation</code>, the group uses Web Awesome's horizontal default. Use
-            <code>ButtonProps</code> or <code>ButtonGroupProps</code> to check an object before
-            passing it with <code>v-bind</code>. Vue forwards the attributes and listeners to the
-            Web Awesome element. The group registers <code>wa-button-group</code> when it mounts in
-            the browser.
-        </p>
-        <p>
-            See the
-            <DocsLink href="https://webawesome.com/docs/components/button-group/"
-                >Web Awesome button group reference</DocsLink
-            >
-            for group behavior and attributes.
+            Give a button accessible slotted text or a labeled Icon. In Web Awesome 3.14, attributes
+            on the custom-element host are not all forwarded to its internal focusable button. Check
+            the actual accessible name and state. Keep native buttons for custom disclosures or
+            toggle controls that require <code>aria-expanded</code> or <code>aria-pressed</code> on
+            that focusable element. Do not patch shadow internals to transfer those attributes.
         </p>
     </ProseSection>
 </template>

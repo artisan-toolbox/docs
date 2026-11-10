@@ -3,6 +3,7 @@ import PackageGuideHeader from '@/components/docs/PackageGuideHeader.vue';
 import ProseSection from '@/components/docs/ProseSection.vue';
 import CatalogContext from '@/components/docs/front-awesome/catalog/CatalogContext.vue';
 import CatalogOverview from '@/components/docs/front-awesome/catalog/CatalogOverview.vue';
+import NamedModelsReference from '@/components/docs/front-awesome/catalog/NamedModelsReference.vue';
 import CatalogSources from '@/components/docs/front-awesome/catalog/CatalogSources.vue';
 
 defineProps({
@@ -25,6 +26,7 @@ defineProps({
             </p>
             <CatalogOverview :navigation="navigation" />
         </ProseSection>
+        <NamedModelsReference />
         <CatalogSources />
     </article>
 </template>
