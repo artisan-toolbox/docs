@@ -65,6 +65,13 @@ defineProps({ navigation: { type: Array, required: true } });
             for both supported tags in unique temporary directories, so they do not depend on
             Windows or Unix path separators or interfere with parallel test workers.
         </p>
+        <p>
+            Production-dependency isolation also loads Composer-declared helper files, not just
+            PSR-4 class prefixes. When Laravel Framework replaces an Illuminate component, the
+            fixture uses that component's own metadata. It verifies that Support helpers are
+            available while undeclared Foundation helpers and the optional ESC/POS library remain
+            unavailable. A missing optional encoder must produce the documented installation hint.
+        </p>
         <h2
             id="resources"
             class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">

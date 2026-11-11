@@ -182,3 +182,13 @@ with that release, then release the matching Front Awesome preview. Update the s
 minimum versions and regenerate both locks from those real releases. Finally verify an
 isolated clean installation and the complete workflow. Keep the distribution check enabled.
 No publication or invented version/reference is part of this review.
+
+### Keep automated refactoring compatible with static analysis
+
+Carbon macro registration uses `Carbon::macro()`, whose declared closure binding lets
+PHPStan type the macro's `$this`. Replacing it with the Date facade loses that typing
+contract. The preference model fixture also uses direct query creation and does not need
+`HasFactory`. Rector's Carbon-to-Date and automatic factory-trait transformations are
+excluded only for their corresponding files. Other Laravel refactors remain enabled.
+The existing mutable, immutable, and Laravel Carbon tests verify the macro behavior;
+PHPStan and a scoped Rector dry run verify that the repair remains stable.
