@@ -193,6 +193,8 @@ The complete local `composer ci:check` passes Rector and all six Maintainer chec
 
 The six package Installation routes and beginner journeys retain Composer-before-npm order, defined example inputs, expected results, and links to the next guide. Existing public package exports provide the demos; no package implementation is copied into the application. Package usage APIs have not changed in this task, so the consumer skills' existing API procedures remain applicable. Front Awesome's branch-preview wording remains owned by its package source and is not rewritten in installed vendor copies.
 
+The application browser test measures the reading position after a real wheel action and waits for Inertia to save it. It clicks the already-visible Home link at its measured center and checks the departure position through `inertia:before`, then verifies exact restoration after Back. Playwright's normal locator click can scroll the slotted sticky link before dispatching pointer events, changing the test's precondition. A trial-only click reproduced that change without navigation. The physical click preserves the original reading position; no application history behavior or restoration tolerance is changed. Keep `public/hot` temporarily out of the way when verifying production assets locally, and restore it after the browser run.
+
 ## Run the complete CI gate
 
 ```bash

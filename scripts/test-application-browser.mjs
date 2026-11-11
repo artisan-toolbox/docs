@@ -91,11 +91,40 @@ try {
                     (expected) => history.state?.documentScrollPosition?.top === expected,
                     rememberedScroll,
                 );
-                await page
+                const home = page
                     .locator('header')
-                    .getByRole('link', { name: 'Artisan Toolbox home', exact: true })
-                    .click();
+                    .getByRole('link', { name: 'Artisan Toolbox home', exact: true });
+                assert(await home.isVisible(), 'The home link is visible before leaving.');
+                await page.evaluate(() => {
+                    document.addEventListener(
+                        'inertia:before',
+                        () => {
+                            window.__historyVisitScroll = window.scrollY;
+                        },
+                        { once: true },
+                    );
+                });
+                const homeBox = await home.boundingBox();
+                const viewport = page.viewportSize();
+                assert(
+                    homeBox &&
+                        homeBox.x >= 0 &&
+                        homeBox.y >= 0 &&
+                        homeBox.x + homeBox.width <= viewport.width &&
+                        homeBox.y + homeBox.height <= viewport.height,
+                    'The home link is entirely inside the viewport before leaving.',
+                );
+                await page.mouse.click(
+                    homeBox.x + homeBox.width / 2,
+                    homeBox.y + homeBox.height / 2,
+                );
                 await page.waitForURL(base.href);
+                assert(
+                    Math.abs(
+                        (await page.evaluate(() => window.__historyVisitScroll)) - rememberedScroll,
+                    ) < 2,
+                    'Following the visible home link preserves the remembered departure scroll.',
+                );
                 await page.goBack();
                 await page.waitForURL('**/feedback#skeleton');
                 try {
