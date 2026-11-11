@@ -15,11 +15,7 @@ const example1 = 'vendor/bin/maintainer deploy:unlock production';
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
         <ProseSection>
-            <p>
-                The optional deployment retry after unlock is a preview available on the current
-                <code>1.x</code> branch after the <code>1.10.0</code> release. It is not included in
-                that stable release.
-            </p>
+            <p>Maintainer 1.11.0 includes the optional deployment retry after unlock.</p>
         </ProseSection>
         <ProseSection>
             <p>

@@ -15,9 +15,7 @@ defineProps({
         <table
             class="w-full border-collapse text-left text-sm leading-6 [&_tbody]:divide-y [&_tbody]:divide-slate-200 [&_tbody]:text-slate-600 dark:[&_tbody]:divide-slate-800 dark:[&_tbody]:text-slate-300 [&_td]:px-4 [&_td]:py-3 [&_td]:align-top [&_th]:px-4 [&_th]:py-3 [&_th]:font-semibold [&_th]:whitespace-nowrap [&_thead]:bg-slate-50 [&_thead]:text-slate-950 dark:[&_thead]:bg-slate-900 dark:[&_thead]:text-white">
             <caption class="sr-only">
-                {{
-                    caption
-                }}
+                {{ caption }}
             </caption>
             <slot>
                 <thead class="bg-slate-50 text-slate-950 dark:bg-slate-900 dark:text-white">

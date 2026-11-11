@@ -20,6 +20,29 @@ npm ci`;
             the frontend dependencies.
         </p>
         <CodeExample label="Develop Front Awesome example 1" language="sh" :code="example1" />
+        <p>
+            The source checkout uses Vite Plus <code>1.6.0</code> and bundled Vitest
+            <code>5.1.0</code>. Keep the <code>vite</code> override at
+            <code>npm:@voidzero-dev/vite-plus-core@1.6.0</code> and both
+            <code>@vitest/browser-playwright</code> and <code>@vitest/coverage-v8</code> at
+            <code>5.1.0</code>. Let Vite Plus select its runner. An older <code>vitest</code>
+            override can prevent tests from starting even after an audit fix.
+        </p>
+        <p>
+            When updating this toolchain, follow the
+            <DocsLink href="https://viteplus.dev/guide/upgrade-project"
+                >Vite Plus update guide</DocsLink
+            >
+            and review the manifest and lockfile together. Run <code>npm ci</code>,
+            <code>npm audit</code>, and the checks below. A compatible installation reports no
+            conflicting peer dependencies and starts both test projects.
+        </p>
+        <p>
+            The checkout explicitly denies install scripts for <code>fsevents</code> through
+            <code>allowScripts</code>. Its macOS package ships the native watcher binary and needs
+            no installation step. This resolves npm's pending-script warning while keeping unrelated
+            dependency scripts subject to npm's policy.
+        </p>
         <h2
             id="validate-a-checkout"
             class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
@@ -85,6 +108,29 @@ npm ci`;
             <code>npx playwright install chromium --only-shell</code>.
         </p>
         <p>
+            The Playwright test context grants <code>clipboard-read</code> and
+            <code>clipboard-write</code> permissions. The copy-button test clicks the real control,
+            checks its success event and status, and reads the copied text through the Clipboard
+            API. Keep these permissions when changing the browser configuration: Chromium headless
+            shell can reject clipboard access even after a trusted click.
+        </p>
+        <p>
+            Wrapper property bindings initialize after the upstream module loads and the native
+            element completes its first update. Browser readiness helpers use
+            <code>await vi.dynamicImportSettled()</code> to wait for module loading. Wait for the
+            expected public property and form-data values with
+            <code>await expect.poll(...)</code> before interacting. Custom-element registration,
+            <code>nextTick()</code>, or one animation frame alone does not confirm that the wrapper
+            has applied those bindings. Keep delayed-loader coverage alongside the normal
+            public-wrapper scenario.
+        </p>
+        <p>
+            Native and Vue parity examples must both fit in the same viewport. The side-by-side
+            suite uses a 1600-by-1000 viewport and checks horizontal visibility. Tab groups
+            initialize through an IntersectionObserver, so the suite also waits for the public
+            active panel before comparing state, colors, and dimensions.
+        </p>
+        <p>
             For changes to Tailwind, Web Awesome, or the optional PrimeVue integration, also follow
             <DocsLink :href="findNavigationItem(navigation, 'front-awesome/theme-maintenance').href"
                 >Maintain the shared theme</DocsLink
@@ -95,6 +141,11 @@ npm ci`;
             Download the
             <code>coverage-reports</code> artifact from that job to browse the PHP and frontend HTML
             reports. PHP type coverage runs across the support matrix.
+        </p>
+        <p>
+            PHPStan loads the package service provider during bootstrap so it checks registered
+            command signatures consistently across platforms. CI lets all matrix jobs finish after
+            another job fails. Review both dependency lanes on Ubuntu and Windows.
         </p>
         <h2
             id="follow-the-package-conventions"

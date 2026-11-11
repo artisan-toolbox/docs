@@ -67,7 +67,8 @@ const overrides = `php artisan vendor:publish --tag=front-awesome-lang`;
         <PackageGuideHeader :page="page" />
         <ProseSection id="scope" title="Scope">
             <p>
-                This reference describes the optional unreleased source-preview APIs. The
+                This reference describes the optional localization APIs included in Front Awesome
+                1.0.0-alpha.2. The
                 <DocsLink :href="findNavigationItem(navigation, 'front-awesome/localization').href"
                     >Laravel translation how-to</DocsLink
                 >
@@ -183,6 +184,12 @@ const overrides = `php artisan vendor:publish --tag=front-awesome-lang`;
                 Node.js executable. <code>--manifest</code> supplies dependency metadata for build
                 tooling. Identical exports preserve the existing files. A failed export preserves
                 the previous valid catalog and exits unsuccessfully.
+            </p>
+            <p>
+                Programmatic Artisan calls accept strings or <code>null</code> for
+                <code>--output</code> and <code>--node</code>. Booleans, arrays, and numbers return
+                a failure before either generated file is replaced. A <code>null</code> value uses
+                the configured default.
             </p>
             <p>
                 <code>frontAwesome({ translations: true, webAwesome: 'core' })</code> enables export

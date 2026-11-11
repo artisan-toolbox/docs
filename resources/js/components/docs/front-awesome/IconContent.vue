@@ -128,12 +128,11 @@ function reset() {
             to a Vue page in that application. The toast plugin is not required.
         </p>
         <DocsCallout variant="caution">
-            <template #title>Development preview</template>
+            <template #title>Published preview</template>
             <p>
-                This guide describes the Icon API in the current Front Awesome checkout. Confirm
-                that your Composer-installed package exports
-                <code>components/Icon.vue</code>. Older published previews may not include it.
-                Follow Installation to refresh the frontend package copy after updating Composer.
+                Front Awesome 1.0.0-alpha.2 exports <code>components/Icon.vue</code>. Its API can
+                change before the first stable release. Follow Installation to refresh the frontend
+                package copy after updating Composer.
             </p>
         </DocsCallout>
         <h3 id="render-an-icon">Render an icon</h3>

@@ -109,23 +109,22 @@ printing.zpl('^XA^FO40,40^FDShipping label^FS^XZ', {
                 plugin setup. Run commands from its root.
             </p>
             <DocsCallout variant="caution">
-                <template #title>Source preview</template>
+                <template #title>Published preview</template>
                 <p>
-                    The printing subpath and PHP receipt writer are new development APIs. Use a
-                    checkout or release that contains these exports. An older published package does
-                    not gain them from a version alias.
+                    Front Awesome 1.0.0-alpha.2 includes the printing subpath. QZ Tray Connector
+                    1.4.0 includes the PHP receipt writer and print-document renderer.
                 </p>
                 <p>
-                    The published Front Awesome 1.0.0-alpha.1 and QZ Tray 1.3.0 archives do not
-                    contain these APIs. This source preview needs matching development checkouts
-                    until compatible releases are available. Confirm the exports before
-                    installation.
+                    Front Awesome remains an alpha release; its API can change before the first
+                    stable release. Complete Composer installation before refreshing the frontend
+                    copies.
                 </p>
             </DocsCallout>
             <p>
-                Install QZ Tray through Composer before refreshing the Composer-delivered frontend
-                packages. This integration is optional for applications that only use other Front
-                Awesome components.
+                Front Awesome requires the QZ Tray PHP package through Composer. Install the QZ Tray
+                frontend below to enable this integration, then refresh the Composer-delivered
+                frontend packages. Applications using only other Front Awesome components do not
+                need the QZ Tray frontend.
             </p>
             <InstallCommand
                 :package="page.package"

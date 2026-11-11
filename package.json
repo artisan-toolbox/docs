@@ -7,6 +7,7 @@
         "build": "node scripts/build-brand-logos.mjs && vp build",
         "dev": "node scripts/build-brand-logos.mjs && vp dev",
         "test": "vp test run --config vite.test.config.js",
+        "audit:check": "npm audit --audit-level=moderate",
         "test:migration": "vp test run --config vite.migration.test.config.js",
         "standards:check": "node scripts/sync-agent-standards.mjs --check",
         "standards:sync": "node scripts/sync-agent-standards.mjs --write",
@@ -58,8 +59,8 @@
         "primevue": "^4.5.5",
         "sharp": "^0.35.5",
         "typescript": "^5.2.2",
-        "vite": "npm:@voidzero-dev/vite-plus-core@1.4.0",
-        "vite-plus": "1.4.0",
+        "vite": "npm:@voidzero-dev/vite-plus-core@1.6.0",
+        "vite-plus": "1.6.0",
         "vue-tsc": "^3.3.13"
     },
     "optionalDependencies": {
@@ -72,7 +73,11 @@
         "lightningcss-win32-x64-msvc": "^1.29.1"
     },
     "overrides": {
-        "vite": "npm:@voidzero-dev/vite-plus-core@1.4.0"
+        "js-beautify": {
+            "editorconfig": "^4.0.0",
+            "glob": "^14.0.5"
+        },
+        "vite": "npm:@voidzero-dev/vite-plus-core@1.6.0"
     },
     "engines": {
         "node": ">=24.11.0"

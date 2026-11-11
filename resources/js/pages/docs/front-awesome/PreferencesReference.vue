@@ -43,7 +43,7 @@ const modelContract = `interface HasPreferences
         <PackageGuideHeader :page="page" />
         <ProseSection id="configuration" title="Configuration">
             <p>
-                These unreleased source-preview settings belong to
+                These Front Awesome 1.0.0-alpha.2 settings belong to
                 <code>config/front-awesome.php</code>. Follow the
                 <DocsLink :href="findNavigationItem(navigation, 'front-awesome/preferences').href"
                     >preferences how-to</DocsLink

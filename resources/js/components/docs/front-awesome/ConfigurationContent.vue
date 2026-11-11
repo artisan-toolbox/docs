@@ -44,10 +44,10 @@ return [
             stylesheet, palette, or color mode.
         </p>
         <p>
-            The optional source-preview <code>translations</code> configuration controls browser
-            exports. Its <code>include_application</code> switch defaults to false. Enable it to
-            include the entire Laravel language directory, with optional file and key filters. Front
-            Awesome's own translations are always included. Consult the
+            The optional <code>translations</code> configuration controls browser exports. Its
+            <code>include_application</code> switch defaults to false. Enable it to include the
+            entire Laravel language directory, with optional file and key filters. Front Awesome's
+            own translations are always included. Consult the
             <DocsLink
                 :href="findNavigationItem(navigation, 'front-awesome/localization/reference').href"
                 >localization reference</DocsLink

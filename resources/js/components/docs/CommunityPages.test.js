@@ -81,7 +81,16 @@ for (const fixture of fixtures) {
                             !paragraph.attributes('role') && !paragraph.element.closest('figure'),
                     )
                     .map((paragraph) => normalize(paragraph.text())),
-            ).toEqual(fixture.paragraphs.map(normalize));
+            ).toEqual(
+                fixture.paragraphs.map((paragraph) =>
+                    normalize(
+                        paragraph.replace(
+                            'The pending-push feature is explicitly labeled as a preview on the current 1.x branch after 1.10.0.',
+                            'Maintainer 1.11.0 includes the pending-push feature.',
+                        ),
+                    ),
+                ),
+            );
             expect(content.findAll('li').map((item) => normalize(item.text()))).toEqual(
                 fixture.listItems.map(normalize),
             );

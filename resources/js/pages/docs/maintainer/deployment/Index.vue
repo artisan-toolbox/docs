@@ -16,10 +16,10 @@ const example1 = 'vendor/bin/maintainer config:publish';
         <PackageGuideHeader :page="page" />
         <ProseSection>
             <p>
-                The task selector, server maintenance tasks, optional deployment retry after unlock,
-                and namespace-isolated PM2 replacement are previews available on the current
-                <code>1.x</code> branch after the <code>1.10.0</code> release. They are not included
-                in that stable release.
+                Maintainer 1.11.0 includes the task selector, server maintenance tasks, optional
+                deployment retry after unlock, and namespace-isolated PM2 replacement. Search in the
+                <code>deploy:run</code> task selector is a source preview on the current
+                <code>1.x</code> branch after 1.11.0.
             </p>
         </ProseSection>
         <ProseSection>

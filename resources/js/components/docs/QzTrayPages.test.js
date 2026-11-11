@@ -80,14 +80,68 @@ const revisedIntroduction = new Set([
     'Build the frontend during local development',
 ]);
 
+const updatedToolingParagraphs = [
+    {
+        prefix: 'Frontend tooling supports Node.js',
+        slug: 'qztray/compatibility',
+        fragments: [
+            'Installing the compiled frontend supports Node.js 20.19+',
+            'Building and testing package sources with Vite Plus 1.6 requires Node.js 22.18+',
+            'PDF previews require canvas and module workers',
+            'ZPL previews require WebAssembly',
+            'Deploy all emitted renderer assets',
+        ],
+    },
+    {
+        prefix: 'The tooling requires Node.js',
+        slug: 'qztray/frontend-tooling',
+        fragments: [
+            'Node.js 22.18+ within 22.x, 24.11+ within 24.x, or 26 and later',
+            'retains the existing Node.js 20.19+ compatibility',
+            'The declared package manager is npm 11.17.0',
+        ],
+    },
+    {
+        prefix: 'Vite Plus and the vite alias',
+        slug: 'qztray/frontend-tooling',
+        fragments: [
+            '@voidzero-dev/vite-plus-core must use the same version',
+            'Both are pinned to 1.6.0',
+            'Vite Plus supplies the matching Vitest 5.1.0 packages',
+            'Remove older Vitest overrides',
+            'refresh the lockfile',
+        ],
+    },
+    {
+        prefix: 'An isolated PHP test loads the service',
+        slug: 'qztray/development',
+        fragments: [
+            'using only root and declared production dependency autoloaders',
+            "exercise the actual QZ SDK's signing error boundary",
+            'PDF engine tests use the real legacy distribution for headless Node rendering',
+            'browser builds retain the modern distribution',
+            'Node 22.18 and 24.11 for Ubuntu and Windows',
+            'compiled ESM and CommonJS connector entries on Node 20.19',
+        ],
+    },
+];
+
 describe('QZ Tray documentation learning journey', () => {
-    it('preserves frozen source prose, tables, and examples across their owning guides', () => {
+    it('preserves source coverage and checks revised tooling contracts in their owning guides', () => {
         const guides = renderGuides();
         const wrappers = Object.values(guides);
         const texts = wrappers.map((wrapper) => normalize(wrapper.text()));
         for (const fixture of fixtures) {
             for (const paragraph of fixture.paragraphs) {
                 if (revisedIntroduction.has(paragraph)) continue;
+                const updated = updatedToolingParagraphs.find(({ prefix }) =>
+                    paragraph.startsWith(prefix),
+                );
+                if (updated) {
+                    const text = normalize(guides[updated.slug].text());
+                    for (const fragment of updated.fragments) expect(text).toContain(fragment);
+                    continue;
+                }
                 expect(
                     texts.some((text) => text.includes(normalize(paragraph))),
                     paragraph,

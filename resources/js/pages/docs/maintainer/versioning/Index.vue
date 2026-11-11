@@ -63,11 +63,7 @@ const releasesHref = computed(
                 Every mutating workflow starts from the consuming Composer project's root, even when
                 Maintainer is invoked from a subdirectory.
             </p>
-            <p>
-                The pending-push workflow is a preview available on the current
-                <code>1.x</code> branch after the <code>1.10.0</code> release. It is not included in
-                that stable release.
-            </p>
+            <p>Maintainer 1.11.0 includes the pending-push workflow.</p>
         </ProseSection>
     </article>
 </template>

@@ -77,11 +77,11 @@ async function previewLabel() {
         </ProseSection>
         <ProseSection id="guides" title="Continue with a guide">
             <p>
-                The new source-preview
+                QZ Tray Connector 1.4.0 includes the
                 <DocsLink :href="findNavigationItem(navigation, 'qztray/escpos-writer').href"
                     >PHP receipt writer</DocsLink
                 >
-                generates ESC/POS using an optional Mike42 dependency. The
+                which generates ESC/POS using an optional Mike42 dependency. The
                 <DocsLink :href="findNavigationItem(navigation, 'front-awesome/printing').href"
                     >Front Awesome print workspace</DocsLink
                 >

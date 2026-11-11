@@ -44,9 +44,8 @@ import { Appearance } from '@artisan-toolbox/front-awesome/components';
                     >preferences setup</DocsLink
                 >
                 in your Laravel, Inertia, and Vue application. Keep its middleware, prepaint Blade
-                directive, and browser service installed. These APIs are an unreleased source
-                preview; confirm that your Composer-installed package exports
-                <code>Appearance</code>.
+                directive, and browser service installed. These APIs, including
+                <code>Appearance</code>, are included in Front Awesome 1.0.0-alpha.2.
             </p>
         </ProseSection>
         <ProseSection id="render-the-selector" title="Render appearance controls">

@@ -56,9 +56,10 @@ defineProps({ navigation: { type: Array, required: true } });
             dependency autoloaders, guarding against development-only interfaces leaking into
             runtime code. Frontend tests reject malformed HTTP successes, verify Buffer snapshots,
             and exercise the actual QZ SDK's signing error boundary through an emulated transport.
-            PDF engine tests use the real legacy distribution in Node for Node 20 compatibility;
-            browser builds retain the modern distribution. CI includes frontend checks on Node 20.19
-            and 22.18 for Ubuntu and Windows in addition to the PHP matrix's Node 24 runtime.
+            PDF engine tests use the real legacy distribution for headless Node rendering; browser
+            builds retain the modern distribution. CI runs source validation on Node 22.18 and 24.11
+            for Ubuntu and Windows, plus the PHP matrix's Node 24 runtime. A separate check
+            exercises the compiled ESM and CommonJS connector entries on Node 20.19.
         </p>
         <p>
             Credential publishing tests resolve source paths and verify the published file contents
@@ -71,6 +72,21 @@ defineProps({ navigation: { type: Array, required: true } });
             fixture uses that component's own metadata. It verifies that Support helpers are
             available while undeclared Foundation helpers and the optional ESC/POS library remain
             unavailable. A missing optional encoder must produce the documented installation hint.
+            CI adds Laravel Framework and Testbench with <code>composer require --dev</code> so test
+            infrastructure does not become a production requirement in the fixture.
+        </p>
+        <p>
+            Image-width regressions use real PNG data with an ImageMagick width limit of 32,000 dots
+            when that backend is available. The writer checks supported image headers before
+            decoding, rejects widths that exceed the byte-padded command limit, and preserves the
+            receipt buffer. Missing and invalid image files also leave existing bytes unchanged.
+        </p>
+        <p>
+            The successful image test uses a one-pixel PNG with a <code>.png</code> extension and
+            explicitly exercises Mike42's native PHP decoder, even when GD or Imagick is installed.
+            This catches unsupported temporary filenames locally and keeps Windows coverage
+            independent of optional image extensions. The test verifies the complete image and
+            horizontal-rule command stream, including pixel data and padding.
         </p>
         <h2
             id="resources"

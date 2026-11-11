@@ -9,6 +9,13 @@ import Pm2 from '../../pages/docs/maintainer/deployment/Pm2.vue';
 import Commands from '../../pages/docs/maintainer/Commands.vue';
 import Development from '../../pages/docs/maintainer/Development.vue';
 
+const releasedParagraphs = new Map([
+    [
+        'The grouped Deployer tests, standard-input preservation and Windows input inheritance, isolated APT test environment, and Symfony 8.1.11 security updates described here are previews available on the current 1.x branch after the 1.10.0 release. They are not included in that stable release.',
+        'Maintainer 1.11.0 includes the grouped Deployer tests, standard-input preservation and Windows input inheritance, isolated APT test environment, and Symfony 8.1.11 security updates described here.',
+    ],
+]);
+
 const guides = [
     ['deployment/index', Index],
     ['deployment/deploy', Deploy],
@@ -93,7 +100,7 @@ describe('Maintainer deployment and contributor guides', () => {
             );
             const text = normalize(wrapper.text());
             for (const paragraph of document.paragraphs)
-                expect(text).toContain(normalize(paragraph));
+                expect(text).toContain(normalize(releasedParagraphs.get(paragraph) ?? paragraph));
         });
         if (guide.document.links.length > 0) {
             it(`resolves every source link from navigation and reacts to updated routes in ${guide.source}`, async () => {
@@ -116,14 +123,18 @@ describe('Maintainer deployment and contributor guides', () => {
             });
         }
     }
-    it('identifies unreleased deployment, push, PM2, and contributor changes as current-branch previews', () => {
+    it('identifies released workflows and reserves the source preview for task search', () => {
         for (const guide of guides.filter(
             ({ source }) => source !== 'deployment/repository-tags',
         )) {
             const text = normalize(render(guide).text());
-            expect(text).toContain('preview');
-            expect(text).toContain('current 1.x branch after the 1.10.0 release');
-            expect(text).toMatch(/(?:They are|It is) not included in that stable release\./);
+            expect(text).toContain('Maintainer 1.11.0 includes');
+            if (['deployment/index', 'deployment/deploy'].includes(guide.source)) {
+                expect(text).toContain('source preview');
+                expect(text).toContain('1.x branch after 1.11.0');
+            } else {
+                expect(text).not.toContain('previews available');
+            }
         }
     });
     it('retains the PM2 process replacement order and isolation constraints', () => {

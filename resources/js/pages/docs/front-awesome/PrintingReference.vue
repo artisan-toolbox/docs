@@ -44,8 +44,8 @@ const slots = `<PrintDrawer :service="printing" :messages="{ title: 'Order docum
         <PackageGuideHeader :page="page" />
         <ProseSection id="scope" title="Scope">
             <p>
-                This reference describes the new
-                <code>@artisan-toolbox/front-awesome/printing</code> source-preview entry. Follow
+                This reference describes the <code>@artisan-toolbox/front-awesome/printing</code>
+                entry included in Front Awesome 1.0.0-alpha.2. Follow
                 <DocsLink :href="findNavigationItem(navigation, 'front-awesome/printing').href"
                     >Preview and print documents</DocsLink
                 >

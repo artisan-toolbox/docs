@@ -1,6 +1,6 @@
 # Verify the printing demonstration
 
-The printing suite is a source preview spanning Front Awesome and QZ Tray Connector. Its guides live at `front-awesome/printing`, `front-awesome/printing/reference`, and `qztray/escpos-writer`. `PageSlug` owns their order and ancestry.
+The printing suite uses Front Awesome `1.0.0-alpha.2` and QZ Tray Connector `1.4.0`. Front Awesome remains an alpha preview. Its guides live at `front-awesome/printing`, `front-awesome/printing/reference`, and `qztray/escpos-writer`. `PageSlug` owns their order and ancestry.
 
 The application consumes the packages through Composer and their public frontend entries. The demonstration imports `createPrinting`, `PrintDrawer`, `preparePrintDocument`, and `renderPrintRequest`. It does not copy the package queue, writer, renderers, or wrapper internals.
 
@@ -14,7 +14,7 @@ The demonstration starts with automatic advancement and no final report. Each do
 
 ## Run automated verification
 
-From this repository, run Composer before npm. A package build containing the source-preview exports is required. Refresh Composer-delivered frontend copies after changing local package sources. Preserve `file:vendor/artisan-toolbox/...` entries in the manifest and lock, including when the local Composer installation uses symlinks.
+From this repository, run Composer before npm. The declared package minimums include all consumed printing exports. Refresh Composer-delivered frontend copies after changing local package sources. Preserve `file:vendor/artisan-toolbox/...` entries in the manifest and lock, including when the local Composer installation uses symlinks.
 
 ```bash
 php artisan test --compact --filter=PrintingSuiteDocumentation
@@ -36,4 +36,4 @@ Automated simulations and an accepted QZ promise cannot establish physical print
 
 ## Keep preview dependencies distinct from release claims
 
-Global local Composer routing may resolve workspace aliases into this development installation. They are not public releases. `composer distribution:check` remains the release gate and rejects local paths. Do not deploy a path-based development lock or claim a standalone public installation until the released QZ and Front Awesome archives contain every consumed export and a clean consumer has passed the checks.
+Global local Composer routing may resolve workspace aliases into a development installation. They are not public releases. `composer distribution:check` remains the release gate and rejects local paths. The current lock uses public Front Awesome `1.0.0-alpha.2` and QZ Tray `1.4.0` archives. Their consumed exports and clean installation have been verified. Preserve that check when updating dependencies; do not deploy a path-based development lock. See the [current dependency verification](quality.md#documentation-consistency-and-test-dependencies-on-2026-11-11).

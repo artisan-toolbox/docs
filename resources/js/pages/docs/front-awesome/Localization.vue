@@ -77,9 +77,10 @@ npx vue-tsc --noEmit`;
 <template>
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
-        <ProseSection id="prerequisites" title="Start with the installed source preview">
+        <ProseSection id="prerequisites" title="Start with the published preview">
             <p>
-                This how-to starts in a Laravel 13, Inertia 3, and Vue 3.5 application after
+                This how-to requires Laravel 13.36 or later within 13.x, Inertia 3, and Vue 3.5.
+                Start after
                 <DocsLink :href="findNavigationItem(navigation, 'front-awesome/installation').href"
                     >installation</DocsLink
                 >
@@ -90,11 +91,16 @@ npx vue-tsc --noEmit`;
                 installation.
             </p>
             <p>
-                Localization is an optional, unreleased source-preview API. Confirm that your
-                Composer-installed frontend exports <code>./localization</code> and
-                <code>Language</code>, and that Artisan lists
-                <code>front-awesome:export-translations</code>. The published preview does not
-                guarantee these additions. Vue I18n is delivered by this frontend package.
+                Front Awesome 1.0.0-alpha.2 requires Illuminate Translation <code>^13.36</code>.
+                Earlier Laravel 13 releases renumber numeric JSON translation keys such as
+                <code>"123"</code>. Update Laravel before upgrading Front Awesome to preserve those
+                keys in both Laravel and the exported browser catalog.
+            </p>
+            <p>
+                Localization is optional and included in Front Awesome 1.0.0-alpha.2. The frontend
+                exports <code>./localization</code> and <code>Language</code>, and Artisan provides
+                <code>front-awesome:export-translations</code>. Vue I18n is delivered by this
+                frontend package.
             </p>
             <p>
                 Direct Artisan exports also require Node.js 24.11 or later and subprocess execution
@@ -241,6 +247,12 @@ npx vue-tsc --noEmit`;
                 restart Vite. Translation file edits during Vite development regenerate the catalog
                 and reload the page. A failed export retains the last valid file and reports the
                 error. Production export errors fail the build.
+            </p>
+            <p>
+                Stopping Vite cancels queued exports and waits for the active exporter process and
+                its output streams to close. Intentional shutdown cancellation does not report a
+                translation error. For a programmatic server, await <code>server.close()</code>
+                before removing its working directory, including temporary Windows fixtures.
             </p>
             <p>
                 Continue with the

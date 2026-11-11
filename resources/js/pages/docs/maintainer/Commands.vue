@@ -16,10 +16,9 @@ const example1 = 'vendor/bin/maintainer';
         <PackageGuideHeader :page="page" />
         <ProseSection>
             <p>
-                The <code>push</code> and <code>deploy:run</code> workflows, optional deployment
-                retry after unlock, server maintenance tasks, and namespace-isolated PM2 replacement
-                are previews available on the current <code>1.x</code> branch after the
-                <code>1.10.0</code> release. They are not included in that stable release.
+                Maintainer 1.11.0 includes the <code>push</code> and <code>deploy:run</code>
+                workflows, optional deployment retry after unlock, server maintenance tasks, and
+                namespace-isolated PM2 replacement.
             </p>
         </ProseSection>
         <ProseSection>

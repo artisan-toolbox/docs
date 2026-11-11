@@ -12,7 +12,7 @@ Loading the Font Awesome script alone does not configure Web Awesome. WA reads t
 
 The kit identifier is public because browsers use it to load the kit. Private package-registry credentials and Font Awesome API credentials do not belong in this setting or the HTML. Keep the kit's permitted domains, available families, and icon selection configured in the Font Awesome account. Reload the document after changing the kit identifier.
 
-The current Front Awesome source preview exports Icon through its public component entry. SiteIcon consumes that wrapper for official families and retains application-specific sizes, decorative accessibility and uploaded-kit handling. The Vite plugin selects the licensed Pro runtime used by this application. There is no duplicate application import of the native icon registration module. Keep Core and Pro dependency requirements separate from the preview's published release availability.
+Front Awesome `1.0.0-alpha.2` exports Icon through its public component entry. SiteIcon consumes that wrapper for official families and retains application-specific sizes, decorative accessibility and uploaded-kit handling. The Vite plugin selects the licensed Pro runtime used by this application. There is no duplicate application import of the native icon registration module. Keep Core and Pro dependency requirements separate from the alpha's release availability.
 
 ## Add an icon
 

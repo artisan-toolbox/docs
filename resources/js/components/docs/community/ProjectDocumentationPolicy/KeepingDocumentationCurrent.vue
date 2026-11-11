@@ -33,13 +33,12 @@ defineProps({ navigation: { type: Array, required: true } });
         <p>
             The complete Versioning section lives under
             <code>/docs/maintainer/versioning</code>, including commits, HTML diffs, releases, and
-            project integration. The pending-push feature is explicitly labeled as a preview on the
-            current <code>1.x</code> branch after <code>1.10.0</code>. Preserve production-autoload
-            discovery requirements even when integration classes are used only by development
-            tooling. The documentation application's shared <code>DocsLink</code> opens external
-            HTTP(S) destinations in a new tab with <code>noopener noreferrer</code>. Internal
-            destinations, local anchors, email links, and telephone links retain their appropriate
-            navigation behavior.
+            project integration. Maintainer 1.11.0 includes the pending-push feature. Preserve
+            production-autoload discovery requirements even when integration classes are used only
+            by development tooling. The documentation application's shared
+            <code>DocsLink</code> opens external HTTP(S) destinations in a new tab with
+            <code>noopener noreferrer</code>. Internal destinations, local anchors, email links, and
+            telephone links retain their appropriate navigation behavior.
         </p>
         <p>
             The documentation application provides operator access through

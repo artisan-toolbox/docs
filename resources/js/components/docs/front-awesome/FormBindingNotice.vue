@@ -19,8 +19,8 @@ import DocsLink from '@/components/docs/DocsLink.vue';
         <p>
             See the <DocsLink href="#use-v-model">live model example</DocsLink>,
             <DocsLink href="#bind-an-inertia-form">Inertia binding demos</DocsLink> and
-            <DocsLink href="#display-server-errors">error handling</DocsLink> below. These APIs
-            belong to the source preview described above.
+            <DocsLink href="#display-server-errors">error handling</DocsLink> below. These APIs are
+            included in Front Awesome 1.0.0-alpha.2.
         </p>
     </DocsCallout>
 </template>

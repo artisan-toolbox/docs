@@ -1,7 +1,8 @@
 # Preferences integration verification
 
-This record covers the unreleased Front Awesome source preview integrated on November 10, 2026.
-It supplements the public Preferences guides and does not describe a published stable release.
+This record covers the Front Awesome source preview integrated on November 10, 2026, before its publication.
+Front Awesome `1.0.0-alpha.2` now includes these APIs. This record supplements the public Preferences guides and does not describe a stable release.
+The [current dependency verification](quality.md#documentation-consistency-and-test-dependencies-on-2026-11-11) supersedes the historical distribution and audit limits below.
 
 ## Reader journey and reuse
 
@@ -166,22 +167,26 @@ its DNS failure in the restricted environment was not a source-code defect. Cata
 checks now have a 30-second default timeout and optional `DOCS_BROWSER_TRACE=1` route
 diagnostics instead of an unbounded state wait.
 
-### Distribution remains blocked by unpublished APIs
+<a id="distribution-remains-blocked-by-unpublished-apis"></a>
 
-The local Maintainer result does not make the remote workflow installable. The current
-development Composer lock contains absolute workspace package paths and fails the
+### Distribution after publication
+
+The original local Maintainer result did not make the remote workflow installable. Its
+development Composer lock contained absolute workspace package paths and failed the
 existing distribution gate. An isolated resolution with a clean `COMPOSER_HOME` produced
-a portable candidate, but the resolved public artifacts do not provide the required APIs:
+a portable candidate, but those public artifacts did not provide the required APIs:
 
 - Front Awesome `1.0.0-alpha.1`, commit `a55e06f`, lacks the printing and Web Awesome component subpaths used by the site.
 - QZ Tray `1.3.0`, commit `2f8687f`, lacks `preparePrintDocument`, `renderPrintRequest`, their document types, and the PHP receipt writer.
 
-That candidate was not integrated as a falsely working lock. Release QZ with the needed
-APIs first, align Front Awesome's optional npm peer and Composer development minimum
-with that release, then release the matching Front Awesome preview. Update the site's
-minimum versions and regenerate both locks from those real releases. Finally verify an
-isolated clean installation and the complete workflow. Keep the distribution check enabled.
-No publication or invented version/reference is part of this review.
+That candidate was not integrated as a working lock. Publication required the QZ APIs,
+matching Front Awesome dependency constraints, and a released Front Awesome preview.
+Those releases are now available. The current lock installs Front Awesome `1.0.0-alpha.2`
+and QZ Tray `1.4.0` from public archives. A clean Composer home and separate application
+copy verify installation, preference middleware autoloading, and the PHP receipt writer.
+Clean frontend installation, the complete local CI gate, production build, search indexing,
+and browser checks pass. Keep the distribution check enabled. See the current dependency
+verification for resolved versions, the npm advisory repair, and remaining tooling notices.
 
 ### Keep automated refactoring compatible with static analysis
 

@@ -121,7 +121,7 @@ import { Button } from "@artisan-toolbox/front-awesome/components";
             utilities can override those body colors.
         </p>
         <p>
-            The current development preview restores upstream margin, padding, and border rules for
+            Front Awesome 1.0.0-alpha.2 restores upstream margin, padding, and border rules for
             every Core and Pro custom-element host affected by Tailwind Preflight. Dropdown items,
             tags, and other host-rendered controls retain their native dimensions and appearance.
             Application utilities such as <code>p-0</code>, <code>p-4</code>, and

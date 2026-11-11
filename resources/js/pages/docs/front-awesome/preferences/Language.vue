@@ -39,8 +39,8 @@ import { Language } from '@artisan-toolbox/front-awesome/components';
                 >
                 and its localization prerequisites in your Laravel, Inertia, and Vue application.
                 Install preferences before localization and generate the configured translation
-                catalog. The persisted selector is an unreleased source-preview API; verify the
-                <code>Language</code> export in your Composer-installed package.
+                catalog. The persisted <code>Language</code> selector is included in Front Awesome
+                1.0.0-alpha.2.
             </p>
         </ProseSection>
         <ProseSection id="render-the-selector" title="Offer configured languages">

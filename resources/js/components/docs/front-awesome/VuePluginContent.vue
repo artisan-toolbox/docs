@@ -70,7 +70,7 @@ withApp(app, { ssr }) {
             the last app unmounts. Server rendering has access to the service.
         </p>
         <p>
-            The optional source-preview localization service is installed with
+            The optional localization service is installed with
             <code>createFrontAwesome({ localization })</code>. It exports Laravel messages through
             Vite and follows <code>html.lang</code>. Follow
             <DocsLink :href="findNavigationItem(navigation, 'front-awesome/localization').href"
@@ -119,14 +119,14 @@ withApp(app, { ssr }) {
         </p>
         <CodeExample label="Add an appearance selector example 3" language="vue" :code="example3" />
         <p>
-            The current development preview renames <code>Theme.vue</code> to
+            Front Awesome 1.0.0-alpha.2 renames <code>Theme.vue</code> to
             <code>Appearance.vue</code>. Replace named <code>Theme</code> imports and component tags
             with <code>Appearance</code>. Replace direct imports ending in
             <code>/components/Theme.vue</code> with <code>/components/Appearance.vue</code>. The old
             component exports are removed. Rename the <code>ThemePreference</code> type to
             <code>AppearancePreference</code>, the plugin option from <code>theme: true</code> to
             <code>appearance: true</code>, and the slot property from <code>theme</code> to
-            <code>appearance</code>. These are breaking naming changes in the development preview.
+            <code>appearance</code>. These are breaking naming changes from earlier alpha releases.
             The preference values, slot actions, storage, and lifecycle behavior remain unchanged.
         </p>
         <p>

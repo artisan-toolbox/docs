@@ -39,6 +39,10 @@ const components = {
 
 const publishedInstallationParagraphs = new Map([
     [
+        'Composer installs Front Awesome and Mosaicast under vendor/artisan-toolbox. Laravel discovers the Front Awesome service provider automatically.',
+        'Composer installs Front Awesome, Mosaicast, and the QZ Tray backend under vendor/artisan-toolbox. Laravel discovers the Front Awesome service provider automatically.',
+    ],
+    [
         'Start in an existing Laravel application with Inertia, Vue, and Vite. Check the requirements before installing the development branch.',
         'Start in an existing Laravel application with Inertia, Vue, and Vite. Check the requirements before installing the published preview.',
     ],
@@ -78,6 +82,12 @@ const publishedFixtures = fixtures.map((source) => {
                 : link,
         ),
     };
+    if (guide.slug === 'front-awesome/development') {
+        guide.links.splice(1, 0, {
+            href: 'https://viteplus.dev/guide/upgrade-project',
+            text: 'Vite Plus update guide',
+        });
+    }
     if (guide.slug === 'front-awesome/vue-plugin') {
         guide.links.splice(2, 0, {
             slug: 'front-awesome/preferences/appearance',

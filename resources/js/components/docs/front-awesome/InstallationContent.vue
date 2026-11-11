@@ -71,7 +71,7 @@ const example9 = `npm run build`;
             :package="page.package"
             command="composer" />
         <p>
-            Composer installs Front Awesome and Mosaicast under
+            Composer installs Front Awesome, Mosaicast, and the QZ Tray backend under
             <code>vendor/artisan-toolbox</code>. Laravel discovers the Front Awesome service
             provider automatically.
         </p>
@@ -232,7 +232,7 @@ const example9 = `npm run build`;
                 :href="`${findNavigationItem(navigation, 'front-awesome/web-awesome/components/forms').href}#input`"
                 >Bind input values and form errors</DocsLink
             >
-            when you need v-model or an Inertia form field in a compatible local preview.
+            when you need v-model or an Inertia form field in Front Awesome 1.0.0-alpha.2.
         </p>
         <p>
             Browse the

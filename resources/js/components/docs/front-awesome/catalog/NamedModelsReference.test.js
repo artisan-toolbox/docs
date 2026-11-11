@@ -16,7 +16,7 @@ const definitions = ['componentDefinitions.ts', 'proComponentDefinitions.ts'].ma
 );
 
 describe('Named component model reference', () => {
-    it('documents every named model declared by the installed source preview', () => {
+    it('documents every named model declared by the published alpha', () => {
         const wrapper = mount(NamedModelsReference);
         const documented = wrapper
             .findAll('tbody tr')

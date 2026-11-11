@@ -101,9 +101,9 @@ const example6 = `await qztray.print({
     <ProseSection>
         <h2 id="preview-a-print-document">Preview a print document</h2>
         <p>
-            The new source-preview <code>QzTrayPrintDocument</code> type is the public request union
-            without its printer. <code>renderPrintRequest(document, options)</code> returns every
-            PNG page from PDF, ESC/POS, or ZPL data without connecting to QZ Tray.
+            QZ Tray Connector 1.4.0 exports <code>QzTrayPrintDocument</code> as the public request
+            union without its printer. <code>renderPrintRequest(document, options)</code> returns
+            every PNG page from PDF, ESC/POS, or ZPL data without connecting to QZ Tray.
         </p>
         <CodeExample
             label="Preview the same document used for submission"

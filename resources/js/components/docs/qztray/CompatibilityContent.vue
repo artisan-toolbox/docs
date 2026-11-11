@@ -38,9 +38,8 @@ defineProps({ navigation: { type: Array, required: true } });
             <code>^1.5</code> in 1.1.1 to <code>^1.10.0</code>.
         </p>
         <p>
-            The unreleased <code>1.x</code> checkout requires Core <code>^1.1.0</code> and
-            Maintainer <code>^1.11.0</code>. These dependency increases apply to the development
-            checkout until its next release.
+            QZ Tray Connector 1.4.0 requires Core <code>^1.1.0</code> and Maintainer
+            <code>^1.11.0</code>. These requirements are included in the published release.
         </p>
         <p>
             The frontend integrates with Ziggy 2.x and requires the QZ Tray JavaScript SDK
@@ -54,10 +53,12 @@ defineProps({ navigation: { type: Array, required: true } });
             outside the supported configuration.
         </p>
         <p>
-            Frontend tooling supports Node.js 20.19+ within 20.x, 22.18+ within 22.x, or 24.11 and
-            later. CI covers Ubuntu and Windows. Preview rendering runs in modern browsers; PDF
-            previews require canvas and module workers, and ZPL previews require WebAssembly. Deploy
-            all emitted renderer assets with the JavaScript bundle.
+            Installing the compiled frontend supports Node.js 20.19+ within 20.x, 22.18+ within
+            22.x, or 24.11 and later. Building and testing package sources with Vite Plus 1.6
+            requires Node.js 22.18+ within 22.x, 24.11+ within 24.x, or 26 and later. CI covers
+            Ubuntu and Windows. Preview rendering runs in modern browsers; PDF previews require
+            canvas and module workers, and ZPL previews require WebAssembly. Deploy all emitted
+            renderer assets with the JavaScript bundle.
         </p>
         <h2
             id="error-handling"

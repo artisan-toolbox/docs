@@ -2,6 +2,22 @@
 
 ## Unreleased
 
+- Align the documentation toolchain with Vite Plus 1.6 and Vitest 5.1, restore Vue Test Utils 2.5, and fix its vulnerable formatting dependencies. Check moderate and higher npm advisories in CI.
+- Require Front Awesome 1.0.0-alpha.2 and QZ Tray 1.4.0, and align feature availability with those releases and Maintainer 1.11.0. Keep the later Maintainer task-search feature marked as a development preview.
+
+- Document equal viewport visibility and active-panel readiness for native and Vue component comparisons.
+- Explain observable browser assertions for asynchronous wrapper initialization and delayed-loader regression coverage.
+- Document the Playwright clipboard permissions required for real copy-button verification in Chromium headless shell.
+- Explain registered-command analysis, complete CI matrix results, and validation of programmatic translation command options.
+
+- Document translation exporter shutdown, including cancellation, process cleanup, and awaiting a programmatic Vite server before removing its working directory.
+
+- Document the Front Awesome source preview's Laravel 13.36 minimum, the numeric JSON translation fix, and the upgrade required for earlier Laravel 13 applications.
+
+- Document portable QZ Tray image fixtures and explicit native PHP decoding coverage for Windows without GD or Imagick.
+
+- Document QZ Tray's Vite Plus 1.6 source-tooling requirements separately from compiled consumer compatibility, aligned Vitest packages, development-only CI dependencies, and image-width validation before decoding.
+
 - Document build-host Node locale validation, full cached-page preference reconciliation, and nested authenticated PDF preview options. Keep public distribution checks separate from local Maintainer validation while the required QZ and Front Awesome APIs remain unpublished.
 
 - Group Front Awesome appearance, language, timezone, and optional currency guides under Preferences. Adopt the public backend preference middleware and frontend service in the documentation application, demonstrate Inertia persistence and native Vue I18n formats, and link translation guides to language preference setup.

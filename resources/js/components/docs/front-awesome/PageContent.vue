@@ -78,13 +78,11 @@ import { Page } from '@artisan-toolbox/front-awesome/components';
             defaults. It needs no toast plugin.
         </p>
         <DocsCallout variant="caution">
-            <template #title>Development preview</template>
+            <template #title>Published preview</template>
             <p>
-                This guide describes the current checkout. Confirm that your Composer-installed
-                package exports
-                <code>components/Page.vue</code>. The published <code>1.0.0-alpha.1</code> archive
-                does not include this wrapper. Refresh the frontend package copy after updating
-                Composer.
+                Front Awesome 1.0.0-alpha.2 exports <code>components/Page.vue</code>. Its API can
+                change before the first stable release. Refresh the frontend package copy after
+                updating Composer.
             </p>
         </DocsCallout>
         <h3

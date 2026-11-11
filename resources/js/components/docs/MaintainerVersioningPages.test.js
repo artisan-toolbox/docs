@@ -213,13 +213,11 @@ describe('Maintainer Versioning guides', () => {
         ]);
     });
 
-    it('identifies pending push as a current branch preview rather than a stable 1.10.0 feature', () => {
+    it('identifies pending push as part of Maintainer 1.11.0', () => {
         for (const guide of [guideCases[0], guideCases[1]]) {
             const text = render(guide).text();
 
-            expect(text).toContain(
-                'preview available on the current 1.x branch after the 1.10.0 release. It is not included in that stable release.',
-            );
+            expect(text).toContain('Maintainer 1.11.0 includes');
         }
     });
 

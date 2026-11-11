@@ -66,8 +66,10 @@ export default defineConfig({
             requests, and standalone ZPL, ESC/POS, and PDF preview functions.
         </p>
         <p>
-            The tooling requires Node.js 20.19+ within the 20.x series, 22.18+ within the 22.x
-            series, or 24.11 and later. The declared package manager is npm 11.17.0.
+            Building and testing package sources requires Node.js 22.18+ within 22.x, 24.11+ within
+            24.x, or 26 and later. Installing the compiled package in a consuming application
+            retains the existing Node.js 20.19+ compatibility. The declared package manager is npm
+            11.17.0.
         </p>
         <p>The frontend layout is:</p>
         <CodeExample label="Frontend tooling example 1" language="text" :code="example1" />
@@ -184,8 +186,9 @@ export default defineConfig({
         <p>
             Vite Plus and the <code>vite</code> alias to
             <code>@voidzero-dev/vite-plus-core</code> must use the same version. Both are pinned to
-            <code>0.3.3</code> in <code>package.json</code>, and the Vitest override matches the
-            runner bundled with that release. When upgrading the toolchain, update these entries
+            <code>1.6.0</code> in <code>package.json</code>. Vite Plus supplies the matching Vitest
+            5.1.0 packages. Remove older Vitest overrides when upgrading so the runner, browser
+            integration, mocker, and UI stay aligned. Update the Vite Plus and Vite alias entries
             together and refresh the lockfile. If a build reports an expected/found core version
             mismatch, check these entries and run <code>npm ci</code> once the manifest and lockfile
             are aligned.

@@ -81,11 +81,7 @@ const example3 = 'vendor/bin/maintainer push --branch=1.x --yes --no-interaction
             </p>
         </ProseSection>
         <ProseSection id="push-existing-commits" title="Push existing commits">
-            <p>
-                This workflow is a preview available on the current
-                <code>1.x</code> branch after the <code>1.10.0</code> release. It is not included in
-                that stable release.
-            </p>
+            <p>Maintainer 1.11.0 includes this pending-push workflow.</p>
             <p>Open the pending-push workflow without creating another commit:</p>
             <CodeExample label="Push existing commits" language="bash" :code="example2" />
             <p>

@@ -18,13 +18,12 @@ defineProps({ navigation: { type: Array, required: true } });
             >. Keep its Vite plugin and styles. Add examples to a Vue page.
         </p>
         <p>
-            <strong>Source preview.</strong> Implemented describes all 73 Core and 17 Pro wrappers
-            in the current checkout's Web Awesome 3.14.0 baseline. The published 1.0.0-alpha.1
-            archive lacks Input, Page, Icon, and the WebAwesome barrel entry. The additional Core
-            wrappers require the source preview. Code Highlighter 3.15 remains planned. Check your
-            Composer-installed exports before use. Wrappers forward native properties and events.
-            Data-entry controls share <code>v-model</code> and Inertia form binding, including
-            server errors and manual <code>failed</code> states. See
+            <strong>Published preview.</strong> Front Awesome 1.0.0-alpha.2 includes all 73 Core and
+            17 Pro wrappers in the Web Awesome 3.14.0 baseline, including Input, Page, Icon, and
+            both Web Awesome barrel entries. Code Highlighter 3.15 remains planned. Front Awesome is
+            an alpha release; its API can change before the first stable release. Wrappers forward
+            native properties and events. Data-entry controls share <code>v-model</code> and Inertia
+            form binding, including server errors and manual <code>failed</code> states. See
             <DocsLink
                 :href="`${findNavigationItem(navigation, 'front-awesome/web-awesome/components/forms').href}#use-v-model`"
                 >Forms binding</DocsLink

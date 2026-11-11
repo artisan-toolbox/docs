@@ -111,10 +111,10 @@ formatDate(new Date('2026-11-10T12:00:00Z'), {
                 first to generate the translation catalog used below.
             </p>
             <p>
-                Preferences are an unreleased source-preview API. Confirm that your installed
-                package exports <code>createPreferences</code> and <code>Timezone</code>, and that
-                Artisan lists the preference commands. The published alpha does not guarantee these
-                additions.
+                Preferences are included in Front Awesome 1.0.0-alpha.2, including
+                <code>createPreferences</code>, <code>Timezone</code>, and the preference commands.
+                Front Awesome remains an alpha release; its API can change before the first stable
+                release.
             </p>
         </ProseSection>
         <ProseSection id="resolve-each-request" title="Resolve each request">

@@ -140,9 +140,9 @@ describe('Front Awesome wrapper catalog', () => {
             const wrapper = render(groupNames[group.id]);
             const cards = wrapper.findAll('[data-component]');
             expect(cards).toHaveLength(group.components.length);
-            expect(wrapper.text()).toContain('Source preview');
+            expect(wrapper.text()).toContain('Published preview');
             expect(wrapper.text()).toContain(
-                'published 1.0.0-alpha.1 archive lacks Input, Page, Icon',
+                'Front Awesome 1.0.0-alpha.2 includes all 73 Core and 17 Pro wrappers',
             );
             for (const component of group.components) {
                 const card = wrapper.get(`[data-component="${component.tag}"]`);

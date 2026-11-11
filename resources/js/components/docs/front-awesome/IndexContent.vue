@@ -73,7 +73,8 @@ Toast::success('Report saved.')->flash();`;
                         >Preview and print documents</DocsLink
                     >
                     combines PDF, ESC/POS, and ZPL documents in an ordered review flow. The printing
-                    service is a source preview and requires the optional QZ Tray package.
+                    service is included in Front Awesome 1.0.0-alpha.2. Composer requires QZ Tray
+                    1.4 or later within 1.x; install its frontend only when using this integration.
                 </p>
             </li>
             <li>
@@ -227,7 +228,7 @@ Toast::success('Report saved.')->flash();`;
             To translate browser UI from Laravel language files, follow
             <DocsLink :href="findNavigationItem(navigation, 'front-awesome/localization').href"
                 >Translate the browser from Laravel</DocsLink
-            >. This optional source preview includes an unstyled language selector and reactive
+            >. Front Awesome 1.0.0-alpha.2 includes an unstyled language selector and reactive
             printing text without changing the application's server locale.
         </p>
         <p>

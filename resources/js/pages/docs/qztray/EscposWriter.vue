@@ -67,8 +67,7 @@ async function confirmPrint(selectedPrinter) {
         <ProseSection id="before-you-start" title="Before you start">
             <p>
                 Start in a Laravel application with QZ Tray Connector installed. The
-                <code>Escpos</code> writer is a new source-preview API. Use a package build that
-                includes it.
+                <code>Escpos</code> writer is included in QZ Tray Connector 1.4.0.
             </p>
             <p>
                 Install the optional Mike42 dependency from the application root. Its Composer
@@ -141,6 +140,13 @@ async function confirmPrint(selectedPrinter) {
                 <code>horizontalRule(width, thickness)</code> appends a raster rule.
                 <code>qrCode(payload, size)</code> appends a QR code.
                 <code>raw(bytes)</code> appends explicit device commands without text encoding.
+            </p>
+            <p>
+                Image width is padded to a multiple of eight dots and must fit within 1 through
+                65,535 dots. For formats recognized by PHP image headers, the writer rejects an
+                oversized width before decoding. Other formats are checked after decoding. The
+                selected image backend may impose lower resource limits. A rejected image appends no
+                bytes to the receipt.
             </p>
             <p>
                 For printers that support page mode, use <code>beginPage(width, height)</code>,
