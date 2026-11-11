@@ -410,6 +410,34 @@ try {
                 const message = page
                     .getByRole('textbox', { name: 'Message for both paths' })
                     .first();
+                const messageForm = page.locator('form').filter({ has: message }).first();
+                await messageForm.screenshot({
+                    path: resolve(artifacts, `mosaicast-form-${width}-${theme}.png`),
+                });
+                if (width === 390) {
+                    const formBox = await messageForm.boundingBox();
+                    const fieldBox = await messageForm.locator('wa-input').boundingBox();
+                    const messageBox = await message.boundingBox();
+                    const runBox = await messageForm
+                        .getByRole('button', { name: 'Run one event', exact: true })
+                        .boundingBox();
+                    const resetBox = await messageForm
+                        .getByRole('button', { name: 'Reset', exact: true })
+                        .boundingBox();
+                    assert(
+                        Math.abs(fieldBox.width - formBox.width) <= 1,
+                        `The mobile message field fills its own row. ${JSON.stringify({ formBox, fieldBox })}`,
+                    );
+                    assert(
+                        (await message.isVisible()) && messageBox.width >= formBox.width - 64,
+                        'The mobile textbox remains visible and wide enough to edit the message.',
+                    );
+                    assert(
+                        runBox.y >= fieldBox.y + fieldBox.height - 1 &&
+                            resetBox.y >= fieldBox.y + fieldBox.height - 1,
+                        'Both mobile actions wrap below the message field.',
+                    );
+                }
                 await message.fill('Both paths keep this exact message.');
                 assert.equal(await message.inputValue(), 'Both paths keep this exact message.');
                 assert.equal(await message.getAttribute('maxlength'), '120');
@@ -429,7 +457,7 @@ try {
                     themePersistence: 'selection, cookie, reload',
                     page: 'initial and Inertia fragments, history scroll, native skip focus, one main landmark, header size and alignment',
                     core: 'real boolean request, pending, response, reset, source',
-                    mosaicast: 'shared message input',
+                    mosaicast: 'shared message input and mobile field/action layout',
                     errors,
                 });
             } finally {

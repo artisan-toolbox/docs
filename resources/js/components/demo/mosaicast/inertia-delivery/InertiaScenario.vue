@@ -103,7 +103,7 @@ onUnmounted(stopListening);
                 type="text"
                 required
                 maxlength="120"
-                class="min-w-0 flex-1" />
+                class="min-w-0 grow basis-56" />
             <DemoAction :busy="phase === 'requesting'" @click="start"
                 >Run {{ scenario === 'multiple' ? 'three events' : 'one event' }}</DemoAction
             >

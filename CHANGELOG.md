@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Keep Mosaicast demonstration message fields readable on narrow screens by wrapping their action buttons. Verify native textbox geometry and text entry in the browser.
 - Align the documentation toolchain with Vite Plus 1.6 and Vitest 5.1, restore Vue Test Utils 2.5, and fix its vulnerable formatting dependencies. Check moderate and higher npm advisories in CI.
 - Require Front Awesome 1.0.0-alpha.2 and QZ Tray 1.4.0, and align feature availability with those releases and Maintainer 1.11.0. Keep the later Maintainer task-search feature marked as a development preview.
 

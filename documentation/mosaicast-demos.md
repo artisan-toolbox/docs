@@ -8,6 +8,8 @@ Vue components, transport helpers, and their tests live under `resources/js/comp
 
 `DemoFrame` owns the resizable container and source display. Its source panels import the actual application files as text. `DemoAction` wraps the public Front Awesome `Button` component. The Mosaicast examples and the existing branding preview consume that wrapper.
 
+The shared message field reserves a useful flex basis before growing. At mobile widths, the action buttons wrap below the field instead of consuming its width. The application browser check verifies the actual field and button rectangles, usable native textbox width, and text entry in both themes. A zero-basis field previously became invisible in the CI browser. A local 360 px reproduction measured zero native input width.
+
 `resources/js/app.ts` installs the public `createMosaicast()` plugin once. It uses the channel prefix shared by the backend. Components use the public `mosaicast().on()` API and remove their listeners after a response, reset, failure, or unmount. The backend uses `Mosaicast::dispatch()`, `currentSessionIdentifier()`, and `toSession()->dispatch()`.
 
 Application-specific code validates the allowed scenarios, limits submitted messages, matches an event to its active demonstration run, and renders results. Mosaicast owns event delivery and session-channel authorization. No application code copies package delivery logic or calls its internal event emitter.
