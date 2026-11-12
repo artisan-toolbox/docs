@@ -73,4 +73,6 @@ Frontend tests exercise user-controlled requests, actual response rendering, fai
 
 In a production-build browser session, run the initial example, change each option, and compare the returned result. Confirm that the guide URL and metadata stay unchanged. Expand the real source, reset the demo, and test a narrow frame and mobile page. Check keyboard access, loading feedback, recent browser errors, and page overflow. If the server is unavailable, the demo must fail without interfering with the rest of the guide.
 
+Wait for the visible native checkbox roles before exercising their labels in browser automation. The page load event can finish while a component module is still registering. Clicking an undefined custom-element host does not toggle the eventual checkbox. The application browser check waits for both native inputs, then retains the real label clicks and checked-state and server-payload assertions.
+
 No package API changes are required for this demonstration. Keep package usage skills unchanged unless a future change alters the public helper contract. Maintain the guide and examples in `docs` only. The retired legacy source checkout is not a prerequisite; review current rendered-content expectations before changing them.

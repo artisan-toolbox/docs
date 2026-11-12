@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Cancel superseded fragment alignment on every navigation, including history visits back to the same URL.
+- Wait for native accessible checkboxes before clicking their labels in application browser verification.
+- Reserve the theme selector's final height during custom-element registration and wait for font layout before positioning documentation fragments.
 - Preserve the browser history test's reading position during its Home click and verify departure through Inertia's public navigation event.
 - Keep Mosaicast demonstration message fields readable on narrow screens by wrapping their action buttons. Verify native textbox geometry and text entry in the browser.
 - Align the documentation toolchain with Vite Plus 1.6 and Vitest 5.1, restore Vue Test Utils 2.5, and fix its vulnerable formatting dependencies. Check moderate and higher npm advisories in CI.

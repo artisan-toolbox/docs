@@ -23,6 +23,7 @@ const navigationPanel = ref(null);
 const articleContent = ref(null);
 /** @type {import('vue').Ref<HTMLButtonElement | null>} */
 const menuButton = ref(null);
+let navigationRevision = 0;
 
 function dismissMobileNavigation() {
     if (!mobileNavigationOpen.value) {
@@ -67,6 +68,7 @@ async function revealCurrentNavigation() {
 }
 
 async function revealFragment() {
+    const currentRevision = navigationRevision;
     const destination = window.location.href;
     const fragment = window.location.hash;
     if (!fragment) return;
@@ -81,13 +83,20 @@ async function revealFragment() {
             await control.updateComplete;
         }),
     );
+    await document.fonts.ready;
     await new Promise(requestAnimationFrame);
-    if (!element.isConnected || window.location.href !== destination) return;
+    if (
+        currentRevision !== navigationRevision ||
+        !element.isConnected ||
+        window.location.href !== destination
+    )
+        return;
     document.getElementById(fragment.slice(1))?.scrollIntoView();
 }
 
 onBeforeUnmount(
     router.on('navigate', (event) => {
+        navigationRevision++;
         if (event.detail.type !== 'history') void revealFragment();
     }),
 );

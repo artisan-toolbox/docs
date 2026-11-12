@@ -14,6 +14,187 @@ await mkdir(artifacts, { recursive: true });
 const results = [];
 
 try {
+    const readinessContext = await browser.newContext({
+        locale: 'en-US',
+        viewport: { width: 390, height: 1000 },
+        colorScheme: 'light',
+    });
+    let releaseSelect;
+    let releaseFonts;
+    const selectGate = new Promise((resolve) => {
+        releaseSelect = resolve;
+    });
+    const fontGate = new Promise((resolve) => {
+        releaseFonts = resolve;
+    });
+    try {
+        const page = await readinessContext.newPage();
+        await page.route(/\/select-[^/]+\.js$/, async (route) => {
+            await selectGate;
+            await route.continue();
+        });
+        await page.route(/\.woff2?(?:\?|$)/, async (route) => {
+            await fontGate;
+            await route.continue();
+        });
+        await page.goto(
+            new URL('/docs/front-awesome/web-awesome/components/feedback#skeleton', base).href,
+            { waitUntil: 'domcontentloaded' },
+        );
+        await page.waitForFunction(
+            () =>
+                customElements.get('wa-option') &&
+                document.querySelector('header wa-select') &&
+                document.fonts.status === 'loading',
+        );
+        assert(
+            !(await page.evaluate(() => Boolean(customElements.get('wa-select')))),
+            'The readiness case defers the native select module.',
+        );
+        await page.evaluate(() => new Promise(requestAnimationFrame));
+        const pendingHeader = await page.locator('header').first().boundingBox();
+        releaseSelect();
+        await page.evaluate(async () => {
+            await Promise.all(
+                [...document.querySelectorAll('*')]
+                    .filter((element) => element.localName.startsWith('wa-'))
+                    .map(async (element) => {
+                        await customElements.whenDefined(element.localName);
+                        await element.updateComplete;
+                    }),
+            );
+            await new Promise(requestAnimationFrame);
+            await new Promise(requestAnimationFrame);
+        });
+        const readyHeader = await page.locator('header').first().boundingBox();
+        releaseFonts();
+        await page.evaluate(async () => {
+            await document.fonts.ready;
+            await new Promise(requestAnimationFrame);
+            await new Promise(requestAnimationFrame);
+        });
+        const heading = await page.locator('#skeleton').boundingBox();
+        const header = await page.locator('header').first().boundingBox();
+        const readiness = {
+            pendingHeaderHeight: pendingHeader.height,
+            readyHeaderHeight: readyHeader.height,
+            headingTop: heading.y,
+            headerBottom: header.y + header.height,
+        };
+        console.log('Deferred select and font fragment geometry', readiness);
+        assert.deepEqual(
+            {
+                stableHeader: Math.abs(pendingHeader.height - readyHeader.height) <= 1,
+                visibleFragment:
+                    heading.y >= header.y + header.height &&
+                    heading.y <= header.y + header.height + 64,
+            },
+            { stableHeader: true, visibleFragment: true },
+            'The mobile header reserves its control height and the fragment clears it after fonts load.',
+        );
+        results.push({ readiness });
+    } finally {
+        releaseSelect();
+        releaseFonts();
+        await readinessContext.close();
+    }
+    const historyContext = await browser.newContext({
+        locale: 'en-US',
+        viewport: { width: 1440, height: 1000 },
+        colorScheme: 'light',
+    });
+    let releaseHistoryFonts;
+    const historyFontGate = new Promise((resolve) => {
+        releaseHistoryFonts = resolve;
+    });
+    try {
+        const page = await historyContext.newPage();
+        await page.route(/\.woff2?(?:\?|$)/, async (route) => {
+            await historyFontGate;
+            await route.continue();
+        });
+        await page.goto(
+            new URL('/docs/front-awesome/web-awesome/components/feedback#skeleton', base).href,
+            { waitUntil: 'domcontentloaded' },
+        );
+        await page.waitForFunction(
+            () => customElements.get('wa-select') && document.fonts.status === 'loading',
+        );
+        await page.evaluate(async () => {
+            await Promise.all(
+                [...document.querySelectorAll('*')]
+                    .filter((element) => element.localName.startsWith('wa-'))
+                    .map(async (element) => {
+                        await customElements.whenDefined(element.localName);
+                        await element.updateComplete;
+                    }),
+            );
+            await new Promise(requestAnimationFrame);
+            await new Promise(requestAnimationFrame);
+        });
+        const anchor = await page.locator('#skeleton').boundingBox();
+        const startScroll = await page.evaluate(() => scrollY);
+        await page.mouse.move(anchor.x + 20, anchor.y + 10);
+        await page.mouse.wheel(0, 400);
+        await page.waitForFunction(
+            (start) =>
+                scrollY > start + 300 && history.state?.documentScrollPosition?.top === scrollY,
+            startScroll,
+        );
+        const rememberedScroll = await page.evaluate(() => scrollY);
+        assert(
+            (await page.locator('#skeleton').boundingBox()).y < 0,
+            'The reader has moved beyond Skeleton while the fonts remain pending.',
+        );
+        const overview = page
+            .getByRole('navigation', { name: 'Documentation', exact: true })
+            .locator('a[href="/docs/front-awesome"]');
+        const overviewBox = await overview.boundingBox();
+        const viewport = page.viewportSize();
+        assert(
+            overviewBox &&
+                overviewBox.x >= 0 &&
+                overviewBox.y >= 0 &&
+                overviewBox.x + overviewBox.width <= viewport.width &&
+                overviewBox.y + overviewBox.height <= viewport.height,
+            'The documentation overview link is entirely visible before leaving.',
+        );
+        await page.mouse.click(
+            overviewBox.x + overviewBox.width / 2,
+            overviewBox.y + overviewBox.height / 2,
+        );
+        await page.waitForURL('**/docs/front-awesome', { waitUntil: 'commit' });
+        await page.goBack({ waitUntil: 'commit' });
+        await page.waitForURL('**/feedback#skeleton', { waitUntil: 'commit' });
+        await page.waitForFunction(
+            (expected) => Math.abs(scrollY - expected) < 2,
+            rememberedScroll,
+        );
+        assert.equal(await page.evaluate(() => document.fonts.status), 'loading');
+        const restoredHeading = await page.locator('#skeleton').boundingBox();
+        assert(restoredHeading.y < 0, 'Back restores the reading position beyond Skeleton.');
+        releaseHistoryFonts();
+        await page.evaluate(async () => {
+            await document.fonts.ready;
+            await new Promise(requestAnimationFrame);
+            await new Promise(requestAnimationFrame);
+        });
+        const loadedHeading = await page.locator('#skeleton').boundingBox();
+        const history = {
+            rememberedScroll,
+            restoredHeadingTop: restoredHeading.y,
+            loadedHeadingTop: loadedHeading.y,
+        };
+        console.log('Deferred font history geometry', history);
+        assert(
+            loadedHeading.y < 0,
+            'Font readiness preserves the restored reading position beyond Skeleton.',
+        );
+        results.push({ history });
+    } finally {
+        releaseHistoryFonts();
+        await historyContext.close();
+    }
     for (const width of [1440, 390]) {
         for (const theme of ['light', 'dark']) {
             const context = await browser.newContext({
@@ -364,6 +545,8 @@ try {
                 const extra = page.getByRole('checkbox', {
                     name: 'Include the middle item (QZ Tray)',
                 });
+                await contact.waitFor({ state: 'visible' });
+                await extra.waitFor({ state: 'visible' });
                 await core
                     .locator('wa-checkbox')
                     .filter({ hasText: 'Include the nested contact' })
