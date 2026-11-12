@@ -1,5 +1,41 @@
 # Changelog
 
+## [1.0.0] - 2026-11-12
+
+### Features
+
+- **Add Front Awesome preferences and localization documentation** (`05a0cec`)
+  Adds new documentation covering Front Awesome preferences and localization. This feature matters for users who need to configure Front Awesome behavior and support multiple languages/locales correctly. Compatibility impact is documentation-only, but it enables more complete configuration understanding and reduces guesswork when enabling localization features.
+
+- **Verify interactive docs in CI and migrate documentation structure** (`6e4f4a3`)
+  Introduces CI verification for interactive documentation and migrates the documentation structure. This increases confidence that interactive UI behavior in the docs works as intended across environments. User impact includes fewer regressions reaching users, and improved documentation reliability. Compatibility: may require developers/maintainers to adapt to the new doc structure conventions and CI expectations.
+
+### Fixes
+
+- **Stabilize deferred controls and fragment navigation in docs** (`29f4038`)
+  Improves frontend documentation behavior by stabilizing deferred controls and fixing fragment navigation issues. This helps ensure that when users navigate to URL fragments (e.g., hash-based routes) or rely on deferred UI controls, the correct content reliably loads and renders instead of exhibiting timing/ordering glitches. User impact is reduced navigation flakiness and fewer mis-positioned or stale fragment views during documentation browsing.
+
+- **Keep Mosaicast message fields usable on mobile** (`ed6d3ed`)
+  Fixes mobile usability for Mosaicast message fields so that message input/interaction remains usable on small screens. This addresses layout/interaction problems that likely caused fields to become hard to read, overlap, or fail expected interaction patterns on mobile. User impact is improved accessibility and reliability of message entry on mobile devices.
+
+- **Align package guides and secure Vitest 5 toolchain** (`dec80bc`)
+  Corrects documentation for package guides and updates the setup to align with and secure the Vitest 5 toolchain. This helps prevent test-toolchain drift and inconsistent developer/CI behavior while keeping guides accurate. Compatibility impact is primarily for documentation accuracy and ensuring the project consistently uses the intended Vitest 5 version for tests.
+
+### Documentation
+
+- **Update preferences docs for refactoring and isolation** (`df35cdd`)
+  Updates documentation on preferences to reflect recent refactoring and isolation work. The main value is reducing confusion: developers can rely on accurate guidance about how preferences should be configured and how isolated/refactored behavior is intended to work. User impact is improved correctness of how-to instructions and fewer implementation mistakes when configuring preferences.
+
+### Tests
+
+- **Preserve reading position during history navigation in docs** (`c9b505c`)
+  Updates documentation tests to ensure reading position is preserved when users navigate browser history (back/forward) or otherwise move through navigation events. This matters because history navigation commonly causes scroll/reader state resets; the test change locks in correct behavior so regressions are caught in CI. User impact is smoother “resume where I left off” reading across history traversal.
+
+### Maintenance
+
+- **Update docs ownership, standards, and Front Awesome pages** (`5854049`)
+  Includes the changes introduced by commit 5854049: chore: update docs ownership, standards, and Front Awesome pages.
+
 ## Unreleased
 
 - Cancel superseded fragment alignment on every navigation, including history visits back to the same URL.
