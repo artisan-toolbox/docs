@@ -109,8 +109,8 @@ import { Callout } from '@artisan-toolbox/front-awesome/components/WebAwesome';
     <div class="flex min-w-0 flex-col gap-4" data-docs-outline-exclude>
         <div class="min-w-0">
             <Callout variant="warning">
-                <strong>Preview APIs</strong>
-                <p>Check your installed exports before use.</p>
+                <strong>Beta APIs</strong>
+                <p>The API can change before the first stable release.</p>
             </Callout>
         </div>
     </div>
@@ -412,7 +412,8 @@ defineProps({
                 <CalloutDemo />
             </DemoFrame>
             <p>
-                Expected result. A warning callout displays the preview requirement as visible text.
+                Expected result. A warning callout displays the beta stability notice as visible
+                text.
             </p>
         </ProseSection>
         <ProseSection id="progress-bar" title="Progress Bar">

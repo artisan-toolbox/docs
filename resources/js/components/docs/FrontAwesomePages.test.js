@@ -44,11 +44,11 @@ const publishedInstallationParagraphs = new Map([
     ],
     [
         'Start in an existing Laravel application with Inertia, Vue, and Vite. Check the requirements before installing the development branch.',
-        'Start in an existing Laravel application with Inertia, Vue, and Vite. Check the requirements before installing the published preview.',
+        'Start in an existing Laravel application with Inertia, Vue, and Vite. Check the requirements before installing the beta package.',
     ],
     [
         "Clone the Front Awesome repository and check out 1.x. In the application root, point Composer to that checkout. Replace the example path with your checkout's path.",
-        'Install the published preview from the application root. The Front Awesome repository contains the package source.',
+        'Install the beta package from the application root. The Front Awesome repository contains the package source.',
     ],
     [
         'With install-links=true, npm packs and copies each local dependency into node_modules. If Composer links vendor/artisan-toolbox/front-awesome to your checkout, edits reach vendor immediately. Run npm ci in the consuming application to refresh the copy in node_modules, then restart the running Vite server.',
@@ -56,7 +56,7 @@ const publishedInstallationParagraphs = new Map([
     ],
     [
         'This first example uses the bundled Web Awesome Core edition. It needs no Pro package or credentials. Front Awesome remains an unpublished development preview, so the local checkout above is required.',
-        'This first example uses the bundled Web Awesome Core edition. It needs no Pro package or credentials. Front Awesome is a published preview. Its API can change before the first stable release.',
+        'This first example uses the bundled Web Awesome Core edition. It needs no Pro package or credentials. Front Awesome is a beta package. Its API can change before the first stable release.',
     ],
 ]);
 
@@ -83,6 +83,12 @@ const publishedFixtures = fixtures.map((source) => {
         ),
     };
     if (guide.slug === 'front-awesome/development') {
+        guide.paragraphs = guide.paragraphs.map((paragraph) =>
+            paragraph ===
+            'Maintainer manages releases on 1.x and generates the README header. To regenerate the header after changing the logo or badges, run php vendor/bin/maintainer readme:update. When preparing the first release, replace the in-development badge in FrontAwesome::readmeHead() with the GitHub release badge.'
+                ? 'Maintainer manages releases on 1.x and generates the README header. To regenerate the header after changing the logo or badges, run php vendor/bin/maintainer readme:update --no-interaction. The beta badge in FrontAwesome::readmeHead() describes package stability separately from the version managed by Maintainer.'
+                : paragraph,
+        );
         guide.links.splice(1, 0, {
             href: 'https://viteplus.dev/guide/upgrade-project',
             text: 'Vite Plus update guide',
@@ -99,6 +105,9 @@ const publishedFixtures = fixtures.map((source) => {
         const index = guide.headings.findIndex((heading) => heading.id === 'check-the-result') + 1;
         return {
             ...guide,
+            paragraphs: guide.paragraphs.map((paragraph) =>
+                paragraph.replace('the WIP 1.x branch', 'the 1.x beta'),
+            ),
             headings: [
                 ...guide.headings.slice(0, index),
                 { level: 3, id: undefined, text: 'Shared branding preview' },
@@ -112,6 +121,14 @@ const publishedFixtures = fixtures.map((source) => {
     if (guide.slug === 'front-awesome') {
         return {
             ...guide,
+            paragraphs: guide.paragraphs.map((paragraph) =>
+                paragraph === 'Work in progress (WIP)'
+                    ? 'Beta'
+                    : paragraph ===
+                        'This guide covers the 1.x development branch. Front Awesome has no stable Composer release.'
+                      ? 'Front Awesome 1.x is in beta. Its API can change before the first stable release.'
+                      : paragraph,
+            ),
             examples: [
                 {
                     language: 'bash',
@@ -136,8 +153,8 @@ describe('Front Awesome documentation migration', () => {
         fixtures: publishedFixtures.filter((guide) => !canonicalReferences[guide.slug]),
         components,
         packageTitle: 'Front Awesome',
-        version: '1.x development branch',
-        stability: 'Work in progress',
+        version: '1.x',
+        stability: 'Beta',
         allowedExtraLinks: {
             'front-awesome/vue-plugin': [
                 { slug: 'front-awesome/localization', text: 'Translate the browser from Laravel' },
@@ -190,15 +207,15 @@ describe('Front Awesome documentation migration', () => {
             installationSource: 'local-path',
         },
     });
-    it('keeps the development status explicit and preserves compatibility scope', () => {
+    it('keeps the beta status explicit and preserves compatibility scope', () => {
         for (const guide of publishedFixtures.filter((guide) => !canonicalReferences[guide.slug])) {
             const wrapper = render(guide);
-            expect(wrapper.text()).toContain('Work in progress');
+            expect(wrapper.text()).toContain('Beta');
             wrapper.unmount();
         }
         const overview = render(fixtures.find((guide) => guide.slug === 'front-awesome'));
         expect(overview.get('aside[aria-label="Caution"]').text()).toContain(
-            'Front Awesome has no stable Composer release.',
+            'Front Awesome 1.x is in beta.',
         );
         expect(overview.findAll('span[id]')).toHaveLength(15);
         overview.unmount();
@@ -249,7 +266,7 @@ describe('Front Awesome task hubs', () => {
                             documentedVersion: '1.x-dev',
                             installedVersion: '1.x-dev',
                             installationStatus: 'installed',
-                            stability: 'Work in progress',
+                            stability: 'Beta',
                         },
                     },
                 },
@@ -288,7 +305,7 @@ describe('consolidated Front Awesome references', () => {
                             documentedVersion: '1.x-dev',
                             installedVersion: '1.x-dev',
                             installationStatus: 'installed',
-                            stability: 'Work in progress',
+                            stability: 'Beta',
                         },
                     },
                     navigation: sourceNavigation(),
@@ -304,7 +321,7 @@ describe('consolidated Front Awesome references', () => {
                     .get('[aria-label="Package details"]')
                     .findAll('wa-tag')
                     .map((tag) => tag.text()),
-            ).toEqual(['Front Awesome', 'Documented version 1.x-dev', 'Work in progress']);
+            ).toEqual(['Front Awesome', 'Documented version 1.x-dev', 'Beta']);
             const scopes = references.map((name) =>
                 wrapper.get(`[data-component-reference="${name}"]`),
             );

@@ -24,18 +24,32 @@ defineProps({
                     record.
                 </p>
                 <p>
-                    Filoquent is in alpha. The first alpha release,
-                    <code>1.0.0-alpha.1</code>, is available on
+                    Filoquent is in beta. The documented release,
+                    <code>1.0.0-beta.2</code>, is available on
                     <DocsLink :href="page.package.releasesUrl">Packagist</DocsLink>. APIs may change
                     before the stable release. The Documented version label shows the Composer
                     version installed in this documentation application.
                 </p>
+                <p>
+                    The published <code>1.0.0-beta.2</code> release includes optional native PHP
+                    configuration attributes, typed SQL state enums, environment configuration, and
+                    an upload middleware generator. The first file example uses an explicit cast.
+                    See the
+                    <DocsLink
+                        :href="
+                            findNavigationItem(navigation, 'filoquent/configuration').href +
+                            '#native-attributes'
+                        "
+                        >native attribute reference</DocsLink
+                    >
+                    for the optional declaration syntax and compatibility.
+                </p>
             </ProseSection>
             <Requirements :items="page.requirements" />
-            <ProseSection id="installation" title="Install the alpha release">
+            <ProseSection id="installation" title="Install Filoquent">
                 <p>
                     Start with a Laravel 13 application. Run this command from the application root
-                    to install the published alpha release:
+                    to install the published prerelease:
                 </p>
                 <InstallCommand :package="page.package" label="Install Filoquent from Packagist" />
                 <p>

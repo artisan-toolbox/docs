@@ -55,7 +55,7 @@ const packages = [
     title: id,
     summary: `Documentation for ${id}.`,
     version: id === 'front-awesome' ? null : '1.0',
-    stability: id === 'front-awesome' ? 'Work in progress' : 'Stable',
+    stability: id === 'front-awesome' ? 'Beta' : 'Stable',
     href: `/reference/${id}`,
     migrated: true,
     artwork: { icon: `/images/packages/${id}/${id}-icon.svg` },

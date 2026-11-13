@@ -109,15 +109,14 @@ printing.zpl('^XA^FO40,40^FDShipping label^FS^XZ', {
                 plugin setup. Run commands from its root.
             </p>
             <DocsCallout variant="caution">
-                <template #title>Published preview</template>
+                <template #title>Beta</template>
                 <p>
-                    Front Awesome 1.0.0-alpha.2 includes the printing subpath. QZ Tray Connector
-                    1.4.0 includes the PHP receipt writer and print-document renderer.
+                    Front Awesome beta includes the printing subpath. QZ Tray Connector 1.4.0
+                    includes the PHP receipt writer and print-document renderer.
                 </p>
                 <p>
-                    Front Awesome remains an alpha release; its API can change before the first
-                    stable release. Complete Composer installation before refreshing the frontend
-                    copies.
+                    Front Awesome remains a beta release; its API can change before the first stable
+                    release. Complete Composer installation before refreshing the frontend copies.
                 </p>
             </DocsCallout>
             <p>

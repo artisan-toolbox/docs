@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "79738eba070ab1e0f13bc1a94fde00f3",
+    "content-hash": "7480cbdd2e9a28cf1b9d1875ce694407",
     "packages": [
         {
             "name": "artisan-toolbox/core",
@@ -172,16 +172,16 @@
         },
         {
             "name": "artisan-toolbox/filoquent",
-            "version": "1.0.0-alpha.1",
+            "version": "1.0.0-beta.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/filoquent.git",
-                "reference": "2bf2b894df96ce6d0034427863b45b319ccc7417"
+                "reference": "7baf0a59ff0531defa9b645ed1694ff70100aeb0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/filoquent/zipball/2bf2b894df96ce6d0034427863b45b319ccc7417",
-                "reference": "2bf2b894df96ce6d0034427863b45b319ccc7417",
+                "url": "https://api.github.com/repos/artisan-toolbox/filoquent/zipball/7baf0a59ff0531defa9b645ed1694ff70100aeb0",
+                "reference": "7baf0a59ff0531defa9b645ed1694ff70100aeb0",
                 "shasum": ""
             },
             "require": {
@@ -251,23 +251,23 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/filoquent/issues",
-                "source": "https://github.com/artisan-toolbox/filoquent/tree/1.0.0-alpha.1"
+                "source": "https://github.com/artisan-toolbox/filoquent/tree/1.0.0-beta.2"
             },
-            "time": "2026-11-13T11:54:33+00:00",
-            "published-time": "2026-11-13T13:47:52+00:00"
+            "time": "2026-11-13T16:39:21+00:00",
+            "published-time": "2026-11-13T16:39:27+00:00"
         },
         {
             "name": "artisan-toolbox/front-awesome",
-            "version": "1.0.0-alpha.2",
+            "version": "1.0.0-beta.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/front-awesome.git",
-                "reference": "bc70cc22ad774d1678c9c420e7f9a677dc9386ce"
+                "reference": "79c3155fbd887ec2d9576f98a86a7001af6b4b28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/front-awesome/zipball/bc70cc22ad774d1678c9c420e7f9a677dc9386ce",
-                "reference": "bc70cc22ad774d1678c9c420e7f9a677dc9386ce",
+                "url": "https://api.github.com/repos/artisan-toolbox/front-awesome/zipball/79c3155fbd887ec2d9576f98a86a7001af6b4b28",
+                "reference": "79c3155fbd887ec2d9576f98a86a7001af6b4b28",
                 "shasum": ""
             },
             "require": {
@@ -330,7 +330,7 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/front-awesome/issues",
-                "source": "https://github.com/artisan-toolbox/front-awesome/tree/1.0.0-alpha.2"
+                "source": "https://github.com/artisan-toolbox/front-awesome/tree/1.0.0-beta.1"
             },
             "funding": [
                 {
@@ -338,8 +338,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-11T22:59:50+00:00",
-            "published-time": "2026-11-11T22:59:56+00:00"
+            "time": "2026-11-13T14:51:06+00:00",
+            "published-time": "2026-11-13T14:51:15+00:00"
         },
         {
             "name": "artisan-toolbox/maintainer",
@@ -14334,8 +14334,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "artisan-toolbox/filoquent": 20,
-        "artisan-toolbox/front-awesome": 20
+        "artisan-toolbox/filoquent": 10,
+        "artisan-toolbox/front-awesome": 15
     },
     "prefer-stable": true,
     "prefer-lowest": false,

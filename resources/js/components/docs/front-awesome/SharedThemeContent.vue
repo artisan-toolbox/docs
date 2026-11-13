@@ -41,7 +41,7 @@ import { Button } from "@artisan-toolbox/front-awesome/components";
             nested <code>fa-theme</code> scopes before replacing an application container.
         </p>
         <p>
-            This guide covers the WIP <code>1.x</code> branch. Check the
+            This guide covers the <code>1.x</code> beta. Check the
             <DocsLink
                 :href="
                     findNavigationItem(navigation, 'front-awesome/theme-maintenance').href +
@@ -121,12 +121,12 @@ import { Button } from "@artisan-toolbox/front-awesome/components";
             utilities can override those body colors.
         </p>
         <p>
-            Front Awesome 1.0.0-alpha.2 restores upstream margin, padding, and border rules for
-            every Core and Pro custom-element host affected by Tailwind Preflight. Dropdown items,
-            tags, and other host-rendered controls retain their native dimensions and appearance.
-            Application utilities such as <code>p-0</code>, <code>p-4</code>, and
-            <code>border-0</code> still take precedence. This behavior belongs to the shared theme
-            adapter. The Vue wrappers add no host styling.
+            Front Awesome beta restores upstream margin, padding, and border rules for every Core
+            and Pro custom-element host affected by Tailwind Preflight. Dropdown items, tags, and
+            other host-rendered controls retain their native dimensions and appearance. Application
+            utilities such as <code>p-0</code>, <code>p-4</code>, and <code>border-0</code> still
+            take precedence. This behavior belongs to the shared theme adapter. The Vue wrappers add
+            no host styling.
         </p>
         <p>
             Keep the split CSS and JavaScript imports. They are part of the public Vite integration

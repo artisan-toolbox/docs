@@ -68,7 +68,7 @@ const overrides = `php artisan vendor:publish --tag=front-awesome-lang`;
         <ProseSection id="scope" title="Scope">
             <p>
                 This reference describes the optional localization APIs included in Front Awesome
-                1.0.0-alpha.2. The
+                beta. The
                 <DocsLink :href="findNavigationItem(navigation, 'front-awesome/localization').href"
                     >Laravel translation how-to</DocsLink
                 >

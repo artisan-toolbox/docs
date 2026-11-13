@@ -16,7 +16,7 @@ final readonly class FrontAwesomeInstallationPage extends Page
             slug: self::SLUG,
             component: 'docs/front-awesome/Installation',
             title: 'Install Front Awesome',
-            description: 'Install the development package with Composer and register its frontend packages with npm.',
+            description: 'Install the beta package with Composer and register its frontend packages with npm.',
             sourcePath: 'resources/js/pages/docs/front-awesome/Installation.vue',
             package: new FrontAwesomePackage,
         );

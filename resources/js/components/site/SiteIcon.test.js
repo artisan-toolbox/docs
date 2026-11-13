@@ -21,6 +21,7 @@ describe('shared site icons', () => {
         ['pest', 'kit', 'fa-kit'],
         ['inertia', 'kit', 'fa-kit'],
         ['atb-core', 'kit-duotone', 'fa-kit-duotone'],
+        ['atb-dapter', 'kit-duotone', 'fa-kit-duotone'],
         ['atb-filoquent', 'kit-duotone', 'fa-kit-duotone'],
     ])('uses the published kit markup for %s', (name, family, prefix) => {
         const wrapper = render({ name, family });

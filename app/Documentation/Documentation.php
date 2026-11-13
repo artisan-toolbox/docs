@@ -3,6 +3,7 @@
 namespace App\Documentation;
 
 use App\Documentation\Packages\CorePackage;
+use App\Documentation\Packages\DapterPackage;
 use App\Documentation\Packages\DumpToConsolePackage;
 use App\Documentation\Packages\FiloquentPackage;
 use App\Documentation\Packages\FrontAwesomePackage;
@@ -57,6 +58,7 @@ final class Documentation
     {
         return [
             new CorePackage,
+            new DapterPackage,
             new DumpToConsolePackage,
             new FiloquentPackage,
             new FrontAwesomePackage,

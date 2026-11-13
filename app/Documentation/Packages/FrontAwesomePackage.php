@@ -16,7 +16,7 @@ final readonly class FrontAwesomePackage extends Package
             version: null,
             overview: PageSlug::FrontAwesome,
             documentedVersion: '1.x',
-            stability: 'Work in progress',
+            stability: 'Beta',
             requirements: [
                 'PHP 8.5 or later within PHP 8.x, Laravel 13.36 or later within Laravel 13.x, and Inertia Laravel 3.x',
                 'Vue 3.5 or later within Vue 3.x, Inertia Vue 3.x, and Tailwind CSS 4.x',

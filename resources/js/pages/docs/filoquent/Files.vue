@@ -140,7 +140,11 @@ const variants = `return [
                     services. The middleware receives an owned local snapshot with
                     <code>path</code>, <code>name</code>, <code>extension</code>, <code>mime</code>,
                     and <code>size</code>. This complete example renames the original without
-                    changing its contents:
+                    changing its contents. Follow the
+                    <DocsLink :href="findNavigationItem(navigation, 'filoquent/middleware').href"
+                        >upload middleware guide</DocsLink
+                    >
+                    for the generator command, a complete model, verified input, and output rules:
                 </p>
                 <CodeExample label="Define upload middleware" language="php" :code="middleware" />
                 <p>Add the middleware to the existing model's cast declaration:</p>
@@ -171,6 +175,24 @@ const variants = `return [
                     Treat middleware as file preparation. Database retries and later saves can
                     execute it again. Keep external side effects out of this method. Validate
                     uploaded size and allowed content types in your application before assignment.
+                </p>
+            </ProseSection>
+            <ProseSection id="native-attributes" title="Declare fields with native attributes">
+                <p>
+                    The published <code>1.0.0-beta.2</code> release also supports
+                    <code>#[File('attachment')]</code> on the model class with
+                    <code>HasFiloquent</code>. It supplies the file cast when the model has no
+                    explicit cast for that field. The assignment, save, read, and middleware APIs
+                    above stay the same. Existing <code>AsFile</code> casts remain supported. See
+                    the
+                    <DocsLink
+                        :href="
+                            findNavigationItem(navigation, 'filoquent/configuration').href +
+                            '#native-attributes'
+                        "
+                        >native attribute reference</DocsLink
+                    >
+                    for a complete model, imports, defaults, inheritance, and cast precedence.
                 </p>
             </ProseSection>
         </div>

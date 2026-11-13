@@ -5,6 +5,7 @@ import Installation from '@/pages/docs/filoquent/Installation.vue';
 import Configuration from '@/pages/docs/filoquent/Configuration.vue';
 import Development from '@/pages/docs/filoquent/Development.vue';
 import Files from '@/pages/docs/filoquent/Files.vue';
+import Middleware from '@/pages/docs/filoquent/Middleware.vue';
 import Storage from '@/pages/docs/filoquent/Storage.vue';
 import GarbageCollection from '@/pages/docs/filoquent/GarbageCollection.vue';
 import Health from '@/pages/docs/filoquent/Health.vue';
@@ -15,6 +16,7 @@ const slugs = [
     'filoquent',
     'filoquent/installation',
     'filoquent/files',
+    'filoquent/middleware',
     'filoquent/configuration',
     'filoquent/health',
     'filoquent/garbage-collection',
@@ -29,14 +31,14 @@ function render(component, slug, title) {
             page: {
                 slug,
                 title,
-                description: 'Use the Filoquent alpha release.',
+                description: 'Use Filoquent in beta.',
                 requirements: ['PHP 8.5', 'Laravel 13', 'Composer'],
                 package: {
                     id: 'filoquent',
                     title: 'Filoquent',
                     composerName: 'artisan-toolbox/filoquent',
-                    stability: 'Alpha',
-                    installedVersion: '1.0.0-alpha.1',
+                    stability: 'Beta',
+                    installedVersion: '1.0.0-beta.2',
                     installationStatus: 'installed',
                     installationCommands: installationCommands('filoquent'),
                     releasesUrl: 'https://packagist.org/packages/artisan-toolbox/filoquent',
@@ -50,7 +52,7 @@ function render(component, slug, title) {
     });
 }
 
-describe('Filoquent alpha documentation', () => {
+describe('Filoquent beta documentation', () => {
     it.each([
         [Index, 'filoquent', 'Filoquent'],
         [Installation, 'filoquent/installation', 'Install Filoquent'],
@@ -66,7 +68,7 @@ describe('Filoquent alpha documentation', () => {
                 .findAll('pre')
                 .map((example) => example.text())
                 .join('\n');
-            expect(code).toContain('composer require artisan-toolbox/filoquent:1.0.0-alpha.1');
+            expect(code).toContain(commands);
             expect(code).not.toContain('composer config repositories.filoquent');
             expect(code).not.toContain('1.x-dev');
             expect(code).toContain('use ArtisanToolbox\\Filoquent\\Casts\\AsFile;');
@@ -78,9 +80,12 @@ describe('Filoquent alpha documentation', () => {
             );
             expect(content).toContain('true');
             expect(content).toContain('APIs may change before the stable release.');
-            expect(content).not.toContain('unpublished');
-            expect(wrapper.text()).toContain('Alpha');
-            expect(wrapper.text()).toMatch(/Documented version\s*1\.0\.0-alpha\.1/);
+            expect(content).not.toMatch(
+                /source preview|development source|1\.0\.0-(?:alpha\.1|beta\.1)/,
+            );
+            expect(content).toContain('1.0.0-beta.2');
+            expect(wrapper.text()).toContain('Beta');
+            expect(wrapper.text()).toMatch(/Documented version\s*1\.0\.0-beta\.2/);
             expect(
                 wrapper
                     .find('a[href="https://packagist.org/packages/artisan-toolbox/filoquent"]')
@@ -89,17 +94,103 @@ describe('Filoquent alpha documentation', () => {
         },
     );
 
+    it.each([
+        [Index, 'filoquent', 'Filoquent'],
+        [Installation, 'filoquent/installation', 'Install Filoquent'],
+        [Files, 'filoquent/files', 'Work with file attributes'],
+        [Middleware, 'filoquent/middleware', 'Create upload middleware'],
+        [Configuration, 'filoquent/configuration', 'Filoquent configuration'],
+        [Storage, 'filoquent/storage', 'Storage lifecycle and recovery'],
+        [GarbageCollection, 'filoquent/garbage-collection', 'Collect unused uploads'],
+        [Health, 'filoquent/health', 'Check stored file health'],
+        [RenameOwners, 'filoquent/rename-owners', 'Rename file owners safely'],
+        [Development, 'filoquent/development', 'Develop Filoquent'],
+    ])(
+        'keeps current %s guidance free of obsolete release restrictions',
+        (component, slug, title) => {
+            const content = render(component, slug, title).get('[data-document-content]').text();
+            expect(content).not.toMatch(
+                /1\.0\.0-(?:alpha\.1|beta\.1)|source preview|available in development source|unpublished development addition/,
+            );
+        },
+    );
+
     it('keeps the full identity on the overview and compact tags on child pages', () => {
         expect(render(Index, 'filoquent', 'Filoquent').findAll('h1 img')).toHaveLength(2);
         const child = render(Configuration, 'filoquent/configuration', 'Filoquent configuration');
         expect(child.get('h1').text()).toBe('Filoquent configuration');
         expect(child.findAll('h1 img')).toHaveLength(0);
-        expect(child.text()).toContain('placeholder');
         expect(child.text()).toContain('base_path');
         expect(child.text()).toContain('AsFile::using()');
         expect(child.text()).toContain('FileNaming::Original');
         expect(child.text()).toContain('FileNaming::Uuid');
         expect(child.text()).toContain('use ArtisanToolbox\\Filoquent\\Enums\\FileNaming;');
+    });
+
+    it('documents every environment setting, its defaults, and published availability', () => {
+        const guide = render(Configuration, 'filoquent/configuration', 'Filoquent configuration');
+        const environment = guide.get('section[aria-labelledby="environment"]');
+        const code = guide
+            .findAll('pre')
+            .map((example) => example.text())
+            .join('\n');
+
+        expect(environment.text()).toContain('FILOQUENT_FILESYSTEM');
+        expect(environment.text()).toContain('FILOQUENT_BASE_PATH');
+        expect(environment.text()).toContain('FILOQUENT_REDIS_DB');
+        expect(environment.text()).toContain('FILOQUENT_REDIS_CONNECTION');
+        expect(environment.text()).toContain('php artisan config:cache');
+        expect(environment.text()).toContain('Null disables the journal; zero is valid.');
+        expect(guide.text()).toContain('included in 1.0.0-beta.2');
+        expect(code).toContain("'filesystem' => env('FILOQUENT_FILESYSTEM')");
+        expect(code).toContain("'base_path' => env('FILOQUENT_BASE_PATH', 'assets')");
+        expect(code).toContain("'connection' => env('FILOQUENT_REDIS_CONNECTION', 'default')");
+        expect(code).not.toContain("'placeholder'");
+        expect(code).toContain(
+            'FILOQUENT_FILESYSTEM=null\nFILOQUENT_BASE_PATH=assets\nFILOQUENT_REDIS_DB=null\nFILOQUENT_REDIS_CONNECTION=default',
+        );
+    });
+
+    it('documents optional native attributes alongside published cast installation', () => {
+        const guide = render(Configuration, 'filoquent/configuration', 'Filoquent configuration');
+        const section = guide.get('section[aria-labelledby="native-attributes"]');
+        const code = section
+            .findAll('pre')
+            .map((example) => example.text())
+            .join('\n');
+        expect(section.text()).toContain('1.0.0-beta.2');
+        expect(section.text()).not.toMatch(/unpublished|source preview/);
+        expect(section.text()).toContain('Existing casts remain supported');
+        expect(code).toContain('use ArtisanToolbox\\Filoquent\\Attributes\\File;');
+        expect(code).toContain("#[File('attachment', naming: FileNaming::Original)]");
+        expect(code).toContain("#[File('contract', name: 'signed-contract')]");
+        expect(code).toContain("#[File('attachment', middleware: NamedOriginal::class)]");
+        expect(code).toContain('use HasFiloquent;');
+        expect(section.text()).toContain('FileNaming::Uuid');
+        expect(section.text()).toContain('Parent class declarations are inherited');
+        expect(section.text()).toContain('Declaring one field twice on a single class');
+        expect(section.text()).toContain('take precedence over attribute declarations');
+        expect(section.text()).toContain('mergeCasts()');
+        expect(section.text()).toContain('Hello Filoquent');
+        const files = render(Files, 'filoquent/files', 'Work with file attributes');
+        expect(
+            files.get('section[aria-labelledby="native-attributes"]').find('a').attributes('href'),
+        ).toBe('/docs/filoquent/configuration#native-attributes');
+    });
+
+    it('documents backed SQL enum values without requiring a state migration', () => {
+        const guide = render(Storage, 'filoquent/storage', 'Storage lifecycle and recovery');
+        const section = guide.get('section[aria-labelledby="sql-states"]');
+        expect(section.text()).toContain('1.0.0-beta.2');
+        expect(section.text()).not.toMatch(/unpublished|source preview/);
+        for (const name of ['UploadState', 'OwnerTableState', 'OwnerTableResolution']) {
+            expect(section.text()).toContain(name);
+        }
+        expect(section.text()).toContain('writing, active, pending, retired');
+        expect(section.text()).toContain('ready, pending');
+        expect(section.text()).toContain('renamed, removed');
+        expect(section.text()).toContain('no schema migration or stored-data rewrite');
+        expect(section.text()).toContain('Existing installation migrations remain required');
     });
 
     it('shows the contributor checks and the README regeneration command', () => {
@@ -137,6 +228,94 @@ describe('Filoquent alpha documentation', () => {
         expect(code).toContain('FILOQUENT_TEST_PGSQL_DATABASE=filoquent_test');
         expect(code).toContain('composer test:unit -- --processes=2');
         expect(checks.text()).not.toContain('--group=mysql');
+    });
+
+    it('teaches generation, registration, and a defined middleware save before variants', () => {
+        const guide = render(Middleware, 'filoquent/middleware', 'Create upload middleware');
+        expect(guide.get('h1').text()).toBe('Create upload middleware');
+        const generate = guide.get('section[aria-labelledby="generate"]');
+        expect(generate.text()).toContain('available in 1.0.0-beta.2');
+        expect(generate.text()).not.toMatch(/unpublished|development addition|absent from/);
+        expect(generate.text()).toContain('app/Files/NamedOriginal.php');
+        const code = guide
+            .findAll('pre')
+            .map((example) => example.text())
+            .join('\n');
+        expect(code).toContain('php artisan filoquent:make-middleware NamedOriginal');
+        expect(code).toContain('php artisan filoquent:make-middleware Images/NamedOriginal');
+        expect(code).toContain(
+            "php artisan filoquent:make-middleware 'App\\Files\\Images\\NamedOriginal'",
+        );
+        expect(code).toContain('php artisan filoquent:make-middleware NamedOriginal --force');
+        expect(code).toContain('return $file->asset();');
+        expect(code).toContain('namespace App\\Files;');
+        expect(code).toContain("return $file->asset(key: 'original', name: 'document');");
+        expect(code).toContain('use App\\Files\\NamedOriginal;');
+        expect(code).toContain('use ArtisanToolbox\\Filoquent\\Casts\\AsFile;');
+        expect(code).toContain("'attachment' => AsFile::using(middleware: NamedOriginal::class)");
+        expect(code).toContain("file_put_contents($source, 'Hello Filoquent');");
+        expect(code).toContain("$document->fresh()->attachment->get('original');");
+        const verify = guide.get('section[aria-labelledby="verify"]').text();
+        expect(verify).toContain('document.txt');
+        expect(verify).toContain('true');
+        expect(verify).toContain('Hello Filoquent');
+        const sections = guide
+            .findAll('section')
+            .map((section) => section.attributes('aria-labelledby'));
+        expect(sections.indexOf('prerequisites')).toBeLessThan(sections.indexOf('generate'));
+        expect(sections.indexOf('register')).toBeLessThan(sections.indexOf('verify'));
+        expect(sections.indexOf('verify')).toBeLessThan(sections.indexOf('variants'));
+        expect(guide.text()).toContain("Laravel's service container");
+    });
+
+    it('keeps middleware variants executable and explains output and temporary file ownership', () => {
+        const guide = render(Middleware, 'filoquent/middleware', 'Create upload middleware');
+        const variants = guide.get('section[aria-labelledby="variants"]');
+        expect(variants.text()).toContain('same text bytes');
+        expect(variants.text()).toContain(
+            "$file->asset(key: 'preview', name: 'preview', default: false)",
+        );
+        expect(variants.text()).toContain('non-empty list');
+        expect(variants.text()).toContain('Exactly one asset');
+        expect(variants.text()).toContain('differ only by letter case');
+        expect(variants.text()).toContain('before storage writes');
+        const generated = guide.get('section[aria-labelledby="generated-files"]');
+        expect(generated.text()).toContain('PendingAsset::fromPath()');
+        expect(generated.text()).toContain('after handle() returns');
+        expect(generated.text()).toContain('until the enclosing save() call finishes');
+        expect(generated.text()).toContain('both success and failure');
+        expect(generated.text()).toContain(
+            'does not automatically delete middleware-generated files',
+        );
+        expect(generated.text()).toContain('does not convert bytes to WebP');
+        expect(generated.text()).toContain('Database retries and later saves');
+        expect(guide.text()).not.toContain('$thumbnailPath');
+        const native = guide.get('section[aria-labelledby="native-attributes"]');
+        expect(native.text()).toContain('1.0.0-beta.2');
+        expect(native.text()).not.toMatch(/unpublished|source preview/);
+        expect(native.text()).toContain("#[File('attachment', middleware: NamedOriginal::class)]");
+        expect(native.text()).toContain('takes precedence');
+    });
+
+    it('links existing file and configuration guidance to the dedicated middleware guide', () => {
+        const files = render(Files, 'filoquent/files', 'Work with file attributes');
+        expect(
+            files
+                .get('section[aria-labelledby="middleware"]')
+                .findAll('a')
+                .map((link) => link.attributes('href')),
+        ).toContain('/docs/filoquent/middleware');
+        const configuration = render(
+            Configuration,
+            'filoquent/configuration',
+            'Filoquent configuration',
+        );
+        expect(
+            configuration
+                .get('section[aria-labelledby="native-attributes"]')
+                .findAll('a')
+                .map((link) => link.attributes('href')),
+        ).toContain('/docs/filoquent/middleware');
     });
 
     it('documents middleware output ownership and the indexed cleanup boundary', () => {

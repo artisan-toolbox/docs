@@ -51,7 +51,7 @@ const example9 = `npm run build`;
             <DocsLink :href="findNavigationItem(navigation, 'front-awesome').href + '#requirements'"
                 >requirements</DocsLink
             >
-            before installing the published preview.
+            before installing the beta package.
         </p>
         <h2
             id="install-the-composer-package"
@@ -59,7 +59,7 @@ const example9 = `npm run build`;
             Install the Composer package
         </h2>
         <p>
-            Install the published preview from the application root. The
+            Install the beta package from the application root. The
             <DocsLink href="https://github.com/artisan-toolbox/front-awesome"
                 >Front Awesome repository</DocsLink
             >
@@ -153,8 +153,8 @@ const example9 = `npm run build`;
         </h2>
         <p>
             This first example uses the bundled Web Awesome Core edition. It needs no Pro package or
-            credentials. Front Awesome is a published preview. Its API can change before the first
-            stable release.
+            credentials. Front Awesome is a beta package. Its API can change before the first stable
+            release.
         </p>
         <p>
             In the application's existing <code>vite.config.js</code> or
@@ -232,7 +232,7 @@ const example9 = `npm run build`;
                 :href="`${findNavigationItem(navigation, 'front-awesome/web-awesome/components/forms').href}#input`"
                 >Bind input values and form errors</DocsLink
             >
-            when you need v-model or an Inertia form field in Front Awesome 1.0.0-alpha.2.
+            when you need v-model or an Inertia form field in Front Awesome beta.
         </p>
         <p>
             Browse the

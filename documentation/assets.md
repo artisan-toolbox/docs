@@ -77,8 +77,8 @@ After changing fonts, weights, or Fontaine, run `npm run build`. Inspect the gen
 
 The integration follows Laravel's [font options](https://laravel.com/framework/docs/vite#font-options) and [Fontaine](https://github.com/unjs/fontaine).
 
-## Filoquent preview artwork
+## Filoquent artwork
 
 Filoquent owns `logo/filoquent-icon.svg`, `filoquent-light.svg`, and `filoquent-dark.svg` in its package repository. The copies under `public/images/packages/filoquent/` use the same rounded charcoal tile, coral and cream palette, and outlined Avenir Next Bold wordmark as the package family. The symbol combines a folded document with linked nodes. SVG text is outlined, so browsers do not need the authoring font.
 
-The package overview consumes these files through `PackageResource` and `PackageGuideHeader`. Child guides retain their visible task titles and compact package tags. Filoquent has no uploaded Font Awesome kit identity yet. Navigation and compact tags use the existing native `file-lines` icon through `packageIcons.js`; do not reference an unpublished `atb-filoquent` kit name. The original full-color artwork remains the package identity.
+The package overview consumes these files through `PackageResource` and `PackageGuideHeader`. Child guides retain their visible task titles and compact package tags. Navigation and compact tags use the published `atb-filoquent` duotone kit identity through `packageIcons.js`. The original full-color artwork remains the package identity.

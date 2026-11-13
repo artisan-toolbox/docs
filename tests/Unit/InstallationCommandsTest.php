@@ -45,10 +45,10 @@ test('uninstalled packages never produce an invented installation version', func
     expect(resolve(InstallationCommands::class)->forPackage('missing-package')['composer']['code'])->toBeNull();
 });
 
-test('Filoquent installs its locked alpha from Packagist without a local checkout or frontend', function () {
+test('Filoquent installs its locked prerelease from Packagist without a local checkout or frontend', function () {
     $commands = resolve(InstallationCommands::class)->forPackage('filoquent');
 
-    expect($commands['composer']['code'])->toBe('composer require artisan-toolbox/filoquent:1.0.0-alpha.1');
+    expect($commands['composer']['code'])->toBe('composer require artisan-toolbox/filoquent:'.InstalledVersions::getPrettyVersion('artisan-toolbox/filoquent'));
     expect($commands)->not->toHaveKey('preview')->not->toHaveKey('frontend');
 });
 

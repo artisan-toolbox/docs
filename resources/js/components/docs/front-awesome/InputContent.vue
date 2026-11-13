@@ -376,11 +376,10 @@ const valueDomains = [
             section anchors remain available for existing links.
         </p>
         <DocsCallout variant="caution">
-            <template #title>Published preview</template>
+            <template #title>Beta</template>
             <p>
-                Front Awesome 1.0.0-alpha.2 includes this shared binding API. Its API can change
-                before the first stable release. Refresh the frontend vendor copy after updating
-                Composer.
+                Front Awesome beta includes this shared binding API. Its API can change before the
+                first stable release. Refresh the frontend vendor copy after updating Composer.
             </p>
         </DocsCallout>
         <p>

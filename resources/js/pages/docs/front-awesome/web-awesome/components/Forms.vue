@@ -725,8 +725,8 @@ defineProps({
         </ProseSection>
         <ProseSection id="combobox" title="Combobox">
             <p>
-                Combine text entry with suggested choices. This example requires the Pro source
-                preview and Web Awesome Pro 3.14.0.
+                Combine text entry with suggested choices. This example requires the Front Awesome
+                beta Pro wrappers and Web Awesome Pro 3.14.0.
             </p>
             <DemoFrame
                 data-catalog-demo="Combobox"
@@ -743,8 +743,8 @@ defineProps({
         </ProseSection>
         <ProseSection id="date-input" title="Date Input">
             <p>
-                Enter a date in a form. This example requires the Front Awesome 1.0.0-alpha.2 Pro
-                wrappers and Web Awesome Pro 3.14.0.
+                Enter a date in a form. This example requires the Front Awesome beta Pro wrappers
+                and Web Awesome Pro 3.14.0.
             </p>
             <DemoFrame
                 data-catalog-demo="DateInput"
@@ -765,8 +765,8 @@ defineProps({
         </ProseSection>
         <ProseSection id="date-picker" title="Date Picker">
             <p>
-                Choose a date from a calendar. This example requires the Front Awesome 1.0.0-alpha.2
-                Pro wrappers and Web Awesome Pro 3.14.0.
+                Choose a date from a calendar. This example requires the Front Awesome beta Pro
+                wrappers and Web Awesome Pro 3.14.0.
             </p>
             <DemoFrame
                 data-catalog-demo="DatePicker"
@@ -787,8 +787,8 @@ defineProps({
         </ProseSection>
         <ProseSection id="file-input" title="File Input">
             <p>
-                Select files for a form. This example requires the Front Awesome 1.0.0-alpha.2 Pro
-                wrappers and Web Awesome Pro 3.14.0.
+                Select files for a form. This example requires the Front Awesome beta Pro wrappers
+                and Web Awesome Pro 3.14.0.
             </p>
             <DemoFrame
                 data-catalog-demo="FileInput"

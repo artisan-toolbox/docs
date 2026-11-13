@@ -101,7 +101,7 @@ dump(Storage::disk($asset->filesystem)->get($asset->path));`;
                     >. That example defines <code>App\Models\Document</code>, the
                     <code>documents</code> table, and its <code>attachment</code> file column. Run
                     commands from the application root. The resolution command is included in the
-                    Filoquent alpha release.
+                    Filoquent beta.
                 </p>
                 <p>
                     Back up the owning database, Filoquent ledger, and matching files. Record a

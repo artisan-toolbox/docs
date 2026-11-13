@@ -10,7 +10,7 @@ const columns = [
 ];
 const data = [
     { id: 1, name: 'Core', status: 'Preview' },
-    { id: 2, name: 'Front Awesome', status: 'Preview' },
+    { id: 2, name: 'Front Awesome', status: 'Beta' },
     { id: 3, name: 'Mosaicast', status: 'Preview' },
 ];
 </script>

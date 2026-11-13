@@ -25,7 +25,7 @@ test('orders package guides by learning prerequisites rather than their titles',
 })->with([
     'maintainer' => ['maintainer', ['installation', 'configuration', 'ci', 'versioning', 'deployment', 'commands', 'development']],
     'core' => ['core', ['installation', 'conditional-arrays', 'multi-domain-inertia', 'translated-attributes']],
-    'filoquent' => ['filoquent', ['installation', 'files', 'configuration', 'health', 'garbage-collection', 'storage', 'rename-owners', 'development']],
+    'filoquent' => ['filoquent', ['installation', 'files', 'middleware', 'configuration', 'health', 'garbage-collection', 'storage', 'rename-owners', 'development']],
     'dump-to-console' => ['dump-to-console', ['installation', 'usage']],
     'mosaicast' => ['mosaicast', ['installation', 'vue-plugin', 'inertia-delivery', 'session-channels', 'roadmap']],
     'front-awesome' => ['front-awesome', ['installation', 'web-awesome', 'setup', 'localization', 'preferences', 'styling', 'toasts', 'printing', 'development']],

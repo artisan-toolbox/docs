@@ -41,6 +41,7 @@ describe('documentation navigation icons', () => {
 
     it.each([
         'core',
+        'dapter',
         'dump-to-console',
         'front-awesome',
         'maintainer',

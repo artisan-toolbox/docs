@@ -23,7 +23,7 @@ it('provides executable Setup examples and native icon guidance without extra se
                 package: {
                     title: 'Front Awesome',
                     documentedVersion: '1.x-dev',
-                    stability: 'Work in progress',
+                    stability: 'Beta',
                 },
             },
         },
@@ -68,7 +68,7 @@ it('provides executable Setup examples and native icon guidance without extra se
         ).trim(),
     );
     expect(wrapper.text()).toContain('The toast plugin is not required.');
-    expect(wrapper.text()).toContain('Front Awesome 1.0.0-alpha.2 exports components/Icon.vue.');
+    expect(wrapper.text()).toContain('Front Awesome beta exports components/Icon.vue.');
     expect(wrapper.text()).toContain(
         'Icon adds no default classes, theme, color, size, spacing, or stylesheet.',
     );

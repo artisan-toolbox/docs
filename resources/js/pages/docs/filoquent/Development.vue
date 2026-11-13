@@ -235,9 +235,9 @@ const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
                     Maintainer writes the selected release version before running quality checks.
                     Version tests validate the supported semantic format rather than require the
                     previous version number. For example, selecting
-                    <code>1.0.0-alpha.1</code> must not fail because the checkout previously
-                    declared <code>0.1.0-alpha.1</code>. README identity tests verify its contracts
-                    and managed metadata independently of that changing number.
+                    <code>1.0.0-beta.2</code> must not fail because the checkout previously declared
+                    an earlier prerelease. README identity tests verify its contracts and managed
+                    metadata independently of that changing number.
                 </p>
                 <p>
                     Edit <code>readmeHead()</code> for managed metadata, then regenerate the README

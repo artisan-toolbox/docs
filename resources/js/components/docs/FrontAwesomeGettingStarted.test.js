@@ -16,13 +16,13 @@ function render() {
             navigation: navigation(),
             page: {
                 title: 'Install Front Awesome',
-                description: 'Install and verify the published preview.',
+                description: 'Install and verify the beta package.',
                 package: {
                     installationCommands: commands,
                     title: 'Front Awesome',
                     composerName: 'artisan-toolbox/front-awesome',
                     documentedVersion: installedVersion,
-                    stability: 'Work in progress',
+                    stability: 'Beta',
                     installedVersion,
                     installationSource: 'distribution',
                 },
@@ -54,7 +54,7 @@ describe('Front Awesome first success', () => {
         expect(examples[6]).toContain('<Button variant="brand">Hello from Front Awesome</Button>');
         expect(examples[7]).toContain("Route::get('/front-awesome-welcome'");
         expect(examples[8]).toBe('npm run build');
-        expect(wrapper.text()).toContain('Front Awesome is a published preview.');
+        expect(wrapper.text()).toContain('Front Awesome is a beta package.');
         expect(wrapper.text()).toContain('Its API can change before the first stable release.');
         expect(wrapper.text()).toContain(
             'After Composer installs a new package version, rerun the frontend installation command above and commit the updated package-lock.json.',

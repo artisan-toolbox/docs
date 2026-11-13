@@ -123,10 +123,10 @@ app.use(PrimeVue, {
             the palette, fonts, spacing, or radius.
         </p>
         <p>
-            Front Awesome 1.0.0-alpha.2 connects all 22 Aura color palettes to their Tailwind
-            inputs, including emerald, sky, zinc, and slate. Changing a physical ramp in the
-            published branding file therefore reaches PrimeVue components that use that ramp.
-            Neutral surfaces continue to read gray. Success reads green and danger reads red.
+            Front Awesome beta connects all 22 Aura color palettes to their Tailwind inputs,
+            including emerald, sky, zinc, and slate. Changing a physical ramp in the published
+            branding file therefore reaches PrimeVue components that use that ramp. Neutral surfaces
+            continue to read gray. Success reads green and danger reads red.
         </p>
         <p>
             Aura uses orange for warning buttons, badges, and tags, and yellow for warning messages

@@ -41,8 +41,8 @@ const { n } = useI18n({ useScope: 'global' });
                     >preferences setup</DocsLink
                 >
                 and install localization after preferences. This how-to uses the
-                <code>Currency</code> component included in Front Awesome 1.0.0-alpha.2 and the
-                global Vue I18n composer.
+                <code>Currency</code> component included in Front Awesome beta and the global Vue
+                I18n composer.
             </p>
         </ProseSection>
         <ProseSection id="select-and-format-currency" title="Select and format currency">

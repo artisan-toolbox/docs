@@ -22,7 +22,7 @@ function render() {
                 package: {
                     title: 'Front Awesome',
                     documentedVersion: '1.x-dev',
-                    stability: 'Work in progress',
+                    stability: 'Beta',
                 },
             },
         },
@@ -77,9 +77,7 @@ it('teaches all shared form modes through complete live sources in canonical For
     expect(examples[5]).toContain('useFormBridge(props,');
     expect(examples[5]).toContain('defineComponent');
     expect(section.text()).toContain('toast plugin is optional');
-    expect(section.text()).toContain(
-        'Front Awesome 1.0.0-alpha.2 includes this shared binding API.',
-    );
+    expect(section.text()).toContain('Front Awesome beta includes this shared binding API.');
     expect(section.text()).toContain('do not call setCustomValidity()');
     expect(section.text()).toContain(
         'Combining v-model with an Inertia form binding throws an error',

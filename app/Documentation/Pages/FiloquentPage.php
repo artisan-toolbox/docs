@@ -16,7 +16,7 @@ final readonly class FiloquentPage extends Page
             slug: self::SLUG,
             component: 'docs/filoquent/Index',
             title: 'Filoquent',
-            description: 'Save uploaded files, local paths, and streams through Eloquent attributes with the Filoquent alpha release.',
+            description: 'Save uploaded files, local paths, and streams through Eloquent attributes with Filoquent in beta.',
             sourcePath: 'resources/js/pages/docs/filoquent/Index.vue',
             package: new FiloquentPackage,
         );

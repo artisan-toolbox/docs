@@ -1,6 +1,6 @@
 # Verify the printing demonstration
 
-The printing suite uses Front Awesome `1.0.0-alpha.2` and QZ Tray Connector `1.4.0`. Front Awesome remains an alpha preview. Its guides live at `front-awesome/printing`, `front-awesome/printing/reference`, and `qztray/escpos-writer`. `PageSlug` owns their order and ancestry.
+The printing suite uses Front Awesome and QZ Tray Connector `1.4.0`. Front Awesome is in beta. Its guides live at `front-awesome/printing`, `front-awesome/printing/reference`, and `qztray/escpos-writer`. `PageSlug` owns their order and ancestry. The installed version remains separate from package stability and changes through Maintainer's release workflow.
 
 The application consumes the packages through Composer and their public frontend entries. The demonstration imports `createPrinting`, `PrintDrawer`, `preparePrintDocument`, and `renderPrintRequest`. It does not copy the package queue, writer, renderers, or wrapper internals.
 

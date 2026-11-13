@@ -2,7 +2,7 @@
 
 ## Scope and source ownership
 
-This record documents the optional localization APIs included in Front Awesome `1.0.0-alpha.2`. The how-to serves application developers adding translations to an existing Laravel application. The reference describes configuration and browser contracts. The public guide remains separate from this contributor record.
+This record documents the optional localization APIs included in Front Awesome beta. The how-to serves application developers adding translations to an existing Laravel application. The reference describes configuration and browser contracts. The public guide remains separate from this contributor record.
 
 Laravel PHP and JSON files own translated text. Front Awesome exports a versioned JSON resource and a sibling Vue I18n message-key declaration. The documentation application consumes `createLocalization`, `useLocalization`, and `Language` through Composer-delivered frontend exports. It does not copy the locale controller, message adapter, language catalog, or native Web Awesome registry.
 
@@ -10,7 +10,7 @@ The live demonstration owns only example inputs, layout, and restoration of the 
 
 ## Beginner journey audit
 
-The learner starts with an existing Laravel 13.36 or later within 13.x, Inertia 3, Vue 3.5, Vite, PHP 8.5, and supported Node application. Front Awesome remains an alpha preview. The installed Composer version is displayed through shared package metadata. Localization additions are included in the published `1.0.0-alpha.2` preview.
+The learner starts with an existing Laravel 13.36 or later within 13.x, Inertia 3, Vue 3.5, Vite, PHP 8.5, and supported Node application. Front Awesome is in beta and includes localization. The installed Composer version is displayed through shared package metadata and remains separate from package stability.
 
 The existing overview and dedicated Installation guide retain their Composer-before-npm procedure and first Button example. Its observable result remains the Hello from Front Awesome button. Localization remains optional and does not add an exporter prerequisite to ordinary wrappers.
 

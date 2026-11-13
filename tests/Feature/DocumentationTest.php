@@ -13,6 +13,7 @@ test('orders package navigation alphabetically between getting started and proje
             '',
             'getting-started',
             'core',
+            'dapter',
             'dump-to-console',
             'filoquent',
             'front-awesome',
@@ -24,26 +25,26 @@ test('orders package navigation alphabetically between getting started and proje
     );
 })->with(['/docs', '/docs/getting-started/choose-a-package', '/docs/maintainer']);
 
-test('lists all seven packages with their registered overview routes', function () {
+test('lists all eight packages with their registered overview routes', function () {
     $this->withoutVite();
 
     $this->get('/docs')->assertOk()->assertInertia(fn (Assert $page) => $page
         ->component('docs/Index')
         ->where('page.title', 'Documentation')
         ->where('page.package', null)
-        ->has('packages', 7)
-        ->where('packages.3.id', 'front-awesome')
-        ->where('packages.3.version', null)
-        ->where('packages.4.href', '/docs/maintainer')
-        ->where('packages.4.migrated', true)
+        ->has('packages', 8)
+        ->where('packages.4.id', 'front-awesome')
+        ->where('packages.4.version', null)
+        ->where('packages.5.href', '/docs/maintainer')
+        ->where('packages.5.migrated', true)
         ->where('packages.0.href', '/docs/core')
         ->where('packages.0.migrated', true)
         ->where('packages.0.stability', 'Stable')
-        ->where('packages.3.stability', 'Work in progress')
-        ->where('packages.5.documentedVersion', '1.2')
-        ->where('packages.6.href', '/docs/qztray')
-        ->where('packages.2.id', 'filoquent')
-        ->where('packages.2.stability', 'Alpha')
+        ->where('packages.4.stability', 'Beta')
+        ->where('packages.6.documentedVersion', '1.2')
+        ->where('packages.7.href', '/docs/qztray')
+        ->where('packages.3.id', 'filoquent')
+        ->where('packages.3.stability', 'Beta')
     );
 });
 
@@ -64,7 +65,7 @@ test('serves the documented Maintainer version and consumer requirements', funct
         ->where('page.sourceUrl', 'https://github.com/artisan-toolbox/docs/blob/1.x/resources/js/pages/docs/maintainer/Maintainer.vue')
         ->where('page.sourceLabel', 'View page source on GitHub')
         ->where('navigation.0.active', false)
-        ->where('navigation.6.active', true)
+        ->where('navigation.7.active', true)
     );
 });
 
@@ -82,11 +83,11 @@ test('serves the Code Quality overview with its package, navigation, metadata, a
         ->where('page.package.documentedVersion', '1.10')
         ->where('page.sourceUrl', 'https://github.com/artisan-toolbox/docs/blob/1.x/resources/js/pages/docs/maintainer/Ci.vue')
         ->where('page.sourceLabel', 'View page source on GitHub')
-        ->where('navigation.6.active', false)
-        ->where('navigation.6.children.2.title', 'Code Quality')
-        ->where('navigation.6.children.2.slug', 'maintainer/ci')
-        ->where('navigation.6.children.2.href', '/docs/maintainer/ci')
-        ->where('navigation.6.children.2.active', true)
+        ->where('navigation.7.active', false)
+        ->where('navigation.7.children.2.title', 'Code Quality')
+        ->where('navigation.7.children.2.slug', 'maintainer/ci')
+        ->where('navigation.7.children.2.href', '/docs/maintainer/ci')
+        ->where('navigation.7.children.2.active', true)
     );
 
     $document = new DOMDocument;
@@ -114,11 +115,11 @@ test('serves the quality guide with canonical metadata, navigation, and its publ
         ->where('page.package.documentedVersion', '1.10')
         ->where('page.sourceUrl', 'https://github.com/artisan-toolbox/docs/blob/1.x/resources/js/pages/docs/maintainer/Quality.vue')
         ->where('page.sourceLabel', 'View page source on GitHub')
-        ->where('navigation.6.children.2.active', false)
-        ->where('navigation.6.children.2.children.0.title', 'Fixes and CI Checks')
-        ->where('navigation.6.children.2.children.0.slug', 'maintainer/ci/quality')
-        ->where('navigation.6.children.2.children.0.href', '/docs/maintainer/ci/quality')
-        ->where('navigation.6.children.2.children.0.active', true)
+        ->where('navigation.7.children.2.active', false)
+        ->where('navigation.7.children.2.children.0.title', 'Fixes and CI Checks')
+        ->where('navigation.7.children.2.children.0.slug', 'maintainer/ci/quality')
+        ->where('navigation.7.children.2.children.0.href', '/docs/maintainer/ci/quality')
+        ->where('navigation.7.children.2.children.0.active', true)
     );
 
     $document = new DOMDocument;
@@ -263,19 +264,19 @@ test('follows the named documentation route when its path changes', function () 
         ->toBe(rtrim(config()->string('app.url'), '/').'/reference/maintainer');
     $response->assertInertia(fn (Assert $page) => $page
         ->where('navigation.0.href', '/docs')
-        ->where('navigation.6.href', '/reference/maintainer')
-        ->where('navigation.6.children.2.href', '/reference/maintainer/ci')
-        ->where('navigation.6.children.2.children.0.href', '/reference/maintainer/ci/quality')
-        ->where('navigation.6.children.1.href', '/reference/maintainer/configuration')
-        ->where('navigation.6.children.1.children.1.href', '/reference/maintainer/configuration/reference')
-        ->where('navigation.6.children.1.children.0.href', '/reference/maintainer/configuration/publishing')
-        ->where('navigation.6.children.1.children.2.href', '/reference/maintainer/configuration/ssh-keys')
-        ->where('navigation.6.children.3.href', '/reference/maintainer/versioning')
-        ->where('navigation.6.children.3.children.2.href', '/reference/maintainer/versioning/commits')
-        ->where('navigation.6.children.3.children.1.href', '/reference/maintainer/versioning/html-diffs')
-        ->where('navigation.6.children.3.children.3.href', '/reference/maintainer/versioning/releases')
-        ->where('navigation.6.children.3.children.0.href', '/reference/maintainer/versioning/project-integration')
-        ->where('packages.4.href', '/reference/maintainer')
+        ->where('navigation.7.href', '/reference/maintainer')
+        ->where('navigation.7.children.2.href', '/reference/maintainer/ci')
+        ->where('navigation.7.children.2.children.0.href', '/reference/maintainer/ci/quality')
+        ->where('navigation.7.children.1.href', '/reference/maintainer/configuration')
+        ->where('navigation.7.children.1.children.1.href', '/reference/maintainer/configuration/reference')
+        ->where('navigation.7.children.1.children.0.href', '/reference/maintainer/configuration/publishing')
+        ->where('navigation.7.children.1.children.2.href', '/reference/maintainer/configuration/ssh-keys')
+        ->where('navigation.7.children.3.href', '/reference/maintainer/versioning')
+        ->where('navigation.7.children.3.children.2.href', '/reference/maintainer/versioning/commits')
+        ->where('navigation.7.children.3.children.1.href', '/reference/maintainer/versioning/html-diffs')
+        ->where('navigation.7.children.3.children.3.href', '/reference/maintainer/versioning/releases')
+        ->where('navigation.7.children.3.children.0.href', '/reference/maintainer/versioning/project-integration')
+        ->where('packages.5.href', '/reference/maintainer')
     );
 });
 
@@ -283,18 +284,18 @@ test('nests every registered page once and marks only the current page and its a
     $this->withoutVite();
     $paths = [
         '' => 'navigation.0',
-        'maintainer' => 'navigation.6',
-        'maintainer/ci' => 'navigation.6.children.2',
-        'maintainer/ci/quality' => 'navigation.6.children.2.children.0',
-        'maintainer/configuration' => 'navigation.6.children.1',
-        'maintainer/configuration/reference' => 'navigation.6.children.1.children.1',
-        'maintainer/configuration/publishing' => 'navigation.6.children.1.children.0',
-        'maintainer/configuration/ssh-keys' => 'navigation.6.children.1.children.2',
-        'maintainer/versioning' => 'navigation.6.children.3',
-        'maintainer/versioning/commits' => 'navigation.6.children.3.children.2',
-        'maintainer/versioning/html-diffs' => 'navigation.6.children.3.children.1',
-        'maintainer/versioning/releases' => 'navigation.6.children.3.children.3',
-        'maintainer/versioning/project-integration' => 'navigation.6.children.3.children.0',
+        'maintainer' => 'navigation.7',
+        'maintainer/ci' => 'navigation.7.children.2',
+        'maintainer/ci/quality' => 'navigation.7.children.2.children.0',
+        'maintainer/configuration' => 'navigation.7.children.1',
+        'maintainer/configuration/reference' => 'navigation.7.children.1.children.1',
+        'maintainer/configuration/publishing' => 'navigation.7.children.1.children.0',
+        'maintainer/configuration/ssh-keys' => 'navigation.7.children.1.children.2',
+        'maintainer/versioning' => 'navigation.7.children.3',
+        'maintainer/versioning/commits' => 'navigation.7.children.3.children.2',
+        'maintainer/versioning/html-diffs' => 'navigation.7.children.3.children.1',
+        'maintainer/versioning/releases' => 'navigation.7.children.3.children.3',
+        'maintainer/versioning/project-integration' => 'navigation.7.children.3.children.0',
     ];
 
     foreach (array_keys($paths) as $slug) {
@@ -304,11 +305,11 @@ test('nests every registered page once and marks only the current page and its a
     foreach (PageSlug::cases() as $currentSlug) {
         $this->get($currentSlug->url(absolute: false))->assertOk()->assertInertia(function (Assert $page) use ($paths, $currentSlug) {
             $page->has('navigation', count(array_filter(PageSlug::cases(), fn (PageSlug $slug): bool => ! str_contains($slug->value, '/'))))
-                ->has('navigation.6.children.3.children', 4)
-                ->has('navigation.6.children.1.children', 3)
-                ->has('navigation.6.children.2.children', 1)
+                ->has('navigation.7.children.3.children', 4)
+                ->has('navigation.7.children.1.children', 3)
+                ->has('navigation.7.children.2.children', 1)
                 ->where('navigation.0.children', [])
-                ->where('navigation.6.children.2.children.0.children', []);
+                ->where('navigation.7.children.2.children.0.children', []);
 
             foreach ($paths as $slug => $path) {
                 $page->where($path.'.slug', $slug)

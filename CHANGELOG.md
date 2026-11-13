@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0] - 2026-11-13
+
+### Features
+
+- **Publish Filoquent alpha 1 docs and installation flow** (`d7aa472`)
+  Published the Filoquent alpha 1 documentation and updated the documented installation flow to match the newly published `1.0.0-alpha.1` release (Alpha status), including guidance to install from Packagist and derive installation commands from the locked version. Removed/avoided the prior local-checkout/source-preview prerequisite from the installation narrative and documentation. This includes updating doc metadata (version, stability, summaries/requirements text), rewording multiple UI pages/tests from “development preview/unpublished preview” to “alpha release,” and refreshing the installation section to use the Packagist-based command path instead of the previous preview/source workflow.
+
 ## [1.1.0] - 2026-11-13
 
 ### Features
@@ -16,17 +23,25 @@
 
 ### Added
 
+- Add a dedicated Filoquent upload middleware guide with the published generator command, a complete cast example, native attributes, named variants, and temporary-file ownership. Preserve the existing file guide anchor and link configuration to the new task guide.
+
+- Introduce optional Filoquent configuration before the first file example in the Installation guide, with its defaults, publishing command, and a link to the complete configuration reference.
+- Document Filoquent beta 2's optional repeatable `#[File(...)]` model configuration, inheritance, explicit-cast precedence, validation, and middleware. Describe backed SQL state enums and unchanged persisted values without requiring a new migration. Keep the executable cast quickstart and optional native declaration examples aligned with the published beta 2 release.
+- Document every Filoquent environment setting, its default, configuration-cache refresh, and published beta 2 availability. Remove the unused placeholder setting from the current configuration example and explain how to update older published files.
+- Register Dapter as an unreleased preview with local installation, identity examples, development checks, and package artwork. Keep its catalog entry and navigation in alphabetical order, and use its published Font Awesome duotone identity.
+
 - Document Filoquent's persistent missing-table groups, daily SQL-backed error reporting, and explicit rename, restoration, or permanent-removal resolution. Add a controlled model, column, and table renaming guide with reversible Laravel migrations and preserved file paths.
 
 - Document Filoquent's read-only file health audit, coverage and recovery limits, maintenance logs, and background scheduling for health, collection, and retirement retries.
 
 - Document Filoquent's optional Redis upload journal, reserved logical database setup, forward migration, bounded SQL consolidation, delayed pending cleanup, and recovery limits.
 
-- Filoquent preview documentation with executable Eloquent file installation, middleware variants, storage lifecycle, bounded cleanup, delayed orphan reconciliation, fixed model-and-field directories, configuration, development, package artwork, search, and shared page metadata.
+- Filoquent documentation with executable Eloquent file installation, middleware variants, storage lifecycle, bounded cleanup, delayed orphan reconciliation, fixed model-and-field directories, configuration, development, package artwork, search, and shared page metadata.
 
 ### Changed
 
-- Document Filoquent's published `1.0.0-alpha.1` release and Alpha status. Install it from Packagist, derive installation commands from the locked version, and remove the local-checkout prerequisite.
+- Promote Front Awesome to Beta across the package catalog, guides, component examples, and contributor records. Preserve Maintainer-managed version identifiers and historical release records.
+- Document Filoquent's Beta status and published `1.0.0-beta.2` release. Install it from Packagist, derive installation commands from the locked version, and remove the local-checkout prerequisite.
 - Document Filoquent's complete SQLite, MySQL, and PostgreSQL dependency matrix, native-engine test commands, disposable worker databases, and explicit SQLite fixture limits.
 - Explain schema-qualified PostgreSQL ownership, blocked upgrades of older unqualified receipts, and bounded table-route rotation around blocked garbage-collection groups.
 

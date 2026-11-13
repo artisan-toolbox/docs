@@ -25,8 +25,8 @@ const provider = `return [
             <ProseSection>
                 <p>
                     Install Filoquent in an existing Laravel 13 application and save your first file
-                    through an Eloquent attribute. The first alpha release,
-                    <code>1.0.0-alpha.1</code>, is available on
+                    through an Eloquent attribute. Filoquent is in beta. The documented release,
+                    <code>1.0.0-beta.2</code>, is available on
                     <DocsLink :href="page.package.releasesUrl">Packagist</DocsLink>. APIs may change
                     before the stable release.
                 </p>
@@ -41,9 +41,9 @@ const provider = `return [
             <ProseSection id="install-source" title="Install from Packagist">
                 <InstallCommand :package="page.package" label="Install Filoquent from Packagist" />
                 <p>
-                    The explicit alpha version allows Composer to install this prerelease without
-                    changing your application's global <code>minimum-stability</code>. No local
-                    source checkout or custom repository is required.
+                    The explicit prerelease version allows Composer to install it without changing
+                    your application's global <code>minimum-stability</code>. No local source
+                    checkout or custom repository is required.
                 </p>
                 <p>
                     Laravel discovers <code>FiloquentServiceProvider</code> automatically. No npm
@@ -66,6 +66,29 @@ const provider = `return [
                 <CodeExample label="Register Filoquent manually" language="php" :code="provider" />
             </ProseSection>
             <RegistrationExample />
+            <ProseSection id="configuration" title="Configure Filoquent">
+                <p>
+                    Filoquent uses Laravel's default filesystem disk and stores new uploads under
+                    <code>assets</code>. Redis recovery is disabled by default. The first file
+                    example needs no additional package configuration.
+                </p>
+                <p>
+                    To customize these defaults, optionally publish
+                    <code>config/filoquent.php</code> from your application's root:
+                </p>
+                <CodeExample
+                    label="Publish optional Filoquent configuration"
+                    language="bash"
+                    code="php artisan vendor:publish --tag=filoquent-config" />
+                <p>
+                    See the
+                    <DocsLink :href="findNavigationItem(navigation, 'filoquent/configuration').href"
+                        >configuration guide</DocsLink
+                    >
+                    to choose a filesystem disk, change the upload directory, or enable optional
+                    Redis recovery.
+                </p>
+            </ProseSection>
             <FileExample />
             <ProseSection id="ownership-gates" title="Install persistent missing-table protection">
                 <p>
@@ -159,8 +182,10 @@ const provider = `return [
                     required in production.
                 </p>
                 <p>
-                    The skill bundled with Alpha 1 still describes the earlier local-checkout
-                    installation. Use the Packagist command above for this release.
+                    If bundled or previously generated guidance names an older release or describes
+                    these APIs as unpublished, use the Packagist command above and the current
+                    canonical documentation. Check your actual installed package version before
+                    following version-specific agent instructions.
                 </p>
             </ProseSection>
             <ProseSection id="next-steps" title="Next steps">

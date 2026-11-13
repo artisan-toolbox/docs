@@ -50,7 +50,7 @@ import { Button } from "@artisan-toolbox/front-awesome/components";
             Individual exports also use this directory, such as
             <code>@artisan-toolbox/front-awesome/components/WebAwesome/Button.vue</code>. The
             existing components entry and direct component imports remain compatible. Check the
-            installed package exports before using the new paths in an older preview.
+            installed package exports before using the new paths in an older version.
         </p>
         <p>
             Give a button accessible slotted text or a labeled Icon. In Web Awesome 3.14, attributes

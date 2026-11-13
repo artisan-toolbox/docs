@@ -161,9 +161,9 @@ npm ci`;
         <p>
             Maintainer manages releases on <code>1.x</code> and generates the README header. To
             regenerate the header after changing the logo or badges, run
-            <code>php vendor/bin/maintainer readme:update</code>. When preparing the first release,
-            replace the in-development badge in <code>FrontAwesome::readmeHead()</code> with the
-            GitHub release badge.
+            <code>php vendor/bin/maintainer readme:update --no-interaction</code>. The beta badge in
+            <code>FrontAwesome::readmeHead()</code> describes package stability separately from the
+            version managed by Maintainer.
         </p>
         <h2
             id="use-the-frontend-agent-skills"

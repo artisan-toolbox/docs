@@ -57,7 +57,7 @@ $instant->format('H:i'); // 12:00; the original object is unchanged`;
                 <DocsLink :href="findNavigationItem(navigation, 'front-awesome/preferences').href"
                     >preferences setup</DocsLink
                 >
-                in your Laravel, Inertia, and Vue application. Front Awesome 1.0.0-alpha.2 exports
+                in your Laravel, Inertia, and Vue application. Front Awesome beta exports
                 <code>Timezone</code> and <code>usePreferences</code>. Keep the application and
                 database timezone fixed.
             </p>

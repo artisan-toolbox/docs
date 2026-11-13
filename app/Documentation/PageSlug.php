@@ -8,6 +8,9 @@ use App\Documentation\Pages\CoreInstallationPage;
 use App\Documentation\Pages\CoreMultiDomainInertiaPage;
 use App\Documentation\Pages\CorePage;
 use App\Documentation\Pages\CoreTranslatedAttributesPage;
+use App\Documentation\Pages\DapterDevelopmentPage;
+use App\Documentation\Pages\DapterInstallationPage;
+use App\Documentation\Pages\DapterPage;
 use App\Documentation\Pages\DumpToConsoleInstallationPage;
 use App\Documentation\Pages\DumpToConsolePage;
 use App\Documentation\Pages\DumpToConsoleUsagePage;
@@ -17,6 +20,7 @@ use App\Documentation\Pages\FiloquentFilesPage;
 use App\Documentation\Pages\FiloquentGarbageCollectionPage;
 use App\Documentation\Pages\FiloquentHealthPage;
 use App\Documentation\Pages\FiloquentInstallationPage;
+use App\Documentation\Pages\FiloquentMiddlewarePage;
 use App\Documentation\Pages\FiloquentPage;
 use App\Documentation\Pages\FiloquentRenameOwnersPage;
 use App\Documentation\Pages\FiloquentStoragePage;
@@ -110,6 +114,10 @@ enum PageSlug: string
     case CoreMultiDomainInertia = 'core/multi-domain-inertia';
     case CoreTranslatedAttributes = 'core/translated-attributes';
 
+    case Dapter = 'dapter';
+    case DapterInstallation = 'dapter/installation';
+    case DapterDevelopment = 'dapter/development';
+
     case DumpToConsole = 'dump-to-console';
     case DumpToConsoleInstallation = 'dump-to-console/installation';
     case DumpToConsoleUsage = 'dump-to-console/usage';
@@ -117,6 +125,7 @@ enum PageSlug: string
     case Filoquent = 'filoquent';
     case FiloquentInstallation = 'filoquent/installation';
     case FiloquentFiles = 'filoquent/files';
+    case FiloquentMiddleware = 'filoquent/middleware';
     case FiloquentConfiguration = 'filoquent/configuration';
     case FiloquentHealth = 'filoquent/health';
     case FiloquentGarbageCollection = 'filoquent/garbage-collection';
@@ -232,6 +241,9 @@ enum PageSlug: string
             self::MaintainerDeploymentPm2 => new MaintainerDeploymentPm2Page,
             self::MaintainerCommands => new MaintainerCommandsPage,
             self::MaintainerDevelopment => new MaintainerDevelopmentPage,
+            self::Dapter => new DapterPage,
+            self::DapterInstallation => new DapterInstallationPage,
+            self::DapterDevelopment => new DapterDevelopmentPage,
             self::Core => new CorePage,
             self::CoreConditionalArrays => new CoreConditionalArraysPage,
             self::CoreMultiDomainInertia => new CoreMultiDomainInertiaPage,
@@ -240,6 +252,7 @@ enum PageSlug: string
             self::Filoquent => new FiloquentPage,
             self::FiloquentInstallation => new FiloquentInstallationPage,
             self::FiloquentFiles => new FiloquentFilesPage,
+            self::FiloquentMiddleware => new FiloquentMiddlewarePage,
             self::FiloquentConfiguration => new FiloquentConfigurationPage,
             self::FiloquentHealth => new FiloquentHealthPage,
             self::FiloquentGarbageCollection => new FiloquentGarbageCollectionPage,

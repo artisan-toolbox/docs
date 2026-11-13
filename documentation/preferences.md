@@ -1,13 +1,13 @@
 # Preferences integration verification
 
 This record covers the Front Awesome source preview integrated on November 10, 2026, before its publication.
-Front Awesome `1.0.0-alpha.2` now includes these APIs. This record supplements the public Preferences guides and does not describe a stable release.
+Front Awesome beta includes these APIs. This record supplements the public Preferences guides and does not describe a stable release. Its historical verification results retain the versions tested at the time.
 The [current dependency verification](quality.md#documentation-consistency-and-test-dependencies-on-2026-11-11) supersedes the historical distribution and audit limits below.
 
 ## Reader journey and reuse
 
 The starting environment is a Laravel 13 application with PHP 8.5, Inertia 3, Vue 3.5,
-sessions, Vite, and the Composer-installed Front Awesome preview. Composer installation
+sessions, Vite, and the Composer-installed Front Awesome beta. Composer installation
 precedes npm installation through `file:vendor/artisan-toolbox/front-awesome`.
 
 The existing dedicated Installation page remains the first package guide. Vue setup and

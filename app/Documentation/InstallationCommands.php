@@ -23,8 +23,12 @@ final class InstallationCommands
         $commands = ['composer' => $this->command($composer)];
         $frontend = 'npm install '.($id === 'qztray' ? '' : '--install-links ').'./vendor/'.$name.($id === 'front-awesome' ? ' ./vendor/artisan-toolbox/mosaicast' : '');
 
-        if (in_array($id, ['front-awesome', 'mosaicast', 'qztray'], true)) {
+        if (in_array($id, ['dapter', 'front-awesome', 'mosaicast', 'qztray'], true)) {
             $commands['frontend'] = $this->command($frontend);
+        }
+
+        if ($id === 'dapter') {
+            $commands['local-preview'] = $this->command('composer config repositories.dapter path ../dapter'."\n".'composer require artisan-toolbox/dapter:"1.x-dev@dev"');
         }
 
         if ($id === 'front-awesome') {

@@ -144,8 +144,8 @@ defineProps({
         </ProseSection>
         <ProseSection id="wrapper-availability" title="Wrapper availability">
             <p>
-                Core and Pro wrappers in this group are available in Front Awesome 1.0.0-alpha.2.
-                Pro examples require a licensed upstream installation.
+                Core and Pro wrappers in this group are available in Front Awesome beta. Pro
+                examples require a licensed upstream installation.
             </p>
         </ProseSection>
         <ProseSection id="breadcrumb" title="Breadcrumb">

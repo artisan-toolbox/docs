@@ -1,5 +1,6 @@
 const names = {
     core: 'atb-core',
+    dapter: 'atb-dapter',
     'dump-to-console': 'atb-dump-to-console',
     'front-awesome': 'atb-front-awesome',
     filoquent: 'atb-filoquent',

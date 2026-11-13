@@ -12,7 +12,7 @@ Loading the Font Awesome script alone does not configure Web Awesome. WA reads t
 
 The kit identifier is public because browsers use it to load the kit. Private package-registry credentials and Font Awesome API credentials do not belong in this setting or the HTML. Keep the kit's permitted domains, available families, and icon selection configured in the Font Awesome account. Reload the document after changing the kit identifier.
 
-Front Awesome `1.0.0-alpha.2` exports Icon through its public component entry. SiteIcon consumes that wrapper for official families and retains application-specific sizes, decorative accessibility and uploaded-kit handling. The Vite plugin selects the licensed Pro runtime used by this application. There is no duplicate application import of the native icon registration module. Keep Core and Pro dependency requirements separate from the alpha's release availability.
+Front Awesome beta exports Icon through its public component entry. SiteIcon consumes that wrapper for official families and retains application-specific sizes, decorative accessibility and uploaded-kit handling. The Vite plugin selects the licensed Pro runtime used by this application. There is no duplicate application import of the native icon registration module. Keep Core and Pro dependency requirements separate from package stability and the installed release version.
 
 ## Add an icon
 
@@ -75,6 +75,7 @@ The configured names are:
 | Pest              | `pest`                | `kit`         |
 | Inertia           | `inertia`             | `kit`         |
 | Core              | `atb-core`            | `kit-duotone` |
+| Dapter            | `atb-dapter`          | `kit-duotone` |
 | Dump to Console   | `atb-dump-to-console` | `kit-duotone` |
 | Front Awesome     | `atb-front-awesome`   | `kit-duotone` |
 | Filoquent         | `atb-filoquent`       | `kit-duotone` |
@@ -90,4 +91,6 @@ Tests simulate SVG replacement before reactive updates, family changes, and unmo
 
 This branch follows Font Awesome's [uploaded icon markup](https://docs.fontawesome.com/web/add-icons/upload-icons) and [JavaScript framework integration guidance](https://docs.fontawesome.com/web/use-with/javascript-libraries/).
 
-Filoquent uses the published `atb-filoquent` identity through the same package map as the other six packages. Both navigation and compact guide tags render `fa-kit-duotone fa-atb-filoquent` through `SiteIcon`. Full-color package artwork remains separate.
+Filoquent uses the published `atb-filoquent` identity through the same package map as the other packages. Both navigation and compact guide tags render `fa-kit-duotone fa-atb-filoquent` through `SiteIcon`. Full-color package artwork remains separate.
+
+Dapter uses the published `atb-dapter` identity in the package map. `SiteIcon` renders `fa-kit-duotone fa-atb-dapter` in navigation and compact guide tags. The full-color SVG artwork remains the package overview identity.

@@ -63,10 +63,9 @@ const example2 = `@theme {
             use slate, emerald, amber, and rose. Leaving them commented preserves the defaults.
         </p>
         <p>
-            The expanded template is included in Front Awesome 1.0.0-alpha.2. Older installed
-            versions may include only the brand ramp. Compare the package template with your
-            application-owned copy when upgrading. Ordinary republishing preserves your existing
-            file.
+            The expanded template is included in Front Awesome beta. Older installed versions may
+            include only the brand ramp. Compare the package template with your application-owned
+            copy when upgrading. Ordinary republishing preserves your existing file.
         </p>
         <p>
             These overrides replace physical palettes. Changing

@@ -77,7 +77,7 @@ npx vue-tsc --noEmit`;
 <template>
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
-        <ProseSection id="prerequisites" title="Start with the published preview">
+        <ProseSection id="prerequisites" title="Start with the beta package">
             <p>
                 This how-to requires Laravel 13.36 or later within 13.x, Inertia 3, and Vue 3.5.
                 Start after
@@ -91,14 +91,14 @@ npx vue-tsc --noEmit`;
                 installation.
             </p>
             <p>
-                Front Awesome 1.0.0-alpha.2 requires Illuminate Translation <code>^13.36</code>.
-                Earlier Laravel 13 releases renumber numeric JSON translation keys such as
+                Front Awesome beta requires Illuminate Translation <code>^13.36</code>. Earlier
+                Laravel 13 releases renumber numeric JSON translation keys such as
                 <code>"123"</code>. Update Laravel before upgrading Front Awesome to preserve those
                 keys in both Laravel and the exported browser catalog.
             </p>
             <p>
-                Localization is optional and included in Front Awesome 1.0.0-alpha.2. The frontend
-                exports <code>./localization</code> and <code>Language</code>, and Artisan provides
+                Localization is optional and included in Front Awesome beta. The frontend exports
+                <code>./localization</code> and <code>Language</code>, and Artisan provides
                 <code>front-awesome:export-translations</code>. Vue I18n is delivered by this
                 frontend package.
             </p>

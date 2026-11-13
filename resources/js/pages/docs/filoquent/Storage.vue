@@ -2,6 +2,7 @@
 import PackageGuideHeader from '@/components/docs/PackageGuideHeader.vue';
 import ProseSection from '@/components/docs/ProseSection.vue';
 import CodeExample from '@/components/docs/CodeExample.vue';
+import DocsTable from '@/components/docs/DocsTable.vue';
 import DocsLink from '@/components/docs/DocsLink.vue';
 import { findNavigationItem } from '@/lib/docsNavigation';
 defineProps({
@@ -10,6 +11,11 @@ defineProps({
 });
 const prune = `php artisan filoquent:prune --limit=100
 php artisan filoquent:prune --apply --limit=100`;
+const states = [
+    ['UploadState', 'Writing, Active, Pending, Retired', 'writing, active, pending, retired'],
+    ['OwnerTableState', 'Ready, Pending', 'ready, pending'],
+    ['OwnerTableResolution', 'Renamed, Removed', 'renamed, removed'],
+];
 </script>
 
 <template>
@@ -40,6 +46,23 @@ php artisan filoquent:prune --apply --limit=100`;
                     deletion. Cleanup removes individual recorded objects and never deletes an
                     entire directory. Replicating a model excludes managed attributes so the new row
                     cannot silently share deletable files.
+                </p>
+            </ProseSection>
+            <ProseSection id="sql-states" title="Typed SQL states">
+                <p>
+                    The published <code>1.0.0-beta.2</code> release represents SQL receipt states,
+                    owner-table states, and table resolutions with string-backed enums under
+                    <code>ArtisanToolbox\Filoquent\Enums</code>.
+                </p>
+                <DocsTable
+                    caption="SQL enums and their persisted values"
+                    :columns="['Enum', 'Cases', 'Stored values in the same order']"
+                    :rows="states" />
+                <p>
+                    The stored strings, transitions, maintenance commands, and cleanup guarantees
+                    remain unchanged. This conversion requires no schema migration or stored-data
+                    rewrite. Continue to use the package commands for maintenance rather than
+                    assigning SQL states directly. Existing installation migrations remain required.
                 </p>
             </ProseSection>
             <ProseSection id="transactions" title="Transactions and failures">
@@ -92,7 +115,7 @@ php artisan filoquent:prune --apply --limit=100`;
                     were written can leave files without any committed receipt. The retirement drain
                     cannot discover those objects. The optional journal extends discovery to
                     recorded upload intents, subject to the boundaries below. Zero orphan retention
-                    is not a guarantee of this alpha release.
+                    is not a guarantee of Filoquent beta.
                 </p>
             </ProseSection>
             <ProseSection id="journal" title="Upload intents outside SQL rollback">

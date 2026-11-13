@@ -48,7 +48,7 @@ const models = [
             directions. Omitted models preserve the native uncontrolled API.
         </p>
         <DocsTable
-            caption="Supported named models in Front Awesome 1.0.0-alpha.2"
+            caption="Supported named models in Front Awesome beta"
             :columns="['Component', 'Model arguments']"
             :rows="models" />
         <p>

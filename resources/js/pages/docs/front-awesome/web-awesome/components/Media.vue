@@ -462,8 +462,8 @@ defineProps({
         </ProseSection>
         <ProseSection id="video" title="Video">
             <p>
-                Play video with media controls. This example requires the Front Awesome
-                1.0.0-alpha.2 Pro wrappers and Web Awesome Pro 3.14.0.
+                Play video with media controls. This example requires the Front Awesome beta Pro
+                wrappers and Web Awesome Pro 3.14.0.
             </p>
             <DemoFrame
                 data-catalog-demo="Video"
@@ -481,8 +481,8 @@ defineProps({
         </ProseSection>
         <ProseSection id="video-playlist" title="Video Playlist">
             <p>
-                Organize multiple videos for playback. This example requires the Front Awesome
-                1.0.0-alpha.2 Pro wrappers and Web Awesome Pro 3.14.0.
+                Organize multiple videos for playback. This example requires the Front Awesome beta
+                Pro wrappers and Web Awesome Pro 3.14.0.
             </p>
             <DemoFrame
                 data-catalog-demo="VideoPlaylist"

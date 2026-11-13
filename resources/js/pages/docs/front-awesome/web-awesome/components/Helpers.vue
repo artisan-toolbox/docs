@@ -363,8 +363,8 @@ defineProps({
         </ProseSection>
         <ProseSection id="wrapper-availability" title="Wrapper availability">
             <p>
-                Every Core wrapper in this group is available in Front Awesome 1.0.0-alpha.2. Check
-                the installed exports before using these examples in a released application.
+                Every Core wrapper in this group is available in Front Awesome beta. Check the
+                installed exports before using these examples in a released application.
             </p>
         </ProseSection>
         <ProseSection id="animation" title="Animation">

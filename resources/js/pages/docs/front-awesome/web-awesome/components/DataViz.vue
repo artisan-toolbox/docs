@@ -130,7 +130,7 @@ const columns = [
 ];
 const data = [
     { id: 1, name: 'Core', status: 'Preview' },
-    { id: 2, name: 'Front Awesome', status: 'Preview' },
+    { id: 2, name: 'Front Awesome', status: 'Beta' },
     { id: 3, name: 'Mosaicast', status: 'Preview' },
 ];
 \x3C/script>
@@ -505,14 +505,14 @@ defineProps({
         </ProseSection>
         <ProseSection id="wrapper-availability" title="Wrapper availability">
             <p>
-                Pro wrappers in this group are available in Front Awesome 1.0.0-alpha.2. Install the
-                licensed Pro runtime before using the examples below.
+                Pro wrappers in this group are available in Front Awesome beta. Install the licensed
+                Pro runtime before using the examples below.
             </p>
         </ProseSection>
         <ProseSection id="bar-chart" title="Bar Chart">
             <p>
-                Compare values with bars. This example requires the Front Awesome 1.0.0-alpha.2 Pro
-                wrappers and Web Awesome Pro 3.14.0.
+                Compare values with bars. This example requires the Front Awesome beta Pro wrappers
+                and Web Awesome Pro 3.14.0.
             </p>
             <DemoFrame
                 data-catalog-demo="BarChart"
@@ -530,8 +530,8 @@ defineProps({
         </ProseSection>
         <ProseSection id="bubble-chart" title="Bubble Chart">
             <p>
-                Compare points with a size dimension. This example requires the Front Awesome
-                1.0.0-alpha.2 Pro wrappers and Web Awesome Pro 3.14.0.
+                Compare points with a size dimension. This example requires the Front Awesome beta
+                Pro wrappers and Web Awesome Pro 3.14.0.
             </p>
             <DemoFrame
                 data-catalog-demo="BubbleChart"
@@ -553,8 +553,8 @@ defineProps({
         </ProseSection>
         <ProseSection id="data-grid" title="Data Grid">
             <p>
-                Present data in a structured grid. This example requires the Front Awesome
-                1.0.0-alpha.2 Pro wrappers and Web Awesome Pro 3.14.0.
+                Present data in a structured grid. This example requires the Front Awesome beta Pro
+                wrappers and Web Awesome Pro 3.14.0.
             </p>
             <DemoFrame
                 data-catalog-demo="DataGrid"
@@ -572,8 +572,8 @@ defineProps({
         </ProseSection>
         <ProseSection id="doughnut-chart" title="Doughnut Chart">
             <p>
-                Compare proportions around a ring. This example requires the Front Awesome
-                1.0.0-alpha.2 Pro wrappers and Web Awesome Pro 3.14.0.
+                Compare proportions around a ring. This example requires the Front Awesome beta Pro
+                wrappers and Web Awesome Pro 3.14.0.
             </p>
             <DemoFrame
                 data-catalog-demo="DoughnutChart"
@@ -595,8 +595,8 @@ defineProps({
         </ProseSection>
         <ProseSection id="line-chart" title="Line Chart">
             <p>
-                Show a series across an ordered axis. This example requires the Front Awesome
-                1.0.0-alpha.2 Pro wrappers and Web Awesome Pro 3.14.0.
+                Show a series across an ordered axis. This example requires the Front Awesome beta
+                Pro wrappers and Web Awesome Pro 3.14.0.
             </p>
             <DemoFrame
                 data-catalog-demo="LineChart"
@@ -618,8 +618,8 @@ defineProps({
         </ProseSection>
         <ProseSection id="pie-chart" title="Pie Chart">
             <p>
-                Compare proportions of a whole. This example requires the Front Awesome
-                1.0.0-alpha.2 Pro wrappers and Web Awesome Pro 3.14.0.
+                Compare proportions of a whole. This example requires the Front Awesome beta Pro
+                wrappers and Web Awesome Pro 3.14.0.
             </p>
             <DemoFrame
                 data-catalog-demo="PieChart"
@@ -637,8 +637,8 @@ defineProps({
         </ProseSection>
         <ProseSection id="polar-area-chart" title="Polar Area Chart">
             <p>
-                Compare values on a radial scale. This example requires the Front Awesome
-                1.0.0-alpha.2 Pro wrappers and Web Awesome Pro 3.14.0.
+                Compare values on a radial scale. This example requires the Front Awesome beta Pro
+                wrappers and Web Awesome Pro 3.14.0.
             </p>
             <DemoFrame
                 data-catalog-demo="PolarAreaChart"
@@ -660,8 +660,8 @@ defineProps({
         </ProseSection>
         <ProseSection id="radar-chart" title="Radar Chart">
             <p>
-                Compare values across several dimensions. This example requires the Pro source
-                preview and Web Awesome Pro 3.14.0.
+                Compare values across several dimensions. This example requires the Front Awesome
+                beta Pro wrappers and Web Awesome Pro 3.14.0.
             </p>
             <DemoFrame
                 data-catalog-demo="RadarChart"
@@ -683,8 +683,8 @@ defineProps({
         </ProseSection>
         <ProseSection id="scatter-chart" title="Scatter Chart">
             <p>
-                Show relationships between numeric values. This example requires the Pro source
-                preview and Web Awesome Pro 3.14.0.
+                Show relationships between numeric values. This example requires the Front Awesome
+                beta Pro wrappers and Web Awesome Pro 3.14.0.
             </p>
             <DemoFrame
                 data-catalog-demo="ScatterChart"
@@ -706,8 +706,8 @@ defineProps({
         </ProseSection>
         <ProseSection id="sparkline" title="Sparkline">
             <p>
-                Show a compact trend alongside content. This example requires the Front Awesome
-                1.0.0-alpha.2 Pro wrappers and Web Awesome Pro 3.14.0.
+                Show a compact trend alongside content. This example requires the Front Awesome beta
+                Pro wrappers and Web Awesome Pro 3.14.0.
             </p>
             <DemoFrame
                 data-catalog-demo="Sparkline"
@@ -728,8 +728,8 @@ defineProps({
         </ProseSection>
         <ProseSection id="chart" title="Chart">
             <p>
-                Configure chart types, datasets, and plugins. This example requires the Pro source
-                preview and Web Awesome Pro 3.14.0.
+                Configure chart types, datasets, and plugins. This example requires the Front
+                Awesome beta Pro wrappers and Web Awesome Pro 3.14.0.
             </p>
             <DemoFrame
                 data-catalog-demo="Chart"
