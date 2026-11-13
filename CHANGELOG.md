@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0] - 2026-11-13
+
+### Features
+
+- **add Filoquent documentation pages and preview guide** (`0670420`)
+  Adds new Filoquent documentation coverage, including a dedicated Filoquent package, multiple new documentation page classes (index, installation, files, configuration, health, storage lifecycle/recovery, garbage collection, development, rename-owners), and a corresponding preview guide/command wiring. Documentation registration is extended so the Filoquent documentation package participates in package-based documentation generation, and page slugs are extended/organized to include the new Filoquent section. For preview installation, adds an installation command set for the `filoquent` package that configures the Composer repository path to `packages/filoquent` and then requires `artisan-toolbox/filoquent:1.x-dev`, enabling executable “preview” setup steps for users. Additionally, the release documentation notes include editorial/navigation ordering requirements for package lists (alphabetical by displayed title while preserving prerequisite order for guide content within packages). User impact: users gain new Filoquent docs and a working preview installation path; navigation/catalog ordering may change but backend behavior should remain unaffected. Compatibility/migration: no code/config/API removals are implied; however, consumers that rely on the exact documentation package set or navigation ordering may see additional generated catalog entries and different ordering consistent with the new authoring rules.
+
+### Fixes
+
+- **defer docs font history scroll position and wheel target** (`0e10bbb`)
+  Updates the docs UI behavior for the font history/history browser so that scroll position is deferred and the wheel interaction targets the correct element. This stabilizes the documentation history browser checks mentioned in the broader release notes and reduces UI flakiness during interaction. User impact is limited to the documentation frontend: browsing font history should behave more predictably without unexpected jumps or misdirected scroll wheel input. Compatibility/migration: no backend or API changes; only affects the documentation UI behavior.
+
 ## Unreleased
 
 ### Added
