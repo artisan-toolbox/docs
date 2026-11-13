@@ -13,6 +13,22 @@ const artifacts = resolve(import.meta.dirname, '../storage/app/browser-verificat
 await mkdir(artifacts, { recursive: true });
 const results = [];
 
+async function scrollArticle(page, deltaY) {
+    const article = await page.locator('#main-content').boundingBox();
+    const viewport = page.viewportSize();
+    assert(article && viewport, 'The article and viewport are available for wheel input.');
+    const pointer = { x: article.x + 8, y: viewport.height / 2 };
+    assert(
+        await page.evaluate(
+            ({ x, y }) => document.elementFromPoint(x, y)?.id === 'main-content',
+            pointer,
+        ),
+        'Wheel input targets the visible article gutter rather than a heading or nested scroller.',
+    );
+    await page.mouse.move(pointer.x, pointer.y);
+    await page.mouse.wheel(0, deltaY);
+}
+
 try {
     const readinessContext = await browser.newContext({
         locale: 'en-US',
@@ -132,10 +148,9 @@ try {
             await new Promise(requestAnimationFrame);
             await new Promise(requestAnimationFrame);
         });
-        const anchor = await page.locator('#skeleton').boundingBox();
+        await page.locator('#skeleton').evaluate((heading) => heading.scrollIntoView());
         const startScroll = await page.evaluate(() => scrollY);
-        await page.mouse.move(anchor.x + 20, anchor.y + 10);
-        await page.mouse.wheel(0, 400);
+        await scrollArticle(page, 400);
         await page.waitForFunction(
             (start) =>
                 scrollY > start + 300 && history.state?.documentScrollPosition?.top === scrollY,
@@ -262,10 +277,8 @@ try {
                 await page.screenshot({
                     path: resolve(artifacts, `fragment-load-${width}-${theme}.png`),
                 });
-                const anchor = await page.locator('#skeleton').boundingBox();
                 const startScroll = await page.evaluate(() => scrollY);
-                await page.mouse.move(anchor.x + 20, anchor.y + 10);
-                await page.mouse.wheel(0, 180);
+                await scrollArticle(page, 180);
                 await page.waitForFunction((start) => scrollY > start + 100, startScroll);
                 const rememberedScroll = await page.evaluate(() => scrollY);
                 await page.waitForFunction(

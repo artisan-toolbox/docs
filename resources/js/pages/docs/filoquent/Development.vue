@@ -228,9 +228,16 @@ const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
                 <p>
                     <code>ArtisanToolbox\Filoquent\Filoquent</code> implements Maintainer's
                     <code>Versionable</code> and <code>WithReadmeHead</code> contracts. Its
-                    <code>VERSION</code> is <code>0.1.0-alpha.1</code>. This source identity is
-                    separate from Composer's development branch label and does not publish a
-                    release.
+                    <code>VERSION</code> declares the source version. This identity is separate from
+                    Composer's development branch label and does not publish a release.
+                </p>
+                <p>
+                    Maintainer writes the selected release version before running quality checks.
+                    Version tests validate the supported semantic format rather than require the
+                    previous version number. For example, selecting
+                    <code>1.0.0-alpha.1</code> must not fail because the checkout previously
+                    declared <code>0.1.0-alpha.1</code>. README identity tests verify its contracts
+                    and managed metadata independently of that changing number.
                 </p>
                 <p>
                     Edit <code>readmeHead()</code> for managed metadata, then regenerate the README

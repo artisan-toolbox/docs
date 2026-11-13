@@ -27,6 +27,9 @@
 
 ### Fixed
 
+- Stabilize documentation history browser checks by establishing the deferred-font reading position and directing wheel input to the visible article gutter.
+
+- Clarify that Filoquent release checks run after Maintainer updates the source version and must not require the previous version number.
 - Explain Filoquent's automatic single-process PHPStan analysis on Windows, shared Testbench bootstrap constraint, and unchanged analysis scope.
 - Clarify Filoquent physical ownership keys, committed callback failures, unavailable local-volume retries, UTC cleanup timestamps, and compatibility-aware contributor checks.
 
