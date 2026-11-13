@@ -38,7 +38,7 @@ function render(component, slug, title) {
                     title: 'Filoquent',
                     composerName: 'artisan-toolbox/filoquent',
                     stability: 'Beta',
-                    installedVersion: '1.0.0-beta.2',
+                    installedVersion: '1.0.0-beta.3',
                     installationStatus: 'installed',
                     installationCommands: installationCommands('filoquent'),
                     releasesUrl: 'https://packagist.org/packages/artisan-toolbox/filoquent',
@@ -53,6 +53,22 @@ function render(component, slug, title) {
 }
 
 describe('Filoquent beta documentation', () => {
+    it('separates operational status from file audits and explains current upload counts', () => {
+        const guide = render(Health, 'filoquent/health', 'Check stored file health');
+        const section = guide.get('section[aria-labelledby="status"]');
+        expect(section.text()).toContain('available in the published 1.0.0-beta.3 release');
+        expect(section.text()).not.toContain('unreleased');
+        expect(section.text()).toContain('php artisan filoquent:status');
+        expect(section.text()).toContain('--connection=uploads');
+        expect(section.text()).toContain('Remote write permissions are not tested');
+        expect(section.text()).toContain('neither physical file counts nor lifetime upload totals');
+        expect(section.text()).toContain('one recorded upload, one active upload');
+        expect(section.text()).toContain('Disabled Redis is not resolved');
+        expect(section.text()).toContain('PING');
+        expect(section.text()).toContain('ZCARD');
+        expect(section.findAll('tbody tr')).toHaveLength(6);
+    });
+
     it.each([
         [Index, 'filoquent', 'Filoquent'],
         [Installation, 'filoquent/installation', 'Install Filoquent'],
@@ -83,9 +99,9 @@ describe('Filoquent beta documentation', () => {
             expect(content).not.toMatch(
                 /source preview|development source|1\.0\.0-(?:alpha\.1|beta\.1)/,
             );
-            expect(content).toContain('1.0.0-beta.2');
+            expect(content).toContain('1.0.0-beta.3');
             expect(wrapper.text()).toContain('Beta');
-            expect(wrapper.text()).toMatch(/Documented version\s*1\.0\.0-beta\.2/);
+            expect(wrapper.text()).toMatch(/Documented version\s*1\.0\.0-beta\.3/);
             expect(
                 wrapper
                     .find('a[href="https://packagist.org/packages/artisan-toolbox/filoquent"]')

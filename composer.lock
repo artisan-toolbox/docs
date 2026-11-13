@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7480cbdd2e9a28cf1b9d1875ce694407",
+    "content-hash": "2a7c17e79c8cc9325eb0dffa13c4336e",
     "packages": [
         {
             "name": "artisan-toolbox/core",
@@ -172,16 +172,16 @@
         },
         {
             "name": "artisan-toolbox/filoquent",
-            "version": "1.0.0-beta.2",
+            "version": "1.0.0-beta.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/filoquent.git",
-                "reference": "7baf0a59ff0531defa9b645ed1694ff70100aeb0"
+                "reference": "4acf9af8bdfa1715ece2acf36044e534bd5e1255"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/filoquent/zipball/7baf0a59ff0531defa9b645ed1694ff70100aeb0",
-                "reference": "7baf0a59ff0531defa9b645ed1694ff70100aeb0",
+                "url": "https://api.github.com/repos/artisan-toolbox/filoquent/zipball/4acf9af8bdfa1715ece2acf36044e534bd5e1255",
+                "reference": "4acf9af8bdfa1715ece2acf36044e534bd5e1255",
                 "shasum": ""
             },
             "require": {
@@ -251,10 +251,10 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/filoquent/issues",
-                "source": "https://github.com/artisan-toolbox/filoquent/tree/1.0.0-beta.2"
+                "source": "https://github.com/artisan-toolbox/filoquent/tree/1.0.0-beta.3"
             },
-            "time": "2026-11-13T16:39:21+00:00",
-            "published-time": "2026-11-13T16:39:27+00:00"
+            "time": "2026-11-13T17:16:28+00:00",
+            "published-time": "2026-11-13T17:16:34+00:00"
         },
         {
             "name": "artisan-toolbox/front-awesome",

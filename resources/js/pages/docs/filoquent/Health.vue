@@ -10,6 +10,25 @@ defineProps({
     navigation: { type: Array, required: true },
 });
 const health = 'php artisan filoquent:health';
+const status = `php artisan filoquent:status
+php artisan filoquent:status --connection=uploads`;
+const statusCounts = [
+    ['Recorded uploads', 'Current SQL receipts across all upload states.'],
+    ['Active uploads', 'Committed active uploads, including soft-deleted owners.'],
+    [
+        'Pending recovery',
+        'SQL pending receipts awaiting recovery reconciliation and their cleanup grace period.',
+    ],
+    [
+        'Awaiting deletion',
+        'Committed retired receipts retained until exact-path deletion succeeds.',
+    ],
+    ['Writing reservations', 'SQL writing reservations visible to the selected writer connection.'],
+    [
+        'Journal intents',
+        'Redis index members for this application environment and SQL ledger namespace.',
+    ],
+];
 const bounded = `php artisan filoquent:health --limit=1000
 php artisan filoquent:health --limit=1000 --after=019aa951-0000-7000-8000-000000000001`;
 const counts = [
@@ -47,6 +66,64 @@ Schedule::command('filoquent:health')
                     Keep each disk referenced by existing manifests configured and grant the command
                     permission to check its recorded paths. Health needs no queue worker or Redis
                     journal. The command is available in Filoquent beta.
+                </p>
+            </ProseSection>
+            <ProseSection id="status" title="Inspect operational status">
+                <p>
+                    <code>filoquent:status</code> is available in the published
+                    <code>1.0.0-beta.3</code> release. Update an older installation before using it.
+                    Confirm registration with <code>php artisan list filoquent</code>. After
+                    completing the installation and first file example, run the first command from
+                    the Laravel application root. The second command selects an example SQL writer
+                    named <code>uploads</code>; use it only after configuring and migrating that
+                    connection.
+                </p>
+                <CodeExample label="Inspect Filoquent configuration and health" :code="status" />
+                <p>
+                    Expect two columns with a label and value, grouped under Filoquent, Filesystem,
+                    Upload ledger, and Redis upload journal. With only the first example saved,
+                    expect one recorded upload, one active upload, zero pending recovery receipts,
+                    zero retired receipts awaiting deletion, and Redis disabled unless you enabled
+                    the optional journal.
+                </p>
+                <p>
+                    Filesystem shows the effective disk, driver, and base path. It probes a random
+                    nonexistent path without creating a file or listing storage. Accessible means
+                    that this read query completed, even when the path does not exist. Local disks
+                    also report root readability and writability. Remote write permissions are not
+                    tested. Missing built-in local roots remain unavailable and are not created.
+                    Custom disk factories must avoid initialization side effects.
+                </p>
+                <p>
+                    Enabled Redis reports its effective client, base connection, host, port,
+                    reserved database, scheme, timeouts, and disabled persistence. A
+                    <code>PING</code> checks Filoquent's private connection. A scoped
+                    <code>ZCARD</code> counts journal intents without reading their payloads or
+                    acknowledging them. Credentials, raw connection URLs, and adapter exception text
+                    stay out of the report. Disabled Redis is not resolved. When the SQL namespace
+                    or Redis index cannot be read, the journal count is unknown.
+                </p>
+                <DocsTable
+                    caption="Operational status counters"
+                    :columns="['Counter', 'Meaning']"
+                    :rows="statusCounts" />
+                <p>
+                    SQL totals count upload generations, each of which may contain several file
+                    variants. They are neither physical file counts nor lifetime upload totals.
+                    Successfully deleted receipts leave the ledger. Redis intents may overlap SQL
+                    receipts, so do not add their totals. SQL counts use one aggregate query on the
+                    writer and may take time on a large ledger. The report is a sequence of current
+                    observations, not an atomic snapshot or a full integrity audit. Existing files
+                    may use disks recorded before the current filesystem configuration changed.
+                </p>
+                <p>
+                    Status preserves models, receipts, journal entries, and storage. Exit code
+                    <code>0</code> means the requested checks succeeded, <code>1</code> means a
+                    check or logging failed, and <code>2</code> means an invalid connection option.
+                    An unavailable ledger reports no invented zero totals. Other sections still run
+                    after a failed check. Status shares the maintenance logging contract below, with
+                    mode <code>status</code> and partial coverage. Use the active-ledger audit below
+                    to check existing file references.
                 </p>
             </ProseSection>
             <ProseSection id="run" title="Audit the active ledger">

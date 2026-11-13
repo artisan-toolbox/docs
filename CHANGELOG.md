@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Documentation
+
+- Adopt the published Filoquent `1.0.0-beta.3` release in the documentation application, package metadata, installation guide, and overview. Document `filoquent:status` as a released command alongside the existing health audit, including connection probes, effective Redis parameters, current upload counters, read-only behavior, and exit codes.
+
 ## [1.2.0] - 2026-11-13
 
 ### Features
