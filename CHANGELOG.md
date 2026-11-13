@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.2.0] - 2026-11-13
+
+### Features
+
+- **Publish Filoquent 1.0.0-beta.3 documentation and release filoquent:status command docs** (`c3151ab`)
+  Updates the documentation release artifacts and onboarding content for Filoquent to align with the published Filoquent 1.0.0-beta.3. Introduces an **Unreleased (Documentation)** section that adopts the beta.3 docs into the documentation application (including package metadata, installation guide, and overview). Adds `filoquent:status` as a released command in the documentation, documenting its behavior in detail (connection probes, effective Redis parameter handling, upload counters, read-only behavior, and exit codes) alongside the existing health/audit information. This matters for users consuming the docs because command references and installation/overview details now match the beta.3 release rather than prior previews. No API changes are described, but users should expect documentation to reference `filoquent:status` as a supported command and to use the updated beta.3 installation/requirements wording.
+
+- **Publish Dapter preview docs and update Filoquent beta 2 docs** (`9d73cbd`)
+  Adds publication of Dapter preview documentation and updates the Filoquent beta documentation set to reflect the next beta iteration. Concretely, documentation metadata and UI/test text are revised to move away from “development/unpublished preview” phrasing toward the appropriate released alpha/beta statuses. This improves accuracy and user trust by ensuring the docs reflect what is actually published and supported, and by standardizing the documentation labels/wording that users rely on when planning installation and usage.
+
+- **Publish Filoquent alpha 1 docs and revise installation flow to match 1.0.0-alpha.1** (`d7aa472`)
+  Publishes **Filoquent alpha 1** documentation and revises the installation flow to match the published **1.0.0-alpha.1** release. The installation guide is updated to use Packagist-based installation guidance and to rely on commands derived from locked/versioned information rather than prior assumptions about local checkout or source previews. The docs and related metadata are updated to remove/avoid prerequisites tied to “local preview/source preview” workflows, so users following installation steps should now follow a more standard dependency-based path. Compatibility-wise, users who previously relied on the old preview-oriented installation prerequisites may need to follow the new Packagist/locked-version workflow; no runtime API behavior changes are described, but installation/command guidance in the docs is affected.
+
 ## Unreleased
 
 ### Documentation
