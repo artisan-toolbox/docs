@@ -4,6 +4,7 @@ namespace App\Documentation;
 
 use App\Documentation\Packages\CorePackage;
 use App\Documentation\Packages\DumpToConsolePackage;
+use App\Documentation\Packages\FiloquentPackage;
 use App\Documentation\Packages\FrontAwesomePackage;
 use App\Documentation\Packages\MaintainerPackage;
 use App\Documentation\Packages\MosaicastPackage;
@@ -57,6 +58,7 @@ final class Documentation
         return [
             new CorePackage,
             new DumpToConsolePackage,
+            new FiloquentPackage,
             new FrontAwesomePackage,
             new MaintainerPackage,
             new MosaicastPackage,

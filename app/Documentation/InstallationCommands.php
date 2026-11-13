@@ -27,6 +27,13 @@ final class InstallationCommands
             $commands['frontend'] = $this->command($frontend);
         }
 
+        if ($id === 'filoquent') {
+            $commands['preview'] = $this->command(
+                'composer config repositories.filoquent path packages/filoquent'."\n"
+                .'composer require artisan-toolbox/filoquent:1.x-dev',
+            );
+        }
+
         if ($id === 'front-awesome') {
             $commands['primevue'] = $this->npm(['primevue', '@primeuix/themes']);
             $qztray = self::composerVersion('artisan-toolbox/qztray');

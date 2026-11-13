@@ -9,7 +9,7 @@ Vue SSR is disabled in both PHP and Vite.
 `PageSlug` is a string-backed enum of visitable pages. Its `page()` method selects a concrete page through an exhaustive match.
 `Pages/` contains immutable definitions extending the abstract `Page` contract. Each definition names its enum identity, Vue component, title, description, source reference, and optional package.
 `Packages/` contains immutable definitions extending the abstract `Package` contract. The same package object supplies catalog identity, overview specifications, requirements, and an explicit optional overview destination.
-`Documentation` coordinates the six-package catalog and derives navigation from `PageSlug::cases()`.
+`Documentation` coordinates the registered package catalog and derives navigation from `PageSlug::cases()`.
 
 Navigation is a recursive `NavigationNode` tree. `PageSlug::parent()` owns ancestry, while the index remains a top-level leaf.
 Nodes expose `slug`, `title`, `href`, `active`, `activeAncestor`, and `children`; sibling order follows the enum.
@@ -142,7 +142,8 @@ The existing appearance controller additionally owns the cookie used by Blade pr
 
 ## Learning journey ownership
 
-The sidebar is an editorial learning sequence expressed once through enum order.
+Package catalogs and top-level package groups follow alphabetical order by displayed title. `Documentation::packages()` owns catalog order, and `PageSlug` owns navigation order. Shared Vue components render those lists unchanged. Getting Started precedes the package groups, and Project follows them.
+Within each package, the sidebar is an editorial learning sequence expressed once through enum order.
 Every package has an overview quickstart and a registered Installation page.
 Requirements and installation precede first success. Required configuration precedes the example that needs it. Task guides precede advanced explanations, reference, and contributor development.
 Alphabetic sorting would lose this dependency order, so navigation retains author decisions.

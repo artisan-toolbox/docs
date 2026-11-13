@@ -32,6 +32,18 @@ Use `1.x` for documentation changes and track `origin/1.x` in your local checkou
 GitHub source links use the same branch.
 The tests workflow runs on pushes to `1.x` and on pull requests.
 
+### Filoquent workspace maintenance
+
+Filoquent uses `1.x` as its default development branch. Local checkouts track `origin/1.x`, the tests workflow covers version branches and pull requests, and release changelog updates and README status badges target `1.x`.
+
+In the shared PhpStorm workspace, `.idea/workspace.xml` registers `filoquent/composer.json` in `ComposerConfigs`. Keep its PSR-4 source and test roots in `.idea/ArtisanToolbox.iml` aligned with the package manifest, including the workbench namespaces. Installed vendor packages belong in the PHP include paths in `.idea/php.xml` and `.idea/workspace.xml`, with matching module exclusions so dependencies remain library code. Reload changed files from disk after updating these local IDE settings.
+
+This maintenance changes repository and IDE configuration. It does not establish a released file-storage API or change consumer installation instructions.
+
+Verification on November 12, 2026 confirmed that GitHub exposes only `1.x` and uses it as the default branch. The local checkout tracks `origin/1.x`. Workflow parsing checks, five PSR-4 mappings, installed vendor paths, and PhpStorm inspections passed. The complete package suite passed PHPStan, Pint, type coverage, and eight tests with eleven assertions, using Herd's PHP 8.5. Consumer skill guidance required no change because the package API and installation steps were unchanged.
+
+The documentation dependency refresh attempted a compatible Composer dry run before the npm check. Offline resolution lacked cached Packagist metadata and npm metadata for `@inertiajs/vite`. No documentation dependencies or lockfiles changed. This contributor-only update does not change package guides, application components, rendered content, or search entries.
+
 ## Install dependencies
 
 Run Composer before npm:

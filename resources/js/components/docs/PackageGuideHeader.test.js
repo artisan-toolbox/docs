@@ -108,6 +108,17 @@ it('does not present a documented version as installed when a package is missing
     }
 });
 
+it('uses the published Filoquent duotone identity in compact guide tags', () => {
+    const wrapper = render('filoquent/configuration', {
+        id: 'filoquent',
+        title: 'Filoquent',
+    });
+
+    expect(
+        wrapper.get('[aria-label="Package details"]').findComponent(SiteIcon).props(),
+    ).toMatchObject({ name: 'atb-filoquent', family: 'kit-duotone', size: 'sm' });
+});
+
 it('labels the installed version as the documented version without a second version tag', () => {
     const wrapper = render('maintainer/commands', {
         installedVersion: '1.10',

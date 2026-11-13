@@ -77,6 +77,7 @@ The configured names are:
 | Core              | `atb-core`            | `kit-duotone` |
 | Dump to Console   | `atb-dump-to-console` | `kit-duotone` |
 | Front Awesome     | `atb-front-awesome`   | `kit-duotone` |
+| Filoquent         | `atb-filoquent`       | `kit-duotone` |
 | Maintainer        | `atb-maintainer`      | `kit-duotone` |
 | Mosaicast         | `atb-mosaicast`       | `kit-duotone` |
 | QZ Tray Connector | `atb-qztray`          | `kit-duotone` |
@@ -88,3 +89,5 @@ The outer wrapper owns accessibility, inherited attributes, and the same 1.25em 
 Tests simulate SVG replacement before reactive updates, family changes, and unmount. Browser verification checks the actual `fak` and `fakd` SVG prefixes, supplied names, two duotone paths, inherited colors, and navigation. Future uploaded names must be verified in the kit before entering the package identity map.
 
 This branch follows Font Awesome's [uploaded icon markup](https://docs.fontawesome.com/web/add-icons/upload-icons) and [JavaScript framework integration guidance](https://docs.fontawesome.com/web/use-with/javascript-libraries/).
+
+Filoquent uses the published `atb-filoquent` identity through the same package map as the other six packages. Both navigation and compact guide tags render `fa-kit-duotone fa-atb-filoquent` through `SiteIcon`. Full-color package artwork remains separate.

@@ -39,13 +39,18 @@ describe('documentation navigation icons', () => {
         });
     });
 
-    it.each(['core', 'dump-to-console', 'front-awesome', 'maintainer', 'mosaicast', 'qztray'])(
-        'uses the uploaded duotone identity for %s',
-        (id) => {
-            expect(navigationIcon(id)).toEqual({
-                name: `atb-${id}`,
-                family: 'kit-duotone',
-            });
-        },
-    );
+    it.each([
+        'core',
+        'dump-to-console',
+        'front-awesome',
+        'maintainer',
+        'mosaicast',
+        'qztray',
+        'filoquent',
+    ])('uses the uploaded duotone identity for %s', (id) => {
+        expect(navigationIcon(id)).toEqual({
+            name: `atb-${id}`,
+            family: 'kit-duotone',
+        });
+    });
 });

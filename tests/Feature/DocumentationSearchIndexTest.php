@@ -115,6 +115,13 @@ test('indexes and checks the real registered Vue corpus through the deployment c
     $index = resolve(DocumentationSearchIndex::class);
     expect(array_column($index->search('maintainer_ssh_key'), 'href'))->toContain('/docs/maintainer/configuration/ssh-keys#use-the-helpers');
     expect(array_column($index->search('phpstan.dist.neon'), 'href'))->toContain('/docs/maintainer/ci/quality#requirements-and-skipped-commands');
+    expect(array_column($index->search('files_inconclusive'), 'href'))->toContain('/docs/filoquent/health#results');
+    expect(array_column($index->search('atomic database'), 'href'))->toContain('/docs/filoquent/health#coverage');
+    expect(array_column($index->search('dailyAt'), 'href'))->toContain('/docs/filoquent/health#schedule');
+    expect(array_column($index->search('resolve-pending'), 'href'))->toContain('/docs/filoquent/rename-owners#rename-resolution');
+    expect(array_column($index->search('proportional database'), 'href'))->toContain('/docs/filoquent/rename-owners#rename-resolution');
+    expect(array_column($index->search('affected_uploads'), 'href'))->toContain('/docs/filoquent/rename-owners#detect');
+    expect(array_column($index->search('FILOQUENT_TEST_PGSQL_DATABASE'), 'href'))->toContain('/docs/filoquent/development#database-checks');
     expect($index->search('installation'))->not->toBeEmpty();
     $documents = resolve(SearchExtractor::class)->extract(resolve(SearchCatalog::class));
     expect(count(array_filter($documents, fn (SearchDocument $document): bool => $document->anchor === null)))->toBe(count(PageSlug::cases()));

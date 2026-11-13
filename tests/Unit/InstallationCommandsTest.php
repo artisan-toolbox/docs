@@ -45,6 +45,16 @@ test('uninstalled packages never produce an invented installation version', func
     expect(resolve(InstallationCommands::class)->forPackage('missing-package')['composer']['code'])->toBeNull();
 });
 
+test('Filoquent keeps reviewed local preview setup separate from a locked registry install', function () {
+    $commands = resolve(InstallationCommands::class)->forPackage('filoquent');
+
+    expect($commands['preview']['code'])->toBe(
+        "composer config repositories.filoquent path packages/filoquent\n"
+        .'composer require artisan-toolbox/filoquent:1.x-dev',
+    );
+    expect($commands)->not->toHaveKey('frontend');
+});
+
 test('Front Awesome installs directly from Composer without a local checkout', function () {
     $version = InstallationCommands::composerVersion('artisan-toolbox/front-awesome');
 

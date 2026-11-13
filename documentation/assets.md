@@ -76,3 +76,9 @@ The generated `--font-instrument-sans` variable contains the primary family, its
 After changing fonts, weights, or Fontaine, run `npm run build`. Inspect the generated `fonts-*.css` and `fonts-manifest.json` for the expected weights, fallback family, `ascent-override`, `descent-override`, `line-gap-override`, and `size-adjust`. Confirm the browser's resolved font stack and font loading as well. Valid metric output is not a measured layout-shift result. Generated build files remain build artifacts.
 
 The integration follows Laravel's [font options](https://laravel.com/framework/docs/vite#font-options) and [Fontaine](https://github.com/unjs/fontaine).
+
+## Filoquent preview artwork
+
+Filoquent owns `logo/filoquent-icon.svg`, `filoquent-light.svg`, and `filoquent-dark.svg` in its package repository. The copies under `public/images/packages/filoquent/` use the same rounded charcoal tile, coral and cream palette, and outlined Avenir Next Bold wordmark as the package family. The symbol combines a folded document with linked nodes. SVG text is outlined, so browsers do not need the authoring font.
+
+The package overview consumes these files through `PackageResource` and `PackageGuideHeader`. Child guides retain their visible task titles and compact package tags. Filoquent has no uploaded Font Awesome kit identity yet. Navigation and compact tags use the existing native `file-lines` icon through `packageIcons.js`; do not reference an unpublished `atb-filoquent` kit name. The original full-color artwork remains the package identity.

@@ -2,6 +2,7 @@ const names = {
     core: 'atb-core',
     'dump-to-console': 'atb-dump-to-console',
     'front-awesome': 'atb-front-awesome',
+    filoquent: 'atb-filoquent',
     maintainer: 'atb-maintainer',
     mosaicast: 'atb-mosaicast',
     qztray: 'atb-qztray',

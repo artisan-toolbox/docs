@@ -19,11 +19,13 @@ defineProps({ navigation: { type: Array, required: true } });
             example when that example requires it.
         </p>
         <p>
-            Order the sidebar by what readers need next. Prerequisites precede dependent guides, and
-            lookup material follows guided use. Declare sibling order and editorial parents in
+            List packages alphabetically by displayed title in catalogs and top-level navigation.
+            Within each package, order the sidebar by what readers need next. Prerequisites precede
+            dependent guides, and lookup material follows guided use. Declare sibling order and
+            editorial parents in
             <code>PageSlug</code>. Use a registered URL prefix as the default parent. An explicit
             parent can group an existing guide while preserving its public URL. Navigation, active
-            ancestors, and breadcrumbs share that relationship. Do not alphabetize the menu or
+            ancestors, and breadcrumbs share that relationship. Do not alphabetize guide pages or
             maintain another list in Vue.
         </p>
         <p>

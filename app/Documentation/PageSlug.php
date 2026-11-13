@@ -11,6 +11,15 @@ use App\Documentation\Pages\CoreTranslatedAttributesPage;
 use App\Documentation\Pages\DumpToConsoleInstallationPage;
 use App\Documentation\Pages\DumpToConsolePage;
 use App\Documentation\Pages\DumpToConsoleUsagePage;
+use App\Documentation\Pages\FiloquentConfigurationPage;
+use App\Documentation\Pages\FiloquentDevelopmentPage;
+use App\Documentation\Pages\FiloquentFilesPage;
+use App\Documentation\Pages\FiloquentGarbageCollectionPage;
+use App\Documentation\Pages\FiloquentHealthPage;
+use App\Documentation\Pages\FiloquentInstallationPage;
+use App\Documentation\Pages\FiloquentPage;
+use App\Documentation\Pages\FiloquentRenameOwnersPage;
+use App\Documentation\Pages\FiloquentStoragePage;
 use App\Documentation\Pages\FrontAwesomeActionsPage;
 use App\Documentation\Pages\FrontAwesomeBrandingPage;
 use App\Documentation\Pages\FrontAwesomeComponentsPage;
@@ -95,27 +104,6 @@ enum PageSlug: string
     case GettingStarted = 'getting-started';
     case ChoosePackage = 'getting-started/choose-a-package';
 
-    case Maintainer = 'maintainer';
-    case MaintainerInstallation = 'maintainer/installation';
-    case MaintainerConfiguration = 'maintainer/configuration';
-    case MaintainerConfigurationPublishing = 'maintainer/configuration/publishing';
-    case MaintainerConfigurationReference = 'maintainer/configuration/reference';
-    case MaintainerConfigurationSshKeys = 'maintainer/configuration/ssh-keys';
-    case MaintainerCi = 'maintainer/ci';
-    case MaintainerQuality = 'maintainer/ci/quality';
-    case MaintainerVersioning = 'maintainer/versioning';
-    case MaintainerVersioningProjectIntegration = 'maintainer/versioning/project-integration';
-    case MaintainerVersioningHtmlDiffs = 'maintainer/versioning/html-diffs';
-    case MaintainerVersioningCommits = 'maintainer/versioning/commits';
-    case MaintainerVersioningReleases = 'maintainer/versioning/releases';
-    case MaintainerDeployment = 'maintainer/deployment';
-    case MaintainerDeploymentDeploy = 'maintainer/deployment/deploy';
-    case MaintainerDeploymentUnlock = 'maintainer/deployment/unlock';
-    case MaintainerDeploymentRepositoryTags = 'maintainer/deployment/repository-tags';
-    case MaintainerDeploymentPm2 = 'maintainer/deployment/pm2';
-    case MaintainerCommands = 'maintainer/commands';
-    case MaintainerDevelopment = 'maintainer/development';
-
     case Core = 'core';
     case CoreInstallation = 'core/installation';
     case CoreConditionalArrays = 'core/conditional-arrays';
@@ -126,12 +114,15 @@ enum PageSlug: string
     case DumpToConsoleInstallation = 'dump-to-console/installation';
     case DumpToConsoleUsage = 'dump-to-console/usage';
 
-    case Mosaicast = 'mosaicast';
-    case MosaicastInstallation = 'mosaicast/installation';
-    case MosaicastVuePlugin = 'mosaicast/vue-plugin';
-    case MosaicastInertiaDelivery = 'mosaicast/inertia-delivery';
-    case MosaicastSessionChannels = 'mosaicast/session-channels';
-    case MosaicastDeliveryGuarantees = 'mosaicast/roadmap';
+    case Filoquent = 'filoquent';
+    case FiloquentInstallation = 'filoquent/installation';
+    case FiloquentFiles = 'filoquent/files';
+    case FiloquentConfiguration = 'filoquent/configuration';
+    case FiloquentHealth = 'filoquent/health';
+    case FiloquentGarbageCollection = 'filoquent/garbage-collection';
+    case FiloquentStorage = 'filoquent/storage';
+    case FiloquentRenameOwners = 'filoquent/rename-owners';
+    case FiloquentDevelopment = 'filoquent/development';
 
     case FrontAwesome = 'front-awesome';
     case FrontAwesomeInstallation = 'front-awesome/installation';
@@ -167,6 +158,34 @@ enum PageSlug: string
     case FrontAwesomePrinting = 'front-awesome/printing';
     case FrontAwesomePrintingReference = 'front-awesome/printing/reference';
     case FrontAwesomeDevelopment = 'front-awesome/development';
+
+    case Maintainer = 'maintainer';
+    case MaintainerInstallation = 'maintainer/installation';
+    case MaintainerConfiguration = 'maintainer/configuration';
+    case MaintainerConfigurationPublishing = 'maintainer/configuration/publishing';
+    case MaintainerConfigurationReference = 'maintainer/configuration/reference';
+    case MaintainerConfigurationSshKeys = 'maintainer/configuration/ssh-keys';
+    case MaintainerCi = 'maintainer/ci';
+    case MaintainerQuality = 'maintainer/ci/quality';
+    case MaintainerVersioning = 'maintainer/versioning';
+    case MaintainerVersioningProjectIntegration = 'maintainer/versioning/project-integration';
+    case MaintainerVersioningHtmlDiffs = 'maintainer/versioning/html-diffs';
+    case MaintainerVersioningCommits = 'maintainer/versioning/commits';
+    case MaintainerVersioningReleases = 'maintainer/versioning/releases';
+    case MaintainerDeployment = 'maintainer/deployment';
+    case MaintainerDeploymentDeploy = 'maintainer/deployment/deploy';
+    case MaintainerDeploymentUnlock = 'maintainer/deployment/unlock';
+    case MaintainerDeploymentRepositoryTags = 'maintainer/deployment/repository-tags';
+    case MaintainerDeploymentPm2 = 'maintainer/deployment/pm2';
+    case MaintainerCommands = 'maintainer/commands';
+    case MaintainerDevelopment = 'maintainer/development';
+
+    case Mosaicast = 'mosaicast';
+    case MosaicastInstallation = 'mosaicast/installation';
+    case MosaicastVuePlugin = 'mosaicast/vue-plugin';
+    case MosaicastInertiaDelivery = 'mosaicast/inertia-delivery';
+    case MosaicastSessionChannels = 'mosaicast/session-channels';
+    case MosaicastDeliveryGuarantees = 'mosaicast/roadmap';
 
     case QzTray = 'qztray';
     case QzTrayInstallation = 'qztray/installation';
@@ -218,6 +237,15 @@ enum PageSlug: string
             self::CoreMultiDomainInertia => new CoreMultiDomainInertiaPage,
             self::CoreTranslatedAttributes => new CoreTranslatedAttributesPage,
             self::DumpToConsole => new DumpToConsolePage,
+            self::Filoquent => new FiloquentPage,
+            self::FiloquentInstallation => new FiloquentInstallationPage,
+            self::FiloquentFiles => new FiloquentFilesPage,
+            self::FiloquentConfiguration => new FiloquentConfigurationPage,
+            self::FiloquentHealth => new FiloquentHealthPage,
+            self::FiloquentGarbageCollection => new FiloquentGarbageCollectionPage,
+            self::FiloquentStorage => new FiloquentStoragePage,
+            self::FiloquentRenameOwners => new FiloquentRenameOwnersPage,
+            self::FiloquentDevelopment => new FiloquentDevelopmentPage,
             self::DumpToConsoleUsage => new DumpToConsoleUsagePage,
             self::Mosaicast => new MosaicastPage,
             self::MosaicastInertiaDelivery => new MosaicastInertiaDeliveryPage,

@@ -1,5 +1,37 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- Document Filoquent's persistent missing-table groups, daily SQL-backed error reporting, and explicit rename, restoration, or permanent-removal resolution. Add a controlled model, column, and table renaming guide with reversible Laravel migrations and preserved file paths.
+
+- Document Filoquent's read-only file health audit, coverage and recovery limits, maintenance logs, and background scheduling for health, collection, and retirement retries.
+
+- Document Filoquent's optional Redis upload journal, reserved logical database setup, forward migration, bounded SQL consolidation, delayed pending cleanup, and recovery limits.
+
+- Filoquent preview documentation with executable Eloquent file installation, middleware variants, storage lifecycle, bounded cleanup, delayed orphan reconciliation, fixed model-and-field directories, configuration, development, package artwork, search, and shared page metadata.
+
+### Changed
+
+- Document Filoquent's complete SQLite, MySQL, and PostgreSQL dependency matrix, native-engine test commands, disposable worker databases, and explicit SQLite fixture limits.
+- Explain schema-qualified PostgreSQL ownership, blocked upgrades of older unqualified receipts, and bounded table-route rotation around blocked garbage-collection groups.
+
+- Use Filoquent's published duotone kit icon in documentation navigation and compact package tags.
+
+- Replace Filoquent path relocation guidance with creation-only paths and persistent manifest ownership after model, field, or configuration changes.
+
+- Document typed Filoquent filename policies through the `FileNaming` enum and retain the existing naming precedence and stored metadata contract.
+
+- Refresh compatible npm dependencies and Composer-delivered frontend copies.
+
+### Fixed
+
+- Explain Filoquent's automatic single-process PHPStan analysis on Windows, shared Testbench bootstrap constraint, and unchanged analysis scope.
+- Clarify Filoquent physical ownership keys, committed callback failures, unavailable local-volume retries, UTC cleanup timestamps, and compatibility-aware contributor checks.
+
+- List packages alphabetically across the home page, documentation index, package chooser, and sidebar while preserving the prerequisite order of guides within each package.
+
 ## [1.0.0] - 2026-11-12
 
 ### Features
@@ -127,6 +159,8 @@ Compatibility/migration: ensure any custom disclosure/components follow the docu
   Introduces new contributor “skill” documentation and supporting standards for Artisan Toolbox’s AI/agent tooling. Adds documentation-writing and documentation page-pattern guides under `.agents/skills/atb-documentation/` (including audience selection, Diataxis/page-pattern selection, preserving public contracts/links, verifying examples against APIs/behavior, dependency boundary guidance, navigation component coordination, and migration handling). Adds a package-development workflow standard under `.agents/skills/atb-package-development/` for implementing/fixing/reviewing Laravel packages, emphasizing contract preservation, regression testing, consumer adoption guidance, and release evidence. Adds corresponding AI-side skill documentation under `.ai/skills/` and adds new standards lock/sync tooling via `.ai/standards.lock.json` and `.ai/sync.mjs` so the AI can verify/pin expected file contents and safely synchronize managed standards bundles. Updates tooling expectations that consume these standards (primarily affecting contributor/CI automation). User-facing runtime behavior is not changed by this commit; the impact is on documentation authoring/review processes and any automation that enforces these standards.
 
 ## [Unreleased]
+
+- Reject valueless maintenance scope options and explicit reader connection selectors in Filoquent commands to prevent unintended scans or cleanup against stale replicas.
 
 - Reseal shared contributor standards as 1.0.6 after synchronizer formatting changed the bundle fingerprint. Synchronize the documentation application's installed manifest and lock, and update the installation and release examples.
 
