@@ -8,7 +8,9 @@ const migration = `Schema::create('documents', function (Blueprint $table) {
     $table->filoquent('attachment')->nullable();
     $table->timestamps();
 });`;
-const model = `namespace App\\Models;
+const model = `<?php
+
+namespace App\\Models;
 
 use ArtisanToolbox\\Filoquent\\Casts\\AsFile;
 use ArtisanToolbox\\Filoquent\\Concerns\\HasFiloquent;

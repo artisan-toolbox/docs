@@ -26,6 +26,7 @@
 
 ### Changed
 
+- Document Filoquent's published `1.0.0-alpha.1` release and Alpha status. Install it from Packagist, derive installation commands from the locked version, and remove the local-checkout prerequisite.
 - Document Filoquent's complete SQLite, MySQL, and PostgreSQL dependency matrix, native-engine test commands, disposable worker databases, and explicit SQLite fixture limits.
 - Explain schema-qualified PostgreSQL ownership, blocked upgrades of older unqualified receipts, and bounded table-route rotation around blocked garbage-collection groups.
 

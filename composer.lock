@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c854e6ec6730a48a50b8d13faa327d23",
+    "content-hash": "79738eba070ab1e0f13bc1a94fde00f3",
     "packages": [
         {
             "name": "artisan-toolbox/core",
@@ -169,6 +169,92 @@
             ],
             "time": "2026-11-06T19:49:34+00:00",
             "published-time": "2026-11-06T19:49:40+00:00"
+        },
+        {
+            "name": "artisan-toolbox/filoquent",
+            "version": "1.0.0-alpha.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/artisan-toolbox/filoquent.git",
+                "reference": "2bf2b894df96ce6d0034427863b45b319ccc7417"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/artisan-toolbox/filoquent/zipball/2bf2b894df96ce6d0034427863b45b319ccc7417",
+                "reference": "2bf2b894df96ce6d0034427863b45b319ccc7417",
+                "shasum": ""
+            },
+            "require": {
+                "artisan-toolbox/maintainer": "^1.10.0",
+                "illuminate/console": "^13.0",
+                "illuminate/database": "^13.0",
+                "illuminate/filesystem": "^13.0",
+                "illuminate/http": "^13.0",
+                "illuminate/log": "^13.0",
+                "illuminate/support": "^13.0",
+                "laravel/prompts": "^0.3.25",
+                "php": "^8.5",
+                "symfony/http-foundation": "^7.4 || ^8.0",
+                "symfony/mime": "^7.4 || ^8.0"
+            },
+            "require-dev": {
+                "brianium/paratest": "~7.27.5",
+                "driftingly/rector-laravel": "^2.7.3",
+                "larastan/larastan": "^3.9",
+                "laravel/pao": "^1.0",
+                "laravel/pint": "^1.29",
+                "orchestra/testbench": "^10.0||^11.0",
+                "pestphp/pest": "^4.6||^5.0",
+                "pestphp/pest-plugin-laravel": "^4.1||^5.0",
+                "pestphp/pest-plugin-phpstan": "^5.3",
+                "pestphp/pest-plugin-type-coverage": "^5.1",
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan": "^2.3.5",
+                "phpstan/phpstan-mockery": "^2.0",
+                "rector/rector": "^2.8.4"
+            },
+            "suggest": {
+                "ext-redis": "Use the phpredis driver for the optional Redis upload journal.",
+                "illuminate/redis": "Required for the optional Redis upload journal (^13.0).",
+                "predis/predis": "Use the predis driver for the optional Redis upload journal."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ArtisanToolbox\\Filoquent\\FiloquentServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ArtisanToolbox\\Filoquent\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Allan Mariucci Carvalho",
+                    "email": "contact@atb.dev.br",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Preview foundations for connecting Laravel's filesystem to Eloquent model attributes.",
+            "homepage": "https://github.com/artisan-toolbox/filoquent",
+            "keywords": [
+                "artisan-toolbox",
+                "filoquent",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/artisan-toolbox/filoquent/issues",
+                "source": "https://github.com/artisan-toolbox/filoquent/tree/1.0.0-alpha.1"
+            },
+            "time": "2026-11-13T11:54:33+00:00",
+            "published-time": "2026-11-13T13:47:52+00:00"
         },
         {
             "name": "artisan-toolbox/front-awesome",
@@ -1560,25 +1646,26 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "8.4.0",
+            "version": "8.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "d3d6055e1b7c9b640170be6341d8b4582f36fd14"
+                "reference": "f8aca40edffeae0ec508b92f4594766083c6e203"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/d3d6055e1b7c9b640170be6341d8b4582f36fd14",
-                "reference": "d3d6055e1b7c9b640170be6341d8b4582f36fd14",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/f8aca40edffeae0ec508b92f4594766083c6e203",
+                "reference": "f8aca40edffeae0ec508b92f4594766083c6e203",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "guzzlehttp/promises": "^3.1",
-                "guzzlehttp/psr7": "^3.3",
+                "guzzlehttp/psr7": "^3.4",
                 "php": "^7.4 || ^8.0",
                 "psr/http-client": "^1.0",
                 "psr/http-factory": "^1.0",
+                "symfony/deprecation-contracts": "^2.5 || ^3.0",
                 "symfony/polyfill-php80": "^1.25",
                 "symfony/polyfill-php82": "^1.27"
             },
@@ -1666,7 +1753,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/8.4.0"
+                "source": "https://github.com/guzzle/guzzle/tree/8.5.0"
             },
             "funding": [
                 {
@@ -1682,8 +1769,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-11-12T18:55:45+00:00",
-            "published-time": "2026-11-12T18:56:15+00:00"
+            "time": "2026-11-13T03:12:32+00:00",
+            "published-time": "2026-11-13T03:13:04+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -1772,22 +1859,23 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "3.3.0",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "8b0a7e7db965a687eebe18333a128edac95db246"
+                "reference": "180bd6fcebd1dc289cbec5c576135f4b6f576e02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/8b0a7e7db965a687eebe18333a128edac95db246",
-                "reference": "8b0a7e7db965a687eebe18333a128edac95db246",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/180bd6fcebd1dc289cbec5c576135f4b6f576e02",
+                "reference": "180bd6fcebd1dc289cbec5c576135f4b6f576e02",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.4 || ^8.0",
                 "psr/http-factory": "^1.1",
                 "psr/http-message": "^2.0",
+                "symfony/deprecation-contracts": "^2.5 || ^3.0",
                 "symfony/polyfill-php80": "^1.25",
                 "symfony/polyfill-php82": "^1.27"
             },
@@ -1871,7 +1959,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/3.3.0"
+                "source": "https://github.com/guzzle/psr7/tree/3.4.0"
             },
             "funding": [
                 {
@@ -1887,8 +1975,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-11-12T16:40:06+00:00",
-            "published-time": "2026-11-12T16:40:36+00:00"
+            "time": "2026-11-13T03:03:24+00:00",
+            "published-time": "2026-11-13T03:06:05+00:00"
         },
         {
             "name": "guzzlehttp/uri-template",
@@ -10237,16 +10325,16 @@
     "packages-dev": [
         {
             "name": "brianium/paratest",
-            "version": "v7.27.5",
+            "version": "v7.28.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paratestphp/paratest.git",
-                "reference": "fe4a1fd811fd79ead7476fa109c5f4ed721cc18a"
+                "reference": "cac9f8cd1a5904c7584f82804b2a2d7f0c25d9b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/fe4a1fd811fd79ead7476fa109c5f4ed721cc18a",
-                "reference": "fe4a1fd811fd79ead7476fa109c5f4ed721cc18a",
+                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/cac9f8cd1a5904c7584f82804b2a2d7f0c25d9b8",
+                "reference": "cac9f8cd1a5904c7584f82804b2a2d7f0c25d9b8",
                 "shasum": ""
             },
             "require": {
@@ -10257,10 +10345,10 @@
                 "fidry/cpu-core-counter": "^1.4.1",
                 "jean85/pretty-package-versions": "^2.1.1",
                 "php": "~8.4.0 || ~8.5.0 || ~8.6.0",
-                "phpunit/php-code-coverage": "^14.4.1",
+                "phpunit/php-code-coverage": "^14.5.0",
                 "phpunit/php-file-iterator": "^7.0.2",
                 "phpunit/php-timer": "^9",
-                "phpunit/phpunit": "^13.4.3",
+                "phpunit/phpunit": "^13.4.5",
                 "sebastian/environment": "^9.3.3",
                 "symfony/console": "^7.4.20 || ^8.1.8",
                 "symfony/process": "^7.4.19 || ^8.1.7"
@@ -10270,7 +10358,7 @@
                 "ext-pcntl": "*",
                 "ext-pcov": "*",
                 "ext-posix": "*",
-                "phpstan/phpstan": "^2.3.2",
+                "phpstan/phpstan": "^2.3.4",
                 "phpstan/phpstan-deprecation-rules": "^2.0.5",
                 "phpstan/phpstan-phpunit": "^2.1.1",
                 "phpstan/phpstan-strict-rules": "^2.1.0",
@@ -10314,7 +10402,7 @@
             ],
             "support": {
                 "issues": "https://github.com/paratestphp/paratest/issues",
-                "source": "https://github.com/paratestphp/paratest/tree/v7.27.5"
+                "source": "https://github.com/paratestphp/paratest/tree/v7.28.0"
             },
             "funding": [
                 {
@@ -10326,8 +10414,8 @@
                     "type": "paypal"
                 }
             ],
-            "time": "2026-10-29T13:58:46+00:00",
-            "published-time": "2026-10-29T13:59:18+00:00"
+            "time": "2026-11-12T20:28:34+00:00",
+            "published-time": "2026-11-12T20:31:18+00:00"
         },
         {
             "name": "composer/semver",
@@ -14246,6 +14334,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "artisan-toolbox/filoquent": 20,
         "artisan-toolbox/front-awesome": 20
     },
     "prefer-stable": true,

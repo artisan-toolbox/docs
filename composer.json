@@ -12,6 +12,7 @@
         "php": "^8.5",
         "artisan-toolbox/core": "^1.2.0",
         "artisan-toolbox/dump-to-console": "^1.1.0",
+        "artisan-toolbox/filoquent": "1.0.0-alpha.1@dev",
         "artisan-toolbox/front-awesome": "^1.0.0-alpha.2@dev",
         "artisan-toolbox/maintainer": "^1.10.0",
         "artisan-toolbox/mosaicast": "^1.2.0",

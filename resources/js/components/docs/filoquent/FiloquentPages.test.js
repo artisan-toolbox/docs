@@ -29,15 +29,17 @@ function render(component, slug, title) {
             page: {
                 slug,
                 title,
-                description: 'Inspect the Filoquent preview.',
+                description: 'Use the Filoquent alpha release.',
                 requirements: ['PHP 8.5', 'Laravel 13', 'Composer'],
                 package: {
                     id: 'filoquent',
                     title: 'Filoquent',
                     composerName: 'artisan-toolbox/filoquent',
-                    stability: 'Preview',
-                    installationStatus: 'not-installed',
+                    stability: 'Alpha',
+                    installedVersion: '1.0.0-alpha.1',
+                    installationStatus: 'installed',
                     installationCommands: installationCommands('filoquent'),
+                    releasesUrl: 'https://packagist.org/packages/artisan-toolbox/filoquent',
                     artwork: {
                         light: '/images/packages/filoquent/filoquent-light.svg',
                         dark: '/images/packages/filoquent/filoquent-dark.svg',
@@ -48,7 +50,7 @@ function render(component, slug, title) {
     });
 }
 
-describe('Filoquent preview documentation', () => {
+describe('Filoquent alpha documentation', () => {
     it.each([
         [Index, 'filoquent', 'Filoquent'],
         [Installation, 'filoquent/installation', 'Install Filoquent'],
@@ -57,17 +59,16 @@ describe('Filoquent preview documentation', () => {
         (component, slug, title) => {
             const wrapper = render(component, slug, title);
             const content = wrapper.get('[data-document-content]').text();
-            const commands = installationCommands('filoquent').preview.code;
+            const commands = installationCommands('filoquent').composer.code;
             expect(wrapper.get('h1').text()).toBe(title);
             expect(content.indexOf('Requirements')).toBeLessThan(content.indexOf(commands));
             const code = wrapper
                 .findAll('pre')
                 .map((example) => example.text())
                 .join('\n');
-            expect(code).toContain(
-                'composer config repositories.filoquent path packages/filoquent',
-            );
-            expect(code).toContain('composer require artisan-toolbox/filoquent:1.x-dev');
+            expect(code).toContain('composer require artisan-toolbox/filoquent:1.0.0-alpha.1');
+            expect(code).not.toContain('composer config repositories.filoquent');
+            expect(code).not.toContain('1.x-dev');
             expect(code).toContain('use ArtisanToolbox\\Filoquent\\Casts\\AsFile;');
             expect(code).toContain("$table->filoquent('attachment')->nullable();");
             expect(code).toContain("file_put_contents($source, 'Hello Filoquent');");
@@ -76,8 +77,15 @@ describe('Filoquent preview documentation', () => {
                 content.indexOf('Hello Filoquent'),
             );
             expect(content).toContain('true');
-            expect(content).toContain('not a');
-            expect(wrapper.text()).toContain('Not installed');
+            expect(content).toContain('APIs may change before the stable release.');
+            expect(content).not.toContain('unpublished');
+            expect(wrapper.text()).toContain('Alpha');
+            expect(wrapper.text()).toMatch(/Documented version\s*1\.0\.0-alpha\.1/);
+            expect(
+                wrapper
+                    .find('a[href="https://packagist.org/packages/artisan-toolbox/filoquent"]')
+                    .exists(),
+            ).toBe(true);
         },
     );
 

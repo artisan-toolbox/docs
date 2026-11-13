@@ -16,7 +16,7 @@ final readonly class FiloquentInstallationPage extends Page
             slug: self::SLUG,
             component: 'docs/filoquent/Installation',
             title: 'Install Filoquent',
-            description: 'Install a reviewed Filoquent development preview and save a file through a cast Eloquent attribute.',
+            description: 'Install the Filoquent alpha release from Packagist and save a file through a cast Eloquent attribute.',
             sourcePath: 'resources/js/pages/docs/filoquent/Installation.vue',
             package: new FiloquentPackage,
         );

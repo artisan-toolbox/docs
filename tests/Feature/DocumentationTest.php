@@ -43,7 +43,7 @@ test('lists all seven packages with their registered overview routes', function 
         ->where('packages.5.documentedVersion', '1.2')
         ->where('packages.6.href', '/docs/qztray')
         ->where('packages.2.id', 'filoquent')
-        ->where('packages.2.stability', 'Preview')
+        ->where('packages.2.stability', 'Alpha')
     );
 });
 

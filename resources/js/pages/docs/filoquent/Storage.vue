@@ -92,7 +92,7 @@ php artisan filoquent:prune --apply --limit=100`;
                     were written can leave files without any committed receipt. The retirement drain
                     cannot discover those objects. The optional journal extends discovery to
                     recorded upload intents, subject to the boundaries below. Zero orphan retention
-                    is not a guarantee of this preview.
+                    is not a guarantee of this alpha release.
                 </p>
             </ProseSection>
             <ProseSection id="journal" title="Upload intents outside SQL rollback">

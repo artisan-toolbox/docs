@@ -46,7 +46,7 @@ Schedule::command('filoquent:health')
                 <p>
                     Keep each disk referenced by existing manifests configured and grant the command
                     permission to check its recorded paths. Health needs no queue worker or Redis
-                    journal. The command is part of the unpublished development preview.
+                    journal. The command is included in the alpha release.
                 </p>
             </ProseSection>
             <ProseSection id="run" title="Audit the active ledger">

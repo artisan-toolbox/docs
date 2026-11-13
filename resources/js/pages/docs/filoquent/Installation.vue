@@ -24,29 +24,26 @@ const provider = `return [
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection>
                 <p>
-                    Install the development preview in an existing Laravel 13 application and save
-                    your first file through an Eloquent attribute. The source version
-                    <code>0.1.0-alpha.1</code> is not a public stable release.
+                    Install Filoquent in an existing Laravel 13 application and save your first file
+                    through an Eloquent attribute. The first alpha release,
+                    <code>1.0.0-alpha.1</code>, is available on
+                    <DocsLink :href="page.package.releasesUrl">Packagist</DocsLink>. APIs may change
+                    before the stable release.
                 </p>
             </ProseSection>
             <Requirements :items="page.requirements">
                 <p>
                     Run commands from your application's root, where <code>artisan</code> and
-                    <code>composer.json</code> live. Review the package source before installation.
-                    Put that checkout at <code>packages/filoquent</code> and ignore the nested
-                    checkout in your application's Git configuration.
+                    <code>composer.json</code> live. Configure a database connection and a writable
+                    default Laravel filesystem before running the first file example.
                 </p>
             </Requirements>
-            <ProseSection id="install-source" title="Install the development source">
-                <InstallCommand
-                    :package="page.package"
-                    command="preview"
-                    label="Install the Filoquent source preview" />
+            <ProseSection id="install-source" title="Install from Packagist">
+                <InstallCommand :package="page.package" label="Install Filoquent from Packagist" />
                 <p>
-                    The first command adds a local Composer path repository. The second requires its
-                    <code>1.x-dev</code> branch without changing your application's global minimum
-                    stability. Keep that checkout available while using the path repository. Do not
-                    distribute this local source wiring as a production installation.
+                    The explicit alpha version allows Composer to install this prerelease without
+                    changing your application's global <code>minimum-stability</code>. No local
+                    source checkout or custom repository is required.
                 </p>
                 <p>
                     Laravel discovers <code>FiloquentServiceProvider</code> automatically. No npm
@@ -72,7 +69,7 @@ const provider = `return [
             <FileExample />
             <ProseSection id="ownership-gates" title="Install persistent missing-table protection">
                 <p>
-                    After updating an existing Filoquent checkout, run
+                    After updating an existing Filoquent installation, run
                     <code>php artisan migrate</code> on every participating model connection before
                     resuming writes or maintenance. The ownership-gate migration adds durable
                     missing-table groups and keeps the journal's original owner identity when an
@@ -110,7 +107,7 @@ const provider = `return [
                     this purpose.
                 </p>
                 <p>
-                    After updating an existing Filoquent checkout, run
+                    After updating an existing Filoquent installation, run
                     <code>php artisan migrate</code> in the consuming application. The forward
                     migration allows a pending receipt without an owner key and creates the one-row
                     <code>filoquent_upload_namespace</code> table. Run the package migrations on
@@ -157,9 +154,13 @@ const provider = `return [
                     If your development application already uses Laravel Boost, run
                     <code>php artisan boost:install</code> and select the
                     <code>filoquent-development</code> skill for your agent. After changing the
-                    package source, run <code>php artisan boost:update</code> to refresh a
+                    package version, run <code>php artisan boost:update</code> to refresh a
                     previously selected copy. Boost is optional development tooling and is not
                     required in production.
+                </p>
+                <p>
+                    The skill bundled with Alpha 1 still describes the earlier local-checkout
+                    installation. Use the Packagist command above for this release.
                 </p>
             </ProseSection>
             <ProseSection id="next-steps" title="Next steps">

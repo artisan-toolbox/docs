@@ -18,30 +18,26 @@ defineProps({
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection>
                 <p>
-                    Filoquent is an early preview for connecting Laravel's filesystem to Eloquent
-                    model attributes. Assign an uploaded file, a local path, or a stream to a cast
-                    attribute. Saving the model stores the file and its metadata together with an
-                    indexed upload ownership record.
+                    Filoquent connects Laravel's filesystem to Eloquent model attributes. Assign an
+                    uploaded file, a local path, or a stream to a cast attribute. Saving the model
+                    stores the file and its metadata together with an indexed upload ownership
+                    record.
                 </p>
                 <p>
-                    The source version is <code>0.1.0-alpha.1</code> on the development branch
-                    <code>1.x</code>. It is not a stable release. The file API described here is
-                    unpublished development source. The shared Documented version label reports the
-                    documentation application's installed Composer version, or Not installed when
-                    the package is absent.
+                    Filoquent is in alpha. The first alpha release,
+                    <code>1.0.0-alpha.1</code>, is available on
+                    <DocsLink :href="page.package.releasesUrl">Packagist</DocsLink>. APIs may change
+                    before the stable release. The Documented version label shows the Composer
+                    version installed in this documentation application.
                 </p>
             </ProseSection>
             <Requirements :items="page.requirements" />
-            <ProseSection id="installation" title="Install the preview">
+            <ProseSection id="installation" title="Install the alpha release">
                 <p>
-                    Start with a Laravel 13 application and a reviewed Filoquent source checkout at
-                    <code>packages/filoquent</code> inside that application. Run from the
-                    application root. Keep the nested checkout out of the application's Git history.
+                    Start with a Laravel 13 application. Run this command from the application root
+                    to install the published alpha release:
                 </p>
-                <InstallCommand
-                    :package="page.package"
-                    command="preview"
-                    label="Install the Filoquent source preview" />
+                <InstallCommand :package="page.package" label="Install Filoquent from Packagist" />
                 <p>
                     Follow
                     <DocsLink :href="findNavigationItem(navigation, 'filoquent/installation').href"

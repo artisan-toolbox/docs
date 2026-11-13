@@ -61,11 +61,11 @@ protected function casts(): array
             </ProseSection>
             <ProseSection id="redis-journal" title="Optional Redis upload journal">
                 <p>
-                    This unpublished preview can retain upload intents outside a rolled-back SQL
-                    transaction. <code>filoquent.redis.database</code> defaults to
-                    <code>null</code>, which disables the journal and requires no Redis connection.
-                    An enabled journal requires Laravel's <code>illuminate/redis</code> integration,
-                    the <code>phpredis</code> or <code>predis</code> client, and a standalone Redis
+                    Filoquent can retain upload intents outside a rolled-back SQL transaction.
+                    <code>filoquent.redis.database</code> defaults to <code>null</code>, which
+                    disables the journal and requires no Redis connection. An enabled journal
+                    requires Laravel's <code>illuminate/redis</code> integration, the
+                    <code>phpredis</code> or <code>predis</code> client, and a standalone Redis
                     server. Redis Cluster does not support separate logical databases and is not
                     supported for this journal.
                 </p>
