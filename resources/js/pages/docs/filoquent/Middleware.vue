@@ -235,10 +235,16 @@ class Document extends Model
                 <p>
                     Return one <code>PendingAsset</code> or a non-empty list of
                     <code>PendingAsset</code> instances. Return a list, not a map keyed by variant
-                    names. Each asset supplies its own unique key, starting with a letter and
-                    containing only letters, digits, hyphens, or underscores. Exactly one asset must
-                    have <code>default: true</code>. Set <code>default: false</code> for every other
-                    asset.
+                    names. Each asset supplies its own unique key, starting with an ASCII letter and
+                    containing only letters, digits, hyphens, or underscores. Prefer camelCase or
+                    snake_case for ordinary property access. Hyphenated keys remain supported
+                    through <code>get()</code> and braced property access. See
+                    <DocsLink :href="findNavigationItem(navigation, 'filoquent/assets').href"
+                        >typed variants and missing-key recovery</DocsLink
+                    >
+                    for preview availability, generic PHPDoc, and the optional middleware fallback
+                    attribute. Exactly one asset must have <code>default: true</code>. Set
+                    <code>default: false</code> for every other asset.
                 </p>
                 <p>
                     Use unique destination filenames after normalization. Physical paths that differ

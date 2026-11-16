@@ -68,6 +68,9 @@ defineProps({
                     Continue with
                     <DocsLink :href="findNavigationItem(navigation, 'filoquent/files').href"
                         >file attributes and variants</DocsLink
+                    >. Development builds also have a guide to
+                    <DocsLink :href="findNavigationItem(navigation, 'filoquent/assets').href"
+                        >typed assets and missing-variant regeneration</DocsLink
                     >. Read the
                     <DocsLink :href="findNavigationItem(navigation, 'filoquent/configuration').href"
                         >configuration reference</DocsLink

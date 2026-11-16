@@ -33,6 +33,16 @@ The workspace `docs` repository is the only documentation source and application
 `docs_old` has been retired and no longer exists. Do not require, recreate, or synchronize that checkout.
 Use current Vue content and package behavior for authoring and verification. Historical migration records and fingerprints remain provenance, not a completion gate.
 
+## Reuse documentation UI
+
+For Vue UI in the `docs` application, inspect the installed `@artisan-toolbox/front-awesome` public exports and supported props, events, and slots before choosing components.
+Use its Web Awesome Vue wrappers wherever a component fits the required behavior. Prefer these wrappers over handmade controls, native control replacements, or parallel implementations.
+Import through public package entry points. Never copy package internals into the application.
+
+Compose existing meaningful domain wrappers with these components. Preserve semantic HTML, Inertia navigation, and established keyboard, focus, and accessibility ownership.
+Ordinary layout elements, lists, and links do not need a component replacement merely because a wrapper exists.
+When a required behavior exceeds the public API or a substitution would break these contracts, record the concrete reason in the task or the owning architecture note.
+
 ## Keep changes together
 
 When behavior changes, review affected guides, usage skills, examples, tests, and changelogs in the same task.

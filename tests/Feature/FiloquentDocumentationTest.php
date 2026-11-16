@@ -23,10 +23,10 @@ test('registers Filoquent beta status with installation before reference and dev
 
     $node = collect(resolve(Documentation::class)->navigation(PageSlug::Index))->firstWhere('slug', 'filoquent');
     expect(array_column($node->children, 'slug'))->toBe([
-        'filoquent/installation', 'filoquent/files', 'filoquent/middleware', 'filoquent/configuration', 'filoquent/health', 'filoquent/garbage-collection', 'filoquent/storage', 'filoquent/rename-owners', 'filoquent/development',
+        'filoquent/installation', 'filoquent/files', 'filoquent/middleware', 'filoquent/assets', 'filoquent/configuration', 'filoquent/health', 'filoquent/garbage-collection', 'filoquent/storage', 'filoquent/rename-owners', 'filoquent/development',
     ]);
 
-    foreach (['installation', 'files', 'middleware', 'configuration', 'health', 'garbage-collection', 'storage', 'rename-owners', 'development'] as $slug) {
+    foreach (['installation', 'files', 'middleware', 'assets', 'configuration', 'health', 'garbage-collection', 'storage', 'rename-owners', 'development'] as $slug) {
         $this->get('/docs/filoquent/'.$slug)->assertOk();
     }
 

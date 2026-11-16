@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Demo\Dapter\Listing\DemoConfiguration;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
@@ -21,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+        DemoConfiguration::register();
         $origin = Uri::of(config()->string('app.url'));
         URL::useOrigin($origin->toString());
         URL::forceScheme($origin->scheme());

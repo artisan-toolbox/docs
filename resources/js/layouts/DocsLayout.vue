@@ -24,6 +24,7 @@ const articleContent = ref(null);
 /** @type {import('vue').Ref<HTMLButtonElement | null>} */
 const menuButton = ref(null);
 let navigationRevision = 0;
+let pendingFragment = null;
 
 function dismissMobileNavigation() {
     if (!mobileNavigationOpen.value) {
@@ -72,6 +73,18 @@ async function revealFragment() {
     const destination = window.location.href;
     const fragment = window.location.hash;
     if (!fragment) return;
+    const relocated = page.value.fragmentDestinations?.[fragment.slice(1)];
+    if (relocated) {
+        if (pendingFragment === destination) return;
+        pendingFragment = destination;
+        router.visit(relocated, {
+            replace: true,
+            onFinish: () => {
+                if (pendingFragment === destination) pendingFragment = null;
+            },
+        });
+        return;
+    }
     await nextTick();
     const element = shell.value.$el;
     const controls = [element, ...element.querySelectorAll('*')].filter((control) =>
@@ -97,10 +110,19 @@ async function revealFragment() {
 onBeforeUnmount(
     router.on('navigate', (event) => {
         navigationRevision++;
-        if (event.detail.type !== 'history') void revealFragment();
+        if (
+            event.detail.type !== 'history' ||
+            page.value.fragmentDestinations?.[window.location.hash.slice(1)]
+        )
+            void revealFragment();
     }),
 );
 onMounted(revealCurrentNavigation);
+function relocateHash() {
+    if (page.value.fragmentDestinations?.[window.location.hash.slice(1)]) void revealFragment();
+}
+onMounted(() => window.addEventListener('hashchange', relocateHash));
+onBeforeUnmount(() => window.removeEventListener('hashchange', relocateHash));
 watch(() => inertiaPage.url, revealCurrentNavigation, { flush: 'post' });
 
 watch(

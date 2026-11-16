@@ -102,7 +102,11 @@ const variants = `return [
                     <code>Assets</code>. Its <code>default()</code> method selects the default
                     asset, <code>get('thumbnail')</code> looks up a variant by key, and
                     <code>all()</code> returns the key-to-asset map. A missing key returns
-                    <code>null</code>. String conversion returns the default asset's URL.
+                    <code>null</code>. String conversion returns the default asset's URL. For
+                    development builds, see
+                    <DocsLink :href="findNavigationItem(navigation, 'filoquent/assets').href"
+                        >typed variants, magic properties, and missing-key regeneration</DocsLink
+                    >. That guide identifies the preview APIs separately from the published release.
                 </p>
                 <p>
                     Each <code>Asset</code> exposes <code>filesystem</code>, <code>path</code>, and
@@ -117,7 +121,9 @@ const variants = `return [
                     Serialization returns metadata, not file bytes or generated URLs. The stored
                     JSON maps each key to <code>{filesystem, path, default}</code>. A nonempty map
                     has exactly one default. Attribute reads decode that JSON without another
-                    database query or a filesystem listing.
+                    database query or a filesystem listing. The development preview's explicit
+                    middleware fallback can generate and save an absent key during a named read;
+                    other reads keep this passive behavior.
                 </p>
             </ProseSection>
             <ProseSection id="clear" title="Replace or clear a field">

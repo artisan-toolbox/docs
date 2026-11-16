@@ -204,8 +204,13 @@ const overrides = `php artisan vendor:publish --tag=front-awesome-lang`;
                 The plugin watches language files and relevant configuration, regenerates after
                 changes, and reloads the browser after a changed catalog. An invalid edit reports a
                 development error while retaining the last valid output. A later valid edit
-                recovers. Production export failure stops the build. Restart Vite after package or
-                service-provider changes outside the watched inputs.
+                recovers. Creating missing language directories or publishing
+                <code>config/front-awesome.php</code> after startup also triggers an export. Atomic
+                file replacement and deletion/recreation of input directories remain observable.
+                When the Laravel application is outside the Vite root, set
+                <code>translations.cwd</code> to its application root. Unrelated configuration files
+                do not trigger exports. Production export failure stops the build. Restart Vite
+                after package or service-provider changes outside the watched inputs.
             </p>
             <p>
                 The generated JSON is an ordinary module, bundled with the application. The catalog

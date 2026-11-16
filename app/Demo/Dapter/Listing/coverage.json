@@ -1,0 +1,387 @@
+{
+    "version": 1,
+    "cases": [
+        {
+            "id": "CollectionDefaults",
+            "label": "Config defaults",
+            "description": "StoreOptions::make() inherits paging and guard configuration. PublicAccess permits this fictional guest example.",
+            "source": "Dapter.CollectionDefaults",
+            "settings": [
+                "StoreOptions.make",
+                "config.access.guard",
+                "config.paging.mode",
+                "config.paging.per_page",
+                "config.paging.per_page_options",
+                "attribute.PublicAccess"
+            ],
+            "expected": {
+                "status": 200,
+                "per_page": 10,
+                "options": [5, 10, 50, 100],
+                "total": 23
+            },
+            "frame": "Config defaults",
+            "behavior_test": "tests/Feature/DapterListingDemoTest.php",
+            "component_test": "resources/js/components/demo/dapter/listing/ListingDemo.test.js",
+            "guide": "dapter/listing",
+            "page": "resources/js/pages/docs/dapter/Listing.vue"
+        },
+        {
+            "id": "CollectionFluent",
+            "label": "Fluent settings",
+            "description": "Offset mode, size 5, and sizes [5, 10] come from immutable fluent options.",
+            "source": "Dapter.CollectionFluent",
+            "settings": [
+                "StoreOptions.pagingMode",
+                "StoreOptions.pageSize",
+                "StoreOptions.pageSizeOptions",
+                "StoreOptions.publicAccess"
+            ],
+            "expected": {
+                "status": 200,
+                "per_page": 5,
+                "options": [5, 10],
+                "total": 23
+            },
+            "frame": "Fluent settings",
+            "behavior_test": "tests/Feature/DapterListingDemoTest.php",
+            "component_test": "resources/js/components/demo/dapter/listing/ListingDemo.test.js",
+            "guide": "dapter/listing",
+            "page": "resources/js/pages/docs/dapter/Listing.vue"
+        },
+        {
+            "id": "CollectionAttributes",
+            "label": "Attribute settings",
+            "description": "The same offset declaration uses attributes. Size 7 is retained in [3, 7].",
+            "source": "Dapter.CollectionAttributes",
+            "settings": [
+                "attribute.Paging",
+                "attribute.PageSize",
+                "attribute.PageSizeOptions",
+                "attribute.Guard",
+                "attribute.PublicAccess"
+            ],
+            "expected": {
+                "status": 200,
+                "per_page": 7,
+                "options": [3, 7],
+                "total": 23
+            },
+            "frame": "Attribute settings",
+            "behavior_test": "tests/Feature/DapterListingDemoTest.php",
+            "component_test": "resources/js/components/demo/dapter/listing/ListingDemo.test.js",
+            "guide": "dapter/options",
+            "page": "resources/js/pages/docs/dapter/Options.vue"
+        },
+        {
+            "id": "CollectionEmptyBaseline",
+            "label": "Without config defaults",
+            "description": "The empty baseline supplies guard, offset mode, and size 4 explicitly. The selected size becomes the only allowed size.",
+            "source": "Dapter.CollectionEmptyBaseline",
+            "settings": ["StoreOptions.makeWithoutDefaults", "StoreOptions.guard"],
+            "expected": {
+                "status": 200,
+                "per_page": 4,
+                "options": [4],
+                "total": 23
+            },
+            "frame": "Without config defaults",
+            "behavior_test": "tests/Feature/DapterListingDemoTest.php",
+            "component_test": "resources/js/components/demo/dapter/listing/ListingDemo.test.js",
+            "guide": "dapter/options",
+            "page": "resources/js/pages/docs/dapter/Options.vue"
+        },
+        {
+            "id": "CollectionSizeRetention",
+            "label": "Keep the selected size",
+            "description": "Size 6 remains allowed when pageSizeOptions([2, 10]) follows pageSize(6).",
+            "source": "Dapter.CollectionSizeRetention",
+            "settings": ["StoreOptions.pageSize", "StoreOptions.pageSizeOptions"],
+            "expected": {
+                "status": 200,
+                "per_page": 6,
+                "options": [2, 10, 6],
+                "total": 23
+            },
+            "frame": "Keep the selected size",
+            "behavior_test": "tests/Feature/DapterListingDemoTest.php",
+            "component_test": "resources/js/components/demo/dapter/listing/ListingDemo.test.js",
+            "guide": "dapter/options",
+            "page": "resources/js/pages/docs/dapter/Options.vue"
+        },
+        {
+            "id": "CollectionGuard",
+            "label": "Selected guard",
+            "description": "A trusted demo guard supplies a fictional principal. No reader account is signed in or changed.",
+            "source": "Dapter.CollectionGuard",
+            "settings": ["StoreOptions.guard"],
+            "expected": {
+                "status": 200,
+                "per_page": 10,
+                "options": [5, 10, 50, 100],
+                "total": 23
+            },
+            "frame": "Selected guard",
+            "behavior_test": "tests/Feature/DapterListingDemoTest.php",
+            "component_test": "resources/js/components/demo/dapter/listing/ListingDemo.test.js",
+            "guide": "dapter/access",
+            "page": "resources/js/pages/docs/dapter/Access.vue"
+        },
+        {
+            "id": "CollectionPublicFalse",
+            "label": "Require a principal",
+            "description": "publicAccess(false) overrides the inherited public attribute. The dedicated guest guard always returns no principal, so the request fails with access 401.",
+            "source": "Dapter.CollectionPublicFalse",
+            "settings": ["StoreOptions.publicAccess"],
+            "expected": {
+                "status": 401,
+                "per_page": null,
+                "options": null,
+                "total": null
+            },
+            "frame": "Require a principal",
+            "behavior_test": "tests/Feature/DapterListingDemoTest.php",
+            "component_test": "resources/js/components/demo/dapter/listing/ListingDemo.test.js",
+            "guide": "dapter/access/gates",
+            "page": "resources/js/pages/docs/dapter/Gates.vue"
+        },
+        {
+            "id": "CollectionAttributePrivate",
+            "label": "Require a principal with an attribute",
+            "description": "The PublicAccess(false) attribute requires a principal. The dedicated guest guard produces access 401.",
+            "source": "Dapter.CollectionAttributePrivate",
+            "settings": ["attribute.PublicAccess"],
+            "expected": {
+                "status": 401,
+                "per_page": null,
+                "options": null,
+                "total": null
+            },
+            "frame": "Require a principal with an attribute",
+            "behavior_test": "tests/Feature/DapterListingDemoTest.php",
+            "component_test": "resources/js/components/demo/dapter/listing/ListingDemo.test.js",
+            "guide": "dapter/access/gates",
+            "page": "resources/js/pages/docs/dapter/Gates.vue"
+        },
+        {
+            "id": "CollectionGateAllow",
+            "label": "Allow a public Gate",
+            "description": "An explicit public source still checks its allow Gate. The Gate receives a fictional catalog argument.",
+            "source": "Dapter.CollectionGateAllow",
+            "settings": ["StoreOptions.authorize"],
+            "expected": {
+                "status": 200,
+                "per_page": 10,
+                "options": [5, 10, 50, 100],
+                "total": 23
+            },
+            "frame": "Allow a public Gate",
+            "behavior_test": "tests/Feature/DapterListingDemoTest.php",
+            "component_test": "resources/js/components/demo/dapter/listing/ListingDemo.test.js",
+            "guide": "dapter/access/gates",
+            "page": "resources/js/pages/docs/dapter/Gates.vue"
+        },
+        {
+            "id": "CollectionGateDeny",
+            "label": "Deny a public Gate",
+            "description": "Public access does not bypass an attached Gate. The deny attribute returns access 403.",
+            "source": "Dapter.CollectionGateDeny",
+            "settings": ["attribute.Authorize"],
+            "expected": {
+                "status": 403,
+                "per_page": null,
+                "options": null,
+                "total": null
+            },
+            "frame": "Deny a public Gate",
+            "behavior_test": "tests/Feature/DapterListingDemoTest.php",
+            "component_test": "resources/js/components/demo/dapter/listing/ListingDemo.test.js",
+            "guide": "dapter/access/gates",
+            "page": "resources/js/pages/docs/dapter/Gates.vue"
+        },
+        {
+            "id": "SqliteProducts",
+            "label": "Ordinary SQLite Eloquent",
+            "description": "After authorization, this source creates and seeds an isolated in-memory SQLite catalog. No application tables are read.",
+            "source": "Dapter.SqliteProducts",
+            "settings": ["EloquentDataSource"],
+            "expected": {
+                "status": 200,
+                "per_page": 5,
+                "options": [5, 10],
+                "total": 23
+            },
+            "frame": "Ordinary SQLite Eloquent",
+            "behavior_test": "tests/Feature/DapterListingDemoTest.php",
+            "component_test": "resources/js/components/demo/dapter/listing/ListingDemo.test.js",
+            "guide": "dapter/sources",
+            "page": "resources/js/pages/docs/dapter/Sources.vue"
+        },
+        {
+            "id": "CollectionAttributeGuard",
+            "label": "Selected guard attribute",
+            "description": "The Guard attribute selects the trusted fictional principal and satisfies the required-authentication policy.",
+            "source": "Dapter.CollectionAttributeGuard",
+            "settings": ["attribute.Guard"],
+            "expected": {
+                "status": 200,
+                "per_page": 10,
+                "options": [5, 10, 50, 100],
+                "total": 23
+            },
+            "frame": "Selected guard attribute",
+            "behavior_test": "tests/Feature/DapterListingDemoTest.php",
+            "component_test": "resources/js/components/demo/dapter/listing/ListingDemo.test.js",
+            "guide": "dapter/access",
+            "page": "resources/js/pages/docs/dapter/Access.vue"
+        },
+        {
+            "id": "CollectionOverride",
+            "label": "Fluent overrides attributes",
+            "description": "An inherited size 7 is overridden by fluent size 10, even though 10 is also the configured default. Uncalled options preserve all other inherited attributes.",
+            "source": "Dapter.CollectionOverride",
+            "settings": ["StoreOptions.make", "StoreOptions.pageSize", "attribute.PageSize"],
+            "expected": {
+                "status": 200,
+                "per_page": 10,
+                "options": [3, 7, 10],
+                "total": 23
+            },
+            "frame": "Fluent overrides attributes",
+            "behavior_test": "tests/Feature/DapterListingDemoTest.php",
+            "component_test": "resources/js/components/demo/dapter/listing/ListingDemo.test.js",
+            "guide": "dapter/options",
+            "page": "resources/js/pages/docs/dapter/Options.vue"
+        },
+        {
+            "id": "CollectionRaw",
+            "label": "Raw Collection contract",
+            "description": "A class can implement CollectionSource directly and return the same fictional rows as an array.",
+            "source": "Dapter.CollectionRaw",
+            "settings": ["Contracts.CollectionSource"],
+            "expected": {
+                "status": 200,
+                "per_page": 10,
+                "options": [5, 10, 50, 100],
+                "total": 23
+            },
+            "frame": "Raw Collection contract",
+            "behavior_test": "tests/Feature/DapterListingDemoTest.php",
+            "component_test": "resources/js/components/demo/dapter/listing/ListingDemo.test.js",
+            "guide": "dapter/sources",
+            "page": "resources/js/pages/docs/dapter/Sources.vue"
+        },
+        {
+            "id": "CollectionConfiguredGuard",
+            "label": "Configured required guard",
+            "description": "This source declares no options or attributes. The documentation application's config selects its dedicated guest guard. Authentication is required by default, so the request returns access 401 regardless of your own sign-in session.",
+            "source": "Dapter.CollectionConfiguredGuard",
+            "settings": ["config.access.guard"],
+            "expected": {
+                "status": 401,
+                "per_page": null,
+                "options": null,
+                "total": null
+            },
+            "frame": "Configured required guard",
+            "behavior_test": "tests/Feature/DapterListingDemoTest.php",
+            "component_test": "resources/js/components/demo/dapter/listing/ListingDemo.test.js",
+            "guide": "dapter/access",
+            "page": "resources/js/pages/docs/dapter/Access.vue"
+        },
+        {
+            "id": "Quickstart",
+            "label": "Self-contained quickstart",
+            "description": "The exact overview source returns its fictional catalog without an options contract.",
+            "source": "Dapter.Quickstart",
+            "settings": ["attribute.PublicAccess"],
+            "expected": {
+                "status": 200,
+                "per_page": 10,
+                "options": [5, 10, 50, 100],
+                "total": 23
+            },
+            "frame": "Self-contained quickstart",
+            "behavior_test": "tests/Feature/DapterListingDemoTest.php",
+            "component_test": "resources/js/components/demo/dapter/listing/ListingDemo.test.js",
+            "guide": "dapter/sources",
+            "page": "resources/js/pages/docs/dapter/Sources.vue"
+        }
+    ],
+    "frontend": {
+        "settings": [
+            "DataAdapter.source",
+            "DataAdapter.id",
+            "DataAdapter.decodeRow",
+            "DataAdapter.adapter",
+            "useDataAdapter.source",
+            "useDataAdapter.reactiveSource",
+            "useDataAdapter.handle",
+            "useDataAdapter.id",
+            "useDataAdapter.decodeRow"
+        ],
+        "frame": "Dapter listing",
+        "behavior_test": "resources/js/components/demo/dapter/composable/SharedAdapterDemo.test.js",
+        "frames": ["Shared adapter controls", "Reactive source getter"],
+        "examples": [
+            {
+                "component": "resources/js/components/demo/dapter/listing/ListingDemo.vue",
+                "page": "resources/js/pages/docs/dapter/Listing.vue",
+                "settings": ["DataAdapter.source", "DataAdapter.id", "DataAdapter.decodeRow"],
+                "behavior_test": "resources/js/components/demo/dapter/listing/ListingDemo.test.js"
+            },
+            {
+                "component": "resources/js/components/demo/dapter/composable/SharedAdapterDemo.vue",
+                "page": "resources/js/pages/docs/dapter/Composable.vue",
+                "settings": [
+                    "DataAdapter.adapter",
+                    "useDataAdapter.source",
+                    "useDataAdapter.reactiveSource",
+                    "useDataAdapter.handle",
+                    "useDataAdapter.id",
+                    "useDataAdapter.decodeRow"
+                ],
+                "behavior_test": "resources/js/components/demo/dapter/composable/SharedAdapterDemo.test.js"
+            },
+            {
+                "component": "resources/js/components/demo/dapter/composable/GetterDemo.vue",
+                "page": "resources/js/pages/docs/dapter/Composable.vue",
+                "settings": ["useDataAdapter.reactiveSource"],
+                "behavior_test": "resources/js/components/demo/dapter/composable/SharedAdapterDemo.test.js"
+            },
+            {
+                "component": "resources/js/components/demo/dapter/authority/AuthorityDemo.vue",
+                "page": "resources/js/pages/docs/dapter/Authority.vue",
+                "settings": [],
+                "behavior_test": "resources/js/components/demo/dapter/authority/AuthorityDemo.test.js",
+                "backend_behavior_test": "tests/Feature/DapterAuthorityDemoTest.php"
+            },
+            {
+                "component": "resources/js/components/demo/dapter/protocol/ReadDemo.vue",
+                "page": "resources/js/pages/docs/dapter/Protocol.vue",
+                "settings": [],
+                "behavior_test": "resources/js/components/demo/dapter/protocol/ProtocolDemo.test.js",
+                "backend_behavior_test": "tests/Feature/DapterProtocolDemoTest.php"
+            },
+            {
+                "component": "resources/js/components/demo/dapter/protocol/ErrorDemo.vue",
+                "page": "resources/js/pages/docs/dapter/Errors.vue",
+                "settings": [],
+                "behavior_test": "resources/js/components/demo/dapter/protocol/ProtocolDemo.test.js",
+                "backend_behavior_test": "tests/Feature/DapterProtocolDemoTest.php"
+            },
+            {
+                "component": "resources/js/components/demo/dapter/source-boundaries/SourceBoundariesDemo.vue",
+                "page": "resources/js/pages/docs/dapter/SourceBoundaries.vue",
+                "settings": [],
+                "behavior_test": "resources/js/components/demo/dapter/source-boundaries/SourceBoundariesDemo.test.js",
+                "backend_behavior_test": "tests/Feature/DapterSourceBoundariesDemoTest.php"
+            }
+        ]
+    },
+    "generator": {
+        "command": "make:datasource Dapter.GeneratedCatalog",
+        "behavior_test": "tests/Feature/DapterListingDemoTest.php",
+        "eloquent_command": "make:datasource Dapter.GeneratedSqliteCatalog --eloquent"
+    }
+}

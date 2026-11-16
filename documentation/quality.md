@@ -360,3 +360,169 @@ Package verification passes `composer test` with PHPStan, Pint, 100 percent sour
 Documentation verification passes the affected PHP tests, all Front Awesome frontend tests, formatting and lint, Vue types, PHPStan, the production build, and demo synchronization for 90 public exports and 87 frames. Search indexing and freshness checks pass. Direct browser verification passes 18 checks across the overview, installation, catalog, Data Viz, Feedback, preferences, localization, printing, and development pages, using 1440-pixel light and 390-pixel dark layouts. The complete documentation suites were attempted: the observed PHP run passes 537 of 539 tests and the frontend run passes 686 of 688, with the failures confined to concurrent Filoquent changes whose installed beta version differs from their alpha expectations. The full browser chain fails during navigation with an execution-context error; the targeted Front Awesome checks pass. These results do not claim a clean full-site gate or a remote CI run. Concurrent Filoquent and Dapter work is preserved.
 
 Dependency refresh attempts ran Composer before npm without changing this task's dependency constraints or versions. `composer update 'artisan-toolbox/*' laravel/framework inertiajs/inertia-laravel laravel/head 'pestphp/*' --with-all-dependencies --dry-run --no-scripts --no-interaction` fails to resolve `repo.packagist.org`. `npm update --dry-run --ignore-scripts --no-audit --no-fund --fetch-retries=0 --cache /tmp/front-awesome-beta-npm-cache` encounters registry DNS failures and reports an unresolved Inertia peer tree. No forced resolution, dependency bump, or vendor frontend refresh is claimed. Existing installed frontend exports supply validation.
+
+## Front Awesome type-coverage compatibility on 2026-11-16
+
+The supplied Actions log for Front Awesome commit `53539724e40f1a8c003f835207153a7a12b48b8a`
+resolves PHPStan 2.3.6 and Pest type-coverage plugin 5.1.0. All six Maintainer checks pass,
+including 306 frontend tests and ordinary PHPStan analysis. The separate `composer test:types`
+step then fails because the plugin calls `AnalyserResult::getCollectedData()`, which is absent
+in PHPStan 2.3.6. The [upstream release](https://github.com/phpstan/phpstan/releases/tag/2.3.6)
+includes the collected-data streaming change. Composer's current published plugin versions
+list 5.1.0 as the latest stable version, so no verified stable plugin upgrade resolves this pair.
+
+The source checkout now requires `phpstan/phpstan: ^2.2.8 <2.3.6` under `require-dev`.
+There is no package-wide conflict that would constrain a consuming application's analyzer.
+Lift the temporary upper bound only after testing a compatible plugin/analyzer pair.
+The `test:types` script retains `--min=100` and the 512 MB memory limit, and adds `--no-cache`.
+The plugin caches analysis by source-content hash; unchanged source can reuse results from
+another dependency installation. This initially masked the failure locally. An uncached
+2.3.6 run in the disposable project reproduces the exact missing-method exception.
+No vendor patch, exception suppression, ignored type error, or removed CI lane is used.
+The existing type-coverage command is the behavioral regression gate rather than a new test
+that merely repeats the manifest constraint.
+
+Two disposable Composer projects reproduce the workflow's production `laravel/framework:13.*`
+requirement, development Testbench `11.*` requirement, clean Composer homes, package discovery,
+and fresh dependency resolution. With the bound, the stable lane resolves Laravel 13.42.0,
+Testbench 11.3.0, Pest 5.3.6, type-coverage plugin 5.1.0, and PHPStan 2.3.5. The lowest lane
+resolves Laravel 13.40.0, Testbench 11.0.0, Pest 5.0.0, type-coverage plugin 5.0.0, and PHPStan
+2.2.8. Both pass `composer test`: analysis, formatting, uncached 100 percent type coverage,
+and 216 PHP tests with 718 assertions. These are resolved lane versions, not a newly declared
+minimum Laravel version.
+
+The old Symfony Translation dependency in the lowest lane emits a PHP 8.5 deprecation before
+the subprocess JSON response. Herd overrides the attempted scan-directory diagnostic setting.
+Only the disposable exporter fixture redirects `display_errors` to stderr before autoloading;
+`E_ALL` and the diagnostic remain enabled, and the JSON assertions are unchanged. Production
+CI uses its production INI. The committed exporter fixture is not modified. Generated PHPStan
+caches stay outside both checkouts so Pint never formats generated containers.
+
+As a negative control, removing one private parameter type in the disposable source makes
+`--min=100 --no-cache` fail at 99.1 percent. The original source is restored afterward.
+The actual package checkout also passes `composer test` with 216 tests and uncached 100 percent
+coverage, plus all six Maintainer checks with none skipped, including 306 frontend tests and
+Vue type checking. Composer manifest validation passes. Native Windows and a new GitHub
+Actions run remain to be verified by CI; local checks run on macOS with Herd PHP 8.5.12.
+
+The contributor how-to reuses `DevelopmentContent`, `ProseSection`, and the existing command
+reference. The beginner path remains an existing supported Laravel/Inertia/Vue application,
+Composer before vendor-file npm installation, the dedicated Installation page and public
+Button quickstart, then Vue integration and task guides. No installation command, runtime API,
+shared presentation component, registry order, anchor, or preview/release status changes.
+The concise README and consumer skill were reviewed and need no edit because this is only
+source-development tooling. Both changelogs describe the change.
+
+Documentation verification passes 33 frontend content tests, 17 PHP journey/preference tests,
+formatting/lint for the changed guide, the production build, and search indexing with its
+freshness check. Dependency refresh was attempted in the required
+Composer-before-npm order. The compatible Composer dry run is blocked by the locked local
+Dapter `1.x-dev`, which has no matching public repository version. npm's range query reports
+only `@vue/test-utils` 2.5.1 to 2.6.0 as an available selected direct update; it is unrelated
+and was not applied. No documentation manifests, lockfiles, installed vendor frontend copies,
+or compatibility constraints change. The guide continues to consume its installed public
+exports; no frontend package source changed in this task. These results do not claim that
+the full documentation suite or a portable Dapter installation was verified again.
+
+## Filoquent type-coverage compatibility on 2026-11-16
+
+The supplied Actions log for Filoquent commit `e7a4621` resolves PHPStan `2.3.6`
+and Pest type-coverage plugin `5.1.0`. Analysis, formatting, and Rector pass, but
+uncached type coverage fails because the plugin calls the removed
+`AnalyserResult::getCollectedData()` method. A fresh disposable installation
+reproduces that same exception. The earlier local verification used PHPStan
+`2.3.5` and did not exercise the new dependency resolution.
+
+Filoquent now requires `phpstan/phpstan: ^2.3.5 <2.3.6` only in `require-dev`.
+Its existing generic-analysis minimum remains `2.3.5`. Runtime dependencies and
+consumer analyzer choices are unaffected. Keep `composer test:types` uncached
+with `--min=100` and remove the temporary bound only after verifying a compatible
+plugin/analyzer pair. See the [upstream PHPStan release](https://github.com/phpstan/phpstan/releases/tag/2.3.6)
+and the related Front Awesome compatibility investigation above.
+
+From the package checkout root, `composer update` applies the development bound.
+Run `composer test` afterward. Fresh stable and minimum projects reproduce the
+workflow's Laravel `13.*` and Testbench `11.*` preparation commands without an
+existing lock. Both select PHPStan `2.3.5` and type-coverage plugin `5.1.0`, pass
+PHPStan, Rector, Pint, uncached 100 percent type coverage, and 434 tests with
+2,362 assertions. The 27 skips require explicit native database or Redis services.
+Stable resolves Laravel `13.42.0`, Testbench `11.3.0`, Pest `5.3.5`, and Rector
+`2.8.5`; minimum resolves Laravel `13.40.0`, Testbench `11.0.0`, Pest `5.3.4`,
+and Rector `2.8.4`. These are observed lane versions, not new runtime minimums.
+The minimum lane retains an existing Symfony Translation nullable deprecation.
+No source patch, vendor patch, new suppressions, weakened test, or removed matrix
+lane is needed. Linux, Windows, native databases, and native Redis were not rerun
+locally for this development-tool constraint change.
+
+The contributor guide reuses its existing shared presentation and command
+examples. Consumer installation, the dedicated Installation page, overview
+quickstart, middleware examples, and bundled Boost skill need no API changes.
+The documentation dependency refresh was attempted with Composer before npm.
+Composer remains blocked by the concurrent unavailable remote Dapter `1.x-dev`.
+The npm dry run offers 15 compatible updates, which were not applied; lock-based
+frontend installation reports already current. No documentation dependency or
+lockfile changed in this task. Full documentation CI passes all six checks,
+including 619 PHP tests and 839 frontend tests. Build and search index publication
+and freshness checks pass.
+
+## Filoquent native test connection disposal on 2026-11-16
+
+The supplied PostgreSQL prefer-lowest Actions log reports 64 failures sharing
+`FATAL: sorry, too many clients already`. The package's native test setup opens a
+fresh Laravel application connection per test. Framework connection and manager
+cycles, retained models, and callbacks can outlive container flushing, leaving
+PDO sessions open until garbage collection. The original complete local suite did
+not reproduce the runner's capacity failure. A deterministic native regression
+retains old Connection objects across application reloads instead of relying on
+GC timing. It observes five sessions after reload where only two are expected.
+
+The expected two sessions are one independent observer and the fresh application
+writer. Before the fix, three old managed writer/reader sessions also remain.
+Counts are scoped to the random worker database, excluding other workers and
+administration connections. The regression opens aliases after hook registration,
+uses separate reader and writer handles, allows later teardown callbacks to query
+SQL, and checks that retained Connection objects have no raw PDO handles after
+application destruction. It passes 28 assertions after the repair.
+
+The native TestCase now captures the original DatabaseManager during environment
+setup and registers cleanup before later teardown callbacks. Final disposal
+iterates the manager's current connections, detaches their transaction managers,
+and calls Laravel's disconnect API. Capturing the original manager preserves
+tests that later replace the DB facade with a mock. Detaching disposed transaction
+managers prevents disconnect from repeating a deliberately failed rollback
+notification after the test has already asserted the primary observer exception.
+No exception is caught or suppressed by this cleanup. The worker's independent
+administration PDO remains responsible for dropping its one random database at
+process shutdown. SQLite-only execution and package runtime behavior are unchanged.
+
+Stable and minimum native projects pass all configured quality gates, including
+uncached 100 percent type coverage. Full PostgreSQL suites use two workers and
+explicit random order with seeds `1794850026` and `1794850027` in both lanes.
+Each run passes 466 tests with 2,642 assertions and four MySQL-only skips. Both
+MySQL lanes pass 458 tests with 2,542 assertions and four PostgreSQL-schema skips.
+The PostgreSQL server retains `max_connections=100`. Sampling every 100 ms observes
+at most four worker sessions across two worker databases. Final SQL reports no
+worker databases or sessions. Native runs use real private Redis; no Redis tests
+are skipped. Temporary services and owned databases are removed afterward.
+
+Validation runs on macOS with Herd PHP 8.5.12, PostgreSQL 18.6, MySQL 8.4.11, and
+Redis 8.10.2. The supplied CI uses PostgreSQL 18.7 and Redis 7.4; those versions and
+Linux/Windows still require the next Actions execution. The default SQLite package
+suite passes 434 tests with 28 explicit native/service skips. The minimum lane
+retains the existing Symfony Translation nullable deprecation. The standalone
+framework-cycle probe and native regression prove retained-session cleanup, not
+an exact local replay of the CI's 100-client exhaustion.
+
+Contributor guidance reuses the existing development page and shared presentation.
+Consumer installation, the overview first-file example, package source, runtime
+configuration, workflow matrix, worker count, README, and consumer Boost skill need
+no changes. Filoquent's rendered guide checks pass. The documentation production
+build passes. Initial global documentation checks were blocked by concurrently authored Dapter
+Protocol content with a dynamic CallExpression in a static searchable example.
+After that separate work was corrected, the final full documentation CI passes
+all six checks with 658 PHP tests and 873 frontend tests. Search publication and
+freshness also pass. This task does not alter the Dapter implementation.
+The required compatible dependency refresh was attempted with Composer before
+npm. Remote resolution still cannot find the concurrent Dapter `1.x-dev`; the npm
+dry run offers 15 updates, not applied, and lock-based frontend copies are already
+current. No documentation dependency constraints or lockfiles change here.

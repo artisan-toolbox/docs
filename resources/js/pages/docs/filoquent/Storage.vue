@@ -120,6 +120,28 @@ const states = [
             </ProseSection>
             <ProseSection id="journal" title="Upload intents outside SQL rollback">
                 <p>
+                    Development builds add independent version 2 intents for
+                    <DocsLink :href="findNavigationItem(navigation, 'filoquent/assets').href"
+                        >missing-variant regeneration</DocsLink
+                    >. Added files live under the original upload's
+                    <code>variants/&lt;UUIDv7&gt;/</code> subdirectory. A committed backfill extends
+                    its active receipt; rollback recovery can retire only that attempt's added
+                    files. Existing version 1 intents remain supported. No new database migration is
+                    required. Before downgrading, drain extension intents and finish pending
+                    cleanup. Replace or remove every extended upload through the current public
+                    model API and finish its retirements. An empty journal does not make committed
+                    extended manifests compatible with older builds. Keep a build that supports
+                    extended manifests while any remain.
+                </p>
+                <p>
+                    Extension recovery checks the ledger after acquiring the attempt UUID, so it
+                    also works after an explicit owner table remap or removal. PostgreSQL uses
+                    transaction-local read committed isolation for this import to observe a writer
+                    that commits while the collector waits. The connection's configured default
+                    isolation remains unchanged. Confirmed additions stay protected from pending
+                    cleanup.
+                </p>
+                <p>
                     Assignment still copies input only to a local snapshot. During save, middleware
                     prepares every variant and Filoquent validates the complete manifest before
                     remote work. With the journal enabled, Filoquent reserves the UUID as a private
@@ -297,9 +319,11 @@ const states = [
             <ProseSection id="scale" title="Access paths at large row counts">
                 <p>
                     Reading a cast decodes only its loaded JSON. It does not query the ledger,
-                    hydrate related models, or list a storage prefix. Replacing or deleting a file
-                    uses primary-key owner lookup and indexed ownership records. Work grows with the
-                    affected field's variants, not the total number of models.
+                    hydrate related models, or list a storage prefix. An explicitly enabled
+                    development middleware fallback adds processing and save work when a named key
+                    is absent; other reads keep the loaded-JSON access path. Replacing or deleting a
+                    file uses primary-key owner lookup and indexed ownership records. Work grows
+                    with the affected field's variants, not the total number of models.
                 </p>
                 <p>
                     The ledger indexes ownership and cleanup traversal. The retirement drain uses

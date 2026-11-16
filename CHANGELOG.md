@@ -15,8 +15,45 @@
 
 ## Unreleased
 
+- Record Dapter's test-fixture PHPStan correction. Its Eloquent fixture no longer declares an unused factory capability; package runtime and consumer APIs are unchanged.
+
+- Install Front Awesome 1.0.0-beta.2 and refresh its Composer-delivered frontend so preference choices persist in encrypted cookies after session removal. Resolve the already-declared Filoquent 1.0.0-beta.4 requirement while preserving the local Dapter preview. Correct preference guides to identify the beta.2 cookie default.
+
+- Discover Dapter command options through Artisan's public input definition, including commands declared with PHP signature attributes.
+
+- Settle Dapter source and record boundary contracts with a working scoped-source demo and checked planned identity metadata, channel audience, driver binding, and optional revision specifications. Preserve the current v1 endpoint and public constructors.
+
+- Add focused Dapter read protocol v1 and failure references with public endpoint demos and a shared PHP/frontend contract corpus. Define planned version 2 operations, paging, action outcomes, and state transitions through checked design references without exposing future runtime APIs.
+
+- Document Filoquent's explicit native test connection teardown, including late-created aliases and reader/writer handles, while preserving normal PostgreSQL capacity and full two-worker dependency lanes.
+
+- Document Filoquent's development-only PHPStan upper bound below 2.3.6 while Pest type-coverage plugin 5.1.0 depends on the removed `AnalyserResult::getCollectedData()` method. Preserve uncached 100 percent type coverage and both dependency lanes.
+
+- Add a focused Dapter server-authority guide and executable request-boundary demo. Document driver-bound offset acceptance, immutable declaration layers, built-in error enums, and bounded request acknowledgements.
+- Document Front Awesome's translation watcher recovery for newly created configuration, atomic saves, and recreated directories, including Laravel working directories outside the Vite root.
+
+- Document Front Awesome's development-only PHPStan compatibility bound and uncached 100 percent type-coverage verification after the PHPStan 2.3.6/Pest plugin 5.1.0 CI incompatibility.
+
+- Document Front Awesome's unreleased persistent cookie preference store, configurable lifetime, active-session migration, account isolation, and explicit session-storage opt-in. Extend browser verification to remove the session cookies and check that all four preferences survive.
+- Ignore nested icon load errors in code-copy feedback, preventing false clipboard failure messages and layout shifts while testing preference updates.
+
+- Document the implemented owner-scoped useDataAdapter handle with focused shared, independent, Ref, and getter examples. Separate source, paging, options, access, Gate, and composable guides instead of one scenario selector.
+- Require Dapter's source entry to remain outside Vite dependency pre-bundling so components and composables share one development module graph. Verify the installation configuration and displayed bound example through public APIs.
+- Move detailed Dapter proposals into six specialized design pages. Preserve historical roadmap fragments through server-owned destination metadata and the shared documentation layout.
+
+- Extend the proposed Dapter roadmap with method-target filter and order attributes, dedicated action classes and internal action routes, native Inertia visit and HTTP response contracts, and per-DataStore composable ownership. Add chronological action delivery tasks without claiming these APIs are implemented.
+
 ### Documentation
 
+- Present Dapter roadmap phases as a collapsible list with visible task cards and compact status badges beside their titles. Preserve progress calculation and direct phase and task links.
+
+- Add a temporary DataView laboratory under Front Awesome development. Switch between table, card, and list layouts over the same Dapter page and review the proposed integration contract.
+
+- Document the implemented local Dapter Collection and SQLite offset preview with a standalone quickstart, functional setting demos, guard and Gate prerequisites, optional configuration publication, JSON row limits, and decoder readonly behavior. Keep future driver registration and capability profiles separate from the current interface. Record the local installation and registry refresh limits, and compile the displayed minimal Vue examples in regression tests.
+- Keep Dapter's frontend dependency on its Composer vendor path when installing a symlinked local preview, with shared generated instructions and a regression check.
+- Refine the proposed Dapter roadmap around internal request-scoped options resolution, optional `WithOptions` for custom public `options()` hooks called exactly once, and complete PHP attribute shortcuts without a contract, trait, or provider requirement. Distinguish config-seeded `StoreOptions::make()` from `makeWithoutDefaults()` with no config values. Compose the selected baseline, inherited and concrete attributes, and explicit fluent declarations by key. Never reseed an empty baseline; validate required mode, positive size, and guard before protected work. Add typed `pagingMode(PagingMode)` and equivalent `Paging` metadata. Preserve unrelated declarations, distinguish uncalled defaults from explicit overrides, and plan whole-entry replacement, duplicate validation, and trusted capability-removal tombstones. Accept Closure or trusted invokable class-string global filter and order handlers with concrete signature validation, request-local container resolution after access and complete input validation, and identical enum binding in both declaration forms. Distinguish six proposed field and global operation declarations, automatic field behavior, fixed global search targets, scoped named filters, Closure or invokable-class global filters and order presets, nested nullable typed slot projections, and one requested state with exclusive field or preset ordering. Plan deterministic page-size retention, strict source-preserving global filter transforms and enum binding, optional audience-aware Resources, scoped committed `DataStore` updates, private channels with customizable authorization and explicit public opt-in, replacement-only Echo listeners, bounded request races, and disabled-by-default frontend polling. Preserve the existing task links and add a dedicated live-update phase. Document official table-library evidence, scoped criteria preservation, explicit additive sort intent and term limits, bounded offset-page preservation, atomic history restoration, explicit source-default reset, and latest-requested reload and polling semantics. Plan default-web guard authentication, optional Laravel Gate and policy binding, explicit public access, access-loss cleanup, and aligned private-channel authorization. Require concrete PHP enums for all closed backend domains, strict boundary conversion, enum-valued config and attribute parity, while retaining scalar wire values and validated application identifiers. Specify a source-bound `StoreDriver` for Collections, SQLite, MySQL, and PostgreSQL. Plan whole-request capability checks, a shared Eloquent pipeline, and a distinct `UnsupportedStoreOperation` for optional operations. Keep vector retrieval in phase 7 research. Define the raw JSON and safe numeric boundaries, access-error cleanup, typed field comparisons, sparse URL snapshots, clamped-page acknowledgments, and optional decoder props for the ready Vue slot. Specify recipient-safe nested Resources and guard-isolated channels for the live-update phase. The remaining search, filter, ordering, advanced paging, driver extension, and live-update APIs are proposals. The local offset listing slice is documented separately.
+- Adopt contributor standards `1.1.0` in the documentation application, requiring supported public Front Awesome Web Awesome Vue components wherever they fit the documentation UI.
+- Add a Filoquent guide for generic model PHPDoc, magic variant properties, selective missing-key regeneration, and middleware-attribute fallback. Identify these APIs as development previews, explain source-quality and persistence limits, and keep the published beta installation path intact. Preserve hyphenated keys and historical field renames, reject duplicate owner-field references, document recovery after table remapping or removal and PostgreSQL promotion isolation, and require migration of committed extended manifests before downgrade.
 - Adopt the published Filoquent `1.0.0-beta.3` release in the documentation application, package metadata, installation guide, and overview. Document `filoquent:status` as a released command alongside the existing health audit, including connection probes, effective Redis parameters, current upload counters, read-only behavior, and exit codes.
 
 ## [1.2.0] - 2026-11-13

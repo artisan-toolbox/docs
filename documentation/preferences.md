@@ -3,6 +3,8 @@
 This record covers the Front Awesome source preview integrated on November 10, 2026, before its publication.
 Front Awesome beta includes these APIs. This record supplements the public Preferences guides and does not describe a stable release. Its historical verification results retain the versions tested at the time.
 The [current dependency verification](quality.md#documentation-consistency-and-test-dependencies-on-2026-11-11) supersedes the historical distribution and audit limits below.
+The [persistent cookie preview verification](#persistent-cookie-preview-verification-2026-11-15)
+supersedes the original session-default behavior for unreleased Front Awesome source.
 
 ## Reader journey and reuse
 
@@ -197,3 +199,115 @@ contract. The preference model fixture also uses direct query creation and does 
 excluded only for their corresponding files. Other Laravel refactors remain enabled.
 The existing mutable, immutable, and Laravel Carbon tests verify the macro behavior;
 PHPStan and a scoped Rector dry run verify that the repair remains stable.
+
+## Persistent cookie preview verification (2026-11-15)
+
+### Contract and reader journey
+
+The unreleased Front Awesome source selects `CookiePreferenceStore` by default. Released
+beta.1 still uses session storage. The setup, appearance guide, storage reference, demo
+captions, metadata, consumer skill, and changelogs distinguish this preview from a release.
+Published configuration that explicitly selects `SessionPreferenceStore` keeps its original
+temporary behavior until the application selects the cookie store.
+
+Each preference uses an independently encrypted, signed, HttpOnly cookie. The default
+`preferences.cookie_lifetime` is 525600 minutes after a write; reading does not extend it.
+The cookie jar supplies the application path, domain, Secure, and SameSite policy from
+session configuration. Cookie names include `session.cookie`, `preferences.key`, and the
+field. Null currency expires only its cookie. Authentication lifetime is unchanged.
+
+Active legacy session strings move into cookies on first read and are removed from the
+session. Existing cookies win. Expired sessions cannot be recovered. Account values remain
+in their model; guest cookies are neither promoted into accounts nor replaced by account
+writes. Logout restores the guest's browser preferences. No account migration is needed.
+
+The audited starting environment remains an existing Laravel application with PHP 8.5,
+Laravel 13.36 or later, Inertia 3, Vue 3.5, sessions, and Vite. The overview links to the
+dedicated Installation page. Its order remains Composer installation, frontend installation
+from `file:vendor/artisan-toolbox`, Vite and styles, the public Button example, and the Vue
+integration guide. Localization precedes Preferences. The first preferences example uses
+the public selectors and displays the confirmed appearance, language, timezone, and currency.
+The next task guides precede their shared reference. Existing registry order and anchors
+remain intact.
+
+The documentation continues to reuse public `createPreferences`, `usePreferences`,
+`Appearance`, `Language`, `Timezone`, and `Currency` APIs. Existing shared prose, code,
+package headers, and demo frames present the new guidance. No competing appearance
+controller, copied package implementation, new UI control, or frontend API was introduced.
+The existing concise package README remains accurate and needs no change.
+
+### Validation
+
+The four session-loss regressions fail when the default is restored to the old session
+store and pass with cookies. Package tests cover all fields, invalid and tampered values,
+independent writes, scope and lifetime, missing defaults, session migration, nullable
+currency, prepaint, explicit temporary storage, request isolation, and account/guest isolation.
+The complete package suite passes 216 PHP tests with 718 assertions, PHPStan, Pint, and
+100 percent source type coverage, including `CookiePreferenceStore`. Frontend checks,
+306 unit tests, generated-resource checks, and the production consumer build pass.
+The package Maintainer gate passes six checks with none skipped.
+
+The full documentation PHP suite passes 611 tests with 60,610 assertions. Its original
+frontend suite passes 826 tests; the isolated final snapshot, including the clipboard
+regression, passes 827 tests. The affected page metadata tests pass again after their
+descriptions change. Changed-file formatting and lint, frontend types, PHPStan, demo
+synchronization, the production preview build, and search index generation pass. The
+refreshed preview frontend dependencies pass the same 827 tests.
+
+The original documentation Maintainer gate passes six checks before concurrent Dapter
+work changes four unrelated Vue pages. Its latest run stops on formatting in Dapter's
+Composable, Development, Index, and Installation pages. A subsequent original-tree frontend
+run has 827 passes and two failures in the newly added `DapterInstallation.test.js`, both
+`TypeError: items is not iterable` in navigation fixtures. These files differ from the
+initial isolated snapshot and were not edited by this task. The changed-file check and
+complete isolated frontend suite pass; the current original-tree gate is not claimed as
+passing.
+
+Chromium at 1440 and 390 pixels verifies four persistent HttpOnly cookies, their expiration,
+their absence from `document.cookie`, and all four values after removing every session
+cookie and reloading. It also verifies nullable-currency deletion, negotiation, state,
+scroll, query and fragment preservation, request-forgery rejection, failure recovery, and
+history. Desktop and mobile screenshots were inspected. Browser instrumentation traced
+an intermittent 112-pixel scroll shift to nested icon `wa-error` events being mistaken
+for clipboard failures. `CodeExample` now accepts feedback only from the current
+`CopyButton` itself. A regression test fails with the original handler and passes with
+the event-origin check; existing clipboard success, failure, and stale-source tests remain
+intact. No scroll assertion was relaxed.
+
+The final full Chromium chain passes Dapter, the component catalog, application adoption
+in both themes, the isolated sign-in workflow, printing, localization, and preferences.
+It includes real clipboard success and failure checks with the corrected event filter.
+
+A Composer archive includes the cookie store, configuration, routes, and updated Boost
+skill. In the consuming application, Boost 2.10.4 discovers and installs
+`front-awesome-development` after selecting the package and skill. Its metadata matches
+the directory, and its references remain public documentation links. Manual request review
+confirms that a saved language or appearance selector fits its description; an unrelated
+backend-only Eloquent query does not.
+
+### Dependency refresh and environment
+
+The initial compatible Composer dry run could not resolve Packagist DNS in the sandbox.
+With network access, both the complete refresh and a partial attempt report the locked
+local Dapter `1.x-dev` as unavailable from public repositories. No original Composer
+manifest or lock was changed, compatibility was not relaxed, and the local preview was
+not presented as a published package update.
+
+An isolated application copy installs the working Front Awesome source through a Composer
+path repository and retains the local Dapter path. It uses PHP 8.5.12, Laravel 13.42.0,
+Inertia Laravel 3.7.0, Vue 3.5.45, Inertia Vue 3.11.0, and Vite Plus 1.6.0. Composer runs
+before npm. No package source is copied into the application as an implementation.
+
+The original npm dry run is blocked in the restricted environment. With registry access it
+reports compatible available updates. Updating the isolated application within the existing
+constraints changes `@vue/test-utils` 2.5.1 to 2.6.0 and Playwright/Playwright Core 1.65.0
+to 1.65.1; the remaining selected direct runtime/test packages are already current.
+The original npm manifest and lock remain untouched. The temporary preview is built after
+the Composer-delivered frontend installation. Its npm audit reports no vulnerabilities.
+
+The default shell PHP points to a broken Homebrew installation missing `libtidy.58.dylib`.
+Validation uses the installed Herd PHP 8.5 executable explicitly. Parallel analysis/tests
+need permission to open local worker sockets. Browser verification uses an isolated
+localhost application, a synthetic encryption key, file sessions, and a disposable SQLite
+database. It does not modify the original application's environment, user database, or
+installed dependencies. No release or deployment is performed.

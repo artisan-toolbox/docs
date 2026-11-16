@@ -5,6 +5,7 @@ import Installation from '@/pages/docs/filoquent/Installation.vue';
 import Configuration from '@/pages/docs/filoquent/Configuration.vue';
 import Development from '@/pages/docs/filoquent/Development.vue';
 import Files from '@/pages/docs/filoquent/Files.vue';
+import Assets from '@/pages/docs/filoquent/Assets.vue';
 import Middleware from '@/pages/docs/filoquent/Middleware.vue';
 import Storage from '@/pages/docs/filoquent/Storage.vue';
 import GarbageCollection from '@/pages/docs/filoquent/GarbageCollection.vue';
@@ -17,6 +18,7 @@ const slugs = [
     'filoquent/installation',
     'filoquent/files',
     'filoquent/middleware',
+    'filoquent/assets',
     'filoquent/configuration',
     'filoquent/health',
     'filoquent/garbage-collection',
@@ -53,6 +55,42 @@ function render(component, slug, title) {
 }
 
 describe('Filoquent beta documentation', () => {
+    it('documents typed variants and persisted opt-in fallback as development additions', () => {
+        const guide = render(Assets, 'filoquent/assets', 'Type and regenerate asset variants');
+        expect(guide.get('section[aria-labelledby="prerequisites"]').text()).toContain(
+            'Development preview',
+        );
+        expect(guide.text()).toContain('not included in the published 1.0.0-beta.3');
+        const types = guide.get('section[aria-labelledby="types"]').text();
+        expect(types).toContain("Assets<'original'|'thumb'|'large'");
+        expect(types).toContain(
+            'object{original: Asset|null, thumb: Asset|null, large: Asset|null}',
+        );
+        expect(types).toContain('@property-write');
+        const backfill = guide.get('section[aria-labelledby="backfill"]').text();
+        expect(backfill).toContain("regenerateMissing(['thumb'])");
+        expect(backfill).toContain('saves immediately');
+        expect(backfill).toContain('originalPath');
+        const fallback = guide.get('section[aria-labelledby="fallback"]').text();
+        expect(fallback).toContain('#[RegenerateMissing]');
+        expect(fallback).toContain('saves it before returning');
+        expect(fallback).toContain('Without the attribute');
+        expect(fallback).toContain('Source-read adapter exceptions');
+        expect(fallback).toContain('observer exceptions can propagate');
+        const limits = guide.get('section[aria-labelledby="limits"]').text();
+        expect(limits).toContain('cannot recover the original resolution');
+        expect(limits).toContain("RegenerateMissing(source: 'master')");
+        expect(limits).toContain('Historical manifests');
+        expect(limits).toContain('Hyphenated keys remain supported for creation, regeneration');
+    });
+    it('requires migration of committed extended uploads before a downgrade', () => {
+        const guide = render(Storage, 'filoquent/storage', 'Understand storage lifecycle');
+        const journal = guide.get('section[aria-labelledby="journal"]').text();
+        expect(journal).toContain('Replace or remove every extended upload');
+        expect(journal).toContain(
+            'An empty journal does not make committed extended manifests compatible',
+        );
+    });
     it('separates operational status from file audits and explains current upload counts', () => {
         const guide = render(Health, 'filoquent/health', 'Check stored file health');
         const section = guide.get('section[aria-labelledby="status"]');
@@ -218,6 +256,10 @@ describe('Filoquent beta documentation', () => {
         expect(code).toContain('node .ai/sync.mjs --check');
         expect(code).toContain('composer test');
         expect(code).toContain('php vendor/bin/maintainer readme:update --no-interaction');
+        expect(wrapper.text()).toContain('stays below 2.3.6');
+        expect(wrapper.text()).toContain('AnalyserResult::getCollectedData()');
+        expect(wrapper.text()).toContain('development dependencies');
+        expect(wrapper.text()).toContain('--min=100');
     });
 
     it('documents native database lanes and disposable worker database isolation', () => {
@@ -234,6 +276,8 @@ describe('Filoquent beta documentation', () => {
         expect(checks.text()).toContain('CREATE DATABASE');
         expect(checks.text()).toContain('disposable');
         expect(checks.text()).toContain('per PHP worker');
+        expect(checks.text()).toContain('explicitly disconnects its managed database connections');
+        expect(checks.text()).toContain('does not depend on PHP garbage collection');
         expect(checks.text()).toContain('CanonicalOwnerRoutesTest');
         expect(checks.text()).toContain('GroupedMissingTablesTest');
         expect(checks.text()).toContain('WAL');

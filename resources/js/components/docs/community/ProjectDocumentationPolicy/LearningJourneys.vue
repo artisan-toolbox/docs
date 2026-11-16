@@ -52,6 +52,13 @@ defineProps({ navigation: { type: Array, required: true } });
             Audit a package journey
         </h3>
         <p>
+            Keep Dapter guides specialized by reader task, with fixed-purpose examples. Avoid one
+            long reference page or a scenario selector combining every configuration. Separate
+            working guides, proposed design, and roadmap progress. Declare moved fragment
+            destinations on the owning Page so the shared layout preserves old links through
+            registered PageSlug URLs.
+        </p>
+        <p>
             Before completing a documentation task, check every affected package in the canonical
             <code>docs</code> application:
         </p>

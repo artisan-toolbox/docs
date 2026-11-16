@@ -78,7 +78,10 @@ watch(
     },
 );
 function updateCopyState(event, state) {
-    if (event.currentTarget === figure.value?.querySelector('wa-copy-button'))
+    if (
+        event.target === event.currentTarget &&
+        event.currentTarget === figure.value?.querySelector('wa-copy-button')
+    )
         copyState.value = state;
 }
 const status = computed(

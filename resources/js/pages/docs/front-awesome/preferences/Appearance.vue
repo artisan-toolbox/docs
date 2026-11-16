@@ -59,8 +59,9 @@ import { Appearance } from '@artisan-toolbox/front-awesome/components';
             <p>
                 Select Dark. After the Inertia request succeeds, the saved value is
                 <code>dark</code> and the document uses dark mode. Reload the page to confirm the
-                same choice. The active store determines whether the choice belongs to the session
-                or the explicitly configured authenticated user.
+                same choice. Starting with <code>1.0.0-beta.2</code>, the default cookie store keeps
+                the choice after session expiry. An explicitly selected session store is temporary;
+                an authenticated model store saves the choice on the account.
             </p>
         </ProseSection>
         <ProseSection id="follow-device-appearance" title="Follow the device setting">

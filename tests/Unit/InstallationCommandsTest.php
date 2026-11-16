@@ -7,6 +7,12 @@ use Tests\TestCase;
 
 pest()->extend(TestCase::class);
 
+test('Dapter records its Composer vendor dependency before installing the local preview', function () {
+    $code = resolve(InstallationCommands::class)->forPackage('dapter')['frontend']['code'];
+
+    expect($code)->toBe("npm pkg set 'dependencies.@artisan-toolbox/dapter=file:vendor/artisan-toolbox/dapter'\nnpm install --install-links");
+});
+
 test('installation instructions follow installed versions without rewriting Composer metadata', function () {
     $original = InstalledVersions::getRawData();
     $fixture = $original;

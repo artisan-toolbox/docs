@@ -21,6 +21,21 @@ npm ci`;
         </p>
         <CodeExample label="Develop Front Awesome example 1" language="sh" :code="example1" />
         <p>
+            The source checkout requires PHPStan <code>^2.2.8 &lt;2.3.6</code> as a development
+            dependency. PHPStan <code>2.3.6</code> removes an internal method used by Pest's
+            type-coverage plugin <code>5.1.0</code>, causing <code>composer test:types</code> to
+            fail before producing a report. Keep this upper bound until an updated plugin is
+            verified against the newer analyzer. This restriction does not apply to applications
+            that install Front Awesome as a runtime dependency.
+        </p>
+        <p>
+            <code>composer test:types</code> runs with <code>--no-cache</code> and still requires
+            <code>100</code> percent type coverage. Cached results from another analyzer version can
+            otherwise hide this incompatibility locally while a clean CI runner fails. After
+            updating PHP quality tools, run <code>composer test</code> with newly resolved
+            dependencies before changing either CI dependency lane.
+        </p>
+        <p>
             The source checkout uses Vite Plus <code>1.6.0</code> and bundled Vitest
             <code>5.1.0</code>. Keep the <code>vite</code> override at
             <code>npm:@voidzero-dev/vite-plus-core@1.6.0</code> and both

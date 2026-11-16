@@ -120,6 +120,30 @@ try {
         assert.equal(await demo.locator('[data-preference-appearance]').textContent(), 'dark');
         assert.equal(await page.evaluate(() => localStorage.getItem('appearance')), 'dark');
         assert(!(await context.cookies()).some((cookie) => cookie.name === 'appearance'));
+        const savedCookies = (await context.cookies()).filter((cookie) =>
+            cookie.name.includes('_front_awesome_preferences_'),
+        );
+        assert.equal(savedCookies.length, 4);
+        for (const cookie of savedCookies) {
+            assert(cookie.httpOnly);
+            assert(cookie.expires > Date.now() / 1000 + 364 * 24 * 60 * 60);
+            assert(!(await page.evaluate(() => document.cookie)).includes(cookie.name));
+        }
+        for (const cookie of await context.cookies()) {
+            if (!cookie.name.includes('_front_awesome_preferences_')) {
+                await context.clearCookies({
+                    name: cookie.name,
+                    domain: cookie.domain,
+                    path: cookie.path,
+                });
+            }
+        }
+        await page.reload();
+        await demo.waitFor({ state: 'visible' });
+        assert.equal(await language.inputValue(), 'pt-BR');
+        assert.equal(await timezone.inputValue(), 'America/Sao_Paulo');
+        assert.equal(await currency.inputValue(), 'BRL');
+        assert.equal(await demo.locator('[data-preference-appearance]').textContent(), 'dark');
         await currency.selectOption('');
         await page.waitForFunction(
             () =>
@@ -127,6 +151,11 @@ try {
                 !document.querySelector('#preference-currency')?.disabled,
         );
         assert.equal(JSON.parse(mutations.at(-1).postData()).currency, null);
+        assert(
+            !(await context.cookies()).some((cookie) =>
+                cookie.name.endsWith('_front_awesome_preferences_currency'),
+            ),
+        );
         const expectedDecimal = await page.evaluate(() =>
             new Intl.NumberFormat('pt-BR').format(1234.5),
         );
@@ -179,7 +208,7 @@ try {
         await context.close();
     }
     console.log(
-        `Checked ${checked} browser sessions: negotiation, Inertia persistence, state/scroll/query/fragment, reload, explicit timezone, CSRF, failure recovery, and history.`,
+        `Checked ${checked} browser sessions: negotiation, encrypted HttpOnly persistence after session removal, cookie expiry, state/scroll/query/fragment, reload, explicit timezone, CSRF, failure recovery, and history.`,
     );
 } finally {
     await browser.close();

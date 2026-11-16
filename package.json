@@ -15,14 +15,17 @@
         "check": "vp check",
         "check:fix": "vp check --fix",
         "types:check": "vue-tsc --noEmit",
-        "test:browser": "node scripts/test-demo-browser.mjs && node scripts/test-application-browser.mjs && node scripts/test-login-browser.mjs && node scripts/test-printing-browser.mjs && node scripts/test-localization-browser.mjs && node scripts/test-preferences-browser.mjs",
+        "test:browser": "node scripts/test-dapter-browser.mjs && node scripts/test-dapter-authority-browser.mjs && node scripts/test-dapter-protocol-browser.mjs && node scripts/test-dapter-boundaries-browser.mjs && node scripts/test-demo-browser.mjs && node scripts/test-application-browser.mjs && node scripts/test-login-browser.mjs && node scripts/test-printing-browser.mjs && node scripts/test-localization-browser.mjs && node scripts/test-preferences-browser.mjs",
         "demos:sync": "node scripts/sync-front-awesome-demos.mjs",
         "demos:check": "node scripts/sync-front-awesome-demos.mjs --check",
         "test:printing": "node scripts/test-printing-browser.mjs",
         "test:localization": "node scripts/test-localization-browser.mjs",
-        "test:preferences": "node scripts/test-preferences-browser.mjs"
+        "test:preferences": "node scripts/test-preferences-browser.mjs",
+        "dapter:demos:check": "node scripts/check-dapter-demos.mjs",
+        "test:dapter": "node scripts/test-dapter-browser.mjs"
     },
     "dependencies": {
+        "@artisan-toolbox/dapter": "file:vendor/artisan-toolbox/dapter",
         "@artisan-toolbox/front-awesome": "file:vendor/artisan-toolbox/front-awesome",
         "@artisan-toolbox/mosaicast": "file:vendor/artisan-toolbox/mosaicast",
         "@artisan-toolbox/qztray": "file:vendor/artisan-toolbox/qztray",

@@ -39,6 +39,8 @@ The current plain source appears immediately while highlighting loads. A stale a
 
 Changing the `code` prop clears the previous clipboard feedback. The copy control returns to **Copy** so a success message never describes source the reader has not copied. Each source owns its public Front Awesome `CopyButton` instance. A pending clipboard operation can still finish for the previous source, but its success or failure cannot change the current source's feedback or block its copy control. Keyboard focus remains on the replacement copy control when the previous control held focus. Source rendering and highlighting retain their existing component state.
 
+Only events originating on the current `CopyButton` update clipboard feedback. A nested icon's bubbling `wa-error` reports an icon load failure, not a clipboard failure, and must not display a copy error or change the page layout.
+
 Search reads the original `CodeExample` props and explanation, not the rendered tokens or toolbar. Keep that semantic adapter when changing presentation. Do not add copied search text or page-specific renderers.
 
 ## Start highlighting when readers need it

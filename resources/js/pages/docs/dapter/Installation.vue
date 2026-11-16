@@ -17,6 +17,15 @@ dump(Dapter::VERSION); // "1.0.0-alpha.1"`;
 const frontend = `import { version } from '@artisan-toolbox/dapter';
 
 document.querySelector<HTMLElement>('#app')?.setAttribute('data-dapter-version', version);`;
+const viteConfiguration = `import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+
+export default defineConfig({
+    plugins: [vue()],
+    optimizeDeps: {
+        exclude: ['@artisan-toolbox/dapter'],
+    },
+});`;
 </script>
 
 <template>
@@ -29,7 +38,8 @@ document.querySelector<HTMLElement>('#app')?.setAttribute('data-dapter-version',
                     Use an existing Laravel application with Inertia and a TypeScript-capable Vite
                     build. Place Dapter on its <code>1.x</code> branch in a sibling directory named
                     <code>dapter</code>. This procedure installs unpublished source for local
-                    development. No filtering or pagination API is available yet.
+                    development. Collection and ordinary SQLite offset listing are implemented in
+                    this checkout. Other database drivers and query operations remain planned.
                 </p>
             </ProseSection>
             <ProseSection id="backend" title="Install the backend first">
@@ -43,11 +53,43 @@ document.querySelector<HTMLElement>('#app')?.setAttribute('data-dapter-version',
                 <p>The dump displays <code>1.0.0-alpha.1</code>.</p>
             </ProseSection>
             <ProseSection id="frontend" title="Connect the Composer-delivered frontend">
-                <p>After Composer completes, run this command from the same application root:</p>
+                <p>After Composer completes, run these commands from the same application root:</p>
                 <InstallCommand
                     :package="page.package"
                     command="frontend"
                     label="Install the frontend from vendor" />
+                <p>
+                    Recording the vendor path first keeps the dependency attached to Composer's
+                    installed directory. A direct npm directory argument can otherwise save the
+                    sibling checkout path when Composer uses a local symlink.
+                </p>
+            </ProseSection>
+            <ProseSection id="vite-config" title="Configure the required Vue source integration">
+                <p>
+                    In your application's Vite configuration, include
+                    <code>@vitejs/plugin-vue</code> and exclude
+                    <code>@artisan-toolbox/dapter</code> from dependency prebundling. Keep your
+                    existing Laravel and Inertia plugins. Merge these required Vue settings into
+                    that configuration:
+                </p>
+                <CodeExample
+                    language="js"
+                    label="Required Vite source configuration"
+                    :code="viteConfiguration" />
+                <p>
+                    Dapter's public entry ships TypeScript and a Vue component. Dependency
+                    prebundling can give the composable and component separate copies of their
+                    private owner registry. The exclusion keeps both public APIs in the same source
+                    module graph during development.
+                </p>
+                <p>
+                    Use <code>resolveJsonModule: true</code> and Vue-aware TypeScript checking. The
+                    frontend peers are Vue 3.5, Inertia Vue 3, Inertia Core 3, and Ziggy 2.6.5 or
+                    later within 2.x. After refreshing copied frontend dependency types, restart the
+                    Vite development process before checking the updated APIs.
+                </p>
+            </ProseSection>
+            <ProseSection id="frontend-check" title="Verify the frontend identity">
                 <p>
                     Add this example to the application entry that mounts its existing
                     <code>#app</code> element, then run the application's Vite build:
@@ -55,20 +97,26 @@ document.querySelector<HTMLElement>('#app')?.setAttribute('data-dapter-version',
                 <CodeExample language="ts" label="Check the frontend identity" :code="frontend" />
                 <p>
                     Inspect the mounted element. Its <code>data-dapter-version</code> attribute is
-                    <code>1.0.0-alpha.1</code>. The default export compiles from TypeScript source
-                    with the application. Use <code>resolveJsonModule: true</code> in its TypeScript
-                    configuration.
+                    <code>1.0.0-alpha.1</code>.
                 </p>
             </ProseSection>
-            <ProseSection id="next-steps" title="Continue with development">
+            <ProseSection id="next-steps" title="Read your first source">
                 <p>
-                    No configuration, resource publication, authentication, sessions, workers, or
-                    broadcaster is required for these identity examples. Boost is optional
-                    development tooling. See
+                    These identity examples need no published Dapter configuration, authentication,
+                    sessions, workers, or broadcaster. To use the listing API, keep the web session
+                    and CSRF middleware enabled, expose
+                    <code>dapter.data</code>
+                    through Ziggy, and continue with
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/sources').href"
+                        >Declare a data source</DocsLink
+                    >.
+                </p>
+                <p>
+                    Boost is optional development tooling. See
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/development').href"
                         >Develop Dapter</DocsLink
                     >
-                    before implementing the data adapter APIs.
+                    for contributor checks.
                 </p>
             </ProseSection>
         </div>

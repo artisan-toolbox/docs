@@ -17,7 +17,7 @@ const exampleDate = new Date('2026-11-10T12:00:00Z');
 <template>
     <DemoFrame
         title="Saved display preferences"
-        description="Each change saves your session preference through Laravel and returns to this page. Reload to check persistence."
+        description="Each change saves your preference through Laravel and returns to this page. Reload to check persistence."
         :sources="[{ label: 'PreferencesDemo.vue', language: 'vue', code: clientSource }]">
         <div id="preferences-demo" class="space-y-5 p-4" data-preferences-demo>
             <label class="block text-sm font-medium" for="preference-state"

@@ -132,6 +132,17 @@ describe('CodeExample', () => {
         expect(wrapper.get('wa-button').attributes('disabled')).toBeUndefined();
     });
 
+    it('does not report a clipboard failure when a nested icon fails to load', async () => {
+        const wrapper = mount(CodeExample, {
+            props: { code: 'composer install', label: 'Install dependencies' },
+        });
+
+        await wrapper.get('wa-copy-button [slot="start"]').trigger('wa-error');
+
+        expect(wrapper.get('[role="status"][aria-live="polite"]').text()).toBe('');
+        expect(wrapper.get('wa-button').text()).not.toContain('Copied');
+    });
+
     it.each(['wa-copy', 'wa-error'])(
         'clears the previous clipboard result after replacing source following %s',
         async (event) => {

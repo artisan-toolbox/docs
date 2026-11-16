@@ -47,8 +47,8 @@ const exampleDate = new Date('2026-11-10T12:00:00Z');
                 </div>
             </dl>
             <p class="text-sm text-slate-500">
-                Changing language saves your session preference through Inertia. It does not start a
-                print job.
+                Changing language saves your preference through Inertia. It does not start a print
+                job.
             </p>
         </div>
     </DemoFrame>

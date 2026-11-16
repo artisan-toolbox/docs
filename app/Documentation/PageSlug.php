@@ -8,12 +8,32 @@ use App\Documentation\Pages\CoreInstallationPage;
 use App\Documentation\Pages\CoreMultiDomainInertiaPage;
 use App\Documentation\Pages\CorePage;
 use App\Documentation\Pages\CoreTranslatedAttributesPage;
+use App\Documentation\Pages\DapterAccessPage;
+use App\Documentation\Pages\DapterAuthorityPage;
+use App\Documentation\Pages\DapterComposablePage;
+use App\Documentation\Pages\DapterDesignActionsPage;
+use App\Documentation\Pages\DapterDesignDeclarationsPage;
+use App\Documentation\Pages\DapterDesignDriversPage;
+use App\Documentation\Pages\DapterDesignLiveUpdatesPage;
+use App\Documentation\Pages\DapterDesignOperationsPage;
+use App\Documentation\Pages\DapterDesignPage;
+use App\Documentation\Pages\DapterDesignPagingStatePage;
+use App\Documentation\Pages\DapterDesignSourceBoundariesPage;
 use App\Documentation\Pages\DapterDevelopmentPage;
+use App\Documentation\Pages\DapterGatesPage;
 use App\Documentation\Pages\DapterInstallationPage;
+use App\Documentation\Pages\DapterListingPage;
+use App\Documentation\Pages\DapterOptionsPage;
 use App\Documentation\Pages\DapterPage;
+use App\Documentation\Pages\DapterProtocolErrorsPage;
+use App\Documentation\Pages\DapterProtocolPage;
+use App\Documentation\Pages\DapterRoadmapPage;
+use App\Documentation\Pages\DapterSourceBoundariesPage;
+use App\Documentation\Pages\DapterSourcesPage;
 use App\Documentation\Pages\DumpToConsoleInstallationPage;
 use App\Documentation\Pages\DumpToConsolePage;
 use App\Documentation\Pages\DumpToConsoleUsagePage;
+use App\Documentation\Pages\FiloquentAssetsPage;
 use App\Documentation\Pages\FiloquentConfigurationPage;
 use App\Documentation\Pages\FiloquentDevelopmentPage;
 use App\Documentation\Pages\FiloquentFilesPage;
@@ -28,6 +48,7 @@ use App\Documentation\Pages\FrontAwesomeActionsPage;
 use App\Documentation\Pages\FrontAwesomeBrandingPage;
 use App\Documentation\Pages\FrontAwesomeComponentsPage;
 use App\Documentation\Pages\FrontAwesomeConfigurationPage;
+use App\Documentation\Pages\FrontAwesomeDataViewLabPage;
 use App\Documentation\Pages\FrontAwesomeDataVizPage;
 use App\Documentation\Pages\FrontAwesomeDevelopmentPage;
 use App\Documentation\Pages\FrontAwesomeFeedbackPage;
@@ -116,6 +137,25 @@ enum PageSlug: string
 
     case Dapter = 'dapter';
     case DapterInstallation = 'dapter/installation';
+    case DapterSources = 'dapter/sources';
+    case DapterSourceBoundaries = 'dapter/source-boundaries';
+    case DapterListing = 'dapter/listing';
+    case DapterOptions = 'dapter/options';
+    case DapterAccess = 'dapter/access';
+    case DapterGates = 'dapter/access/gates';
+    case DapterComposable = 'dapter/composable';
+    case DapterAuthority = 'dapter/authority';
+    case DapterProtocol = 'dapter/protocol';
+    case DapterProtocolErrors = 'dapter/protocol/errors';
+    case DapterRoadmap = 'dapter/roadmap';
+    case DapterDesign = 'dapter/design';
+    case DapterDesignDeclarations = 'dapter/design/declarations';
+    case DapterDesignSourceBoundaries = 'dapter/design/source-boundaries';
+    case DapterDesignDrivers = 'dapter/design/drivers';
+    case DapterDesignOperations = 'dapter/design/operations';
+    case DapterDesignPagingState = 'dapter/design/paging-state';
+    case DapterDesignActions = 'dapter/design/actions';
+    case DapterDesignLiveUpdates = 'dapter/design/live-updates';
     case DapterDevelopment = 'dapter/development';
 
     case DumpToConsole = 'dump-to-console';
@@ -126,6 +166,7 @@ enum PageSlug: string
     case FiloquentInstallation = 'filoquent/installation';
     case FiloquentFiles = 'filoquent/files';
     case FiloquentMiddleware = 'filoquent/middleware';
+    case FiloquentAssets = 'filoquent/assets';
     case FiloquentConfiguration = 'filoquent/configuration';
     case FiloquentHealth = 'filoquent/health';
     case FiloquentGarbageCollection = 'filoquent/garbage-collection';
@@ -167,6 +208,7 @@ enum PageSlug: string
     case FrontAwesomePrinting = 'front-awesome/printing';
     case FrontAwesomePrintingReference = 'front-awesome/printing/reference';
     case FrontAwesomeDevelopment = 'front-awesome/development';
+    case FrontAwesomeDataViewLab = 'front-awesome/development/data-view';
 
     case Maintainer = 'maintainer';
     case MaintainerInstallation = 'maintainer/installation';
@@ -243,6 +285,25 @@ enum PageSlug: string
             self::MaintainerDevelopment => new MaintainerDevelopmentPage,
             self::Dapter => new DapterPage,
             self::DapterInstallation => new DapterInstallationPage,
+            self::DapterListing => new DapterListingPage,
+            self::DapterSources => new DapterSourcesPage,
+            self::DapterSourceBoundaries => new DapterSourceBoundariesPage,
+            self::DapterOptions => new DapterOptionsPage,
+            self::DapterAccess => new DapterAccessPage,
+            self::DapterGates => new DapterGatesPage,
+            self::DapterComposable => new DapterComposablePage,
+            self::DapterAuthority => new DapterAuthorityPage,
+            self::DapterProtocol => new DapterProtocolPage,
+            self::DapterProtocolErrors => new DapterProtocolErrorsPage,
+            self::DapterDesign => new DapterDesignPage,
+            self::DapterDesignDeclarations => new DapterDesignDeclarationsPage,
+            self::DapterDesignSourceBoundaries => new DapterDesignSourceBoundariesPage,
+            self::DapterDesignDrivers => new DapterDesignDriversPage,
+            self::DapterDesignOperations => new DapterDesignOperationsPage,
+            self::DapterDesignPagingState => new DapterDesignPagingStatePage,
+            self::DapterDesignActions => new DapterDesignActionsPage,
+            self::DapterDesignLiveUpdates => new DapterDesignLiveUpdatesPage,
+            self::DapterRoadmap => new DapterRoadmapPage,
             self::DapterDevelopment => new DapterDevelopmentPage,
             self::Core => new CorePage,
             self::CoreConditionalArrays => new CoreConditionalArraysPage,
@@ -253,6 +314,7 @@ enum PageSlug: string
             self::FiloquentInstallation => new FiloquentInstallationPage,
             self::FiloquentFiles => new FiloquentFilesPage,
             self::FiloquentMiddleware => new FiloquentMiddlewarePage,
+            self::FiloquentAssets => new FiloquentAssetsPage,
             self::FiloquentConfiguration => new FiloquentConfigurationPage,
             self::FiloquentHealth => new FiloquentHealthPage,
             self::FiloquentGarbageCollection => new FiloquentGarbageCollectionPage,
@@ -280,6 +342,7 @@ enum PageSlug: string
             self::FrontAwesomeBranding => new FrontAwesomeBrandingPage,
             self::FrontAwesomeConfiguration => new FrontAwesomeConfigurationPage,
             self::FrontAwesomeDevelopment => new FrontAwesomeDevelopmentPage,
+            self::FrontAwesomeDataViewLab => new FrontAwesomeDataViewLabPage,
             self::FrontAwesome => new FrontAwesomePage,
             self::FrontAwesomeInstallation => new FrontAwesomeInstallationPage,
             self::FrontAwesomePrimevue => new FrontAwesomePrimevuePage,

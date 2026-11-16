@@ -3,6 +3,7 @@ import PackageGuideHeader from '@/components/docs/PackageGuideHeader.vue';
 import ProseSection from '@/components/docs/ProseSection.vue';
 import CodeExample from '@/components/docs/CodeExample.vue';
 import DocsLink from '@/components/docs/DocsLink.vue';
+import { findNavigationItem } from '@/lib/docsNavigation';
 
 defineProps({
     page: { type: Object, required: true },
@@ -54,14 +55,58 @@ const logo = 'python3 scripts/build-logos.py';
                     <code>resources/js/index.ts</code>. The optional
                     <code>@artisan-toolbox/dapter/dist</code> entry exposes the generated ESM build
                     after <code>npm run build</code>. Generated <code>.d.ts</code> declarations and
-                    declaration maps accompany that build. Keep runtime dependencies out of the
-                    package until an implemented feature needs them.
+                    declaration maps accompany that build. Vue, Inertia Vue and Core, and Ziggy are
+                    runtime peers for the implemented headless adapter. Use one entry point
+                    consistently. Do not mix a source-entry handle with a component from the built
+                    entry, or the reverse.
                 </p>
                 <p>
                     TypeScript checks strict null handling, indexed access, exact optional
                     properties, unused symbols, and module syntax. Consumer checks cover Bundler and
-                    NodeNext resolution and a rejected numeric assignment to the exported version.
-                    Add typed framework adapters when their behavior is implemented.
+                    NodeNext resolution for the component and its decoded slot types, unsupported
+                    props, readonly records, source-only unknown rows, and the existing version. Use
+                    Vue-aware checking for the source entry. Decoders may return application value
+                    objects. Their native methods retain their behavior; plain object and array
+                    structure is readonly.
+                </p>
+                <p>
+                    Consuming Vite applications must use the
+                    <DocsLink
+                        :href="
+                            findNavigationItem(navigation, 'dapter/installation').href +
+                            '#vite-config'
+                        "
+                        >required Vue source configuration</DocsLink
+                    >. After refreshing their copied frontend dependency types, restart the Vite
+                    development process with <code>--force</code> before checking updated APIs.
+                </p>
+            </ProseSection>
+            <ProseSection id="functional-demos" title="Verify every delivered setting">
+                <p>
+                    Use the package's Dapter implementation skill for each change. Every delivered
+                    option, configuration key, attribute, factory mode, command option, and frontend
+                    prop needs a functional public-API example in this documentation application.
+                    Prefer the supported Front Awesome components. Keep fixtures isolated and wait
+                    for the reader's Start action.
+                </p>
+                <CodeExample
+                    label="Run from the documentation application root"
+                    code="npm run dapter:demos:check" />
+                <p>
+                    The check discovers the implemented settings and verifies their coverage
+                    registry, then runs the real package-backed demo tests and frontend interaction
+                    tests. A new setting without a demo fails this gate.
+                </p>
+                <CodeExample
+                    label="Verify the live demos against the local documentation application"
+                    code="DOCS_BASE_URL=https://atb.test npm run test:dapter" />
+                <p>
+                    Start the local documentation application and install Playwright Chromium before
+                    running this browser check. It loads every declared scenario through the real
+                    endpoint and compares its records with the native Front Awesome grid. Keep
+                    source edits and fixture-generating PHP tests idle during this run to avoid
+                    development hot reloads. Package tests and the complete validation suite remain
+                    required.
                 </p>
             </ProseSection>
             <ProseSection id="identity" title="Maintain the version and README">

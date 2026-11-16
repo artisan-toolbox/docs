@@ -78,3 +78,66 @@ The learner path remains an existing Laravel 13, Inertia 3, and Vue 3.5 applicat
 Targeted Vite Plus formatting passed for both localization pages. Both SFC scripts and templates parsed and compiled through the installed Vue compiler. The existing documentation Feature test was attempted with the default `php`, but that Homebrew PHP executable could not start because `libtidy.58.dylib` is missing. No tests were changed for these copy-only edits. The coordinating task owns supported-PHP test execution, dependency refresh, generated consumer copies, complete validation, and browser verification for the implementation. Those outcomes must be recorded before considering the follow-up complete.
 
 The locale-selection follow-up passed the complete package PHP suite with 45 tests and 171 assertions, PHPStan, Pint, and complete source type coverage. All 272 frontend unit tests, seven localization and printing browser tests, package checks, and the package production build passed. The documentation passed 490 PHP tests, 673 frontend tests, type checking, its production build, and six real browser locale selections. Search indexing was regenerated and checked. Independent review found no remaining flags and reran eight relevant PHP and eight frontend cases. The dependency refresh stayed within the declared constraints and updated Guzzle, its PSR-7/promises dependencies, Laravel Pint, Reverb, and Collision; npm ci then refreshed the Composer-delivered frontend copies.
+
+## Translation watcher recovery on 2026-11-16
+
+The supplied Windows `prefer-lowest` Actions log for Front Awesome commit `1c4e8c6` passes
+216 PHP tests, then fails the live Vite translation test after creating
+`config/front-awesome.php`. The generated catalog still contains the prior `app.greeting`.
+The ordinary local scenario initially passes, so it does not establish Windows compatibility.
+A new real-Vite regression with the Laravel working directory outside the Vite root fails
+locally after deleting and recreating its configuration directory.
+
+The watcher previously registered missing input paths and then added newly available child
+paths after each PHP export. Tracing the failure shows a `config` directory registration
+immediately after the recovery export, with no configuration creation event afterward.
+Vite's watcher ignores entries found during an initial scan. Registering a child directory
+already covered by its ancestor can turn a concurrent file creation into that silent initial
+state. Merely switching from file targets to directory targets still reproduces the original
+failure; redundant child registrations must also be avoided.
+
+The plugin now registers existing directories, climbs to an existing ancestor for missing
+inputs, and chooses ancestor roots before descendants. It never adds a child root already
+covered by a registered ancestor. Directory creation/removal refreshes this plan, and event
+listeners attach before paths are added. The existing manifest-path filter remains in place,
+so observing a configuration directory does not export unrelated configuration changes.
+Serialized exports, debounce duration, error recovery, output locations, and shutdown behavior
+remain unchanged. No timeout, retry, polling default, or dependency constraint is increased.
+
+The integration suite uses real filesystem events and the real Laravel command. Its two new
+cases cover initially present and absent configuration directories outside the Vite root,
+configuration creation, atomic file replacement, directory deletion, and immediate recreation.
+The failing old implementation is recorded before the fix. All nine localization/Vite cases
+pass afterward under Node 24.22.2 and PHP 8.5.12, and also against the disposable lowest
+dependency installation with Laravel 13.40.0 used by the reported Windows lane. That fixture
+retains its earlier diagnostic routing to stderr with `E_ALL` enabled; the committed PHP
+fixture is unchanged. The package's complete Maintainer gate passes
+six checks with none skipped, including 308 frontend tests. `composer test` passes analysis,
+formatting, uncached 100 percent source type coverage, and 216 PHP tests with 718 assertions.
+The production consumer build and generated-resource checks pass. Native Windows still needs
+the next Actions run; these local executions use macOS.
+
+The public reference and consumer skill explain creation and recreation of watched inputs
+and `translations.cwd` when the application is outside Vite's root. No new API, configuration
+option, browser component, or installation prerequisite is introduced. The existing source
+exporter/Vite how-to and reference remain the owners; shared prose and code components remain
+in use. The audited beginner path still completes Composer before vendor-file npm installation,
+then localization setup and ordinary Laravel messages. The first real exporter/Vite example
+still renders `Welcome, Ana!` and `2 documents`; the task guides and reference follow setup.
+The concise README remains accurate. Historical page anchors and registry order are unchanged.
+
+A Composer archive contains the exact changed Vite module and consumer skill. Boost installs
+the updated skill in the disposable consuming application. A request to watch Front Awesome
+translations after publishing configuration matches its scope; an unrelated backend-only
+Eloquent task does not. Generated skill copies in the original application are not edited.
+Documentation content tests pass 33 cases and the relevant PHP journey/localization tests pass
+13 cases. Changed-page formatting/lint, the production documentation build, search indexing,
+and the search freshness check pass.
+
+The required Composer-before-npm dependency refresh is attempted without changing manifests
+or lockfiles. The Composer dry run remains blocked by the locked local Dapter `1.x-dev`, which
+has no matching public repository version. npm reports only `@vue/test-utils` 2.5.1 to 2.6.0
+among the queried direct updates; that unrelated bump is not applied. No consuming dependency
+or vendor frontend copy is replaced to make the source regression pass. The disposable Boost
+consumer uses its Composer path installation. This check does not claim a new public release,
+a native Windows pass, or another complete documentation-site test run.

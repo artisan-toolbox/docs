@@ -12,4 +12,10 @@ abstract readonly class Page
         public string $sourcePath,
         public ?Package $package = null,
     ) {}
+
+    /** @return array<string, PageSlug> */
+    public function fragmentDestinations(): array
+    {
+        return [];
+    }
 }

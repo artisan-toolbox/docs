@@ -6,6 +6,7 @@ import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test';
 import { h, nextTick, reactive } from 'vue';
 import DocsLayout from './DocsLayout.vue';
+import { router } from '@inertiajs/vue3';
 
 const { page } = vi.hoisted(() => ({
     page: {
@@ -97,6 +98,29 @@ afterEach(() => {
     document.documentElement.classList.remove('dark');
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
+    delete page.props.page.fragmentDestinations;
+    window.history.replaceState({}, '', '/docs');
+});
+
+it('replaces a historical fragment with its server-owned destination once', async () => {
+    page.props.page.fragmentDestinations = {
+        'store-options': '/docs/dapter/design/declarations#store-options',
+    };
+    window.history.replaceState({}, '', '/docs/dapter/roadmap#store-options');
+    const visit = vi.spyOn(router, 'visit').mockImplementation(() => {});
+    mount(DocsLayout);
+    const navigate = () =>
+        document.dispatchEvent(
+            new CustomEvent('inertia:navigate', { detail: { type: 'initial' } }),
+        );
+    navigate();
+    navigate();
+    await flushPromises();
+    expect(visit).toHaveBeenCalledTimes(1);
+    expect(visit).toHaveBeenCalledWith('/docs/dapter/design/declarations#store-options', {
+        replace: true,
+        onFinish: expect.any(Function),
+    });
 });
 
 function sidebarGeometry({ top = 1054, bottom = 1098, position = 'sticky', height = 640 } = {}) {

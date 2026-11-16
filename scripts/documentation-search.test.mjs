@@ -1,4 +1,4 @@
-import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { resolve } from 'node:path';
 import { afterEach, describe, expect, it } from 'vite-plus/test';
@@ -87,6 +87,180 @@ defineProps({ requirements: Array });
             heading: 'Practical details',
             body: 'Finish here.',
         });
+    });
+
+    it('indexes collapsed roadmap details at stable task destinations through an aliased import', () => {
+        const setup = fixture({
+            'pages/docs/Fixture.vue': `<script setup>
+import Task from '@/components/docs/RoadmapItem.vue';
+import Phase from '@/components/docs/RoadmapPhase.vue';
+</script><template>
+<Phase id="phase-0" title="Settle the contract">
+<Task id="todo-0-1" title="Record authority"><p>Accept choices only within server declarations.</p></Task>
+<Task id="todo-0-2" title="Define schema" status="completed"><template #default><p>Validate typed inputs.</p></template></Task>
+<Task id="todo-0-3" title="Verify failures" status="in_progress"><p>Reject unknown fields.</p></Task>
+<Task id="todo-0-4" title="Build queries" :status="'not_started'"><p>Preserve mandatory scopes.</p></Task>
+</Phase>
+</template>`,
+        });
+        const documents = setup.extract();
+        expect(documents.find(({ anchor }) => anchor === 'phase-0')).toMatchObject({
+            heading: 'Settle the contract',
+            body: 'WIP 1 of 4 tasks completed 25%',
+        });
+        const tasks = documents.filter(({ anchor }) => anchor?.startsWith('todo-'));
+        expect(tasks.map(({ anchor, heading, body }) => ({ anchor, heading, body }))).toEqual([
+            {
+                anchor: 'todo-0-1',
+                heading: 'Record authority',
+                body: 'Not started Accept choices only within server declarations.',
+            },
+            {
+                anchor: 'todo-0-2',
+                heading: 'Define schema',
+                body: 'Completed Validate typed inputs.',
+            },
+            { anchor: 'todo-0-3', heading: 'Verify failures', body: 'WIP Reject unknown fields.' },
+            {
+                anchor: 'todo-0-4',
+                heading: 'Build queries',
+                body: 'Not started Preserve mandatory scopes.',
+            },
+        ]);
+    });
+
+    it('keeps roadmap phase prose and surrounding content at their owning destinations', () => {
+        const setup = fixture({
+            'pages/docs/Fixture.vue': `<script setup>
+import Phase from '@/components/docs/RoadmapPhase.vue';
+import Task from '@/components/docs/RoadmapItem.vue';
+</script><template>
+<h2 id="delivery">Delivery plan</h2>
+<p>Start with the accepted proposal.</p>
+<Phase id="phase-0" title="Settle the contract">
+<p>Agree on the request contract.</p>
+<ol><li><Task id="todo-0-1" title="Define the schema"><p>Validate typed inputs.</p></Task></li></ol>
+<p>Exit when the contract has acceptance evidence.</p>
+</Phase>
+<p>Continue with the next delivery phase.</p>
+<Phase id="phase-1" title="Build the backend">
+<p>Implement the agreed contract.</p>
+<Task id="todo-1-1" title="Build the pipeline"><p>Preserve mandatory scopes.</p></Task>
+<p>Exit when the backend satisfies its contract.</p>
+</Phase>
+<p>Review the whole delivery plan.</p>
+<h2 id="verification">Verification</h2><p>Run the acceptance suite.</p>
+</template>`,
+        });
+        const documents = setup.extract();
+        expect(documents.map(({ anchor }) => anchor)).toEqual([
+            null,
+            'delivery',
+            'phase-0',
+            'todo-0-1',
+            'phase-1',
+            'todo-1-1',
+            'verification',
+        ]);
+        const section = (anchor) => documents.find((document) => document.anchor === anchor);
+        expect(section('phase-0').body).toBe(
+            'Not started 0 of 1 tasks completed 0% Agree on the request contract. Exit when the contract has acceptance evidence.',
+        );
+        expect(section('delivery').body).toBe(
+            'Start with the accepted proposal. Continue with the next delivery phase. Review the whole delivery plan.',
+        );
+        expect(section('todo-0-1').body).toBe('Not started Validate typed inputs.');
+        expect(section('phase-1').body).toBe(
+            'Not started 0 of 1 tasks completed 0% Implement the agreed contract. Exit when the backend satisfies its contract.',
+        );
+        expect(section('todo-1-1').body).toBe('Not started Preserve mandatory scopes.');
+        expect(section('verification').body).toBe('Run the acceptance suite.');
+        expect(section(null).body).toBe('Learn the package.');
+        for (const document of documents) {
+            expect(Object.keys(document).sort()).toEqual([
+                'anchor',
+                'body',
+                'heading',
+                'packageTitle',
+                'slug',
+                'title',
+            ]);
+        }
+    });
+
+    it.each([
+        ['id="todo-0-1"', 'nonempty static title'],
+        ['id="todo-0-1" title=" "', 'nonempty static title'],
+        ['title="Task"', 'stable lowercase ID'],
+        ['id=" " title="Task"', 'stable lowercase ID'],
+        ['id="Task ID" title="Task"', 'stable lowercase ID'],
+        ['id="todo-0-1" title="Task" done="false"', 'uses status instead of done'],
+        ['id="todo-0-1" title="Task" status="done"', 'status must be'],
+        ['id="todo-0-1" title="Task" status', 'status must be'],
+        ['id="todo-0-1" title="Task" status="toString"', 'status must be'],
+        ['id="todo-0-1" title="Task" :status="1"', 'status must be'],
+        ['id="todo-0-1" :title="fetch(\'/private\')"', 'unsupported CallExpression'],
+        ['id="todo-0-1" title="Task" :status="fetch(\'/private\')"', 'unsupported CallExpression'],
+        ['id="todo-0-1" :title="1"', 'nonempty static title'],
+    ])('rejects invalid roadmap metadata %s', (attributes, message) => {
+        const setup = fixture({
+            'pages/docs/Fixture.vue': `<script setup>import RoadmapItem from '@/components/docs/RoadmapItem.vue';</script><template><RoadmapItem ${attributes}><p>Task detail.</p></RoadmapItem></template>`,
+        });
+        expect(() => setup.extract()).toThrow(message);
+    });
+
+    it.each([
+        ['', 'Not started 0 of 0 tasks completed 0%'],
+        ['not_started', 'Not started 0 of 1 tasks completed 0%'],
+        ['in_progress', 'WIP 0 of 1 tasks completed 0%'],
+        ['completed', 'Completed 1 of 1 tasks completed 100%'],
+    ])('indexes phase progress for authored state %s', (status, expected) => {
+        const setup = fixture({
+            'pages/docs/Fixture.vue': `<script setup>
+import Phase from '@/components/docs/RoadmapPhase.vue';
+import Task from '@/components/docs/RoadmapItem.vue';
+</script><template><Phase id="phase-0" title="Settle the contract">${status ? `<ol><li><Task id="todo-0-1" title="Record authority" status="${status}"><p>Task evidence.</p></Task></li></ol>` : ''}</Phase></template>`,
+        });
+        expect(setup.extract().find(({ anchor }) => anchor === 'phase-0').body).toBe(expected);
+    });
+
+    it.each([
+        ['id="phase-0"', '<p>Task evidence.</p>', 'nonempty static title'],
+        ['title="Phase"', '<p>Task evidence.</p>', 'stable lowercase ID'],
+        ['id="Phase ID" title="Phase"', '', 'stable lowercase ID'],
+        ['id="phase-0" title="Phase" status="completed"', '', 'derives status'],
+        [
+            'id="phase-0" title="Phase"',
+            '<template #default="state">{{state}}</template>',
+            'authored default slot',
+        ],
+        [
+            'id="phase-0" title="Phase"',
+            '<template #summary>Other summary</template>',
+            'authored default slot',
+        ],
+    ])('rejects invalid phase metadata or slots %s', (attributes, content, message) => {
+        const setup = fixture({
+            'pages/docs/Fixture.vue': `<script setup>import Phase from '@/components/docs/RoadmapPhase.vue';</script><template><Phase ${attributes}>${content}</Phase></template>`,
+        });
+        expect(() => setup.extract()).toThrow(message);
+    });
+
+    it('rejects duplicate task destinations', () => {
+        const setup = fixture({
+            'pages/docs/Fixture.vue': `<script setup>import Task from '@/components/docs/RoadmapItem.vue';</script><template><Task id="todo-0-1" title="First" /><Task id="todo-0-1" title="Second" /></template>`,
+        });
+        expect(() => setup.extract()).toThrow('Duplicate search anchor todo-0-1');
+    });
+
+    it.each([
+        '<template #summary>Other summary</template>',
+        '<template #default="state">{{state}}</template>',
+    ])('rejects unsupported roadmap slots %s', (content) => {
+        const setup = fixture({
+            'pages/docs/Fixture.vue': `<script setup>import Task from '@/components/docs/RoadmapItem.vue';</script><template><Task id="todo-0-1" title="First">${content}</Task></template>`,
+        });
+        expect(() => setup.extract()).toThrow('authored default slot');
     });
 
     it('indexes the same installed command through nested props and slots after a dependency refresh', () => {
@@ -191,6 +365,83 @@ const code = 'import { Rating } from "@artisan-toolbox/front-awesome/components/
         });
         expect(setup.extract()[0].body).toBe(
             'Learn the package. Example use ArtisanToolbox\\Core\\Sift;',
+        );
+    });
+
+    it('indexes the displayed PHP source without executing the imported example', () => {
+        const code = '<?php throw new RuntimeException("Never execute searchable examples");';
+        const setup = fixture({
+            '../../app/DataSources/Quickstart.php': code,
+            'pages/docs/Fixture.vue': `<script setup>import CodeExample from '@/components/docs/CodeExample.vue'; import code from '../../../../app/DataSources/Quickstart.php?raw';</script><template><CodeExample label="Quickstart" :code="code" /></template>`,
+        });
+        expect(setup.extract()[0].body).toBe(`Learn the package. Quickstart ${code}`);
+        setup.write('../../app/DataSources/Quickstart.php', '<?php return "Updated source";');
+        expect(setup.extract()[0].body).toContain('Updated source');
+    });
+
+    it('indexes checked Dapter TypeScript references without executing them', () => {
+        const code = 'export type ProtocolVersion = 2; throw new Error("Never execute");';
+        const setup = fixture({
+            '../../app/DataSources/Allowed.php': '<?php return [];',
+            'pages/docs/dapter/design/reference/operations.ts': code,
+            'pages/docs/Fixture.vue': `<script setup>import CodeExample from '@/components/docs/CodeExample.vue'; import code from './dapter/design/reference/operations.ts?raw';</script><template><CodeExample label="Planned operations" :code="code" /></template>`,
+        });
+        expect(setup.extract()[0].body).toBe(`Learn the package. Planned operations ${code}`);
+    });
+
+    it.each([
+        'pages/docs/dapter/design/private.ts',
+        'pages/docs/dapter/design/reference/nested/private.ts',
+        'pages/docs/dapter/design/reference/private.json',
+    ])('rejects raw source outside the checked reference boundary %s', (path) => {
+        const setup = fixture({
+            '../../app/DataSources/Allowed.php': '<?php return [];',
+            [path]: 'Private fixture',
+            'pages/docs/Fixture.vue': `<script setup>import CodeExample from '@/components/docs/CodeExample.vue'; import code from '../../${path}?raw';</script><template><CodeExample label="Example" :code="code" /></template>`,
+        });
+        expect(() => setup.extract()).toThrow('Raw searchable examples must be PHP sources');
+    });
+
+    it('rejects a TypeScript reference symlink exposing other source', () => {
+        const setup = fixture({
+            '../../app/DataSources/Allowed.php': '<?php return [];',
+            'pages/docs/dapter/design/private.ts': 'Private fixture',
+            'pages/docs/Fixture.vue': `<script setup>import CodeExample from '@/components/docs/CodeExample.vue'; import code from './dapter/design/reference/link.ts?raw';</script><template><CodeExample label="Example" :code="code" /></template>`,
+        });
+        mkdirSync(resolve(setup.root, 'resources/js/pages/docs/dapter/design/reference'));
+        symlinkSync(
+            resolve(setup.root, 'resources/js/pages/docs/dapter/design/private.ts'),
+            resolve(setup.root, 'resources/js/pages/docs/dapter/design/reference/link.ts'),
+        );
+        expect(() => setup.extract()).toThrow('Raw searchable examples must be PHP sources');
+    });
+
+    it.each(['../../app/Private.php', '../../app/DataSources/Private.json'])(
+        'rejects a raw searchable import outside the PHP example boundary %s',
+        (path) => {
+            const setup = fixture({
+                '../../app/DataSources/Allowed.php': '<?php return [];',
+                [path]: 'Private fixture',
+                'pages/docs/Fixture.vue': `<script setup>import CodeExample from '@/components/docs/CodeExample.vue'; import code from '../../${path}?raw';</script><template><CodeExample label="Example" :code="code" /></template>`,
+            });
+            expect(() => setup.extract()).toThrow(
+                'Raw searchable examples must be PHP sources inside app/DataSources or TypeScript files directly inside the Dapter design reference directory.',
+            );
+        },
+    );
+
+    it('rejects a symlink that exposes PHP outside the example source directory', () => {
+        const setup = fixture({
+            '../../app/DataSources/Allowed.php': '<?php return [];',
+            '../../app/Private.php': 'Private fixture',
+            'pages/docs/Fixture.vue': `<script setup>import CodeExample from '@/components/docs/CodeExample.vue'; import code from '../../../../app/DataSources/Link.php?raw';</script><template><CodeExample label="Example" :code="code" /></template>`,
+        });
+        symlinkSync(
+            resolve(setup.root, 'app/Private.php'),
+            resolve(setup.root, 'app/DataSources/Link.php'),
+        );
+        expect(() => setup.extract()).toThrow(
+            'Raw searchable examples must be PHP sources inside app/DataSources or TypeScript files directly inside the Dapter design reference directory.',
         );
     });
 

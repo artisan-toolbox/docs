@@ -16,7 +16,7 @@ final readonly class FrontAwesomePreferencesReferencePage extends Page
             slug: self::SLUG,
             component: 'docs/front-awesome/PreferencesReference',
             title: 'Preferences reference',
-            description: 'Look up preference contracts, validation, storage, session behavior, and timezone semantics.',
+            description: 'Look up preference contracts, validation, persistent cookies, session migration, and timezone semantics.',
             sourcePath: 'resources/js/pages/docs/front-awesome/PreferencesReference.vue',
             package: new FrontAwesomePackage,
         );

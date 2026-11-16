@@ -2,6 +2,7 @@ import { readFileSync, realpathSync } from 'node:fs';
 import { dirname, relative, resolve, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { babelParse, parse } from 'vue/compiler-sfc';
+import { roadmapStatuses, summarizeRoadmap } from '../resources/js/lib/roadmap.js';
 
 const NodeType = {
     element: 1,
@@ -189,6 +190,27 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
             slots,
             lookup(name, node) {
                 if (Object.hasOwn(props, name)) return props[name];
+                const imported = component.imports.get(name);
+                if (imported?.endsWith('?raw')) {
+                    const file = realpathSync(
+                        resolve(dirname(component.file), imported.slice(0, -4)),
+                    );
+                    const examplesRoot = realpathSync(resolve(root, 'app/DataSources'));
+                    const referenceRoot = resolve(
+                        realpathSync(root),
+                        'resources/js/pages/docs/dapter/design/reference',
+                    );
+                    const phpExample =
+                        !relative(examplesRoot, file).startsWith('..') && file.endsWith('.php');
+                    const typedReference = dirname(file) === referenceRoot && file.endsWith('.ts');
+                    if (!phpExample && !typedReference)
+                        fail(
+                            component.file,
+                            node,
+                            'Raw searchable examples must be PHP sources inside app/DataSources or TypeScript files directly inside the Dapter design reference directory.',
+                        );
+                    return readFileSync(file, 'utf8');
+                }
                 if (!component.bindings.has(name))
                     fail(component.file, node, `Unresolved searchable binding ${name}.`);
                 if (resolving.has(name))
@@ -227,14 +249,18 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
             chunks: [page.description],
         };
         function flush() {
-            pageDocuments.push({
-                slug: page.slug,
-                title: page.title,
-                packageTitle: page.packageTitle,
-                heading: current.heading,
-                anchor: current.anchor,
-                body: normalized(current.chunks.join(' ')),
-            });
+            if (!current.record) {
+                current.record = {
+                    slug: page.slug,
+                    title: page.title,
+                    packageTitle: page.packageTitle,
+                    heading: current.heading,
+                    anchor: current.anchor,
+                    body: '',
+                };
+                pageDocuments.push(current.record);
+            }
+            current.record.body = normalized(current.chunks.join(' '));
         }
         function heading(title, anchor, component, node) {
             if (typeof title !== 'string' || typeof anchor !== 'string' || !anchor)
@@ -286,6 +312,34 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
                 ...stack,
                 component.file,
             ]);
+        }
+        function roadmapStatus(node, scope, component) {
+            const status = attribute(node, 'status', scope, component, 'not_started');
+            if (typeof status !== 'string' || !Object.hasOwn(roadmapStatuses, status))
+                fail(
+                    component.file,
+                    node,
+                    'RoadmapItem status must be not_started, in_progress, or completed.',
+                );
+            if (attribute(node, 'done', scope, component) !== null)
+                fail(component.file, node, 'RoadmapItem uses status instead of done.');
+            return status;
+        }
+        function phaseTaskStatuses(nodes, scope, component) {
+            return nodes.flatMap((node) => {
+                if (node.type !== NodeType.element) return [];
+                const imported = component.imports.get(node.tag);
+                const importedFile = imported?.endsWith('.vue')
+                    ? imported.startsWith('@/')
+                        ? resolve(sourceRoot, imported.slice(2))
+                        : resolve(dirname(component.file), imported)
+                    : null;
+                if (importedFile === resolve(sourceRoot, 'components/docs/RoadmapItem.vue')) {
+                    assertStatic(node, component);
+                    return [roadmapStatus(node, scope, component)];
+                }
+                return phaseTaskStatuses(node.children ?? [], scope, component);
+            });
         }
         function visit(nodes, scope, component, stack) {
             for (const node of nodes) {
@@ -340,6 +394,71 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
                 if (ignoredComponents.has(name) || imported?.includes('/components/demo/'))
                     continue;
                 assertStatic(node, component);
+                const roadmapComponent =
+                    importedFile === resolve(sourceRoot, 'components/docs/RoadmapItem.vue')
+                        ? 'RoadmapItem'
+                        : importedFile === resolve(sourceRoot, 'components/docs/RoadmapPhase.vue')
+                          ? 'RoadmapPhase'
+                          : null;
+                if (roadmapComponent) {
+                    const title = attribute(node, 'title', scope, component);
+                    const id = attribute(node, 'id', scope, component);
+                    if (typeof title !== 'string' || !title.trim())
+                        fail(
+                            component.file,
+                            node,
+                            `${roadmapComponent} needs a nonempty static title.`,
+                        );
+                    if (typeof id !== 'string' || !/^[a-z][a-z0-9-]*$/u.test(id))
+                        fail(
+                            component.file,
+                            node,
+                            `${roadmapComponent} needs a stable lowercase ID.`,
+                        );
+                    const parent = current;
+                    heading(title, id, component, node);
+                    if (roadmapComponent === 'RoadmapItem') {
+                        append(roadmapStatuses[roadmapStatus(node, scope, component)].label);
+                    } else {
+                        if (attribute(node, 'status', scope, component) !== null)
+                            fail(
+                                component.file,
+                                node,
+                                'RoadmapPhase derives status from its tasks.',
+                            );
+                        const summary = summarizeRoadmap(
+                            phaseTaskStatuses(node.children, scope, component),
+                        );
+                        append([
+                            roadmapStatuses[summary.status].label,
+                            `${summary.completed} of ${summary.total} tasks completed`,
+                            `${Math.round(summary.progress)}%`,
+                        ]);
+                    }
+                    const slots = [node, ...node.children].flatMap((child) =>
+                        (child.props ?? []).filter(
+                            (property) =>
+                                property.type === NodeType.directive && property.name === 'slot',
+                        ),
+                    );
+                    if (
+                        slots.some(
+                            (slot) =>
+                                slot.exp ||
+                                (slot.arg &&
+                                    (!slot.arg.isStatic || slot.arg.content !== 'default')),
+                        )
+                    )
+                        fail(
+                            component.file,
+                            node,
+                            `${roadmapComponent} needs an authored default slot.`,
+                        );
+                    visit(node.children, scope, component, stack);
+                    flush();
+                    current = parent;
+                    continue;
+                }
                 if (
                     importedFile ===
                         resolve(

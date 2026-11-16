@@ -13,9 +13,15 @@ const model = `<?php
 namespace App\\Models;
 
 use ArtisanToolbox\\Filoquent\\Casts\\AsFile;
+use ArtisanToolbox\\Filoquent\\Assets;
 use ArtisanToolbox\\Filoquent\\Concerns\\HasFiloquent;
 use Illuminate\\Database\\Eloquent\\Model;
+use Illuminate\\Http\\UploadedFile;
 
+/**
+ * @property-read Assets|null $attachment
+ * @property-write UploadedFile|string|null $attachment
+ */
 class Document extends Model
 {
     use HasFiloquent;

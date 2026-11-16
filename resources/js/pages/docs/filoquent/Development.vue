@@ -97,12 +97,21 @@ const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
                     sequentially when they use the same checkout.
                 </p>
                 <p>
-                    PHPStan starts at <code>2.3.5</code>, and the Pest type-coverage plugin starts
-                    at <code>5.1</code>. Earlier analyzer versions report invalid generic errors,
-                    and the earlier coverage plugin cannot construct PHPUnit 13's configuration
-                    builder. Rector starts at <code>2.8.4</code> with its Laravel extension at
-                    <code>2.7.3</code> so their parser and Composer-based rules remain compatible.
-                    Keep both lowest and stable dependency lanes enabled.
+                    PHPStan starts at <code>2.3.5</code> and stays below <code>2.3.6</code> while
+                    Pest type-coverage plugin <code>5.1.0</code> calls the removed
+                    <code>AnalyserResult::getCollectedData()</code> method. This upper bound applies
+                    only to the package checkout's development dependencies. It does not restrict a
+                    consuming application's analyzer. Remove the bound only after verifying a
+                    compatible pair with <code>composer test:types</code>. Keep the uncached
+                    <code>--min=100</code> requirement.
+                </p>
+                <p>
+                    The Pest type-coverage plugin starts at <code>5.1</code>. Earlier analyzer
+                    versions report invalid generic errors, and the earlier coverage plugin cannot
+                    construct PHPUnit 13's configuration builder. Rector starts at
+                    <code>2.8.4</code> with its Laravel extension at <code>2.7.3</code> so their
+                    parser and Composer-based rules remain compatible. Keep both lowest and stable
+                    dependency lanes enabled.
                 </p>
                 <CodeExample label="Run PHPStan through Maintainer" :code="staticAnalysis" />
             </ProseSection>
@@ -131,6 +140,21 @@ const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
                     random owned database per PHP worker, resets its tables between tests, and drops
                     that owned database at shutdown. It does not use the base database for test
                     tables.
+                </p>
+                <p>
+                    Each native application lifecycle explicitly disconnects its managed database
+                    connections after dependent teardown callbacks finish. This includes
+                    late-created aliases and separate reader and writer handles. Cleanup does not
+                    depend on PHP garbage collection, so retained model or callback references
+                    cannot accumulate PostgreSQL sessions. The worker's independent administration
+                    connection remains available until its owned database is dropped at process
+                    shutdown. Keep the server's normal connection limit and the two-worker suite.
+                </p>
+                <p>
+                    Final disposal detaches each connection's transaction manager before closing its
+                    PDO handles. This avoids replaying rollback notifications after the test has
+                    already checked their failure behavior. Application cleanup still uses the
+                    original database manager when a test replaces the DB facade with a mock.
                 </p>
                 <p>
                     Run the following commands in a Linux shell from the package root after the

@@ -121,7 +121,19 @@ formatDate(new Date('2026-11-10T12:00:00Z'), {
             <p>
                 Append the middleware to the web group. It reads the active store, selects the
                 Laravel request locale, and shares <code>preferences</code> with Inertia. The
-                default store uses the current Laravel session. Reading defaults never saves them.
+                default store uses persistent encrypted cookies. Session expiry does not reset saved
+                choices. Reading defaults never saves them.
+            </p>
+            <p>
+                Persistent cookie storage is available starting with Front Awesome
+                <code>1.0.0-beta.2</code>. Version <code>1.0.0-beta.1</code> and earlier use session
+                storage by default. For existing applications, follow the upgrade steps in the
+                <DocsLink
+                    :href="
+                        findNavigationItem(navigation, 'front-awesome/preferences/reference').href
+                    "
+                    >storage reference</DocsLink
+                >.
             </p>
             <CodeExample label="Append request preferences" language="php" :code="middleware" />
             <p>
@@ -135,9 +147,10 @@ formatDate(new Date('2026-11-10T12:00:00Z'), {
                 language="blade"
                 :code="blade" />
             <p>
-                A new session starts with <code>system</code> appearance, a supported language
-                negotiated from <code>Accept-Language</code> with <code>app.locale</code> as
-                fallback, and <code>app.timezone</code> as its display timezone.
+                A browser without saved preferences starts with <code>system</code> appearance, a
+                supported language negotiated from <code>Accept-Language</code> with
+                <code>app.locale</code> as fallback, and <code>app.timezone</code> as its display
+                timezone.
             </p>
         </ProseSection>
         <ProseSection id="install-browser-service" title="Install the browser service">
@@ -206,8 +219,8 @@ formatDate(new Date('2026-11-10T12:00:00Z'), {
                 language="php"
                 :code="provider" />
             <p>
-                Guests continue to use their session. Signed-in users use their own account values
-                and defaults. Guest preferences are never automatically copied into an account. The
+                Guests use persistent cookies. Signed-in users use their own account values and
+                defaults. Guest preferences are never automatically copied into an account. The
                 trait keeps unrelated JSON values and hides the storage column from normal model
                 serialization.
             </p>

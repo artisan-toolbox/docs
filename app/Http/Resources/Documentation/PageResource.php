@@ -17,6 +17,11 @@ final class PageResource extends JsonResource
     /** @return array<string, mixed> */
     public function toArray(Request $request): array
     {
+        $destinations = [];
+        foreach ($this->page->fragmentDestinations() as $fragment => $slug) {
+            $destinations[$fragment] = $slug->url().'#'.$fragment;
+        }
+
         return [
             'slug' => $this->page->slug->value,
             'component' => $this->page->component,
@@ -29,6 +34,7 @@ final class PageResource extends JsonResource
                 ? null
                 : (new PackageResource($this->page->package))->resolve($request),
             'requirements' => $this->page->package->requirements ?? [],
+            'fragmentDestinations' => (object) $destinations,
         ];
     }
 }

@@ -12,10 +12,16 @@ defineProps({
 
 const configuration = `'preferences' => [
     'key' => 'preferences',
-    'store' => \\ArtisanToolbox\\FrontAwesome\\Preferences\\Stores\\SessionPreferenceStore::class,
+    'store' => \\ArtisanToolbox\\FrontAwesome\\Preferences\\Stores\\CookiePreferenceStore::class,
+    'cookie_lifetime' => 525600,
     'guard' => null,
     'carbon_macro' => true,
 ],`;
+const sessionStorage = `use ArtisanToolbox\\FrontAwesome\\FrontAwesome;
+use ArtisanToolbox\\FrontAwesome\\Preferences\\Stores\\SessionPreferenceStore;
+
+// In AppServiceProvider::boot():
+FrontAwesome::setPreferenceStore(SessionPreferenceStore::class);`;
 const contract = `namespace ArtisanToolbox\\FrontAwesome\\Preferences\\Contracts;
 
 use Illuminate\\Http\\Request;
@@ -43,6 +49,11 @@ const modelContract = `interface HasPreferences
         <PackageGuideHeader :page="page" />
         <ProseSection id="configuration" title="Configuration">
             <p>
+                Persistent cookie storage is available starting with Front Awesome
+                <code>1.0.0-beta.2</code>. Version <code>1.0.0-beta.1</code> and earlier default to
+                <code>SessionPreferenceStore</code>.
+            </p>
+            <p>
                 These Front Awesome beta settings belong to
                 <code>config/front-awesome.php</code>. Follow the
                 <DocsLink :href="findNavigationItem(navigation, 'front-awesome/preferences').href"
@@ -53,17 +64,16 @@ const modelContract = `interface HasPreferences
             <CodeExample label="Preference defaults" language="php" :code="configuration" />
             <p>
                 <code>key</code> names both the user's JSON column and the top-level Inertia prop.
-                It also namespaces session storage. Use the same configured value everywhere, even
-                when you use the session store. Choose an unused ASCII identifier with a letter or
-                underscore first and at most 63 characters. Dotted paths and prototype keys are
-                rejected.
+                It also namespaces cookies and session storage. Use the same configured value
+                everywhere. Choose an unused ASCII identifier with a letter or underscore first and
+                at most 63 characters. Dotted paths and prototype keys are rejected.
             </p>
             <p>
                 <code>store</code> selects a concrete <code>PreferencesStore</code> class or an
                 authenticatable Eloquent model implementing <code>HasPreferences</code>.
                 <code>FrontAwesome::setPreferenceStore()</code> sets this option through a public
                 registration API. Selection is explicit. Merely implementing the model contract does
-                not change the default session store.
+                not change the default cookie store.
             </p>
             <p>
                 <code>guard</code> defaults to <code>null</code>, which uses the request's default
@@ -78,14 +88,78 @@ const modelContract = `interface HasPreferences
                 application timezone outside a preference-aware request.
             </p>
         </ProseSection>
+        <ProseSection id="cookie-storage" title="Persistent browser storage">
+            <p>
+                The default <code>CookiePreferenceStore</code> stores appearance, locale, timezone,
+                and currency in separate cookies. Each write changes only its own cookie, so
+                overlapping writes to different preferences do not replace each other. Concurrent
+                writes to the same preference still follow response arrival order.
+            </p>
+            <p>
+                <code>cookie_lifetime</code> is a positive integer number of minutes, defaulting to
+                <code>525600</code> (365 days) from the most recent write to that preference. Reads
+                do not renew expiration. Zero, negative, and noninteger lifetimes are rejected.
+                Missing cookies use negotiated defaults without saving them. Clearing currency
+                expires its cookie. Browser storage policies or clearing site data can remove
+                cookies earlier.
+            </p>
+            <p>
+                Keep Laravel's <code>EncryptCookies</code> and
+                <code>AddQueuedCookiesToResponse</code> middleware in the <code>web</code> group.
+                Cookies are encrypted and signed by Laravel, always HttpOnly, and inherit its cookie
+                jar defaults from <code>session.path</code>, <code>session.domain</code>,
+                <code>session.secure</code>, and <code>session.same_site</code>. The backend reads
+                preferences before rendering the Blade appearance script; no browser storage
+                controller is needed. Session lifetime and login expiration remain independent.
+            </p>
+            <p>
+                Names follow <code>{session.cookie}_front_awesome_{preferences.key}_{field}</code>.
+                Keep <code>session.cookie</code> distinct between applications sharing a cookie
+                scope. Changing that name or <code>preferences.key</code> selects a different
+                namespace.
+            </p>
+            <p>
+                For a local check, select Dark in the preferences demo, then remove only the Laravel
+                session cookie in browser developer tools. Reload the page. Appearance remains
+                <code>dark</code> while Laravel creates a new session. Removing the appearance
+                preference cookie restores <code>system</code> on the next request.
+            </p>
+        </ProseSection>
+        <ProseSection id="upgrade-session-storage" title="Upgrade from session storage">
+            <p>
+                Applications without an explicit store selection use cookies after upgrading to
+                <code>1.0.0-beta.2</code> or later. If published configuration still selects
+                <code>SessionPreferenceStore</code>, change <code>preferences.store</code> to
+                <code>CookiePreferenceStore::class</code>. Add <code>cookie_lifetime</code> only to
+                override the merged default. No database migration or frontend change is required.
+            </p>
+            <p>
+                On the first preference-aware request, the cookie store moves existing string
+                preferences from an active legacy session into cookies and removes their session
+                fields. An existing cookie takes priority and clears its legacy session field.
+                Expired sessions cannot be recovered. Account values remain in the configured model
+                and are never copied into guest cookies.
+            </p>
+            <p>
+                For temporary preferences, explicitly select <code>SessionPreferenceStore</code>. It
+                preserves the original behavior: session regeneration retains choices; invalidation
+                or expiry clears them. Its whole-session writes still require Laravel session
+                blocking on all participating routes to avoid stale writes between tabs.
+            </p>
+            <CodeExample
+                label="Keep temporary session preferences"
+                language="php"
+                :code="sessionStorage" />
+        </ProseSection>
         <ProseSection id="storage-contracts" title="Storage contracts">
             <CodeExample label="Request-aware storage contract" language="php" :code="contract" />
             <p>
                 Getters return the saved string or <code>null</code>. Missing or invalid saved
-                values use defaults without a write. The HTTP boundary validates setters before
-                invoking your store. Direct application calls to a custom store remain your
-                responsibility. Stores must use the supplied request and must not retain a previous
-                request, user, or resolved preference in process-global state.
+                values use defaults. Existing cookie values are not rewritten when invalid; active
+                legacy session strings are migrated as described above. The HTTP boundary validates
+                setters before invoking your store. Direct application calls to a custom store
+                remain your responsibility. Stores must use the supplied request and must not retain
+                a previous request, user, or resolved preference in process-global state.
             </p>
             <CodeExample
                 label="Authenticated model contract"
@@ -103,7 +177,7 @@ const modelContract = `interface HasPreferences
                 Only the four public preferences are shared. The trait hides the JSON column from
                 ordinary model serialization, including an <code>auth.user</code> prop. A custom
                 model implementation must keep private metadata out of its own serialization. No
-                stored preferences are copied between users or promoted from a guest session.
+                stored preferences are copied between users or promoted from guest cookies.
             </p>
         </ProseSection>
         <ProseSection id="defaults-and-validation" title="Defaults and validation">
@@ -237,13 +311,16 @@ const modelContract = `interface HasPreferences
             <p>
                 The session cookie normally identifies a server-side session. The cookie driver
                 stores its encrypted data in cookies. The array driver does not persist across
-                ordinary requests. <code>session()->regenerate()</code> changes the session ID while
-                preserving preferences. <code>session()->invalidate()</code> clears them. Use
-                Laravel's documented logout flow to invalidate a guest session after logout.
+                ordinary requests. With <code>SessionPreferenceStore</code>,
+                <code>session()->regenerate()</code> retains preferences and
+                <code>session()->invalidate()</code> clears them. Persistent preference cookies are
+                separate from every session driver and survive either operation. Follow Laravel's
+                logout flow to invalidate the authentication session without extending its lifetime.
             </p>
             <p>
-                Laravel saves complete session payloads. Serial writes in one tab do not guarantee
-                concurrent cross-tab durability. Hosts that need this guarantee must configure
+                Laravel saves complete session payloads. With <code>SessionPreferenceStore</code>,
+                serial writes in one tab do not guarantee concurrent cross-tab durability. Hosts
+                that need this guarantee must configure
                 <a href="https://laravel.com/docs/13.x/session#session-blocking"
                     >session blocking</a
                 >

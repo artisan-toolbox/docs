@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2a7c17e79c8cc9325eb0dffa13c4336e",
+    "content-hash": "dd829fba861b5bb2ba73d791c3f2d72a",
     "packages": [
         {
             "name": "artisan-toolbox/core",
@@ -87,6 +87,137 @@
             ],
             "time": "2026-11-06T19:44:12+00:00",
             "published-time": "2026-11-06T19:44:18+00:00"
+        },
+        {
+            "name": "artisan-toolbox/dapter",
+            "version": "1.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "/Users/allancarvalho/ArtisanToolbox/dapter",
+                "reference": "28c10df9d4a78b2e6badb33033df5d4767838008"
+            },
+            "require": {
+                "artisan-toolbox/maintainer": "^1.10.0",
+                "illuminate/support": "^13.0",
+                "inertiajs/inertia-laravel": "^3.0",
+                "php": "^8.5"
+            },
+            "require-dev": {
+                "driftingly/rector-laravel": "^2.7.3",
+                "larastan/larastan": "^3.9",
+                "laravel/pao": "^1.0",
+                "laravel/pint": "^1.29",
+                "orchestra/testbench": "^11.0",
+                "pestphp/pest": "^5.0",
+                "pestphp/pest-plugin-laravel": "^5.0",
+                "pestphp/pest-plugin-phpstan": "^5.3",
+                "pestphp/pest-plugin-type-coverage": "^5.1",
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan": "^2.3.5",
+                "phpstan/phpstan-mockery": "^2.0",
+                "rector/rector": "^2.8.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ArtisanToolbox\\Dapter\\DapterServiceProvider"
+                    ],
+                    "aliases": {
+                        "Dapter": "ArtisanToolbox\\Dapter\\Facades\\Dapter"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ArtisanToolbox\\Dapter\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "ArtisanToolbox\\Dapter\\Tests\\": "tests/",
+                    "Workbench\\App\\": "workbench/app/",
+                    "Workbench\\Database\\Factories\\": "workbench/database/factories/",
+                    "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
+                }
+            },
+            "scripts": {
+                "post-autoload-dump": [
+                    "@clear",
+                    "@prepare"
+                ],
+                "prepare": [
+                    "@php vendor/bin/testbench package:discover --ansi"
+                ],
+                "build": [
+                    "@php vendor/bin/testbench workbench:build --ansi"
+                ],
+                "serve": [
+                    "Composer\\Config::disableProcessTimeout",
+                    "@build",
+                    "@php vendor/bin/testbench serve --ansi"
+                ],
+                "lint": [
+                    "@php vendor/bin/pint --parallel"
+                ],
+                "lint:check": [
+                    "@php vendor/bin/pint --parallel --test"
+                ],
+                "analyse": [
+                    "@php vendor/bin/phpstan analyse"
+                ],
+                "test:types": [
+                    "@php vendor/bin/pest --type-coverage --min=100"
+                ],
+                "test:unit": [
+                    "@php vendor/bin/pest"
+                ],
+                "test": [
+                    "@analyse",
+                    "@lint:check",
+                    "@test:types",
+                    "@test:unit"
+                ],
+                "clear": [
+                    "@php vendor/bin/testbench package:purge-skeleton --ansi"
+                ],
+                "quality:check": [
+                    "Composer\\Config::disableProcessTimeout",
+                    "@php vendor/bin/maintainer quality:check --no-interaction"
+                ],
+                "quality:fix": [
+                    "Composer\\Config::disableProcessTimeout",
+                    "@php vendor/bin/maintainer quality:fix --no-interaction"
+                ],
+                "distribution:check": [
+                    "@composer archive --format=zip --dir=build/distribution --file=dapter-preview",
+                    "@php scripts/check-composer-distribution.php"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Allan Mariucci Carvalho",
+                    "email": "contact@atb.dev.br",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Data adapter foundations for Laravel and Inertia applications.",
+            "homepage": "https://github.com/artisan-toolbox/dapter",
+            "keywords": [
+                "artisan-toolbox",
+                "dapter",
+                "filtering",
+                "inertia",
+                "laravel",
+                "pagination"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": false
+            }
         },
         {
             "name": "artisan-toolbox/dump-to-console",
@@ -172,16 +303,16 @@
         },
         {
             "name": "artisan-toolbox/filoquent",
-            "version": "1.0.0-beta.3",
+            "version": "1.0.0-beta.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/filoquent.git",
-                "reference": "4acf9af8bdfa1715ece2acf36044e534bd5e1255"
+                "reference": "a2d70f6b5cb28b17be978741242c2cdd0cc465f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/filoquent/zipball/4acf9af8bdfa1715ece2acf36044e534bd5e1255",
-                "reference": "4acf9af8bdfa1715ece2acf36044e534bd5e1255",
+                "url": "https://api.github.com/repos/artisan-toolbox/filoquent/zipball/a2d70f6b5cb28b17be978741242c2cdd0cc465f8",
+                "reference": "a2d70f6b5cb28b17be978741242c2cdd0cc465f8",
                 "shasum": ""
             },
             "require": {
@@ -209,7 +340,7 @@
                 "pestphp/pest-plugin-phpstan": "^5.3",
                 "pestphp/pest-plugin-type-coverage": "^5.1",
                 "phpstan/extension-installer": "^1.4",
-                "phpstan/phpstan": "^2.3.5",
+                "phpstan/phpstan": "^2.3.5 <2.3.6",
                 "phpstan/phpstan-mockery": "^2.0",
                 "rector/rector": "^2.8.4"
             },
@@ -251,23 +382,23 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/filoquent/issues",
-                "source": "https://github.com/artisan-toolbox/filoquent/tree/1.0.0-beta.3"
+                "source": "https://github.com/artisan-toolbox/filoquent/tree/1.0.0-beta.4"
             },
-            "time": "2026-11-13T17:16:28+00:00",
-            "published-time": "2026-11-13T17:16:34+00:00"
+            "time": "2026-11-16T18:05:25+00:00",
+            "published-time": "2026-11-16T18:05:31+00:00"
         },
         {
             "name": "artisan-toolbox/front-awesome",
-            "version": "1.0.0-beta.1",
+            "version": "1.0.0-beta.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/front-awesome.git",
-                "reference": "79c3155fbd887ec2d9576f98a86a7001af6b4b28"
+                "reference": "6e37f30a1d324ff1252d6f9432ee5f510f71ebc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/front-awesome/zipball/79c3155fbd887ec2d9576f98a86a7001af6b4b28",
-                "reference": "79c3155fbd887ec2d9576f98a86a7001af6b4b28",
+                "url": "https://api.github.com/repos/artisan-toolbox/front-awesome/zipball/6e37f30a1d324ff1252d6f9432ee5f510f71ebc2",
+                "reference": "6e37f30a1d324ff1252d6f9432ee5f510f71ebc2",
                 "shasum": ""
             },
             "require": {
@@ -289,7 +420,7 @@
                 "pestphp/pest-plugin-laravel": "^5.0",
                 "pestphp/pest-plugin-type-coverage": "^5.0",
                 "phpstan/extension-installer": "^1.4",
-                "phpstan/phpstan": "^2.2.8",
+                "phpstan/phpstan": "^2.2.8 <2.3.6",
                 "rector/rector": "^2.6.2"
             },
             "type": "library",
@@ -330,7 +461,7 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/front-awesome/issues",
-                "source": "https://github.com/artisan-toolbox/front-awesome/tree/1.0.0-beta.1"
+                "source": "https://github.com/artisan-toolbox/front-awesome/tree/1.0.0-beta.2"
             },
             "funding": [
                 {
@@ -338,8 +469,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-13T14:51:06+00:00",
-            "published-time": "2026-11-13T14:51:15+00:00"
+            "time": "2026-11-16T17:09:02+00:00",
+            "published-time": "2026-11-16T17:09:09+00:00"
         },
         {
             "name": "artisan-toolbox/maintainer",
@@ -14334,8 +14465,9 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "artisan-toolbox/dapter": 20,
         "artisan-toolbox/filoquent": 10,
-        "artisan-toolbox/front-awesome": 15
+        "artisan-toolbox/front-awesome": 10
     },
     "prefer-stable": true,
     "prefer-lowest": false,

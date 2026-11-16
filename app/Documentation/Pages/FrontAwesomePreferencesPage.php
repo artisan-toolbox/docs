@@ -16,7 +16,7 @@ final readonly class FrontAwesomePreferencesPage extends Page
             slug: self::SLUG,
             component: 'docs/front-awesome/Preferences',
             title: 'Persist display preferences',
-            description: 'Save appearance, language, and display timezone through Laravel sessions or an authenticated user.',
+            description: 'Save appearance, language, timezone, and currency through persistent browser cookies, sessions, or an authenticated user.',
             sourcePath: 'resources/js/pages/docs/front-awesome/Preferences.vue',
             package: new FrontAwesomePackage,
         );

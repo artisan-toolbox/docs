@@ -161,6 +161,33 @@ Split long guides into cohesive page-specific sections under `components/docs/<p
 
 Markdown support is deferred. Do not introduce custom component markers or a second content compiler without a concrete authoring need.
 
+## Present roadmap phases and tasks
+
+Use `RoadmapPhase` from `@/components/docs/RoadmapPhase.vue` to group related tasks. Give each phase a stable `id` and a short `title`. Its default slot contains `RoadmapItem` components from `@/components/docs/RoadmapItem.vue`, with optional prose and an ordered list:
+
+```vue
+<RoadmapPhase id="phase-1" title="Phase 1. Define the source contract">
+	<ol class="list-none space-y-[0.75rem]">
+		<li>
+			<RoadmapItem id="todo-1-1" title="TODO 1.1. Define accepted source types" status="not_started">
+				<p>Define the accepted source types and verify their public behavior before adding an engine.</p>
+			</RoadmapItem>
+		</li>
+	</ol>
+	<p>Exit when the public source contract passes its behavior tests.</p>
+</RoadmapPhase>
+```
+
+Write each task's requirements, dependencies, and expected result in its default slot. The authored `status` is `not_started` by default. Set it to `in_progress` when implementation begins and `completed` after verifying the task's acceptance evidence. Labels are **Not started** in gray, **WIP** in amber, and **Completed** in green.
+
+A phase derives its status and progress from its own tasks. Progress is the number of completed tasks divided by the total, multiplied by 100. In-progress tasks receive no partial credit. A nonempty phase is Completed when every task is completed. It is WIP when any task is in progress or some tasks are completed. Otherwise, including an empty phase, it is Not started at 0%. The ring displays a rounded percentage while its value retains the calculated precision. Authored status changes and task removal update the phase automatically. Do not author a second status on the phase.
+
+Phases start collapsed and form a list with separators. Expanding a phase reveals its task cards with their descriptions already visible. A direct phase fragment opens that phase. A task fragment opens its owning phase, including fragments selected after page load. The shared search adapter indexes static phase and task titles, status, progress counts, and authored body at their stable IDs even while the phase is collapsed. Use authored default slots without runtime slot props. Keep phase heading anchors stable so search and the generated table of contents agree.
+
+Status belongs to the roadmap and remains versioned with its content. It is separate from the package's release or stability status. Opening a disclosure does not change completion. There is no reader editor or browser persistence. A temporary preview roadmap can be removed for a future stable release.
+
+Phases consume Front Awesome's public `Details` through `v-model:open` and its native summary slot, plus `ProgressRing`. Tasks consume `Card`. Both use compact, noninteractive `Badge` labels aligned beside their titles. Import these wrappers from `@artisan-toolbox/front-awesome/components/WebAwesome`. Use their supported CSS properties and parts when adjusting presentation. Native Details and Card use `--spacing` for their own padding, while Tailwind uses the same name as its spacing unit. Use explicit `rem` values for spacing utilities inside these components so the native setting cannot multiply indentation, gaps, line height, or anchor scroll margins. Preserve native keyboard, focus, and reduced-motion behavior. Phase aggregation, authored task status, and fragment expansion belong in this documentation application because they describe its content rather than a general package disclosure API.
+
 ## Keep search current
 
 Registered pages and their imported authored Vue partials enter search automatically. Give headings stable IDs and keep searchable code and table values static through the existing shared components. Follow [the search authoring contract](search.md#follow-the-authoring-contract); never maintain a second page list or copied search summaries.
@@ -202,6 +229,14 @@ Normal frontend tests compare rendered headings, prose, examples, links, and tab
 The offline converter and `npm run test:migration` suite are archived migration tooling. They require historical source files if intentionally used for archaeology and are not part of current documentation completion checks.
 
 ## Keep demos independent
+
+Every delivered Dapter option, configuration key, attribute, factory mode, command option, and frontend prop needs a working example using the Composer-installed public API. The Dapter implementation skill in its package checkout owns the contributor workflow. Prefer public Front Awesome components wherever their supported APIs fit. Keep the discovery-driven coverage registry in `app/Demo/Dapter/Listing/coverage.json` synchronized, run `npm run dapter:demos:check`, and verify the interactive result in the browser. That command checks discovered settings and executes the backend and frontend demo tests. Registry presence alone is not verification.
+
+Keep Dapter guides specialized by reader task. Give each demo a fixed purpose and source instead of combining unrelated settings in a scenario selector. Separate working guides, proposed design contracts, and roadmap progress. When content moves, declare fragment destinations in the owning Page metadata. PageResource and the shared documentation layout preserve old fragment links through registered PageSlug URLs.
+
+Run `DOCS_BASE_URL=https://your-site.test npm run test:dapter` against the local application with Playwright Chromium installed. This check compares real endpoint results with native Front Awesome grid rows, exercises paging and access failures, and checks mobile overflow. Run fixture-generating PHP tests first and pause source edits while testing against a development server, because hot reloads reset mounted examples. The complete `test:browser` command includes this check.
+
+When a guide displays an executable DataSource, import its PHP file from `app/DataSources/` with Vite's `?raw` suffix instead of maintaining a second code copy. The search extractor reads the same file as text. It rejects raw imports outside that directory, non-PHP files, and symlinks escaping the directory.
 
 For a complete small backend example, follow [the Core demo maintenance guide](core-demos.md). It covers a bounded JSON request, public package execution, native Inertia HTTP handling, actual source imports, and reset verification. Use a transport that matches the behavior being taught; Mosaicast's response demonstrations continue to use Inertia visits.
 

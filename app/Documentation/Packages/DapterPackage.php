@@ -12,7 +12,7 @@ final readonly class DapterPackage extends Package
         parent::__construct(
             id: 'dapter',
             title: 'Dapter',
-            summary: 'Prepare Laravel and Inertia data adapter integrations with a typed frontend foundation.',
+            summary: 'Read and paginate Collections and SQLite Eloquent sources through a headless Vue adapter.',
             version: null,
             overview: PageSlug::Dapter,
             documentedVersion: '1.x preview',
@@ -21,6 +21,8 @@ final readonly class DapterPackage extends Package
                 'PHP 8.5 or later within the PHP 8.x series',
                 'Laravel 13 components',
                 'Inertia Laravel 3.x',
+                'Vue 3.5 and Inertia Vue 3.x for the frontend adapter',
+                'Ziggy 2.6.5 or later within 2.x for named routes',
                 'Node.js 24.11.0 or later for frontend tooling',
             ],
         );
