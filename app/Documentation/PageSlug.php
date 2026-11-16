@@ -14,6 +14,7 @@ use App\Documentation\Pages\DapterComposablePage;
 use App\Documentation\Pages\DapterDesignActionsPage;
 use App\Documentation\Pages\DapterDesignDeclarationsPage;
 use App\Documentation\Pages\DapterDesignDriversPage;
+use App\Documentation\Pages\DapterDesignFixturesPage;
 use App\Documentation\Pages\DapterDesignLiveUpdatesPage;
 use App\Documentation\Pages\DapterDesignOperationsPage;
 use App\Documentation\Pages\DapterDesignPage;
@@ -156,6 +157,7 @@ enum PageSlug: string
     case DapterDesignPagingState = 'dapter/design/paging-state';
     case DapterDesignActions = 'dapter/design/actions';
     case DapterDesignLiveUpdates = 'dapter/design/live-updates';
+    case DapterDesignFixtures = 'dapter/design/fixtures';
     case DapterDevelopment = 'dapter/development';
 
     case DumpToConsole = 'dump-to-console';
@@ -303,6 +305,7 @@ enum PageSlug: string
             self::DapterDesignPagingState => new DapterDesignPagingStatePage,
             self::DapterDesignActions => new DapterDesignActionsPage,
             self::DapterDesignLiveUpdates => new DapterDesignLiveUpdatesPage,
+            self::DapterDesignFixtures => new DapterDesignFixturesPage,
             self::DapterRoadmap => new DapterRoadmapPage,
             self::DapterDevelopment => new DapterDevelopmentPage,
             self::Core => new CorePage,

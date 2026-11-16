@@ -37,6 +37,15 @@ import { Button } from '@artisan-toolbox/front-awesome/components/WebAwesome';
                     sources.
                 </p>
                 <p>
+                    Collections preserve their input order. SQLite preserves supported source
+                    ordering and appends the qualified primary key ascending when it is absent. With
+                    no source order, that key supplies the complete order. Exact counts cover the
+                    complete authorized source before pagination. Since this preview has no managed
+                    search or filters, <code>total</code> and <code>filtered</code> are equal. An
+                    empty source returns page 1 of 1, both counts zero, and no previous or next
+                    page. A page beyond the last page clamps to the last valid page.
+                </p>
+                <p>
                     Keep Laravel's web middleware, session, and CSRF integration enabled. Expose the
                     named <code>dapter.data</code> route through your existing Ziggy configuration.
                     No worker or broadcaster is needed.

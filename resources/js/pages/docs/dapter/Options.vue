@@ -85,6 +85,13 @@ defineProps({
                     <code>pageSizeOptions([2, 10])</code> retains 6 as an allowed size. Start this
                     example to observe the returned choices 2, 10, and 6.
                 </p>
+                <p>
+                    Reversing these setters produces the same choices. Repeated choices keep their
+                    first-declared position. Only the final chosen size is automatically appended,
+                    so an intermediate size does not survive a later replacement. All sizes must be
+                    positive safe integers. Browser requests can select an allowed size but cannot
+                    expand this server-owned list.
+                </p>
             </ProseSection>
             <ListingDemo scenario="CollectionSizeRetention" />
             <ProseSection id="precedence" title="Override inherited attributes">

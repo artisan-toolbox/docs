@@ -183,6 +183,33 @@ final class UserActions
                     action with neither. Tests must include a FormRequest that only declares rules.
                 </p>
                 <p>
+                    Registered inline and dedicated-class actions can declare Laravel policy
+                    authorization through an attribute on the action or through the source's
+                    <code>options()</code>, keyed by the registered action identifier. Both forms
+                    describe the same ability and trusted arguments and follow the existing options
+                    layering rules. Resolve the effective declaration before evaluating permission.
+                    Use Laravel's Gate and normal policy discovery or registration, preserving the
+                    selected guard's principal and Laravel authorization hooks. The exact attribute
+                    and options setter signatures remain proposed.
+                </p>
+                <p>
+                    When an action declares a policy, evaluate it on the server before serializing
+                    that action's metadata. Send only actions whose declared policy allows the
+                    current principal and trusted target. Omit denied actions entirely, including
+                    their identifiers, URLs, verbs, and transports. Policy classes, ability
+                    arguments, and denial details stay on the server. Permission to read the source
+                    does not imply permission to use every registered action. Actions without a
+                    declared policy still follow the explicit authorization requirement above.
+                </p>
+                <p>
+                    For record-specific policies, resolve the target within the authorized source
+                    scope and evaluate permission for that record. An unresolved target cannot grant
+                    permission during metadata generation. Reauthorize every execution with the
+                    current principal and target, including direct requests and previously permitted
+                    actions whose permission has since changed. Omission from the frontend never
+                    replaces this check. A denied call must execute no action body or mutation.
+                </p>
+                <p>
                     Payload values enter through the validated request. Do not inject unvalidated
                     payload fields into arbitrary scalar or service parameters by matching their
                     names. Additional typed dependencies follow Laravel's container rules.

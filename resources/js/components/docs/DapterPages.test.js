@@ -17,6 +17,7 @@ import PagingState from '../../pages/docs/dapter/design/PagingState.vue';
 import Actions from '../../pages/docs/dapter/design/Actions.vue';
 import { productDefinition } from '../../pages/docs/dapter/design/reference/operations';
 import operationReference from '../../pages/docs/dapter/design/reference/operations.ts?raw';
+import queryReference from '../../pages/docs/dapter/design/reference/query.ts?raw';
 import LiveUpdates from '../../pages/docs/dapter/design/LiveUpdates.vue';
 import RoadmapItem from './RoadmapItem.vue';
 import RoadmapPhase from './RoadmapPhase.vue';
@@ -198,9 +199,10 @@ describe('Dapter proposal roadmap', () => {
 
         const landing = render(Design, 'dapter/design');
         const links = landing.get('nav[aria-label="Proposed design guides"]').findAll('a');
-        expect(links.map((link) => link.attributes('href'))).toEqual(
-            proposalGuides.map(([, slug]) => `/docs/dapter/design/${slug}`),
-        );
+        expect(links.map((link) => link.attributes('href'))).toEqual([
+            ...proposalGuides.map(([, slug]) => `/docs/dapter/design/${slug}`),
+            '/docs/dapter/design/fixtures',
+        ]);
         expect(landing.text()).toContain('They are not installation instructions.');
         landing.unmount();
     });
@@ -304,6 +306,45 @@ describe('Dapter proposal roadmap', () => {
             .find((figure) => figure.get('figcaption').text().includes(label));
     }
 
+    it('publishes checked query defaults and counts without exposing future query APIs', () => {
+        const operations = render(Operations, 'dapter/design/operations');
+        const table = operations
+            .findAll('table')
+            .find((node) => node.get('caption').text() === 'Planned managed scalar domains');
+        expect(table.text()).toContain('Neither numeric zero nor string zero is a boolean');
+        expect(table.text()).toContain('without exact decimal guarantees');
+        expect(operations.text()).toContain('A missing Collection target is a configuration error');
+        expect(operations.text()).toContain('no Unicode normalization');
+        expect(operations.text()).toContain('Integer targets accept an optional minus sign');
+        expect(operations.text()).toContain('Current protocol 1 still rejects managed search');
+        const code = operations
+            .findAllComponents(CodeExample)
+            .find(
+                (component) =>
+                    component.props('label') ===
+                    'Planned query semantics reference, unavailable as a package API',
+            );
+        expect(code.props('code')).toBe(queryReference);
+        operations.unmount();
+
+        const roadmap = render(Roadmap, 'dapter/roadmap');
+        expect(
+            roadmap
+                .findAllComponents(RoadmapItem)
+                .find((item) => item.props('id') === 'todo-0-5')
+                .props('status'),
+        ).toBe('completed');
+        roadmap.unmount();
+
+        const sections = extractProposalDocumentation();
+        const section = (anchor) => sections.find((entry) => entry.anchor === anchor);
+        expect(section('query-contract-reference').body).toContain('summarizeOffset');
+        expect(section('pagination-and-consistency').body).toContain('Derive pages from filtered');
+        expect(section('pagination-and-consistency').body).toContain(
+            'total 4, filtered 2, pages 2, and current 2',
+        );
+    });
+
     it('renders the full proposal, semantic tables, phase lists, and registered guide links', () => {
         const wrapper = renderProposal();
         const text = wrapper.text();
@@ -318,7 +359,7 @@ describe('Dapter proposal roadmap', () => {
         expect(text).toContain('The server owns the allowed operations.');
         expect(text).toContain('does not freeze a changing dataset');
         expect(text).not.toContain('&#39;');
-        expect(wrapper.findAll('table')).toHaveLength(10);
+        expect(wrapper.findAll('table')).toHaveLength(11);
         expect(wrapper.get('table caption').text()).toBe('Source ownership and boundaries');
         expect(wrapper.findAll('h2')).toHaveLength(17);
         expect(wrapper.findAll('h3[id^="phase-"]')).toHaveLength(10);
@@ -336,7 +377,7 @@ describe('Dapter proposal roadmap', () => {
             wrapper
                 .findAllComponents(RoadmapItem)
                 .filter((item) => item.props('status') === 'completed').length,
-        ).toBe(7);
+        ).toBe(9);
         expect(text).toContain(
             'Completion is authored in this documentation and tracks only this roadmap',
         );
@@ -459,7 +500,7 @@ describe('Dapter proposal roadmap', () => {
         );
         expect(declaration).toContain('empty: EmptySelectionPolicy::Clear');
         expect(declaration).not.toContain("matchTypes: ['contains'");
-        expect(codeFor('Proposed config/dapter.php defaults')).toContain(
+        expect(codeFor('Current paging defaults with a proposed broadcasting extension')).toContain(
             "'mode' => PagingMode::Offset",
         );
         const documents = extractProposalDocumentation();
@@ -984,7 +1025,11 @@ describe('Dapter proposal roadmap', () => {
         const text = wrapper.text();
         const config = wrapper
             .findAll('figure')
-            .find((figure) => figure.text().includes('Proposed config/dapter.php defaults'))
+            .find((figure) =>
+                figure
+                    .text()
+                    .includes('Current paging defaults with a proposed broadcasting extension'),
+            )
             .get('pre code')
             .text();
 
@@ -994,7 +1039,8 @@ describe('Dapter proposal roadmap', () => {
         expect(config).toContain("'mode' => PagingMode::Offset");
         expect(config).toContain("'per_page' => 10");
         expect(config).toContain("'per_page_options' => [5, 10, 50, 100]");
-        expect(text).toContain('integration are planned and unavailable');
+        expect(text).toContain('its paging and guard keys, and optional publication');
+        expect(text).toContain('additional broadcasting context below is proposed');
         expect(text).toContain('pageSize(25) is valid');
         expect(text).toContain('[5, 10, 50, 100, 25]');
         expect(text).toContain('pageSizeOptions(array) replaces the configured list');
@@ -1370,12 +1416,12 @@ describe('Dapter proposal roadmap', () => {
     it('extracts the real roadmap prose, count example, slot table, and every delivery phase for search', () => {
         const documents = extractProposalDocumentation();
         const section = (anchor) => documents.find((document) => document.anchor === anchor);
-        expect(documents).toHaveLength(131);
+        expect(documents).toHaveLength(132);
         const tasks = documents.filter(({ anchor }) => /^todo-[0-7]a?-[1-9]$/.test(anchor ?? ''));
         expect(tasks).toHaveLength(61);
         expect(new Set(tasks.map(({ anchor }) => anchor)).size).toBe(61);
-        expect(tasks.filter(({ body }) => body.startsWith('Completed '))).toHaveLength(7);
-        expect(tasks.filter(({ body }) => body.startsWith('WIP '))).toHaveLength(13);
+        expect(tasks.filter(({ body }) => body.startsWith('Completed '))).toHaveLength(9);
+        expect(tasks.filter(({ body }) => body.startsWith('WIP '))).toHaveLength(11);
         const phaseIds = ['0', '1', '2', '2a', '3', '3a', '4', '5', '6', '7'];
         const expectedAnchors = [7, 9, 8, 5, 6, 7, 6, 5, 4, 4].flatMap((count, phase) =>
             Array.from({ length: count }, (_, index) => `todo-${phaseIds[phase]}-${index + 1}`),
@@ -1399,7 +1445,7 @@ describe('Dapter proposal roadmap', () => {
         expect(phases).toHaveLength(10);
         for (const phase of phases) {
             expect(phase.slug).toBe('dapter/roadmap');
-            expect(phase.body).toMatch(/^(?:WIP [1234]|Not started 0) of \d+ tasks completed \d+%/);
+            expect(phase.body).toMatch(/^(?:WIP [1-6]|Not started 0) of \d+ tasks completed \d+%/);
             expect(phase.body).toContain('Exit when');
         }
         expect(section('completion-rules-for-every-implementation-phase').body).toContain(

@@ -3,6 +3,7 @@ import PackageGuideHeader from '@/components/docs/PackageGuideHeader.vue';
 import ProseSection from '@/components/docs/ProseSection.vue';
 import DocsLink from '@/components/docs/DocsLink.vue';
 import CodeExample from '@/components/docs/CodeExample.vue';
+import queryReference from './reference/query.ts?raw';
 import DocsTable from '@/components/docs/DocsTable.vue';
 import { findNavigationItem } from '@/lib/docsNavigation';
 
@@ -425,6 +426,50 @@ abstract class ProductHandlers extends EloquentDataSource
                     operator, column, or callback. The definition is immutable from the client's
                     perspective. The selection is mutable within that definition.
                 </p>
+                <DocsTable caption="Planned managed scalar domains">
+                    <thead>
+                        <tr>
+                            <th scope="col">Domain</th>
+                            <th scope="col">Accepted non-null values</th>
+                            <th scope="col">Comparison rule</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>String</code></td>
+                            <td>Strings, including empty strings and surrounding whitespace</td>
+                            <td>No conversion from numbers or booleans</td>
+                        </tr>
+                        <tr>
+                            <td><code>Integer</code></td>
+                            <td>
+                                Integral JSON numbers from -9007199254740991 to 9007199254740991
+                            </td>
+                            <td>Numeric equality, with negative zero equal to zero</td>
+                        </tr>
+                        <tr>
+                            <td><code>Number</code></td>
+                            <td>Finite JSON numbers with magnitude at most 9007199254740991</td>
+                            <td>
+                                Binary floating-point equality, without exact decimal guarantees
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>Boolean</code></td>
+                            <td>Exactly <code>true</code> and <code>false</code></td>
+                            <td>Neither numeric zero nor string zero is a boolean</td>
+                        </tr>
+                    </tbody>
+                </DocsTable>
+                <p>
+                    Null is an explicit additional option, not a conversion between domains. Infer
+                    Integer from integral numeric options and Number from fractional numeric
+                    options. A declaration mixing integral and fractional options requires explicit
+                    Number. Other mixed primitive families are configuration errors for managed
+                    fields. Mixed values in a global callback retain their separately validated wire
+                    types. A missing Collection target is a configuration error, even when null is
+                    allowed. A present null matches only an explicitly selected, allowed null.
+                </p>
                 <p>
                     Single-value filters use declared wire values. Multi-value filters use typed
                     arrays, with OR semantics within one filter and AND semantics between different
@@ -748,6 +793,48 @@ abstract class ProductHandlers extends EloquentDataSource
                     normalization, null, and numeric behavior per engine. Do not promise identical
                     collation across SQLite, MySQL, PostgreSQL, and PHP.
                 </p>
+                <p>
+                    The default Collection text comparison is case-sensitive and accent-sensitive,
+                    with no Unicode normalization. Composed and decomposed text remain distinct.
+                    SQLite, MySQL, and PostgreSQL use the trusted target's verified native
+                    collation. Each SQL delivery must record its case, accent, and normalization
+                    behavior with native fixtures before advertising that comparison. This contract
+                    does not promise a portable case-folding algorithm. SQL implementations bind
+                    values and escape percent, underscore, and the chosen escape character. The pure
+                    reference below proves literal intent, not SQL escaping or collation
+                    compatibility.
+                </p>
+                <p>
+                    Numeric filter selections are JSON numbers, never numeric strings. A global
+                    numeric search target parses the complete string without trimming. Integer
+                    targets accept an optional minus sign and decimal digits, with no leading zeros
+                    except zero itself. Decimal points, exponent notation, a plus sign, and
+                    whitespace are invalid for Integer. Number targets accept the JSON number
+                    grammar, including fractions and exponents. Reject non-finite values, parsed
+                    magnitudes above the safe bound, and nonzero values that underflow to zero.
+                    Parsing Number uses binary floating-point precision. Invalid field numeric input
+                    fails validation. An incompatible global target contributes false. Null never
+                    matches an active text or numeric search. An empty string clears search only,
+                    while an explicitly declared empty-string filter option remains a real
+                    selection.
+                </p>
+                <h3
+                    id="query-contract-reference"
+                    class="scroll-mt-28 text-xl font-semibold tracking-tight text-slate-950 dark:text-white">
+                    Executable query contract reference
+                </h3>
+                <p>
+                    This proposed reference fixes scalar comparison, literal search, numeric
+                    parsing, and exact offset arithmetic for TODO 0.5. Its tests run without HTTP or
+                    a database. It is documentation support, not a Dapter export or an
+                    implementation of future drivers. Current protocol 1 still rejects managed
+                    search and filter selections. The later operation phases must verify these rules
+                    through their public APIs.
+                </p>
+                <CodeExample
+                    language="typescript"
+                    label="Planned query semantics reference, unavailable as a package API"
+                    :code="queryReference" />
                 <p>
                     Regex is optional and disabled by default. Its syntax, execution bounds,
                     invalid-pattern behavior, and database support require a separate capability.

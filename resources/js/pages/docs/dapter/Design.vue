@@ -16,7 +16,7 @@ defineProps({
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection id="proposal-status" title="Proposed contracts and implemented behavior">
                 <p>
-                    These explanation guides record proposed contracts for the unpublished Dapter
+                    These design guides record proposed contracts for the unpublished Dapter
                     preview. They describe design decisions, constraints, and acceptance criteria.
                     Unless a section explicitly identifies an implemented contract, its API examples
                     are unavailable. They are not installation instructions.
@@ -47,6 +47,11 @@ defineProps({
                     state, and preservation rules. Action design covers authorized package-routed
                     commands. Requests and live updates cover cancellation, URL ownership,
                     scrolling, broadcasts, and polling.
+                </p>
+                <p>
+                    Shared contract fixtures fix reusable inputs, database targets, and expected
+                    rows, counts, and failures. Their evidence categories distinguish the
+                    implemented preview from reference checks and future native execution.
                 </p>
             </ProseSection>
         </div>

@@ -1,0 +1,4557 @@
+{
+    "version": 1,
+    "purpose": "Supplementary finite design fixtures. Specification cases are acceptance vectors, not implemented runtime promises. The public read-v1 corpus remains owned by the package.",
+    "drivers": [
+        {
+            "id": "array",
+            "targetVersion": null,
+            "observedVersion": null,
+            "nativeExecuted": false
+        },
+        {
+            "id": "collection",
+            "targetVersion": null,
+            "observedVersion": null,
+            "nativeExecuted": false
+        },
+        {
+            "id": "sqlite",
+            "targetVersion": "3.45.2",
+            "observedVersion": null,
+            "nativeExecuted": false
+        },
+        {
+            "id": "mysql",
+            "targetVersion": "8.4.11",
+            "observedVersion": null,
+            "nativeExecuted": false
+        },
+        {
+            "id": "pgsql",
+            "targetVersion": "18.6",
+            "observedVersion": null,
+            "nativeExecuted": false
+        }
+    ],
+    "rows": [
+        {
+            "id": 1,
+            "name": "Notebook",
+            "tenant": "north",
+            "status": "active",
+            "price": 20,
+            "private_note": "Never public"
+        },
+        {
+            "id": 2,
+            "name": "Notebook",
+            "tenant": "north",
+            "status": "pending",
+            "price": 0,
+            "private_note": "Never public"
+        },
+        {
+            "id": 3,
+            "name": "Pencil",
+            "tenant": "north",
+            "status": "active",
+            "price": 12,
+            "private_note": "Never public"
+        },
+        {
+            "id": 4,
+            "name": "Notebook",
+            "tenant": "south",
+            "status": "active",
+            "price": 0,
+            "private_note": "Never public"
+        }
+    ],
+    "groups": {
+        "declarations": [
+            {
+                "id": "declaration-source-only",
+                "evidence": "current-runtime",
+                "operation": "declaration",
+                "input": {
+                    "source": "SourceOnly"
+                },
+                "expected": {
+                    "status": 200,
+                    "size": 2,
+                    "sizes": [2, 3],
+                    "hooks": 0,
+                    "rows": 2
+                }
+            },
+            {
+                "id": "declaration-attribute-only",
+                "evidence": "current-runtime",
+                "operation": "declaration",
+                "input": {
+                    "source": "AttributeOnly"
+                },
+                "expected": {
+                    "status": 200,
+                    "size": 3,
+                    "sizes": [3],
+                    "hooks": 0,
+                    "rows": 3
+                }
+            },
+            {
+                "id": "declaration-with-options-once",
+                "evidence": "current-runtime",
+                "operation": "declaration",
+                "input": {
+                    "source": "Options",
+                    "factory": "make",
+                    "setters": [["publicAccess", true]]
+                },
+                "expected": {
+                    "status": 200,
+                    "size": 2,
+                    "sizes": [2, 3],
+                    "hooks": 1,
+                    "rows": 2
+                }
+            },
+            {
+                "id": "declaration-undeclared-hook",
+                "evidence": "current-runtime",
+                "operation": "declaration",
+                "input": {
+                    "source": "UndeclaredHook"
+                },
+                "expected": {
+                    "status": 500,
+                    "error": "invalid_source",
+                    "hooks": 0,
+                    "reads": 0
+                }
+            },
+            {
+                "id": "declaration-baseline-make",
+                "evidence": "current-runtime",
+                "operation": "declaration",
+                "input": {
+                    "source": "Options",
+                    "factory": "make",
+                    "setters": [["publicAccess", true]]
+                },
+                "expected": {
+                    "status": 200,
+                    "size": 2,
+                    "sizes": [2, 3],
+                    "hooks": 1,
+                    "rows": 2
+                }
+            },
+            {
+                "id": "declaration-baseline-without-defaults",
+                "evidence": "current-runtime",
+                "operation": "declaration",
+                "input": {
+                    "source": "Options",
+                    "factory": "makeWithoutDefaults",
+                    "setters": [
+                        ["publicAccess", true],
+                        ["guard", "web"],
+                        ["pagingMode", "offset"],
+                        ["pageSize", 3]
+                    ]
+                },
+                "expected": {
+                    "status": 200,
+                    "size": 3,
+                    "sizes": [3],
+                    "hooks": 1,
+                    "rows": 3
+                }
+            },
+            {
+                "id": "declaration-explicit-patch",
+                "evidence": "current-runtime",
+                "operation": "declaration",
+                "input": {
+                    "source": "Inherited",
+                    "factory": "make",
+                    "setters": [["pageSize", 2]]
+                },
+                "expected": {
+                    "status": 200,
+                    "size": 2,
+                    "sizes": [3, 2],
+                    "hooks": 1,
+                    "rows": 2
+                }
+            },
+            {
+                "id": "declaration-inherited-attributes",
+                "evidence": "current-runtime",
+                "operation": "declaration",
+                "input": {
+                    "source": "Inherited",
+                    "factory": "make",
+                    "setters": []
+                },
+                "expected": {
+                    "status": 200,
+                    "size": 3,
+                    "sizes": [3],
+                    "hooks": 1,
+                    "rows": 3
+                }
+            },
+            {
+                "id": "declaration-same-layer-duplicate",
+                "evidence": "current-runtime",
+                "operation": "declaration",
+                "input": {
+                    "source": "Duplicate"
+                },
+                "expected": {
+                    "status": 500,
+                    "error": "invalid_source",
+                    "hooks": 0,
+                    "reads": 0
+                }
+            },
+            {
+                "id": "declaration-invalid-size",
+                "evidence": "current-runtime",
+                "operation": "declaration",
+                "input": {
+                    "source": "Options",
+                    "factory": "make",
+                    "setters": [
+                        ["publicAccess", true],
+                        ["pageSize", 0]
+                    ]
+                },
+                "expected": {
+                    "status": 500,
+                    "error": "invalid_source",
+                    "hooks": 1,
+                    "reads": 0
+                }
+            },
+            {
+                "id": "declaration-invalid-size-list",
+                "evidence": "current-runtime",
+                "operation": "declaration",
+                "input": {
+                    "source": "Options",
+                    "factory": "make",
+                    "setters": [
+                        ["publicAccess", true],
+                        ["pageSizeOptions", [0]]
+                    ]
+                },
+                "expected": {
+                    "status": 500,
+                    "error": "invalid_source",
+                    "hooks": 1,
+                    "reads": 0
+                }
+            },
+            {
+                "id": "declaration-setter-size-first",
+                "evidence": "current-runtime",
+                "operation": "declaration",
+                "input": {
+                    "source": "Options",
+                    "factory": "make",
+                    "setters": [
+                        ["publicAccess", true],
+                        ["pageSize", 1],
+                        ["pageSize", 3],
+                        ["pageSizeOptions", [1, 2, 1]]
+                    ]
+                },
+                "expected": {
+                    "status": 200,
+                    "size": 3,
+                    "sizes": [1, 2, 3],
+                    "hooks": 1,
+                    "rows": 3
+                }
+            },
+            {
+                "id": "declaration-setter-options-first",
+                "evidence": "current-runtime",
+                "operation": "declaration",
+                "input": {
+                    "source": "Options",
+                    "factory": "make",
+                    "setters": [
+                        ["publicAccess", true],
+                        ["pageSizeOptions", [1, 2, 1]],
+                        ["pageSize", 3]
+                    ]
+                },
+                "expected": {
+                    "status": 200,
+                    "size": 3,
+                    "sizes": [1, 2, 3],
+                    "hooks": 1,
+                    "rows": 3
+                }
+            },
+            {
+                "id": "declaration-uncalled-default",
+                "evidence": "current-runtime",
+                "operation": "declaration",
+                "input": {
+                    "source": "Inherited",
+                    "factory": "make",
+                    "setters": []
+                },
+                "expected": {
+                    "status": 200,
+                    "size": 3,
+                    "sizes": [3],
+                    "hooks": 1,
+                    "rows": 3
+                }
+            },
+            {
+                "id": "declaration-explicit-default",
+                "evidence": "current-runtime",
+                "operation": "declaration",
+                "input": {
+                    "source": "Inherited",
+                    "factory": "make",
+                    "setters": [["pageSize", 2]]
+                },
+                "expected": {
+                    "status": 200,
+                    "size": 2,
+                    "sizes": [3, 2],
+                    "hooks": 1,
+                    "rows": 2
+                }
+            },
+            {
+                "id": "declaration-missing-guard",
+                "evidence": "current-runtime",
+                "operation": "declaration",
+                "input": {
+                    "source": "Options",
+                    "factory": "makeWithoutDefaults",
+                    "setters": [
+                        ["publicAccess", true],
+                        ["pagingMode", "offset"],
+                        ["pageSize", 3]
+                    ]
+                },
+                "expected": {
+                    "status": 500,
+                    "error": "invalid_source",
+                    "hooks": 1,
+                    "reads": 0
+                }
+            },
+            {
+                "id": "declaration-missing-pagingMode",
+                "evidence": "current-runtime",
+                "operation": "declaration",
+                "input": {
+                    "source": "Options",
+                    "factory": "makeWithoutDefaults",
+                    "setters": [
+                        ["publicAccess", true],
+                        ["guard", "web"],
+                        ["pageSize", 3]
+                    ]
+                },
+                "expected": {
+                    "status": 500,
+                    "error": "invalid_source",
+                    "hooks": 1,
+                    "reads": 0
+                }
+            },
+            {
+                "id": "declaration-missing-pageSize",
+                "evidence": "current-runtime",
+                "operation": "declaration",
+                "input": {
+                    "source": "Options",
+                    "factory": "makeWithoutDefaults",
+                    "setters": [
+                        ["publicAccess", true],
+                        ["guard", "web"],
+                        ["pagingMode", "offset"]
+                    ]
+                },
+                "expected": {
+                    "status": 500,
+                    "error": "invalid_source",
+                    "hooks": 1,
+                    "reads": 0
+                }
+            },
+            {
+                "id": "declaration-isolation",
+                "evidence": "current-runtime",
+                "operation": "isolation",
+                "input": {
+                    "factory": "make",
+                    "leftSize": 1,
+                    "rightSize": 3
+                },
+                "expected": {
+                    "left": 1,
+                    "right": 3,
+                    "baseline": 2
+                }
+            },
+            {
+                "id": "declaration-config-cache",
+                "evidence": "current-runtime",
+                "operation": "config-cache",
+                "input": {
+                    "mode": "offset",
+                    "per_page": 10,
+                    "per_page_options": [5, 10, 50, 100],
+                    "guard": "dapter-demo-guest"
+                },
+                "expected": {
+                    "mode": "offset",
+                    "per_page": 10,
+                    "per_page_options": [5, 10, 50, 100],
+                    "guard": "dapter-demo-guest"
+                }
+            },
+            {
+                "id": "declaration-capability-removal",
+                "evidence": "specification",
+                "operation": "definition",
+                "input": {
+                    "lower": {
+                        "fields": {
+                            "status": {
+                                "filters": {
+                                    "active": {
+                                        "options": ["active"]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "patch": {
+                        "fields": {
+                            "status": {
+                                "filters": null
+                            }
+                        }
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    }
+                },
+                "expected": {
+                    "capabilities": {
+                        "fields": {
+                            "status": {
+                                "filters": null
+                            }
+                        }
+                    },
+                    "rows": [1, 2, 3],
+                    "total": 3,
+                    "filtered": 3
+                }
+            },
+            {
+                "id": "declaration-named-duplicate",
+                "evidence": "specification",
+                "operation": "definition",
+                "input": {
+                    "field": "status",
+                    "filters": [
+                        {
+                            "id": "state",
+                            "options": ["active"]
+                        },
+                        {
+                            "id": "state",
+                            "options": ["pending"]
+                        }
+                    ]
+                },
+                "expected": {
+                    "error": "invalid_source",
+                    "handlerCalls": 0
+                }
+            }
+        ],
+        "drivers": [
+            {
+                "id": "driver-array-allowed",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "array",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "order": [
+                        {
+                            "field": "name",
+                            "direction": "asc"
+                        },
+                        {
+                            "field": "id",
+                            "direction": "asc"
+                        }
+                    ],
+                    "paging": {
+                        "mode": "offset",
+                        "current": 1,
+                        "per_page": 2
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "plan": "accepted",
+                    "rows": [1, 2],
+                    "total": 3,
+                    "filtered": 3
+                }
+            },
+            {
+                "id": "driver-array-forbidden-final-clause",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "array",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "capabilities": {
+                        "fields": {
+                            "status": {
+                                "filters": {
+                                    "state": {
+                                        "values": ["active", "pending"],
+                                        "multiple": false
+                                    }
+                                }
+                            },
+                            "private_note": null
+                        }
+                    },
+                    "request": {
+                        "version": 2,
+                        "fields": {
+                            "status": {
+                                "filters": {
+                                    "state": {
+                                        "value": "active"
+                                    }
+                                }
+                            },
+                            "private_note": {
+                                "search": {
+                                    "value": "Never",
+                                    "matchType": "contains"
+                                }
+                            }
+                        }
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "status": 422,
+                    "error": {
+                        "kind": "unsupported_operation",
+                        "code": "unsupported_operation"
+                    },
+                    "data": null,
+                    "total": null,
+                    "filtered": null,
+                    "managedTransforms": 0,
+                    "driverListingReads": 0,
+                    "handlerCalls": 0,
+                    "handlerConstructions": 0,
+                    "sqlStatements": 0
+                }
+            },
+            {
+                "id": "driver-array-preset-alone",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "array",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "order": {
+                        "kind": "preset",
+                        "id": "by_price"
+                    },
+                    "paging": {
+                        "mode": "offset",
+                        "current": 1,
+                        "per_page": 2
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "plan": "accepted",
+                    "rows": [2, 3],
+                    "total": 3,
+                    "filtered": 3
+                }
+            },
+            {
+                "id": "driver-array-cursor-alone",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "array",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "order": {
+                        "kind": "fields",
+                        "terms": [
+                            {
+                                "field": "id",
+                                "direction": "asc",
+                                "sortType": "numeric"
+                            }
+                        ]
+                    },
+                    "paging": {
+                        "mode": "cursor",
+                        "cursor": null,
+                        "per_page": 2
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "plan": "accepted",
+                    "rows": [1, 2],
+                    "total": null,
+                    "filtered": null
+                }
+            },
+            {
+                "id": "driver-array-incompatible-pair",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "array",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "order": {
+                        "kind": "preset",
+                        "id": "by_price"
+                    },
+                    "paging": {
+                        "mode": "cursor",
+                        "cursor": null,
+                        "per_page": 2
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "status": 422,
+                    "error": {
+                        "kind": "unsupported_operation",
+                        "code": "unsupported_operation"
+                    },
+                    "data": null,
+                    "total": null,
+                    "filtered": null,
+                    "managedTransforms": 0,
+                    "driverListingReads": 0,
+                    "handlerCalls": 0,
+                    "handlerConstructions": 0,
+                    "sqlStatements": 0
+                }
+            },
+            {
+                "id": "driver-collection-allowed",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "collection",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "order": [
+                        {
+                            "field": "name",
+                            "direction": "asc"
+                        },
+                        {
+                            "field": "id",
+                            "direction": "asc"
+                        }
+                    ],
+                    "paging": {
+                        "mode": "offset",
+                        "current": 1,
+                        "per_page": 2
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "plan": "accepted",
+                    "rows": [1, 2],
+                    "total": 3,
+                    "filtered": 3
+                }
+            },
+            {
+                "id": "driver-collection-forbidden-final-clause",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "collection",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "capabilities": {
+                        "fields": {
+                            "status": {
+                                "filters": {
+                                    "state": {
+                                        "values": ["active", "pending"],
+                                        "multiple": false
+                                    }
+                                }
+                            },
+                            "private_note": null
+                        }
+                    },
+                    "request": {
+                        "version": 2,
+                        "fields": {
+                            "status": {
+                                "filters": {
+                                    "state": {
+                                        "value": "active"
+                                    }
+                                }
+                            },
+                            "private_note": {
+                                "search": {
+                                    "value": "Never",
+                                    "matchType": "contains"
+                                }
+                            }
+                        }
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "status": 422,
+                    "error": {
+                        "kind": "unsupported_operation",
+                        "code": "unsupported_operation"
+                    },
+                    "data": null,
+                    "total": null,
+                    "filtered": null,
+                    "managedTransforms": 0,
+                    "driverListingReads": 0,
+                    "handlerCalls": 0,
+                    "handlerConstructions": 0,
+                    "sqlStatements": 0
+                }
+            },
+            {
+                "id": "driver-collection-preset-alone",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "collection",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "order": {
+                        "kind": "preset",
+                        "id": "by_price"
+                    },
+                    "paging": {
+                        "mode": "offset",
+                        "current": 1,
+                        "per_page": 2
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "plan": "accepted",
+                    "rows": [2, 3],
+                    "total": 3,
+                    "filtered": 3
+                }
+            },
+            {
+                "id": "driver-collection-cursor-alone",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "collection",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "order": {
+                        "kind": "fields",
+                        "terms": [
+                            {
+                                "field": "id",
+                                "direction": "asc",
+                                "sortType": "numeric"
+                            }
+                        ]
+                    },
+                    "paging": {
+                        "mode": "cursor",
+                        "cursor": null,
+                        "per_page": 2
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "plan": "accepted",
+                    "rows": [1, 2],
+                    "total": null,
+                    "filtered": null
+                }
+            },
+            {
+                "id": "driver-collection-incompatible-pair",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "collection",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "order": {
+                        "kind": "preset",
+                        "id": "by_price"
+                    },
+                    "paging": {
+                        "mode": "cursor",
+                        "cursor": null,
+                        "per_page": 2
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "status": 422,
+                    "error": {
+                        "kind": "unsupported_operation",
+                        "code": "unsupported_operation"
+                    },
+                    "data": null,
+                    "total": null,
+                    "filtered": null,
+                    "managedTransforms": 0,
+                    "driverListingReads": 0,
+                    "handlerCalls": 0,
+                    "handlerConstructions": 0,
+                    "sqlStatements": 0
+                }
+            },
+            {
+                "id": "driver-sqlite-allowed",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "sqlite",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "order": [
+                        {
+                            "field": "name",
+                            "direction": "asc"
+                        },
+                        {
+                            "field": "id",
+                            "direction": "asc"
+                        }
+                    ],
+                    "paging": {
+                        "mode": "offset",
+                        "current": 1,
+                        "per_page": 2
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "plan": "accepted",
+                    "rows": [1, 2],
+                    "total": 3,
+                    "filtered": 3
+                }
+            },
+            {
+                "id": "driver-sqlite-forbidden-final-clause",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "sqlite",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "capabilities": {
+                        "fields": {
+                            "status": {
+                                "filters": {
+                                    "state": {
+                                        "values": ["active", "pending"],
+                                        "multiple": false
+                                    }
+                                }
+                            },
+                            "private_note": null
+                        }
+                    },
+                    "request": {
+                        "version": 2,
+                        "fields": {
+                            "status": {
+                                "filters": {
+                                    "state": {
+                                        "value": "active"
+                                    }
+                                }
+                            },
+                            "private_note": {
+                                "search": {
+                                    "value": "Never",
+                                    "matchType": "contains"
+                                }
+                            }
+                        }
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "status": 422,
+                    "error": {
+                        "kind": "unsupported_operation",
+                        "code": "unsupported_operation"
+                    },
+                    "data": null,
+                    "total": null,
+                    "filtered": null,
+                    "managedTransforms": 0,
+                    "driverListingReads": 0,
+                    "handlerCalls": 0,
+                    "handlerConstructions": 0,
+                    "sqlStatements": 0
+                }
+            },
+            {
+                "id": "driver-sqlite-preset-alone",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "sqlite",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "order": {
+                        "kind": "preset",
+                        "id": "by_price"
+                    },
+                    "paging": {
+                        "mode": "offset",
+                        "current": 1,
+                        "per_page": 2
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "plan": "accepted",
+                    "rows": [2, 3],
+                    "total": 3,
+                    "filtered": 3
+                }
+            },
+            {
+                "id": "driver-sqlite-cursor-alone",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "sqlite",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "order": {
+                        "kind": "fields",
+                        "terms": [
+                            {
+                                "field": "id",
+                                "direction": "asc",
+                                "sortType": "numeric"
+                            }
+                        ]
+                    },
+                    "paging": {
+                        "mode": "cursor",
+                        "cursor": null,
+                        "per_page": 2
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "plan": "accepted",
+                    "rows": [1, 2],
+                    "total": null,
+                    "filtered": null
+                }
+            },
+            {
+                "id": "driver-sqlite-incompatible-pair",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "sqlite",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "order": {
+                        "kind": "preset",
+                        "id": "by_price"
+                    },
+                    "paging": {
+                        "mode": "cursor",
+                        "cursor": null,
+                        "per_page": 2
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "status": 422,
+                    "error": {
+                        "kind": "unsupported_operation",
+                        "code": "unsupported_operation"
+                    },
+                    "data": null,
+                    "total": null,
+                    "filtered": null,
+                    "managedTransforms": 0,
+                    "driverListingReads": 0,
+                    "handlerCalls": 0,
+                    "handlerConstructions": 0,
+                    "sqlStatements": 0
+                }
+            },
+            {
+                "id": "driver-mysql-allowed",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "mysql",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "order": [
+                        {
+                            "field": "name",
+                            "direction": "asc"
+                        },
+                        {
+                            "field": "id",
+                            "direction": "asc"
+                        }
+                    ],
+                    "paging": {
+                        "mode": "offset",
+                        "current": 1,
+                        "per_page": 2
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "plan": "accepted",
+                    "rows": [1, 2],
+                    "total": 3,
+                    "filtered": 3
+                }
+            },
+            {
+                "id": "driver-mysql-forbidden-final-clause",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "mysql",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "capabilities": {
+                        "fields": {
+                            "status": {
+                                "filters": {
+                                    "state": {
+                                        "values": ["active", "pending"],
+                                        "multiple": false
+                                    }
+                                }
+                            },
+                            "private_note": null
+                        }
+                    },
+                    "request": {
+                        "version": 2,
+                        "fields": {
+                            "status": {
+                                "filters": {
+                                    "state": {
+                                        "value": "active"
+                                    }
+                                }
+                            },
+                            "private_note": {
+                                "search": {
+                                    "value": "Never",
+                                    "matchType": "contains"
+                                }
+                            }
+                        }
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "status": 422,
+                    "error": {
+                        "kind": "unsupported_operation",
+                        "code": "unsupported_operation"
+                    },
+                    "data": null,
+                    "total": null,
+                    "filtered": null,
+                    "managedTransforms": 0,
+                    "driverListingReads": 0,
+                    "handlerCalls": 0,
+                    "handlerConstructions": 0,
+                    "sqlStatements": 0
+                }
+            },
+            {
+                "id": "driver-mysql-preset-alone",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "mysql",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "order": {
+                        "kind": "preset",
+                        "id": "by_price"
+                    },
+                    "paging": {
+                        "mode": "offset",
+                        "current": 1,
+                        "per_page": 2
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "plan": "accepted",
+                    "rows": [2, 3],
+                    "total": 3,
+                    "filtered": 3
+                }
+            },
+            {
+                "id": "driver-mysql-cursor-alone",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "mysql",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "order": {
+                        "kind": "fields",
+                        "terms": [
+                            {
+                                "field": "id",
+                                "direction": "asc",
+                                "sortType": "numeric"
+                            }
+                        ]
+                    },
+                    "paging": {
+                        "mode": "cursor",
+                        "cursor": null,
+                        "per_page": 2
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "plan": "accepted",
+                    "rows": [1, 2],
+                    "total": null,
+                    "filtered": null
+                }
+            },
+            {
+                "id": "driver-mysql-incompatible-pair",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "mysql",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "order": {
+                        "kind": "preset",
+                        "id": "by_price"
+                    },
+                    "paging": {
+                        "mode": "cursor",
+                        "cursor": null,
+                        "per_page": 2
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "status": 422,
+                    "error": {
+                        "kind": "unsupported_operation",
+                        "code": "unsupported_operation"
+                    },
+                    "data": null,
+                    "total": null,
+                    "filtered": null,
+                    "managedTransforms": 0,
+                    "driverListingReads": 0,
+                    "handlerCalls": 0,
+                    "handlerConstructions": 0,
+                    "sqlStatements": 0
+                }
+            },
+            {
+                "id": "driver-pgsql-allowed",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "pgsql",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "order": [
+                        {
+                            "field": "name",
+                            "direction": "asc"
+                        },
+                        {
+                            "field": "id",
+                            "direction": "asc"
+                        }
+                    ],
+                    "paging": {
+                        "mode": "offset",
+                        "current": 1,
+                        "per_page": 2
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "plan": "accepted",
+                    "rows": [1, 2],
+                    "total": 3,
+                    "filtered": 3
+                }
+            },
+            {
+                "id": "driver-pgsql-forbidden-final-clause",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "pgsql",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "capabilities": {
+                        "fields": {
+                            "status": {
+                                "filters": {
+                                    "state": {
+                                        "values": ["active", "pending"],
+                                        "multiple": false
+                                    }
+                                }
+                            },
+                            "private_note": null
+                        }
+                    },
+                    "request": {
+                        "version": 2,
+                        "fields": {
+                            "status": {
+                                "filters": {
+                                    "state": {
+                                        "value": "active"
+                                    }
+                                }
+                            },
+                            "private_note": {
+                                "search": {
+                                    "value": "Never",
+                                    "matchType": "contains"
+                                }
+                            }
+                        }
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "status": 422,
+                    "error": {
+                        "kind": "unsupported_operation",
+                        "code": "unsupported_operation"
+                    },
+                    "data": null,
+                    "total": null,
+                    "filtered": null,
+                    "managedTransforms": 0,
+                    "driverListingReads": 0,
+                    "handlerCalls": 0,
+                    "handlerConstructions": 0,
+                    "sqlStatements": 0
+                }
+            },
+            {
+                "id": "driver-pgsql-preset-alone",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "pgsql",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "order": {
+                        "kind": "preset",
+                        "id": "by_price"
+                    },
+                    "paging": {
+                        "mode": "offset",
+                        "current": 1,
+                        "per_page": 2
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "plan": "accepted",
+                    "rows": [2, 3],
+                    "total": 3,
+                    "filtered": 3
+                }
+            },
+            {
+                "id": "driver-pgsql-cursor-alone",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "pgsql",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "order": {
+                        "kind": "fields",
+                        "terms": [
+                            {
+                                "field": "id",
+                                "direction": "asc",
+                                "sortType": "numeric"
+                            }
+                        ]
+                    },
+                    "paging": {
+                        "mode": "cursor",
+                        "cursor": null,
+                        "per_page": 2
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "plan": "accepted",
+                    "rows": [1, 2],
+                    "total": null,
+                    "filtered": null
+                }
+            },
+            {
+                "id": "driver-pgsql-incompatible-pair",
+                "evidence": "specification",
+                "operation": "driver-plan",
+                "input": {
+                    "driver": "pgsql",
+                    "presets": {
+                        "by_price": {
+                            "order": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc"
+                                },
+                                {
+                                    "field": "id",
+                                    "direction": "asc"
+                                }
+                            ]
+                        }
+                    },
+                    "identity": {
+                        "field": "id",
+                        "unique": true
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "order": {
+                        "kind": "preset",
+                        "id": "by_price"
+                    },
+                    "paging": {
+                        "mode": "cursor",
+                        "cursor": null,
+                        "per_page": 2
+                    },
+                    "independentlySupportedPair": ["global-order-preset", "cursor"]
+                },
+                "expected": {
+                    "status": 422,
+                    "error": {
+                        "kind": "unsupported_operation",
+                        "code": "unsupported_operation"
+                    },
+                    "data": null,
+                    "total": null,
+                    "filtered": null,
+                    "managedTransforms": 0,
+                    "driverListingReads": 0,
+                    "handlerCalls": 0,
+                    "handlerConstructions": 0,
+                    "sqlStatements": 0
+                }
+            }
+        ],
+        "scalars": [
+            {
+                "id": "scalar-string-none",
+                "evidence": "reference",
+                "operation": "scalar-filter",
+                "input": {
+                    "domain": {
+                        "kind": "string",
+                        "nulls": "allow"
+                    },
+                    "options": [null, "0"],
+                    "selection": [null],
+                    "empty": "clear",
+                    "rows": [null, "0"]
+                },
+                "expected": {
+                    "rows": [null],
+                    "total": 2,
+                    "filtered": 1
+                }
+            },
+            {
+                "id": "scalar-boolean-false",
+                "evidence": "reference",
+                "operation": "scalar-filter",
+                "input": {
+                    "domain": {
+                        "kind": "boolean",
+                        "nulls": "allow"
+                    },
+                    "options": [false, true],
+                    "selection": [false],
+                    "empty": "clear",
+                    "rows": [false, true]
+                },
+                "expected": {
+                    "rows": [false],
+                    "total": 2,
+                    "filtered": 1
+                }
+            },
+            {
+                "id": "scalar-integer-0",
+                "evidence": "reference",
+                "operation": "scalar-filter",
+                "input": {
+                    "domain": {
+                        "kind": "integer",
+                        "nulls": "allow"
+                    },
+                    "options": [0, 1],
+                    "selection": [0],
+                    "empty": "clear",
+                    "rows": [0, 1]
+                },
+                "expected": {
+                    "rows": [0],
+                    "total": 2,
+                    "filtered": 1
+                }
+            },
+            {
+                "id": "scalar-string-0",
+                "evidence": "reference",
+                "operation": "scalar-filter",
+                "input": {
+                    "domain": {
+                        "kind": "string",
+                        "nulls": "allow"
+                    },
+                    "options": ["0", "1"],
+                    "selection": ["0"],
+                    "empty": "clear",
+                    "rows": ["0", "1"]
+                },
+                "expected": {
+                    "rows": ["0"],
+                    "total": 2,
+                    "filtered": 1
+                }
+            },
+            {
+                "id": "scalar-empty-clear",
+                "evidence": "reference",
+                "operation": "scalar-filter",
+                "input": {
+                    "domain": {
+                        "kind": "integer",
+                        "nulls": "allow"
+                    },
+                    "options": [0, 1, null],
+                    "selection": [],
+                    "empty": "clear",
+                    "rows": [0, 1, null]
+                },
+                "expected": {
+                    "rows": [0, 1, null],
+                    "total": 3,
+                    "filtered": 3
+                }
+            },
+            {
+                "id": "scalar-empty-reject",
+                "evidence": "reference",
+                "operation": "scalar-filter",
+                "input": {
+                    "domain": {
+                        "kind": "integer",
+                        "nulls": "allow"
+                    },
+                    "options": [0, 1, null],
+                    "selection": [],
+                    "empty": "reject",
+                    "rows": [0, 1, null]
+                },
+                "expected": {
+                    "error": "validation",
+                    "rows": [],
+                    "total": 3,
+                    "filtered": 0
+                }
+            },
+            {
+                "id": "scalar-strict-options",
+                "evidence": "reference",
+                "operation": "scalar-options",
+                "input": {
+                    "domain": {
+                        "kind": "integer",
+                        "nulls": "allow"
+                    },
+                    "options": [0, "0"]
+                },
+                "expected": {
+                    "value": null
+                }
+            },
+            {
+                "id": "scalar-duplicate-options",
+                "evidence": "reference",
+                "operation": "scalar-options",
+                "input": {
+                    "domain": {
+                        "kind": "integer",
+                        "nulls": "allow"
+                    },
+                    "options": [0, 0]
+                },
+                "expected": {
+                    "value": null
+                }
+            },
+            {
+                "id": "scalar-null-capability",
+                "evidence": "specification",
+                "operation": "selection",
+                "input": {
+                    "capabilities": {
+                        "fields": {
+                            "status": {
+                                "filters": null
+                            }
+                        }
+                    },
+                    "request": {
+                        "fields": {
+                            "status": {
+                                "filters": {
+                                    "state": {
+                                        "value": null
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "expected": {
+                    "error": "unsupported_operation",
+                    "handlerCalls": 0
+                }
+            },
+            {
+                "id": "scalar-scoped-filter-ids",
+                "evidence": "specification",
+                "operation": "selection",
+                "input": {
+                    "capabilities": {
+                        "fields": {
+                            "status": {
+                                "filters": {
+                                    "same": {
+                                        "options": ["active"]
+                                    }
+                                }
+                            },
+                            "tenant": {
+                                "filters": {
+                                    "same": {
+                                        "options": ["north"]
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "request": {
+                        "fields": {
+                            "status": {
+                                "filters": {
+                                    "same": {
+                                        "value": "active"
+                                    }
+                                }
+                            },
+                            "tenant": {
+                                "filters": {
+                                    "same": {
+                                        "value": "north"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    }
+                },
+                "expected": {
+                    "rows": [1, 3],
+                    "total": 3,
+                    "filtered": 2
+                }
+            },
+            {
+                "id": "scalar-merged-field-nodes",
+                "evidence": "specification",
+                "operation": "selection",
+                "input": {
+                    "definition": [
+                        {
+                            "field": "name",
+                            "filter": "catalog"
+                        },
+                        {
+                            "field": "name",
+                            "search": "contains"
+                        },
+                        {
+                            "field": "name",
+                            "order": "natural"
+                        }
+                    ],
+                    "request": {
+                        "fields": {
+                            "name": {
+                                "filters": {
+                                    "catalog": {
+                                        "value": "Notebook"
+                                    }
+                                },
+                                "search": {
+                                    "value": "Note",
+                                    "matchType": "contains"
+                                }
+                            }
+                        }
+                    },
+                    "scope": {
+                        "tenant": "north"
+                    }
+                },
+                "expected": {
+                    "fields": ["name"],
+                    "rows": [1, 2],
+                    "total": 3,
+                    "filtered": 2
+                }
+            }
+        ],
+        "search": [
+            {
+                "id": "numeric-integer-0",
+                "evidence": "reference",
+                "operation": "numeric-term",
+                "input": {
+                    "kind": "integer",
+                    "term": "0"
+                },
+                "expected": {
+                    "value": 0
+                }
+            },
+            {
+                "id": "numeric-integer-1dot0",
+                "evidence": "reference",
+                "operation": "numeric-term",
+                "input": {
+                    "kind": "integer",
+                    "term": "1.0"
+                },
+                "expected": {
+                    "value": null
+                }
+            },
+            {
+                "id": "numeric-integer-01",
+                "evidence": "reference",
+                "operation": "numeric-term",
+                "input": {
+                    "kind": "integer",
+                    "term": "01"
+                },
+                "expected": {
+                    "value": null
+                }
+            },
+            {
+                "id": "numeric-integer-space1",
+                "evidence": "reference",
+                "operation": "numeric-term",
+                "input": {
+                    "kind": "integer",
+                    "term": " 1"
+                },
+                "expected": {
+                    "value": null
+                }
+            },
+            {
+                "id": "numeric-number-1e2",
+                "evidence": "reference",
+                "operation": "numeric-term",
+                "input": {
+                    "kind": "number",
+                    "term": "1e2"
+                },
+                "expected": {
+                    "value": 100
+                }
+            },
+            {
+                "id": "numeric-number-1e-999",
+                "evidence": "reference",
+                "operation": "numeric-term",
+                "input": {
+                    "kind": "number",
+                    "term": "1e-999"
+                },
+                "expected": {
+                    "value": null
+                }
+            },
+            {
+                "id": "numeric-number-9007199254740992",
+                "evidence": "reference",
+                "operation": "numeric-term",
+                "input": {
+                    "kind": "number",
+                    "term": "9007199254740992"
+                },
+                "expected": {
+                    "value": null
+                }
+            },
+            {
+                "id": "numeric-invalid-field",
+                "evidence": "reference",
+                "operation": "numeric-search",
+                "input": {
+                    "domain": {
+                        "kind": "integer",
+                        "nulls": "allow"
+                    },
+                    "row": 0,
+                    "term": "Notebook",
+                    "scope": "field"
+                },
+                "expected": {
+                    "value": {
+                        "kind": "validation-error"
+                    }
+                }
+            },
+            {
+                "id": "numeric-invalid-global",
+                "evidence": "reference",
+                "operation": "numeric-search",
+                "input": {
+                    "domain": {
+                        "kind": "integer",
+                        "nulls": "allow"
+                    },
+                    "row": 0,
+                    "term": "Notebook",
+                    "scope": "global"
+                },
+                "expected": {
+                    "value": {
+                        "kind": "match",
+                        "matches": false
+                    }
+                }
+            },
+            {
+                "id": "literal-percent",
+                "evidence": "reference",
+                "operation": "text-search",
+                "input": {
+                    "row": "a%b",
+                    "term": "%",
+                    "matchType": "contains"
+                },
+                "expected": {
+                    "value": true
+                }
+            },
+            {
+                "id": "literal-underscore",
+                "evidence": "reference",
+                "operation": "text-search",
+                "input": {
+                    "row": "a_b",
+                    "term": "_",
+                    "matchType": "contains"
+                },
+                "expected": {
+                    "value": true
+                }
+            },
+            {
+                "id": "literal-backslash",
+                "evidence": "reference",
+                "operation": "text-search",
+                "input": {
+                    "row": "a\\b",
+                    "term": "\\",
+                    "matchType": "contains"
+                },
+                "expected": {
+                    "value": true
+                }
+            },
+            {
+                "id": "literal-space",
+                "evidence": "reference",
+                "operation": "text-search",
+                "input": {
+                    "row": "a b",
+                    "term": " ",
+                    "matchType": "contains"
+                },
+                "expected": {
+                    "value": true
+                }
+            },
+            {
+                "id": "literal-zero",
+                "evidence": "reference",
+                "operation": "text-search",
+                "input": {
+                    "row": "a0b",
+                    "term": "0",
+                    "matchType": "contains"
+                },
+                "expected": {
+                    "value": true
+                }
+            },
+            {
+                "id": "search-match-all",
+                "evidence": "specification",
+                "operation": "search-group",
+                "input": {
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "clauses": [
+                        {
+                            "scope": "field",
+                            "target": "name",
+                            "kind": "string",
+                            "term": "Notebook",
+                            "matchType": "equals"
+                        },
+                        {
+                            "scope": "global",
+                            "targets": [
+                                {
+                                    "field": "status",
+                                    "kind": "string",
+                                    "matchType": "equals"
+                                }
+                            ],
+                            "targetMatch": "any",
+                            "term": "active"
+                        }
+                    ],
+                    "searchMatch": "all"
+                },
+                "expected": {
+                    "rows": [1],
+                    "total": 3,
+                    "filtered": 1
+                }
+            },
+            {
+                "id": "search-match-any",
+                "evidence": "specification",
+                "operation": "search-group",
+                "input": {
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "clauses": [
+                        {
+                            "scope": "field",
+                            "target": "name",
+                            "kind": "string",
+                            "term": "Notebook",
+                            "matchType": "equals"
+                        },
+                        {
+                            "scope": "global",
+                            "targets": [
+                                {
+                                    "field": "status",
+                                    "kind": "string",
+                                    "matchType": "equals"
+                                }
+                            ],
+                            "targetMatch": "any",
+                            "term": "active"
+                        }
+                    ],
+                    "searchMatch": "any"
+                },
+                "expected": {
+                    "rows": [1, 2, 3],
+                    "total": 3,
+                    "filtered": 3
+                }
+            },
+            {
+                "id": "global-fixed-targets",
+                "evidence": "specification",
+                "operation": "global-search",
+                "input": {
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "targets": [
+                        {
+                            "field": "name",
+                            "kind": "string",
+                            "matchType": "contains"
+                        },
+                        {
+                            "field": "price",
+                            "kind": "integer",
+                            "matchType": "equals"
+                        }
+                    ],
+                    "term": "0"
+                },
+                "expected": {
+                    "rows": [2],
+                    "total": 3,
+                    "filtered": 1
+                }
+            },
+            {
+                "id": "global-browser-target-override",
+                "evidence": "specification",
+                "operation": "global-search",
+                "input": {
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "targets": [
+                        {
+                            "field": "name",
+                            "kind": "string",
+                            "matchType": "contains"
+                        }
+                    ],
+                    "request": {
+                        "term": "Never",
+                        "targets": ["private_note"]
+                    }
+                },
+                "expected": {
+                    "status": 422,
+                    "error": "invalid_request",
+                    "handlerCalls": 0
+                }
+            },
+            {
+                "id": "counts-filtered-empty",
+                "evidence": "reference",
+                "operation": "offset-summary",
+                "input": {
+                    "total": 3,
+                    "filtered": 0,
+                    "current": 9,
+                    "per_page": 2
+                },
+                "expected": {
+                    "value": {
+                        "mode": "offset",
+                        "total": 3,
+                        "filtered": 0,
+                        "current": 1,
+                        "pages": 1,
+                        "per_page": 2,
+                        "has_previous": false,
+                        "has_next": false
+                    }
+                }
+            },
+            {
+                "id": "counts-filtered-clamp",
+                "evidence": "reference",
+                "operation": "offset-summary",
+                "input": {
+                    "total": 3,
+                    "filtered": 2,
+                    "current": 9,
+                    "per_page": 1
+                },
+                "expected": {
+                    "value": {
+                        "mode": "offset",
+                        "total": 3,
+                        "filtered": 2,
+                        "current": 2,
+                        "pages": 2,
+                        "per_page": 1,
+                        "has_previous": true,
+                        "has_next": false
+                    }
+                }
+            }
+        ],
+        "transforms": [
+            {
+                "id": "transform-source-first-value-second",
+                "evidence": "specification",
+                "operation": "transform",
+                "input": {
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "selection": false,
+                    "callback": {
+                        "parameters": ["source", "value"],
+                        "return": "source",
+                        "predicate": "status equals active when value is true, pending when value is false"
+                    },
+                    "kind": "global-filter"
+                },
+                "expected": {
+                    "arguments": [
+                        {
+                            "rows": [1, 2, 3]
+                        },
+                        false
+                    ],
+                    "handlerCalls": 1,
+                    "rows": [2],
+                    "total": 3,
+                    "filtered": 1
+                }
+            },
+            {
+                "id": "transform-source-only-order",
+                "evidence": "specification",
+                "operation": "transform",
+                "input": {
+                    "scope": {
+                        "tenant": "north"
+                    },
+                    "callback": {
+                        "parameters": ["source"],
+                        "return": "source"
+                    },
+                    "order": "price-desc"
+                },
+                "expected": {
+                    "arguments": [
+                        {
+                            "rows": [1, 2, 3]
+                        }
+                    ],
+                    "handlerCalls": 1,
+                    "rows": [1, 3, 2],
+                    "total": 3,
+                    "filtered": 3
+                }
+            },
+            {
+                "id": "transform-enum-subset",
+                "evidence": "specification",
+                "operation": "transform",
+                "input": {
+                    "domain": {
+                        "enum": "Status",
+                        "backing": "string",
+                        "cases": {
+                            "Active": "active",
+                            "Pending": "pending"
+                        },
+                        "allowed": ["Active"]
+                    },
+                    "binding": "Status",
+                    "selection": "active"
+                },
+                "expected": {
+                    "value": {
+                        "enum": "Status",
+                        "case": "Active"
+                    },
+                    "handlerCalls": 1
+                }
+            },
+            {
+                "id": "transform-enum-forbidden",
+                "evidence": "specification",
+                "operation": "transform",
+                "input": {
+                    "domain": {
+                        "enum": "Status",
+                        "backing": "string",
+                        "cases": {
+                            "Active": "active",
+                            "Pending": "pending"
+                        },
+                        "allowed": ["Active"]
+                    },
+                    "binding": "Status",
+                    "selection": "pending"
+                },
+                "expected": {
+                    "error": "validation",
+                    "handlerCalls": 0
+                }
+            },
+            {
+                "id": "transform-enum-wrong-type",
+                "evidence": "specification",
+                "operation": "transform",
+                "input": {
+                    "domain": {
+                        "enum": "Code",
+                        "backing": "integer",
+                        "cases": {
+                            "Zero": 0
+                        },
+                        "allowed": ["Zero"]
+                    },
+                    "binding": "Code",
+                    "selection": "0"
+                },
+                "expected": {
+                    "error": "validation",
+                    "handlerCalls": 0
+                }
+            },
+            {
+                "id": "transform-enum-mixed",
+                "evidence": "specification",
+                "operation": "transform",
+                "input": {
+                    "domain": {
+                        "enum": "Status",
+                        "backing": "string",
+                        "cases": {
+                            "Active": "active"
+                        },
+                        "allowed": ["Active"]
+                    },
+                    "binding": "mixed",
+                    "selection": "active"
+                },
+                "expected": {
+                    "value": "active",
+                    "handlerCalls": 1
+                }
+            },
+            {
+                "id": "transform-enum-multiple",
+                "evidence": "specification",
+                "operation": "transform",
+                "input": {
+                    "domain": {
+                        "enum": "Status",
+                        "backing": "string",
+                        "cases": {
+                            "Active": "active",
+                            "Pending": "pending"
+                        },
+                        "allowed": ["Active", "Pending"]
+                    },
+                    "binding": {
+                        "arrayElements": "Status"
+                    },
+                    "selection": ["active", "pending"]
+                },
+                "expected": {
+                    "value": [
+                        {
+                            "enum": "Status",
+                            "case": "Active"
+                        },
+                        {
+                            "enum": "Status",
+                            "case": "Pending"
+                        }
+                    ],
+                    "handlerCalls": 1
+                }
+            },
+            {
+                "id": "transform-enum-unknown",
+                "evidence": "specification",
+                "operation": "transform",
+                "input": {
+                    "domain": {
+                        "enum": "Status",
+                        "backing": "string",
+                        "cases": {
+                            "Active": "active"
+                        },
+                        "allowed": ["Active"]
+                    },
+                    "binding": "Status",
+                    "selection": "lost"
+                },
+                "expected": {
+                    "error": "validation",
+                    "handlerCalls": 0
+                }
+            },
+            {
+                "id": "transform-enum-pure-name",
+                "evidence": "specification",
+                "operation": "transform",
+                "input": {
+                    "domain": {
+                        "enum": "Flag",
+                        "backing": null,
+                        "cases": ["Enabled", "Disabled"],
+                        "allowed": ["Enabled"]
+                    },
+                    "binding": "Flag",
+                    "selection": "Enabled"
+                },
+                "expected": {
+                    "value": {
+                        "enum": "Flag",
+                        "case": "Enabled"
+                    },
+                    "handlerCalls": 1
+                }
+            },
+            {
+                "id": "transform-enum-null",
+                "evidence": "specification",
+                "operation": "transform",
+                "input": {
+                    "domain": {
+                        "enum": "Status",
+                        "backing": "string",
+                        "cases": {
+                            "Active": "active"
+                        },
+                        "allowed": ["Active", null]
+                    },
+                    "binding": "?Status",
+                    "selection": null
+                },
+                "expected": {
+                    "value": null,
+                    "handlerCalls": 1
+                }
+            },
+            {
+                "id": "transform-enum-duplicate-wire",
+                "evidence": "specification",
+                "operation": "transform",
+                "input": {
+                    "domains": [
+                        {
+                            "enum": "Status",
+                            "case": "Active",
+                            "wire": "active"
+                        },
+                        {
+                            "enum": "OtherStatus",
+                            "case": "Active",
+                            "wire": "active"
+                        }
+                    ]
+                },
+                "expected": {
+                    "error": "invalid_source",
+                    "handlerCalls": 0
+                }
+            },
+            {
+                "id": "transform-enum-domain-mismatch",
+                "evidence": "specification",
+                "operation": "transform",
+                "input": {
+                    "domain": {
+                        "enum": "Status",
+                        "allowed": ["Active"]
+                    },
+                    "binding": "OtherStatus",
+                    "selection": "active"
+                },
+                "expected": {
+                    "error": "invalid_source",
+                    "handlerCalls": 0
+                }
+            },
+            {
+                "id": "transform-enum-ambiguous-union",
+                "evidence": "specification",
+                "operation": "transform",
+                "input": {
+                    "domain": {
+                        "enum": "Status",
+                        "allowed": ["Active"]
+                    },
+                    "binding": "Status|OtherStatus",
+                    "selection": "active"
+                },
+                "expected": {
+                    "error": "invalid_source",
+                    "handlerCalls": 0
+                }
+            },
+            {
+                "id": "transform-enum-array-unbound",
+                "evidence": "specification",
+                "operation": "transform",
+                "input": {
+                    "domain": {
+                        "enum": "Status",
+                        "allowed": ["Active"]
+                    },
+                    "binding": "array",
+                    "selection": ["active"]
+                },
+                "expected": {
+                    "error": "invalid_source",
+                    "handlerCalls": 0
+                }
+            },
+            {
+                "id": "transform-enum-multiple-invalid",
+                "evidence": "specification",
+                "operation": "transform",
+                "input": {
+                    "domain": {
+                        "enum": "Status",
+                        "backing": "string",
+                        "cases": {
+                            "Active": "active",
+                            "Pending": "pending"
+                        },
+                        "allowed": ["Active", "Pending"]
+                    },
+                    "binding": {
+                        "arrayElements": "Status"
+                    },
+                    "selection": ["active", "lost"]
+                },
+                "expected": {
+                    "status": 422,
+                    "error": "validation",
+                    "handlerCalls": 0,
+                    "boundValues": []
+                }
+            }
+        ],
+        "transitions": [
+            {
+                "id": "transition-replace-order",
+                "evidence": "reference",
+                "operation": "transition",
+                "input": {
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "fields",
+                            "terms": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc",
+                                    "sortType": "numeric"
+                                },
+                                {
+                                    "field": "name",
+                                    "direction": "asc",
+                                    "sortType": "natural"
+                                }
+                            ]
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "command": {
+                        "kind": "field-order",
+                        "term": {
+                            "field": "name",
+                            "direction": "asc",
+                            "sortType": "natural"
+                        }
+                    },
+                    "policy": {
+                        "multi_order": true,
+                        "multi_order_limit": 2,
+                        "infinite": false,
+                        "exactCounts": true,
+                        "sizes": [10, 25, 50]
+                    },
+                    "options": {}
+                },
+                "expected": {
+                    "status": "changed",
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "fields",
+                            "terms": [
+                                {
+                                    "field": "name",
+                                    "direction": "asc",
+                                    "sortType": "natural"
+                                }
+                            ]
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 25
+                        }
+                    },
+                    "request": true,
+                    "clearWindow": true
+                }
+            },
+            {
+                "id": "transition-additive-order",
+                "evidence": "reference",
+                "operation": "transition",
+                "input": {
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "fields",
+                            "terms": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc",
+                                    "sortType": "numeric"
+                                }
+                            ]
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "command": {
+                        "kind": "field-order",
+                        "term": {
+                            "field": "name",
+                            "direction": "asc",
+                            "sortType": "natural"
+                        },
+                        "multiSort": true
+                    },
+                    "policy": {
+                        "multi_order": true,
+                        "multi_order_limit": 2,
+                        "infinite": false,
+                        "exactCounts": true,
+                        "sizes": [10, 25, 50]
+                    },
+                    "options": {}
+                },
+                "expected": {
+                    "status": "changed",
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "fields",
+                            "terms": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc",
+                                    "sortType": "numeric"
+                                },
+                                {
+                                    "field": "name",
+                                    "direction": "asc",
+                                    "sortType": "natural"
+                                }
+                            ]
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 25
+                        }
+                    },
+                    "request": true,
+                    "clearWindow": true
+                }
+            },
+            {
+                "id": "transition-order-limit",
+                "evidence": "reference",
+                "operation": "transition",
+                "input": {
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "fields",
+                            "terms": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc",
+                                    "sortType": "numeric"
+                                },
+                                {
+                                    "field": "name",
+                                    "direction": "asc",
+                                    "sortType": "natural"
+                                }
+                            ]
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "command": {
+                        "kind": "field-order",
+                        "term": {
+                            "field": "id",
+                            "direction": "asc",
+                            "sortType": "numeric"
+                        },
+                        "multiSort": true
+                    },
+                    "policy": {
+                        "multi_order": true,
+                        "multi_order_limit": 2,
+                        "infinite": false,
+                        "exactCounts": true,
+                        "sizes": [10, 25, 50]
+                    },
+                    "options": {}
+                },
+                "expected": {
+                    "status": "rejected",
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "fields",
+                            "terms": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc",
+                                    "sortType": "numeric"
+                                },
+                                {
+                                    "field": "name",
+                                    "direction": "asc",
+                                    "sortType": "natural"
+                                }
+                            ]
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "request": false,
+                    "clearWindow": false,
+                    "errorCode": "order_limit"
+                }
+            },
+            {
+                "id": "transition-preset-to-fields",
+                "evidence": "reference",
+                "operation": "transition",
+                "input": {
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "preset",
+                            "id": "by_price"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "command": {
+                        "kind": "field-order",
+                        "term": {
+                            "field": "price",
+                            "direction": "asc",
+                            "sortType": "numeric"
+                        }
+                    },
+                    "policy": {
+                        "multi_order": true,
+                        "multi_order_limit": 2,
+                        "infinite": false,
+                        "exactCounts": true,
+                        "sizes": [10, 25, 50]
+                    },
+                    "options": {}
+                },
+                "expected": {
+                    "status": "changed",
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "fields",
+                            "terms": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc",
+                                    "sortType": "numeric"
+                                }
+                            ]
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 25
+                        }
+                    },
+                    "request": true,
+                    "clearWindow": true
+                }
+            },
+            {
+                "id": "transition-fields-to-preset",
+                "evidence": "reference",
+                "operation": "transition",
+                "input": {
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "fields",
+                            "terms": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc",
+                                    "sortType": "numeric"
+                                }
+                            ]
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "command": {
+                        "kind": "preset",
+                        "id": "by_price"
+                    },
+                    "policy": {
+                        "multi_order": true,
+                        "multi_order_limit": 2,
+                        "infinite": false,
+                        "exactCounts": true,
+                        "sizes": [10, 25, 50]
+                    },
+                    "options": {}
+                },
+                "expected": {
+                    "status": "changed",
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "preset",
+                            "id": "by_price"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 25
+                        }
+                    },
+                    "request": true,
+                    "clearWindow": true
+                }
+            },
+            {
+                "id": "transition-preset-additive-rejected",
+                "evidence": "reference",
+                "operation": "transition",
+                "input": {
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "preset",
+                            "id": "by_price"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "command": {
+                        "kind": "field-order",
+                        "term": {
+                            "field": "price",
+                            "direction": "asc",
+                            "sortType": "numeric"
+                        },
+                        "multiSort": true
+                    },
+                    "policy": {
+                        "multi_order": true,
+                        "multi_order_limit": 2,
+                        "infinite": false,
+                        "exactCounts": true,
+                        "sizes": [10, 25, 50]
+                    },
+                    "options": {}
+                },
+                "expected": {
+                    "status": "rejected",
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "preset",
+                            "id": "by_price"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "request": false,
+                    "clearWindow": false,
+                    "errorCode": "unsupported_additive_order"
+                }
+            },
+            {
+                "id": "transition-inactive-preset-clear",
+                "evidence": "reference",
+                "operation": "transition",
+                "input": {
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "fields",
+                            "terms": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc",
+                                    "sortType": "numeric"
+                                }
+                            ]
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "command": {
+                        "kind": "preset"
+                    },
+                    "policy": {
+                        "multi_order": true,
+                        "multi_order_limit": 2,
+                        "infinite": false,
+                        "exactCounts": true,
+                        "sizes": [10, 25, 50]
+                    },
+                    "options": {}
+                },
+                "expected": {
+                    "status": "unchanged",
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "fields",
+                            "terms": [
+                                {
+                                    "field": "price",
+                                    "direction": "asc",
+                                    "sortType": "numeric"
+                                }
+                            ]
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "request": false,
+                    "clearWindow": false
+                }
+            },
+            {
+                "id": "transition-inactive-field-clear",
+                "evidence": "reference",
+                "operation": "transition",
+                "input": {
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "command": {
+                        "kind": "clear-field-order",
+                        "field": "price"
+                    },
+                    "policy": {
+                        "multi_order": true,
+                        "multi_order_limit": 2,
+                        "infinite": false,
+                        "exactCounts": true,
+                        "sizes": [10, 25, 50]
+                    },
+                    "options": {}
+                },
+                "expected": {
+                    "status": "unchanged",
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "request": false,
+                    "clearWindow": false
+                }
+            },
+            {
+                "id": "transition-unchanged-criteria",
+                "evidence": "reference",
+                "operation": "transition",
+                "input": {
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {
+                            "search": {
+                                "value": "Notebook"
+                            }
+                        },
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "command": {
+                        "kind": "global-search",
+                        "value": "Notebook"
+                    },
+                    "policy": {
+                        "multi_order": true,
+                        "multi_order_limit": 2,
+                        "infinite": false,
+                        "exactCounts": true,
+                        "sizes": [10, 25, 50]
+                    },
+                    "options": {}
+                },
+                "expected": {
+                    "status": "unchanged",
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {
+                            "search": {
+                                "value": "Notebook"
+                            }
+                        },
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "request": false,
+                    "clearWindow": false
+                }
+            },
+            {
+                "id": "transition-preserve-page",
+                "evidence": "reference",
+                "operation": "transition",
+                "input": {
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "command": {
+                        "kind": "global-search",
+                        "value": "Notebook"
+                    },
+                    "policy": {
+                        "multi_order": true,
+                        "multi_order_limit": 2,
+                        "infinite": false,
+                        "exactCounts": true,
+                        "sizes": [10, 25, 50]
+                    },
+                    "options": {
+                        "page": "preserve"
+                    }
+                },
+                "expected": {
+                    "status": "changed",
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {
+                            "search": {
+                                "value": "Notebook"
+                            }
+                        },
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "request": true,
+                    "clearWindow": true
+                }
+            },
+            {
+                "id": "transition-replace-snapshot",
+                "evidence": "reference",
+                "operation": "transition",
+                "input": {
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "command": {
+                        "kind": "replace",
+                        "value": {
+                            "version": 2,
+                            "fields": {},
+                            "global": {
+                                "search": {
+                                    "value": "Notebook"
+                                }
+                            },
+                            "searchMatch": "all",
+                            "order": {
+                                "kind": "default"
+                            },
+                            "paging": {
+                                "mode": "offset",
+                                "current": 3,
+                                "per_page": 25
+                            }
+                        }
+                    },
+                    "policy": {
+                        "multi_order": true,
+                        "multi_order_limit": 2,
+                        "infinite": false,
+                        "exactCounts": true,
+                        "sizes": [10, 25, 50]
+                    },
+                    "options": {}
+                },
+                "expected": {
+                    "status": "changed",
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {
+                            "search": {
+                                "value": "Notebook"
+                            }
+                        },
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "request": true,
+                    "clearWindow": true
+                }
+            },
+            {
+                "id": "transition-selected-null",
+                "evidence": "reference",
+                "operation": "transition",
+                "input": {
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "command": {
+                        "kind": "global-filter",
+                        "id": "literal",
+                        "value": null
+                    },
+                    "policy": {
+                        "multi_order": true,
+                        "multi_order_limit": 2,
+                        "infinite": false,
+                        "exactCounts": true,
+                        "sizes": [10, 25, 50]
+                    },
+                    "options": {}
+                },
+                "expected": {
+                    "status": "changed",
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {
+                            "filters": {
+                                "literal": {
+                                    "value": null
+                                }
+                            }
+                        },
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 25
+                        }
+                    },
+                    "request": true,
+                    "clearWindow": true
+                }
+            },
+            {
+                "id": "transition-selected-false",
+                "evidence": "reference",
+                "operation": "transition",
+                "input": {
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "command": {
+                        "kind": "global-filter",
+                        "id": "literal",
+                        "value": false
+                    },
+                    "policy": {
+                        "multi_order": true,
+                        "multi_order_limit": 2,
+                        "infinite": false,
+                        "exactCounts": true,
+                        "sizes": [10, 25, 50]
+                    },
+                    "options": {}
+                },
+                "expected": {
+                    "status": "changed",
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {
+                            "filters": {
+                                "literal": {
+                                    "value": false
+                                }
+                            }
+                        },
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 25
+                        }
+                    },
+                    "request": true,
+                    "clearWindow": true
+                }
+            },
+            {
+                "id": "transition-selected-zero",
+                "evidence": "reference",
+                "operation": "transition",
+                "input": {
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "command": {
+                        "kind": "global-filter",
+                        "id": "literal",
+                        "value": 0
+                    },
+                    "policy": {
+                        "multi_order": true,
+                        "multi_order_limit": 2,
+                        "infinite": false,
+                        "exactCounts": true,
+                        "sizes": [10, 25, 50]
+                    },
+                    "options": {}
+                },
+                "expected": {
+                    "status": "changed",
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {
+                            "filters": {
+                                "literal": {
+                                    "value": 0
+                                }
+                            }
+                        },
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 25
+                        }
+                    },
+                    "request": true,
+                    "clearWindow": true
+                }
+            },
+            {
+                "id": "transition-selected-string-zero",
+                "evidence": "reference",
+                "operation": "transition",
+                "input": {
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "command": {
+                        "kind": "global-filter",
+                        "id": "literal",
+                        "value": "0"
+                    },
+                    "policy": {
+                        "multi_order": true,
+                        "multi_order_limit": 2,
+                        "infinite": false,
+                        "exactCounts": true,
+                        "sizes": [10, 25, 50]
+                    },
+                    "options": {}
+                },
+                "expected": {
+                    "status": "changed",
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {
+                            "filters": {
+                                "literal": {
+                                    "value": "0"
+                                }
+                            }
+                        },
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 25
+                        }
+                    },
+                    "request": true,
+                    "clearWindow": true
+                }
+            },
+            {
+                "id": "transition-server-clamp",
+                "evidence": "reference",
+                "operation": "acknowledge",
+                "input": {
+                    "latest": 3,
+                    "responseGeneration": 3,
+                    "requested": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {
+                            "search": {
+                                "value": "Notebook"
+                            }
+                        },
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 3,
+                            "per_page": 25
+                        }
+                    },
+                    "canonical": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {
+                            "search": {
+                                "value": "Notebook"
+                            }
+                        },
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 2,
+                            "per_page": 25
+                        }
+                    }
+                },
+                "expected": {
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {
+                            "search": {
+                                "value": "Notebook"
+                            }
+                        },
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 2,
+                            "per_page": 25
+                        }
+                    },
+                    "request": false
+                }
+            }
+        ],
+        "records": [
+            {
+                "id": "resource-no-identity",
+                "evidence": "reference",
+                "operation": "record-page",
+                "input": {
+                    "data": [
+                        {
+                            "name": "Notebook"
+                        }
+                    ],
+                    "metadata": {
+                        "records": {
+                            "mode": "identified",
+                            "rows": [
+                                {
+                                    "id": 1
+                                }
+                            ]
+                        },
+                        "channel": null
+                    }
+                },
+                "expected": {
+                    "data": [
+                        {
+                            "name": "Notebook"
+                        }
+                    ],
+                    "metadata": {
+                        "records": {
+                            "mode": "identified",
+                            "rows": [
+                                {
+                                    "id": 1
+                                }
+                            ]
+                        },
+                        "channel": null
+                    }
+                }
+            },
+            {
+                "id": "resource-unidentified",
+                "evidence": "reference",
+                "operation": "record-page",
+                "input": {
+                    "data": [null, false, 0, "0"],
+                    "metadata": {
+                        "records": {
+                            "mode": "unidentified"
+                        },
+                        "channel": null
+                    }
+                },
+                "expected": {
+                    "data": [null, false, 0, "0"],
+                    "metadata": {
+                        "records": {
+                            "mode": "unidentified"
+                        },
+                        "channel": null
+                    }
+                }
+            },
+            {
+                "id": "resource-misaligned",
+                "evidence": "reference",
+                "operation": "record-page",
+                "input": {
+                    "data": [
+                        {
+                            "name": "Notebook"
+                        }
+                    ],
+                    "metadata": {
+                        "records": {
+                            "mode": "identified",
+                            "rows": []
+                        },
+                        "channel": null
+                    }
+                },
+                "expected": {
+                    "value": null
+                }
+            }
+        ],
+        "channels": [
+            {
+                "id": "channel-private-allowed",
+                "evidence": "reference",
+                "operation": "private-channel",
+                "input": {
+                    "registered": {
+                        "type": "private",
+                        "source": "Products",
+                        "guard": "web",
+                        "definition": "g2",
+                        "pattern": "catalog.web.{context}",
+                        "authorize": "subscribe-products"
+                    },
+                    "effective": {
+                        "type": "private",
+                        "source": "Products",
+                        "guard": "web",
+                        "definition": "g2",
+                        "pattern": "catalog.web.{context}",
+                        "authorize": "subscribe-products"
+                    },
+                    "context": {
+                        "source": "Products",
+                        "guard": "web",
+                        "definition": "g2",
+                        "principalOrAudience": "reader-opaque",
+                        "token": "ctx-opaque",
+                        "audience": {
+                            "kind": "scoped",
+                            "scope": "north-opaque",
+                            "projection": "catalog"
+                        }
+                    },
+                    "requestedName": "catalog.web.ctx-opaque",
+                    "selectedGuard": "web",
+                    "authenticated": true,
+                    "sourceGate": true,
+                    "customGate": true
+                },
+                "expected": {
+                    "value": {
+                        "type": "private",
+                        "name": "catalog.web.ctx-opaque",
+                        "event": ".dapter.updated"
+                    }
+                }
+            },
+            {
+                "id": "channel-private-wrong-guard",
+                "evidence": "reference",
+                "operation": "private-channel",
+                "input": {
+                    "registered": {
+                        "type": "private",
+                        "source": "Products",
+                        "guard": "web",
+                        "definition": "g2",
+                        "pattern": "catalog.web.{context}",
+                        "authorize": "subscribe-products"
+                    },
+                    "effective": {
+                        "type": "private",
+                        "source": "Products",
+                        "guard": "web",
+                        "definition": "g2",
+                        "pattern": "catalog.web.{context}",
+                        "authorize": "subscribe-products"
+                    },
+                    "context": {
+                        "source": "Products",
+                        "guard": "web",
+                        "definition": "g2",
+                        "principalOrAudience": "reader-opaque",
+                        "token": "ctx-opaque",
+                        "audience": {
+                            "kind": "scoped",
+                            "scope": "north-opaque",
+                            "projection": "catalog"
+                        }
+                    },
+                    "requestedName": "catalog.web.ctx-opaque",
+                    "selectedGuard": "admin",
+                    "authenticated": true,
+                    "sourceGate": true,
+                    "customGate": true
+                },
+                "expected": {
+                    "value": null
+                }
+            },
+            {
+                "id": "channel-private-source-denied",
+                "evidence": "reference",
+                "operation": "private-channel",
+                "input": {
+                    "registered": {
+                        "type": "private",
+                        "source": "Products",
+                        "guard": "web",
+                        "definition": "g2",
+                        "pattern": "catalog.web.{context}",
+                        "authorize": "subscribe-products"
+                    },
+                    "effective": {
+                        "type": "private",
+                        "source": "Products",
+                        "guard": "web",
+                        "definition": "g2",
+                        "pattern": "catalog.web.{context}",
+                        "authorize": "subscribe-products"
+                    },
+                    "context": {
+                        "source": "Products",
+                        "guard": "web",
+                        "definition": "g2",
+                        "principalOrAudience": "reader-opaque",
+                        "token": "ctx-opaque",
+                        "audience": {
+                            "kind": "scoped",
+                            "scope": "north-opaque",
+                            "projection": "catalog"
+                        }
+                    },
+                    "requestedName": "catalog.web.ctx-opaque",
+                    "selectedGuard": "web",
+                    "authenticated": true,
+                    "sourceGate": false,
+                    "customGate": true
+                },
+                "expected": {
+                    "value": null
+                }
+            },
+            {
+                "id": "channel-private-no-auth",
+                "evidence": "reference",
+                "operation": "private-channel",
+                "input": {
+                    "registered": {
+                        "type": "private",
+                        "source": "Products",
+                        "guard": "web",
+                        "definition": "g2",
+                        "pattern": "catalog.web.{context}",
+                        "authorize": "subscribe-products"
+                    },
+                    "effective": {
+                        "type": "private",
+                        "source": "Products",
+                        "guard": "web",
+                        "definition": "g2",
+                        "pattern": "catalog.web.{context}",
+                        "authorize": "subscribe-products"
+                    },
+                    "context": {
+                        "source": "Products",
+                        "guard": "web",
+                        "definition": "g2",
+                        "principalOrAudience": "reader-opaque",
+                        "token": "ctx-opaque",
+                        "audience": {
+                            "kind": "scoped",
+                            "scope": "north-opaque",
+                            "projection": "catalog"
+                        }
+                    },
+                    "requestedName": "catalog.web.ctx-opaque",
+                    "selectedGuard": "web",
+                    "authenticated": false,
+                    "sourceGate": true,
+                    "customGate": true
+                },
+                "expected": {
+                    "value": null
+                }
+            },
+            {
+                "id": "channel-public-explicit",
+                "evidence": "reference",
+                "operation": "public-channel",
+                "input": {
+                    "declaration": {
+                        "type": "public",
+                        "name": "catalog.public",
+                        "projection": "public-catalog"
+                    },
+                    "sourceOptIn": true,
+                    "sourceAccess": true,
+                    "producerAuthorized": true,
+                    "projectionGloballySafe": true,
+                    "readerDependentProjection": false
+                },
+                "expected": {
+                    "value": {
+                        "type": "public",
+                        "name": "catalog.public",
+                        "event": ".dapter.updated"
+                    }
+                }
+            },
+            {
+                "id": "channel-public-not-opted-in",
+                "evidence": "reference",
+                "operation": "public-channel",
+                "input": {
+                    "declaration": {
+                        "type": "public",
+                        "name": "catalog.public",
+                        "projection": "public-catalog"
+                    },
+                    "sourceOptIn": false,
+                    "sourceAccess": true,
+                    "producerAuthorized": true,
+                    "projectionGloballySafe": true,
+                    "readerDependentProjection": false
+                },
+                "expected": {
+                    "value": null
+                }
+            },
+            {
+                "id": "channel-public-reader-projection",
+                "evidence": "reference",
+                "operation": "public-channel",
+                "input": {
+                    "declaration": {
+                        "type": "public",
+                        "name": "catalog.public",
+                        "projection": "public-catalog"
+                    },
+                    "sourceOptIn": true,
+                    "sourceAccess": true,
+                    "producerAuthorized": true,
+                    "projectionGloballySafe": true,
+                    "readerDependentProjection": true
+                },
+                "expected": {
+                    "value": null
+                }
+            },
+            {
+                "id": "channel-public-unsafe-projection",
+                "evidence": "reference",
+                "operation": "public-channel",
+                "input": {
+                    "declaration": {
+                        "type": "public",
+                        "name": "catalog.public",
+                        "projection": "public-catalog"
+                    },
+                    "sourceOptIn": true,
+                    "sourceAccess": true,
+                    "producerAuthorized": true,
+                    "projectionGloballySafe": false,
+                    "readerDependentProjection": false
+                },
+                "expected": {
+                    "value": null
+                }
+            }
+        ],
+        "runtime": [
+            {
+                "id": "runtime-array-first",
+                "evidence": "current-runtime",
+                "operation": "read",
+                "input": {
+                    "driver": "array",
+                    "tenant": "north",
+                    "current": 1,
+                    "per_page": 2
+                },
+                "expected": {
+                    "status": 200,
+                    "rows": [
+                        {
+                            "id": 1,
+                            "name": "Notebook",
+                            "tenant": "north"
+                        },
+                        {
+                            "id": 2,
+                            "name": "Notebook",
+                            "tenant": "north"
+                        }
+                    ],
+                    "total": 3,
+                    "filtered": 3,
+                    "current": 1,
+                    "pages": 2
+                }
+            },
+            {
+                "id": "runtime-array-clamp",
+                "evidence": "current-runtime",
+                "operation": "read",
+                "input": {
+                    "driver": "array",
+                    "tenant": "north",
+                    "current": 9,
+                    "per_page": 2
+                },
+                "expected": {
+                    "status": 200,
+                    "rows": [
+                        {
+                            "id": 3,
+                            "name": "Pencil",
+                            "tenant": "north"
+                        }
+                    ],
+                    "total": 3,
+                    "filtered": 3,
+                    "current": 2,
+                    "pages": 2
+                }
+            },
+            {
+                "id": "runtime-array-empty",
+                "evidence": "current-runtime",
+                "operation": "read",
+                "input": {
+                    "driver": "array",
+                    "tenant": "missing",
+                    "current": 9,
+                    "per_page": 2
+                },
+                "expected": {
+                    "status": 200,
+                    "rows": [],
+                    "total": 0,
+                    "filtered": 0,
+                    "current": 1,
+                    "pages": 1
+                }
+            },
+            {
+                "id": "runtime-collection-first",
+                "evidence": "current-runtime",
+                "operation": "read",
+                "input": {
+                    "driver": "collection",
+                    "tenant": "north",
+                    "current": 1,
+                    "per_page": 2
+                },
+                "expected": {
+                    "status": 200,
+                    "rows": [
+                        {
+                            "id": 1,
+                            "name": "Notebook",
+                            "tenant": "north"
+                        },
+                        {
+                            "id": 2,
+                            "name": "Notebook",
+                            "tenant": "north"
+                        }
+                    ],
+                    "total": 3,
+                    "filtered": 3,
+                    "current": 1,
+                    "pages": 2
+                }
+            },
+            {
+                "id": "runtime-collection-clamp",
+                "evidence": "current-runtime",
+                "operation": "read",
+                "input": {
+                    "driver": "collection",
+                    "tenant": "north",
+                    "current": 9,
+                    "per_page": 2
+                },
+                "expected": {
+                    "status": 200,
+                    "rows": [
+                        {
+                            "id": 3,
+                            "name": "Pencil",
+                            "tenant": "north"
+                        }
+                    ],
+                    "total": 3,
+                    "filtered": 3,
+                    "current": 2,
+                    "pages": 2
+                }
+            },
+            {
+                "id": "runtime-collection-empty",
+                "evidence": "current-runtime",
+                "operation": "read",
+                "input": {
+                    "driver": "collection",
+                    "tenant": "missing",
+                    "current": 9,
+                    "per_page": 2
+                },
+                "expected": {
+                    "status": 200,
+                    "rows": [],
+                    "total": 0,
+                    "filtered": 0,
+                    "current": 1,
+                    "pages": 1
+                }
+            },
+            {
+                "id": "runtime-sqlite-first",
+                "evidence": "current-runtime",
+                "operation": "read",
+                "input": {
+                    "driver": "sqlite",
+                    "tenant": "north",
+                    "current": 1,
+                    "per_page": 2
+                },
+                "expected": {
+                    "status": 200,
+                    "rows": [
+                        {
+                            "id": 1,
+                            "name": "Notebook",
+                            "tenant": "north"
+                        },
+                        {
+                            "id": 2,
+                            "name": "Notebook",
+                            "tenant": "north"
+                        }
+                    ],
+                    "total": 3,
+                    "filtered": 3,
+                    "current": 1,
+                    "pages": 2
+                }
+            },
+            {
+                "id": "runtime-sqlite-clamp",
+                "evidence": "current-runtime",
+                "operation": "read",
+                "input": {
+                    "driver": "sqlite",
+                    "tenant": "north",
+                    "current": 9,
+                    "per_page": 2
+                },
+                "expected": {
+                    "status": 200,
+                    "rows": [
+                        {
+                            "id": 3,
+                            "name": "Pencil",
+                            "tenant": "north"
+                        }
+                    ],
+                    "total": 3,
+                    "filtered": 3,
+                    "current": 2,
+                    "pages": 2
+                }
+            },
+            {
+                "id": "runtime-sqlite-empty",
+                "evidence": "current-runtime",
+                "operation": "read",
+                "input": {
+                    "driver": "sqlite",
+                    "tenant": "missing",
+                    "current": 9,
+                    "per_page": 2
+                },
+                "expected": {
+                    "status": 200,
+                    "rows": [],
+                    "total": 0,
+                    "filtered": 0,
+                    "current": 1,
+                    "pages": 1
+                }
+            },
+            {
+                "id": "runtime-mysql-unsupported",
+                "evidence": "current-runtime",
+                "operation": "read",
+                "input": {
+                    "driver": "mysql",
+                    "tenant": "north",
+                    "current": 1,
+                    "per_page": 2
+                },
+                "expected": {
+                    "status": 500,
+                    "error": "invalid_source",
+                    "sqlStatements": 0
+                }
+            },
+            {
+                "id": "runtime-pgsql-unsupported",
+                "evidence": "current-runtime",
+                "operation": "read",
+                "input": {
+                    "driver": "pgsql",
+                    "tenant": "north",
+                    "current": 1,
+                    "per_page": 2
+                },
+                "expected": {
+                    "status": 500,
+                    "error": "invalid_source",
+                    "sqlStatements": 0
+                }
+            },
+            {
+                "id": "runtime-sqlite-forbidden-limit",
+                "evidence": "current-runtime",
+                "operation": "read",
+                "input": {
+                    "driver": "sqlite",
+                    "tenant": "north",
+                    "current": 1,
+                    "per_page": 2,
+                    "limit": 1
+                },
+                "expected": {
+                    "status": 500,
+                    "error": "invalid_source",
+                    "sqlStatements": 0
+                }
+            },
+            {
+                "id": "runtime-cloaked-denial",
+                "evidence": "current-runtime",
+                "operation": "access",
+                "input": {
+                    "source": "Options",
+                    "ability": "deny-shared-source"
+                },
+                "expected": {
+                    "status": 404,
+                    "error": {
+                        "kind": "access",
+                        "code": "source_not_found",
+                        "message": "The data request could not be completed."
+                    },
+                    "sourceReads": 0,
+                    "data": null,
+                    "counts": null,
+                    "capabilities": null
+                }
+            },
+            {
+                "id": "runtime-missing-source",
+                "evidence": "current-runtime",
+                "operation": "access",
+                "input": {
+                    "source": "Missing",
+                    "ability": "deny-shared-source"
+                },
+                "expected": {
+                    "status": 404,
+                    "error": {
+                        "kind": "access",
+                        "code": "source_not_found",
+                        "message": "The data request could not be completed."
+                    },
+                    "sourceReads": 0,
+                    "data": null,
+                    "counts": null,
+                    "capabilities": null
+                }
+            }
+        ]
+    }
+}

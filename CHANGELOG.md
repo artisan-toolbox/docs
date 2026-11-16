@@ -15,7 +15,13 @@
 
 ## Unreleased
 
-- Record Dapter's test-fixture PHPStan correction. Its Eloquent fixture no longer declares an unused factory capability; package runtime and consumer APIs are unchanged.
+- Define shared Dapter acceptance fixtures for current sources, declarations, proposed operations, state transitions, projection, and channel audiences. Separate executed behavior from specification cases and pin native database targets without claiming new driver support.
+
+- Record proposed Dapter action policies through attributes or options, server-filtered action metadata, and authorization checks on every execution.
+
+- Settle Dapter query defaults and count contracts with checked scalar domains, literal search, numeric parsing, and zero-match offset arithmetic. Verify current default sizes, bounded counts, and stable SQLite ordering without enabling future query operations.
+
+- Keep Dapter tests under PHPStan and Rector while preventing automatic factory-trait insertion into its factory-free Eloquent fixture. Package runtime and consumer APIs are unchanged.
 
 - Install Front Awesome 1.0.0-beta.2 and refresh its Composer-delivered frontend so preference choices persist in encrypted cookies after session removal. Resolve the already-declared Filoquent 1.0.0-beta.4 requirement while preserving the local Dapter preview. Correct preference guides to identify the beta.2 cookie default.
 

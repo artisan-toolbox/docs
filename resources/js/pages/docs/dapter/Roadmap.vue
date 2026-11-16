@@ -274,7 +274,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-0-5"
-                                    status="in_progress"
+                                    status="completed"
                                     title="TODO 0.5. Set query defaults and counts">
                                     <p>
                                         Fix the defaults for offset pagination, page sizes, existing
@@ -288,12 +288,31 @@ defineProps({
                                         Specify the logical scalar domain for each managed field
                                         comparison.
                                     </p>
+                                    <p>
+                                        Current Collection and SQLite endpoint tests verify
+                                        defaults, bounded counts, empty results, and stable offset
+                                        order. The checked
+                                        <DocsLink
+                                            :href="
+                                                findNavigationItem(
+                                                    navigation,
+                                                    'dapter/design/operations',
+                                                ).href + '#query-contract-reference'
+                                            "
+                                            >query contract reference</DocsLink
+                                        >
+                                        fixes planned scalar domains, literal matching, numeric
+                                        parsing, and distinct total and filtered count arithmetic.
+                                        This closes the phase 0 contract. Search, filters, and
+                                        native SQL comparison profiles remain in their later
+                                        delivery gates.
+                                    </p>
                                 </RoadmapItem>
                             </li>
                             <li>
                                 <RoadmapItem
                                     id="todo-0-6"
-                                    status="in_progress"
+                                    status="completed"
                                     title="TODO 0.6. Define shared fixtures">
                                     <p>
                                         Define shared fixtures for raw JSON objects, lists, null,
@@ -323,6 +342,25 @@ defineProps({
                                         inactive clears, exact-count clamping, and unchanged
                                         criteria. Define resource omission of identity and private
                                         versus explicit public audiences.
+                                    </p>
+                                    <p>
+                                        The
+                                        <DocsLink
+                                            :href="
+                                                findNavigationItem(
+                                                    navigation,
+                                                    'dapter/design/fixtures',
+                                                ).href
+                                            "
+                                            >shared fixture reference</DocsLink
+                                        >
+                                        defines the reusable data, complete driver-plan examples,
+                                        selected database targets, and evidence categories. Current
+                                        cases execute the installed package. Pure reference cases
+                                        verify proposed semantics. Specification cases fix concrete
+                                        future expectations without claiming native execution or
+                                        enabling unavailable APIs. Both current protocol consumers
+                                        retain the original shared raw corpus.
                                     </p>
                                 </RoadmapItem>
                             </li>
@@ -746,8 +784,12 @@ defineProps({
                                         Add withActions and its Actions shortcut together. Validate
                                         names, aliases, signatures, declared public trait methods,
                                         excluded inherited and magic methods, and duplicate
-                                        failures. Version permitted client metadata without exposing
-                                        PHP internals.
+                                        failures. Support equivalent action policy declarations
+                                        through attributes and options, keyed by action identifier.
+                                        Apply options layering before evaluating the selected
+                                        guard's principal and trusted target. Serialize only actions
+                                        allowed by their declared policy, without PHP internals or
+                                        policy details.
                                     </p>
                                 </RoadmapItem>
                             </li>
@@ -762,8 +804,10 @@ defineProps({
                                         private method Closures, container dependencies, and
                                         FormRequest authorization and validation. Prove
                                         source-scoped record selection, CSRF, guard isolation, and
-                                        zero mutations on rejection. Application authors declare no
-                                        per-action endpoints.
+                                        zero mutations on rejection. Reevaluate declared policies
+                                        for direct requests and permissions revoked since metadata
+                                        generation. Application authors declare no per-action
+                                        endpoints.
                                     </p>
                                 </RoadmapItem>
                             </li>
@@ -806,8 +850,11 @@ defineProps({
                                         independent adapters. Execute private FormRequests, denied
                                         and expired access, validation errors, redirects, JSON,
                                         source-scoped ids, network uncertainty, duplicate discovery,
-                                        disposal, and lint/type negative controls. Every delivered
-                                        option needs a working public-API demo.
+                                        disposal, and lint/type negative controls. Verify attribute
+                                        and options policy parity, declaration precedence, omission
+                                        of denied action metadata, record-specific permissions, and
+                                        denial before mutation after permission revocation. Every
+                                        delivered option needs a working public-API demo.
                                     </p>
                                 </RoadmapItem>
                             </li>
@@ -815,10 +862,11 @@ defineProps({
                         <p>
                             Exit when declared actions execute through package routes exactly once
                             per accepted request, with native response behavior and authorization
-                            before mutation. The host and its bound view share one store; another
-                            adapter does not share its state. Undeclared methods never execute,
-                            protected data never crosses contexts, and action completion never
-                            silently resets a listing.
+                            before mutation. Actions denied by a declared policy never appear in
+                            client metadata and remain protected against direct calls. The host and
+                            its bound view share one store; another adapter does not share its
+                            state. Undeclared methods never execute, protected data never crosses
+                            contexts, and action completion never silently resets a listing.
                         </p>
                     </RoadmapPhase>
                     <RoadmapPhase

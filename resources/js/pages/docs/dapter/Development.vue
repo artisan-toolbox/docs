@@ -41,6 +41,11 @@ const logo = 'python3 scripts/build-logos.py';
                     in an isolated consumer.
                 </p>
                 <p>
+                    PHPStan and Rector both include source and tests. The Eloquent fixture has no
+                    factory, so its file skips only Rector's automatic HasFactory insertion rule.
+                    Other transformations and type checks still apply to that fixture.
+                </p>
+                <p>
                     GitHub Actions runs the backend and frontend on Ubuntu and Windows with PHP 8.5,
                     Laravel 13, and Node.js 24. Both <code>prefer-lowest</code> and
                     <code>prefer-stable</code> Composer lanes run. The lower frontend lane installs

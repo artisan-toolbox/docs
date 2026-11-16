@@ -123,6 +123,30 @@ const users = useDataAdapter('Users');
                     it.
                 </p>
                 <p>
+                    Derive <code>pages</code> from <code>filtered</code>, never from
+                    <code>total</code>. For an authorized base of four rows, selecting two rows with
+                    size 1 and requested page 9 yields total 4, filtered 2, pages 2, and current 2.
+                    A zero-match selection retains total 4 but yields filtered 0, pages 1, and
+                    current 1. An empty authorized base yields both counts zero. Counts are exact,
+                    nonnegative safe integers with filtered no greater than total. Reject invalid
+                    counts instead of fabricating navigation. Clamping changes only the acknowledged
+                    position, leaving the selected criteria intact.
+                </p>
+                <p>
+                    The
+                    <DocsLink
+                        :href="
+                            findNavigationItem(navigation, 'dapter/design/operations').href +
+                            '#query-contract-reference'
+                        "
+                        >checked query reference</DocsLink
+                    >
+                    verifies these proposed cases. In the delivered preview there are no managed
+                    selections, so <code>filtered</code> equals <code>total</code>. The current
+                    drivers reuse one count. Distinct filtered execution remains in its operation
+                    phase, rather than being simulated by a second identical query.
+                </p>
+                <p>
                     Optional exact counts can later be requested for simple or cursor mode through a
                     server declaration. They do not enable direct cursor page jumps. Unknown counts
                     remain null, never zero or an estimate presented as exact. Separate count and

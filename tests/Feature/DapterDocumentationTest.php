@@ -68,6 +68,7 @@ test('registers focused source paging option access and composable guides', func
         'dapter/authority' => 'Authority',
         'dapter/protocol' => 'Protocol',
         'dapter/protocol/errors' => 'Errors',
+        'dapter/design/fixtures' => 'design/Fixtures',
     ] as $slug => $component) {
         $this->get(route('docs.show', ['slug' => $slug]))->assertOk()->assertInertia(fn (Assert $page) => $page
             ->component('docs/dapter/'.$component)
@@ -85,4 +86,5 @@ test('registers focused source paging option access and composable guides', func
     );
     expect(PageSlug::DapterProtocol->parent())->toBe(PageSlug::Dapter);
     expect(PageSlug::DapterProtocolErrors->parent())->toBe(PageSlug::DapterProtocol);
+    expect(PageSlug::DapterDesignFixtures->parent())->toBe(PageSlug::DapterDesign);
 });

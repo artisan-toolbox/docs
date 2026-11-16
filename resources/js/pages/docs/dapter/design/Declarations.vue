@@ -825,6 +825,20 @@ enum EmptySelectionPolicy: string
                     fallback branches. Attributes receive the same enum cases as fluent methods.
                 </p>
                 <p>
+                    ValueType names a logical comparison domain, not a database's implicit cast.
+                    Nullability is declared separately. See the
+                    <DocsLink
+                        :href="
+                            findNavigationItem(navigation, 'dapter/design/operations').href +
+                            '#selectable-filters'
+                        "
+                        >managed scalar domain rules</DocsLink
+                    >
+                    for valid values, inference, numeric bounds, and incompatible target failures.
+                    SQL boolean storage requires an explicit verified mapping before the driver can
+                    advertise Boolean comparisons.
+                </p>
+                <p>
                     JSON, URL state, and TypeScript use the enums' documented backing values. Parse
                     external values once: first verify their exact primitive type, then convert to
                     the correct enum and check source subsets and engine compatibility. Unknown,
@@ -895,15 +909,19 @@ enum EmptySelectionPolicy: string
                     Package defaults and effective policy
                 </h3>
                 <p>
-                    The proposed <code>config/dapter.php</code> file, keys, and publication
-                    integration are planned and unavailable. No publish command is promised here. A
-                    basic <code>source()</code> plus <code>DataAdapter</code> uses numbered
-                    pagination without custom config, attributes, or an
+                    The current preview delivers <code>config/dapter.php</code>, its paging and
+                    guard keys, and optional publication. Follow
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/options').href"
+                        >Configure source options</DocsLink
+                    >
+                    for the working setup. The additional broadcasting context below is proposed and
+                    unavailable. A basic <code>source()</code> plus <code>DataAdapter</code> uses
+                    numbered pagination without custom config, attributes, or an
                     <code>options()</code> override.
                 </p>
                 <CodeExample
                     language="php"
-                    label="Proposed config/dapter.php defaults, not an available package file"
+                    label="Current paging defaults with a proposed broadcasting extension"
                     :code="packageDefaults" />
                 <p>
                     The <code>make()</code> factory seeds offset mode, a chosen size of 10, and
