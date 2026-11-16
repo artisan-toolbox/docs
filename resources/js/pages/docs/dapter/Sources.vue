@@ -92,6 +92,12 @@ defineProps({
                     Eloquent declaration. Replace the generated <code>source()</code> body with your
                     application's public contract implementation.
                 </p>
+                <p>
+                    The required <code>name</code> argument is a dotted string such as
+                    <code>Dapter.GeneratedCatalog</code>. Omitting the argument fails before
+                    generation. Programmatic Artisan calls with a non-string name return exit code
+                    <code>1</code> and create no file.
+                </p>
                 <CodeExample
                     label="Generate a Collection source"
                     code="php artisan make:datasource Dapter.GeneratedCatalog" />

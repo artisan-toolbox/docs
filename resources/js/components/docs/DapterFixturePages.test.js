@@ -35,7 +35,7 @@ describe('Dapter shared fixture reference', () => {
         expect(wrapper.text()).toContain('not a support matrix');
         expect(wrapper.text()).toContain('remains the shared current protocol corpus');
         expect(wrapper.get('a[href="/docs/dapter/roadmap#todo-0-7"]').text()).toBe(
-            'next contract review',
+            'phase 0 contract review',
         );
         wrapper.unmount();
     });
@@ -64,6 +64,6 @@ describe('Dapter shared fixture reference', () => {
         expect(body('verify-shared-fixtures')).toContain('DapterSharedFixturesTest.php');
         expect(body('verify-shared-fixtures')).toContain('ProtocolConformanceTest.php');
         expect(body('todo-0-6')).toMatch(/^Completed /);
-        expect(body('todo-0-7')).toMatch(/^WIP /);
+        expect(body('todo-0-7')).toMatch(/^Completed /);
     });
 });

@@ -38,20 +38,38 @@ const logo = 'python3 scripts/build-logos.py';
                     Pint, Vite Plus checks and tests, vue-tsc, and PHPStan without skipping tools.
                     The frontend release check also runs type tests, builds ESM with declarations
                     and source maps, builds a Vue and Inertia consumer, and installs an npm archive
-                    in an isolated consumer.
+                    in an isolated consumer. The archive check requires npm registry access to
+                    resolve runtime peers. It also works with an empty npm cache.
+                </p>
+                <p>
+                    The archive check creates a temporary directory alias and resolves its real path
+                    before starting Vite. This covers Windows temporary-directory aliases such as
+                    <code>RUNNER~1</code> while retaining Vite's filesystem restrictions. The check
+                    verifies the resolved root and loads the actual consumer modules.
                 </p>
                 <p>
                     PHPStan and Rector both include source and tests. The Eloquent fixture has no
                     factory, so its file skips only Rector's automatic HasFactory insertion rule.
-                    Other transformations and type checks still apply to that fixture.
+                    Other transformations and type checks still apply to that fixture. Composer's
+                    analysis task uses a 2G memory limit, matching Maintainer's default.
+                </p>
+                <p>
+                    Testbench registers Dapter's provider explicitly so Larastan checks the
+                    generator's declared arguments even with a cold discovery manifest. If you
+                    installed Composer dependencies with <code>--no-scripts</code>, run
+                    <code>composer prepare</code> to refresh package discovery before the complete
+                    checks.
                 </p>
                 <p>
                     GitHub Actions runs the backend and frontend on Ubuntu and Windows with PHP 8.5,
                     Laravel 13, and Node.js 24. Both <code>prefer-lowest</code> and
                     <code>prefer-stable</code> Composer lanes run. The lower frontend lane installs
-                    the minimum supported direct tool versions; it does not claim a transitive npm
-                    dependency minimum. Windows PHPStan uses one worker to avoid shared Testbench
-                    bootstrap writes.
+                    the minimum supported direct tool versions, Vue 3.5.40, Inertia Vue and Core
+                    3.0.3, and Ziggy 2.6.5. It does not claim a transitive npm dependency minimum.
+                    Vue 3.5.40 preserves public prop extraction and shared slot handle identity.
+                    Windows PHPStan uses one worker to avoid shared Testbench bootstrap writes. The
+                    configuration check publishes the real file and caches its defaults on both
+                    platforms.
                 </p>
             </ProseSection>
             <ProseSection id="typescript" title="Maintain the frontend contract">

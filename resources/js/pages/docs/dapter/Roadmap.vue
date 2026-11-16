@@ -367,13 +367,43 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-0-7"
-                                    status="in_progress"
+                                    status="completed"
                                     title="TODO 0.7. Review contract evidence">
                                     <p>
                                         Review the fixtures against the proposed contract and record
                                         accepted refinements in this canonical roadmap. Treat
                                         unresolved public behavior as a blocker for its dependent
                                         task.
+                                    </p>
+                                    <p>
+                                        Independent runtime, fixture, and planned-contract reviews
+                                        revalidated the phase 0 evidence. Accepted refinements
+                                        reject deferred SQL callbacks before listing queries, reject
+                                        invalid native counts before page reads, and reject
+                                        contradictory offset page cardinality while preserving
+                                        attribute-only projection. Shared fixtures exercise those
+                                        failures through the installed package. The current native
+                                        builder clone keeps its documented trusted-source lifetime
+                                        rule; it does not deep-freeze retained nested builders.
+                                    </p>
+                                    <p>
+                                        Phase 0 is complete as a contract review. Planned operation
+                                        execution, callback and enum binding, capability removal,
+                                        native SQL comparison profiles, sealed execution, and live
+                                        delivery remain explicit gates for their owning phases.
+                                        Specification fixtures define expected behavior without
+                                        advertising unavailable runtime capabilities. See the
+                                        <DocsLink
+                                            :href="
+                                                findNavigationItem(
+                                                    navigation,
+                                                    'dapter/design/fixtures',
+                                                ).href
+                                            "
+                                            >shared fixture evidence</DocsLink
+                                        >
+                                        and the current source-boundary guide for verification and
+                                        limits.
                                     </p>
                                 </RoadmapItem>
                             </li>
@@ -1522,12 +1552,12 @@ defineProps({
                 <p>
                     The package declares PHP <code>^8.5</code>, Illuminate Support
                     <code>^13.0</code>, and Inertia Laravel <code>^3.0</code>. Its development
-                    frontend uses Vue <code>^3.5.13</code>, Inertia Vue <code>^3.0.0</code>, and
-                    TypeScript <code>^5.8.3</code>. These declarations are distinct from installed
-                    versions and future feature support. Inertia Laravel supplies the Laravel
-                    framework components used by the initial pipeline. Runtime frontend peers now
-                    declare Vue, Inertia Vue and Core, and Ziggy. Ordinary SQLite is the only SQL
-                    driver supported by this slice.
+                    frontend uses Vue <code>^3.5.40</code>, Inertia Vue and Core
+                    <code>^3.0.3</code>, and TypeScript <code>^5.8.3</code>. These declarations are
+                    distinct from installed versions and future feature support. Inertia Laravel
+                    supplies the Laravel framework components used by the initial pipeline. Runtime
+                    frontend peers now declare Vue, Inertia Vue and Core, and Ziggy. Ordinary SQLite
+                    is the only SQL driver supported by this slice.
                 </p>
                 <p>
                     The functional listing guide is the reference for the delivered public API. This

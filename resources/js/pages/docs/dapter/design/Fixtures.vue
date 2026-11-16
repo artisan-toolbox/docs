@@ -200,9 +200,11 @@ npm test -- tests/frontend/protocol.test.ts`;
                 <p>
                     The declaration runner uses host configuration with size 2 and choices 2 and 3.
                     Its source classes live in <code>tests/Fixtures/DapterSharedSources.php</code>.
-                    These test-only overrides do not change the package defaults of size 10 and
-                    choices 5, 10, 50, and 100. The configuration-cache case reads the documentation
-                    application's actual configuration in an isolated subprocess.
+                    The fixture test requires that file explicitly. Composer excludes its simulated
+                    application classes from optimized class-map discovery. These test-only
+                    overrides do not change the package defaults of size 10 and choices 5, 10, 50,
+                    and 100. The configuration-cache case reads the documentation application's
+                    actual configuration in an isolated subprocess.
                 </p>
                 <CodeExample
                     label="Verify shared fixture data and current endpoints"
@@ -226,9 +228,12 @@ npm test -- tests/frontend/protocol.test.ts`;
                     sanitized denials. The
                     <DocsLink
                         :href="findNavigationItem(navigation, 'dapter/roadmap').href + '#todo-0-7'"
-                        >next contract review</DocsLink
+                        >phase 0 contract review</DocsLink
                     >
-                    evaluates the evidence and remaining delivery gates.
+                    records accepted refinements and the delivery gates that remain. Runtime cases
+                    include deferred SQLite callbacks and post-read changes to the bounded row
+                    count. These failures return sanitized errors while projection-only callbacks
+                    remain valid.
                 </p>
             </ProseSection>
         </div>

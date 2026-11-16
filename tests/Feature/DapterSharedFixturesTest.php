@@ -38,6 +38,8 @@ beforeEach(function () {
     Context::$tenant = 'north';
     Context::$driver = 'sqlite';
     Context::$limit = null;
+    Context::$callback = null;
+    Context::$callbackCalls = 0;
     Context::$failure = null;
     Context::$hooks = 0;
     Context::$reads = 0;
@@ -123,6 +125,7 @@ test('executes scoped driver fixtures with public projection, exact counts and c
     Context::$driver = $input['driver'];
     Context::$tenant = $input['tenant'];
     Context::$limit = $input['limit'] ?? null;
+    Context::$callback = $input['callback'] ?? null;
     Context::$options = StoreOptions::make()->pageSize($input['per_page'])->pageSizeOptions([$input['per_page']]);
     $source = match ($input['driver']) {
         'array' => 'ArrayRows',
@@ -161,6 +164,10 @@ test('executes scoped driver fixtures with public projection, exact counts and c
     } else {
         $response->assertJsonPath('error.code', $expected['error'])->assertJsonMissingPath('data')->assertJsonMissingPath('paging');
         expect($queries)->toHaveCount($expected['sqlStatements']);
+    }
+    if (isset($expected['callbackCalls'])) {
+        expect(Context::$callbackCalls)->toBe($expected['callbackCalls'])
+            ->and(Context::$reads)->toBe($expected['sourceReads']);
     }
 })->with(fn (): array => sharedDapterCases('runtime'));
 

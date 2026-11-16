@@ -15,6 +15,14 @@
 
 ## Unreleased
 
+- Document canonical temporary paths and directory-alias regression coverage in Dapter's packed-consumer check without changing the application's Vite configuration.
+
+- Clarify Dapter generator name validation for missing and non-string Artisan arguments. Document explicit Testbench provider registration and refreshing package discovery after a Composer installation that skips scripts.
+
+- Correct the Dapter frontend requirements to Inertia Vue and Core 3.0.3 or later within 3.x, and Vue 3.5.40 or later within 3.x. Document the minimum peer checks, registry access for packed consumers, and portable configuration publication verification.
+
+- Review Dapter phase 0 against runtime and shared-fixture evidence. Reject deferred SQLite query callbacks before listing SQL and sanitize invalid native counts and page cardinality failures while preserving attribute-only projection. Clarify the lifetime of trusted native builders and keep test-only source classes out of optimized autoload discovery.
+
 - Define shared Dapter acceptance fixtures for current sources, declarations, proposed operations, state transitions, projection, and channel audiences. Separate executed behavior from specification cases and pin native database targets without claiming new driver support.
 
 - Record proposed Dapter action policies through attributes or options, server-filtered action metadata, and authorization checks on every execution.

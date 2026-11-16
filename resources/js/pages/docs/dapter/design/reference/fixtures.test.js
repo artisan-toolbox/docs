@@ -25,7 +25,7 @@ const requiredGroups = {
     transitions: 16,
     records: 3,
     channels: 8,
-    runtime: 14,
+    runtime: 18,
 };
 const requiredCases = {
     declarations:
@@ -43,7 +43,7 @@ const requiredCases = {
     channels:
         'channel-private-allowed channel-private-wrong-guard channel-private-source-denied channel-private-no-auth channel-public-explicit channel-public-not-opted-in channel-public-reader-projection channel-public-unsafe-projection',
     runtime:
-        'runtime-array-first runtime-array-clamp runtime-array-empty runtime-collection-first runtime-collection-clamp runtime-collection-empty runtime-sqlite-first runtime-sqlite-clamp runtime-sqlite-empty runtime-mysql-unsupported runtime-pgsql-unsupported runtime-sqlite-forbidden-limit runtime-cloaked-denial runtime-missing-source',
+        'runtime-array-first runtime-array-clamp runtime-array-empty runtime-collection-first runtime-collection-clamp runtime-collection-empty runtime-sqlite-first runtime-sqlite-clamp runtime-sqlite-empty runtime-mysql-unsupported runtime-pgsql-unsupported runtime-sqlite-forbidden-limit runtime-cloaked-denial runtime-missing-source runtime-sqlite-before-window runtime-sqlite-after-drop runtime-sqlite-after-duplicate runtime-sqlite-negative-count',
 };
 const reference = {
     'scalar-options': (input) => ({ value: validateScalarOptions(input.domain, input.options) }),

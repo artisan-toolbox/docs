@@ -105,6 +105,23 @@ defineProps({
                     model queries are established in this preview.
                 </p>
                 <p>
+                    Source authors must keep the returned builder and any retained nested builders
+                    stable while the read executes. Laravel's clone is shallow for nested query
+                    objects. Trusted direct driver calls do not freeze those external references.
+                    This source-lifetime rule is separate from validating browser choices.
+                </p>
+                <p>
+                    Deferred <code>beforeQuery</code> callbacks are incompatible with the current
+                    offset profile because they can change its SQL shape after negotiation. They
+                    fail configuration before listing SQL or callback invocation. Result callbacks
+                    may adjust visible attributes while preserving the bounded page. If the returned
+                    row count contradicts the exact offset metadata, the server returns a sanitized
+                    configuration error instead of a contradictory success. Invalid aggregate counts
+                    fail the same boundary before page rows are read. A count/data race can also
+                    cause that recoverable error; reload explicitly rather than relying on a
+                    transactionally consistent snapshot.
+                </p>
+                <p>
                     Normal model visibility and supported top-level <code>Arrayable</code> or
                     <code>JsonSerializable</code> rows control current JSON projection. There is no
                     optional Resource pipeline or separate row metadata today. Ordinary Collection

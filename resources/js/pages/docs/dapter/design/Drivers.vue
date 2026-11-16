@@ -90,6 +90,16 @@ return StoreOptions::make()->useResource(ProductResource::class);`;
                     >
                     for the current contract and executable request boundary.
                 </p>
+                <p>
+                    The current profile rejects deferred Query Builder callbacks before listing SQL.
+                    Post-read projection must preserve records, order, and identity. A changed row
+                    count fails configuration before a success envelope. This cardinality check does
+                    not sandbox application-owned callbacks. Native builder clones do not
+                    deep-freeze references retained by trusted source code. Source authors keep
+                    nested clauses stable during a read. Future sealed execution and connection
+                    affinity remain separate contracts, not guarantees added to the public plan
+                    constructor.
+                </p>
                 <CodeExample
                     language="php"
                     label="Current StoreDriver interface"

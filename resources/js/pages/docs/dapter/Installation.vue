@@ -84,9 +84,11 @@ export default defineConfig({
                 </p>
                 <p>
                     Use <code>resolveJsonModule: true</code> and Vue-aware TypeScript checking. The
-                    frontend peers are Vue 3.5, Inertia Vue 3, Inertia Core 3, and Ziggy 2.6.5 or
-                    later within 2.x. After refreshing copied frontend dependency types, restart the
-                    Vite development process before checking the updated APIs.
+                    frontend peers are Vue 3.5.40 or later within 3.x, Inertia Vue and Core 3.0.3 or
+                    later within 3.x, and Ziggy 2.6.5 or later within 2.x. Inertia 3.0.3 supplies
+                    the HTTP exception callback used to classify failed reads. After refreshing
+                    copied frontend dependency types, restart the Vite development process before
+                    checking the updated APIs.
                 </p>
             </ProseSection>
             <ProseSection id="frontend-check" title="Verify the frontend identity">

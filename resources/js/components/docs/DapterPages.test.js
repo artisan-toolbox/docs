@@ -377,7 +377,7 @@ describe('Dapter proposal roadmap', () => {
             wrapper
                 .findAllComponents(RoadmapItem)
                 .filter((item) => item.props('status') === 'completed').length,
-        ).toBe(9);
+        ).toBe(10);
         expect(text).toContain(
             'Completion is authored in this documentation and tracks only this roadmap',
         );
@@ -1420,8 +1420,8 @@ describe('Dapter proposal roadmap', () => {
         const tasks = documents.filter(({ anchor }) => /^todo-[0-7]a?-[1-9]$/.test(anchor ?? ''));
         expect(tasks).toHaveLength(61);
         expect(new Set(tasks.map(({ anchor }) => anchor)).size).toBe(61);
-        expect(tasks.filter(({ body }) => body.startsWith('Completed '))).toHaveLength(9);
-        expect(tasks.filter(({ body }) => body.startsWith('WIP '))).toHaveLength(11);
+        expect(tasks.filter(({ body }) => body.startsWith('Completed '))).toHaveLength(10);
+        expect(tasks.filter(({ body }) => body.startsWith('WIP '))).toHaveLength(10);
         const phaseIds = ['0', '1', '2', '2a', '3', '3a', '4', '5', '6', '7'];
         const expectedAnchors = [7, 9, 8, 5, 6, 7, 6, 5, 4, 4].flatMap((count, phase) =>
             Array.from({ length: count }, (_, index) => `todo-${phaseIds[phase]}-${index + 1}`),
@@ -1445,7 +1445,9 @@ describe('Dapter proposal roadmap', () => {
         expect(phases).toHaveLength(10);
         for (const phase of phases) {
             expect(phase.slug).toBe('dapter/roadmap');
-            expect(phase.body).toMatch(/^(?:WIP [1-6]|Not started 0) of \d+ tasks completed \d+%/);
+            expect(phase.body).toMatch(
+                /^(?:WIP [1-6]|Completed 7|Not started 0) of \d+ tasks completed \d+%/,
+            );
             expect(phase.body).toContain('Exit when');
         }
         expect(section('completion-rules-for-every-implementation-phase').body).toContain(

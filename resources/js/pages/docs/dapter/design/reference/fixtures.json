@@ -4551,6 +4551,82 @@
                     "counts": null,
                     "capabilities": null
                 }
+            },
+            {
+                "id": "runtime-sqlite-before-window",
+                "evidence": "current-runtime",
+                "operation": "read",
+                "input": {
+                    "driver": "sqlite",
+                    "tenant": "north",
+                    "current": 1,
+                    "per_page": 2,
+                    "callback": "before-window"
+                },
+                "expected": {
+                    "status": 500,
+                    "error": "invalid_source",
+                    "sqlStatements": 0,
+                    "sourceReads": 1,
+                    "callbackCalls": 0
+                }
+            },
+            {
+                "id": "runtime-sqlite-after-drop",
+                "evidence": "current-runtime",
+                "operation": "read",
+                "input": {
+                    "driver": "sqlite",
+                    "tenant": "north",
+                    "current": 1,
+                    "per_page": 2,
+                    "callback": "after-drop"
+                },
+                "expected": {
+                    "status": 500,
+                    "error": "invalid_source",
+                    "sqlStatements": 2,
+                    "sourceReads": 1,
+                    "callbackCalls": 1
+                }
+            },
+            {
+                "id": "runtime-sqlite-after-duplicate",
+                "evidence": "current-runtime",
+                "operation": "read",
+                "input": {
+                    "driver": "sqlite",
+                    "tenant": "north",
+                    "current": 1,
+                    "per_page": 2,
+                    "callback": "after-duplicate"
+                },
+                "expected": {
+                    "status": 500,
+                    "error": "invalid_source",
+                    "sqlStatements": 2,
+                    "sourceReads": 1,
+                    "callbackCalls": 1
+                }
+            },
+            {
+                "id": "runtime-sqlite-negative-count",
+                "evidence": "current-runtime",
+                "operation": "read",
+                "input": {
+                    "driver": "sqlite",
+                    "tenant": "north",
+                    "current": 1,
+                    "per_page": 2,
+                    "callback": "count-negative"
+                },
+                "expected": {
+                    "status": 500,
+                    "error": "invalid_source",
+                    "sqlStatements": 1,
+                    "sourceReads": 1,
+                    "callbackCalls": 1
+                }
             }
         ]
     }

@@ -94,12 +94,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/dapter.git",
-                "reference": "7f193a0c3ca7c26fa7b0aa2814a8e46f4516c5a5"
+                "reference": "9871fd573a6670ecfd8bf1f81bcb1654275f1071"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/dapter/zipball/7f193a0c3ca7c26fa7b0aa2814a8e46f4516c5a5",
-                "reference": "7f193a0c3ca7c26fa7b0aa2814a8e46f4516c5a5",
+                "url": "https://api.github.com/repos/artisan-toolbox/dapter/zipball/9871fd573a6670ecfd8bf1f81bcb1654275f1071",
+                "reference": "9871fd573a6670ecfd8bf1f81bcb1654275f1071",
                 "shasum": ""
             },
             "require": {
@@ -165,8 +165,8 @@
                 "issues": "https://github.com/artisan-toolbox/dapter/issues",
                 "source": "https://github.com/artisan-toolbox/dapter/tree/1.x"
             },
-            "time": "2026-11-16T19:21:25+00:00",
-            "published-time": "2026-11-16T19:21:32+00:00"
+            "time": "2026-11-16T23:31:44+00:00",
+            "published-time": "2026-11-16T23:31:51+00:00"
         },
         {
             "name": "artisan-toolbox/dump-to-console",

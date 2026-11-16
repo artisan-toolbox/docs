@@ -29,6 +29,10 @@ final class Context
 
     public static ?int $limit = null;
 
+    public static ?string $callback = null;
+
+    public static int $callbackCalls = 0;
+
     public static ?string $failure = null;
 
     public static int $hooks = 0;
@@ -124,6 +128,30 @@ final class EloquentRows extends EloquentDataSource implements WithOptions
 
         if (Context::$limit !== null) {
             $query->limit(Context::$limit);
+        }
+
+        if (Context::$callback === 'before-window') {
+            $query->beforeQuery(function (\Illuminate\Database\Query\Builder $query): void {
+                Context::$callbackCalls++;
+                $query->limit(1);
+            });
+        } elseif (Context::$callback === 'count-negative') {
+            $query->getQuery()->afterQuery(function (Collection $rows): Collection {
+                Context::$callbackCalls++;
+                foreach ($rows as $row) {
+                    if (isset($row->aggregate)) {
+                        $row->aggregate = -1;
+                    }
+                }
+
+                return $rows;
+            });
+        } elseif (Context::$callback !== null) {
+            $query->afterQuery(function (Collection $rows): Collection {
+                Context::$callbackCalls++;
+
+                return Context::$callback === 'after-drop' ? $rows->take(1) : $rows->concat($rows);
+            });
         }
 
         return $query;

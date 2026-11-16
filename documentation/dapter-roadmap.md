@@ -5,6 +5,7 @@ The first local Collection and SQLite offset listing slice is implemented. Remai
 
 The [canonical roadmap source](../resources/js/pages/docs/dapter/Roadmap.vue) owns the delivery phases, task statuses, acceptance gates, and implementation baseline.
 Detailed proposals live in the [proposed design guides](https://atb.dev.br/docs/dapter/design), with one page for declarations, drivers, operations, pagination and state, actions, and live updates.
+The [shared fixture reference](https://atb.dev.br/docs/dapter/design/fixtures) separates current runtime checks, executable design references, and specification-only native expectations. Phase 0 contract review is complete; later implementation gates remain explicit in the canonical roadmap.
 Their [Vue sources](../resources/js/pages/docs/dapter/design) own the authored examples and stable section anchors. These guides explicitly distinguish proposed APIs from delivered preview behavior.
 Independent adapters keep independent state even when they use the same source. Sharing requires an explicit client handle.
 The registered documentation route is `docs.show`. The roadmap slug is `dapter/roadmap`, and the design group is `dapter/design`.
