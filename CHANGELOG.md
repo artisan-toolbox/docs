@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.3.0] - 2026-11-17
+
+### Features
+
+- **Add shared design fixtures page and tests** (`f2cfbe5`)
+  Introduces a shared design fixtures page for the dapter-docs documentation experience and adds corresponding automated tests. This expands the documentation surface to consolidate design-related fixtures in one place, and improves quality by ensuring the new fixtures page is covered by tests. User impact is primarily on documentation/dapter-docs development and validation; it should not change runtime application logic beyond the docs tooling itself.
+
+### Documentation
+
+- **Update phase 0 evidence and frontend peer requirements** (`83be3bd`)
+  Updates the dapter documentation for phase 0 evidence and the required frontend peer setup. This clarifies author expectations and dependency/peer requirements to ensure phase 0 work includes the right evidentiary artifacts and that frontend peer constraints are satisfied, reducing integration ambiguity and review churn. User impact is limited to documentation/readme guidance and compliance clarity; no runtime behavior or public APIs are changed.
+
+- **Adopt ATB documentation UI reuse rule for Vue components** (`1f5c452`)
+  Updates documentation guidance to adopt a specific “ATB-documentation UI reuse rule” for Vue components. The rule directs authors to reuse UI components by inspecting the public exports (props/events/slots) from `@artisan-toolbox/front-awesome`, and to use the provided Web Awesome Vue wrapper components instead of building parallel controls or copying internals. It further emphasizes preserving semantic HTML, Inertia navigation behavior, and accessibility/keyboard/focus ownership, and instructs authors to document contract limitations when public APIs cannot support required behavior. This affects how teams implement documentation UI in the `docs` Vue application (authoring/compliance policy only), without changing any runtime code behavior by itself.
+
 ## [1.2.0] - 2026-11-13
 
 ### Features
