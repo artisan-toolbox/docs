@@ -152,6 +152,19 @@ abstract class ProductHandlers extends EloquentDataSource
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
         <div data-document-content class="flex min-w-0 flex-col gap-10">
+            <ProseSection id="implemented-preview" title="Use the working preview guides"
+                ><p>
+                    This page preserves historical design examples and their original anchors. Some
+                    proposed signatures differ from the delivered unpublished preview. Follow the
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/global-search').href"
+                        >composed read guides</DocsLink
+                    >
+                    for executable public APIs, prerequisites, current limits, and behavioral
+                    checks. The design examples below do not replace those instructions. Simple and
+                    cursor paging are delivered through the focused working guides. Resources and
+                    live updates remain proposals.
+                </p></ProseSection
+            >
             <ProseSection>
                 <p>
                     Design proposal for the unpublished Dapter preview. Unless a section explicitly
@@ -172,15 +185,16 @@ abstract class ProductHandlers extends EloquentDataSource
             </ProseSection>
             <ProseSection id="six-operation-contract-cases" title="Six planned operation cases">
                 <p>
-                    These are authored protocol 2 examples, unavailable until the owning operation
-                    phases ship. Each case starts independently from the authorized Products input
-                    in the checked operation reference on the paging and state page, with all rows,
-                    no selections, source order by id ascending, offset page 1, and size 25. Rows
-                    are (id, name, price, user_id, is_news): (1, Notebook, 30, 7, true), (2, Pencil,
-                    5, 9, false), (3, Notebook sleeve, 20, 11, false), and (4, Notebook, 10, 9,
-                    true). Mandatory scope has already selected these four rows. Expected IDs below
-                    describe those inputs; no future driver or handler ran. All criteria and page
-                    size outside the addressed operation stay unchanged.
+                    These authored protocol 2 examples preserve the historical design reference. Use
+                    the focused working guides for delivered field and global operations. Each case
+                    starts independently from the authorized Products input in the checked operation
+                    reference on the paging and state page, with all rows, no selections, source
+                    order by id ascending, offset page 1, and size 25. Rows are (id, name, price,
+                    user_id, is_news): (1, Notebook, 30, 7, true), (2, Pencil, 5, 9, false), (3,
+                    Notebook sleeve, 20, 11, false), and (4, Notebook, 10, 9, true). Mandatory scope
+                    has already selected these four rows. Expected IDs below describe those inputs;
+                    no future driver or handler ran. All criteria and page size outside the
+                    addressed operation stay unchanged.
                 </p>
                 <DocsTable caption="Planned inputs, accepted selections, rows, and failures">
                     <thead>
@@ -334,7 +348,8 @@ abstract class ProductHandlers extends EloquentDataSource
                     guard. Its policy permits only the authenticated user whose identifier is the
                     integer 7. That user can proceed to the source; another authenticated user is
                     denied. No login under the selected guard produces JSON 401, even when
-                    <code>web</code> has a logged-in user. Dapter's methods remain proposed.
+                    <code>web</code> has a logged-in user. Guard and Gate access are implemented;
+                    the example preserves historical custom-operation signatures.
                 </p>
                 <CodeExample
                     language="php"
@@ -539,8 +554,9 @@ abstract class ProductHandlers extends EloquentDataSource
                 </p>
                 <p>
                     This conceptual sketch uses a SQL source with string <code>status</code> values
-                    and the explicit Collection fixture below. The filter APIs and named arguments
-                    remain proposed and unavailable. Given the wire selection <code>'active'</code>,
+                    and the explicit Collection fixture below. These examples preserve historical
+                    callback signatures and named arguments. The working global-filter and enum
+                    guides describe delivered APIs. Given the wire selection <code>'active'</code>,
                     the SQL callback receives <code>Status::Active</code> because its second
                     parameter is typed. The Collection callback receives the string
                     <code>'active'</code> because its second parameter is <code>mixed</code>. Each

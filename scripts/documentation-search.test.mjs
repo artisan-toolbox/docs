@@ -1,8 +1,24 @@
 import { mkdtempSync, mkdirSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { resolve } from 'node:path';
+import { resolve, posix, win32 } from 'node:path';
 import { afterEach, describe, expect, it } from 'vite-plus/test';
-import { extractDocumentation } from './documentation-search.mjs';
+import { extractDocumentation, isInsideDirectory } from './documentation-search.mjs';
+
+it.each([
+    [posix, '/app/Demo', '/app/Demo/Resource.php', true],
+    [posix, '/app/Demo', '/app/Demo/..fixture.php', true],
+    [posix, '/app/Demo', '/app/DemoPrivate/Resource.php', false],
+    [posix, '/app/Demo', '/app/Private.php', false],
+    [win32, 'C:\\app\\Demo', 'C:\\app\\Demo\\Resource.php', true],
+    [win32, 'C:\\app\\Demo', 'C:\\app\\DemoPrivate\\Resource.php', false],
+    [win32, 'C:\\app\\Demo', 'D:\\Private.php', false],
+    [win32, 'C:\\app\\Demo', 'C:\\app\\Private.php', false],
+])(
+    'confines canonical source paths on both path platforms %#',
+    (platform, directory, file, accepted) => {
+        expect(isInsideDirectory(directory, file, platform)).toBe(accepted);
+    },
+);
 
 const temporaryRoots = [];
 afterEach(() => {
@@ -379,6 +395,15 @@ const code = 'import { Rating } from "@artisan-toolbox/front-awesome/components/
         expect(setup.extract()[0].body).toContain('Updated source');
     });
 
+    it('indexes the public demo helper shown by a Resource guide without executing it', () => {
+        const code = '<?php throw new RuntimeException("Never execute demo helpers");';
+        const setup = fixture({
+            '../../app/Demo/Dapter/Resources/NotebookResource.php': code,
+            'pages/docs/Fixture.vue': `<script setup>import CodeExample from '@/components/docs/CodeExample.vue'; import code from '../../../../app/Demo/Dapter/Resources/NotebookResource.php?raw';</script><template><CodeExample label="Resource" :code="code" /></template>`,
+        });
+        expect(setup.extract()[0].body).toBe(`Learn the package. Resource ${code}`);
+    });
+
     it('indexes checked Dapter TypeScript references without executing them', () => {
         const code = 'export type ProtocolVersion = 2; throw new Error("Never execute");';
         const setup = fixture({
@@ -416,19 +441,21 @@ const code = 'import { Rating } from "@artisan-toolbox/front-awesome/components/
         expect(() => setup.extract()).toThrow('Raw searchable examples must be PHP sources');
     });
 
-    it.each(['../../app/Private.php', '../../app/DataSources/Private.json'])(
-        'rejects a raw searchable import outside the PHP example boundary %s',
-        (path) => {
-            const setup = fixture({
-                '../../app/DataSources/Allowed.php': '<?php return [];',
-                [path]: 'Private fixture',
-                'pages/docs/Fixture.vue': `<script setup>import CodeExample from '@/components/docs/CodeExample.vue'; import code from '../../${path}?raw';</script><template><CodeExample label="Example" :code="code" /></template>`,
-            });
-            expect(() => setup.extract()).toThrow(
-                'Raw searchable examples must be PHP sources inside app/DataSources or TypeScript files directly inside the Dapter design reference directory.',
-            );
-        },
-    );
+    it.each([
+        '../../app/Private.php',
+        '../../app/DataSources/Private.json',
+        '../../app/Demo/Private.json',
+        '../../app/DemoPrivate/Private.php',
+    ])('rejects a raw searchable import outside the PHP example boundary %s', (path) => {
+        const setup = fixture({
+            '../../app/DataSources/Allowed.php': '<?php return [];',
+            [path]: 'Private fixture',
+            'pages/docs/Fixture.vue': `<script setup>import CodeExample from '@/components/docs/CodeExample.vue'; import code from '../../${path}?raw';</script><template><CodeExample label="Example" :code="code" /></template>`,
+        });
+        expect(() => setup.extract()).toThrow(
+            'Raw searchable examples must be PHP sources inside app/DataSources or app/Demo, or TypeScript files directly inside the Dapter design reference directory.',
+        );
+    });
 
     it('rejects a symlink that exposes PHP outside the example source directory', () => {
         const setup = fixture({
@@ -441,8 +468,21 @@ const code = 'import { Rating } from "@artisan-toolbox/front-awesome/components/
             resolve(setup.root, 'app/DataSources/Link.php'),
         );
         expect(() => setup.extract()).toThrow(
-            'Raw searchable examples must be PHP sources inside app/DataSources or TypeScript files directly inside the Dapter design reference directory.',
+            'Raw searchable examples must be PHP sources inside app/DataSources or app/Demo, or TypeScript files directly inside the Dapter design reference directory.',
         );
+    });
+
+    it('rejects a demo helper symlink that exposes private PHP', () => {
+        const setup = fixture({
+            '../../app/Private.php': 'Private fixture',
+            '../../app/Demo/Allowed.php': '<?php return [];',
+            'pages/docs/Fixture.vue': `<script setup>import CodeExample from '@/components/docs/CodeExample.vue'; import code from '../../../../app/Demo/Link.php?raw';</script><template><CodeExample label="Example" :code="code" /></template>`,
+        });
+        symlinkSync(
+            resolve(setup.root, 'app/Private.php'),
+            resolve(setup.root, 'app/Demo/Link.php'),
+        );
+        expect(() => setup.extract()).toThrow('Raw searchable examples must be PHP sources');
     });
 
     it('indexes caller-owned slots, fallback slots, static kebab props, and code notes', () => {

@@ -233,11 +233,15 @@ const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
                     server to prepare a test.
                 </p>
                 <p>
-                    The forward migration makes <code>filoquent_uploads.owner_key</code> nullable
-                    for pending work and adds <code>filoquent_upload_namespace</code>. Test both a
-                    new installation and an existing ledger upgrade. Keep the class and field hash
-                    restricted to creation-time paths. Journal recovery must use the stored UUID and
-                    manifest, without adding a filesystem scan or a SQL tombstone requirement.
+                    The development branch uses one migration for clean installations. Verify all
+                    three package tables, nullable <code>filoquent_uploads.owner_key</code>, the
+                    seeded <code>filoquent_upload_namespace</code>, indexes, and one-step rollback
+                    and reinstallation. Rollback must refuse enabled Redis recovery, pending or
+                    writing receipts, missing owner keys, pending owner groups, and retained journal
+                    aliases before dropping any table. This baseline does not upgrade historical
+                    migration chains. Keep the class and field hash restricted to creation-time
+                    paths. Journal recovery must use the stored UUID and manifest, without adding a
+                    filesystem scan or a SQL tombstone requirement.
                 </p>
             </ProseSection>
             <ProseSection id="workbench" title="Use the development workbench">

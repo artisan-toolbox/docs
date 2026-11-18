@@ -67,7 +67,7 @@ describe('catalog semantic search adapter', () => {
             'Button Implemented A changed purpose from the shared catalog. wa-button Core',
         );
         expect(cards.body).toContain('Copy Button In future');
-        expect(cards.body).toContain('Reviewed baseline 3.14.0');
+        expect(cards.body).toContain('Reviewed baseline 3.15.0');
         expect(cards.body).toContain('Basic example Web Awesome reference');
         expect(cards.body).toContain('This Vue wrapper is planned.');
         expect(result.find((document) => document.anchor === 'button').body).toBe(
@@ -119,7 +119,7 @@ describe('catalog semantic search adapter', () => {
         expect(result.map((document) => document.anchor)).not.toContain('copy-button');
     });
 
-    it('includes Pro Chart and the newer experimental Code Highlighter without invented example anchors', () => {
+    it('includes Pro Chart and experimental Core components without invented example anchors', () => {
         const pro = fixture({ group: 'data-viz', sections: '' }).extract();
         expect(pro[1].body).toContain(
             'Chart In future Configure chart types, datasets, and plugins. wa-chart Pro Since 3.3',
@@ -130,7 +130,7 @@ describe('catalog semantic search adapter', () => {
         }).extract();
         expect(media[1].body).toContain('Code Highlighter In future');
         expect(media[1].body).toContain(
-            'Since 3.15 Reviewed baseline 3.14.0 Experimental; newer than the Core 3.14.0 baseline.',
+            'wa-lightbox Core Since 3.15 Reviewed baseline 3.15.0 Experimental in Web Awesome 3.15.0.',
         );
         expect(pro.map((document) => document.anchor)).toEqual([null, 'components']);
     });

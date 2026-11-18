@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vite-plus/test';
 import { navigationIcon } from './navigationIcons';
+import { sourceNavigation } from '../components/docs/sourceNavigationFixture';
 
 describe('documentation navigation icons', () => {
     it.each([
@@ -30,6 +31,39 @@ describe('documentation navigation icons', () => {
             name: icon,
             family: 'classic',
         });
+    });
+
+    it.each([
+        ['sources', 'database'],
+        ['listing', 'table-list'],
+        ['vue-controls', 'sliders'],
+        ['field-search', 'magnifying-glass'],
+        ['field-filters', 'filter'],
+        ['field-order', 'arrow-down-wide-short'],
+        ['actions', 'pen-to-square'],
+        ['resources', 'file-export'],
+        ['live-updates', 'arrows-rotate'],
+        ['authority', 'book-open'],
+        ['development', 'screwdriver-wrench'],
+        ['cursor-paging', 'forward-step'],
+        ['cursor-recovery', 'arrow-rotate-left'],
+        ['polling', 'clock'],
+        ['live-authorization', 'shield-halved'],
+    ])('gives Dapter %s the symbol for its reader task', (slug, icon) => {
+        expect(navigationIcon(`dapter/${slug}`)).toEqual({ name: icon, family: 'classic' });
+    });
+
+    it('gives every registered Dapter guide an intentional icon', () => {
+        const dapter = sourceNavigation().find((item) => item.slug === 'dapter');
+        const pending = [dapter];
+        const slugs = [];
+        while (pending.length) {
+            const item = pending.pop();
+            slugs.push(item.slug);
+            expect(navigationIcon(item.slug).name, item.slug).not.toBe('file-lines');
+            pending.push(...item.children);
+        }
+        expect(slugs).toHaveLength(63);
     });
 
     it('keeps newly registered guides visible with a document icon before visual refinement', () => {

@@ -11,6 +11,7 @@ return [
         'demo.core.*',
         'demo.mosaicast.*',
         'demo.front-awesome.*',
+        'demo.dapter.*',
         'dapter.data',
         'qztray_connector.*',
     ],

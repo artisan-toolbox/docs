@@ -408,6 +408,30 @@ const valueDomains = [
         </p>
         <slot />
         <p>
+            In the unreleased source preview, Input, OtpInput, NumberInput, and Textarea synchronize
+            their bound values on
+            <code>input</code> and <code>change</code>, before your corresponding event listener
+            runs. The bridge also observes Web Awesome value updates, including events confined to
+            the Shadow DOM and browser state restoration. Silent native fills are reconciled before
+            a subsequent render, form click, Enter key, or submit handler reads the value. Use
+            <code>autocomplete="username"</code> for a sign-in email and
+            <code>autocomplete="current-password"</code> for its password.
+        </p>
+        <p>
+            KnownDate, TimeInput, and Pro DateInput also observe accepted public value changes and
+            restored values. Their Date-compatible setters keep their original contracts. The bridge
+            does not combine silently edited date segments or turn pending tag or selection search
+            text into a committed value. OtpInput synchronizes the accepted code before your
+            <code>wa-complete</code> listener runs and retains native autosubmit cancellation.
+        </p>
+        <p>
+            This bridge does not poll password fields. Custom scripts must update the bound Vue or
+            Inertia value directly. Calling <code>form.submit()</code> bypasses submit events. A
+            silent native write followed immediately by <code>requestSubmit()</code> can also
+            encounter native validation before the bridge receives an event. A public Web Awesome
+            value assignment needs its normal render to complete before native validation uses it.
+        </p>
+        <p>
             The same default model binds the primary value of each form control. Checkbox and Switch
             bind booleans. Rating binds a number. TagInput commits an array of tags. CheckboxGroup
             only groups its children. Bind each child Checkbox, rather than adding a group model.
@@ -433,6 +457,11 @@ const valueDomains = [
             paths, Inertia methods, and Inertia metadata are rejected. The bridge never creates
             missing containers. Replacing a containing array or object rebinds the control to the
             current field. Inertia's <code>form.reset()</code> restores its own defaults.
+        </p>
+        <p>
+            Changing the bound form object or field selects a new binding, even when its value
+            equals the previous field's value. The new binding's value takes precedence. Pending
+            autofill from the previous binding is discarded; later edits update the new binding.
         </p>
         <DemoFrame
             title="Bind text, boolean, and numeric Inertia fields"

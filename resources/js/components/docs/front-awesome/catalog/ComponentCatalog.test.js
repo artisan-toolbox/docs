@@ -1,5 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import * as coreWrappers from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import * as proWrappers from '@artisan-toolbox/front-awesome/components/WebAwesome/Pro';
 import { compileScript, parse } from '@vue/compiler-sfc';
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vite-plus/test';
@@ -67,7 +69,7 @@ function nativeValue(control, name) {
 }
 
 describe('Front Awesome wrapper catalog', () => {
-    it('covers every installed Core element once with distinct, explicit Pro and newer upstream entries', () => {
+    it('covers every installed Core element once and marks only public wrappers as implemented', () => {
         const manifest = JSON.parse(
             readFileSync(
                 resolve(
@@ -92,24 +94,28 @@ describe('Front Awesome wrapper catalog', () => {
             'Data Viz',
             'Helpers',
         ]);
-        expect(components).toHaveLength(91);
-        expect(new Set(components.map((item) => item.tag)).size).toBe(91);
+        expect(components).toHaveLength(96);
+        expect(new Set(components.map((item) => item.tag)).size).toBe(components.length);
         expect(
             components
-                .filter((item) => item.edition === 'Core' && !item.since)
+                .filter((item) => item.edition === 'Core')
                 .map((item) => item.tag)
                 .sort((left, right) => left.localeCompare(right)),
         ).toEqual(core);
-        expect(components.filter((item) => item.edition === 'Pro')).toHaveLength(17);
-        expect(
-            components
-                .filter((item) => item.implementation.state === 'implemented')
-                .map((item) => item.implementation.export),
-        ).toEqual(
-            components
-                .filter((item) => item.edition === 'Pro' || !item.since)
-                .map((item) => item.implementation.export),
-        );
+        expect(components.filter((item) => item.edition === 'Pro')).toHaveLength(18);
+        for (const [edition, wrappers] of Object.entries({
+            Core: coreWrappers,
+            Pro: proWrappers,
+        })) {
+            const implemented = components.filter(
+                (item) => item.edition === edition && item.implementation.state === 'implemented',
+            );
+            expect(
+                implemented
+                    .map((item) => item.implementation.export)
+                    .sort((left, right) => left.localeCompare(right)),
+            ).toEqual(Object.keys(wrappers).sort((left, right) => left.localeCompare(right)));
+        }
         expect(
             components.filter((item) => item.implementation.state === 'implemented'),
         ).toHaveLength(90);
@@ -122,7 +128,7 @@ describe('Front Awesome wrapper catalog', () => {
         expect(components.find((item) => item.name === 'Code Highlighter')).toMatchObject({
             tag: 'wa-code-highlighter',
             edition: 'Core',
-            since: '3.15',
+            availability: 'Experimental in Web Awesome 3.15.0.',
             implementation: { state: 'planned' },
         });
         for (const component of components) {
@@ -141,9 +147,7 @@ describe('Front Awesome wrapper catalog', () => {
             const cards = wrapper.findAll('[data-component]');
             expect(cards).toHaveLength(group.components.length);
             expect(wrapper.text()).toContain('Beta');
-            expect(wrapper.text()).toContain(
-                'Front Awesome beta includes all 73 Core and 17 Pro wrappers',
-            );
+            expect(wrapper.text()).toContain('Front Awesome exports 73 Core and 17 Pro wrappers');
             for (const component of group.components) {
                 const card = wrapper.get(`[data-component="${component.tag}"]`);
                 expect(card.text()).toContain(component.name);
@@ -262,7 +266,7 @@ describe('Front Awesome wrapper catalog', () => {
             expect(panel.attributes('role')).toBeUndefined();
             expect(panel.get('h3').text()).toBeTruthy();
             expect(panel.findAll('dt').map((term) => term.text())).toContain('Reviewed baseline');
-            expect(panel.findAll('dd').map((value) => value.text())).toContain('3.14.0');
+            expect(panel.findAll('dd').map((value) => value.text())).toContain('3.15.0');
             expect(panel.get('a[href^="https://webawesome.com/"]').attributes('data-popover')).toBe(
                 'close',
             );
@@ -411,8 +415,8 @@ describe('Front Awesome wrapper catalog', () => {
                 `${implemented} implemented · 0 in progress · ${group.components.length - implemented} in future`,
             );
         }
-        expect(wrapper.text()).toContain('2026-11-09');
-        expect(wrapper.text()).toContain('73 Core elements');
+        expect(wrapper.text()).toContain('2026-11-17');
+        expect(wrapper.text()).toContain('78 Core elements');
         const reordered = navigation();
         reordered.at(-1).children.reverse();
         await wrapper.setProps({ navigation: reordered });

@@ -1,0 +1,67 @@
+[
+    {
+        "id": "VectorRejected",
+        "source": "Dapter.LiteralDefault",
+        "guide": "dapter/research/vector-retrieval",
+        "title": "Reject a forged vector operation",
+        "description": "Start sends an unsupported operation through the actual Dapter endpoint. Expected HTTP 422 unsupported_operation with no rows or capabilities.",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "name": {
+                        "search": {
+                            "value": [0, 0, 0],
+                            "matchType": "vector"
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 7
+                }
+            }
+        },
+        "expected": {
+            "status": 422,
+            "kind": "unsupported_operation",
+            "ids": []
+        }
+    },
+    {
+        "id": "SnapshotRejected",
+        "source": "Dapter.LiteralDefault",
+        "guide": "dapter/research/pagination-consistency",
+        "title": "Reject a forged snapshot paging mode",
+        "description": "Start sends an unsupported operation through the actual Dapter endpoint. Expected HTTP 422 unsupported_operation with no rows or capabilities.",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "snapshot",
+                    "current": 1,
+                    "per_page": 7
+                }
+            }
+        },
+        "expected": {
+            "status": 422,
+            "kind": "unsupported_operation",
+            "ids": []
+        }
+    }
+]

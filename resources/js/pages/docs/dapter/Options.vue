@@ -106,6 +106,16 @@ defineProps({
                 </p>
             </ProseSection>
             <ListingDemo scenario="CollectionOverride" />
+            <ProseSection id="field-options" title="Declare field operations separately">
+                <p>
+                    Protocol v2 adds immutable searchableField, orderableField, and filterableField
+                    entries. Their repeatable attributes and removals are documented in
+                    <DocsLink
+                        :href="findNavigationItem(navigation, 'dapter/field-declarations').href"
+                        >Replace inherited field declarations</DocsLink
+                    >. The Vue adapter's paging examples on this page continue to use protocol v1.
+                </p>
+            </ProseSection>
             <ProseSection id="next-steps" title="Apply access policy">
                 <p>
                     For <code>access.guard</code>, <code>guard()</code>, and authentication

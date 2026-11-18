@@ -200,6 +200,12 @@ formatDate(new Date('2026-11-10T12:00:00Z'), {
                 fragment. Display slot errors and disable controls while a change is pending.
                 Language changes also refresh translated server props and internal package UI.
             </p>
+            <p>
+                Back, Forward, and cached navigation refresh server preferences and translated page
+                props. This refresh preserves the current query, fragment, and browser history
+                entry. An explicit <code>usePreferences().refresh()</code> reloads only preferences
+                with the same URL preservation.
+            </p>
             <PreferencesDemo />
         </ProseSection>
         <ProseSection id="store-on-the-user" title="Store preferences on the authenticated user">

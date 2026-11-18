@@ -6,15 +6,16 @@ import ProseSection from '@/components/docs/ProseSection.vue';
 <template>
     <ProseSection id="catalog-scope" title="Catalog scope">
         <p>
-            Inventory reviewed on 2026-11-09 against the
-            <DocsLink href="https://webawesome.com/docs/">official Web Awesome groups</DocsLink>
-            and the Core 3.14.0 custom-elements manifest. All 73 Core elements from that baseline
-            appear once, alongside 17 documented Pro elements. Code Highlighter is an additional
-            upstream 3.15 experimental element, outside the 3.14.0 baseline.
+            The Web Awesome 3.15.0 manifests list 78 Core elements and 18 that require Pro. This
+            catalog follows the
+            <DocsLink href="https://webawesome.com/docs/components/"
+                >Web Awesome component groups</DocsLink
+            >
+            reviewed on 2026-11-17.
         </p>
         <p>
-            The catalog tracks implemented Core and Pro wrappers and planned upstream additions.
-            Core and Pro describe upstream access, separately from implementation status.
+            Front Awesome provides 73 Core and 17 Pro wrappers. The other six elements have upstream
+            references and an <strong>In future</strong> status.
         </p>
     </ProseSection>
 </template>

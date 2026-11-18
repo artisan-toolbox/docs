@@ -65,6 +65,26 @@ const provider = `return [
                 </p>
                 <CodeExample label="Register Filoquent manually" language="php" :code="provider" />
             </ProseSection>
+            <ProseSection id="migration-baseline" title="Install the consolidated schema">
+                <p>
+                    Development preview. The current development branch replaces the three
+                    historical migrations with
+                    <code>2026_11_12_000000_create_filoquent_tables.php</code> for clean
+                    installations. This consolidation is not part of the documented
+                    <code>1.0.0-beta.3</code> release and does not upgrade an existing migration
+                    history. Use a new database when testing this branch.
+                </p>
+                <p>
+                    Run <code>php artisan migrate</code> from the application root. The single
+                    migration creates <code>filoquent_uploads</code>,
+                    <code>filoquent_upload_namespace</code>, and
+                    <code>filoquent_owner_tables</code>, including their indexes and the initial
+                    journal namespace. Laravel loads it automatically. Optional publishing through
+                    <code>php artisan vendor:publish --tag=filoquent-migrations</code> copies one
+                    migration. With recovery disabled and no pending work or retained journal
+                    aliases, rolling back that migration removes all three tables together.
+                </p>
+            </ProseSection>
             <RegistrationExample />
             <ProseSection id="configuration" title="Configure Filoquent">
                 <p>
@@ -92,18 +112,17 @@ const provider = `return [
             <FileExample />
             <ProseSection id="ownership-gates" title="Install persistent missing-table protection">
                 <p>
-                    After updating an existing Filoquent installation, run
-                    <code>php artisan migrate</code> on every participating model connection before
-                    resuming writes or maintenance. The ownership-gate migration adds durable
-                    missing-table groups and keeps the journal's original owner identity when an
-                    operator resolves a renamed route. This protection does not require Redis.
+                    Run <code>php artisan migrate</code> on every participating model connection
+                    before writes or maintenance. The package schema includes durable missing-table
+                    groups and keeps the journal's original owner identity when an operator resolves
+                    a renamed route. This protection does not require Redis.
                 </p>
                 <p>
                     Use the
                     <DocsLink :href="findNavigationItem(navigation, 'filoquent/rename-owners').href"
                         >owner renaming and pending-resolution guide</DocsLink
                     >
-                    for controlled table changes. Do not roll back the gate migration while pending
+                    for controlled table changes. Do not roll back the package schema while pending
                     groups or retained journal route aliases remain. Its rollback refuses those
                     states to preserve ownership protection.
                 </p>
@@ -130,19 +149,17 @@ const provider = `return [
                     this purpose.
                 </p>
                 <p>
-                    After updating an existing Filoquent installation, run
-                    <code>php artisan migrate</code> in the consuming application. The forward
-                    migration allows a pending receipt without an owner key and creates the one-row
-                    <code>filoquent_upload_namespace</code> table. Run the package migrations on
-                    every participating model connection before enabling the journal.
+                    Run <code>php artisan migrate</code> in the consuming application on every
+                    participating model connection before enabling the journal. The package schema
+                    allows a pending receipt without an owner key and includes the one-row
+                    <code>filoquent_upload_namespace</code> table.
                 </p>
                 <p>
-                    Before rolling back the journal migration, stop upload writers, consolidate
-                    Redis intents with applied collection, and finish pending cleanup and pruning.
-                    Disable the journal and refresh configuration before the rollback. The migration
-                    refuses rollback while pending or writing receipts, or receipts without owner
-                    keys, remain. Keep the namespace metadata until all Redis intents are
-                    consolidated.
+                    Before rolling back the package schema, stop upload writers, consolidate Redis
+                    intents with applied collection, and finish pending cleanup and pruning. Disable
+                    the journal and refresh configuration before the rollback. The migration refuses
+                    rollback while pending or writing receipts, or receipts without owner keys,
+                    remain. Keep the namespace metadata until all Redis intents are consolidated.
                 </p>
                 <p>
                     Set <code>FILOQUENT_REDIS_DB=2</code> in the application's environment, using

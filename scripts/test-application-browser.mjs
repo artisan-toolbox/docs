@@ -35,19 +35,21 @@ try {
         viewport: { width: 390, height: 1000 },
         colorScheme: 'light',
     });
-    let releaseSelect;
     let releaseFonts;
-    const selectGate = new Promise((resolve) => {
-        releaseSelect = resolve;
-    });
     const fontGate = new Promise((resolve) => {
         releaseFonts = resolve;
     });
     try {
         const page = await readinessContext.newPage();
-        await page.route(/\/select-[^/]+\.js$/, async (route) => {
-            await selectGate;
-            await route.continue();
+        await page.addInitScript(() => {
+            const define = customElements.define.bind(customElements);
+            customElements.define = (name, constructor, options) => {
+                if (name === 'wa-select') {
+                    window.releaseDeferredSelect ??= () => define(name, constructor, options);
+                    return;
+                }
+                define(name, constructor, options);
+            };
         });
         await page.route(/\.woff2?(?:\?|$)/, async (route) => {
             await fontGate;
@@ -65,11 +67,11 @@ try {
         );
         assert(
             !(await page.evaluate(() => Boolean(customElements.get('wa-select')))),
-            'The readiness case defers the native select module.',
+            'The readiness case defers native select registration.',
         );
         await page.evaluate(() => new Promise(requestAnimationFrame));
         const pendingHeader = await page.locator('header').first().boundingBox();
-        releaseSelect();
+        await page.evaluate(() => window.releaseDeferredSelect());
         await page.evaluate(async () => {
             await Promise.all(
                 [...document.querySelectorAll('*')]
@@ -110,7 +112,6 @@ try {
         );
         results.push({ readiness });
     } finally {
-        releaseSelect();
         releaseFonts();
         await readinessContext.close();
     }

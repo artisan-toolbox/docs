@@ -109,6 +109,13 @@ const catalog = useDataAdapter(props.adapter);
                     reactive, use <code>computed(() =&gt; catalog.paging.current)</code> rather than
                     saving its current number.
                 </p>
+                <p>
+                    With protocol 1, a saved paging command, page-size setter,
+                    <code>resetState</code>, or <code>resetContext</code> belongs to the owner
+                    context that supplied it. You can reuse it after ordinary reads. After a context
+                    change or unmount, calling the saved function returns
+                    <code>{ status: 'superseded' }</code> without issuing a read.
+                </p>
             </ProseSection>
             <ProseSection id="bind" title="Bind the component to its owner">
                 <p>
@@ -117,18 +124,22 @@ const catalog = useDataAdapter(props.adapter);
                     keeps the same handle identity. To switch handles, recreate the view with
                     <code>:key="selectedStoreId"</code>, using your stable application id as the
                     key. Replacing its handle directly fails and detaches the view without canceling
-                    its owner. The bound form cannot also declare <code>source</code>,
-                    <code>id</code>, or <code>decodeRow</code>.
+                    its owner. The bound form accepts the handle alone. Configure the source,
+                    decoders, paging, actions, live updates, and other options on the owner.
                 </p>
                 <CodeExample label="Bind the headless component" language="vue" :code="binding" />
                 <p>
                     For a component-owned isolated store, keep using
                     <code>&lt;DataAdapter source="Dapter.Quickstart" id="catalog"&gt;</code>. It can
-                    also accept <code>decodeRow</code>. Mounting a second source-owned component
-                    creates a separate store. Keep its id and ownership mode fixed while mounted.
-                    Changing the id or switching between source ownership and a bound handle
-                    requires a keyed remount. An invalid source-owner change detaches the view and
-                    cancels only its owned store. The source and decoder themselves remain reactive.
+                    also accept <code>decodeRow</code>. For explicit protocol 2 field controls and
+                    independent definition decoding, follow
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/vue-controls').href"
+                        >Build declared Vue controls</DocsLink
+                    >. Mounting a second source-owned component creates a separate store. Keep its
+                    id and ownership mode fixed while mounted. Changing the id or switching between
+                    source ownership and a bound handle requires a keyed remount. An invalid
+                    source-owner change detaches the view and cancels only its owned store. The
+                    source and decoder themselves remain reactive.
                 </p>
             </ProseSection>
             <ProseSection id="run-shared" title="Operate the shared store">

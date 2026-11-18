@@ -26,8 +26,10 @@ npm test -- tests/frontend/protocol.test.ts`;
                     This reference defines the finite acceptance examples for Dapter TODO 0.6.
                     Maintainers use the same inputs and expected outcomes when implementing the
                     remaining design contracts. A fixture definition does not enable an operation.
-                    The current preview still supports only Collection and ordinary SQLite offset
-                    listing, with arrays normalized through the Collection source contract.
+                    The current preview supports arrays, Collections, and ordinary SQLite, MySQL,
+                    and PostgreSQL offset reads. Explicit backend v2 field search, filters, and
+                    single ordering have native HTTP tests. Advanced fixture cases remain
+                    specifications until their own operation phases run.
                 </p>
                 <p>
                     The documentation-owned corpus is
@@ -129,32 +131,34 @@ npm test -- tests/frontend/protocol.test.ts`;
                         <tr>
                             <td>Array and Collection</td>
                             <td>No database</td>
-                            <td>Current public offset listing</td>
+                            <td>Native backend v2 subset verified</td>
                         </tr>
                         <tr>
                             <td>SQLite</td>
                             <td><code>3.45.2</code></td>
-                            <td>Current ordinary offset listing, future managed plans specified</td>
+                            <td>Native backend v2 subset verified</td>
                         </tr>
                         <tr>
                             <td>MySQL</td>
                             <td><code>8.4.11</code></td>
-                            <td>Native planned-plan execution pending</td>
+                            <td>Native backend v2 subset verified</td>
                         </tr>
                         <tr>
                             <td>PostgreSQL</td>
                             <td><code>18.6</code></td>
-                            <td>Native planned-plan execution pending</td>
+                            <td>Native backend v2 subset verified</td>
                         </tr>
                     </tbody>
                 </DocsTable>
                 <p>
                     Version pins identify reproducible native acceptance targets. They do not narrow
-                    the package's documented SQLite compatibility or claim that MySQL and PostgreSQL
-                    drivers exist. Record actual connection versions, collation, and extensions when
-                    executing a native acceptance lane. Current endpoint tests run on the test
-                    environment's SQLite version. Future SQL comparison cases remain specification
-                    evidence until their native lane runs.
+                    the package compatibility matrix. The phase 1 native journey verifies the
+                    delivered field subset on SQLite 3.45.2, MySQL 8.4.11, and PostgreSQL 18.6,
+                    including literal escaping, collation differences, typed options, null ordering,
+                    filtered counts, and rejected selections before listing reads. The advanced
+                    corpus cases below retain their own specification category. Passing this native
+                    subset does not prove cursor, global handler, Resource, sealed execution, or
+                    channel behavior.
                 </p>
                 <p>
                     Cross-driver baseline rows use defined scalar domains and deterministic

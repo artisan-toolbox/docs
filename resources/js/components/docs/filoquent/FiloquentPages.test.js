@@ -452,7 +452,7 @@ describe('Filoquent beta documentation', () => {
         ).toContain('/docs/filoquent/rename-owners');
     });
 
-    it('preserves PostgreSQL schema ownership and explains blocked legacy upgrades', () => {
+    it('preserves PostgreSQL schema ownership and explains ambiguous imported metadata', () => {
         const guide = render(RenameOwners, 'filoquent/rename-owners', 'Rename file owners safely');
         const postgres = guide.get('section[aria-labelledby="postgresql"]').text();
         expect(postgres).toContain('--table=public.documents --rename-to=public.articles --apply');
@@ -551,6 +551,23 @@ describe('Filoquent beta documentation', () => {
         expect(logs).toContain('independently of console verbosity');
         expect(logs).toContain('If the start log fails, no maintenance work starts');
         expect(logs).toContain('without undoing completed work');
+    });
+
+    it('labels the single-migration baseline as a clean-installation development preview', () => {
+        const guide = render(Installation, 'filoquent/installation', 'Install Filoquent');
+        const baseline = guide.get('section[aria-labelledby="migration-baseline"]').text();
+        expect(baseline).toContain('Development preview');
+        expect(baseline).toContain('2026_11_12_000000_create_filoquent_tables.php');
+        expect(baseline).toContain('does not upgrade an existing migration history');
+        expect(baseline).toContain('filoquent_uploads');
+        expect(baseline).toContain('filoquent_upload_namespace');
+        expect(baseline).toContain('filoquent_owner_tables');
+        expect(baseline).toContain('copies one migration');
+        expect(baseline).toContain('removes all three tables together');
+        const development = render(Development, 'filoquent/development', 'Develop Filoquent');
+        expect(development.get('section[aria-labelledby="journal-checks"]').text()).toContain(
+            'one-step rollback and reinstallation',
+        );
     });
 
     it('makes journal activation optional and explains the reserved Redis database', () => {

@@ -15,8 +15,8 @@ final readonly class DapterSourcesPage extends Page
         parent::__construct(
             slug: self::SLUG,
             component: 'docs/dapter/Sources',
-            title: 'Choose a data source',
-            description: 'Create array, Collection, or ordinary SQLite Eloquent sources with focused working examples.',
+            title: 'Data sources',
+            description: 'Create Collection or Eloquent sources, keep private records scoped, and choose source-owned defaults.',
             sourcePath: 'resources/js/pages/docs/dapter/Sources.vue',
             package: new DapterPackage,
         );

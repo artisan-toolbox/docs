@@ -1,0 +1,261 @@
+[
+    {
+        "id": "LiteralDefault",
+        "source": "Dapter.LiteralDefault",
+        "guide": "dapter/literal-search",
+        "title": "Default search matches the João variants",
+        "description": "Input joao returns IDs 1 through 7, including mixed case, composed accents, and a decomposed accent. Tenant 2 remains excluded.",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "name": {
+                        "search": {
+                            "value": "joao",
+                            "matchType": "contains"
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 7
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2, 3, 4, 5, 6, 7],
+            "total": 7,
+            "filtered": 7
+        }
+    },
+    {
+        "id": "LiteralStrictFluent",
+        "source": "Dapter.LiteralStrictFluent",
+        "guide": "dapter/literal-search",
+        "title": "Fluent strict search preserves exact text",
+        "description": "Input joao returns ID 7 only. Case, accents, and canonical composition remain significant.",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "name": {
+                        "search": {
+                            "value": "joao",
+                            "matchType": "contains"
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 7
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [7],
+            "total": 7,
+            "filtered": 1
+        }
+    },
+    {
+        "id": "LiteralStrictAttribute",
+        "source": "Dapter.LiteralStrictAttribute",
+        "guide": "dapter/literal-search",
+        "title": "Attribute strict search preserves exact text",
+        "description": "Input joao returns ID 7 only. Case, accents, and canonical composition remain significant.",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "name": {
+                        "search": {
+                            "value": "joao",
+                            "matchType": "contains"
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 7
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [7],
+            "total": 7,
+            "filtered": 1
+        }
+    },
+    {
+        "id": "LiteralSqlite",
+        "source": "Dapter.LiteralSqlite",
+        "guide": "dapter/literal-search",
+        "title": "SQLite filters and counts inside SQL",
+        "description": "Input joao returns IDs 1 through 7, including mixed case, composed accents, and a decomposed accent. Tenant 2 remains excluded.",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "name": {
+                        "search": {
+                            "value": "joao",
+                            "matchType": "contains"
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 7
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2, 3, 4, 5, 6, 7],
+            "total": 7,
+            "filtered": 7
+        }
+    },
+    {
+        "id": "LiteralConfigured",
+        "source": "Dapter.LiteralConfigured",
+        "guide": "dapter/literal-search/configuration",
+        "title": "Capture the configured strict default",
+        "description": "Input joao returns ID 7 only. Case, accents, and canonical composition remain significant.",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "name": {
+                        "search": {
+                            "value": "joao",
+                            "matchType": "contains"
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 7
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [7],
+            "total": 7,
+            "filtered": 1
+        }
+    },
+    {
+        "id": "LiteralFalseOverride",
+        "source": "Dapter.LiteralFalseOverride",
+        "guide": "dapter/literal-search/configuration",
+        "title": "Override an inherited strict attribute with false",
+        "description": "Input joao returns IDs 1 through 7, including mixed case, composed accents, and a decomposed accent. Tenant 2 remains excluded.",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "name": {
+                        "search": {
+                            "value": "joao",
+                            "matchType": "contains"
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 7
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2, 3, 4, 5, 6, 7],
+            "total": 7,
+            "filtered": 7
+        }
+    },
+    {
+        "id": "LiteralCustomDriver",
+        "source": "Dapter.LiteralCustomDriver",
+        "guide": "dapter/literal-search/configuration",
+        "title": "Delegate through an aware custom driver",
+        "description": "Input joao returns IDs 1 through 7, including mixed case, composed accents, and a decomposed accent. Tenant 2 remains excluded.",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "name": {
+                        "search": {
+                            "value": "joao",
+                            "matchType": "contains"
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 7
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2, 3, 4, 5, 6, 7],
+            "total": 7,
+            "filtered": 7
+        }
+    }
+]

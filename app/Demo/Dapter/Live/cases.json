@@ -1,0 +1,123 @@
+[
+    {
+        "id": "ResourceFluent",
+        "source": "Dapter.ResourceFluent",
+        "request": {
+            "version": 1
+        },
+        "expected": {
+            "status": 200
+        },
+        "guide": "dapter/resources"
+    },
+    {
+        "id": "ResourceAttributes",
+        "source": "Dapter.ResourceAttributes",
+        "request": {
+            "version": 1
+        },
+        "expected": {
+            "status": 200
+        },
+        "guide": "dapter/resources"
+    },
+    {
+        "id": "LivePrivate",
+        "source": "Dapter.LivePrivate",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200
+        },
+        "guide": "dapter/live-updates"
+    },
+    {
+        "id": "LiveAttributes",
+        "source": "Dapter.LiveAttributes",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200
+        },
+        "guide": "dapter/live-authorization"
+    },
+    {
+        "id": "LiveShorthand",
+        "source": "Dapter.LiveShorthand",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200
+        },
+        "guide": "dapter/live-authorization"
+    },
+    {
+        "id": "LivePublic",
+        "source": "Dapter.LivePublic",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200
+        },
+        "guide": "dapter/live-authorization"
+    },
+    {
+        "id": "LiveIdentity",
+        "source": "Dapter.LiveIdentity",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200
+        },
+        "guide": "dapter/revision-races"
+    },
+    {
+        "id": "LiveArrival",
+        "source": "Dapter.LiveArrival",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200
+        },
+        "guide": "dapter/revision-races"
+    },
+    {
+        "id": "LiveNative",
+        "source": "Dapter.LiveNative",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200
+        },
+        "guide": "dapter/revision-races"
+    },
+    {
+        "id": "LivePolling",
+        "source": "Dapter.LivePolling",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200
+        },
+        "guide": "dapter/polling"
+    },
+    {
+        "id": "LivePollingProps",
+        "source": "Dapter.LivePollingProps",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200
+        },
+        "guide": "dapter/polling"
+    }
+]

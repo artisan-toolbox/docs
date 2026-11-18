@@ -21,13 +21,20 @@ const example = `return StoreOptions::make()
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
         <div data-document-content class="flex min-w-0 flex-col gap-10">
-            <ProseSection
-                id="starting-environment"
-                title="A request stays inside its source definition">
+            <ProseSection id="starting-environment" title="Look up the read contract">
                 <p>
-                    Dapter separates what a source permits from what a browser asks to read.
-                    Changing JSON in the browser cannot add page sizes, field operations, or access
-                    rights. This explanation describes the unpublished local offset-listing preview.
+                    For request and response properties, see the
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/protocol').href"
+                        >version 1 offset reference</DocsLink
+                    >
+                    or the
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/protocol/v2').href"
+                        >version 2 field-read reference</DocsLink
+                    >. For status codes and retry behavior, see
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/protocol/errors').href"
+                        >read failures</DocsLink
+                    >. The example below shows how a source in the unpublished preview handles
+                    valid, out-of-range, and undeclared choices.
                 </p>
                 <p>
                     The live example uses the Laravel, Inertia, Vue, and Ziggy application from
@@ -42,12 +49,11 @@ const example = `return StoreOptions::make()
                     is required for this public Collection example.
                 </p>
             </ProseSection>
-            <ProseSection id="owners" title="Four owners describe one read">
+            <ProseSection id="owners" title="Source definition, requested state, and result">
                 <p>
-                    The <strong>definition</strong> belongs to the server. Source contracts,
-                    resolved options, access policy, and driver support determine the available
-                    operations. The response's <code>capabilities</code> describes the supported
-                    choices. It does not grant capabilities that the source or driver lacks.
+                    The server builds the <strong>definition</strong> from the source declaration,
+                    its access policy, and the operations the driver supports. The
+                    <code>capabilities</code> property lists the choices available to the reader.
                 </p>
                 <p>
                     The <strong>request</strong> belongs to the reader. A browser chooses a page and
@@ -62,9 +68,9 @@ const example = `return StoreOptions::make()
                     counts. Application views render accepted rows and state.
                 </p>
                 <p>
-                    The response's <code>requested</code> is a canonical acknowledgement, not a copy
-                    of the original JSON. With 23 rows and size 10, requesting page 999 returns page
-                    3 in <code>requested.paging</code>, <code>state.paging</code>, and
+                    The response's <code>requested</code> includes any adjustment the server made.
+                    With 23 rows and size 10, requesting page 999 returns page 3 in
+                    <code>requested.paging</code>, <code>state.paging</code>, and
                     <code>paging</code>. The actual outgoing request below preserves the original
                     999 for comparison.
                 </p>
@@ -114,11 +120,12 @@ const example = `return StoreOptions::make()
                     for executable access examples.
                 </p>
                 <p>
-                    The current capabilities contain no field operations. A request for a
-                    <code>name</code> field search therefore fails with HTTP 422 and code
-                    <code>unsupported_operation</code>. Ordinary Collection sources and supported
-                    SQLite Eloquent shapes provide offset paging. Unsupported Eloquent query shapes
-                    and database drivers fail as source configuration errors.
+                    This source uses version 1 and advertises no field operations. A request to
+                    search <code>name</code> therefore fails with HTTP 422 and code
+                    <code>unsupported_operation</code>. For a working version 2 example, see
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/field-search').href"
+                        >Search declared fields</DocsLink
+                    >.
                 </p>
                 <p>
                     <code>ArtisanToolbox\Dapter\Enums\ErrorCode</code> names the built-in wire
@@ -150,30 +157,32 @@ const example = `return StoreOptions::make()
                 </p>
             </ProseSection>
             <AuthorityDemo />
-            <ProseSection id="extensions" title="Later phases must preserve the same owners">
+            <ProseSection id="extensions" title="How the same rules apply to other operations">
                 <p>
-                    Search, filters, selectable ordering, vectors, cursor paging, and field-level
-                    permissions are future work. Their design contracts do not make those APIs
-                    available in this preview. Guard and Gate policy currently permits or denies the
-                    whole source, without per-field permissions.
+                    A source can declare field and global operations, simple or cursor paging, and
+                    native actions. Each requires its own supported driver or transport. The server
+                    checks a write again at dispatch. On Eloquent record actions it applies global
+                    scopes and groups the source predicates before matching the requested record.
+                    For a source that allows either of two groups of records, the selector restricts
+                    both groups to the requested key.
                 </p>
                 <p>
-                    Each later operation needs a server declaration, a supported driver execution
-                    path, validated reader intent, an accepted effective state, and behavioral
-                    coverage. A browser capability flag cannot replace server validation. Any
-                    field-level permissions must restrict both advertised choices and accepted
-                    requests before protected record work.
-                </p>
-                <p>
-                    Continue with the
+                    With
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/infinite-loading').href"
+                        >infinite loading</DocsLink
+                    >, each page contributes the record actions and targets it advertises. An append
+                    fails if a source-wide action appears, disappears, or changes its method,
+                    transports, or URL. For action declarations and dispatch checks, see
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/actions').href"
+                        >Invoke native actions</DocsLink
+                    >. For proposals such as vector search and field-level permissions, see the
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/design').href"
-                        >proposed design contracts</DocsLink
+                        >design contracts</DocsLink
                     >
-                    for those future responsibilities and the
+                    and
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/roadmap').href"
                         >implementation roadmap</DocsLink
-                    >
-                    for delivery status.
+                    >.
                 </p>
             </ProseSection>
         </div>

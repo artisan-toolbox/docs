@@ -1,9 +1,14 @@
 import { http } from '@inertiajs/core';
-import { Button, Select } from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import { Button, Input, Select } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils';
 import { afterEach, beforeEach, expect, it, vi } from 'vite-plus/test';
 import DataViewDemo from './DataViewDemo.vue';
-import DataViewPreview from './DataViewPreview.vue';
+import { DataView } from '@artisan-toolbox/front-awesome/data-view';
+import DataViewSession from './DataViewSession.vue';
+import CapabilityDemo from './CapabilityDemo.vue';
+import ActionDemo from './ActionDemo.vue';
+import composed from '../../dapter/composed/wire.json';
+import actions from '../../dapter/actions/wire-v2.json';
 
 enableAutoUnmount(afterEach);
 const originalClient = http.getClient();
@@ -16,7 +21,10 @@ beforeEach(() => {
         url: 'https://docs.example.test',
         port: null,
         defaults: {},
-        routes: { 'dapter.data': { uri: 'dapter/data/{source}', methods: ['POST'] } },
+        routes: {
+            'dapter.data': { uri: 'dapter/data/{source}', methods: ['POST'] },
+            'demo.dapter.actions.start': { uri: 'demo/dapter/actions/start', methods: ['POST'] },
+        },
     };
 });
 
@@ -90,9 +98,9 @@ it('keeps the accepted rows and the pending Dapter request across layout changes
     expect(wrapper.get('tbody wa-tag').text()).toBe('Plain');
     await click(wrapper, 'Next');
     expect(JSON.parse(request.mock.calls[1][0].data).state.paging.current).toBe(2);
-    expect(wrapper.get('[role="status"]').text()).toContain('Showing the last accepted page');
+    expect(wrapper.get('[role="status"]').text()).toContain('Updating results');
 
-    await click(wrapper, 'Cards');
+    await click(wrapper, 'Grid');
     expect(wrapper.get('li wa-card').text()).toContain('Notebook 1');
     second.resolve(catalogPage(2));
     await flushPromises();
@@ -102,20 +110,20 @@ it('keeps the accepted rows and the pending Dapter request across layout changes
     expect(wrapper.get('li strong').text()).toBe('Notebook 2');
     await click(wrapper, 'Table');
     expect(wrapper.get('tbody strong').text()).toBe('Notebook 2');
-    expect(wrapper.get('[role="status"]').text()).toContain('Page 2 of 2');
+    expect(wrapper.get('nav').text()).toContain('Page 2 of 2');
     expect(request).toHaveBeenCalledTimes(2);
 
     const preset = wrapper
         .findAllComponents(Select)
-        .find((item) => item.attributes('label') === 'Configured layouts');
+        .find((item) => item.vm.$attrs.label === 'Configured layouts');
     preset.vm.$emit('update:modelValue', 'table');
     await flushPromises();
-    expect(wrapper.find('[aria-label="Catalog layout"]').exists()).toBe(false);
+    expect(wrapper.find('[aria-label="Results layout"]').exists()).toBe(false);
     expect(wrapper.get('tbody strong').text()).toBe('Notebook 2');
-    preset.vm.$emit('update:modelValue', 'cards');
+    preset.vm.$emit('update:modelValue', 'grid');
     await flushPromises();
     expect(wrapper.find('table').exists()).toBe(false);
-    expect(wrapper.find('[aria-label="Catalog layout"]').exists()).toBe(false);
+    expect(wrapper.find('[aria-label="Results layout"]').exists()).toBe(false);
     expect(wrapper.get('wa-card').text()).toContain('Notebook 2');
     expect(request).toHaveBeenCalledTimes(2);
 });
@@ -141,23 +149,114 @@ it('reports a denied source and distinguishes an accepted empty catalog after re
     await click(wrapper, 'Try denied source');
     expect(request.mock.calls[0][0].url).toContain('/dapter/data/Dapter.CollectionGateDeny');
     expect(wrapper.get('[role="alert"]').text()).toContain('denied');
-    expect(wrapper.findComponent(DataViewPreview).exists()).toBe(false);
+    expect(wrapper.find('tbody tr').exists()).toBe(false);
     await click(wrapper, 'Reset');
     expect(wrapper.get('[role="status"]').text()).toBe('No source is running.');
     expect(request).toHaveBeenCalledTimes(1);
     await click(wrapper, 'Start catalog');
     expect(wrapper.find('[role="alert"]').exists()).toBe(false);
-    expect(wrapper.get('[role="status"]').text()).toContain('No notebooks match.');
+    expect(wrapper.get('[role="status"]').text()).toContain('No results.');
 });
 
-it('offers only configured layouts that can render a record', async () => {
-    const wrapper = mount(DataViewPreview, {
-        props: { views: ['table', 'cards', 'list'], rows: [{ id: 8, name: 'Sketchbook' }] },
-        slots: { cards: ({ record }) => record.name },
+it('preserves one owner when the reactive source changes', async () => {
+    request.mockResolvedValue(catalogPage(1));
+    const wrapper = mount(DataViewSession, { props: { source: 'Dapter.CollectionFluent' } });
+    await flushPromises();
+    const owner = wrapper.findComponent(DataView).props('adapter');
+    await wrapper.setProps({ source: 'Dapter.CollectionConfigured' });
+    await flushPromises();
+    expect(wrapper.findComponent(DataView).props('adapter')).toBe(owner);
+    expect(request.mock.calls[1][0].url).toContain('Dapter.CollectionConfigured');
+    expect(wrapper.get('[data-shared-state]').text()).toContain('Same owner yes');
+});
+
+it('uses actual built-in capabilities and the original handle in a custom filter slot', async () => {
+    request.mockResolvedValue(json(composed));
+    const wrapper = mount(CapabilityDemo, {
+        global: { stubs: { DemoFrame: { template: '<section><slot /></section>' } } },
     });
-    expect(wrapper.get('li').text()).toBe('Sketchbook');
-    expect(wrapper.find('[aria-label="Catalog layout"]').exists()).toBe(false);
-    await wrapper.setProps({ views: ['table', 'list'] });
-    expect(wrapper.find('li').exists()).toBe(false);
-    expect(wrapper.get('[role="status"]').text()).toContain('Configure table columns');
+    expect(request).not.toHaveBeenCalled();
+    await click(wrapper, 'Start capabilities');
+    expect(wrapper.get('[data-capability-state]').text()).toContain('Shared handle yes');
+    await vi.dynamicImportSettled();
+    await flushPromises();
+    const search = wrapper
+        .findAllComponents(Input)
+        .find((item) => item.vm.$attrs.label === 'Search results');
+    search.vm.$emit('update:modelValue', 'Notebook');
+    await flushPromises();
+    expect(JSON.parse(request.mock.calls.at(-1)[0].data).state.global.search).toEqual({
+        value: 'Notebook',
+    });
+    await click(wrapper, 'Paused notebooks');
+    expect(JSON.parse(request.mock.calls.at(-1)[0].data).state.global.filters.status).toEqual({
+        value: 'paused',
+    });
+    await click(wrapper, 'Notebook');
+    expect(JSON.parse(request.mock.calls.at(-1)[0].data).state.order.terms[0].field).toBe('name');
+    const order = wrapper
+        .findAllComponents(Select)
+        .find((item) => item.vm.$attrs.label === 'Order results');
+    order.vm.$emit('update:modelValue', 'reverse');
+    await flushPromises();
+    expect(JSON.parse(request.mock.calls.at(-1)[0].data).state.order).toEqual({
+        kind: 'preset',
+        id: 'reverse',
+    });
+});
+
+it('passes typed action capabilities to the actions slot without a write on mount', async () => {
+    const startup = Promise.withResolvers();
+    request
+        .mockReturnValueOnce(startup.promise)
+        .mockResolvedValueOnce(json(actions))
+        .mockResolvedValueOnce(json({ saved: true, count: 1 }));
+    const wrapper = mount(ActionDemo, {
+        global: { stubs: { DemoFrame: { template: '<section><slot /></section>' } } },
+    });
+    expect(request).not.toHaveBeenCalled();
+    await click(wrapper, 'Start actions');
+    expect(request).toHaveBeenCalledTimes(1);
+    expect(request.mock.calls[0][0]).toMatchObject({
+        method: 'post',
+        url: 'https://docs.example.test/demo/dapter/actions/start',
+        data: {},
+    });
+    expect(wrapper.findComponent(DataView).exists()).toBe(false);
+    expect(wrapper.get('[role="status"]').text()).toContain('Starting');
+    expect(
+        wrapper
+            .findAllComponents(Button)
+            .find((item) => item.text() === 'Start actions')
+            .props('disabled'),
+    ).toBe(true);
+    startup.resolve(json({ count: 0 }));
+    await flushPromises();
+    expect(request).toHaveBeenCalledTimes(2);
+    expect(request.mock.calls[1][0].url).toContain('/dapter/data/Dapter.ActionCatalog');
+    expect(wrapper.get('[data-action-state]').text()).toContain('Shared handle yes');
+    await click(wrapper, 'Save fictional notebook');
+    expect(request).toHaveBeenCalledTimes(3);
+    expect(wrapper.get('[data-action-outcome]').text()).toContain('Outcome completed');
+    await click(wrapper, 'Reset actions');
+    expect(wrapper.findComponent(DataView).exists()).toBe(false);
+    expect(request).toHaveBeenCalledTimes(3);
+});
+
+it('reports a failed session startup without reading actions and allows retry', async () => {
+    request.mockRejectedValueOnce(new Error('Unavailable'));
+    const wrapper = mount(ActionDemo, {
+        global: { stubs: { DemoFrame: { template: '<section><slot /></section>' } } },
+    });
+    expect(request).not.toHaveBeenCalled();
+    await click(wrapper, 'Start actions');
+    expect(request).toHaveBeenCalledTimes(1);
+    expect(wrapper.get('[role="alert"]').text()).toContain('could not start');
+    expect(wrapper.findComponent(DataView).exists()).toBe(false);
+
+    request.mockResolvedValueOnce(json({ count: 0 })).mockResolvedValueOnce(json(actions));
+    await click(wrapper, 'Start actions');
+    expect(request).toHaveBeenCalledTimes(3);
+    expect(wrapper.find('[role="alert"]').exists()).toBe(false);
+    expect(wrapper.get('[data-action-state]').text()).toContain('Shared handle yes');
 });

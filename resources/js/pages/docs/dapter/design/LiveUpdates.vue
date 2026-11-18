@@ -32,9 +32,10 @@ const pollingDeclaration = `<DataAdapter source="Products" :polling="{ interval:
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection>
                 <p>
-                    Design proposal for the unpublished Dapter preview. Unless a section explicitly
-                    identifies an implemented contract, these examples are unavailable and are not
-                    installation instructions.
+                    Historical design for the unpublished Dapter preview. Use the focused live
+                    authorization, committed replacement, revision race, and polling working guides
+                    for the delivered public APIs and current limits. These historical examples
+                    preserve their original anchors and do not replace setup instructions.
                 </p>
                 <p>
                     Use the
@@ -46,6 +47,23 @@ const pollingDeclaration = `<DataAdapter source="Products" :polling="{ interval:
                         >roadmap</DocsLink
                     >
                     records acceptance gates and progress.
+                </p>
+                <p>
+                    Guarded infinite windows are delivered in the
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/infinite-loading').href"
+                        >vertical append guide</DocsLink
+                    >,
+                    <DocsLink
+                        :href="
+                            findNavigationItem(navigation, 'dapter/horizontal-infinite-loading')
+                                .href
+                        "
+                        >horizontal guide</DocsLink
+                    >, and
+                    <DocsLink
+                        :href="findNavigationItem(navigation, 'dapter/infinite-recovery').href"
+                        >recovery guide</DocsLink
+                    >. These working guides own the public API and current limits.
                 </p>
             </ProseSection>
             <ProseSection

@@ -62,7 +62,7 @@ if (slot.ready) {
     slot.data[0]?.receivedAt.getTime();
 }
 if (paging.mode === 'offset') { const count: number = paging.total; paging.goToPage(2); }
-if (paging.mode === 'simple') { const count: null = paging.total; const page: number = paging.current; }
+if (paging.mode === 'simple') { const page: number = paging.current; if (paging.counts === 'unknown') { const count: null = paging.total; } else { const count: number = paging.total; } }
 if (paging.mode === 'cursor') { const page: null = paging.current; const jump: null = paging.goToPage; }
 actions.visit('edit', { id: 7 }, { onSuccess: (page) => { const url: string = page.url; } });
 actions.http('save', { id: 7, name: 'Lin' }, { onSuccess: (result) => { const value: unknown = result; } });

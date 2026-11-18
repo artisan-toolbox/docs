@@ -12,7 +12,7 @@ final readonly class DapterPackage extends Package
         parent::__construct(
             id: 'dapter',
             title: 'Dapter',
-            summary: 'Read and paginate Collections and SQLite Eloquent sources through a headless Vue adapter.',
+            summary: 'Read, filter, order, and invoke authorized actions through a headless Vue adapter.',
             version: null,
             overview: PageSlug::Dapter,
             documentedVersion: '1.x preview',

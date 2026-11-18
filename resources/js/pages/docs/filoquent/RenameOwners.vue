@@ -277,14 +277,14 @@ dump(Storage::disk($asset->filesystem)->get($asset->path));`;
                 </p>
                 <CodeExample label="Resolve a PostgreSQL table rename" :code="postgresRename" />
                 <p>
-                    When upgrading older preview receipts without a schema qualifier, the
-                    ownership-gate migration preserves their original journal route and blocks
-                    active groups. Their original schema cannot be inferred safely. These groups
-                    require an explicit, qualified <code>--rename-to</code> destination that
-                    contains every original manifest. <code>--removed</code> is refused until this
-                    ownership verification succeeds. A group containing receipts from multiple
-                    schemas stays blocked when no single destination can prove ownership. Keep its
-                    files and reconcile the original records before retrying.
+                    New receipts always use qualified PostgreSQL routes. The consolidated
+                    development migration targets clean installations and does not convert older
+                    receipts. If imported recovery metadata has an ambiguous owner group, its
+                    original schema cannot be inferred safely. These groups require an explicit,
+                    qualified <code>--rename-to</code> destination containing every original
+                    manifest. <code>--removed</code> is refused until ownership verification
+                    succeeds. A group containing receipts from multiple schemas stays blocked when
+                    no single destination can prove ownership.
                 </p>
             </ProseSection>
             <ProseSection id="rename-resolution" title="Resolve a verified table rename">
@@ -368,10 +368,10 @@ dump(Storage::disk($asset->filesystem)->get($asset->path));`;
                     retrying. Do not manually retarget or delete receipts to bypass a refusal.
                 </p>
                 <p>
-                    Keep the ownership-gate migration installed while unresolved groups or retained
-                    journal route aliases remain. Its rollback refuses those states. Reverting
-                    application DDL and resolving a reverse rename is separate from rolling back the
-                    package's ledger migrations.
+                    Keep the package schema installed while unresolved groups or retained journal
+                    route aliases remain. Its rollback refuses those states. Reverting application
+                    DDL and resolving a reverse rename is separate from rolling back the package's
+                    schema.
                 </p>
             </ProseSection>
             <ProseSection id="verify" title="Verify the original files before resuming work">

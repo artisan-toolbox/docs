@@ -123,6 +123,8 @@ test('indexes and checks the real registered Vue corpus through the deployment c
     expect(array_column($index->search('affected_uploads'), 'href'))->toContain('/docs/filoquent/rename-owners#detect');
     expect(array_column($index->search('FILOQUENT_TEST_PGSQL_DATABASE'), 'href'))->toContain('/docs/filoquent/development#database-checks');
     expect($index->search('installation'))->not->toBeEmpty();
+    expect(array_column($index->search('Search data'), 'href'))->toContain('/docs/dapter/field-search');
+    expect(array_column($index->search('Choose a task'), 'href'))->toContain('/docs/dapter#next-steps');
     $documents = resolve(SearchExtractor::class)->extract(resolve(SearchCatalog::class));
     expect(count(array_filter($documents, fn (SearchDocument $document): bool => $document->anchor === null)))->toBe(count(PageSlug::cases()));
     $bytes = file_get_contents(config('documentation.search_index'));

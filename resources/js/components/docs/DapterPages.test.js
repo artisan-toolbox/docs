@@ -3,6 +3,9 @@ import { defineComponent, h } from 'vue';
 import { compileScript, compileTemplate, parse } from '@vue/compiler-sfc';
 import { describe, expect, it } from 'vite-plus/test';
 import Index from '../../pages/docs/dapter/Index.vue';
+import FieldSearch from '../../pages/docs/dapter/FieldSearch.vue';
+import FieldFilters from '../../pages/docs/dapter/FieldFilters.vue';
+import FieldOrder from '../../pages/docs/dapter/FieldOrder.vue';
 import Installation from '../../pages/docs/dapter/Installation.vue';
 import Listing from '../../pages/docs/dapter/Listing.vue';
 import CodeExample from './CodeExample.vue';
@@ -101,6 +104,9 @@ function render(component, slug) {
 describe('Dapter preview learning journey', () => {
     it.each([
         ['Load the source asynchronously', Index, 'dapter'],
+        ['Bind the authorized field in Vue', FieldSearch, 'dapter/field-search'],
+        ['Bind the authorized field in Vue', FieldFilters, 'dapter/field-filters'],
+        ['Bind the authorized field in Vue', FieldOrder, 'dapter/field-order'],
         ['Source-only Vue adapter', Listing, 'dapter/listing'],
         [
             'Shared host handle and independent second adapter',
@@ -129,15 +135,22 @@ describe('Dapter preview learning journey', () => {
         wrapper.unmount();
     });
 
-    it('states the preview limits and links the overview to installation, the roadmap, and development', () => {
+    it('introduces the unpublished preview with a runnable notebook list and registry guide links', () => {
         const wrapper = render(Index, 'dapter');
+        expect(wrapper.text()).toContain('unpublished local preview');
         expect(wrapper.text()).toContain('ordinary SQLite');
-        expect(wrapper.get('a[href="/docs/dapter/listing"]').text()).toContain('Read and paginate');
         expect(wrapper.text()).toContain('Not installed');
         expect(wrapper.get('a[href="/docs/dapter/installation"]').text()).toContain('Install');
-        expect(wrapper.get('a[href="/docs/dapter/development"]').text()).toContain('Develop');
-        expect(wrapper.get('a[href="/docs/dapter/roadmap"]').text()).toBe('Dapter roadmap');
-        expect(wrapper.text()).toContain('Dapter::VERSION');
+        const quickstart = wrapper.get('section[aria-labelledby="first-example"]');
+        expect(quickstart.text()).toContain('Notebook 01 through Notebook 10');
+        expect(quickstart.find('[data-quickstart-usage]').exists()).toBe(true);
+        const guides = findNavigationItem(sourceNavigation(), 'dapter').children;
+        expect(
+            wrapper
+                .get('nav[aria-label="Dapter guides"]')
+                .findAll('a')
+                .map((item) => item.attributes('href')),
+        ).toEqual(guides.map((guide) => guide.href));
         wrapper.unmount();
     });
 
@@ -149,6 +162,12 @@ describe('Dapter preview learning journey', () => {
         expect(text).toContain('1.x-dev@dev');
         expect(text).toContain('file:vendor/artisan-toolbox/dapter');
         expect(text).toContain('data-dapter-version');
+        expect(wrapper.get('section[aria-labelledby="read-route"]').text()).toContain(
+            "route().has('dapter.data')",
+        );
+        expect(wrapper.get('section[aria-labelledby="next-steps"] a').attributes('href')).toBe(
+            '/docs/dapter#first-example',
+        );
         expect(text).toContain('1.0.0-alpha.1');
         wrapper.unmount();
     });
@@ -159,7 +178,49 @@ describe('Dapter preview learning journey', () => {
         expect(wrapper.text()).toContain('npm run release:build');
         expect(wrapper.text()).toContain('NodeNext');
         expect(wrapper.text()).toContain('does not claim a transitive npm dependency minimum');
+        const phpstan = wrapper.get('section[aria-labelledby="phpstan"]');
+        expect(phpstan.text()).toContain('PHPStan 2.3');
+        expect(phpstan.text()).toContain('phpstan/extension-installer');
+        expect(phpstan.text()).toContain('PHPStan rejects duplicate includes');
+        expect(phpstan.text()).toContain('vendor/artisan-toolbox/dapter/extension.neon');
+        expect(phpstan.text()).toContain('Action');
+        expect(phpstan.text()).toContain('GlobalFilter');
+        expect(phpstan.text()).toContain('GlobalOrder');
+        expect(phpstan.text()).toContain('Ordinary unused private helpers still report');
+        expect(wrapper.text()).toContain('Page.rescuedProps');
+        expect(wrapper.text()).toContain('InertiaConfig augmentation');
         wrapper.unmount();
+    });
+});
+
+describe('Dapter delivered contract documentation', () => {
+    it('indexes preset invariants and the native action resolver limits from working guides', () => {
+        const documents = extractDocumentation([
+            {
+                slug: 'dapter/multi-order',
+                title: 'Order multiple fields',
+                description: 'Unpublished preview.',
+                packageTitle: 'Dapter',
+                sourcePath: 'resources/js/pages/docs/dapter/MultiOrder.vue',
+            },
+            {
+                slug: 'dapter/action-outcomes',
+                title: 'Handle action outcomes',
+                description: 'Unpublished preview.',
+                packageTitle: 'Dapter',
+                sourcePath: 'resources/js/pages/docs/dapter/ActionOutcomes.vue',
+            },
+        ]);
+        const body = (anchor) => documents.find((document) => document.anchor === anchor).body;
+        expect(body('presets')).toContain('cannot remove, duplicate, restore, or replace its rows');
+        expect(body('presets')).toContain('qualified model key');
+        expect(body('presets')).toContain('duplicate multiplicity');
+        expect(body('presets')).toContain('never performs a second Collection sort');
+        expect(body('options')).toContain('conservative baseline');
+        expect(body('options')).toContain('Inertia 3.0.3');
+        expect(body('options')).toContain('Page.rescuedProps');
+        expect(body('options')).toContain('InertiaConfig augmentation');
+        expect(body('options')).toContain('actual native objects');
     });
 });
 
@@ -215,10 +276,42 @@ describe('Dapter proposal roadmap', () => {
             expect(wrapper.get('h1').text()).toBe(
                 findNavigationItem(sourceNavigation(), `dapter/design/${slug}`).title,
             );
-            expect(wrapper.findAll('h2').length).toBeLessThanOrEqual(3);
+            const sectionAnchors = {
+                declarations: ['implemented-preview', 'ownership-and-reusable-contracts'],
+                'source-boundaries': ['distinct-identities', 'planned-response-metadata'],
+                drivers: [
+                    'implemented-preview',
+                    'store-drivers-and-capabilities',
+                    'source-resolution-and-automatic-behavior',
+                    'capability-rollout',
+                ],
+                operations: [
+                    'implemented-preview',
+                    'six-operation-contract-cases',
+                    'scope-filters-and-search',
+                    'sorting-and-complex-queries',
+                ],
+                'paging-state': ['pagination-and-consistency', 'vue-slot-and-action-contract'],
+                actions: ['implemented-preview', 'datastore-actions'],
+                'live-updates': ['async-requests-url-and-scrolling'],
+            };
+            expect(wrapper.findAll('h2').map((heading) => heading.attributes('id'))).toEqual(
+                sectionAnchors[slug],
+            );
             expect(wrapper.findAllComponents(RoadmapPhase)).toHaveLength(0);
-            expect(wrapper.text()).toContain('Design proposal for the unpublished Dapter preview.');
-            expect(wrapper.text()).toContain('these examples are unavailable');
+            if (slug === 'live-updates') {
+                expect(wrapper.text()).toContain(
+                    'Historical design for the unpublished Dapter preview.',
+                );
+                expect(wrapper.text()).toContain(
+                    'focused live authorization, committed replacement, revision race, and polling working guides',
+                );
+            } else {
+                expect(wrapper.text()).toContain(
+                    'Design proposal for the unpublished Dapter preview.',
+                );
+                expect(wrapper.text()).toContain('these examples are unavailable');
+            }
             expect(wrapper.get('a[href="/docs/dapter/listing"]').text()).toBe(
                 'functional listing guide',
             );
@@ -296,7 +389,7 @@ describe('Dapter proposal roadmap', () => {
             wrapper
                 .findAllComponents(RoadmapItem)
                 .filter((item) => item.props('id').startsWith('todo-2a-'))
-                .every((item) => item.props('status') === 'not_started'),
+                .every((item) => item.props('status') === 'completed'),
         ).toBe(true);
         wrapper.unmount();
     });
@@ -350,18 +443,27 @@ describe('Dapter proposal roadmap', () => {
         const text = wrapper.text();
         expect(wrapper.get('h1').text()).toBe('Dapter roadmap');
         expect(text).toContain(
-            'The local preview implements the first Collection and SQLite offset listing slice.',
+            'The local preview implements Collection, SQLite, MySQL, and PostgreSQL backend offset reads and explicit v2 field operations.',
         );
         expect(text).toContain('<DataAdapter source="Products">');
         expect(text).toContain('total: 100');
         expect(text).toContain('filtered: 0');
         expect(text).toContain('joined_table.id');
         expect(text).toContain('The server owns the allowed operations.');
+        expect(text).toContain('Native actions now work with both read versions.');
+        expect(text).toContain(
+            'Phases 2a, 3, 3a, 4, 5, and 6 passed their final acceptance gates.',
+        );
+        expect(text).not.toContain(
+            'Global operations, Resources, actions, and live updates remain unavailable.',
+        );
+        expect(text).not.toContain('Infinite mode remains unavailable.');
+        expect(text).not.toContain('Infinite mode remains proposed.');
         expect(text).toContain('does not freeze a changing dataset');
         expect(text).not.toContain('&#39;');
         expect(wrapper.findAll('table')).toHaveLength(11);
         expect(wrapper.get('table caption').text()).toBe('Source ownership and boundaries');
-        expect(wrapper.findAll('h2')).toHaveLength(17);
+        expect(wrapper.findAll('h2')).toHaveLength(21);
         expect(wrapper.findAll('h3[id^="phase-"]')).toHaveLength(10);
         expect(wrapper.findAll('input[type="checkbox"]')).toHaveLength(0);
         expect(wrapper.findAllComponents(RoadmapItem)).toHaveLength(61);
@@ -377,7 +479,7 @@ describe('Dapter proposal roadmap', () => {
             wrapper
                 .findAllComponents(RoadmapItem)
                 .filter((item) => item.props('status') === 'completed').length,
-        ).toBe(10);
+        ).toBe(61);
         expect(text).toContain(
             'Completion is authored in this documentation and tracks only this roadmap',
         );
@@ -409,7 +511,9 @@ describe('Dapter proposal roadmap', () => {
         const text = wrapper.text();
         expect(text).toContain('uses those same rules to validate the entire request');
         expect(text).toContain('UnsupportedStoreOperation');
-        expect(text).toContain('Vector search remains phase 7 research');
+        expect(text).toContain(
+            'Vector retrieval research established native pgvector feasibility and deferred',
+        );
         expect(text).toContain('Availability does not require a submitted vector');
         expect(text).toContain('check the actual prepared vector for finite numeric values');
         wrapper.unmount();
@@ -825,7 +929,7 @@ describe('Dapter proposal roadmap', () => {
                 .find((figure) => figure.text().includes(label))
                 .get('pre code')
                 .text();
-        const attributes = codeFor('Proposed attribute-only Collection source');
+        const attributes = codeFor('Attribute-only source design illustration');
         expect(attributes).toContain(
             "#[SearchableField('name', matchTypes: [MatchType::Contains])]",
         );
@@ -835,7 +939,7 @@ describe('Dapter proposal roadmap', () => {
         expect(attributes).toContain('#[PageSize(25)]');
         expect(attributes).toContain("['id' => 1, 'name' => 'Notebook', 'status' => 'active']");
         expect(attributes).not.toMatch(/function options|implements|WithOptions/);
-        const composed = codeFor('Proposed attributes composed with explicit fluent settings');
+        const composed = codeFor('Attributes and fluent settings design illustration');
         expect(composed).toContain('#[PageSize(25)]');
         expect(composed).toContain('extends CollectionDataSource implements WithOptions');
         expect(composed).toContain('->pageSizeOptions([10, 50])');
@@ -868,9 +972,7 @@ describe('Dapter proposal roadmap', () => {
         const text = wrapper.text();
         const code = wrapper
             .findAll('figure')
-            .find((figure) =>
-                figure.text().includes('Proposed empty-baseline factory with retained attributes'),
-            )
+            .find((figure) => figure.text().includes('Empty-baseline design illustration'))
             .get('pre code')
             .text();
         expect(code).toContain('extends CollectionDataSource implements WithOptions');
@@ -1199,7 +1301,7 @@ describe('Dapter proposal roadmap', () => {
         expect(callbacks).toContain('values: [Status::Active, Status::Pending]');
         expect(callbacks).toContain("['id' => 1, 'status' => 'active']");
         expect(text).toContain(
-            'The filter APIs and named arguments remain proposed and unavailable',
+            'These examples preserve historical callback signatures and named arguments',
         );
         expect(text).toContain(
             'Validate every requested operation before constructing handlers or running listing queries',
@@ -1416,19 +1518,44 @@ describe('Dapter proposal roadmap', () => {
     it('extracts the real roadmap prose, count example, slot table, and every delivery phase for search', () => {
         const documents = extractProposalDocumentation();
         const section = (anchor) => documents.find((document) => document.anchor === anchor);
-        expect(documents).toHaveLength(132);
+        expect(documents).toHaveLength(136);
         const tasks = documents.filter(({ anchor }) => /^todo-[0-7]a?-[1-9]$/.test(anchor ?? ''));
         expect(tasks).toHaveLength(61);
         expect(new Set(tasks.map(({ anchor }) => anchor)).size).toBe(61);
-        expect(tasks.filter(({ body }) => body.startsWith('Completed '))).toHaveLength(10);
-        expect(tasks.filter(({ body }) => body.startsWith('WIP '))).toHaveLength(10);
+        expect(tasks.filter(({ body }) => body.startsWith('Completed '))).toHaveLength(61);
+        expect(tasks.filter(({ body }) => body.startsWith('WIP '))).toHaveLength(0);
+        const completedIds = [7, 9, 8, 5, 6, 7, 6, 5, 4, 4].flatMap((count, phase) =>
+            Array.from(
+                { length: count },
+                (_, index) =>
+                    `todo-${['0', '1', '2', '2a', '3', '3a', '4', '5', '6', '7'][phase]}-${index + 1}`,
+            ),
+        );
+        expect(
+            tasks.filter(({ body }) => body.startsWith('Completed ')).map(({ anchor }) => anchor),
+        ).toEqual(completedIds);
+        expect(section('phase-2a-add-authorized-datastore-actions').body).toContain(
+            'Acceptance complete.',
+        );
+        expect(section('phase-3-add-deeper-declarations-and-composed-operations').body).toContain(
+            'Acceptance complete.',
+        );
+        expect(section('phase-3a-add-live-updates-and-polling').body).toContain(
+            'Acceptance complete.',
+        );
+        expect(section('phase-4-add-honest-pagination-choices').body).toContain(
+            'Acceptance complete.',
+        );
+        expect(section('phase-5-add-guarded-infinite-loading').body).toContain(
+            'Acceptance complete.',
+        );
         const phaseIds = ['0', '1', '2', '2a', '3', '3a', '4', '5', '6', '7'];
         const expectedAnchors = [7, 9, 8, 5, 6, 7, 6, 5, 4, 4].flatMap((count, phase) =>
             Array.from({ length: count }, (_, index) => `todo-${phaseIds[phase]}-${index + 1}`),
         );
         expect(tasks.map(({ anchor }) => anchor)).toEqual(expectedAnchors);
         expect(documents[0].body).toContain(
-            'The local preview implements the first Collection and SQLite offset listing slice.',
+            'The local preview implements Collection, SQLite, MySQL, and PostgreSQL backend offset reads and explicit v2 field operations.',
         );
         expect(section('the-smallest-useful-implementation').body).toContain(
             '<DataAdapter source="Products">',
@@ -1443,11 +1570,11 @@ describe('Dapter proposal roadmap', () => {
         expect(section('public-identifiers-and-query-targets').body).toContain('joined_table.id');
         const phases = documents.filter(({ anchor }) => /^phase-[0-7]a?-/.test(anchor ?? ''));
         expect(phases).toHaveLength(10);
-        for (const phase of phases) {
+        for (const [index, phase] of phases.entries()) {
+            const count = [7, 9, 8, 5, 6, 7, 6, 5, 4, 4][index];
+            const expectedStatus = `Completed ${count} of ${count} tasks completed 100%`;
             expect(phase.slug).toBe('dapter/roadmap');
-            expect(phase.body).toMatch(
-                /^(?:WIP [1-6]|Completed 7|Not started 0) of \d+ tasks completed \d+%/,
-            );
+            expect(phase.body.startsWith(expectedStatus)).toBe(true);
             expect(phase.body).toContain('Exit when');
         }
         expect(section('completion-rules-for-every-implementation-phase').body).toContain(
@@ -1504,6 +1631,12 @@ describe('Dapter proposal roadmap', () => {
         );
         expect(drivers.body).toContain(
             'the driver performs zero listing reads or managed transforms',
+        );
+        expect(section('todo-7-4').body).toContain(
+            'Public vector and snapshot APIs remain deferred',
+        );
+        expect(section('todo-7-3').body).toContain(
+            'unsafe primary-key-only authorization boundary',
         );
         expect(section('todo-7-2').body).toContain(
             'configured MySQL driver without a vector implementation',

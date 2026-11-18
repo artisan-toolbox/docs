@@ -1,0 +1,77 @@
+[
+    {
+        "id": "InfiniteSimple",
+        "title": "Append notebooks vertically",
+        "description": "Read isolated fictional records after you start the example.",
+        "source": "Dapter.InfiniteSimple",
+        "guide": "dapter/infinite-loading",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200,
+            "mode": "simple",
+            "ids": [1, 2]
+        }
+    },
+    {
+        "id": "InfiniteJoined",
+        "title": "Keep joined rows while appending",
+        "description": "Read isolated fictional records after you start the example.",
+        "source": "Dapter.InfiniteJoined",
+        "guide": "dapter/infinite-loading",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200,
+            "mode": "offset",
+            "tuples": [[1, 11]]
+        }
+    },
+    {
+        "id": "InfiniteCursor",
+        "title": "Append notebook cards horizontally",
+        "description": "Read isolated fictional records after you start the example.",
+        "source": "Dapter.InfiniteCursor",
+        "guide": "dapter/horizontal-infinite-loading",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200,
+            "mode": "cursor",
+            "ids": [1, 2]
+        }
+    },
+    {
+        "id": "InfiniteRecovery",
+        "title": "Retry a failed append",
+        "description": "Read isolated fictional records after you start the example.",
+        "source": "Dapter.InfiniteRecovery",
+        "guide": "dapter/infinite-recovery",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200,
+            "mode": "simple",
+            "ids": [1, 2]
+        }
+    },
+    {
+        "id": "InfiniteFill",
+        "title": "Bound automatic filling",
+        "description": "Read isolated fictional records after you start the example.",
+        "source": "Dapter.InfiniteSimple",
+        "guide": "dapter/infinite-recovery",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200,
+            "mode": "simple",
+            "ids": [1, 2]
+        }
+    }
+]

@@ -30,6 +30,8 @@ final class InstallationCommands
         if ($id === 'dapter') {
             $commands['frontend'] = $this->command("npm pkg set 'dependencies.@artisan-toolbox/dapter=file:vendor/artisan-toolbox/dapter'\nnpm install --install-links");
             $commands['local-preview'] = $this->command('composer config repositories.dapter path ../dapter'."\n".'composer require artisan-toolbox/dapter:"1.x-dev@dev"');
+            $ziggy = self::composerVersion('tightenco/ziggy');
+            $commands['ziggy'] = $this->command($ziggy === null ? null : 'composer require tightenco/ziggy:'.$ziggy);
         }
 
         if ($id === 'front-awesome') {

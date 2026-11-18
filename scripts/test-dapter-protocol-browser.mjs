@@ -141,7 +141,7 @@ try {
                 assert.equal(requests.length, 4);
                 for (const [label, id] of [
                     ['Send malformed JSON', 'malformed-json'],
-                    ['Send version 2', 'future-version'],
+                    ['Send version 3', 'future-version'],
                     ['Send a list envelope', 'list-envelope'],
                     ['Request a missing source', 'missing-source'],
                     ['Read an invalid definition', 'server-failure'],

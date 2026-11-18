@@ -35,7 +35,7 @@ if (outcome.status === 'failure') {
     console.error(outcome.error.kind, outcome.error.code);
 }`;
 const responseFields = [
-    ['version', 'Integer 1. The currently supported wire version.'],
+    ['version', 'Integer 1 for this preserved listing contract.'],
     ['data', 'Dense list of serialized JSON rows for the accepted page.'],
     ['requested', 'Canonical editable intent, including the bounded page position.'],
     ['state', 'Effective order and paging after validation and execution.'],
@@ -50,15 +50,12 @@ const responseFields = [
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection id="scope" title="Implemented read protocol v1">
                 <p>
-                    This reference describes the unpublished local offset-listing preview. The
-                    current endpoint supports version 1, Collection sources, and supported SQLite
-                    Eloquent sources. Search, filters, selectable order, simple paging, cursor
-                    paging, and write actions remain planned. The
-                    <DocsLink :href="findNavigationItem(navigation, 'dapter/design').href"
-                        >design contracts</DocsLink
-                    >
-                    describe their separate planned version 2 grammar. Sending version 2 to the
-                    current endpoint returns HTTP 422.
+                    Version 1 is the default for <code>DataAdapter</code> and
+                    <code>useDataAdapter</code> in the unpublished local preview. It reads offset
+                    pages from Collections and supported SQLite, MySQL, and PostgreSQL Eloquent
+                    queries. Declared field and global operations use version 2. To follow a
+                    source's simple or cursor paging in Vue, set <code>protocol: 2</code> and
+                    <code>paging: 'source'</code>. Version 3 remains unsupported.
                 </p>
                 <p>
                     The live example runs in the Laravel, Inertia, Vue, and Ziggy application from
@@ -68,6 +65,18 @@ const responseFields = [
                     stay enabled. The public Collection fixture needs no account, application
                     records, database, worker, or broadcaster. Its three fictional rows come from
                     Dapter's optional public <code>contracts/read-v1.json</code> resource.
+                </p>
+            </ProseSection>
+            <ProseSection id="backend-v2" title="Version 2 field requests">
+                <p>
+                    The
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/protocol/v2').href"
+                        >backend v2 reference</DocsLink
+                    >
+                    defines the delivered field grammar, typed values, canonical selections,
+                    effective ordering, capabilities, and record and channel metadata. Its focused
+                    examples use raw requests. The Vue adapter retains v1 by default and supports
+                    declared controls with explicit protocol 2.
                 </p>
             </ProseSection>
             <ProseSection id="request" title="Request envelope and editable state">
@@ -92,7 +101,11 @@ const responseFields = [
                 </p>
             </ProseSection>
             <ProseSection id="response" title="Successful response envelope">
-                <p>The successful JSON object has exactly these six properties.</p>
+                <p>
+                    Every version 1 success includes these six properties. When the reader can
+                    invoke a declared action, the response also includes <code>actions</code>. This
+                    source declares none.
+                </p>
                 <DocsTable
                     caption="Read protocol response properties"
                     :columns="['Property', 'Meaning']"
@@ -130,7 +143,8 @@ const responseFields = [
                     <code>9007199254740991</code>.
                 </p>
                 <p>
-                    Request validation reads the original JSON bytes. Decimal numeric tokens such as
+                    Version 1 request validation reads the original JSON bytes. Decimal numeric
+                    tokens such as
                     <code>1.0</code> are invalid in current intent, including the version and page
                     number. JavaScript's <code>JSON.parse</code> loses that token distinction. A
                     JavaScript value of 1 alone cannot establish whether the original token was
@@ -173,8 +187,10 @@ const responseFields = [
                     <code>DataAdapter</code> or <code>useDataAdapter</code>, as shown in
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/composable').href"
                         >Share a listing handle</DocsLink
-                    >. These outcomes describe reads. Native Inertia write-action outcomes remain
-                    planned. The
+                    >. For writes, see
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/action-outcomes').href"
+                        >native action outcomes</DocsLink
+                    >. The
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/protocol/errors').href"
                         >failure reference</DocsLink
                     >

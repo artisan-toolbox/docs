@@ -1,5 +1,44 @@
 # Changelog
 
+## Unreleased
+
+- Clarify Dapter's minimum-dependency static-analysis checks and sequential simple-page rows for Eloquent collections with custom keys.
+
+- Explain Dapter's project-owned 512M test memory budget and regression checks starting from PHP's 128M default.
+
+- Separate entity record-action query requirements from advanced reporting reads, with source-fence regressions and a practical Resource alternative.
+
+- Verify Git-backed Dapter alpha artifacts, opaque string record-action URLs, bounded source rejection, registered live action contexts, and renewed private admission. Add a focused public string-selector example and preserve native authorization checks.
+- Index displayed public PHP helpers without executing them, preserve searchable task guides, and confine example paths across POSIX and Windows path platforms.
+
+- Update the Front Awesome catalog for Web Awesome 3.15.0. It covers 78 Core elements and 18 Pro-only elements, with six experimental elements marked In future.
+
+- Organize the Dapter preview into feature groups with practical search, filter, sort, pagination, action, and refresh recipes. Preserve existing URLs and anchors, use task-specific menu icons, lead with working public controls and named results, and keep protocol details in secondary disclosures and reference guides. Synchronize guidance with the verified backend and frontend review fixes.
+
+- Document Filoquent's unpublished single-migration baseline for clean installations, complete schema creation, optional publishing, and guarded rollback. Update contributor checks and remove historical migration upgrade instructions.
+
+- Reject SQL String literal declarations on connections with registered beforeExecuting callbacks, including strict and unused declared searches, because callbacks can change execution after admission. Numeric-only declarations retain their existing prerequisites.
+
+- Document source-owned default case and accent folding, explicit strict literal declarations and captured configuration, aware custom drivers, SQLite SQL execution, and preview migration through focused verified public demos. Publish separate vector and pagination research findings with portable CLI experiments, sanitized native results, current unsupported-request demos, and evidence-backed public API deferrals.
+
+- Document equal-valued form-control rebinding and regression coverage that prevents pending autofill from crossing field or form identities.
+- Document the unpublished Dapter source-specific comparisons with focused Collection locale, PostgreSQL full-text, and capability guides, fictional native fixtures, public-API demos, and discovered behavioral coverage. Preserve the installation journey and distinguish unavailable optional modes from failed probes.
+
+- Document and verify unreleased form-control autofill synchronization, including OTP recognition hints, leading-zero submission, Shadow DOM events, browser restoration, Date-compatible setters, and script-submission limits.
+
+- Replace the DataView laboratory renderer with the unpublished public Front Awesome component. Demonstrate shared Dapter ownership, configurable table, grid, and list layouts, server capabilities, authorized actions, and source-aware traversal and infinite append.
+
+- Document and demonstrate the unpublished Dapter Resource, live authorization, committed replacement, revision race, and polling APIs with isolated fictional principals, current provider reconstruction, actual installed route fixtures, discovered public-setting coverage, and focused component and route checks.
+
+- Reject advanced saved positions restored into default offset owners without an HTTP request, URL rewrite, or stuck loading state.
+
+- Document the unpublished Dapter simple and cursor preview in four focused guides with actual Collection and isolated SQLite execution, optional-count declarations, registered traversal drivers, scope and expiry recovery, source-paging Vue controls, discovered coverage, and production browser verification.
+
+- Synchronize Dapter's roadmap and historical design guidance with the implemented native-action, composed-read, Resource, polling, and live-update preview. Document complete order-preset obligations and exact Bundler versus conservative NodeNext 3.0.3 types.
+- Document Dapter's optional PHPStan 2.3 configuration, Composer automatic discovery, manual inclusion, duplicate-include prevention, and preservation of ordinary unused private-method errors.
+
+- Document the unpublished Dapter native-action and composed-read preview through focused task guides, isolated session and in-memory SQLite fixtures, functional Vue controls, backend-generated wire fixtures, and discovered public-setting coverage. Preserve the installation and first-listing journey.
+
 ## [1.3.0] - 2026-11-17
 
 ### Features
@@ -29,6 +68,13 @@
   Publishes **Filoquent alpha 1** documentation and revises the installation flow to match the published **1.0.0-alpha.1** release. The installation guide is updated to use Packagist-based installation guidance and to rely on commands derived from locked/versioned information rather than prior assumptions about local checkout or source previews. The docs and related metadata are updated to remove/avoid prerequisites tied to “local preview/source preview” workflows, so users following installation steps should now follow a more standard dependency-based path. Compatibility-wise, users who previously relied on the old preview-oriented installation prerequisites may need to follow the new Packagist/locked-version workflow; no runtime API behavior changes are described, but installation/command guidance in the docs is affected.
 
 ## Unreleased
+
+- Keep preference reconciliation on the current URL and browser history entry after Back, Forward, cached navigation, and explicit refresh. Preserve unrelated query parameters and fragments used by interactive examples.
+
+- Add focused Dapter Vue preview guides and public-API demos for declared controls, independent definition decoding, shared table and grid state, full replacement and reset, URL history namespaces, and declared scroll regions. Keep protocol 1 as the default and document the field-control slice separately from the subsequent native-action and composed-read additions. Live updates remain unavailable.
+
+- Add focused public-API demos for Dapter backend v2 field search, ordering, typed scalar and multiple filters, inherited declarations, removal attributes, source aliases, and registered drivers. Preserve the Vue adapter's v1 listing contract and document the implemented backend subset separately from future design.
+- Document native database comparison and null-order differences, strict column types, canonical v2 state, unidentified metadata, and zero-match count semantics. Extend discovered demo coverage and real HTTP, component, and browser checks.
 
 - Document canonical temporary paths and directory-alias regression coverage in Dapter's packed-consumer check without changing the application's Vite configuration.
 

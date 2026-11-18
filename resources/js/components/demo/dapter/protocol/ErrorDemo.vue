@@ -42,7 +42,7 @@ const sources = [
                 <Button
                     :disabled="state.status === 'loading'"
                     @click="run('Dapter.ProtocolRecords', request('future-version'))"
-                    >Send version 2</Button
+                    >Send version 3</Button
                 >
                 <Button
                     :disabled="state.status === 'loading'"

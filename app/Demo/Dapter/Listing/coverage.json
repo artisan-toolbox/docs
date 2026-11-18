@@ -12,7 +12,8 @@
                 "config.paging.mode",
                 "config.paging.per_page",
                 "config.paging.per_page_options",
-                "attribute.PublicAccess"
+                "attribute.PublicAccess",
+                "enum.PagingMode.Offset"
             ],
             "expected": {
                 "status": 200,
@@ -32,9 +33,10 @@
             "description": "Offset mode, size 5, and sizes [5, 10] come from immutable fluent options.",
             "source": "Dapter.CollectionFluent",
             "settings": [
-                "StoreOptions.pagingMode",
                 "StoreOptions.pageSize",
                 "StoreOptions.pageSizeOptions",
+                "StoreOptions.pagingMode",
+                "StoreOptions.pagingMode.mode",
                 "StoreOptions.publicAccess"
             ],
             "expected": {
@@ -55,10 +57,12 @@
             "description": "The same offset declaration uses attributes. Size 7 is retained in [3, 7].",
             "source": "Dapter.CollectionAttributes",
             "settings": [
-                "attribute.Paging",
+                "attribute.Guard",
                 "attribute.PageSize",
                 "attribute.PageSizeOptions",
-                "attribute.Guard",
+                "attribute.PageSizeOptions.sizes",
+                "attribute.Paging",
+                "attribute.Paging.mode",
                 "attribute.PublicAccess"
             ],
             "expected": {
@@ -96,7 +100,11 @@
             "label": "Keep the selected size",
             "description": "Size 6 remains allowed when pageSizeOptions([2, 10]) follows pageSize(6).",
             "source": "Dapter.CollectionSizeRetention",
-            "settings": ["StoreOptions.pageSize", "StoreOptions.pageSizeOptions"],
+            "settings": [
+                "StoreOptions.pageSize",
+                "StoreOptions.pageSizeOptions",
+                "StoreOptions.pageSizeOptions.sizes"
+            ],
             "expected": {
                 "status": 200,
                 "per_page": 6,
@@ -114,7 +122,7 @@
             "label": "Selected guard",
             "description": "A trusted demo guard supplies a fictional principal. No reader account is signed in or changed.",
             "source": "Dapter.CollectionGuard",
-            "settings": ["StoreOptions.guard"],
+            "settings": ["StoreOptions.guard", "StoreOptions.guard.name"],
             "expected": {
                 "status": 200,
                 "per_page": 10,
@@ -132,7 +140,7 @@
             "label": "Require a principal",
             "description": "publicAccess(false) overrides the inherited public attribute. The dedicated guest guard always returns no principal, so the request fails with access 401.",
             "source": "Dapter.CollectionPublicFalse",
-            "settings": ["StoreOptions.publicAccess"],
+            "settings": ["StoreOptions.publicAccess", "StoreOptions.publicAccess.enabled"],
             "expected": {
                 "status": 401,
                 "per_page": null,
@@ -168,7 +176,11 @@
             "label": "Allow a public Gate",
             "description": "An explicit public source still checks its allow Gate. The Gate receives a fictional catalog argument.",
             "source": "Dapter.CollectionGateAllow",
-            "settings": ["StoreOptions.authorize"],
+            "settings": [
+                "StoreOptions.authorize",
+                "StoreOptions.authorize.ability",
+                "StoreOptions.authorize.arguments"
+            ],
             "expected": {
                 "status": 200,
                 "per_page": 10,
@@ -186,7 +198,11 @@
             "label": "Deny a public Gate",
             "description": "Public access does not bypass an attached Gate. The deny attribute returns access 403.",
             "source": "Dapter.CollectionGateDeny",
-            "settings": ["attribute.Authorize"],
+            "settings": [
+                "attribute.Authorize",
+                "attribute.Authorize.ability",
+                "attribute.Authorize.arguments"
+            ],
             "expected": {
                 "status": 403,
                 "per_page": null,
@@ -204,7 +220,7 @@
             "label": "Ordinary SQLite Eloquent",
             "description": "After authorization, this source creates and seeds an isolated in-memory SQLite catalog. No application tables are read.",
             "source": "Dapter.SqliteProducts",
-            "settings": ["EloquentDataSource"],
+            "settings": [],
             "expected": {
                 "status": 200,
                 "per_page": 5,
@@ -222,7 +238,7 @@
             "label": "Selected guard attribute",
             "description": "The Guard attribute selects the trusted fictional principal and satisfies the required-authentication policy.",
             "source": "Dapter.CollectionAttributeGuard",
-            "settings": ["attribute.Guard"],
+            "settings": ["attribute.Guard", "attribute.Guard.name"],
             "expected": {
                 "status": 200,
                 "per_page": 10,
@@ -240,7 +256,13 @@
             "label": "Fluent overrides attributes",
             "description": "An inherited size 7 is overridden by fluent size 10, even though 10 is also the configured default. Uncalled options preserve all other inherited attributes.",
             "source": "Dapter.CollectionOverride",
-            "settings": ["StoreOptions.make", "StoreOptions.pageSize", "attribute.PageSize"],
+            "settings": [
+                "StoreOptions.make",
+                "StoreOptions.pageSize",
+                "StoreOptions.pageSize.size",
+                "attribute.PageSize",
+                "attribute.PageSize.size"
+            ],
             "expected": {
                 "status": 200,
                 "per_page": 10,
@@ -258,7 +280,7 @@
             "label": "Raw Collection contract",
             "description": "A class can implement CollectionSource directly and return the same fictional rows as an array.",
             "source": "Dapter.CollectionRaw",
-            "settings": ["Contracts.CollectionSource"],
+            "settings": [],
             "expected": {
                 "status": 200,
                 "per_page": 10,
@@ -294,7 +316,7 @@
             "label": "Self-contained quickstart",
             "description": "The exact overview source returns its fictional catalog without an options contract.",
             "source": "Dapter.Quickstart",
-            "settings": ["attribute.PublicAccess"],
+            "settings": ["attribute.PublicAccess", "attribute.PublicAccess.enabled"],
             "expected": {
                 "status": 200,
                 "per_page": 10,
@@ -327,7 +349,12 @@
             {
                 "component": "resources/js/components/demo/dapter/listing/ListingDemo.vue",
                 "page": "resources/js/pages/docs/dapter/Listing.vue",
-                "settings": ["DataAdapter.source", "DataAdapter.id", "DataAdapter.decodeRow"],
+                "settings": [
+                    "DataAdapter.source",
+                    "DataAdapter.id",
+                    "DataAdapter.decodeRow",
+                    "corpus.read-v1"
+                ],
                 "behavior_test": "resources/js/components/demo/dapter/listing/ListingDemo.test.js"
             },
             {
@@ -376,6 +403,146 @@
                 "settings": [],
                 "behavior_test": "resources/js/components/demo/dapter/source-boundaries/SourceBoundariesDemo.test.js",
                 "backend_behavior_test": "tests/Feature/DapterSourceBoundariesDemoTest.php"
+            },
+            {
+                "component": "resources/js/components/demo/dapter/vue/VueControlsDemo.vue",
+                "page": "resources/js/pages/docs/dapter/VueControls.vue",
+                "settings": [
+                    "useDataAdapter.protocol",
+                    "useDataAdapter.searchDebounce",
+                    "useDataAdapter.url",
+                    "field.available",
+                    "field.current",
+                    "field.call",
+                    "field.clear",
+                    "useDataAdapter.decodeDefinition",
+                    "field.options.page"
+                ],
+                "behavior_test": "resources/js/components/demo/dapter/vue/VueDemos.test.js",
+                "backend_behavior_test": "tests/Feature/DapterVueDemoTest.php",
+                "browser_behavior_test": "scripts/test-dapter-vue-browser.mjs"
+            },
+            {
+                "component": "resources/js/components/demo/dapter/vue/VueDefinitionDemo.vue",
+                "page": "resources/js/pages/docs/dapter/VueDefinitions.vue",
+                "settings": [
+                    "DataAdapter.protocol",
+                    "DataAdapter.decodeDefinition",
+                    "DataAdapter.searchDebounce",
+                    "DataAdapter.url",
+                    "DataAdapter.scrollContainer"
+                ],
+                "behavior_test": "resources/js/components/demo/dapter/vue/VueDemos.test.js",
+                "backend_behavior_test": "tests/Feature/DapterVueDemoTest.php",
+                "browser_behavior_test": "scripts/test-dapter-vue-browser.mjs"
+            },
+            {
+                "component": "resources/js/components/demo/dapter/vue/VueNavigationDemo.vue",
+                "page": "resources/js/pages/docs/dapter/VueNavigation.vue",
+                "settings": [
+                    "useDataAdapter.protocol",
+                    "useDataAdapter.scrollContainer",
+                    "useDataAdapter.url"
+                ],
+                "behavior_test": "resources/js/components/demo/dapter/vue/VueDemos.test.js",
+                "backend_behavior_test": "tests/Feature/DapterVueDemoTest.php",
+                "browser_behavior_test": "scripts/test-dapter-vue-browser.mjs"
+            },
+            {
+                "component": "resources/js/components/demo/dapter/actions/ActionDemo.vue",
+                "page": "resources/js/pages/docs/dapter/Actions.vue",
+                "settings": [
+                    "ActionContext.record",
+                    "ActionContext.source",
+                    "DataAdapter.actionDefinitions",
+                    "StoreOptions.actionAuthorize",
+                    "StoreOptions.actionAuthorize.ability",
+                    "StoreOptions.actionAuthorize.arguments",
+                    "StoreOptions.actionAuthorize.id",
+                    "StoreOptions.actionAuthorize.target",
+                    "StoreOptions.withActions",
+                    "StoreOptions.withActions.actionsClass",
+                    "actions.available",
+                    "actions.error",
+                    "actions.http",
+                    "actions.pending",
+                    "actions.validation",
+                    "actions.visit",
+                    "attribute.Action",
+                    "attribute.Action.id",
+                    "attribute.Action.method",
+                    "attribute.Action.transports",
+                    "attribute.ActionAuthorize",
+                    "attribute.ActionAuthorize.ability",
+                    "attribute.ActionAuthorize.arguments",
+                    "attribute.ActionAuthorize.id",
+                    "attribute.ActionAuthorize.target",
+                    "attribute.Actions",
+                    "attribute.Actions.actionsClass",
+                    "defineActions.decodeInput",
+                    "defineActions.decodeResult",
+                    "defineActions.transports",
+                    "dto.RecordTarget.input",
+                    "dto.RecordTarget.output",
+                    "dto.RecordTarget.target",
+                    "dto.RecordTarget.valueType",
+                    "useDataAdapter.actionDefinitions",
+                    "config.declarations.action_policies",
+                    "config.declarations.action_policies.*.ability",
+                    "config.declarations.action_policies.*.arguments",
+                    "config.declarations.action_policies.*.target",
+                    "config.declarations.action_policies.*.target.input",
+                    "config.declarations.action_policies.*.target.output",
+                    "config.declarations.action_policies.*.target.target",
+                    "config.declarations.action_policies.*.target.valueType",
+                    "config.declarations.actions_class",
+                    "handle.actions"
+                ],
+                "behavior_test": "resources/js/components/demo/dapter/actions/ActionDemo.test.js",
+                "backend_behavior_test": "tests/Feature/DapterActionDemoTest.php",
+                "browser_behavior_test": "scripts/test-dapter-actions-browser.mjs"
+            },
+            {
+                "component": "resources/js/components/demo/dapter/composed/ComposedControlsDemo.vue",
+                "page": "resources/js/pages/docs/dapter/GlobalSearch.vue",
+                "settings": [
+                    "handle.accepted",
+                    "handle.capabilities",
+                    "handle.data",
+                    "handle.definition",
+                    "handle.error",
+                    "handle.fields",
+                    "handle.global",
+                    "handle.metadata",
+                    "handle.paging",
+                    "handle.ready",
+                    "handle.replaceState",
+                    "handle.requested",
+                    "handle.resetState",
+                    "handle.setSearchMatch",
+                    "handle.status"
+                ],
+                "behavior_test": "resources/js/components/demo/dapter/composed/ComposedControlsDemo.test.js",
+                "backend_behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "browser_behavior_test": "scripts/test-dapter-composed-browser.mjs"
+            },
+            {
+                "component": "resources/js/components/demo/dapter/infinite/InfiniteDemo.vue",
+                "page": "resources/js/pages/docs/dapter/InfiniteLoading.vue",
+                "settings": [
+                    "DataAdapter.infinite",
+                    "useDataAdapter.infinite",
+                    "handle.infinite",
+                    "infinite.options.root",
+                    "infinite.options.sentinel",
+                    "infinite.options.axis",
+                    "infinite.status",
+                    "infinite.append",
+                    "infinite.retry"
+                ],
+                "behavior_test": "resources/js/components/demo/dapter/infinite/InfiniteDemo.test.js",
+                "backend_behavior_test": "tests/Feature/DapterInfiniteDemoTest.php",
+                "browser_behavior_test": "scripts/test-dapter-infinite-browser.mjs"
             }
         ]
     },
@@ -383,5 +550,2097 @@
         "command": "make:datasource Dapter.GeneratedCatalog",
         "behavior_test": "tests/Feature/DapterListingDemoTest.php",
         "eloquent_command": "make:datasource Dapter.GeneratedSqliteCatalog --eloquent"
+    },
+    "backend": {
+        "cases_file": "app/Demo/Dapter/Fields/cases.json",
+        "examples": [
+            {
+                "id": "SearchContains",
+                "source": "Dapter.FieldsFluent",
+                "settings": [
+                    "StoreOptions.searchableField",
+                    "StoreOptions.searchableField.field",
+                    "StoreOptions.searchableField.matchTypes",
+                    "StoreOptions.searchableField.options",
+                    "StoreOptions.searchableField.target",
+                    "StoreOptions.searchableField.valueType",
+                    "enum.MatchType.Contains"
+                ],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/FieldSearch.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "SearchEquals",
+                "source": "Dapter.FieldsFluent",
+                "settings": ["enum.MatchType.Equals"],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/FieldSearch.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "SearchStarts",
+                "source": "Dapter.FieldsFluent",
+                "settings": ["enum.MatchType.StartsWith"],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/FieldSearch.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "SearchEnds",
+                "source": "Dapter.FieldsFluent",
+                "settings": ["enum.MatchType.EndsWith"],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/FieldSearch.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "OrderString",
+                "source": "Dapter.FieldsFluent",
+                "settings": [
+                    "StoreOptions.orderableField",
+                    "StoreOptions.orderableField.directions",
+                    "StoreOptions.orderableField.field",
+                    "StoreOptions.orderableField.options",
+                    "StoreOptions.orderableField.sortTypes",
+                    "StoreOptions.orderableField.target",
+                    "StoreOptions.orderableField.valueType",
+                    "enum.SortType.String"
+                ],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/FieldOrder.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "OrderNatural",
+                "source": "Dapter.FieldsFluent",
+                "settings": ["enum.SortType.Natural"],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/FieldOrder.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "OrderNumeric",
+                "source": "Dapter.FieldsFluent",
+                "settings": ["enum.SortType.Numeric"],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/FieldOrder.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "OrderInvalid",
+                "source": "Dapter.FieldsFluent",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/FieldOrder.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "FilterSingle",
+                "source": "Dapter.FieldsFluent",
+                "settings": [
+                    "StoreOptions.filterableField",
+                    "StoreOptions.filterableField.empty",
+                    "StoreOptions.filterableField.field",
+                    "StoreOptions.filterableField.id",
+                    "StoreOptions.filterableField.multiple",
+                    "StoreOptions.filterableField.options",
+                    "StoreOptions.filterableField.target",
+                    "StoreOptions.filterableField.valueType",
+                    "StoreOptions.filterableField.values"
+                ],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/FieldFilters.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "FilterMultiple",
+                "source": "Dapter.FieldsFluent",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/FieldFilters.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "FilterClear",
+                "source": "Dapter.FieldsFluent",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/FieldFilters.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "FilterBoolean",
+                "source": "Dapter.FieldsFluent",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/FieldFilters.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "FilterNull",
+                "source": "Dapter.FieldsFluent",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/TypedFilters.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "FilterZero",
+                "source": "Dapter.FieldsFluent",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/TypedFilters.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "FilterDecimal",
+                "source": "Dapter.FieldsFluent",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/TypedFilters.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "FilterWrongType",
+                "source": "Dapter.FieldsFluent",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/TypedFilters.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "FieldsAttributes",
+                "source": "Dapter.FieldsAttributes",
+                "settings": [
+                    "attribute.FilterableField",
+                    "attribute.FilterableField.empty",
+                    "attribute.FilterableField.field",
+                    "attribute.FilterableField.id",
+                    "attribute.FilterableField.multiple",
+                    "attribute.FilterableField.options",
+                    "attribute.FilterableField.target",
+                    "attribute.FilterableField.valueType",
+                    "attribute.FilterableField.values",
+                    "attribute.OrderableField",
+                    "attribute.OrderableField.directions",
+                    "attribute.OrderableField.field",
+                    "attribute.OrderableField.options",
+                    "attribute.OrderableField.sortTypes",
+                    "attribute.OrderableField.target",
+                    "attribute.OrderableField.valueType",
+                    "attribute.SearchableField",
+                    "attribute.SearchableField.field",
+                    "attribute.SearchableField.matchTypes",
+                    "attribute.SearchableField.options",
+                    "attribute.SearchableField.target",
+                    "attribute.SearchableField.valueType"
+                ],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/FieldDeclarations.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "FieldsRemoved",
+                "source": "Dapter.FieldsRemoved",
+                "settings": [
+                    "StoreOptions.withoutFieldFilter",
+                    "StoreOptions.withoutFieldFilter.field",
+                    "StoreOptions.withoutFieldFilter.id",
+                    "StoreOptions.withoutFieldOrder",
+                    "StoreOptions.withoutFieldOrder.field",
+                    "StoreOptions.withoutFieldSearch",
+                    "StoreOptions.withoutFieldSearch.field"
+                ],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/FieldDeclarations.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "FieldsRemovedAttributes",
+                "source": "Dapter.FieldsRemovedAttributes",
+                "settings": [
+                    "attribute.WithoutFieldFilter",
+                    "attribute.WithoutFieldFilter.field",
+                    "attribute.WithoutFieldFilter.id",
+                    "attribute.WithoutFieldOrder",
+                    "attribute.WithoutFieldOrder.field",
+                    "attribute.WithoutFieldSearch",
+                    "attribute.WithoutFieldSearch.field"
+                ],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/FieldDeclarations.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "FieldsRemovedRejected",
+                "source": "Dapter.FieldsRemoved",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/FieldDeclarations.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "FieldsDriver",
+                "source": "Dapter.FieldsDriver",
+                "settings": [
+                    "DriverRegistry.make",
+                    "DriverRegistry.register",
+                    "StoreOptions.driver",
+                    "StoreOptions.driver.alias"
+                ],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/SourceRegistration.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "FieldsDriverAttribute",
+                "source": "Dapter.FieldsDriverAttribute",
+                "settings": ["attribute.Driver", "attribute.Driver.alias"],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/SourceRegistration.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "FieldsAlias",
+                "source": "Dapter.AliasedFields",
+                "settings": ["SourceRegistry.register", "SourceRegistry.className"],
+                "source_class": "Dapter.FieldsDriver",
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/SourceRegistration.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "FieldsUnknownDriver",
+                "source": "Dapter.FieldsUnknownDriver",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/fields/FieldDemo.vue",
+                "page": "resources/js/pages/docs/dapter/SourceRegistration.vue",
+                "behavior_test": "tests/Feature/DapterFieldDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/fields/FieldDemo.test.js"
+            },
+            {
+                "id": "GlobalNotebook",
+                "source": "Dapter.ComposedCatalog",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [
+                    "StoreOptions.globalSearchable",
+                    "StoreOptions.globalSearchable.targets",
+                    "dto.SearchTarget.matchType",
+                    "dto.SearchTarget.target",
+                    "dto.SearchTarget.valueType"
+                ],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/GlobalSearch.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "GlobalZero",
+                "source": "Dapter.ComposedNumeric",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/GlobalSearch.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "GlobalIncompatible",
+                "source": "Dapter.ComposedNumeric",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/GlobalSearch.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "GlobalAny",
+                "source": "Dapter.ComposedCatalog",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [
+                    "StoreOptions.searchMatch",
+                    "StoreOptions.searchMatch.allowed",
+                    "StoreOptions.searchMatch.default"
+                ],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/GlobalSearch.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "GlobalStatus",
+                "source": "Dapter.ComposedCatalog",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [
+                    "StoreOptions.globalFilterable",
+                    "StoreOptions.globalFilterable.apply",
+                    "StoreOptions.globalFilterable.empty",
+                    "StoreOptions.globalFilterable.id",
+                    "StoreOptions.globalFilterable.multiple",
+                    "StoreOptions.globalFilterable.options",
+                    "StoreOptions.globalFilterable.valueType",
+                    "StoreOptions.globalFilterable.values",
+                    "dto.HandlerOptions.requires"
+                ],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/GlobalFilters.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "GlobalMany",
+                "source": "Dapter.ComposedCatalog",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [
+                    "dto.EnumBinding.elements",
+                    "dto.EnumBinding.enum",
+                    "dto.HandlerOptions.binding"
+                ],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/GlobalFilters.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "GlobalInvalid",
+                "source": "Dapter.ComposedCatalog",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/GlobalFilters.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "GlobalNull",
+                "source": "Dapter.ComposedCatalog",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/GlobalFilters.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "ComposedAttributeMethods",
+                "source": "Dapter.ComposedAttributes",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [
+                    "attribute.GlobalFilter",
+                    "attribute.GlobalFilter.apply",
+                    "attribute.GlobalFilter.empty",
+                    "attribute.GlobalFilter.id",
+                    "attribute.GlobalFilter.multiple",
+                    "attribute.GlobalFilter.options",
+                    "attribute.GlobalFilter.valueType",
+                    "attribute.GlobalFilter.values",
+                    "attribute.GlobalOrder",
+                    "attribute.GlobalOrder.apply",
+                    "attribute.GlobalOrder.id",
+                    "attribute.GlobalOrder.label",
+                    "attribute.GlobalOrder.options",
+                    "attribute.GlobalSearch",
+                    "attribute.GlobalSearch.targets",
+                    "attribute.MultiOrder",
+                    "attribute.MultiOrder.enabled",
+                    "attribute.MultiOrder.max",
+                    "attribute.Query",
+                    "attribute.Query.options",
+                    "attribute.SearchGrouping",
+                    "attribute.SearchGrouping.allowed",
+                    "attribute.SearchGrouping.default"
+                ],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/ComposedDeclarations.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "ComposedRemoved",
+                "source": "Dapter.ComposedRemoved",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [
+                    "StoreOptions.withoutGlobalFilter",
+                    "StoreOptions.withoutGlobalFilter.id",
+                    "StoreOptions.withoutGlobalOrder",
+                    "StoreOptions.withoutGlobalOrder.id",
+                    "StoreOptions.withoutGlobalSearch",
+                    "attribute.WithoutGlobalFilter",
+                    "attribute.WithoutGlobalFilter.id",
+                    "attribute.WithoutGlobalOrder",
+                    "attribute.WithoutGlobalOrder.id",
+                    "attribute.WithoutGlobalSearch"
+                ],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/ComposedDeclarations.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "ComposedConfig",
+                "source": "Dapter.ComposedConfig",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [
+                    "config.declarations",
+                    "config.declarations.fields",
+                    "config.declarations.fields.*.filters",
+                    "config.declarations.fields.*.filters.*.empty",
+                    "config.declarations.fields.*.filters.*.multiple",
+                    "config.declarations.fields.*.filters.*.options",
+                    "config.declarations.fields.*.filters.*.target",
+                    "config.declarations.fields.*.filters.*.valueType",
+                    "config.declarations.fields.*.filters.*.values",
+                    "config.declarations.fields.*.order",
+                    "config.declarations.fields.*.order.directions",
+                    "config.declarations.fields.*.order.options",
+                    "config.declarations.fields.*.order.sortTypes",
+                    "config.declarations.fields.*.order.target",
+                    "config.declarations.fields.*.order.valueType",
+                    "config.declarations.fields.*.search",
+                    "config.declarations.fields.*.search.matchTypes",
+                    "config.declarations.fields.*.search.options",
+                    "config.declarations.fields.*.search.target",
+                    "config.declarations.fields.*.search.valueType",
+                    "config.declarations.global",
+                    "config.declarations.global.filters",
+                    "config.declarations.global.filters.*.apply",
+                    "config.declarations.global.filters.*.empty",
+                    "config.declarations.global.filters.*.multiple",
+                    "config.declarations.global.filters.*.options",
+                    "config.declarations.global.filters.*.valueType",
+                    "config.declarations.global.filters.*.values",
+                    "config.declarations.global.orders",
+                    "config.declarations.global.orders.*.apply",
+                    "config.declarations.global.orders.*.label",
+                    "config.declarations.global.orders.*.options",
+                    "config.declarations.global.search",
+                    "config.declarations.global.search.*.matchType",
+                    "config.declarations.global.search.*.target",
+                    "config.declarations.global.search.*.valueType",
+                    "config.declarations.multi_order",
+                    "config.declarations.multi_order.enabled",
+                    "config.declarations.multi_order.max",
+                    "config.declarations.query",
+                    "config.declarations.query.fixedOrder",
+                    "config.declarations.query.fixedOrder.*.direction",
+                    "config.declarations.query.fixedOrder.*.field",
+                    "config.declarations.query.fixedOrder.*.sortType",
+                    "config.declarations.query.identity",
+                    "config.declarations.query.identity.columns",
+                    "config.declarations.query.identity.columns.*.output",
+                    "config.declarations.query.identity.columns.*.target",
+                    "config.declarations.query.identity.columns.*.valueType",
+                    "config.declarations.search_match",
+                    "config.declarations.search_match.allowed",
+                    "config.declarations.search_match.default",
+                    "config.declarations.fields.*.filters.*.options.output",
+                    "config.declarations.fields.*.order.options.output",
+                    "config.declarations.fields.*.search.options.output",
+                    "config.declarations.global.filters.*.options.binding",
+                    "config.declarations.global.filters.*.options.binding.elements",
+                    "config.declarations.global.filters.*.options.binding.enum",
+                    "config.declarations.global.filters.*.options.requires",
+                    "config.declarations.global.filters.*.options.requires.databases",
+                    "config.declarations.global.filters.*.options.requires.driver",
+                    "config.declarations.global.filters.*.options.requires.sourceType",
+                    "config.declarations.global.orders.*.options.binding",
+                    "config.declarations.global.orders.*.options.binding.elements",
+                    "config.declarations.global.orders.*.options.binding.enum",
+                    "config.declarations.global.orders.*.options.requires",
+                    "config.declarations.global.orders.*.options.requires.databases",
+                    "config.declarations.global.orders.*.options.requires.driver",
+                    "config.declarations.global.orders.*.options.requires.sourceType"
+                ],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/ComposedDeclarations.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "ComposedNoDefaults",
+                "source": "Dapter.ComposedWithoutDefaults",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/ComposedDeclarations.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "MultiOrder",
+                "source": "Dapter.ComposedCatalog",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [
+                    "StoreOptions.multiOrder",
+                    "StoreOptions.multiOrder.enabled",
+                    "StoreOptions.multiOrder.max",
+                    "StoreOptions.query",
+                    "StoreOptions.query.options",
+                    "dto.FixedOrderTerm.direction",
+                    "dto.FixedOrderTerm.field",
+                    "dto.FixedOrderTerm.sortType",
+                    "dto.IdentityColumn.output",
+                    "dto.IdentityColumn.target",
+                    "dto.IdentityColumn.valueType",
+                    "dto.QueryOptions.fixedOrder",
+                    "dto.QueryOptions.identity",
+                    "dto.ResultIdentity.columns",
+                    "field.order.input.direction",
+                    "field.order.input.multiSort",
+                    "field.order.input.sortType"
+                ],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/MultiOrder.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "MultiLimit",
+                "source": "Dapter.ComposedCatalog",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/MultiOrder.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "OpaquePreset",
+                "source": "Dapter.ComposedCatalog",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [
+                    "StoreOptions.globalOrderable",
+                    "StoreOptions.globalOrderable.apply",
+                    "StoreOptions.globalOrderable.id",
+                    "StoreOptions.globalOrderable.label",
+                    "StoreOptions.globalOrderable.options"
+                ],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/MultiOrder.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "JoinedAliases",
+                "source": "Dapter.ComposedJoin",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": ["dto.FieldOptions.output"],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/AdvancedQueries.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "GroupedCounts",
+                "source": "Dapter.ComposedGroups",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/AdvancedQueries.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "CustomCounts",
+                "source": "Dapter.ComposedCounts",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [
+                    "dto.CountQueries.filtered",
+                    "dto.CountQueries.total",
+                    "dto.QueryOptions.counts",
+                    "config.declarations.query.counts"
+                ],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/AdvancedQueries.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "DuplicateIdentity",
+                "source": "Dapter.ComposedDuplicate",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/AdvancedQueries.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "RequiredCollection",
+                "source": "Dapter.ComposedRequiredCollection",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [
+                    "dto.HandlerRequirements.driver",
+                    "dto.HandlerRequirements.sourceType"
+                ],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/HandlerRequirements.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "RequiredSqlite",
+                "source": "Dapter.ComposedRequiredSqlite",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": ["dto.HandlerRequirements.databases"],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/HandlerRequirements.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "RequiredWrongEngine",
+                "source": "Dapter.ComposedRequiredWrongEngine",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/HandlerRequirements.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "RequiredWrongAlias",
+                "source": "Dapter.ComposedRequiredWrongAlias",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/HandlerRequirements.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "EnumClass",
+                "source": "Dapter.ComposedEnums",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/EnumInputs.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "EnumSubset",
+                "source": "Dapter.ComposedEnums",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/EnumInputs.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "EnumPure",
+                "source": "Dapter.ComposedEnums",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/EnumInputs.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "EnumNullable",
+                "source": "Dapter.ComposedEnums",
+                "cases_file": "app/Demo/Dapter/Composed/cases.json",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/composed/ComposedDemo.vue",
+                "page": "resources/js/pages/docs/dapter/EnumInputs.vue",
+                "behavior_test": "tests/Feature/DapterComposedDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/composed/ComposedDemo.test.js"
+            },
+            {
+                "id": "PagingSimple",
+                "title": "Simple without counts",
+                "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+                "source": "Dapter.PagingSimple",
+                "guide": "dapter/simple-paging",
+                "request": {
+                    "version": 2
+                },
+                "expected": {
+                    "status": 200,
+                    "mode": "simple",
+                    "counts": "unknown",
+                    "ids": [1, 2]
+                },
+                "settings": ["enum.PagingMode.Simple"],
+                "cases_file": "app/Demo/Dapter/Paging/cases.json",
+                "frame": "Simple without counts",
+                "page": "resources/js/pages/docs/dapter/SimplePaging.vue",
+                "component": "resources/js/components/demo/dapter/paging/PagingDemo.vue",
+                "behavior_test": "tests/Feature/DapterPagingDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/paging/PagingDemo.test.js",
+                "browser_test": "scripts/test-dapter-paging-browser.mjs"
+            },
+            {
+                "id": "PagingSimpleAttributes",
+                "title": "Simple attributes",
+                "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+                "source": "Dapter.PagingSimpleAttributes",
+                "guide": "dapter/simple-paging",
+                "request": {
+                    "version": 2
+                },
+                "expected": {
+                    "status": 200,
+                    "mode": "simple",
+                    "counts": "unknown",
+                    "ids": [1, 2]
+                },
+                "settings": ["attribute.ExactCounts.enabled", "DataAdapter.paging"],
+                "cases_file": "app/Demo/Dapter/Paging/cases.json",
+                "frame": "Simple attributes",
+                "page": "resources/js/pages/docs/dapter/SimplePaging.vue",
+                "component": "resources/js/components/demo/dapter/paging/PagingDemo.vue",
+                "behavior_test": "tests/Feature/DapterPagingDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/paging/PagingDemo.test.js",
+                "browser_test": "scripts/test-dapter-paging-browser.mjs"
+            },
+            {
+                "id": "PagingDriver",
+                "title": "Registered traversal driver",
+                "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+                "source": "Dapter.PagingDriver",
+                "guide": "dapter/simple-paging",
+                "request": {
+                    "version": 2
+                },
+                "expected": {
+                    "status": 200,
+                    "mode": "simple",
+                    "counts": "unknown",
+                    "ids": [1, 2]
+                },
+                "settings": [
+                    "TraversalStoreDriver.traverse",
+                    "DriverCapabilities.offset",
+                    "DriverCapabilities.sortTypes",
+                    "DriverCapabilities.fieldOperations",
+                    "DriverCapabilities.sourceType",
+                    "DriverCapabilities.composedOperations",
+                    "DriverCapabilities.simple",
+                    "DriverCapabilities.cursor",
+                    "DriverCapabilities.supports",
+                    "contract.StoreDriver.capabilities",
+                    "contract.StoreDriver.execute",
+                    "contract.TraversalStoreDriver.traverse",
+                    "contract.WithCursorScope.cursorScope",
+                    "DriverCapabilities.comparisons"
+                ],
+                "cases_file": "app/Demo/Dapter/Paging/cases.json",
+                "frame": "Registered traversal driver",
+                "page": "resources/js/pages/docs/dapter/SimplePaging.vue",
+                "component": "resources/js/components/demo/dapter/paging/PagingDemo.vue",
+                "behavior_test": "tests/Feature/DapterPagingDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/paging/PagingDemo.test.js",
+                "browser_test": "scripts/test-dapter-paging-browser.mjs"
+            },
+            {
+                "id": "PagingCursor",
+                "title": "Collection cursor",
+                "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+                "source": "Dapter.PagingCursor",
+                "guide": "dapter/cursor-paging",
+                "request": {
+                    "version": 2
+                },
+                "expected": {
+                    "status": 200,
+                    "mode": "cursor",
+                    "counts": "unknown",
+                    "ids": [1, 2]
+                },
+                "settings": [
+                    "enum.PagingMode.Cursor",
+                    "WithCursorScope.cursorScope",
+                    "useDataAdapter.paging"
+                ],
+                "cases_file": "app/Demo/Dapter/Paging/cases.json",
+                "frame": "Collection cursor",
+                "page": "resources/js/pages/docs/dapter/CursorPaging.vue",
+                "component": "resources/js/components/demo/dapter/paging/PagingDemo.vue",
+                "behavior_test": "tests/Feature/DapterPagingDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/paging/PagingDemo.test.js",
+                "browser_test": "scripts/test-dapter-paging-browser.mjs"
+            },
+            {
+                "id": "PagingCursorAttributes",
+                "title": "Cursor attributes",
+                "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+                "source": "Dapter.PagingCursorAttributes",
+                "guide": "dapter/cursor-paging",
+                "request": {
+                    "version": 2
+                },
+                "expected": {
+                    "status": 200,
+                    "mode": "cursor",
+                    "counts": "unknown",
+                    "ids": [1, 2]
+                },
+                "settings": [],
+                "cases_file": "app/Demo/Dapter/Paging/cases.json",
+                "frame": "Cursor attributes",
+                "page": "resources/js/pages/docs/dapter/CursorPaging.vue",
+                "component": "resources/js/components/demo/dapter/paging/PagingDemo.vue",
+                "behavior_test": "tests/Feature/DapterPagingDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/paging/PagingDemo.test.js",
+                "browser_test": "scripts/test-dapter-paging-browser.mjs"
+            },
+            {
+                "id": "PagingNative",
+                "title": "Native SQLite cursor",
+                "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+                "source": "Dapter.PagingNative",
+                "guide": "dapter/cursor-paging",
+                "request": {
+                    "version": 2
+                },
+                "expected": {
+                    "status": 200,
+                    "mode": "cursor",
+                    "counts": "unknown",
+                    "ids": [1, 2]
+                },
+                "settings": [],
+                "cases_file": "app/Demo/Dapter/Paging/cases.json",
+                "frame": "Native SQLite cursor",
+                "page": "resources/js/pages/docs/dapter/CursorPaging.vue",
+                "component": "resources/js/components/demo/dapter/paging/PagingDemo.vue",
+                "behavior_test": "tests/Feature/DapterPagingDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/paging/PagingDemo.test.js",
+                "browser_test": "scripts/test-dapter-paging-browser.mjs"
+            },
+            {
+                "id": "PagingRecovery",
+                "title": "Scope and expiry recovery",
+                "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+                "source": "Dapter.PagingRecovery",
+                "guide": "dapter/cursor-recovery",
+                "request": {
+                    "version": 2
+                },
+                "expected": {
+                    "status": 200,
+                    "mode": "cursor",
+                    "counts": "unknown",
+                    "ids": [1, 2]
+                },
+                "settings": [],
+                "cases_file": "app/Demo/Dapter/Paging/cases.json",
+                "frame": "Scope and expiry recovery",
+                "page": "resources/js/pages/docs/dapter/CursorRecovery.vue",
+                "component": "resources/js/components/demo/dapter/paging/PagingDemo.vue",
+                "behavior_test": "tests/Feature/DapterPagingDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/paging/PagingDemo.test.js",
+                "browser_test": "scripts/test-dapter-paging-browser.mjs"
+            },
+            {
+                "id": "PagingCounts",
+                "title": "Fluent exact counts",
+                "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+                "source": "Dapter.PagingCounts",
+                "guide": "dapter/paging-counts",
+                "request": {
+                    "version": 2
+                },
+                "expected": {
+                    "status": 200,
+                    "mode": "cursor",
+                    "counts": "exact",
+                    "ids": [1, 2]
+                },
+                "settings": ["StoreOptions.exactCounts", "StoreOptions.exactCounts.enabled"],
+                "cases_file": "app/Demo/Dapter/Paging/cases.json",
+                "frame": "Fluent exact counts",
+                "page": "resources/js/pages/docs/dapter/PagingCounts.vue",
+                "component": "resources/js/components/demo/dapter/paging/PagingDemo.vue",
+                "behavior_test": "tests/Feature/DapterPagingDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/paging/PagingDemo.test.js",
+                "browser_test": "scripts/test-dapter-paging-browser.mjs"
+            },
+            {
+                "id": "PagingCountsAttributes",
+                "title": "Attribute exact counts",
+                "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+                "source": "Dapter.PagingCountsAttributes",
+                "guide": "dapter/paging-counts",
+                "request": {
+                    "version": 2
+                },
+                "expected": {
+                    "status": 200,
+                    "mode": "simple",
+                    "counts": "exact",
+                    "ids": [1, 2]
+                },
+                "settings": ["attribute.ExactCounts"],
+                "cases_file": "app/Demo/Dapter/Paging/cases.json",
+                "frame": "Attribute exact counts",
+                "page": "resources/js/pages/docs/dapter/PagingCounts.vue",
+                "component": "resources/js/components/demo/dapter/paging/PagingDemo.vue",
+                "behavior_test": "tests/Feature/DapterPagingDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/paging/PagingDemo.test.js",
+                "browser_test": "scripts/test-dapter-paging-browser.mjs"
+            },
+            {
+                "id": "PagingCountsConfig",
+                "title": "Captured count configuration",
+                "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+                "source": "Dapter.PagingCountsConfig",
+                "guide": "dapter/paging-counts",
+                "request": {
+                    "version": 2
+                },
+                "expected": {
+                    "status": 200,
+                    "mode": "simple",
+                    "counts": "exact",
+                    "ids": [1, 2]
+                },
+                "settings": ["config.paging.exact_counts"],
+                "cases_file": "app/Demo/Dapter/Paging/cases.json",
+                "frame": "Captured count configuration",
+                "page": "resources/js/pages/docs/dapter/PagingCounts.vue",
+                "component": "resources/js/components/demo/dapter/paging/PagingDemo.vue",
+                "behavior_test": "tests/Feature/DapterPagingDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/paging/PagingDemo.test.js",
+                "browser_test": "scripts/test-dapter-paging-browser.mjs"
+            },
+            {
+                "id": "PagingCountsOff",
+                "title": "Explicit counts off",
+                "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+                "source": "Dapter.PagingCountsOff",
+                "guide": "dapter/paging-counts",
+                "request": {
+                    "version": 2
+                },
+                "expected": {
+                    "status": 200,
+                    "mode": "simple",
+                    "counts": "unknown",
+                    "ids": [1, 2]
+                },
+                "settings": [],
+                "cases_file": "app/Demo/Dapter/Paging/cases.json",
+                "frame": "Explicit counts off",
+                "page": "resources/js/pages/docs/dapter/PagingCounts.vue",
+                "component": "resources/js/components/demo/dapter/paging/PagingDemo.vue",
+                "behavior_test": "tests/Feature/DapterPagingDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/paging/PagingDemo.test.js",
+                "browser_test": "scripts/test-dapter-paging-browser.mjs"
+            },
+            {
+                "id": "ResourceFluent",
+                "source": "Dapter.ResourceFluent",
+                "cases_file": "app/Demo/Dapter/Live/cases.json",
+                "settings": [
+                    "StoreOptions.useResource",
+                    "StoreOptions.useResource.resourceClass",
+                    "contract.CollectionSource.source",
+                    "contract.WithOptions.options"
+                ],
+                "component": "resources/js/components/demo/dapter/resources/ResourceDemo.vue",
+                "page": "resources/js/pages/docs/dapter/Resources.vue",
+                "behavior_test": "tests/Feature/DapterLiveDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/live/LiveDemo.test.js"
+            },
+            {
+                "id": "ResourceAttributes",
+                "source": "Dapter.ResourceAttributes",
+                "cases_file": "app/Demo/Dapter/Live/cases.json",
+                "settings": ["attribute.UseResource", "attribute.UseResource.resourceClass"],
+                "component": "resources/js/components/demo/dapter/resources/ResourceDemo.vue",
+                "page": "resources/js/pages/docs/dapter/Resources.vue",
+                "behavior_test": "tests/Feature/DapterLiveDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/live/LiveDemo.test.js"
+            },
+            {
+                "id": "LivePrivate",
+                "source": "Dapter.LivePrivate",
+                "cases_file": "app/Demo/Dapter/Live/cases.json",
+                "settings": [
+                    "DataStore.update",
+                    "DataStores.forRecipient",
+                    "DataStores.recipient",
+                    "SourceRegistry.registerLive",
+                    "StoreOptions.broadcastUpdatable",
+                    "StoreOptions.broadcastUpdatable.channel",
+                    "StoreOptions.broadcastUpdatable.identifierField",
+                    "StoreOptions.broadcastUpdatable.revisions",
+                    "channel.event",
+                    "channel.name",
+                    "channel.type",
+                    "config.broadcasting.queue",
+                    "config.broadcasting.queue_connection",
+                    "contract.ChannelContextResolver.resolve",
+                    "contract.DeliveryContextFactory.capture",
+                    "contract.DeliveryContextFactory.restore",
+                    "contract.RowRevisionProvider.revision",
+                    "corpus.updates-v1",
+                    "dto.LiveSourceRegistration.contexts",
+                    "dto.LiveSourceRegistration.generation",
+                    "dto.LiveSourceRegistration.options",
+                    "dto.LiveSourceRegistration.source",
+                    "dto.PrivateChannel.authorize",
+                    "dto.PrivateChannel.context",
+                    "dto.PrivateChannel.pattern",
+                    "dto.RestoredSource.audience",
+                    "dto.RestoredSource.request",
+                    "dto.RestoredSource.source",
+                    "dto.ScopedAudience.projection",
+                    "dto.ScopedAudience.scope",
+                    "echo.private",
+                    "echoChannel.error",
+                    "echoChannel.listen",
+                    "echoChannel.stopListening",
+                    "handle.integrationError",
+                    "handle.resetContext",
+                    "integrationError.code",
+                    "integrationError.kind",
+                    "integrationError.message",
+                    "metadata.channel",
+                    "metadata.records",
+                    "records.format",
+                    "records.mode",
+                    "records.rows",
+                    "useDataAdapter.echo"
+                ],
+                "component": "resources/js/components/demo/dapter/live/LiveDemo.vue",
+                "page": "resources/js/pages/docs/dapter/LiveUpdates.vue",
+                "behavior_test": "tests/Feature/DapterLiveDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/live/LiveDemo.test.js"
+            },
+            {
+                "id": "LiveAttributes",
+                "source": "Dapter.LiveAttributes",
+                "cases_file": "app/Demo/Dapter/Live/cases.json",
+                "settings": [
+                    "DataAdapter.echo",
+                    "attribute.BroadcastUpdatable",
+                    "attribute.BroadcastUpdatable.channel",
+                    "attribute.BroadcastUpdatable.identifierField",
+                    "attribute.BroadcastUpdatable.revisions"
+                ],
+                "component": "resources/js/components/demo/dapter/live/LiveDemo.vue",
+                "page": "resources/js/pages/docs/dapter/LiveAuthorization.vue",
+                "behavior_test": "tests/Feature/DapterLiveDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/live/LiveDemo.test.js"
+            },
+            {
+                "id": "LiveShorthand",
+                "source": "Dapter.LiveShorthand",
+                "cases_file": "app/Demo/Dapter/Live/cases.json",
+                "settings": ["config.broadcasting.context"],
+                "component": "resources/js/components/demo/dapter/live/LiveDemo.vue",
+                "page": "resources/js/pages/docs/dapter/LiveAuthorization.vue",
+                "behavior_test": "tests/Feature/DapterLiveDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/live/LiveDemo.test.js"
+            },
+            {
+                "id": "LivePublic",
+                "source": "Dapter.LivePublic",
+                "cases_file": "app/Demo/Dapter/Live/cases.json",
+                "settings": [
+                    "contract.PublicRowProjection.project",
+                    "dto.LiveSourceRegistration.producerAuthorize",
+                    "dto.LiveSourceRegistration.publicProjection",
+                    "dto.PublicChannel.name",
+                    "dto.PublicChannel.projection",
+                    "echo.channel"
+                ],
+                "component": "resources/js/components/demo/dapter/live/LiveDemo.vue",
+                "page": "resources/js/pages/docs/dapter/LiveAuthorization.vue",
+                "behavior_test": "tests/Feature/DapterLiveDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/live/LiveDemo.test.js"
+            },
+            {
+                "id": "LiveIdentity",
+                "source": "Dapter.LiveIdentity",
+                "cases_file": "app/Demo/Dapter/Live/cases.json",
+                "settings": [
+                    "attribute.BroadcastUpdatable.identity",
+                    "contract.RowIdentityProvider.identify",
+                    "enum.RevisionFormat.Unsigned64Decimal"
+                ],
+                "component": "resources/js/components/demo/dapter/live/LiveDemo.vue",
+                "page": "resources/js/pages/docs/dapter/RevisionRaces.vue",
+                "behavior_test": "tests/Feature/DapterLiveDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/live/LiveDemo.test.js"
+            },
+            {
+                "id": "LiveArrival",
+                "source": "Dapter.LiveArrival",
+                "cases_file": "app/Demo/Dapter/Live/cases.json",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/live/LiveDemo.vue",
+                "page": "resources/js/pages/docs/dapter/RevisionRaces.vue",
+                "behavior_test": "tests/Feature/DapterLiveDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/live/LiveDemo.test.js"
+            },
+            {
+                "id": "LiveNative",
+                "source": "Dapter.LiveNative",
+                "cases_file": "app/Demo/Dapter/Live/cases.json",
+                "settings": [
+                    "StoreOptions.broadcastUpdatable.identity",
+                    "contract.EloquentSource.source",
+                    "contract.IdentityLookupDriver.identifiedRows",
+                    "contract.RowIdentityProvider.lookup",
+                    "contract.RowIdentityProvider.selector",
+                    "dto.GlobalAudience.projection",
+                    "dto.SqlIdentitySelector.attribute",
+                    "dto.SqlIdentitySelector.column"
+                ],
+                "component": "resources/js/components/demo/dapter/live/LiveDemo.vue",
+                "page": "resources/js/pages/docs/dapter/RevisionRaces.vue",
+                "behavior_test": "tests/Feature/DapterLiveDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/live/LiveDemo.test.js"
+            },
+            {
+                "id": "LivePolling",
+                "source": "Dapter.LivePolling",
+                "cases_file": "app/Demo/Dapter/Live/cases.json",
+                "settings": ["handle.restartPolling", "polling.interval", "useDataAdapter.polling"],
+                "component": "resources/js/components/demo/dapter/live/LiveDemo.vue",
+                "page": "resources/js/pages/docs/dapter/Polling.vue",
+                "behavior_test": "tests/Feature/DapterLiveDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/live/LiveDemo.test.js"
+            },
+            {
+                "id": "LivePollingProps",
+                "source": "Dapter.LivePollingProps",
+                "cases_file": "app/Demo/Dapter/Live/cases.json",
+                "settings": ["DataAdapter.polling"],
+                "component": "resources/js/components/demo/dapter/live/LiveDemo.vue",
+                "page": "resources/js/pages/docs/dapter/Polling.vue",
+                "behavior_test": "tests/Feature/DapterLiveDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/live/LiveDemo.test.js"
+            },
+            {
+                "id": "InfiniteSimple",
+                "source": "Dapter.InfiniteSimple",
+                "cases_file": "app/Demo/Dapter/Infinite/cases.json",
+                "settings": [
+                    "useDataAdapter.infinite",
+                    "infinite.options.root",
+                    "infinite.options.sentinel",
+                    "infinite.status",
+                    "handle.infinite"
+                ],
+                "component": "resources/js/components/demo/dapter/infinite/InfiniteDemo.vue",
+                "page": "resources/js/pages/docs/dapter/InfiniteLoading.vue",
+                "behavior_test": "tests/Feature/DapterInfiniteDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/infinite/InfiniteDemo.test.js"
+            },
+            {
+                "id": "InfiniteJoined",
+                "source": "Dapter.InfiniteJoined",
+                "cases_file": "app/Demo/Dapter/Infinite/cases.json",
+                "settings": ["DataAdapter.infinite", "infinite.append"],
+                "component": "resources/js/components/demo/dapter/infinite/InfiniteDemo.vue",
+                "page": "resources/js/pages/docs/dapter/InfiniteLoading.vue",
+                "behavior_test": "tests/Feature/DapterInfiniteDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/infinite/InfiniteDemo.test.js"
+            },
+            {
+                "id": "InfiniteCursor",
+                "source": "Dapter.InfiniteCursor",
+                "cases_file": "app/Demo/Dapter/Infinite/cases.json",
+                "settings": ["infinite.options.axis"],
+                "component": "resources/js/components/demo/dapter/infinite/InfiniteDemo.vue",
+                "page": "resources/js/pages/docs/dapter/HorizontalInfiniteLoading.vue",
+                "behavior_test": "tests/Feature/DapterInfiniteDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/infinite/InfiniteDemo.test.js"
+            },
+            {
+                "id": "InfiniteRecovery",
+                "source": "Dapter.InfiniteRecovery",
+                "cases_file": "app/Demo/Dapter/Infinite/cases.json",
+                "settings": ["infinite.retry"],
+                "component": "resources/js/components/demo/dapter/infinite/InfiniteDemo.vue",
+                "page": "resources/js/pages/docs/dapter/InfiniteRecovery.vue",
+                "behavior_test": "tests/Feature/DapterInfiniteDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/infinite/InfiniteDemo.test.js"
+            },
+            {
+                "id": "InfiniteFill",
+                "source": "Dapter.InfiniteSimple",
+                "cases_file": "app/Demo/Dapter/Infinite/cases.json",
+                "settings": [],
+                "component": "resources/js/components/demo/dapter/infinite/InfiniteDemo.vue",
+                "page": "resources/js/pages/docs/dapter/InfiniteRecovery.vue",
+                "behavior_test": "tests/Feature/DapterInfiniteDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/infinite/InfiniteDemo.test.js"
+            },
+            {
+                "id": "LocaleFluent",
+                "source": "Dapter.ComparisonsLocaleFluent",
+                "guide": "dapter/collection-comparisons",
+                "title": "Locale order through fluent declarations",
+                "description": "Portuguese collation normalizes composed and decomposed accents, preserves their input order, and keeps numeric text collation disabled. Expected IDs: 4, 3, 1, 2, 6, 5.",
+                "request": {
+                    "version": 2,
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "fields",
+                            "terms": [
+                                {
+                                    "field": "name",
+                                    "direction": "asc",
+                                    "sortType": "locale"
+                                }
+                            ]
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 6
+                        }
+                    }
+                },
+                "expected": {
+                    "status": 200,
+                    "ids": [4, 3, 1, 2, 6, 5],
+                    "total": 6,
+                    "filtered": 6
+                },
+                "settings": [
+                    "dto.FieldOptions.locale",
+                    "dto.LocaleOptions.locale",
+                    "enum.SortType.Locale",
+                    "localePolicy.locale",
+                    "localePolicy.validLocale",
+                    "localePolicy.actualLocale",
+                    "localePolicy.icuVersion",
+                    "localePolicy.strength",
+                    "localePolicy.normalization",
+                    "localePolicy.numeric"
+                ],
+                "cases_file": "app/Demo/Dapter/Comparisons/cases.json",
+                "frame": "Locale order through fluent declarations",
+                "page": "resources/js/pages/docs/dapter/CollectionComparisons.vue",
+                "component": "resources/js/components/demo/dapter/comparisons/ComparisonDemo.vue",
+                "behavior_test": "tests/Feature/DapterComparisonDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/comparisons/ComparisonDemo.test.js",
+                "browser_test": "scripts/test-dapter-comparisons-browser.mjs"
+            },
+            {
+                "id": "LocaleAttribute",
+                "source": "Dapter.ComparisonsLocaleAttribute",
+                "guide": "dapter/collection-comparisons",
+                "title": "Locale order through attribute declarations",
+                "description": "Portuguese collation normalizes composed and decomposed accents, preserves their input order, and keeps numeric text collation disabled. Expected IDs: 4, 3, 1, 2, 6, 5.",
+                "request": {
+                    "version": 2,
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "fields",
+                            "terms": [
+                                {
+                                    "field": "name",
+                                    "direction": "asc",
+                                    "sortType": "locale"
+                                }
+                            ]
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 6
+                        }
+                    }
+                },
+                "expected": {
+                    "status": 200,
+                    "ids": [4, 3, 1, 2, 6, 5],
+                    "total": 6,
+                    "filtered": 6
+                },
+                "settings": [],
+                "cases_file": "app/Demo/Dapter/Comparisons/cases.json",
+                "frame": "Locale order through attribute declarations",
+                "page": "resources/js/pages/docs/dapter/CollectionComparisons.vue",
+                "component": "resources/js/components/demo/dapter/comparisons/ComparisonDemo.vue",
+                "behavior_test": "tests/Feature/DapterComparisonDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/comparisons/ComparisonDemo.test.js",
+                "browser_test": "scripts/test-dapter-comparisons-browser.mjs"
+            },
+            {
+                "id": "LocaleConfig",
+                "source": "Dapter.ComparisonsLocaleConfig",
+                "guide": "dapter/collection-comparisons",
+                "title": "Locale order through config declarations",
+                "description": "Portuguese collation normalizes composed and decomposed accents, preserves their input order, and keeps numeric text collation disabled. Expected IDs: 4, 3, 1, 2, 6, 5.",
+                "request": {
+                    "version": 2,
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "fields",
+                            "terms": [
+                                {
+                                    "field": "name",
+                                    "direction": "asc",
+                                    "sortType": "locale"
+                                }
+                            ]
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 6
+                        }
+                    }
+                },
+                "expected": {
+                    "status": 200,
+                    "ids": [4, 3, 1, 2, 6, 5],
+                    "total": 6,
+                    "filtered": 6
+                },
+                "settings": [
+                    "config.declarations.fields.*.order.options.locale",
+                    "config.declarations.fields.*.order.options.locale.locale"
+                ],
+                "cases_file": "app/Demo/Dapter/Comparisons/cases.json",
+                "frame": "Locale order through config declarations",
+                "page": "resources/js/pages/docs/dapter/CollectionComparisons.vue",
+                "component": "resources/js/components/demo/dapter/comparisons/ComparisonDemo.vue",
+                "behavior_test": "tests/Feature/DapterComparisonDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/comparisons/ComparisonDemo.test.js",
+                "browser_test": "scripts/test-dapter-comparisons-browser.mjs"
+            },
+            {
+                "id": "LiteralComparison",
+                "source": "Dapter.ComparisonsLiteral",
+                "guide": "dapter/collection-comparisons",
+                "title": "Keep literal matching independent",
+                "description": "The exact composed café input matches ID 1 only. ID 2 uses a decomposed accent and ID 3 has no accent. Locale ordering does not change literal search.",
+                "request": {
+                    "version": 2,
+                    "state": {
+                        "version": 2,
+                        "fields": {
+                            "name": {
+                                "search": {
+                                    "value": "café",
+                                    "matchType": "contains"
+                                }
+                            }
+                        },
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 6
+                        }
+                    }
+                },
+                "expected": {
+                    "status": 200,
+                    "ids": [1],
+                    "total": 6,
+                    "filtered": 1
+                },
+                "settings": ["enum.SortType.Native", "enum.SortType.Regular"],
+                "cases_file": "app/Demo/Dapter/Comparisons/cases.json",
+                "frame": "Keep literal matching independent",
+                "page": "resources/js/pages/docs/dapter/CollectionComparisons.vue",
+                "component": "resources/js/components/demo/dapter/comparisons/ComparisonDemo.vue",
+                "behavior_test": "tests/Feature/DapterComparisonDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/comparisons/ComparisonDemo.test.js",
+                "browser_test": "scripts/test-dapter-comparisons-browser.mjs"
+            },
+            {
+                "id": "PostgresField",
+                "source": "Dapter.ComparisonsPostgresField",
+                "guide": "dapter/postgresql-full-text",
+                "title": "PostgreSQL full-text through field declarations",
+                "description": "The English plain-text query running returns ID 1. It excludes the other tenant, the null document, and runner notes. Total: 4. Filtered: 1.",
+                "requiresPostgres": true,
+                "request": {
+                    "version": 2,
+                    "state": {
+                        "version": 2,
+                        "fields": {
+                            "title": {
+                                "search": {
+                                    "value": "running",
+                                    "matchType": "full_text"
+                                }
+                            }
+                        },
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 4
+                        }
+                    }
+                },
+                "expected": {
+                    "status": 200,
+                    "ids": [1],
+                    "total": 4,
+                    "filtered": 1
+                },
+                "settings": [
+                    "dto.FieldOptions.fullText",
+                    "dto.FullTextOptions.configuration",
+                    "enum.MatchType.FullText",
+                    "fullTextPolicy.engine",
+                    "fullTextPolicy.configuration",
+                    "fullTextPolicy.input",
+                    "fullTextPolicy.maxBytes",
+                    "fullTextPolicy.ranking"
+                ],
+                "cases_file": "app/Demo/Dapter/Comparisons/cases.json",
+                "frame": "PostgreSQL full-text through field declarations",
+                "page": "resources/js/pages/docs/dapter/PostgresqlFullText.vue",
+                "component": "resources/js/components/demo/dapter/comparisons/ComparisonDemo.vue",
+                "behavior_test": "tests/Feature/DapterComparisonDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/comparisons/ComparisonDemo.test.js",
+                "browser_test": "scripts/test-dapter-comparisons-browser.mjs"
+            },
+            {
+                "id": "PostgresGlobal",
+                "source": "Dapter.ComparisonsPostgresGlobal",
+                "guide": "dapter/postgresql-full-text",
+                "title": "PostgreSQL full-text through global declarations",
+                "description": "The English plain-text query running returns ID 1. It excludes the other tenant, the null document, and runner notes. Total: 4. Filtered: 1.",
+                "requiresPostgres": true,
+                "request": {
+                    "version": 2,
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {
+                            "search": {
+                                "value": "running"
+                            }
+                        },
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 4
+                        }
+                    }
+                },
+                "expected": {
+                    "status": 200,
+                    "ids": [1],
+                    "total": 4,
+                    "filtered": 1
+                },
+                "settings": ["dto.SearchTarget.fullText"],
+                "cases_file": "app/Demo/Dapter/Comparisons/cases.json",
+                "frame": "PostgreSQL full-text through global declarations",
+                "page": "resources/js/pages/docs/dapter/PostgresqlFullText.vue",
+                "component": "resources/js/components/demo/dapter/comparisons/ComparisonDemo.vue",
+                "behavior_test": "tests/Feature/DapterComparisonDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/comparisons/ComparisonDemo.test.js",
+                "browser_test": "scripts/test-dapter-comparisons-browser.mjs"
+            },
+            {
+                "id": "PostgresAttribute",
+                "source": "Dapter.ComparisonsPostgresAttribute",
+                "guide": "dapter/postgresql-full-text",
+                "title": "PostgreSQL full-text through attribute declarations",
+                "description": "The English plain-text query running returns ID 1. It excludes the other tenant, the null document, and runner notes. Total: 4. Filtered: 1.",
+                "requiresPostgres": true,
+                "request": {
+                    "version": 2,
+                    "state": {
+                        "version": 2,
+                        "fields": {
+                            "title": {
+                                "search": {
+                                    "value": "running",
+                                    "matchType": "full_text"
+                                }
+                            }
+                        },
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 4
+                        }
+                    }
+                },
+                "expected": {
+                    "status": 200,
+                    "ids": [1],
+                    "total": 4,
+                    "filtered": 1
+                },
+                "settings": [],
+                "cases_file": "app/Demo/Dapter/Comparisons/cases.json",
+                "frame": "PostgreSQL full-text through attribute declarations",
+                "page": "resources/js/pages/docs/dapter/PostgresqlFullText.vue",
+                "component": "resources/js/components/demo/dapter/comparisons/ComparisonDemo.vue",
+                "behavior_test": "tests/Feature/DapterComparisonDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/comparisons/ComparisonDemo.test.js",
+                "browser_test": "scripts/test-dapter-comparisons-browser.mjs"
+            },
+            {
+                "id": "PostgresConfig",
+                "source": "Dapter.ComparisonsPostgresConfig",
+                "guide": "dapter/postgresql-full-text",
+                "title": "PostgreSQL full-text through config declarations",
+                "description": "The English plain-text query running returns ID 1. It excludes the other tenant, the null document, and runner notes. Total: 4. Filtered: 1.",
+                "requiresPostgres": true,
+                "request": {
+                    "version": 2,
+                    "state": {
+                        "version": 2,
+                        "fields": {
+                            "title": {
+                                "search": {
+                                    "value": "running",
+                                    "matchType": "full_text"
+                                }
+                            }
+                        },
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 4
+                        }
+                    }
+                },
+                "expected": {
+                    "status": 200,
+                    "ids": [1],
+                    "total": 4,
+                    "filtered": 1
+                },
+                "settings": [
+                    "config.declarations.fields.*.search.options.fullText",
+                    "config.declarations.fields.*.search.options.fullText.configuration",
+                    "config.declarations.global.search.*.fullText",
+                    "config.declarations.global.search.*.fullText.configuration"
+                ],
+                "cases_file": "app/Demo/Dapter/Comparisons/cases.json",
+                "frame": "PostgreSQL full-text through config declarations",
+                "page": "resources/js/pages/docs/dapter/PostgresqlFullText.vue",
+                "component": "resources/js/components/demo/dapter/comparisons/ComparisonDemo.vue",
+                "behavior_test": "tests/Feature/DapterComparisonDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/comparisons/ComparisonDemo.test.js",
+                "browser_test": "scripts/test-dapter-comparisons-browser.mjs"
+            },
+            {
+                "id": "RegexRejected",
+                "source": "Dapter.ComparisonsLiteral",
+                "guide": "dapter/comparison-capabilities",
+                "title": "Reject a forged regex after a valid filter",
+                "description": "The active filter is valid. The regex search is not an admitted operation. The complete request fails before source construction or row work.",
+                "request": {
+                    "version": 2,
+                    "state": {
+                        "version": 2,
+                        "fields": {
+                            "active": {
+                                "filters": {
+                                    "active": {
+                                        "value": true
+                                    }
+                                }
+                            },
+                            "name": {
+                                "search": {
+                                    "value": "(a+)+$",
+                                    "matchType": "regex"
+                                }
+                            }
+                        },
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 6
+                        }
+                    }
+                },
+                "expected": {
+                    "status": 422,
+                    "ids": [],
+                    "kind": "unsupported_operation"
+                },
+                "settings": [],
+                "cases_file": "app/Demo/Dapter/Comparisons/cases.json",
+                "frame": "Reject a forged regex after a valid filter",
+                "page": "resources/js/pages/docs/dapter/ComparisonCapabilities.vue",
+                "component": "resources/js/components/demo/dapter/comparisons/ComparisonDemo.vue",
+                "behavior_test": "tests/Feature/DapterComparisonDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/comparisons/ComparisonDemo.test.js",
+                "browser_test": "scripts/test-dapter-comparisons-browser.mjs"
+            },
+            {
+                "id": "LiteralDefault",
+                "source": "Dapter.LiteralDefault",
+                "guide": "dapter/literal-search",
+                "title": "Default search matches the João variants",
+                "description": "Input joao returns IDs 1 through 7, including mixed case, composed accents, and a decomposed accent. Tenant 2 remains excluded.",
+                "request": {
+                    "version": 2,
+                    "state": {
+                        "version": 2,
+                        "fields": {
+                            "name": {
+                                "search": {
+                                    "value": "joao",
+                                    "matchType": "contains"
+                                }
+                            }
+                        },
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 7
+                        }
+                    }
+                },
+                "expected": {
+                    "status": 200,
+                    "ids": [1, 2, 3, 4, 5, 6, 7],
+                    "total": 7,
+                    "filtered": 7
+                },
+                "settings": [],
+                "cases_file": "app/Demo/Dapter/Literal/cases.json",
+                "frame": "Default search matches the João variants",
+                "page": "resources/js/pages/docs/dapter/LiteralSearch.vue",
+                "component": "resources/js/components/demo/dapter/literal/LiteralDemo.vue",
+                "behavior_test": "tests/Feature/DapterLiteralDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/literal/LiteralDemo.test.js",
+                "browser_test": "scripts/test-dapter-literal-research-browser.mjs"
+            },
+            {
+                "id": "LiteralStrictFluent",
+                "source": "Dapter.LiteralStrictFluent",
+                "guide": "dapter/literal-search",
+                "title": "Fluent strict search preserves exact text",
+                "description": "Input joao returns ID 7 only. Case, accents, and canonical composition remain significant.",
+                "request": {
+                    "version": 2,
+                    "state": {
+                        "version": 2,
+                        "fields": {
+                            "name": {
+                                "search": {
+                                    "value": "joao",
+                                    "matchType": "contains"
+                                }
+                            }
+                        },
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 7
+                        }
+                    }
+                },
+                "expected": {
+                    "status": 200,
+                    "ids": [7],
+                    "total": 7,
+                    "filtered": 1
+                },
+                "settings": [
+                    "StoreOptions.strictLiteralSearch",
+                    "StoreOptions.strictLiteralSearch.enabled"
+                ],
+                "cases_file": "app/Demo/Dapter/Literal/cases.json",
+                "frame": "Fluent strict search preserves exact text",
+                "page": "resources/js/pages/docs/dapter/LiteralSearch.vue",
+                "component": "resources/js/components/demo/dapter/literal/LiteralDemo.vue",
+                "behavior_test": "tests/Feature/DapterLiteralDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/literal/LiteralDemo.test.js",
+                "browser_test": "scripts/test-dapter-literal-research-browser.mjs"
+            },
+            {
+                "id": "LiteralStrictAttribute",
+                "source": "Dapter.LiteralStrictAttribute",
+                "guide": "dapter/literal-search",
+                "title": "Attribute strict search preserves exact text",
+                "description": "Input joao returns ID 7 only. Case, accents, and canonical composition remain significant.",
+                "request": {
+                    "version": 2,
+                    "state": {
+                        "version": 2,
+                        "fields": {
+                            "name": {
+                                "search": {
+                                    "value": "joao",
+                                    "matchType": "contains"
+                                }
+                            }
+                        },
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 7
+                        }
+                    }
+                },
+                "expected": {
+                    "status": 200,
+                    "ids": [7],
+                    "total": 7,
+                    "filtered": 1
+                },
+                "settings": [
+                    "attribute.StrictLiteralSearch",
+                    "attribute.StrictLiteralSearch.enabled"
+                ],
+                "cases_file": "app/Demo/Dapter/Literal/cases.json",
+                "frame": "Attribute strict search preserves exact text",
+                "page": "resources/js/pages/docs/dapter/LiteralSearch.vue",
+                "component": "resources/js/components/demo/dapter/literal/LiteralDemo.vue",
+                "behavior_test": "tests/Feature/DapterLiteralDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/literal/LiteralDemo.test.js",
+                "browser_test": "scripts/test-dapter-literal-research-browser.mjs"
+            },
+            {
+                "id": "LiteralSqlite",
+                "source": "Dapter.LiteralSqlite",
+                "guide": "dapter/literal-search",
+                "title": "SQLite filters and counts inside SQL",
+                "description": "Input joao returns IDs 1 through 7, including mixed case, composed accents, and a decomposed accent. Tenant 2 remains excluded.",
+                "request": {
+                    "version": 2,
+                    "state": {
+                        "version": 2,
+                        "fields": {
+                            "name": {
+                                "search": {
+                                    "value": "joao",
+                                    "matchType": "contains"
+                                }
+                            }
+                        },
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 7
+                        }
+                    }
+                },
+                "expected": {
+                    "status": 200,
+                    "ids": [1, 2, 3, 4, 5, 6, 7],
+                    "total": 7,
+                    "filtered": 7
+                },
+                "settings": [],
+                "cases_file": "app/Demo/Dapter/Literal/cases.json",
+                "frame": "SQLite filters and counts inside SQL",
+                "page": "resources/js/pages/docs/dapter/LiteralSearch.vue",
+                "component": "resources/js/components/demo/dapter/literal/LiteralDemo.vue",
+                "behavior_test": "tests/Feature/DapterLiteralDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/literal/LiteralDemo.test.js",
+                "browser_test": "scripts/test-dapter-literal-research-browser.mjs"
+            },
+            {
+                "id": "LiteralConfigured",
+                "source": "Dapter.LiteralConfigured",
+                "guide": "dapter/literal-search/configuration",
+                "title": "Capture the configured strict default",
+                "description": "Input joao returns ID 7 only. Case, accents, and canonical composition remain significant.",
+                "request": {
+                    "version": 2,
+                    "state": {
+                        "version": 2,
+                        "fields": {
+                            "name": {
+                                "search": {
+                                    "value": "joao",
+                                    "matchType": "contains"
+                                }
+                            }
+                        },
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 7
+                        }
+                    }
+                },
+                "expected": {
+                    "status": 200,
+                    "ids": [7],
+                    "total": 7,
+                    "filtered": 1
+                },
+                "settings": ["config.declarations.strict_literal_search"],
+                "cases_file": "app/Demo/Dapter/Literal/cases.json",
+                "frame": "Capture the configured strict default",
+                "page": "resources/js/pages/docs/dapter/LiteralConfiguration.vue",
+                "component": "resources/js/components/demo/dapter/literal/LiteralDemo.vue",
+                "behavior_test": "tests/Feature/DapterLiteralDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/literal/LiteralDemo.test.js",
+                "browser_test": "scripts/test-dapter-literal-research-browser.mjs"
+            },
+            {
+                "id": "LiteralFalseOverride",
+                "source": "Dapter.LiteralFalseOverride",
+                "guide": "dapter/literal-search/configuration",
+                "title": "Override an inherited strict attribute with false",
+                "description": "Input joao returns IDs 1 through 7, including mixed case, composed accents, and a decomposed accent. Tenant 2 remains excluded.",
+                "request": {
+                    "version": 2,
+                    "state": {
+                        "version": 2,
+                        "fields": {
+                            "name": {
+                                "search": {
+                                    "value": "joao",
+                                    "matchType": "contains"
+                                }
+                            }
+                        },
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 7
+                        }
+                    }
+                },
+                "expected": {
+                    "status": 200,
+                    "ids": [1, 2, 3, 4, 5, 6, 7],
+                    "total": 7,
+                    "filtered": 7
+                },
+                "settings": [],
+                "cases_file": "app/Demo/Dapter/Literal/cases.json",
+                "frame": "Override an inherited strict attribute with false",
+                "page": "resources/js/pages/docs/dapter/LiteralConfiguration.vue",
+                "component": "resources/js/components/demo/dapter/literal/LiteralDemo.vue",
+                "behavior_test": "tests/Feature/DapterLiteralDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/literal/LiteralDemo.test.js",
+                "browser_test": "scripts/test-dapter-literal-research-browser.mjs"
+            },
+            {
+                "id": "LiteralCustomDriver",
+                "source": "Dapter.LiteralCustomDriver",
+                "guide": "dapter/literal-search/configuration",
+                "title": "Delegate through an aware custom driver",
+                "description": "Input joao returns IDs 1 through 7, including mixed case, composed accents, and a decomposed accent. Tenant 2 remains excluded.",
+                "request": {
+                    "version": 2,
+                    "state": {
+                        "version": 2,
+                        "fields": {
+                            "name": {
+                                "search": {
+                                    "value": "joao",
+                                    "matchType": "contains"
+                                }
+                            }
+                        },
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 7
+                        }
+                    }
+                },
+                "expected": {
+                    "status": 200,
+                    "ids": [1, 2, 3, 4, 5, 6, 7],
+                    "total": 7,
+                    "filtered": 7
+                },
+                "settings": ["DriverCapabilities.literalSearchPolicy"],
+                "cases_file": "app/Demo/Dapter/Literal/cases.json",
+                "frame": "Delegate through an aware custom driver",
+                "page": "resources/js/pages/docs/dapter/LiteralConfiguration.vue",
+                "component": "resources/js/components/demo/dapter/literal/LiteralDemo.vue",
+                "behavior_test": "tests/Feature/DapterLiteralDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/literal/LiteralDemo.test.js",
+                "browser_test": "scripts/test-dapter-literal-research-browser.mjs"
+            },
+            {
+                "id": "VectorRejected",
+                "source": "Dapter.LiteralDefault",
+                "guide": "dapter/research/vector-retrieval",
+                "title": "Reject a forged vector operation",
+                "description": "Start sends an unsupported operation through the actual Dapter endpoint. Expected HTTP 422 unsupported_operation with no rows or capabilities.",
+                "request": {
+                    "version": 2,
+                    "state": {
+                        "version": 2,
+                        "fields": {
+                            "name": {
+                                "search": {
+                                    "value": [0, 0, 0],
+                                    "matchType": "vector"
+                                }
+                            }
+                        },
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "offset",
+                            "current": 1,
+                            "per_page": 7
+                        }
+                    }
+                },
+                "expected": {
+                    "status": 422,
+                    "kind": "unsupported_operation",
+                    "ids": []
+                },
+                "settings": [],
+                "cases_file": "app/Demo/Dapter/Research/cases.json",
+                "frame": "Reject a forged vector operation",
+                "page": "resources/js/pages/docs/dapter/VectorResearch.vue",
+                "component": "resources/js/components/demo/dapter/research/ResearchDemo.vue",
+                "behavior_test": "tests/Feature/DapterResearchDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/research/ResearchDemo.test.js",
+                "browser_test": "scripts/test-dapter-literal-research-browser.mjs"
+            },
+            {
+                "id": "SnapshotRejected",
+                "source": "Dapter.LiteralDefault",
+                "guide": "dapter/research/pagination-consistency",
+                "title": "Reject a forged snapshot paging mode",
+                "description": "Start sends an unsupported operation through the actual Dapter endpoint. Expected HTTP 422 unsupported_operation with no rows or capabilities.",
+                "request": {
+                    "version": 2,
+                    "state": {
+                        "version": 2,
+                        "fields": {},
+                        "global": {},
+                        "searchMatch": "all",
+                        "order": {
+                            "kind": "default"
+                        },
+                        "paging": {
+                            "mode": "snapshot",
+                            "current": 1,
+                            "per_page": 7
+                        }
+                    }
+                },
+                "expected": {
+                    "status": 422,
+                    "kind": "unsupported_operation",
+                    "ids": []
+                },
+                "settings": [],
+                "cases_file": "app/Demo/Dapter/Research/cases.json",
+                "frame": "Reject a forged snapshot paging mode",
+                "page": "resources/js/pages/docs/dapter/SnapshotResearch.vue",
+                "component": "resources/js/components/demo/dapter/research/ResearchDemo.vue",
+                "behavior_test": "tests/Feature/DapterResearchDemoTest.php",
+                "component_test": "resources/js/components/demo/dapter/research/ResearchDemo.test.js",
+                "browser_test": "scripts/test-dapter-literal-research-browser.mjs"
+            }
+        ]
     }
 }

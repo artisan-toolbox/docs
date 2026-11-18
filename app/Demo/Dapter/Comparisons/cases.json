@@ -1,0 +1,342 @@
+[
+    {
+        "id": "LocaleFluent",
+        "source": "Dapter.ComparisonsLocaleFluent",
+        "guide": "dapter/collection-comparisons",
+        "title": "Locale order through fluent declarations",
+        "description": "Portuguese collation normalizes composed and decomposed accents, preserves their input order, and keeps numeric text collation disabled. Expected IDs: 4, 3, 1, 2, 6, 5.",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "fields",
+                    "terms": [
+                        {
+                            "field": "name",
+                            "direction": "asc",
+                            "sortType": "locale"
+                        }
+                    ]
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 6
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [4, 3, 1, 2, 6, 5],
+            "total": 6,
+            "filtered": 6
+        }
+    },
+    {
+        "id": "LocaleAttribute",
+        "source": "Dapter.ComparisonsLocaleAttribute",
+        "guide": "dapter/collection-comparisons",
+        "title": "Locale order through attribute declarations",
+        "description": "Portuguese collation normalizes composed and decomposed accents, preserves their input order, and keeps numeric text collation disabled. Expected IDs: 4, 3, 1, 2, 6, 5.",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "fields",
+                    "terms": [
+                        {
+                            "field": "name",
+                            "direction": "asc",
+                            "sortType": "locale"
+                        }
+                    ]
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 6
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [4, 3, 1, 2, 6, 5],
+            "total": 6,
+            "filtered": 6
+        }
+    },
+    {
+        "id": "LocaleConfig",
+        "source": "Dapter.ComparisonsLocaleConfig",
+        "guide": "dapter/collection-comparisons",
+        "title": "Locale order through config declarations",
+        "description": "Portuguese collation normalizes composed and decomposed accents, preserves their input order, and keeps numeric text collation disabled. Expected IDs: 4, 3, 1, 2, 6, 5.",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "fields",
+                    "terms": [
+                        {
+                            "field": "name",
+                            "direction": "asc",
+                            "sortType": "locale"
+                        }
+                    ]
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 6
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [4, 3, 1, 2, 6, 5],
+            "total": 6,
+            "filtered": 6
+        }
+    },
+    {
+        "id": "LiteralComparison",
+        "source": "Dapter.ComparisonsLiteral",
+        "guide": "dapter/collection-comparisons",
+        "title": "Keep literal matching independent",
+        "description": "The exact composed café input matches ID 1 only. ID 2 uses a decomposed accent and ID 3 has no accent. Locale ordering does not change literal search.",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "name": {
+                        "search": {
+                            "value": "café",
+                            "matchType": "contains"
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 6
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1],
+            "total": 6,
+            "filtered": 1
+        }
+    },
+    {
+        "id": "PostgresField",
+        "source": "Dapter.ComparisonsPostgresField",
+        "guide": "dapter/postgresql-full-text",
+        "title": "PostgreSQL full-text through field declarations",
+        "description": "The English plain-text query running returns ID 1. It excludes the other tenant, the null document, and runner notes. Total: 4. Filtered: 1.",
+        "requiresPostgres": true,
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "title": {
+                        "search": {
+                            "value": "running",
+                            "matchType": "full_text"
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1],
+            "total": 4,
+            "filtered": 1
+        }
+    },
+    {
+        "id": "PostgresGlobal",
+        "source": "Dapter.ComparisonsPostgresGlobal",
+        "guide": "dapter/postgresql-full-text",
+        "title": "PostgreSQL full-text through global declarations",
+        "description": "The English plain-text query running returns ID 1. It excludes the other tenant, the null document, and runner notes. Total: 4. Filtered: 1.",
+        "requiresPostgres": true,
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {
+                    "search": {
+                        "value": "running"
+                    }
+                },
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1],
+            "total": 4,
+            "filtered": 1
+        }
+    },
+    {
+        "id": "PostgresAttribute",
+        "source": "Dapter.ComparisonsPostgresAttribute",
+        "guide": "dapter/postgresql-full-text",
+        "title": "PostgreSQL full-text through attribute declarations",
+        "description": "The English plain-text query running returns ID 1. It excludes the other tenant, the null document, and runner notes. Total: 4. Filtered: 1.",
+        "requiresPostgres": true,
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "title": {
+                        "search": {
+                            "value": "running",
+                            "matchType": "full_text"
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1],
+            "total": 4,
+            "filtered": 1
+        }
+    },
+    {
+        "id": "PostgresConfig",
+        "source": "Dapter.ComparisonsPostgresConfig",
+        "guide": "dapter/postgresql-full-text",
+        "title": "PostgreSQL full-text through config declarations",
+        "description": "The English plain-text query running returns ID 1. It excludes the other tenant, the null document, and runner notes. Total: 4. Filtered: 1.",
+        "requiresPostgres": true,
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "title": {
+                        "search": {
+                            "value": "running",
+                            "matchType": "full_text"
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1],
+            "total": 4,
+            "filtered": 1
+        }
+    },
+    {
+        "id": "RegexRejected",
+        "source": "Dapter.ComparisonsLiteral",
+        "guide": "dapter/comparison-capabilities",
+        "title": "Reject a forged regex after a valid filter",
+        "description": "The active filter is valid. The regex search is not an admitted operation. The complete request fails before calling source() or doing row work.",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "active": {
+                        "filters": {
+                            "active": {
+                                "value": true
+                            }
+                        }
+                    },
+                    "name": {
+                        "search": {
+                            "value": "(a+)+$",
+                            "matchType": "regex"
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 6
+                }
+            }
+        },
+        "expected": {
+            "status": 422,
+            "ids": [],
+            "kind": "unsupported_operation"
+        }
+    }
+]

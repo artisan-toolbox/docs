@@ -99,6 +99,29 @@ return [
             'sslmode' => env('DB_SSLMODE', 'prefer'),
         ],
 
+        'dapter_literal_demo' => [
+            'driver' => 'sqlite',
+            'database' => storage_path('app/dapter-literal-demo.sqlite'),
+            'prefix' => '',
+            'foreign_key_constraints' => true,
+            'busy_timeout' => 5000,
+        ],
+
+        'dapter_comparisons_pgsql' => [
+            'driver' => 'pgsql',
+            'url' => env('DAPTER_COMPARISONS_PGSQL_URL'),
+            'host' => '127.0.0.1',
+            'port' => '5432',
+            'database' => 'docs_dapter_comparisons',
+            'username' => 'postgres',
+            'password' => '',
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'search_path' => 'public',
+            'sslmode' => 'prefer',
+        ],
+
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DB_URL'),

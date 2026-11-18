@@ -160,20 +160,48 @@ import { OtpInput, Button } from '@artisan-toolbox/front-awesome/components/WebA
 
 const initialValue = '';
 const value = ref(initialValue);
+const submitted = ref('');
+
+function resetExample() {
+    value.value = initialValue;
+    submitted.value = '';
+}
 \x3C/script>
 
 <template>
-    <div class="flex min-w-0 flex-col gap-4" data-docs-outline-exclude>
+    <form
+        id="otp-example-form"
+        method="post"
+        class="flex min-w-0 flex-col gap-4"
+        data-docs-outline-exclude
+        @submit.prevent="submitted = value"
+        @reset="resetExample">
         <div class="min-w-0">
-            <OtpInput label="Verification code" v-model="value" :length="6" />
+            <OtpInput
+                id="otp-example-code"
+                name="verification_code"
+                label="Verification code"
+                autocomplete="one-time-code"
+                type="numeric"
+                v-model="value"
+                :length="6"
+                required />
         </div>
         <div class="min-w-0">
             <output aria-live="polite">Current value: {{ value }}</output>
         </div>
-        <div class="min-w-0">
-            <Button type="button" @click="value = initialValue">Reset</Button>
+        <div v-if="submitted" class="min-w-0">
+            <output aria-live="polite"
+                >Submitted code: {{ submitted }}. No request was sent.</output
+            >
         </div>
-    </div>
+        <div class="min-w-0">
+            <div class="flex flex-wrap gap-2">
+                <Button type="submit">Submit example</Button>
+                <Button type="reset" appearance="plain">Reset</Button>
+            </div>
+        </div>
+    </form>
 </template>
 `;
 const radioGroupDemoSource = `<script setup>
@@ -570,7 +598,12 @@ defineProps({
             </p>
         </ProseSection>
         <ProseSection id="otp-input" title="OTP Input">
-            <p>Enter a one-time code.</p>
+            <p>
+                Enter a one-time code as a string. OtpInput displays segments over one native text
+                input. Its default <code>autocomplete="one-time-code"</code> identifies the field's
+                purpose. The numeric mode sets <code>inputmode="numeric"</code> while preserving
+                leading zeros. Use a stable name, ID, and visible label inside a form.
+            </p>
             <DemoFrame
                 data-catalog-demo="OtpInput"
                 title="OTP Input example"
@@ -580,8 +613,37 @@ defineProps({
                 <OtpInputDemo />
             </DemoFrame>
             <p>
-                Expected result. Edit verification code to update Current value from the native
-                input event. Reset restores the initial value.
+                Expected result. Fill 001234, then choose Submit example. Both outputs retain all
+                six characters. This demo does not verify a real code or send a request. Reset
+                clears the value and submitted result. Automatic submission remains opt-in.
+            </p>
+            <p>
+                The same <code>one-time-code</code> token is recommended by
+                <DocsLink href="https://www.1password.dev/web/compatible-website-design"
+                    >1Password</DocsLink
+                >,
+                <DocsLink
+                    href="https://developer.chrome.com/docs/modern-web-guidance/guides/forms/sms-otp-form"
+                    >Google's OTP form guide</DocsLink
+                >, and
+                <DocsLink
+                    href="https://developer.apple.com/documentation/authenticationservices/securing-logins-with-icloud-keychain-verification-codes"
+                    >Apple Password AutoFill</DocsLink
+                >. Mozilla documents it in the
+                <DocsLink
+                    href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/autocomplete#one-time-code"
+                    >autocomplete reference</DocsLink
+                >. These are recognition hints. Suggestions depend on the browser, operating system,
+                provider, and saved code or supported message source. Do not add invented
+                provider-specific attributes or use a number input for codes.
+            </p>
+            <p>
+                For a single-box design, use Input with <code>type="text"</code>,
+                <code>inputmode="numeric"</code>, and <code>autocomplete="one-time-code"</code>.
+                Keep the code in a string field and declare your required length and pattern.
+                Alphanumeric OtpInput codes use <code>type="alphanumeric"</code> and the text
+                keyboard. WebOTP SMS retrieval is a separate optional application integration;
+                adding autocomplete does not request an SMS or generate a code.
             </p>
         </ProseSection>
         <ProseSection id="radio-group" title="Radio Group">

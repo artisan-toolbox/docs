@@ -1,0 +1,946 @@
+[
+    {
+        "id": "GlobalNotebook",
+        "title": "Search one fixed target group",
+        "description": "Search one fixed target group. Send this fixed request and inspect the actual response.",
+        "source": "Dapter.ComposedCatalog",
+        "guide": "dapter/global-search",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {
+                    "search": {
+                        "value": "Notebook"
+                    }
+                },
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2],
+            "filtered": 2
+        }
+    },
+    {
+        "id": "GlobalZero",
+        "title": "Keep numeric zero active",
+        "description": "Keep numeric zero active. Send this fixed request and inspect the actual response.",
+        "source": "Dapter.ComposedNumeric",
+        "guide": "dapter/global-search",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {
+                    "search": {
+                        "value": "0"
+                    }
+                },
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 3],
+            "filtered": 2
+        }
+    },
+    {
+        "id": "GlobalIncompatible",
+        "title": "Retain incompatible input as a false restriction",
+        "description": "Retain incompatible input as a false restriction. Send this fixed request and inspect the actual response.",
+        "source": "Dapter.ComposedNumeric",
+        "guide": "dapter/global-search",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {
+                    "search": {
+                        "value": "Notebook"
+                    }
+                },
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [],
+            "filtered": 0
+        }
+    },
+    {
+        "id": "GlobalAny",
+        "title": "Combine search clauses with Any",
+        "description": "Combine search clauses with Any. Send this fixed request and inspect the actual response.",
+        "source": "Dapter.ComposedCatalog",
+        "guide": "dapter/global-search",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "name": {
+                        "search": {
+                            "value": "Notebook",
+                            "matchType": "contains"
+                        }
+                    }
+                },
+                "global": {
+                    "search": {
+                        "value": "0"
+                    }
+                },
+                "searchMatch": "any",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2, 3],
+            "filtered": 3
+        }
+    },
+    {
+        "id": "GlobalStatus",
+        "title": "Convert a backed enum case",
+        "description": "Convert a backed enum case. Send this fixed request and inspect the actual response.",
+        "source": "Dapter.ComposedCatalog",
+        "guide": "dapter/global-filters",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {
+                    "filters": {
+                        "status": {
+                            "value": "paused"
+                        }
+                    }
+                },
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [2],
+            "filtered": 1
+        }
+    },
+    {
+        "id": "GlobalMany",
+        "title": "Convert each selected enum case once",
+        "description": "Convert each selected enum case once. Send this fixed request and inspect the actual response.",
+        "source": "Dapter.ComposedCatalog",
+        "guide": "dapter/global-filters",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {
+                    "filters": {
+                        "many": {
+                            "value": ["active", "paused"]
+                        }
+                    }
+                },
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2, 3, 4],
+            "filtered": 4
+        }
+    },
+    {
+        "id": "GlobalInvalid",
+        "title": "Reject every invalid member before construction",
+        "description": "Reject every invalid member before construction. Send this fixed request and inspect the actual response.",
+        "source": "Dapter.ComposedCatalog",
+        "guide": "dapter/global-filters",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {
+                    "filters": {
+                        "many": {
+                            "value": ["active", "missing"]
+                        }
+                    }
+                },
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 422,
+            "ids": [],
+            "filtered": 0
+        }
+    },
+    {
+        "id": "GlobalNull",
+        "title": "Preserve a null finite value",
+        "description": "Preserve a null finite value. Send this fixed request and inspect the actual response.",
+        "source": "Dapter.ComposedCatalog",
+        "guide": "dapter/global-filters",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {
+                    "filters": {
+                        "mixed": {
+                            "value": null
+                        }
+                    }
+                },
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2, 3, 4],
+            "filtered": 4
+        }
+    },
+    {
+        "id": "ComposedAttributeMethods",
+        "title": "Use inherited private handlers",
+        "description": "Use inherited private handlers. Send this fixed request and inspect the actual response.",
+        "source": "Dapter.ComposedAttributes",
+        "guide": "dapter/composed-declarations",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {
+                    "filters": {
+                        "status": {
+                            "value": "paused"
+                        }
+                    }
+                },
+                "searchMatch": "all",
+                "order": {
+                    "kind": "preset",
+                    "id": "closure"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [2],
+            "filtered": 1
+        }
+    },
+    {
+        "id": "ComposedRemoved",
+        "title": "Remove inherited and fluent entries",
+        "description": "Remove inherited and fluent entries. Send this fixed request and inspect the actual response.",
+        "source": "Dapter.ComposedRemoved",
+        "guide": "dapter/composed-declarations",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2, 3, 4],
+            "filtered": 4
+        }
+    },
+    {
+        "id": "ComposedConfig",
+        "title": "Capture configuration defaults",
+        "description": "Capture configuration defaults. Send this fixed request and inspect the actual response.",
+        "source": "Dapter.ComposedConfig",
+        "guide": "dapter/composed-declarations",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {
+                    "search": {
+                        "value": "Notebook"
+                    }
+                },
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2],
+            "filtered": 2
+        }
+    },
+    {
+        "id": "ComposedNoDefaults",
+        "title": "Skip configured declarations",
+        "description": "Skip configured declarations. Send this fixed request and inspect the actual response.",
+        "source": "Dapter.ComposedWithoutDefaults",
+        "guide": "dapter/composed-declarations",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2, 3, 4],
+            "filtered": 4
+        }
+    },
+    {
+        "id": "MultiOrder",
+        "title": "Keep requested priority between fixed prefix and identity",
+        "description": "Keep requested priority between fixed prefix and identity. Send this fixed request and inspect the actual response.",
+        "source": "Dapter.ComposedCatalog",
+        "guide": "dapter/multi-order",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "fields",
+                    "terms": [
+                        {
+                            "field": "quantity",
+                            "direction": "desc",
+                            "sortType": "numeric"
+                        },
+                        {
+                            "field": "name",
+                            "direction": "asc",
+                            "sortType": "natural"
+                        }
+                    ]
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [2, 1, 4, 3],
+            "filtered": 4
+        }
+    },
+    {
+        "id": "MultiLimit",
+        "title": "Reject excess order terms without eviction",
+        "description": "Reject excess order terms without eviction. Send this fixed request and inspect the actual response.",
+        "source": "Dapter.ComposedCatalog",
+        "guide": "dapter/multi-order",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "fields",
+                    "terms": [
+                        {
+                            "field": "quantity",
+                            "direction": "desc",
+                            "sortType": "numeric"
+                        },
+                        {
+                            "field": "name",
+                            "direction": "asc",
+                            "sortType": "natural"
+                        },
+                        {
+                            "field": "rank",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 422,
+            "ids": [],
+            "filtered": 0
+        }
+    },
+    {
+        "id": "OpaquePreset",
+        "title": "Use an opaque server order",
+        "description": "Use an opaque server order. Send this fixed request and inspect the actual response.",
+        "source": "Dapter.ComposedCatalog",
+        "guide": "dapter/multi-order",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "preset",
+                    "id": "reverse"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [4, 3, 2, 1],
+            "filtered": 4
+        }
+    },
+    {
+        "id": "JoinedAliases",
+        "title": "Count joined result identities",
+        "description": "Count joined result identities. The fixture is an isolated in-memory SQLite database created only for this read.",
+        "source": "Dapter.ComposedJoin",
+        "guide": "dapter/advanced-queries",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "label": {
+                        "search": {
+                            "value": "Notebook",
+                            "matchType": "equals"
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 1],
+            "filtered": 2
+        }
+    },
+    {
+        "id": "GroupedCounts",
+        "title": "Count grouped HAVING results",
+        "description": "Count grouped HAVING results. The fixture is an isolated in-memory SQLite database created only for this read.",
+        "source": "Dapter.ComposedGroups",
+        "guide": "dapter/advanced-queries",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "fields",
+                    "terms": [
+                        {
+                            "field": "total",
+                            "direction": "desc",
+                            "sortType": "native"
+                        }
+                    ]
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2],
+            "filtered": 2
+        }
+    },
+    {
+        "id": "CustomCounts",
+        "title": "Keep whereHas and custom count scopes",
+        "description": "Keep whereHas and custom count scopes. The fixture is an isolated in-memory SQLite database created only for this read.",
+        "source": "Dapter.ComposedCounts",
+        "guide": "dapter/advanced-queries",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "name": {
+                        "search": {
+                            "value": "Notebook",
+                            "matchType": "contains"
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1],
+            "filtered": 1
+        }
+    },
+    {
+        "id": "DuplicateIdentity",
+        "title": "Reject incomplete joined identity",
+        "description": "Reject incomplete joined identity. The fixture is an isolated in-memory SQLite database created only for this read.",
+        "source": "Dapter.ComposedDuplicate",
+        "guide": "dapter/advanced-queries",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 500,
+            "ids": [],
+            "filtered": 0
+        }
+    },
+    {
+        "id": "RequiredCollection",
+        "source": "Dapter.ComposedRequiredCollection",
+        "title": "Require a selected registered Collection driver",
+        "description": "Require a selected registered Collection driver. The requirement checks the real source, engine, and selected alias.",
+        "guide": "dapter/handler-requirements",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {
+                    "filters": {
+                        "status": {
+                            "value": "active"
+                        }
+                    }
+                },
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 3, 4],
+            "filtered": 3
+        }
+    },
+    {
+        "id": "RequiredSqlite",
+        "source": "Dapter.ComposedRequiredSqlite",
+        "title": "Require the native SQLite engine",
+        "description": "Require the native SQLite engine. The requirement checks the real source, engine, and selected alias.",
+        "guide": "dapter/handler-requirements",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {
+                    "filters": {
+                        "name": {
+                            "value": "Notebook"
+                        }
+                    }
+                },
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1],
+            "filtered": 1
+        }
+    },
+    {
+        "id": "RequiredWrongEngine",
+        "source": "Dapter.ComposedRequiredWrongEngine",
+        "title": "Reject a Collection for an Eloquent engine requirement",
+        "description": "Reject a Collection for an Eloquent engine requirement. The requirement checks the real source, engine, and selected alias.",
+        "guide": "dapter/handler-requirements",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {
+                    "filters": {
+                        "status": {
+                            "value": "active"
+                        }
+                    }
+                },
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 500,
+            "ids": [],
+            "filtered": 0
+        }
+    },
+    {
+        "id": "RequiredWrongAlias",
+        "source": "Dapter.ComposedRequiredWrongAlias",
+        "title": "Reject an unselected registered alias",
+        "description": "Reject an unselected registered alias. The requirement checks the real source, engine, and selected alias.",
+        "guide": "dapter/handler-requirements",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {
+                    "filters": {
+                        "status": {
+                            "value": "active"
+                        }
+                    }
+                },
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 500,
+            "ids": [],
+            "filtered": 0
+        }
+    },
+    {
+        "id": "EnumClass",
+        "source": "Dapter.ComposedEnums",
+        "title": "Expand a backed enum field domain",
+        "description": "Expand a backed enum field domain. The four fictional rows are unchanged.",
+        "guide": "dapter/enum-inputs",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "status": {
+                        "filters": {
+                            "enum": {
+                                "value": "paused"
+                            }
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [2],
+            "filtered": 1
+        }
+    },
+    {
+        "id": "EnumSubset",
+        "source": "Dapter.ComposedEnums",
+        "title": "Reject a case outside the declared subset",
+        "description": "Reject a case outside the declared subset. The four fictional rows are unchanged.",
+        "guide": "dapter/enum-inputs",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "status": {
+                        "filters": {
+                            "subset": {
+                                "value": "paused"
+                            }
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 422,
+            "ids": [],
+            "filtered": 0
+        }
+    },
+    {
+        "id": "EnumPure",
+        "source": "Dapter.ComposedEnums",
+        "title": "Bind a pure enum by its exact case name",
+        "description": "Bind a pure enum by its exact case name. The four fictional rows are unchanged.",
+        "guide": "dapter/enum-inputs",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {
+                    "filters": {
+                        "mode": {
+                            "value": "Open"
+                        }
+                    }
+                },
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 3, 4],
+            "filtered": 3
+        }
+    },
+    {
+        "id": "EnumNullable",
+        "source": "Dapter.ComposedEnums",
+        "title": "Accept null only with a nullable enum parameter",
+        "description": "Accept null only with a nullable enum parameter. The four fictional rows are unchanged.",
+        "guide": "dapter/enum-inputs",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {
+                    "filters": {
+                        "nullable": {
+                            "value": null
+                        }
+                    }
+                },
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [],
+            "filtered": 0
+        }
+    }
+]

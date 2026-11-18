@@ -44,6 +44,20 @@ return StoreOptions::make()->useResource(ProductResource::class);`;
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
         <div data-document-content class="flex min-w-0 flex-col gap-10">
+            <ProseSection id="implemented-preview" title="Use the working preview guides"
+                ><p>
+                    This page preserves historical design examples and their original anchors. Some
+                    proposed signatures differ from the delivered unpublished preview. Follow the
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/advanced-queries').href"
+                        >advanced query guide</DocsLink
+                    >
+                    for executable public APIs, prerequisites, current limits, and behavioral
+                    checks. The design examples below do not replace those instructions. Resources
+                    and authorized live updates are delivered in their working guides. Simple and
+                    cursor pagination are delivered in the unpublished preview through the working
+                    paging guides.
+                </p></ProseSection
+            >
             <ProseSection>
                 <p>
                     Design proposal for the unpublished Dapter preview. Unless a section explicitly
@@ -70,9 +84,11 @@ return StoreOptions::make()->useResource(ProductResource::class);`;
                     <code>DriverCapabilities</code>, <code>ValidatedReadPlan</code>, and
                     <code>RawPage</code> types shown below for offset reads. Its factory selects
                     <code>CollectionStoreDriver</code> or <code>EloquentStoreDriver</code>, with
-                    ordinary SQLite as the only supported SQL connection. Managed field search,
-                    filters, selectable ordering, custom driver registration, and broader capability
-                    profiles remain future work.
+                    SQLite, MySQL, and PostgreSQL connections selected from the bound builder.
+                    Explicit backend v2 supports managed field search, typed filters, composed
+                    global operations, bounded multiple field orders, and opaque order presets.
+                    Trusted custom driver factories and source aliases are implemented. Broader
+                    capability profiles and sealed execution remain future work.
                 </p>
                 <p>
                     The implemented offset path binds one actual driver after access and request
@@ -89,6 +105,13 @@ return StoreOptions::make()->useResource(ProductResource::class);`;
                         >Understand server authority</DocsLink
                     >
                     for the current contract and executable request boundary.
+                </p>
+                <p>
+                    The current native driver retains the exact read and write PDO objects along
+                    with its connection configuration and grammar. Replacing either PDO invalidates
+                    the driver before catalog, count, or page queries. This check does not freeze
+                    database contents or SQL session settings. Trusted server code keeps the
+                    selected database and session context stable for the read.
                 </p>
                 <p>
                     The current profile rejects deferred Query Builder callbacks before listing SQL.
@@ -108,16 +131,15 @@ return StoreOptions::make()->useResource(ProductResource::class);`;
                     Driver constructors accept an Eloquent <code>Builder</code> or a normalized
                     <code>Collection</code> according to their source family. Keeping the source out
                     of <code>execute()</code> lets each constructor require its native type. The
-                    future resolver selects a SQL driver using the builder's actual connection and
-                    dialect. The remaining driver rules in this section are proposals. They are not
-                    registration or capability APIs in the current preview. The proposed extension
-                    allows applications to register a custom driver in trusted server configuration
-                    under a validated identifier. Selection precedence is an exact configured
-                    connection plus source family, then verified dialect plus family, then family
-                    fallback. Reject duplicate registrations at each specificity. A selected driver
-                    that refuses the bound source fails without falling back to a weaker driver. A
-                    source-only adapter needs no driver declaration. The browser supplies neither a
-                    driver selector nor a class name.
+                    resolver selects a native SQL driver using the builder's actual connection and
+                    dialect. The working Source registration guide documents the delivered
+                    DriverRegistry factory API and Driver attribute. The following specificity
+                    hierarchy is a separate future extension. Selection precedence is an exact
+                    configured connection plus source family, then verified dialect plus family,
+                    then family fallback. Reject duplicate registrations at each specificity. A
+                    selected driver that refuses the bound source fails without falling back to a
+                    weaker driver. A source-only adapter needs no driver declaration. The browser
+                    supplies neither a driver selector nor a class name.
                 </p>
                 <DocsTable caption="Proposed built-in store drivers">
                     <thead>
@@ -262,12 +284,13 @@ return StoreOptions::make()->useResource(ProductResource::class);`;
                     <code>source()</code>.
                 </p>
                 <p>
-                    A trusted alias registry remains proposed. No alias or configurable source
-                    namespace exists today. Future aliases use the same identifier grammar. Exact
-                    alias lookup precedes convention resolution. Duplicate aliases and case-fold
-                    collisions fail registration. Existing PHP convention casing remains unchanged.
-                    Aliases targeting the same class still reauthorize that source's policy and
-                    retain distinct logical context identities. Retargeting an alias or changing its
+                    The trusted SourceRegistry alias API is implemented. Exact alias lookup precedes
+                    convention resolution. Duplicate aliases and case-fold collisions fail
+                    registration. The working Source registration guide contains its real HTTP
+                    examples. Configurable source namespaces and durable logical context identity
+                    remain future work. Existing PHP convention casing remains unchanged. Aliases
+                    targeting the same class still reauthorize that source's policy and retain
+                    distinct logical context identities. Retargeting an alias or changing its
                     definition generation invalidates old contexts. The browser supplies no class,
                     connection, or driver selector. See
                     <DocsLink
@@ -279,16 +302,16 @@ return StoreOptions::make()->useResource(ProductResource::class);`;
                     for the separate identity domains.
                 </p>
                 <p>
-                    Use one package-owned named route, proposed as <code>dapter.data</code>, with a
-                    source identifier parameter. Ziggy resolves that named route in the Inertia
+                    The implemented package-owned named route <code>dapter.data</code> has a source
+                    identifier parameter. Ziggy resolves that named route in the Inertia
                     integration. Do not add a parallel route registry or accept client-provided
-                    endpoints through source names. The proposed endpoint accepts POST requests with
-                    a JSON body. Keep the session and CSRF middleware. Read the original body once
-                    with an object-preserving decoder. A malformed document returns 400. A valid
-                    JSON list, null, or other invalid envelope shape returns 422. Preserve literal
-                    strings, including padding and empty strings, before checking each operation.
-                    Laravel's middleware-normalized input bag cannot preserve those distinctions.
-                    Check protocol syntax before source lookup and return source-specific validation
+                    endpoints through source names. The endpoint accepts POST requests with a JSON
+                    body. Keep the session and CSRF middleware. Read the original body once with an
+                    object-preserving decoder. A malformed document returns 400. A valid JSON list,
+                    null, or other invalid envelope shape returns 422. Preserve literal strings,
+                    including padding and empty strings, before checking each operation. Laravel's
+                    middleware-normalized input bag cannot preserve those distinctions. Check
+                    protocol syntax before source lookup and return source-specific validation
                     details only after authorization. The page URL stores editable state separately.
                 </p>
                 <p>Useful automatic behavior has clear limits:</p>
@@ -452,11 +475,8 @@ return StoreOptions::make()->useResource(ProductResource::class);`;
                         </tr>
                         <tr>
                             <td>Pagination</td>
-                            <td>Offset with exact counts</td>
-                            <td>
-                                Simple, cursor, optional counts, separately researched snapshot
-                                behavior
-                            </td>
+                            <td>Offset, simple, and cursor with optional exact advanced counts</td>
+                            <td>Separately researched snapshot behavior</td>
                         </tr>
                         <tr>
                             <td>Database-specific search</td>
@@ -472,17 +492,20 @@ return StoreOptions::make()->useResource(ProductResource::class);`;
                     that compatibility claim.
                 </p>
                 <p>
-                    Vector search remains phase 7 research. A PostgreSQL source could advertise a
-                    distance operation only after Dapter implements it for a compatible Laravel and
-                    server version, verifies pgvector in the selected database, and confirms a
-                    compatible declared column with supported dimensions, metrics, ranking, and
-                    paging modes. Availability does not require a submitted vector. At request
-                    validation, check the actual prepared vector for finite numeric values and the
-                    declared dimension, then validate the selected metric and complete ranking and
-                    paging combination before execution. Test exact ranking separately from any
-                    approximate index strategy. A driver must never install extensions or generate
-                    embeddings as a side effect of a read. Laravel's vector helpers can generate
-                    embeddings when given text. See
+                    Vector retrieval research established native pgvector feasibility and deferred
+                    public Dapter support. A PostgreSQL source could advertise a distance operation
+                    only after Dapter implements it for a compatible Laravel and server version,
+                    verifies pgvector in the selected database, and confirms a compatible declared
+                    column with supported dimensions, metrics, ranking, and paging modes.
+                    Availability does not require a submitted vector. At request validation, check
+                    the actual prepared vector for finite numeric values and the declared dimension,
+                    then validate the selected metric and complete ranking and paging combination
+                    before execution. Test exact ranking separately from any approximate index
+                    strategy. A driver must never install extensions or generate embeddings as a
+                    side effect of a read. The installed Laravel PostgreSQL helpers use cosine
+                    distance &lt;=&gt;, not the native L2 &lt;-&gt; tested by the research. Text
+                    arguments can invoke the separate Laravel AI SDK embedding macro before grammar
+                    admission. A future Dapter boundary must accept prepared numeric arrays. See
                     <DocsLink href="https://github.com/pgvector/pgvector#querying"
                         >pgvector querying</DocsLink
                     >
@@ -493,12 +516,19 @@ return StoreOptions::make()->useResource(ProductResource::class);`;
                     >.
                 </p>
                 <p>
-                    For the same declared request, a PostgreSQL profile missing pgvector or a
-                    configured MySQL driver without verified vector support raises
-                    <code>UnsupportedStoreOperation</code> before a driver listing read. MySQL
-                    variants differ. For example, MySQL 9.7 documents <code>DISTANCE()</code> for
-                    HeatWave on OCI and MySQL AI. Availability in a database product alone does not
-                    enable a Dapter operation. See
+                    Current Dapter has no vector MatchType or snapshot PagingMode. A forged
+                    unsupported operation returns HTTP 422
+                    <code>unsupported_operation</code> through the current public boundary. A future
+                    vector driver would need explicit prerequisite admission before listing reads.
+                    Missing pgvector and unsupported MySQL are proposed future admission cases, not
+                    current vector APIs. MySQL variants differ. For example, MySQL 9.7 documents
+                    <code>DISTANCE()</code> for HeatWave on OCI and MySQL AI. Availability in a
+                    database product alone does not enable a Dapter operation. The local tested
+                    MySQL server is 8.4.11. See the
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/research').href"
+                        >completed research findings</DocsLink
+                    >
+                    for native results and the remaining gates. See
                     <DocsLink href="https://dev.mysql.com/doc/refman/9.7/en/vector-functions.html"
                         >MySQL vector functions</DocsLink
                     >.

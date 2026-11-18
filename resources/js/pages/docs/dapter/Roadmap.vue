@@ -18,9 +18,19 @@ defineProps({
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection>
                 <p>
-                    Status: implementation in progress, updated on 2026-11-16. The local preview
-                    implements the first Collection and SQLite offset listing slice. Remaining
-                    architecture examples describe proposed APIs, not a complete release.
+                    Status: implementation in progress, updated on 2026-11-17. The local preview
+                    implements Collection, SQLite, MySQL, and PostgreSQL backend offset reads and
+                    explicit v2 field operations. Phase 1 backend, Phase 2 Vue, Phase 2a
+                    native-action, Phase 3 composed-operation, Phase 3a live-update, and Phase 4
+                    pagination, Phase 5 guarded infinite loading, and Phase 6 comparison acceptance
+                    gates are complete. Explicit protocol 2 adds declared Vue controls, definition
+                    decoding, URL history, and targeted scroll. Protocol 1 remains the default.
+                    Native actions now work with both read versions. Explicit protocol 2 also
+                    supports composed global search, finite filters, bounded multi-order, opaque
+                    presets, and declared joined or grouped queries. Explicit Collection locale
+                    ordering and PostgreSQL plain-text full-text filters are implemented. Phases 2a,
+                    3, 3a, 4, 5, and 6 passed their final acceptance gates. Remaining architecture
+                    examples describe proposed APIs, not a complete release.
                 </p>
                 <p>
                     This explanation records the intended contracts and delivery order for Dapter
@@ -33,11 +43,43 @@ defineProps({
                     Run the implemented slice in
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/listing').href"
                         >Read and paginate a source</DocsLink
-                    >. Every delivered setting has a public-API demo and behavioral checks. Search,
-                    filters, selectable ordering, MySQL, PostgreSQL, URL persistence, scrolling,
-                    Resources, actions, and live updates remain unavailable. The shared
-                    useDataAdapter handle is implemented and documented in its own guide. The full
-                    phase 1 and phase 2 exit criteria have not passed.
+                    >. Every delivered setting has a public-API demo and behavioral checks. Backend
+                    v2 field search, scalar filters, one selected field order, native SQL drivers,
+                    and trusted registries are implemented in their focused guides. The shared
+                    useDataAdapter handle, declared Vue controls, URL persistence, and targeted
+                    scroll are implemented. Follow
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/vue-controls').href"
+                        >Build declared Vue controls</DocsLink
+                    >,
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/vue-definitions').href"
+                        >Validate rows and definitions separately</DocsLink
+                    >, and
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/vue-navigation').href"
+                        >Save catalog navigation in the URL</DocsLink
+                    >. Continue with
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/actions').href"
+                        >native actions</DocsLink
+                    >
+                    and
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/global-search').href"
+                        >composed global operations</DocsLink
+                    >
+                    for those implemented preview APIs. Continue with
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/simple-paging').href"
+                        >simple pagination</DocsLink
+                    >
+                    and
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/cursor-paging').href"
+                        >cursor traversal</DocsLink
+                    >
+                    for nullable navigation, source-owned scope, explicit recovery, and optional
+                    counts. Optional Resources, scoped committed live replacements, and polling are
+                    implemented in the focused working guides. Guarded infinite loading is
+                    implemented in the
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/infinite-loading').href"
+                        >focused infinite-loading guides</DocsLink
+                    >. Phase 1 passed on all baseline engines. Phase 2 passed public consumer, type,
+                    HTTP, and production browser checks.
                 </p>
                 <p>
                     The server owns the allowed operations. The frontend can select only declared
@@ -109,8 +151,9 @@ defineProps({
                     <code>limit</code>, <code>offset</code>, or pagination window. Reject
                     incompatible builders instead of silently removing application constraints. A
                     simple existing order is preserved and completed with the unique row identity
-                    when needed. Complex grouping and custom count strategies arrive in a later
-                    phase.
+                    when needed. Explicit QueryOptions, result identity, and CountQueries support
+                    declared joins and grouping. Follow the advanced-query guide before opting into
+                    those shapes.
                 </p>
                 <p>
                     The generated endpoint uses Laravel's <code>web</code> middleware. The generated
@@ -210,7 +253,9 @@ defineProps({
                                         grammar through checked operation, paging, action, and
                                         transition contracts. This task settles those contracts;
                                         later phases implement their capabilities and demos. The
-                                        current endpoint rejects version 2.
+                                        current endpoint accepts delivered v2 field and composed
+                                        operations and rejects unsupported paging and live-update
+                                        capabilities.
                                     </p>
                                 </RoadmapItem>
                             </li>
@@ -433,7 +478,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-1-1"
-                                    status="in_progress"
+                                    status="completed"
                                     title="TODO 1.1. Define backend source contracts">
                                     <p>
                                         After the relevant phase 0 fixture passes, add typed
@@ -481,7 +526,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-1-3"
-                                    status="in_progress"
+                                    status="completed"
                                     title="TODO 1.3. Resolve and authorize sources">
                                     <p>
                                         Resolve conventional public source names and explicit
@@ -499,7 +544,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-1-4"
-                                    status="in_progress"
+                                    status="completed"
                                     title="TODO 1.4. Validate requested state">
                                     <p>
                                         Decode the original JSON body once and preserve object,
@@ -527,7 +572,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-1-5"
-                                    status="in_progress"
+                                    status="completed"
                                     title="TODO 1.5. Build the Collection offset pipeline">
                                     <p>
                                         Normalize ordinary arrays and Collections at one boundary.
@@ -542,7 +587,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-1-6"
-                                    status="in_progress"
+                                    status="completed"
                                     title="TODO 1.6. Build the Eloquent offset pipeline">
                                     <p>
                                         Implement the equivalent ordinary Eloquent offset pipeline
@@ -558,6 +603,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-1-7"
+                                    status="completed"
                                     title="TODO 1.7. Add basic sort, search, and filters">
                                     <p>
                                         Add declared single-field sorting, literal search, and
@@ -594,7 +640,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-1-9"
-                                    status="in_progress"
+                                    status="completed"
                                     title="TODO 1.9. Verify the backend journey">
                                     <p>
                                         Run the same behavioral cases through arrays, Collections,
@@ -641,7 +687,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-2-1"
-                                    status="in_progress"
+                                    status="completed"
                                     title="TODO 2.1. Define the Vue response and slot contract">
                                     <p>
                                         Establish the shared controller and useDataAdapter ownership
@@ -679,7 +725,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-2-3"
-                                    status="in_progress"
+                                    status="completed"
                                     title="TODO 2.3. Add pagination and refresh actions">
                                     <p>
                                         Add numbered pagination, page-size selection, and refresh
@@ -695,6 +741,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-2-4"
+                                    status="completed"
                                     title="TODO 2.4. Expose declared query controls">
                                     <p>
                                         Expose declared sort, search, and scalar filter controls
@@ -714,7 +761,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-2-5"
-                                    status="in_progress"
+                                    status="completed"
                                     title="TODO 2.5. Prove request safety and recovery">
                                     <p>
                                         Prove current-generation commits, request coalescing,
@@ -743,6 +790,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-2-6"
+                                    status="completed"
                                     title="TODO 2.6. Restore URL and browser history state">
                                     <p>
                                         Add URL namespaces and requested-state serialization.
@@ -753,13 +801,19 @@ defineProps({
                                         duplicate load. Test an absent namespace, an explicit clear
                                         of a source default, and a winning clamped page. Exclude
                                         interaction hints and capability flags from serialized
-                                        state.
+                                        state. The public Inertia SDK cannot cancel an already
+                                        accepted asynchronous client visit. Reconciliation converges
+                                        to current intent, but a transient older URL or an extra
+                                        corrected history entry can remain observable. Protected
+                                        rows, errors, and scroll still require the winning request
+                                        generation.
                                     </p>
                                 </RoadmapItem>
                             </li>
                             <li>
                                 <RoadmapItem
                                     id="todo-2-7"
+                                    status="completed"
                                     title="TODO 2.7. Reset the intended scroll container">
                                     <p>
                                         After URL restoration works, implement the intended
@@ -771,7 +825,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-2-8"
-                                    status="in_progress"
+                                    status="completed"
                                     title="TODO 2.8. Verify table and grid consumers">
                                     <p>
                                         Render the same source as a table and a grid through the
@@ -807,6 +861,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-2a-1"
+                                    status="completed"
                                     title="TODO 2a.1. Define action discovery and metadata">
                                     <p>
                                         After the shared adapter contract, normalize private Action
@@ -826,6 +881,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-2a-2"
+                                    status="completed"
                                     title="TODO 2a.2. Add package-owned authorized action routing">
                                     <p>
                                         Register the internal named action route. Recheck source
@@ -844,6 +900,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-2a-3"
+                                    status="completed"
                                     title="TODO 2a.3. Preserve visit and HTTP response semantics">
                                     <p>
                                         Define native ActionTransport and action verb enums. Default
@@ -858,6 +915,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-2a-4"
+                                    status="completed"
                                     title="TODO 2a.4. Expose typed shared action controls">
                                     <p>
                                         Add actions.visit and actions.http to the same public handle
@@ -873,6 +931,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-2a-5"
+                                    status="completed"
                                     title="TODO 2a.5. Verify functional action and composable demos">
                                     <p>
                                         Deliver Front Awesome demos for private and external
@@ -898,6 +957,13 @@ defineProps({
                             state. Undeclared methods never execute, protected data never crosses
                             contexts, and action completion never silently resets a listing.
                         </p>
+                        <p>
+                            Acceptance complete. Public action discovery, authorization, native
+                            transports, typed shared controls, and isolated documentation demos
+                            passed package and consuming-application checks. The packed consumer
+                            passed stable and minimum peers under Bundler and NodeNext. Native
+                            validation retains unknown commit without automatic retries or reads.
+                        </p>
                     </RoadmapPhase>
                     <RoadmapPhase
                         id="phase-3-add-deeper-declarations-and-composed-operations"
@@ -906,6 +972,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-3-1"
+                                    status="completed"
                                     title="TODO 3.1. Extend declaration contracts">
                                     <p>
                                         After the MVP, extend
@@ -929,6 +996,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-3-2"
+                                    status="completed"
                                     title="TODO 3.2. Add multi-sort and presets">
                                     <p>
                                         Extend the basic sort contract with independent multi-sort
@@ -950,6 +1018,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-3-3"
+                                    status="completed"
                                     title="TODO 3.3. Compose declared search">
                                     <p>
                                         Extend literal field search with globalSearchable fixed
@@ -968,6 +1037,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-3-4"
+                                    status="completed"
                                     title="TODO 3.4. Add multi-value and custom filters">
                                     <p>
                                         After filter composition is defined, extend automatic named
@@ -988,6 +1058,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-3-5"
+                                    status="completed"
                                     title="TODO 3.5. Extend attribute and handler parity">
                                     <p>
                                         Extend the basic attribute support delivered in phase 1 with
@@ -1019,6 +1090,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-3-6"
+                                    status="completed"
                                     title="TODO 3.6. Verify advanced Eloquent queries">
                                     <p>
                                         Extend the ordinary query cases with qualified joined
@@ -1046,6 +1118,15 @@ defineProps({
                             handlers and construct no handler instances. Keyed overrides replace
                             whole entries while unrelated attribute declarations remain.
                         </p>
+                        <p>
+                            Acceptance complete. Declarations, finite enum domains, global handlers,
+                            search grouping, multi-order, opaque presets, joined projections, and
+                            grouped counts passed package and documentation behavior checks. Native
+                            scope and preset membership guards passed their regressions. The
+                            complete documentation browser chain passed. Resources, scoped live
+                            updates, and polling passed Phase 3a. Simple and cursor pagination
+                            passed Phase 4.
+                        </p>
                     </RoadmapPhase>
                     <RoadmapPhase
                         id="phase-3a-add-live-updates-and-polling"
@@ -1054,6 +1135,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-3a-1"
+                                    status="completed"
                                     title="TODO 3a.1. Implement Resource and identity serialization">
                                     <p>
                                         Implement the settled optional
@@ -1072,6 +1154,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-3a-2"
+                                    status="completed"
                                     title="TODO 3a.2. Implement channel authorization and context">
                                     <p>
                                         Implement the phase 0 atomic broadcastUpdatable declaration
@@ -1095,6 +1178,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-3a-3"
+                                    status="completed"
                                     title="TODO 3a.3. Add the scoped update pipeline">
                                     <p>
                                         Implement context-bound
@@ -1115,6 +1199,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-3a-4"
+                                    status="completed"
                                     title="TODO 3a.4. Add replacement-only listener lifecycle">
                                     <p>
                                         Mount an Echo listener only when broadcasting is enabled and
@@ -1135,6 +1220,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-3a-5"
+                                    status="completed"
                                     title="TODO 3a.5. Bound event and HTTP races">
                                     <p>
                                         Use per-instance context generations, event-ID
@@ -1154,6 +1240,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-3a-6"
+                                    status="completed"
                                     title="TODO 3a.6. Add opt-in polling scheduling">
                                     <p>
                                         Implement frontend polling with default
@@ -1175,6 +1262,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-3a-7"
+                                    status="completed"
                                     title="TODO 3a.7. Verify behavior and consumer guidance">
                                     <p>
                                         Test default-disabled options, resource identity omission,
@@ -1192,15 +1280,19 @@ defineProps({
                             </li>
                         </ol>
                         <p>
-                            Exit when optional Resources and scoped committed updates produce the
-                            same authorized row schema as HTTP, private authorization and public
-                            opt-in pass, and Echo replaces only loaded rows without changing listing
-                            structure. Test the same decoded row shape over HTTP, immediate
-                            delivery, and buffered replay. A failed replacement leaves the previous
-                            row intact. Baseline races are bounded with explicit arrival-order
-                            limits. Polling stays disabled until requested and follows the existing
-                            reload contract. Test both integrations independently and together
-                            without automatic event reloads.
+                            Acceptance complete. Explicit reader Resources, guarded channels,
+                            committed scoped updates, bounded replacement races, and opt-in polling
+                            passed package, native database, packed consumer, and real production
+                            browser checks. Independent regressions cover authorization overlap and
+                            render-time listener recovery. Exit when optional Resources and scoped
+                            committed updates produce the same authorized row schema as HTTP,
+                            private authorization and public opt-in pass, and Echo replaces only
+                            loaded rows without changing listing structure. Test the same decoded
+                            row shape over HTTP, immediate delivery, and buffered replay. A failed
+                            replacement leaves the previous row intact. Baseline races are bounded
+                            with explicit arrival-order limits. Polling stays disabled until
+                            requested and follows the existing reload contract. Test both
+                            integrations independently and together without automatic event reloads.
                         </p>
                     </RoadmapPhase>
                     <RoadmapPhase
@@ -1210,6 +1302,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-4-1"
+                                    status="completed"
                                     title="TODO 4.1. Define simple and cursor results">
                                     <p>
                                         Build on the MVP pagination contract. Define simple and
@@ -1223,6 +1316,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-4-2"
+                                    status="completed"
                                     title="TODO 4.2. Implement simple pagination">
                                     <p>
                                         Implement simple pagination without an exact-count
@@ -1234,6 +1328,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-4-3"
+                                    status="completed"
                                     title="TODO 4.3. Validate cursor order and scope">
                                     <p>
                                         Before executing a cursor query, validate a supported unique
@@ -1249,6 +1344,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-4-4"
+                                    status="completed"
                                     title="TODO 4.4. Implement cursor traversal and recovery">
                                     <p>
                                         Implement cursor traversal, tamper checks, expiration, and
@@ -1261,6 +1357,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-4-5"
+                                    status="completed"
                                     title="TODO 4.5. Define optional exact-count costs">
                                     <p>
                                         Add optional exact counts with a documented cost policy.
@@ -1272,6 +1369,7 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-4-6"
+                                    status="completed"
                                     title="TODO 4.6. Verify cursor behavior across changes">
                                     <p>
                                         Test ties, opposite sort directions, insertion before and
@@ -1286,12 +1384,15 @@ defineProps({
                             </li>
                         </ol>
                         <p>
-                            Exit when the tests distinguish deterministic ordering from snapshot
-                            consistency. Cursor results never fabricate page numbers, totals, or
-                            last-page navigation. Unsupported cursor navigation remains null and its
-                            actions remain unavailable. Tampering and scope changes cannot reuse an
-                            invalid cursor. Opaque callback presets remain offset-only; field cursor
-                            order passes verified unique, extractable-order cases. Unsupported local
+                            Acceptance complete. Simple and cursor pagination passed public routes,
+                            Collection and native database conformance, nullable Vue and packed
+                            consumers, and production browser history and recovery checks. Exit when
+                            the tests distinguish deterministic ordering from snapshot consistency.
+                            Cursor results never fabricate page numbers, totals, or last-page
+                            navigation. Unsupported cursor navigation remains null and its actions
+                            remain unavailable. Tampering and scope changes cannot reuse an invalid
+                            cursor. Opaque callback presets remain offset-only; field cursor order
+                            passes verified unique, extractable-order cases. Unsupported local
                             actions preserve both requested state and paging mode.
                         </p>
                     </RoadmapPhase>
@@ -1302,59 +1403,65 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-5-1"
+                                    status="completed"
                                     title="TODO 5.1. Define infinite-loading boundaries">
                                     <p>
-                                        After request-generation safety and the chosen pagination
-                                        variant pass their gates, define append boundaries, row
-                                        identity, refresh reset, and URL window restoration.
-                                        Infinite loading must respect that variant's actual
-                                        navigation capabilities.
+                                        Completed mode-owned append boundaries and lossless row
+                                        occurrences. The accumulated window follows offset, simple,
+                                        or cursor navigation, preserves aligned identity and action
+                                        metadata, and retains its starting URL.
                                     </p>
                                 </RoadmapItem>
                             </li>
                             <li>
                                 <RoadmapItem
                                     id="todo-5-2"
+                                    status="completed"
                                     title="TODO 5.2. Serialize append and recovery">
                                     <p>
-                                        Implement one serialized append through request completion
-                                        and Vue rendering. Ignore stale generations and handle
-                                        disposal, changed criteria, failure, and explicit retry
-                                        before attaching observers.
+                                        Completed one serialized append through request acceptance,
+                                        URL publication, Vue rendering, and buffered live replay.
+                                        Stale work, changed criteria, disposal, failed boundaries,
+                                        and explicit retry have public behavior regressions.
                                     </p>
                                 </RoadmapItem>
                             </li>
                             <li>
                                 <RoadmapItem
                                     id="todo-5-3"
+                                    status="completed"
                                     title="TODO 5.3. Add vertical observation">
                                     <p>
-                                        Add the opt-in Y observer with an explicit scroll root and a
-                                        bounded automatic-fill policy. Repeated callbacks at the
-                                        same boundary must request one page.
+                                        Completed opt-in vertical observation with a contained
+                                        explicit root and sentinel. A visibility episode permits at
+                                        most two automatic appends, and repeated callbacks share the
+                                        admitted boundary without refilling that budget.
                                     </p>
                                 </RoadmapItem>
                             </li>
                             <li>
                                 <RoadmapItem
                                     id="todo-5-4"
+                                    status="completed"
                                     title="TODO 5.4. Add horizontal observation">
                                     <p>
-                                        Add the opt-in X observer using the verified append
-                                        lifecycle. Test a real horizontal scroll root and overflow
-                                        instead of assuming that the Y geometry applies.
+                                        Completed opt-in horizontal observation using the same
+                                        guarded lifecycle. Real overflowing horizontal roots, root
+                                        and sentinel replacement, rendered records, and scroll
+                                        preservation pass in desktop and mobile browser layouts.
                                     </p>
                                 </RoadmapItem>
                             </li>
                             <li>
                                 <RoadmapItem
                                     id="todo-5-5"
+                                    status="completed"
                                     title="TODO 5.5. Verify refresh and URL window restoration">
                                     <p>
-                                        Connect the documented refresh reset and URL window
-                                        restoration. Verify both axes, changed criteria, failures,
-                                        and retries in the browser without silently deduplicating
-                                        joined rows.
+                                        Completed first-window refresh and saved-start URL
+                                        restoration. Browser checks cover both axes, criteria,
+                                        failures, retries, Back and Forward, neighboring parameters,
+                                        and joined row occurrences without silent deduplication.
                                     </p>
                                 </RoadmapItem>
                             </li>
@@ -1365,6 +1472,12 @@ defineProps({
                             silently deduplicated, and browser tests verify real scroll roots and
                             rendered records in both axes.
                         </p>
+                        <p>
+                            Acceptance complete. All five guarded infinite-loading cards passed
+                            package, consuming documentation, packed consumer, and production
+                            browser gates. The complete prior browser chain also passed. Full
+                            accumulated-window restoration remains a later capability.
+                        </p>
                     </RoadmapPhase>
                     <RoadmapPhase
                         id="phase-6-add-source-specific-comparison-capabilities"
@@ -1373,54 +1486,60 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-6-1"
+                                    status="completed"
                                     title="TODO 6.1. Define Collection comparison modes">
                                     <p>
-                                        After shared declaration validation and literal comparison
-                                        behavior are stable, specify Collection comparison modes and
-                                        locale behavior with accented and numeric text. Keep
-                                        sortTypes distinct from search matchTypes and fixed global
-                                        target rules. Test each mode in the bound Collection
-                                        driver's profile.
+                                        Completed explicit Collection comparison contracts,
+                                        including optional ICU locale ordering for String values.
+                                        Accented and numeric-looking text, canonical equivalents,
+                                        null placement, stable ties, and literal matching are
+                                        verified separately. Native cursor ordering remains
+                                        unchanged.
                                     </p>
                                 </RoadmapItem>
                             </li>
                             <li>
                                 <RoadmapItem
                                     id="todo-6-2"
+                                    status="completed"
                                     title="TODO 6.2. Define optional full-text capabilities">
                                     <p>
-                                        For each optional database full-text capability, define
-                                        required server versions and extensions, index setup, input
-                                        handling, ranking, and its supported pagination contract
-                                        before implementation. Probe the execution connection and
-                                        distinguish an absent feature from a failed catalog read.
+                                        Completed PostgreSQL plain-text full-text filtering with an
+                                        explicit configuration, optional expression-index guidance,
+                                        bound UTF-8 input, filter-only relevance, scoped counts, and
+                                        offset, simple, and native cursor paging. Actual
+                                        execution-PDO probes distinguish absence from failure.
+                                        MySQL, SQLite, and Collection full-text remain unavailable.
                                     </p>
                                 </RoadmapItem>
                             </li>
                             <li>
                                 <RoadmapItem
                                     id="todo-6-3"
+                                    status="completed"
                                     title="TODO 6.3. Evaluate bounded regex support">
                                     <p>
-                                        Evaluate regex separately with declared operators, bounded
-                                        input and execution, and explicit engine requirements.
-                                        Reject unsupported operations without loading SQL results
-                                        into memory. Test a supported filter followed by an
-                                        unsupported regex.
+                                        Completed the bounded-regex evaluation. Arbitrary regex
+                                        remains unavailable because input caps and engine work
+                                        limits do not establish the required execution bound. A
+                                        valid filter followed by forged regex is rejected before
+                                        calling source(), with no SQL-to-PHP fallback.
                                     </p>
                                 </RoadmapItem>
                             </li>
                             <li>
                                 <RoadmapItem
                                     id="todo-6-4"
+                                    status="completed"
                                     title="TODO 6.4. Publish verified comparison capabilities">
                                     <p>
-                                        Publish the tested capability matrix and expose only
-                                        verified controls. Record source-specific semantics and
-                                        failure examples, without claiming equivalent behavior
-                                        across different comparison engines. Verify that stale
-                                        client metadata cannot enable a disallowed operation or
-                                        combination.
+                                        Published focused Collection and PostgreSQL guides and the
+                                        verified source matrix. Functional public-API demos cover
+                                        fluent, attribute, configuration, and fixed global
+                                        declarations. Exact policy metadata, finite nullable
+                                        controls, Resource-independent row types, stale controls,
+                                        and unsupported combinations pass runtime and packed Vue
+                                        consumer checks.
                                     </p>
                                 </RoadmapItem>
                             </li>
@@ -1441,55 +1560,74 @@ defineProps({
                             <li>
                                 <RoadmapItem
                                     id="todo-7-1"
+                                    status="completed"
                                     title="TODO 7.1. Define independent research questions">
                                     <p>
-                                        After the source, ordering, and pagination contracts are
-                                        verified, define separate research questions for vector
-                                        retrieval and snapshot consistency. Neither experiment
-                                        blocks the earlier phases or requires the other.
+                                        Completed separate research questions for prepared vector
+                                        retrieval and persisted pagination consistency. Native
+                                        engine feasibility and public package support are evaluated
+                                        independently. Neither experiment blocks the earlier
+                                        delivered phases.
                                     </p>
                                 </RoadmapItem>
                             </li>
                             <li>
                                 <RoadmapItem
                                     id="todo-7-2"
+                                    status="completed"
                                     title="TODO 7.2. Evaluate PostgreSQL vector retrieval">
                                     <p>
-                                        Evaluate PostgreSQL vector retrieval using finite prepared
-                                        vectors on a declared column with known dimensions and
-                                        metric. Test ranking, paging, authorization, missing
-                                        pgvector, and a configured MySQL driver without a vector
-                                        implementation. Only an implemented driver with a passing
-                                        profile may advertise it.
+                                        Completed native PostgreSQL vector-column experiments with
+                                        pgvector 0.8.7, finite dimension-three prepared vectors,
+                                        exact L2 ranking, scoped counts, offset pages, simple
+                                        lookahead, revocation, native input rejection, and a
+                                        configured MySQL driver without a vector implementation.
+                                        Public vector retrieval remains deferred until a verified
+                                        Dapter driver, typed rank and cursor contract, and operating
+                                        cost are established.
                                     </p>
                                 </RoadmapItem>
                             </li>
                             <li>
                                 <RoadmapItem
                                     id="todo-7-3"
+                                    status="completed"
                                     title="TODO 7.3. Compare high-water limits and snapshots">
                                     <p>
-                                        Compare high-water limits with a persisted snapshot design
-                                        under insertion, update, and deletion. Measure the storage,
-                                        expiration, authorization, and recovery requirements of any
-                                        proposed snapshot contract.
+                                        Completed nine mutation scenarios comparing high-water
+                                        limits, persisted keys, and frozen output. Committed
+                                        independent sessions verify inserts, updates, deletion,
+                                        revocation, expiry, and recovery. Identity reuse exposes an
+                                        unsafe primary-key-only authorization boundary. Storage
+                                        observations describe one six-entry capture, not a
+                                        production capacity estimate.
                                     </p>
                                 </RoadmapItem>
                             </li>
                             <li>
                                 <RoadmapItem
                                     id="todo-7-4"
+                                    status="completed"
                                     title="TODO 7.4. Record evidence and select capabilities">
                                     <p>
-                                        Record the evidence and adopt only capabilities whose
-                                        correctness, cost, and operational requirements have been
-                                        demonstrated. Update this proposal before scheduling a new
-                                        implementation phase, or record why the experiment is
-                                        deferred.
+                                        Recorded reproducible CLI experiments, sanitized native
+                                        results, current unsupported-request demos, and explicit
+                                        adoption gates. Public vector and snapshot APIs remain
+                                        deferred. Generation identity, authenticated query and
+                                        serializer binding, retention, quotas, cleanup, and
+                                        demonstrated operating cost require a later implementation
+                                        contract.
                                     </p>
                                 </RoadmapItem>
                             </li>
                         </ol>
+                        <p>
+                            Acceptance complete. All four research cards have native evidence and
+                            documented outcomes. Read the
+                            <DocsLink :href="findNavigationItem(navigation, 'dapter/research').href"
+                                >focused research findings</DocsLink
+                            >. Public vector and snapshot APIs remain deferred.
+                        </p>
                         <p>
                             Exit when an experiment either supports a concrete feature contract or
                             records a reason to defer it. No vector or snapshot claim is required to
@@ -1544,10 +1682,18 @@ defineProps({
                     The <code>1.0.0-alpha.1</code> source preview contains PHP package identity, a
                     service provider and facade, a frontend <code>version</code> export, strict
                     TypeScript tooling, and distribution checks. Its current local checkout adds
-                    Collection and ordinary SQLite DataSources, offset paging, paging and access
-                    options and attributes, guard and Gate checks, and the headless Vue DataAdapter.
-                    Filtering, search, selectable sorting, other drivers, and advanced integrations
-                    remain planned.
+                    Collection and ordinary SQLite, MySQL, and PostgreSQL DataSources, offset
+                    paging, paging and access options and attributes, guard and Gate checks, and the
+                    headless Vue DataAdapter. Explicit backend v2 adds declared search, typed scalar
+                    and multiple filters, single-field ordering, inherited declaration removal,
+                    trusted source aliases, and driver registration. The Vue adapter defaults to
+                    protocol v1 and supports explicit protocol 2 field controls, definition
+                    decoding, URL history, and scoped scrolling. Composed global reads add finite
+                    enum-aware filters, search grouping, bounded multi-order, opaque presets, fixed
+                    prefixes, result identity ties, and custom counts. Native authorized actions
+                    share the same handle under either read version. Optional Resources preserve
+                    both read versions. Registered committed live replacements and polling use
+                    explicit protocol 2 owners. Simple and cursor pagination are implemented.
                 </p>
                 <p>
                     The package declares PHP <code>^8.5</code>, Illuminate Support
@@ -1556,8 +1702,8 @@ defineProps({
                     <code>^3.0.3</code>, and TypeScript <code>^5.8.3</code>. These declarations are
                     distinct from installed versions and future feature support. Inertia Laravel
                     supplies the Laravel framework components used by the initial pipeline. Runtime
-                    frontend peers now declare Vue, Inertia Vue and Core, and Ziggy. Ordinary SQLite
-                    is the only SQL driver supported by this slice.
+                    frontend peers declare Vue, Inertia Vue and Core, and Ziggy. Ordinary SQLite,
+                    MySQL, and PostgreSQL connections bind their native drivers automatically.
                 </p>
                 <p>
                     The functional listing guide is the reference for the delivered public API. This
@@ -1613,13 +1759,14 @@ defineProps({
                 <p>
                     The implementation pass subsequently installed Dapter through a local Composer
                     path repository as <code>1.x-dev</code>, then installed and refreshed its
-                    frontend package. This is an unpublished local preview. Registry access remained
-                    unavailable, so the compatible registry refresh could not establish newer
-                    available versions. Cached dependencies and the local package enabled validation
-                    without relaxing compatibility. The current Composer lock contains local path
-                    metadata and is not portable to a clean standalone consumer. A successful local
-                    installation is not evidence of a public release or a passing standalone
-                    distribution check.
+                    frontend package. Registry access was unavailable during that earlier pass, so
+                    cached dependencies enabled validation without relaxing compatibility. Phase 1
+                    restored portable remote package locations in the canonical lock. Phase 2's
+                    compatible refresh found nothing to update and retained that lock. The current
+                    vendor installation uses temporary Composer path wiring for unpublished Dapter
+                    and Front Awesome previews. Packed standalone consumers and distribution checks
+                    passed separately; a local installation alone is not evidence of a public
+                    release.
                 </p>
                 <p>
                     The normal Composer launcher initially selected a broken Homebrew PHP 8.4 binary
@@ -1649,9 +1796,10 @@ defineProps({
                     Phase 0 records fixtures for the raw JSON boundary, safe numeric tokens,
                     access-denial cleanup, and the driver's complete scoped predicate. The endpoint
                     and Vue phases must prove explicit clears, cold URL restoration, clamped pages,
-                    decoder failures, and initial slot readiness in a consuming application. Phase 3
-                    must test trusted callbacks against scoped fixtures. Phase 3a must prove nested
-                    recipient serialization and guard isolation for replacement-only broadcasts.
+                    decoder failures, and initial slot readiness in a consuming application. The
+                    completed Vue and composed-operation gates now cover these cases and trusted
+                    callbacks against scoped fixtures. Phase 3a must prove nested recipient
+                    serialization and guard isolation for replacement-only broadcasts.
                 </p>
             </ProseSection>
         </div>

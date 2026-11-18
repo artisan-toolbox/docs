@@ -20,7 +20,9 @@ const wrappers = catalog.groups.flatMap((group) =>
     group.components
         .filter(
             (item) =>
-                item.edition === 'Core' && !item.since && !original.has(item.implementation.export),
+                item.edition === 'Core' &&
+                item.implementation.state === 'implemented' &&
+                !original.has(item.implementation.export),
         )
         .map((item) => ({ ...item, group: group.id })),
 );
@@ -39,7 +41,10 @@ enableAutoUnmount(afterEach);
 describe('Core wrapper live examples', () => {
     for (const item of catalog.groups
         .flatMap((group) => group.components)
-        .filter((component) => component.edition === 'Core' && !component.since)) {
+        .filter(
+            (component) =>
+                component.edition === 'Core' && component.implementation.state === 'implemented',
+        )) {
         it(`renders the real ${item.name} public wrapper in its live example`, async () => {
             const wrapper = mount(await demoFor(item.implementation.export));
             if (
@@ -118,7 +123,11 @@ describe('Core wrapper live examples', () => {
             expect(wrapper.get('output').text()).toContain(
                 name === 'TagInput' ? 'example' : String(value),
             );
-            await wrapper.get('wa-button').trigger('click');
+            if (name === 'OtpInput') {
+                await wrapper.get('form').trigger('reset');
+            } else {
+                await wrapper.get('wa-button').trigger('click');
+            }
             expect(wrapper.get('output').text()).toBe(output);
         });
     }

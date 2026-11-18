@@ -1,0 +1,265 @@
+{
+    "isDapterImplementation": false,
+    "schemaWrites": 0,
+    "dataWrites": 0,
+    "sessionWrites": 0,
+    "metric": "l2",
+    "dimensions": 3,
+    "scenario": "baseline",
+    "invalidPreparedInputs": {
+        "empty": {
+            "status": "rejected_before_query",
+            "queries": 0
+        },
+        "wrong_dimensions": {
+            "status": "rejected_before_query",
+            "queries": 0
+        },
+        "too_many_dimensions": {
+            "status": "rejected_before_query",
+            "queries": 0
+        },
+        "null_vector": {
+            "status": "rejected_before_query",
+            "queries": 0
+        },
+        "null_coordinate": {
+            "status": "rejected_before_query",
+            "queries": 0
+        },
+        "boolean": {
+            "status": "rejected_before_query",
+            "queries": 0
+        },
+        "numeric_string": {
+            "status": "rejected_before_query",
+            "queries": 0
+        },
+        "nested": {
+            "status": "rejected_before_query",
+            "queries": 0
+        },
+        "sparse": {
+            "status": "rejected_before_query",
+            "queries": 0
+        },
+        "object": {
+            "status": "rejected_before_query",
+            "queries": 0
+        },
+        "text": {
+            "status": "rejected_before_query",
+            "queries": 0
+        },
+        "nan": {
+            "status": "rejected_before_query",
+            "queries": 0
+        },
+        "infinity": {
+            "status": "rejected_before_query",
+            "queries": 0
+        },
+        "negative_infinity": {
+            "status": "rejected_before_query",
+            "queries": 0
+        },
+        "outside_research_bound": {
+            "status": "rejected_before_query",
+            "queries": 0
+        }
+    },
+    "preparedInput": [0, 0, 0],
+    "executionIdentity": {
+        "version": "18.6 (Homebrew)",
+        "verifiedSamePdo": true
+    },
+    "columnAdmission": {
+        "extversion": "0.8.7",
+        "extension_schema": "public",
+        "type_schema": "public",
+        "type_name": "vector",
+        "dimensions": 3,
+        "formatted_type": "vector(3)",
+        "schema_usage": true,
+        "table_select": true,
+        "status": "passed_same_pdo"
+    },
+    "fixtureIndexes": [
+        {
+            "indexname": "records_pkey",
+            "indexdef": "CREATE UNIQUE INDEX records_pkey ON dapter_phase7_vector.records USING btree (id)"
+        }
+    ],
+    "rankedRows": [
+        {
+            "id": 10,
+            "distance": 0
+        },
+        {
+            "id": 20,
+            "distance": 1
+        },
+        {
+            "id": 30,
+            "distance": 1
+        },
+        {
+            "id": 40,
+            "distance": 2
+        },
+        {
+            "id": 50,
+            "distance": 3
+        }
+    ],
+    "scopedCounts": {
+        "total": 6,
+        "filtered": 5
+    },
+    "offsetPages": [[10, 20], [30, 40], [50]],
+    "simpleLookahead": {
+        "isDapterPaging": false,
+        "pages": [
+            {
+                "ids": [10, 20],
+                "has_next": true,
+                "total": null,
+                "filtered": null
+            },
+            {
+                "ids": [30, 40],
+                "has_next": true,
+                "total": null,
+                "filtered": null
+            },
+            {
+                "ids": [50],
+                "has_next": false,
+                "total": null,
+                "filtered": null
+            }
+        ]
+    },
+    "exactRankSeek": {
+        "boundary": {
+            "distance": 1,
+            "id": 20
+        },
+        "rows": [
+            {
+                "id": 30,
+                "distance": 1
+            },
+            {
+                "id": 40,
+                "distance": 2
+            },
+            {
+                "id": 50,
+                "distance": 3
+            }
+        ],
+        "isDapterCursor": false,
+        "isSealedToken": false
+    },
+    "nonzeroPreparedRanking": {
+        "query": [1, 0, 0],
+        "rows": [
+            {
+                "id": 20,
+                "distance": 0
+            },
+            {
+                "id": 10,
+                "distance": 1
+            },
+            {
+                "id": 30,
+                "distance": 2
+            },
+            {
+                "id": 40,
+                "distance": 2.23606797749979
+            },
+            {
+                "id": 50,
+                "distance": 3.1622776601683795
+            }
+        ]
+    },
+    "explain": [
+        {
+            "Plan": {
+                "Node Type": "Sort",
+                "Parallel Aware": false,
+                "Async Capable": false,
+                "Disabled": false,
+                "Sort Key": ["ranked.distance", "ranked.id"],
+                "Plans": [
+                    {
+                        "Node Type": "Seq Scan",
+                        "Parent Relationship": "InitPlan",
+                        "Subplan Name": "CTE authorized",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "Relation Name": "records",
+                        "Alias": "records",
+                        "Disabled": false,
+                        "Filter": "(allowed AND (tenant_id = '1'::bigint))"
+                    },
+                    {
+                        "Node Type": "CTE Scan",
+                        "Parent Relationship": "InitPlan",
+                        "Subplan Name": "CTE ranked",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "CTE Name": "authorized",
+                        "Alias": "authorized",
+                        "Disabled": false,
+                        "Filter": "(embedding IS NOT NULL)"
+                    },
+                    {
+                        "Node Type": "CTE Scan",
+                        "Parent Relationship": "Outer",
+                        "Parallel Aware": false,
+                        "Async Capable": false,
+                        "CTE Name": "ranked",
+                        "Alias": "ranked",
+                        "Disabled": false
+                    }
+                ]
+            }
+        }
+    ],
+    "explainBoundary": "This controlled table has only a primary key index. The plan is evidence for this fixture, not a latency, throughput, ANN, or production cost claim.",
+    "nativeTypeRejection": {
+        "wrong_dimensions": {
+            "sqlstate": "22000",
+            "status": "rejected"
+        },
+        "nan": {
+            "sqlstate": "22000",
+            "status": "rejected"
+        },
+        "infinity": {
+            "sqlstate": "22000",
+            "status": "rejected"
+        },
+        "negative_infinity": {
+            "sqlstate": "22000",
+            "status": "rejected"
+        }
+    },
+    "configuredMySql": {
+        "identity": {
+            "version": "8.4.11"
+        },
+        "status": "unsupported_before_vector_sql",
+        "vectorSqlQueries": 0,
+        "metadataQueries": 1,
+        "isDapterImplementation": false
+    },
+    "status": "passed_native_column_fixture",
+    "queryCount": 19,
+    "authorizationBoundary": "SQL tenant_id and allowed predicates are reapplied on every query. Root owns any between-run revocation. No Laravel Gate, Dapter driver, response, or token is tested here."
+}

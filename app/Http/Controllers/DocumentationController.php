@@ -50,6 +50,10 @@ final class DocumentationController extends Controller
             $response->with('mosaicastDemo', resolve(DemoConfiguration::class)->props($request));
         }
 
+        if ($slug === PageSlug::DapterPostgresqlFullText) {
+            $response->with('comparisonDemoEnabled', (bool) config('docs-dapter-comparisons.enabled'));
+        }
+
         return $response;
     }
 }

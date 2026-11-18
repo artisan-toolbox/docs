@@ -32,7 +32,22 @@ defineProps({
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/roadmap').href"
                         >roadmap</DocsLink
                     >
-                    owns delivery phases, task statuses, and their acceptance gates.
+                    owns delivery phases, task statuses, and their acceptance gates. Delivered
+                    backend v2 field operations have separate working search, filter, order,
+                    declaration, and registration guides. Explicit protocol 2 also has
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/vue-controls').href"
+                        >working Vue controls</DocsLink
+                    >, independent definition decoding, URL state, and targeted scroll guides.
+                    Undeclared sources retain unidentified records and channel null. Native actions
+                    and composed global reads also have working guides. Declared result identities
+                    provide deterministic order without adding durable live-record metadata.
+                    Historical examples can differ from delivered APIs. Resources, authorized live
+                    replacements, revision races, and polling now have focused working guides.
+                    Simple and cursor paging are delivered through explicit protocol 2 source-paging
+                    owners. Guarded infinite windows also have focused
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/infinite-loading').href"
+                        >working guides</DocsLink
+                    >.
                 </p>
             </ProseSection>
             <ProseSection id="design-boundaries" title="Read one design topic at a time">

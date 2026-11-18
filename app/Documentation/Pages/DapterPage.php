@@ -16,7 +16,7 @@ final readonly class DapterPage extends Page
             slug: self::SLUG,
             component: 'docs/dapter/Index',
             title: 'Dapter',
-            description: 'Headless Vue listings with Collection and SQLite Eloquent sources, offset paging, and server-owned access. Unpublished local preview.',
+            description: 'Headless Vue listings, native actions, and declared queries for Collections, SQLite, MySQL, and PostgreSQL. Unpublished local preview.',
             sourcePath: 'resources/js/pages/docs/dapter/Index.vue',
             package: new DapterPackage,
         );

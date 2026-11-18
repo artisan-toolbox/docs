@@ -53,11 +53,30 @@ const users = useDataAdapter('Users');
                     >
                     records acceptance gates and progress.
                 </p>
+                <p>
+                    Guarded infinite windows are delivered in the
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/infinite-loading').href"
+                        >vertical append guide</DocsLink
+                    >,
+                    <DocsLink
+                        :href="
+                            findNavigationItem(navigation, 'dapter/horizontal-infinite-loading')
+                                .href
+                        "
+                        >horizontal guide</DocsLink
+                    >, and
+                    <DocsLink
+                        :href="findNavigationItem(navigation, 'dapter/infinite-recovery').href"
+                        >recovery guide</DocsLink
+                    >. These working guides own the public API and current limits.
+                </p>
             </ProseSection>
             <ProseSection id="pagination-and-consistency" title="Pagination and consistency">
                 <p>
                     Use distinct typed pagination variants. Numbered pagination is the MVP default.
-                    Simple and cursor pagination are subsequent capabilities.
+                    Simple and cursor pagination are delivered in the unpublished preview. Use the
+                    focused working guides for their public APIs. Guarded infinite windows are also
+                    delivered through explicit protocol 2 owners.
                 </p>
                 <DocsTable caption="Pagination modes and available navigation">
                     <thead>
@@ -98,15 +117,18 @@ const users = useDataAdapter('Users');
                     </tbody>
                 </DocsTable>
                 <p>
-                    This complete accepted-result union is proposed for protocol 2. Production still
-                    exports only offset pagination. Wire results contain metadata, while local slot
-                    projections add navigation functions. Each accepted result couples the requested
-                    and returned paging mode. Exact counts for simple or cursor mode require a
-                    separately specified extension and are not accepted by this initial union.
+                    This historical design union describes accepted mode coupling. The unpublished
+                    preview now delivers simple and cursor pagination with an explicit source-paging
+                    opt-in. Wire results contain metadata, while local slot projections add
+                    navigation functions. Each accepted result couples the requested and returned
+                    paging mode. The explicit exactCounts server policy supplies the counts
+                    discriminant for simple and cursor modes. The working wire keeps size choices in
+                    capabilities, while this historical projection keeps its authored per_page
+                    control shape.
                 </p>
                 <CodeExample
                     language="typescript"
-                    label="Planned discriminated paging contract, unavailable"
+                    label="Historical discriminated paging design"
                     :code="pagingTypes" />
                 <p>
                     <code>total</code> counts the authorized base source before selectable filters
@@ -141,14 +163,16 @@ const users = useDataAdapter('Users');
                         "
                         >checked query reference</DocsLink
                     >
-                    verifies these proposed cases. In the delivered preview there are no managed
-                    selections, so <code>filtered</code> equals <code>total</code>. The current
-                    drivers reuse one count. Distinct filtered execution remains in its operation
-                    phase, rather than being simulated by a second identical query.
+                    verifies the broader proposed cases. Delivered backend v2 field operations now
+                    produce distinct base and filtered counts in real drivers. A zero-match
+                    selection preserves the base total and returns filtered zero. With no active
+                    operations the drivers reuse the base count. The Vue adapter's v1 listing
+                    contract continues to return equal counts.
                 </p>
                 <p>
-                    Optional exact counts can later be requested for simple or cursor mode through a
-                    server declaration. They do not enable direct cursor page jumps. Unknown counts
+                    Optional exact counts are requested for simple or cursor mode through
+                    StoreOptions::exactCounts(), ExactCounts, or dapter.paging.exact_counts, which
+                    defaults to false. They do not enable direct cursor page jumps. Unknown counts
                     remain null, never zero or an estimate presented as exact. Separate count and
                     data queries describe a live view and are not a transactionally consistent
                     snapshot by default.
@@ -213,15 +237,15 @@ const users = useDataAdapter('Users');
                     The built-in parser validates the versioned envelope, dense row list, paging,
                     state, capabilities, and wire values from unknown. Source-only rows have type
                     <code>unknown</code>. Supply <code>decodeRow</code> to validate each
-                    post-Resource row. A proposed <code>decodeDefinition</code> metadata boundary
-                    belongs to phase 2.1 and is unavailable in the current package. That future
-                    decoder narrows operation types independently of row decoding. Give it a
-                    detached, deeply readonly copy of the parsed metadata. Keep the authoritative
-                    snapshot private. Validate the returned narrowing against that original and
-                    detach the accepted projection before exposing it. Reject an incompatible
-                    decoder result before committing any state. Each row retains its identity
-                    position. Actions use the original authorized metadata. A decoder cannot add
-                    permissions or broaden allowed values.
+                    post-Resource row. The delivered <code>decodeDefinition</code> metadata boundary
+                    narrows operation types independently of row decoding. The working definition
+                    guide documents the actual public signature, while the type fixture below
+                    remains a design reference. Give it a detached, deeply readonly copy of the
+                    parsed metadata. Keep the authoritative snapshot private. Validate the returned
+                    narrowing against that original and detach the accepted projection before
+                    exposing it. Reject an incompatible decoder result before committing any state.
+                    Each row retains its identity position. Actions use the original authorized
+                    metadata. A decoder cannot add permissions or broaden allowed values.
                 </p>
                 <CodeExample
                     language="typescript"
@@ -420,10 +444,11 @@ const users = useDataAdapter('Users');
                     The following pure reference specifies protocol 2 transitions. Protocol 1 is the
                     only currently accepted wire version. The operation selections and pagination
                     variants are an incompatible draft grammar and require protocol 2 delivery in
-                    later phases. Current endpoints reject version 2. These files add no runtime
-                    version, package export, HTTP transport, reactive store, or data engine. The
-                    reference assumes operands and authorization have already passed boundary
-                    validation. Its tests verify state transitions, not query execution.
+                    later phases. The current v2 endpoint supports offset field reads and rejects
+                    these advanced paging states. These files add no runtime version, package
+                    export, HTTP transport, reactive store, or data engine. The reference assumes
+                    operands and authorization have already passed boundary validation. Its tests
+                    verify state transitions, not query execution.
                 </p>
                 <CodeExample
                     language="typescript"
@@ -631,8 +656,9 @@ const users = useDataAdapter('Users');
                     State preservation by action
                 </h3>
                 <p>
-                    This is Dapter's proposed contract, unavailable in the current package. A real
-                    local change preserves unrelated criteria and page size. The default position
+                    The current offset preview preserves unrelated criteria and page size on a local
+                    change. The matrix records cursor and infinite-window behavior. Guarded infinite
+                    windows are delivered through explicit protocol 2 owners. The default position
                     reset clears cursor history and accumulated infinite rows. The optional
                     <code>page: 'preserve'</code> invocation hint works only with exact-count
                     ordinary offset pagination and infinite mode disabled. Invalid retained pages
@@ -804,19 +830,18 @@ const users = useDataAdapter('Users');
                 <p>
                     The existing <code>ErrorKind</code> enum encodes <code>access</code>,
                     <code>validation</code>, <code>unsupported_operation</code>, or
-                    <code>server</code> in <code>error.kind</code>. The separate planned
-                    cursor_expired kind is unavailable until cursor support ships. That phase must
-                    extend the public AdapterError classification and add the explicit restart
-                    outcome; the checked references reuse today's public error and listing outcome
-                    types without pretending that extension exists. Malformed JSON returns 400. A
-                    well-formed request with an invalid shape or undeclared operation returns 422
-                    with a stable validation code before driver listing reads. Each denial uses the
-                    access kind, including a deliberate 5xx denial. Unknown and cloaked sources
-                    return an identical generic 404. If an unclassified response has status 401,
-                    403, 404, or 419, clear protected state. Treat a session redirect to a login
-                    page as access loss. Never accept an HTML page as data. Expired cursors return
-                    409 with an explicit restart action. Invalid or mismatched cursors return 422.
-                    An unsupported optional store operation returns 422 with kind
+                    <code>server</code> in <code>error.kind</code>. The delivered cursor_expired
+                    kind returns HTTP 409 with recovery restart. The public AdapterError preserves
+                    this typed recovery. A reader explicitly calls First to restart while keeping
+                    criteria, order, and size. Malformed JSON returns 400. A well-formed request
+                    with an invalid shape or undeclared operation returns 422 with a stable
+                    validation code before driver listing reads. Each denial uses the access kind,
+                    including a deliberate 5xx denial. Unknown and cloaked sources return an
+                    identical generic 404. If an unclassified response has status 401, 403, 404, or
+                    419, clear protected state. Treat a session redirect to a login page as access
+                    loss. Never accept an HTML page as data. Expired cursors return 409 with an
+                    explicit restart action. Invalid or mismatched cursors return 422. An
+                    unsupported optional store operation returns 422 with kind
                     <code>unsupported_operation</code> even when stale metadata advertised it.
                     Configuration failures and unexpected query errors return a sanitized 500
                     response without SQL, model paths, or secrets. Laravel middleware failures such

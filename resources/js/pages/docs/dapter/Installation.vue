@@ -11,6 +11,14 @@ defineProps({
     page: { type: Object, required: true },
     navigation: { type: Array, required: true },
 });
+const routeCheck = `import { route } from 'ziggy-js';
+
+console.log(route().has('dapter.data'));`;
+const bladeRoutes = `@routes
+@vite('resources/js/app.ts')`;
+const generatedRoutes = `import { Ziggy } from './ziggy.js';
+
+globalThis.Ziggy = Ziggy;`;
 const backend = `use ArtisanToolbox\\Dapter\\Dapter;
 
 dump(Dapter::VERSION); // "1.0.0-alpha.1"`;
@@ -35,11 +43,10 @@ export default defineConfig({
             <Requirements :items="page.requirements" />
             <ProseSection id="starting-environment" title="Prepare the local checkout">
                 <p>
-                    Use an existing Laravel application with Inertia and a TypeScript-capable Vite
-                    build. Place Dapter on its <code>1.x</code> branch in a sibling directory named
-                    <code>dapter</code>. This procedure installs unpublished source for local
-                    development. Collection and ordinary SQLite offset listing are implemented in
-                    this checkout. Other database drivers and query operations remain planned.
+                    Use an existing Laravel application with Inertia, Vue, and a TypeScript-capable
+                    Vite build. Place the unpublished <code>1.x</code> checkout in a sibling
+                    directory named <code>dapter</code>. Run the installation commands from your
+                    application root.
                 </p>
             </ProseSection>
             <ProseSection id="backend" title="Install the backend first">
@@ -48,7 +55,20 @@ export default defineConfig({
                     :package="page.package"
                     command="local-preview"
                     label="Connect the local Composer package" />
-                <p>Laravel discovers the provider automatically. Check the installed identity:</p>
+                <p>
+                    The Vue adapter uses Ziggy to find Laravel's read route. If your application
+                    does not already include <code>tightenco/ziggy</code> 2.x, install it now.
+                </p>
+                <InstallCommand
+                    :package="page.package"
+                    command="ziggy"
+                    label="Install Ziggy for Laravel" />
+                <p>
+                    Laravel discovers the provider automatically. Composer also installs the
+                    normalizer polyfill used by default literal search. PHP intl is optional for
+                    literal folding and required only for explicit ICU locale ordering. Check the
+                    installed identity:
+                </p>
                 <CodeExample language="php" label="Check the backend identity" :code="backend" />
                 <p>The dump displays <code>1.0.0-alpha.1</code>.</p>
             </ProseSection>
@@ -86,12 +106,47 @@ export default defineConfig({
                     Use <code>resolveJsonModule: true</code> and Vue-aware TypeScript checking. The
                     frontend peers are Vue 3.5.40 or later within 3.x, Inertia Vue and Core 3.0.3 or
                     later within 3.x, and Ziggy 2.6.5 or later within 2.x. Inertia 3.0.3 supplies
-                    the HTTP exception callback used to classify failed reads. After refreshing
-                    copied frontend dependency types, restart the Vite development process before
-                    checking the updated APIs.
+                    the HTTP exception callback used to classify failed reads. After refreshing the
+                    copied Composer-delivered frontend package, restart the Vite development process
+                    before checking updated APIs or public contract resources. An active module
+                    cache can keep older package bytes after the files have changed.
                 </p>
             </ProseSection>
-            <ProseSection id="frontend-check" title="Verify the frontend identity">
+            <ProseSection id="read-route" title="Connect the read route">
+                <p>
+                    Keep Laravel's web middleware group, session, and CSRF protection active. The
+                    Vue adapter posts to <code>dapter.data</code> through Ziggy. If you filter Ziggy
+                    routes with <code>only</code> or groups, include that name in the routes exposed
+                    to the page. Keep it out of any <code>except</code> list.
+                </p>
+                <p>
+                    In the Inertia root view, usually <code>resources/views/app.blade.php</code>,
+                    add <code>@routes</code> before the existing Vite entry. Keep your own entry
+                    path. This makes the route map available to Dapter's imported Ziggy helper.
+                </p>
+                <CodeExample
+                    language="blade"
+                    label="Expose Laravel routes before Vite"
+                    :code="bladeRoutes" />
+                <p>
+                    If you already generate <code>resources/js/ziggy.js</code> with
+                    <code>php artisan ziggy:generate</code>, you can use that file instead of the
+                    Blade directive. Regenerate it after a route change and set the global map in
+                    your Vue entry before mounting the application.
+                </p>
+                <CodeExample
+                    language="js"
+                    label="Use an existing generated route map"
+                    :code="generatedRoutes" />
+                <CodeExample language="js" label="Check the named read route" :code="routeCheck" />
+                <p>
+                    Run the check after configuring Ziggy. It prints <code>true</code> when Dapter
+                    can resolve the read route. Actions use server-generated URLs from authorized
+                    metadata. The <code>dapter.action</code> name does not need to be exposed
+                    through Ziggy.
+                </p>
+            </ProseSection>
+            <ProseSection id="frontend-check" title="Check the installed frontend version">
                 <p>
                     Add this example to the application entry that mounts its existing
                     <code>#app</code> element, then run the application's Vite build:
@@ -104,21 +159,13 @@ export default defineConfig({
             </ProseSection>
             <ProseSection id="next-steps" title="Read your first source">
                 <p>
-                    These identity examples need no published Dapter configuration, authentication,
-                    sessions, workers, or broadcaster. To use the listing API, keep the web session
-                    and CSRF middleware enabled, expose
-                    <code>dapter.data</code>
-                    through Ziggy, and continue with
-                    <DocsLink :href="findNavigationItem(navigation, 'dapter/sources').href"
-                        >Declare a data source</DocsLink
-                    >.
-                </p>
-                <p>
-                    Boost is optional development tooling. See
-                    <DocsLink :href="findNavigationItem(navigation, 'dapter/development').href"
-                        >Develop Dapter</DocsLink
+                    Open
+                    <DocsLink
+                        :href="findNavigationItem(navigation, 'dapter').href + '#first-example'"
+                        >Read the first page</DocsLink
                     >
-                    for contributor checks.
+                    to create a public Collection and display the first ten notebooks. This listing
+                    needs no account, broadcaster, or queue worker.
                 </p>
             </ProseSection>
         </div>

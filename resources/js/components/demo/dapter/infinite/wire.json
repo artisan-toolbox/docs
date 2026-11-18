@@ -1,0 +1,2088 @@
+{
+    "InfiniteSimple": {
+        "version": 2,
+        "data": [
+            {
+                "id": 1,
+                "name": "Notebook 01",
+                "rank": 0,
+                "tenant": 1
+            },
+            {
+                "id": 2,
+                "name": "Notebook 02",
+                "rank": 0,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "simple",
+            "current": 1,
+            "per_page": 2,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": null,
+            "has_previous": false,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "simple",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown"
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "InfiniteSimple2": {
+        "version": 2,
+        "data": [
+            {
+                "id": 3,
+                "name": "Notebook 03",
+                "rank": 1,
+                "tenant": 1
+            },
+            {
+                "id": 4,
+                "name": "Notebook 04",
+                "rank": 1,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 2,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 2,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "simple",
+            "current": 2,
+            "per_page": 2,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": null,
+            "has_previous": true,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "simple",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown"
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "InfiniteSimple3": {
+        "version": 2,
+        "data": [
+            {
+                "id": 5,
+                "name": "Notebook 05",
+                "rank": 2,
+                "tenant": 1
+            },
+            {
+                "id": 6,
+                "name": "Notebook 06",
+                "rank": 2,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 3,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 3,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "simple",
+            "current": 3,
+            "per_page": 2,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": null,
+            "has_previous": true,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "simple",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown"
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "InfiniteSimple4": {
+        "version": 2,
+        "data": [
+            {
+                "id": 7,
+                "name": "Notebook 07",
+                "rank": 3,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 4,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 4,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "simple",
+            "current": 4,
+            "per_page": 2,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": null,
+            "has_previous": true,
+            "has_next": false
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "simple",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown"
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "InfiniteCursor": {
+        "version": 2,
+        "data": [
+            {
+                "id": 1,
+                "name": "Notebook 01",
+                "rank": 0,
+                "tenant": 1
+            },
+            {
+                "id": 2,
+                "name": "Notebook 02",
+                "rank": 0,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": null,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": null,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "cursor",
+            "cursor": null,
+            "per_page": 2,
+            "current": null,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": "eyJpdiI6IjNsTjNVQzZMdWdKSUNLRnV0Y095clE9PSIsInZhbHVlIjoiV3ZyWlJONU1mSE51ejJHeWxDWlEzNDlZai9PZVpkWktpS1MrZENhbk03Y29obms0dS9DUVlpRFN4NEFiOTAzVEsyR2pKVEYzaWN2TkM5cU1SWSsrMm1JZWhOckRXcnBUNG9wakozR1NnbUZhQlBaNnlLMDB2UkpQRHR5L0lmU0FaY3gxOWJvVXdYM3ZTV0YzaHVJTVlFZGg5Sm9zWXZDOThLaUZJcURVeDlWNWs0T0xkcE5QeXhKY1REeExyVkZwbkJ6cWtGMTdRZmFSU21aTDJuSWpJOVVua25KVmEweEw3cUc3Q2dCTjJhWE5vWVBJaXIrSldGT0tRS2p0emRJc3Z1SUtscUZYb09ubXJaZnF6bUVvZFBMeGxicVlxc3prWnBUQXBHSlFCMUczeFl0NDA5STJUT1Q1czhwbHA2MllnZVYydGRjbVlYYzZIWnIzbmtSQWhhMC9Wck56RWJlaTExNGFuVkdaNUdINHhZS1RKZmRnVjNOL3FwSmJiUnp6aWlWNTU3dnNzWm9rS3RFV2tENzNOTEQxb0VtYUFJS2xQa05pMm1nVG5DSWxsb3NSb0VOVGVGa25mMzBrR3h4ZHpSdDV0N1RzTFJaMStjaHVMUElaVE9Hak96bWIyL20zVDJMYXlKYmxsL2tHYXlHd0ViYjh3R2JEcFIyUzBOeVBLd0Q4ZVhFVC9WZUoxN0xUZDh2cHBYNmtwYTNaa1lHZ043VUNVSDNNQ0VFPSIsIm1hYyI6ImMyMGVjZjRmYmI1M2JhOTlkYjkzMGZlMjM5ZTljMzMyNDI4MjZjYzIwOTQ4MmJlY2RiMGNkZTU5MjQ2ZTdmZTkiLCJ0YWciOiIifQ==",
+            "has_previous": false,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "cursor",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown",
+                "expires_after": 900
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "InfiniteCursor2": {
+        "version": 2,
+        "data": [
+            {
+                "id": 3,
+                "name": "Notebook 03",
+                "rank": 1,
+                "tenant": 1
+            },
+            {
+                "id": 4,
+                "name": "Notebook 04",
+                "rank": 1,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": "eyJpdiI6IjNsTjNVQzZMdWdKSUNLRnV0Y095clE9PSIsInZhbHVlIjoiV3ZyWlJONU1mSE51ejJHeWxDWlEzNDlZai9PZVpkWktpS1MrZENhbk03Y29obms0dS9DUVlpRFN4NEFiOTAzVEsyR2pKVEYzaWN2TkM5cU1SWSsrMm1JZWhOckRXcnBUNG9wakozR1NnbUZhQlBaNnlLMDB2UkpQRHR5L0lmU0FaY3gxOWJvVXdYM3ZTV0YzaHVJTVlFZGg5Sm9zWXZDOThLaUZJcURVeDlWNWs0T0xkcE5QeXhKY1REeExyVkZwbkJ6cWtGMTdRZmFSU21aTDJuSWpJOVVua25KVmEweEw3cUc3Q2dCTjJhWE5vWVBJaXIrSldGT0tRS2p0emRJc3Z1SUtscUZYb09ubXJaZnF6bUVvZFBMeGxicVlxc3prWnBUQXBHSlFCMUczeFl0NDA5STJUT1Q1czhwbHA2MllnZVYydGRjbVlYYzZIWnIzbmtSQWhhMC9Wck56RWJlaTExNGFuVkdaNUdINHhZS1RKZmRnVjNOL3FwSmJiUnp6aWlWNTU3dnNzWm9rS3RFV2tENzNOTEQxb0VtYUFJS2xQa05pMm1nVG5DSWxsb3NSb0VOVGVGa25mMzBrR3h4ZHpSdDV0N1RzTFJaMStjaHVMUElaVE9Hak96bWIyL20zVDJMYXlKYmxsL2tHYXlHd0ViYjh3R2JEcFIyUzBOeVBLd0Q4ZVhFVC9WZUoxN0xUZDh2cHBYNmtwYTNaa1lHZ043VUNVSDNNQ0VFPSIsIm1hYyI6ImMyMGVjZjRmYmI1M2JhOTlkYjkzMGZlMjM5ZTljMzMyNDI4MjZjYzIwOTQ4MmJlY2RiMGNkZTU5MjQ2ZTdmZTkiLCJ0YWciOiIifQ==",
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": "eyJpdiI6IjNsTjNVQzZMdWdKSUNLRnV0Y095clE9PSIsInZhbHVlIjoiV3ZyWlJONU1mSE51ejJHeWxDWlEzNDlZai9PZVpkWktpS1MrZENhbk03Y29obms0dS9DUVlpRFN4NEFiOTAzVEsyR2pKVEYzaWN2TkM5cU1SWSsrMm1JZWhOckRXcnBUNG9wakozR1NnbUZhQlBaNnlLMDB2UkpQRHR5L0lmU0FaY3gxOWJvVXdYM3ZTV0YzaHVJTVlFZGg5Sm9zWXZDOThLaUZJcURVeDlWNWs0T0xkcE5QeXhKY1REeExyVkZwbkJ6cWtGMTdRZmFSU21aTDJuSWpJOVVua25KVmEweEw3cUc3Q2dCTjJhWE5vWVBJaXIrSldGT0tRS2p0emRJc3Z1SUtscUZYb09ubXJaZnF6bUVvZFBMeGxicVlxc3prWnBUQXBHSlFCMUczeFl0NDA5STJUT1Q1czhwbHA2MllnZVYydGRjbVlYYzZIWnIzbmtSQWhhMC9Wck56RWJlaTExNGFuVkdaNUdINHhZS1RKZmRnVjNOL3FwSmJiUnp6aWlWNTU3dnNzWm9rS3RFV2tENzNOTEQxb0VtYUFJS2xQa05pMm1nVG5DSWxsb3NSb0VOVGVGa25mMzBrR3h4ZHpSdDV0N1RzTFJaMStjaHVMUElaVE9Hak96bWIyL20zVDJMYXlKYmxsL2tHYXlHd0ViYjh3R2JEcFIyUzBOeVBLd0Q4ZVhFVC9WZUoxN0xUZDh2cHBYNmtwYTNaa1lHZ043VUNVSDNNQ0VFPSIsIm1hYyI6ImMyMGVjZjRmYmI1M2JhOTlkYjkzMGZlMjM5ZTljMzMyNDI4MjZjYzIwOTQ4MmJlY2RiMGNkZTU5MjQ2ZTdmZTkiLCJ0YWciOiIifQ==",
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "cursor",
+            "cursor": "eyJpdiI6IjNsTjNVQzZMdWdKSUNLRnV0Y095clE9PSIsInZhbHVlIjoiV3ZyWlJONU1mSE51ejJHeWxDWlEzNDlZai9PZVpkWktpS1MrZENhbk03Y29obms0dS9DUVlpRFN4NEFiOTAzVEsyR2pKVEYzaWN2TkM5cU1SWSsrMm1JZWhOckRXcnBUNG9wakozR1NnbUZhQlBaNnlLMDB2UkpQRHR5L0lmU0FaY3gxOWJvVXdYM3ZTV0YzaHVJTVlFZGg5Sm9zWXZDOThLaUZJcURVeDlWNWs0T0xkcE5QeXhKY1REeExyVkZwbkJ6cWtGMTdRZmFSU21aTDJuSWpJOVVua25KVmEweEw3cUc3Q2dCTjJhWE5vWVBJaXIrSldGT0tRS2p0emRJc3Z1SUtscUZYb09ubXJaZnF6bUVvZFBMeGxicVlxc3prWnBUQXBHSlFCMUczeFl0NDA5STJUT1Q1czhwbHA2MllnZVYydGRjbVlYYzZIWnIzbmtSQWhhMC9Wck56RWJlaTExNGFuVkdaNUdINHhZS1RKZmRnVjNOL3FwSmJiUnp6aWlWNTU3dnNzWm9rS3RFV2tENzNOTEQxb0VtYUFJS2xQa05pMm1nVG5DSWxsb3NSb0VOVGVGa25mMzBrR3h4ZHpSdDV0N1RzTFJaMStjaHVMUElaVE9Hak96bWIyL20zVDJMYXlKYmxsL2tHYXlHd0ViYjh3R2JEcFIyUzBOeVBLd0Q4ZVhFVC9WZUoxN0xUZDh2cHBYNmtwYTNaa1lHZ043VUNVSDNNQ0VFPSIsIm1hYyI6ImMyMGVjZjRmYmI1M2JhOTlkYjkzMGZlMjM5ZTljMzMyNDI4MjZjYzIwOTQ4MmJlY2RiMGNkZTU5MjQ2ZTdmZTkiLCJ0YWciOiIifQ==",
+            "per_page": 2,
+            "current": null,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": "eyJpdiI6ImNDcUEwTGFDazNraWhiR3FwbHNmMWc9PSIsInZhbHVlIjoiSloraldoSFAyY3RZZW1iUTRyNUd2Z3ZEN2wxTVFta01KeHVScG0wOHpHdmxuMnBWQTlBNWFkUmlMOXNDQVlScU5rVncyMDUyako2TFdxcUxGcy80RnI4MUhmWnNJWWhqTjJWQTcvTUdVZE5ubloxemlVZ0YwYW5OMTdWUGkxWWtudE5mUFp6Z2cvTUN2ZWlOUnQydjQyaGFTVG1rV09WWUdOTm9PeTFoR1RvNzRPdlZMb0NldTM1VExLWmlVSi9jcTgybS9yQThod2JzYjJnRnB3bE1YOWtPTS9vQlN6RWhiaUV4OHUxR2I0K3F1dUVCbWRaMGZuT0Ivc055a0dOZGpxOGlrWjN1NFE5RDJwZGZHa3BLSUpScWVTOGlWSEhaTDhYcERmNnJEbEsrUS9RM1Fzbk1Cd1BFbWwza25WZllyUDVwNU0rUUdBcldKSjVBc1BxY0E2U3pEQjhEcmdMaUUxSS9XZ0NMek53c3VCbW8rK2RlYVRnd0QxTk5xT2hMZzRjMFZOT0lLa1BjQW5jSWFuV3BMZ0R2c1pSRS85YzhqV2wyQ0tIRnFMdWRNdTlvOHBNT0ZnKzNET1FqZkJtWnZqWHZrbUNOS0NFMENCZC9wWnVJWi83U1FIZDh2YktiM3V2bUtkUXFmZll6WGx6TkdWcmxxS1RQb0JWSDNmMStXU2E4aEFDR0U1a3Axdm5yUnhFMWxaQ3RaRkVnbm0yNWZVb1hFdXU0dHhNPSIsIm1hYyI6ImExMmI5MmRmNWQyNDM1ZjIzMGQyMDZkYzk3NjE0M2ZiOTAxMjUxMDcyYjNkNjRhNzZmMjcxYTA1NjNhYjQ1NDgiLCJ0YWciOiIifQ==",
+            "next_cursor": "eyJpdiI6ImQ4RlBEZTliTE40VlVrVzdZSytXTVE9PSIsInZhbHVlIjoicFNnZGFXcVM4VkpHcWJTOWR2MjBoRnBaVjZtZENibll5bkIyWGVmSzhjL3cxelVIUzJqQit2OUJiMVpVWGdVeFR4bkRKaDY3dnp0RktPOW1RVFhOWTAvTEVseFJBVnc4dC9vbCt0VFN3dURyWnRoTmt0VmdyMUhnTk42OVR1dnU3VGU4YzBia015NGpLeldzcGdBWlBkd0RxbDZSSWwxMkhFb29TQldTMkFnQlVNOWhCTnlwSkI5MzY2TkloVG9WSElLdTZqTHZSTEYwdTJEczZ4MWdTZVdydnhiems4Z21BQlRBZk5OMTVxSWl4RmNZbnUyb2hJQzM2WUwwVWJ5U3JHbUgrbmkzRWZIOFVJSmVCMHZqaks3bjRZc29UOGJBS0V0RmVhUUJabG9mYUZQMXZhYU9pVXMxM2x5aGZQcDk2ZzkyYjRGV2tvb1FjS2lXL0ExV0xIcGpXUG9zVXpxL0RNSVREWUMwK3JJNUxoeTR3Skp4dGdNUit3T2NnT3JRaGFHMmg2MGN5MFZTTkpzMkRxeWhnOHl5dmJrQU1UZFB5Z2hPbFF2UG1BRDREMHpIYTB1bTFINmFTS0YxS3U1OUVVK3NEbzdnSWNSRDl3SUdGbWNiTllRTHBmR29aRUJ1bklTa1ZBY1d1UTFSOE42aDJPOUlUWHlRcWxrY1JJQSt1RW1wcVpNZTRJeGVjN3Q0ZEgvSUoyQmN1eWNpVDd3Y2ZoMjVBTGNZVUs0PSIsIm1hYyI6IjEwNGZiNmY0NjM1N2RhZmUyZGNkMjlkMGZjNDlmY2YyOWFiMzAzMGM3YWE2MjgxODYxZjY0NzIwMzNhZmM5YWUiLCJ0YWciOiIifQ==",
+            "has_previous": true,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "cursor",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown",
+                "expires_after": 900
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "InfiniteCursor3": {
+        "version": 2,
+        "data": [
+            {
+                "id": 5,
+                "name": "Notebook 05",
+                "rank": 2,
+                "tenant": 1
+            },
+            {
+                "id": 6,
+                "name": "Notebook 06",
+                "rank": 2,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": "eyJpdiI6ImQ4RlBEZTliTE40VlVrVzdZSytXTVE9PSIsInZhbHVlIjoicFNnZGFXcVM4VkpHcWJTOWR2MjBoRnBaVjZtZENibll5bkIyWGVmSzhjL3cxelVIUzJqQit2OUJiMVpVWGdVeFR4bkRKaDY3dnp0RktPOW1RVFhOWTAvTEVseFJBVnc4dC9vbCt0VFN3dURyWnRoTmt0VmdyMUhnTk42OVR1dnU3VGU4YzBia015NGpLeldzcGdBWlBkd0RxbDZSSWwxMkhFb29TQldTMkFnQlVNOWhCTnlwSkI5MzY2TkloVG9WSElLdTZqTHZSTEYwdTJEczZ4MWdTZVdydnhiems4Z21BQlRBZk5OMTVxSWl4RmNZbnUyb2hJQzM2WUwwVWJ5U3JHbUgrbmkzRWZIOFVJSmVCMHZqaks3bjRZc29UOGJBS0V0RmVhUUJabG9mYUZQMXZhYU9pVXMxM2x5aGZQcDk2ZzkyYjRGV2tvb1FjS2lXL0ExV0xIcGpXUG9zVXpxL0RNSVREWUMwK3JJNUxoeTR3Skp4dGdNUit3T2NnT3JRaGFHMmg2MGN5MFZTTkpzMkRxeWhnOHl5dmJrQU1UZFB5Z2hPbFF2UG1BRDREMHpIYTB1bTFINmFTS0YxS3U1OUVVK3NEbzdnSWNSRDl3SUdGbWNiTllRTHBmR29aRUJ1bklTa1ZBY1d1UTFSOE42aDJPOUlUWHlRcWxrY1JJQSt1RW1wcVpNZTRJeGVjN3Q0ZEgvSUoyQmN1eWNpVDd3Y2ZoMjVBTGNZVUs0PSIsIm1hYyI6IjEwNGZiNmY0NjM1N2RhZmUyZGNkMjlkMGZjNDlmY2YyOWFiMzAzMGM3YWE2MjgxODYxZjY0NzIwMzNhZmM5YWUiLCJ0YWciOiIifQ==",
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": "eyJpdiI6ImQ4RlBEZTliTE40VlVrVzdZSytXTVE9PSIsInZhbHVlIjoicFNnZGFXcVM4VkpHcWJTOWR2MjBoRnBaVjZtZENibll5bkIyWGVmSzhjL3cxelVIUzJqQit2OUJiMVpVWGdVeFR4bkRKaDY3dnp0RktPOW1RVFhOWTAvTEVseFJBVnc4dC9vbCt0VFN3dURyWnRoTmt0VmdyMUhnTk42OVR1dnU3VGU4YzBia015NGpLeldzcGdBWlBkd0RxbDZSSWwxMkhFb29TQldTMkFnQlVNOWhCTnlwSkI5MzY2TkloVG9WSElLdTZqTHZSTEYwdTJEczZ4MWdTZVdydnhiems4Z21BQlRBZk5OMTVxSWl4RmNZbnUyb2hJQzM2WUwwVWJ5U3JHbUgrbmkzRWZIOFVJSmVCMHZqaks3bjRZc29UOGJBS0V0RmVhUUJabG9mYUZQMXZhYU9pVXMxM2x5aGZQcDk2ZzkyYjRGV2tvb1FjS2lXL0ExV0xIcGpXUG9zVXpxL0RNSVREWUMwK3JJNUxoeTR3Skp4dGdNUit3T2NnT3JRaGFHMmg2MGN5MFZTTkpzMkRxeWhnOHl5dmJrQU1UZFB5Z2hPbFF2UG1BRDREMHpIYTB1bTFINmFTS0YxS3U1OUVVK3NEbzdnSWNSRDl3SUdGbWNiTllRTHBmR29aRUJ1bklTa1ZBY1d1UTFSOE42aDJPOUlUWHlRcWxrY1JJQSt1RW1wcVpNZTRJeGVjN3Q0ZEgvSUoyQmN1eWNpVDd3Y2ZoMjVBTGNZVUs0PSIsIm1hYyI6IjEwNGZiNmY0NjM1N2RhZmUyZGNkMjlkMGZjNDlmY2YyOWFiMzAzMGM3YWE2MjgxODYxZjY0NzIwMzNhZmM5YWUiLCJ0YWciOiIifQ==",
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "cursor",
+            "cursor": "eyJpdiI6ImQ4RlBEZTliTE40VlVrVzdZSytXTVE9PSIsInZhbHVlIjoicFNnZGFXcVM4VkpHcWJTOWR2MjBoRnBaVjZtZENibll5bkIyWGVmSzhjL3cxelVIUzJqQit2OUJiMVpVWGdVeFR4bkRKaDY3dnp0RktPOW1RVFhOWTAvTEVseFJBVnc4dC9vbCt0VFN3dURyWnRoTmt0VmdyMUhnTk42OVR1dnU3VGU4YzBia015NGpLeldzcGdBWlBkd0RxbDZSSWwxMkhFb29TQldTMkFnQlVNOWhCTnlwSkI5MzY2TkloVG9WSElLdTZqTHZSTEYwdTJEczZ4MWdTZVdydnhiems4Z21BQlRBZk5OMTVxSWl4RmNZbnUyb2hJQzM2WUwwVWJ5U3JHbUgrbmkzRWZIOFVJSmVCMHZqaks3bjRZc29UOGJBS0V0RmVhUUJabG9mYUZQMXZhYU9pVXMxM2x5aGZQcDk2ZzkyYjRGV2tvb1FjS2lXL0ExV0xIcGpXUG9zVXpxL0RNSVREWUMwK3JJNUxoeTR3Skp4dGdNUit3T2NnT3JRaGFHMmg2MGN5MFZTTkpzMkRxeWhnOHl5dmJrQU1UZFB5Z2hPbFF2UG1BRDREMHpIYTB1bTFINmFTS0YxS3U1OUVVK3NEbzdnSWNSRDl3SUdGbWNiTllRTHBmR29aRUJ1bklTa1ZBY1d1UTFSOE42aDJPOUlUWHlRcWxrY1JJQSt1RW1wcVpNZTRJeGVjN3Q0ZEgvSUoyQmN1eWNpVDd3Y2ZoMjVBTGNZVUs0PSIsIm1hYyI6IjEwNGZiNmY0NjM1N2RhZmUyZGNkMjlkMGZjNDlmY2YyOWFiMzAzMGM3YWE2MjgxODYxZjY0NzIwMzNhZmM5YWUiLCJ0YWciOiIifQ==",
+            "per_page": 2,
+            "current": null,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": "eyJpdiI6ImVtMlpIb0FxeEVVOHlyZDkwdTFkTVE9PSIsInZhbHVlIjoid2RqYVptcEJiVG1CL0VweHhKanRVVjZTYkN2T295WUhrWVdBcm90VXFSdldabW9sc2x3aXQrTjR2MXVhS0NmV2k1UVdydUhZTU1BYWcvV2R5UnhFUmlWSXh4V3l5cjFiWnZuY1FiNnU3cDVhSTVaSjhNMHJvcHJxZVcvZjJ1L3E5eElWU1FrdEdtMTVXQ3NBSjdvSmc5S0hTbE9SM24xNktlb3hUTHRrdzVJQzc2MUpTOHJDU0VMMGRlRWJuU1RrRFRtVDlTT2hTREtoQ1p2TUdVR2VMRW83ZG82NnJ5dUNvc0Myd1FaY2loVEJBbEVqM0FlVStRenRTTUkxSFdseXJpRmt5R1I3TFBPQm1GRU9TMEMzU2dWZnFyUnNsazJBVElhUUh0Si8zcG1mcWtaNEpKTVY0eHFlZFI5NzlTVWFmdktaQVBmblNjZERXWWRXMXFNMERocXBxazl5eTJGZndYNzdUR09nd2lrK1FoTDJMNEx2cDJnMnJJWUtrS0tFcnI4YmZSM3pvZzVzNzNJZGQ2dUFIblVaalRWeldQblhLNUtlS0loZUdKbmN1TVovcmQ5djJNd2NuSDRlLzhMOHNSRFFyQXAzcmZIeEhtbGpXMC8wb0lBdXRLNkRwaFJiK3B6MklnOUxuL1I2ZnpYNUxwOEdQRWNya25Gc0p0ZHBSTEVVbEg2dkVSUk9aK3dMVytiSlBNd1NtcEVxdEdiOXF1WjdLdHVrSDRVPSIsIm1hYyI6IjNmZmY5YzFlMGUxYTg3NTczOGM2MjdhYjY5YzFhZmNiNGYzN2RiYWE5NDdlNTEzNDA3ODYwYWZlYzg3Njc1NzEiLCJ0YWciOiIifQ==",
+            "next_cursor": "eyJpdiI6ImNQOWJGeW5JcWtmUE1CcmQyVE9jVEE9PSIsInZhbHVlIjoiUVlKd0FpS1FicTZxbjNLNTlrVUQzRVNreWtrbUFYQmtac1NkcjlTb3JxeTJ1TXhxWldyZjR5YWI0WGhOeGhydVdyOE90dkdWdGZlZkQrTHRFY0xiMVdXN1dnbGdyNS9zT3RyME1BUmZ4cmlnODlqVjUyM0c4MGdUVUxyZFVsaU1PYUk1bTNmeWdiMjNicVRSNFZXR1AybUpkb1hDd2Y4dHZmTzZxR3AxWDNmSENuV0s4Lzc0Qmh1REVIN0IveXVHM01kQ0NDcEdWR0VtVGI1QmtNSDhoemF5NGljZkU1WkxMVkxwY3AydU5NbEhGNElTTkhHbHgwQmwzeUdES1pocUhtMEpWS3NXR0RGam42VGdqNWxuaWt3UXF4SktyVTdWTWRSRXh3MlRLNXRGd1IwLzhKMUxZdW1wM1ppVnlqSUlDQ3EzNkU2VDVnL3FLUkxvMXdVZ0xUNG9ZdGV0TXdheHpIM1EwREZlM1g5dnJJL3hEUFpaRWlTdEFzWEVQakorQlhNVjRWdU5CNG5zanRFSkU4YmxoUDlTNnZBUjRqQzB2YWNpQkFKK083d0NZSndVVDZ1L3RLdTlXQkljdklERWhld1JaMmlWMllUWEowRTAxKzNIZk0zZVZ0ck5jcWQ5dUM3dW5pVUp0T1VIOFpXL3hqbGdTWDUrcUxnTlFjc2YwMU1Eb01XWnRXT01BSWhYSTQxSzRpdnRjZWdWZEtISExVSWh0OE5PU0lBPSIsIm1hYyI6IjUwNjEyMjMxODVlMWI5YTA4MGI4ZjI3OWVjNDg5MjZiODM2NDBkZTEyZWE1NDAzOTZjYjZkMTNlMjI1NGZkYjQiLCJ0YWciOiIifQ==",
+            "has_previous": true,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "cursor",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown",
+                "expires_after": 900
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "InfiniteCursor4": {
+        "version": 2,
+        "data": [
+            {
+                "id": 7,
+                "name": "Notebook 07",
+                "rank": 3,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": "eyJpdiI6ImNQOWJGeW5JcWtmUE1CcmQyVE9jVEE9PSIsInZhbHVlIjoiUVlKd0FpS1FicTZxbjNLNTlrVUQzRVNreWtrbUFYQmtac1NkcjlTb3JxeTJ1TXhxWldyZjR5YWI0WGhOeGhydVdyOE90dkdWdGZlZkQrTHRFY0xiMVdXN1dnbGdyNS9zT3RyME1BUmZ4cmlnODlqVjUyM0c4MGdUVUxyZFVsaU1PYUk1bTNmeWdiMjNicVRSNFZXR1AybUpkb1hDd2Y4dHZmTzZxR3AxWDNmSENuV0s4Lzc0Qmh1REVIN0IveXVHM01kQ0NDcEdWR0VtVGI1QmtNSDhoemF5NGljZkU1WkxMVkxwY3AydU5NbEhGNElTTkhHbHgwQmwzeUdES1pocUhtMEpWS3NXR0RGam42VGdqNWxuaWt3UXF4SktyVTdWTWRSRXh3MlRLNXRGd1IwLzhKMUxZdW1wM1ppVnlqSUlDQ3EzNkU2VDVnL3FLUkxvMXdVZ0xUNG9ZdGV0TXdheHpIM1EwREZlM1g5dnJJL3hEUFpaRWlTdEFzWEVQakorQlhNVjRWdU5CNG5zanRFSkU4YmxoUDlTNnZBUjRqQzB2YWNpQkFKK083d0NZSndVVDZ1L3RLdTlXQkljdklERWhld1JaMmlWMllUWEowRTAxKzNIZk0zZVZ0ck5jcWQ5dUM3dW5pVUp0T1VIOFpXL3hqbGdTWDUrcUxnTlFjc2YwMU1Eb01XWnRXT01BSWhYSTQxSzRpdnRjZWdWZEtISExVSWh0OE5PU0lBPSIsIm1hYyI6IjUwNjEyMjMxODVlMWI5YTA4MGI4ZjI3OWVjNDg5MjZiODM2NDBkZTEyZWE1NDAzOTZjYjZkMTNlMjI1NGZkYjQiLCJ0YWciOiIifQ==",
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": "eyJpdiI6ImNQOWJGeW5JcWtmUE1CcmQyVE9jVEE9PSIsInZhbHVlIjoiUVlKd0FpS1FicTZxbjNLNTlrVUQzRVNreWtrbUFYQmtac1NkcjlTb3JxeTJ1TXhxWldyZjR5YWI0WGhOeGhydVdyOE90dkdWdGZlZkQrTHRFY0xiMVdXN1dnbGdyNS9zT3RyME1BUmZ4cmlnODlqVjUyM0c4MGdUVUxyZFVsaU1PYUk1bTNmeWdiMjNicVRSNFZXR1AybUpkb1hDd2Y4dHZmTzZxR3AxWDNmSENuV0s4Lzc0Qmh1REVIN0IveXVHM01kQ0NDcEdWR0VtVGI1QmtNSDhoemF5NGljZkU1WkxMVkxwY3AydU5NbEhGNElTTkhHbHgwQmwzeUdES1pocUhtMEpWS3NXR0RGam42VGdqNWxuaWt3UXF4SktyVTdWTWRSRXh3MlRLNXRGd1IwLzhKMUxZdW1wM1ppVnlqSUlDQ3EzNkU2VDVnL3FLUkxvMXdVZ0xUNG9ZdGV0TXdheHpIM1EwREZlM1g5dnJJL3hEUFpaRWlTdEFzWEVQakorQlhNVjRWdU5CNG5zanRFSkU4YmxoUDlTNnZBUjRqQzB2YWNpQkFKK083d0NZSndVVDZ1L3RLdTlXQkljdklERWhld1JaMmlWMllUWEowRTAxKzNIZk0zZVZ0ck5jcWQ5dUM3dW5pVUp0T1VIOFpXL3hqbGdTWDUrcUxnTlFjc2YwMU1Eb01XWnRXT01BSWhYSTQxSzRpdnRjZWdWZEtISExVSWh0OE5PU0lBPSIsIm1hYyI6IjUwNjEyMjMxODVlMWI5YTA4MGI4ZjI3OWVjNDg5MjZiODM2NDBkZTEyZWE1NDAzOTZjYjZkMTNlMjI1NGZkYjQiLCJ0YWciOiIifQ==",
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "cursor",
+            "cursor": "eyJpdiI6ImNQOWJGeW5JcWtmUE1CcmQyVE9jVEE9PSIsInZhbHVlIjoiUVlKd0FpS1FicTZxbjNLNTlrVUQzRVNreWtrbUFYQmtac1NkcjlTb3JxeTJ1TXhxWldyZjR5YWI0WGhOeGhydVdyOE90dkdWdGZlZkQrTHRFY0xiMVdXN1dnbGdyNS9zT3RyME1BUmZ4cmlnODlqVjUyM0c4MGdUVUxyZFVsaU1PYUk1bTNmeWdiMjNicVRSNFZXR1AybUpkb1hDd2Y4dHZmTzZxR3AxWDNmSENuV0s4Lzc0Qmh1REVIN0IveXVHM01kQ0NDcEdWR0VtVGI1QmtNSDhoemF5NGljZkU1WkxMVkxwY3AydU5NbEhGNElTTkhHbHgwQmwzeUdES1pocUhtMEpWS3NXR0RGam42VGdqNWxuaWt3UXF4SktyVTdWTWRSRXh3MlRLNXRGd1IwLzhKMUxZdW1wM1ppVnlqSUlDQ3EzNkU2VDVnL3FLUkxvMXdVZ0xUNG9ZdGV0TXdheHpIM1EwREZlM1g5dnJJL3hEUFpaRWlTdEFzWEVQakorQlhNVjRWdU5CNG5zanRFSkU4YmxoUDlTNnZBUjRqQzB2YWNpQkFKK083d0NZSndVVDZ1L3RLdTlXQkljdklERWhld1JaMmlWMllUWEowRTAxKzNIZk0zZVZ0ck5jcWQ5dUM3dW5pVUp0T1VIOFpXL3hqbGdTWDUrcUxnTlFjc2YwMU1Eb01XWnRXT01BSWhYSTQxSzRpdnRjZWdWZEtISExVSWh0OE5PU0lBPSIsIm1hYyI6IjUwNjEyMjMxODVlMWI5YTA4MGI4ZjI3OWVjNDg5MjZiODM2NDBkZTEyZWE1NDAzOTZjYjZkMTNlMjI1NGZkYjQiLCJ0YWciOiIifQ==",
+            "per_page": 2,
+            "current": null,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": "eyJpdiI6IkpPYXZGQzZuZ2pWa2RtK0Z6WTNUQXc9PSIsInZhbHVlIjoic1lIU3BmaUphSVEvNy8zWVdNcG1QTnRteWUxT2RZSThRZXMyL1V4c0tEUVdqVGljNU5ERndqV0FvQ2l2ZEpQbVVnd0NrTXBjMlNlNEtVTWZuQWtRUVo4OElabFNWbVBjaEgxYW1CNmJZbkdDejk2V1dRU2xXa1RReUF1U0NFTjd2UGVPcDc1SVdhaVQ0Y3ZxVGlMV0t5bUhrTGdPQnJRODREZDJYMXVpaU1OSStTYW1pbU9KKzN2MWlsaWowVU9nTmVjVm1zejBuUjZCMEE2OThIMkRmVXpweTg1c1IyMFQ1NGcxVGxMWFZPYnE3ZjY5SXhXYVN6NGtkOGFDSHVRUGgwZ0NVZGUzaWJ3Ujc3a1krQ3JiTUxBN0tOeEZqVDJYNFNOOWJ2LzlaTU0wdytUUExKVWRBVGd3QmxRVUQvSnlLZGNiVThrdEZiUmo0V0l3RWx4VVQxNUlSYitzM0w3cTYvOHRwMmNYRklvTWhPWHc4bFZ2SzJ2Z3JkTmdPY1c3TVh6WXkwTmNtYlA0amsrb3pOQ0JzYk5HSFVYUlRuMFpCTlZEZ3dQa2RCMVp4ZUZhQVZZUWs5bjhTaEV4a0pYYlBFV0VBS0J3NWcrdVVqY01Xbmtrc1JzSmV1dW9yQmpqdHlzSzhPWkJCSEF2VVFVM3RZUXVlMGpERlNGSnoyQ0IyUE8yRzJSdEYyZGNtRFNZLzRxYnVicEhCQm9Uellvd2JsN1paUTRKbnNrPSIsIm1hYyI6ImJhN2IyZjJiMzU2NTk1OTQxOTk0NDE4MTU0M2ViNjEwNDY5ZjE4MDRjYzNhMDI0N2Q0NWJiZTcwMDg4MzE5ZDAiLCJ0YWciOiIifQ==",
+            "next_cursor": null,
+            "has_previous": true,
+            "has_next": false
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "cursor",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown",
+                "expires_after": 900
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "InfiniteJoined": {
+        "version": 2,
+        "data": [
+            {
+                "record_id": 1,
+                "line_id": 11,
+                "label": "Notebook",
+                "amount": 4
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 1
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 1
+            }
+        },
+        "paging": {
+            "mode": "offset",
+            "current": 1,
+            "per_page": 1,
+            "pages": 3,
+            "total": 3,
+            "filtered": 3,
+            "has_previous": false,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "label": {
+                    "search": {
+                        "matchTypes": ["equals"],
+                        "valueType": "string"
+                    },
+                    "order": null,
+                    "filters": null
+                },
+                "amount": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": false,
+                "multi_order_limit": 1,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": null,
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "record_id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        },
+                        {
+                            "id": "line_id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "offset",
+                "per_page": 1,
+                "per_page_options": [1]
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "InfiniteJoined2": {
+        "version": 2,
+        "data": [
+            {
+                "record_id": 1,
+                "line_id": 12,
+                "label": "Notebook",
+                "amount": 6
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 2,
+                "per_page": 1
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 2,
+                "per_page": 1
+            }
+        },
+        "paging": {
+            "mode": "offset",
+            "current": 2,
+            "per_page": 1,
+            "pages": 3,
+            "total": 3,
+            "filtered": 3,
+            "has_previous": true,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "label": {
+                    "search": {
+                        "matchTypes": ["equals"],
+                        "valueType": "string"
+                    },
+                    "order": null,
+                    "filters": null
+                },
+                "amount": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": false,
+                "multi_order_limit": 1,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": null,
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "record_id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        },
+                        {
+                            "id": "line_id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "offset",
+                "per_page": 1,
+                "per_page_options": [1]
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "InfiniteJoined3": {
+        "version": 2,
+        "data": [
+            {
+                "record_id": 2,
+                "line_id": 21,
+                "label": "Pencil",
+                "amount": 7
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 3,
+                "per_page": 1
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 3,
+                "per_page": 1
+            }
+        },
+        "paging": {
+            "mode": "offset",
+            "current": 3,
+            "per_page": 1,
+            "pages": 3,
+            "total": 3,
+            "filtered": 3,
+            "has_previous": true,
+            "has_next": false
+        },
+        "capabilities": {
+            "fields": {
+                "label": {
+                    "search": {
+                        "matchTypes": ["equals"],
+                        "valueType": "string"
+                    },
+                    "order": null,
+                    "filters": null
+                },
+                "amount": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": false,
+                "multi_order_limit": 1,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": null,
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "record_id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        },
+                        {
+                            "id": "line_id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "offset",
+                "per_page": 1,
+                "per_page_options": [1]
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "InfiniteRecovery": {
+        "version": 2,
+        "data": [
+            {
+                "id": 1,
+                "name": "Notebook 01",
+                "rank": 0,
+                "tenant": 1
+            },
+            {
+                "id": 2,
+                "name": "Notebook 02",
+                "rank": 0,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "simple",
+            "current": 1,
+            "per_page": 2,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": null,
+            "has_previous": false,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "simple",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown"
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "InfiniteRecovery2": {
+        "version": 2,
+        "data": [
+            {
+                "id": 3,
+                "name": "Notebook 03",
+                "rank": 1,
+                "tenant": 1
+            },
+            {
+                "id": 4,
+                "name": "Notebook 04",
+                "rank": 1,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 2,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 2,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "simple",
+            "current": 2,
+            "per_page": 2,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": null,
+            "has_previous": true,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "simple",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown"
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "InfiniteRecovery3": {
+        "version": 2,
+        "data": [
+            {
+                "id": 5,
+                "name": "Notebook 05",
+                "rank": 2,
+                "tenant": 1
+            },
+            {
+                "id": 6,
+                "name": "Notebook 06",
+                "rank": 2,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 3,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 3,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "simple",
+            "current": 3,
+            "per_page": 2,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": null,
+            "has_previous": true,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "simple",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown"
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "InfiniteRecovery4": {
+        "version": 2,
+        "data": [
+            {
+                "id": 7,
+                "name": "Notebook 07",
+                "rank": 3,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 4,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 4,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "simple",
+            "current": 4,
+            "per_page": 2,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": null,
+            "has_previous": true,
+            "has_next": false
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "simple",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown"
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "InfiniteSimpleSearch": {
+        "version": 2,
+        "data": [
+            {
+                "id": 3,
+                "name": "Notebook 03",
+                "rank": 1,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {
+                "name": {
+                    "search": {
+                        "value": "Notebook 03",
+                        "matchType": "contains"
+                    }
+                }
+            },
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "simple",
+            "current": 1,
+            "per_page": 2,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": null,
+            "has_previous": false,
+            "has_next": false
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "simple",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown"
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "InfiniteSimpleOrder": {
+        "version": 2,
+        "data": [
+            {
+                "id": 7,
+                "name": "Notebook 07",
+                "rank": 3,
+                "tenant": 1
+            },
+            {
+                "id": 6,
+                "name": "Notebook 06",
+                "rank": 2,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "fields",
+                "terms": [
+                    {
+                        "field": "name",
+                        "direction": "desc",
+                        "sortType": "native"
+                    }
+                ]
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "terms",
+                "terms": [
+                    {
+                        "field": "name",
+                        "direction": "desc",
+                        "sortType": "native"
+                    },
+                    {
+                        "field": "id",
+                        "direction": "asc",
+                        "sortType": "native",
+                        "role": "tie"
+                    }
+                ]
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "simple",
+            "current": 1,
+            "per_page": 2,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": null,
+            "has_previous": false,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "simple",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown"
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "InfiniteSimpleSize": {
+        "version": 2,
+        "data": [
+            {
+                "id": 1,
+                "name": "Notebook 01",
+                "rank": 0,
+                "tenant": 1
+            },
+            {
+                "id": 2,
+                "name": "Notebook 02",
+                "rank": 0,
+                "tenant": 1
+            },
+            {
+                "id": 3,
+                "name": "Notebook 03",
+                "rank": 1,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 3
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 3
+            }
+        },
+        "paging": {
+            "mode": "simple",
+            "current": 1,
+            "per_page": 3,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": null,
+            "has_previous": false,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "simple",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown"
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "InfiniteRecoveryFailure": {
+        "version": 2,
+        "error": {
+            "kind": "server",
+            "code": "invalid_source",
+            "message": "The data request could not be completed."
+        }
+    }
+}

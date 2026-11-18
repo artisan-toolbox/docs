@@ -1,5 +1,5 @@
 import { readFileSync, realpathSync } from 'node:fs';
-import { dirname, relative, resolve, basename } from 'node:path';
+import path, { dirname, relative, resolve, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { babelParse, parse } from 'vue/compiler-sfc';
 import { roadmapStatuses, summarizeRoadmap } from '../resources/js/lib/roadmap.js';
@@ -22,6 +22,15 @@ const ignoredComponents = new Set([
 const runtimeDirectives = new Set(['if', 'else', 'else-if', 'for', 'html', 'text', 'show']);
 const normalized = (value) => String(value).replace(/\s+/gu, ' ').trim();
 const propName = (name) => name.replace(/-([a-z])/gu, (_, letter) => letter.toUpperCase());
+
+export function isInsideDirectory(directory, file, platform = path) {
+    const distance = platform.relative(directory, file);
+    return (
+        distance !== '..' &&
+        !distance.startsWith(`..${platform.sep}`) &&
+        !platform.isAbsolute(distance)
+    );
+}
 
 export function extractDocumentation(pages, { root = process.cwd() } = {}) {
     const sourceRoot = realpathSync(resolve(root, 'resources/js'));
@@ -59,7 +68,7 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
 
     function readComponent(file) {
         const canonical = realpathSync(file);
-        if (relative(sourceRoot, canonical).startsWith('..') || !canonical.endsWith('.vue')) {
+        if (!isInsideDirectory(sourceRoot, canonical) || !canonical.endsWith('.vue')) {
             throw new Error(
                 `Search content must be a Vue file inside resources/js: ${relative(root, file)}`,
             );
@@ -195,19 +204,22 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
                     const file = realpathSync(
                         resolve(dirname(component.file), imported.slice(0, -4)),
                     );
-                    const examplesRoot = realpathSync(resolve(root, 'app/DataSources'));
+                    const applicationRoot = resolve(realpathSync(root), 'app');
                     const referenceRoot = resolve(
                         realpathSync(root),
                         'resources/js/pages/docs/dapter/design/reference',
                     );
                     const phpExample =
-                        !relative(examplesRoot, file).startsWith('..') && file.endsWith('.php');
+                        file.endsWith('.php') &&
+                        ['DataSources', 'Demo'].some((directory) =>
+                            isInsideDirectory(resolve(applicationRoot, directory), file),
+                        );
                     const typedReference = dirname(file) === referenceRoot && file.endsWith('.ts');
                     if (!phpExample && !typedReference)
                         fail(
                             component.file,
                             node,
-                            'Raw searchable examples must be PHP sources inside app/DataSources or TypeScript files directly inside the Dapter design reference directory.',
+                            'Raw searchable examples must be PHP sources inside app/DataSources or app/Demo, or TypeScript files directly inside the Dapter design reference directory.',
                         );
                     return readFileSync(file, 'utf8');
                 }

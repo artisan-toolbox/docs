@@ -38,6 +38,13 @@ const failures = [
         'unsupported_operation',
         'An operation or paging mode is unavailable.',
     ],
+    ['422', 'validation', 'invalid_cursor', 'The version 2 cursor is invalid for this read.'],
+    [
+        '409',
+        'cursor_expired',
+        'cursor_expired',
+        'The cursor has expired. Restart from the first page.',
+    ],
     ['401', 'access', 'authentication_required', 'The source requires an authenticated principal.'],
     ['403', 'access', 'access_denied', 'The source Gate denies the read.'],
     [
@@ -61,14 +68,19 @@ const failures = [
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection id="scope" title="Current failure contract">
                 <p>
-                    This reference describes the unpublished local read protocol v1. Its endpoint
-                    returns sanitized failure envelopes without rows, requested state, effective
-                    state, paging, or capabilities. The
+                    Both read protocols in the unpublished local preview return sanitized failure
+                    envelopes. A failed read contains no rows, requested state, effective state,
+                    paging, capabilities, or action metadata. The
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/protocol').href"
                         >read protocol reference</DocsLink
                     >
-                    describes successful responses. Planned action and cursor failures belong to the
-                    design contracts and are unavailable in the current runtime.
+                    describes successful offset reads. For write failures, see
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/action-outcomes').href"
+                        >native action outcomes</DocsLink
+                    >. For a version 2 cursor failure, see
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/cursor-recovery').href"
+                        >restart cursor paging</DocsLink
+                    >.
                 </p>
                 <p>
                     The live example uses the installed Laravel, Inertia, Vue, and Ziggy application
@@ -83,20 +95,23 @@ const failures = [
             </ProseSection>
             <ProseSection id="envelope" title="Versioned and sanitized envelopes">
                 <p>
-                    A failure has <code>version: 1</code> and an <code>error</code> object with
-                    exactly <code>kind</code>, <code>code</code>, and <code>message</code>. The four
-                    server kinds are <code>access</code>, <code>validation</code>,
-                    <code>unsupported_operation</code>, and <code>server</code>. The message does
-                    not expose private exception details. Codes are nonempty opaque strings.
-                    Consumers must allow trusted custom codes as well as built-in
-                    <code>ArtisanToolbox\Dapter\Enums\ErrorCode</code> values.
+                    A recognized version 2 request gets a version 2 failure. Malformed JSON, an
+                    unsupported version, and version 1 requests get a version 1 failure. The
+                    <code>error</code> object has <code>kind</code>, <code>code</code>, and
+                    <code>message</code>. The ordinary server kinds are <code>access</code>,
+                    <code>validation</code>, <code>unsupported_operation</code>, and
+                    <code>server</code>. The message does not expose private exception details.
+                    Codes are nonempty opaque strings. Consumers must allow trusted custom codes as
+                    well as built-in <code>ArtisanToolbox\Dapter\Enums\ErrorCode</code> values.
                 </p>
                 <p>
                     Every HTTP 422 response also has
                     <code>errors: {"_dapter_kind":["validation"]}</code>, using the actual error
-                    kind. When present, this object has exactly one key and a one-element list that
-                    agrees with <code>error.kind</code>. Any of the four known server kinds is valid
-                    in this marker. The HTTP status alone does not determine the kind.
+                    kind. The marker contains one entry that agrees with <code>error.kind</code>. A
+                    version 2 <code>invalid_cursor</code> response also includes
+                    <code>_dapter_code: ["invalid_cursor"]</code> in this object. An expired cursor
+                    returns HTTP 409 with kind and code <code>cursor_expired</code> and
+                    <code>error.recovery</code> set to <code>restart</code>.
                 </p>
                 <CodeExample
                     label="Actual version-rejection envelope"
@@ -139,7 +154,7 @@ const failures = [
             <ProseSection id="observe" title="Original bytes and complete HTTP 422 bodies">
                 <p>
                     Malformed JSON sends the single byte <code>{</code> and returns HTTP 400.
-                    Version 2 and a list envelope return HTTP 422. A missing alias returns HTTP 404.
+                    Version 3 and a list envelope return HTTP 422. A missing alias returns HTTP 404.
                     The invalid definition returns HTTP 500. Each response contains the sanitized
                     envelope shown below, with no successful page payload.
                 </p>
@@ -173,19 +188,20 @@ const failures = [
                     a protocol failure and clears accepted data.
                 </p>
                 <p>
-                    Recognized validation, unsupported-operation, and server failures retain the
+                    Ordinary validation, unsupported-operation, and server failures retain the
                     previously accepted result within the same source context. Genuine network
                     failures also retain that result. This lets the view show a valid earlier page
-                    while offering a retry. A valid server envelope at HTTP 503 is recoverable. A
-                    malformed envelope at the same status is a protocol failure. Changing the source
-                    or disposing its owner invalidates its context and clears its result.
+                    while offering a retry. Cursor failures use the explicit recovery described
+                    above. A valid server envelope at HTTP 503 is recoverable. A malformed envelope
+                    at the same status is a protocol failure. Changing the source or disposing its
+                    owner invalidates its context and clears its result.
                 </p>
                 <p>
                     The adapter exposes local <code>protocol</code> and <code>network</code> kinds
-                    in <code>AdapterError</code> in addition to the four server kinds. Its Inertia
-                    HTTP 422 callback validates the reserved marker available in validation
-                    feedback. It cannot inspect a full body that this callback does not expose. Late
-                    success or failure callbacks cannot commit or clear a newer generation.
+                    in <code>AdapterError</code> alongside the server kinds. Its Inertia HTTP 422
+                    callback validates the reserved marker available in validation feedback. It
+                    cannot inspect a full body that this callback does not expose. Late success or
+                    failure callbacks cannot commit or clear a newer generation.
                 </p>
                 <p>
                     Read failures return <code>AsyncOutcome</code> with status <code>failure</code>.

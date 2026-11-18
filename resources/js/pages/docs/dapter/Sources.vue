@@ -1,5 +1,7 @@
 <script setup>
 import ListingDemo from '@/components/demo/dapter/listing/ListingDemo.vue';
+import collectionSource from '../../../../../app/DataSources/Dapter/Quickstart.php?raw';
+import eloquentSource from '../../../../../app/DataSources/Dapter/SqliteProducts.php?raw';
 import CodeExample from '@/components/docs/CodeExample.vue';
 import DocsLink from '@/components/docs/DocsLink.vue';
 import PackageGuideHeader from '@/components/docs/PackageGuideHeader.vue';
@@ -15,15 +17,18 @@ defineProps({
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
         <div data-document-content class="flex min-w-0 flex-col gap-10">
-            <ProseSection id="starting-environment" title="Prepare a fictional catalog">
+            <ProseSection id="starting-environment" title="Choose a source for your records">
                 <p>
                     Complete
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/installation').href"
                         >Install Dapter</DocsLink
                     >
-                    first. Keep Laravel's web middleware, sessions, and CSRF protection enabled.
-                    Expose <code>dapter.data</code> through your existing Ziggy configuration. This
-                    unpublished preview supports Collections and ordinary SQLite Eloquent queries.
+                    first. Use a Collection source for rows you already have in memory. Use an
+                    Eloquent source to let the database filter, order, and page a query. Keep
+                    Laravel's web middleware, sessions, and CSRF protection enabled. Expose
+                    <code>dapter.data</code> through your existing Ziggy configuration. This
+                    unpublished preview supports Collections and ordinary SQLite, MySQL, and
+                    PostgreSQL Eloquent queries.
                 </p>
                 <p>
                     The grids use Front Awesome's public controls and Pro DataGrid. Complete
@@ -38,13 +43,22 @@ defineProps({
                     <strong>Start example</strong>.
                 </p>
             </ProseSection>
-            <ProseSection id="collection" title="Return a Collection">
+            <ProseSection id="collection" title="List records from memory">
                 <p>
-                    Create <code>app/DataSources/Dapter/Quickstart.php</code> using the
-                    self-contained source below. Extend <code>CollectionDataSource</code> and return
-                    a Laravel Collection from <code>source()</code>. Its
-                    <code>PublicAccess</code> attribute explicitly permits guest reads.
+                    Create <code>app/DataSources/Dapter/Quickstart.php</code> using the declaration
+                    below. A <code>CollectionDataSource</code> accepts a Laravel Collection or an
+                    array from <code>source()</code>. This example returns an array of 23 notebook
+                    records. <code>#[PublicAccess]</code> permits guests to read them. For private
+                    data,
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/access').href"
+                        >choose a guard</DocsLink
+                    >
+                    and declare the appropriate source scope.
                 </p>
+                <CodeExample
+                    label="app/DataSources/Dapter/Quickstart.php"
+                    language="php"
+                    :code="collectionSource" />
                 <p>
                     The source name <code>Dapter.Quickstart</code> resolves under the application's
                     actual namespace followed by <code>DataSources</code>, usually
@@ -53,6 +67,34 @@ defineProps({
                 </p>
             </ProseSection>
             <ListingDemo scenario="Quickstart" />
+            <ProseSection id="eloquent" title="Read an ordinary SQLite query">
+                <p>
+                    Extend <code>EloquentDataSource</code> and return an Eloquent Builder from
+                    <code>source()</code>. Keep protected reads inside that method so authorization
+                    runs first. The example below returns the builder from the
+                    <code>SqliteFixture</code> helper in the source disclosure.
+                </p>
+                <CodeExample
+                    label="app/DataSources/Dapter/SqliteProducts.php"
+                    language="php"
+                    :code="eloquentSource" />
+                <p>
+                    The runnable example creates an isolated in-memory SQLite connection and seeds
+                    its 23 fictional records after access succeeds. Its
+                    <code>FixtureProduct</code> model and connection helper appear in the
+                    disclosure. It reads no application tables. Start it to display five notebooks,
+                    then navigate to page 5 to see the last three.
+                </p>
+                <p>
+                    Ordinary Eloquent queries use the connection's SQLite, MySQL, or PostgreSQL
+                    driver automatically. For joins, grouped results, and custom projections, see
+                    the supported expressions and result identity requirements in
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/advanced-queries').href"
+                        >Query joined or grouped records</DocsLink
+                    >.
+                </p>
+            </ProseSection>
+            <ListingDemo scenario="SqliteProducts" />
             <ProseSection id="collection-contract" title="Implement the Collection contract">
                 <p>
                     Implement <code>Contracts\CollectionSource</code> directly when an existing
@@ -66,26 +108,6 @@ defineProps({
                 </p>
             </ProseSection>
             <ListingDemo scenario="CollectionRaw" />
-            <ProseSection id="eloquent" title="Read an ordinary SQLite query">
-                <p>
-                    Extend <code>EloquentDataSource</code> and return an Eloquent Builder from
-                    <code>source()</code>. Keep protected reads inside that method so authorization
-                    runs first.
-                </p>
-                <p>
-                    The runnable example creates an isolated in-memory SQLite connection and seeds
-                    its 23 fictional records after access succeeds. Its
-                    <code>FixtureProduct</code> model and connection helper appear in the
-                    disclosure. It reads no application tables. Start it to display five notebooks,
-                    then navigate to page 5 to see the last three.
-                </p>
-                <p>
-                    Only ordinary SQLite Eloquent queries are delivered in this preview. MySQL,
-                    PostgreSQL, joined queries, aggregates, and custom projections are not
-                    established as supported here.
-                </p>
-            </ProseSection>
-            <ListingDemo scenario="SqliteProducts" />
             <ProseSection id="generate-source" title="Generate a source declaration">
                 <p>
                     From your Laravel application root, generate a Collection declaration or an
@@ -114,11 +136,15 @@ defineProps({
                     the whole response.
                 </p>
                 <p>
-                    Rows must be JSON-safe before decoding. Top-level Laravel Arrayable and
-                    JsonSerializable rows are converted first. Nested values must be strings,
-                    booleans, null, arrays, plain objects, or finite numbers whose absolute value is
-                    at most <code>9007199254740991</code>. Encode larger identifiers and exact
-                    decimals as strings.
+                    To choose what each reader receives, declare a
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/resources').href"
+                        >Laravel Resource</DocsLink
+                    >
+                    on the source. Rows must be JSON-safe before decoding. Top-level Laravel
+                    Arrayable and JsonSerializable rows are converted first. Nested values must be
+                    strings, booleans, null, arrays, plain objects, or finite numbers whose absolute
+                    value is at most <code>9007199254740991</code>. Encode larger identifiers and
+                    exact decimals as strings.
                 </p>
                 <p>
                     Nested value objects, resources, invalid UTF-8, and nesting deeper than 100

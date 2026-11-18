@@ -1,0 +1,178 @@
+[
+    {
+        "id": "PagingSimple",
+        "title": "Simple without counts",
+        "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+        "source": "Dapter.PagingSimple",
+        "guide": "dapter/simple-paging",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200,
+            "mode": "simple",
+            "counts": "unknown",
+            "ids": [1, 2]
+        }
+    },
+    {
+        "id": "PagingSimpleAttributes",
+        "title": "Simple attributes",
+        "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+        "source": "Dapter.PagingSimpleAttributes",
+        "guide": "dapter/simple-paging",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200,
+            "mode": "simple",
+            "counts": "unknown",
+            "ids": [1, 2]
+        }
+    },
+    {
+        "id": "PagingDriver",
+        "title": "Registered traversal driver",
+        "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+        "source": "Dapter.PagingDriver",
+        "guide": "dapter/simple-paging",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200,
+            "mode": "simple",
+            "counts": "unknown",
+            "ids": [1, 2]
+        }
+    },
+    {
+        "id": "PagingCursor",
+        "title": "Collection cursor",
+        "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+        "source": "Dapter.PagingCursor",
+        "guide": "dapter/cursor-paging",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200,
+            "mode": "cursor",
+            "counts": "unknown",
+            "ids": [1, 2]
+        }
+    },
+    {
+        "id": "PagingCursorAttributes",
+        "title": "Cursor attributes",
+        "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+        "source": "Dapter.PagingCursorAttributes",
+        "guide": "dapter/cursor-paging",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200,
+            "mode": "cursor",
+            "counts": "unknown",
+            "ids": [1, 2]
+        }
+    },
+    {
+        "id": "PagingNative",
+        "title": "Native SQLite cursor",
+        "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+        "source": "Dapter.PagingNative",
+        "guide": "dapter/cursor-paging",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200,
+            "mode": "cursor",
+            "counts": "unknown",
+            "ids": [1, 2]
+        }
+    },
+    {
+        "id": "PagingRecovery",
+        "title": "Scope and expiry recovery",
+        "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+        "source": "Dapter.PagingRecovery",
+        "guide": "dapter/cursor-recovery",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200,
+            "mode": "cursor",
+            "counts": "unknown",
+            "ids": [1, 2]
+        }
+    },
+    {
+        "id": "PagingCounts",
+        "title": "Fluent exact counts",
+        "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+        "source": "Dapter.PagingCounts",
+        "guide": "dapter/paging-counts",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200,
+            "mode": "cursor",
+            "counts": "exact",
+            "ids": [1, 2]
+        }
+    },
+    {
+        "id": "PagingCountsAttributes",
+        "title": "Attribute exact counts",
+        "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+        "source": "Dapter.PagingCountsAttributes",
+        "guide": "dapter/paging-counts",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200,
+            "mode": "simple",
+            "counts": "exact",
+            "ids": [1, 2]
+        }
+    },
+    {
+        "id": "PagingCountsConfig",
+        "title": "Captured count configuration",
+        "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+        "source": "Dapter.PagingCountsConfig",
+        "guide": "dapter/paging-counts",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200,
+            "mode": "simple",
+            "counts": "exact",
+            "ids": [1, 2]
+        }
+    },
+    {
+        "id": "PagingCountsOff",
+        "title": "Explicit counts off",
+        "description": "Read seven fictional notebooks through the public protocol 2 adapter.",
+        "source": "Dapter.PagingCountsOff",
+        "guide": "dapter/paging-counts",
+        "request": {
+            "version": 2
+        },
+        "expected": {
+            "status": 200,
+            "mode": "simple",
+            "counts": "unknown",
+            "ids": [1, 2]
+        }
+    }
+]

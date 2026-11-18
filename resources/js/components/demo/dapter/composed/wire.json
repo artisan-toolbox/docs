@@ -1,0 +1,170 @@
+{
+    "version": 2,
+    "data": [
+        {
+            "id": 1,
+            "name": "Notebook 10",
+            "quantity": 0,
+            "status": "active",
+            "rank": 1
+        },
+        {
+            "id": 2,
+            "name": "Notebook 2",
+            "quantity": 2,
+            "status": "paused",
+            "rank": 1
+        },
+        {
+            "id": 3,
+            "name": "Pencil",
+            "quantity": 0,
+            "status": "active",
+            "rank": 2
+        },
+        {
+            "id": 4,
+            "name": "Paper",
+            "quantity": 4,
+            "status": "active",
+            "rank": 2
+        }
+    ],
+    "requested": {
+        "version": 2,
+        "fields": {},
+        "global": {},
+        "searchMatch": "all",
+        "order": {
+            "kind": "default"
+        },
+        "paging": {
+            "mode": "offset",
+            "current": 1,
+            "per_page": 4
+        }
+    },
+    "state": {
+        "order": {
+            "kind": "source"
+        },
+        "paging": {
+            "mode": "offset",
+            "current": 1,
+            "per_page": 4
+        }
+    },
+    "paging": {
+        "mode": "offset",
+        "current": 1,
+        "per_page": 4,
+        "pages": 1,
+        "total": 4,
+        "filtered": 4,
+        "has_previous": false,
+        "has_next": false
+    },
+    "capabilities": {
+        "fields": {
+            "name": {
+                "search": {
+                    "matchTypes": ["contains", "equals"],
+                    "valueType": "string"
+                },
+                "order": {
+                    "sortTypes": ["native", "natural"],
+                    "directions": ["asc", "desc"]
+                },
+                "filters": null
+            },
+            "rank": {
+                "search": null,
+                "order": {
+                    "sortTypes": ["native"],
+                    "directions": ["asc", "desc"]
+                },
+                "filters": null
+            },
+            "quantity": {
+                "search": null,
+                "order": {
+                    "sortTypes": ["native", "numeric"],
+                    "directions": ["asc", "desc"]
+                },
+                "filters": null
+            }
+        },
+        "global": {
+            "multi_order": true,
+            "multi_order_limit": 2,
+            "searchMatch": {
+                "default": "all",
+                "allowed": ["all", "any"]
+            },
+            "filters": {
+                "status": {
+                    "values": ["active", "paused"],
+                    "multiple": false
+                },
+                "many": {
+                    "values": ["active", "paused"],
+                    "multiple": true,
+                    "empty": "reject"
+                },
+                "mixed": {
+                    "values": [null, false, 0, "0", ""],
+                    "multiple": false
+                }
+            },
+            "search": {
+                "valueType": "string",
+                "targets": {
+                    "name": {
+                        "valueType": "string",
+                        "matchType": "contains"
+                    },
+                    "quantity": {
+                        "valueType": "integer",
+                        "matchType": "equals"
+                    }
+                }
+            },
+            "order": {
+                "presets": [
+                    {
+                        "id": "reverse",
+                        "label": "Newest first"
+                    }
+                ],
+                "pagingModes": ["offset"]
+            },
+            "stability": {
+                "prefix": [
+                    {
+                        "id": "rank",
+                        "direction": "asc",
+                        "sortType": "native"
+                    }
+                ],
+                "identity": [
+                    {
+                        "id": "id",
+                        "direction": "asc",
+                        "sortType": "native"
+                    }
+                ]
+            }
+        },
+        "paging": {
+            "mode": "offset",
+            "per_page": 4,
+            "per_page_options": [2, 4]
+        }
+    },
+    "metadata": {
+        "records": {
+            "mode": "unidentified"
+        },
+        "channel": null
+    }
+}

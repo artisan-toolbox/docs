@@ -1,4 +1,5 @@
 <script setup>
+import QuickstartUsageDemo from '@/components/demo/dapter/listing/QuickstartUsageDemo.vue';
 import PackageGuideHeader from '@/components/docs/PackageGuideHeader.vue';
 import Requirements from '@/components/docs/Requirements.vue';
 import ProseSection from '@/components/docs/ProseSection.vue';
@@ -12,9 +13,6 @@ defineProps({
     page: { type: Object, required: true },
     navigation: { type: Array, required: true },
 });
-const identity = `use ArtisanToolbox\\Dapter\\Dapter;
-
-dump(Dapter::VERSION); // "1.0.0-alpha.1"`;
 const adapter = `<script setup>
 import { DataAdapter } from '@artisan-toolbox/dapter';
 \x3C/script>
@@ -23,7 +21,11 @@ import { DataAdapter } from '@artisan-toolbox/dapter';
     <DataAdapter source="Dapter.Quickstart" v-slot="adapter">
         <p v-if="adapter.paging.loading">Loading...</p>
         <p v-if="adapter.error" role="alert">{{ adapter.error.message }}</p>
-        <pre v-if="adapter.ready">{{ adapter.data }}</pre>
+        <ul v-if="adapter.ready">
+            <li v-for="notebook in adapter.data" :key="notebook.id">{{ notebook.name }}</li>
+        </ul>
+        <button :disabled="!adapter.paging.has_next || adapter.paging.loading"
+            @click="adapter.paging.goToNext()">Next</button>
     </DataAdapter>
 </template>`;
 </script>
@@ -32,26 +34,21 @@ import { DataAdapter } from '@artisan-toolbox/dapter';
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
         <div data-document-content class="flex min-w-0 flex-col gap-10">
-            <ProseSection id="preview" title="Preview scope">
+            <ProseSection id="preview" title="List records from Laravel">
                 <p>
-                    Dapter reads and paginates server-owned data through a headless Vue adapter.
-                    This unpublished local preview supports Collections and ordinary SQLite Eloquent
-                    sources, offset paging, typed options, PHP attributes, and guard and Gate access
-                    checks. A host composable and a bound component can share one adapter, while
-                    named stores keep independent state. Search, filters, selectable sorting, MySQL,
-                    PostgreSQL, URL persistence, scrolling, and live updates remain future work.
+                    Dapter gives your Vue page an authorized list of records and controls for
+                    reading the next page. Render the records as a list, table, or cards. This guide
+                    uses a public Collection. Dapter also reads ordinary SQLite, MySQL, and
+                    PostgreSQL Eloquent sources.
                 </p>
-                <p>
-                    The source is developed on <code>1.x</code>. A local checkout is not a published
-                    stable release. The shared version label reports whether this documentation
-                    application has the package installed.
-                </p>
+                <p>The <code>1.x</code> checkout is an unpublished local preview.</p>
             </ProseSection>
             <Requirements :items="page.requirements" />
-            <ProseSection id="installation" title="Install a local preview">
+            <ProseSection id="installation" title="Install the local preview">
                 <p>
-                    Start in an existing compatible Laravel application, with a Dapter checkout
-                    beside it. Run these commands from the application root:
+                    Start in the root of an existing Laravel application with Inertia and Vue. Place
+                    the Dapter checkout in a sibling directory named <code>dapter</code>. Install
+                    the backend first.
                 </p>
                 <InstallCommand
                     :package="page.package"
@@ -60,67 +57,59 @@ import { DataAdapter } from '@artisan-toolbox/dapter';
                 <p>
                     Follow
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/installation').href"
-                        >Install the Dapter preview</DocsLink
+                        >Install Dapter</DocsLink
                     >
-                    to connect the frontend after Composer completes.
+                    to connect Vite, the frontend package, and the session-backed read route.
                 </p>
             </ProseSection>
             <ProseSection id="first-example" title="Read the first page">
                 <p>
-                    After completing the
-                    <DocsLink
-                        :href="
-                            findNavigationItem(navigation, 'dapter/installation').href +
-                            '#vite-config'
-                        "
-                        >required Vue source configuration</DocsLink
-                    >, expose <code>dapter.data</code> in Ziggy and keep Laravel's web middleware,
-                    session, and CSRF integration enabled. Create
-                    <code>app/DataSources/Dapter/Quickstart.php</code> with this self-contained
-                    fictional catalog. Its explicit public attribute permits guests. Other sources
-                    require authentication under the configured guard by default.
+                    Create <code>app/DataSources/Dapter/Quickstart.php</code>. This source generates
+                    23 notebooks in memory. Its <code>PublicAccess</code> attribute lets a guest
+                    read the catalog. Sources require authentication by default.
                 </p>
                 <CodeExample
                     language="php"
                     label="Executed quickstart source"
                     :code="quickstartSource" />
-                <p>Mount this component in an existing Inertia page:</p>
+                <p>
+                    Mount this component on an existing Vue page. Dapter requests the first ten rows
+                    when the adapter mounts. The example uses the default protocol 1.
+                </p>
                 <CodeExample
                     language="vue"
                     label="Load the source asynchronously"
                     :code="adapter" />
                 <p>
-                    After loading, the page displays Notebook 01 through Notebook 10 from the
-                    23-record catalog. The adapter requests data after mounting. Open
-                    <DocsLink :href="findNavigationItem(navigation, 'dapter/sources').href"
-                        >Declare a data source</DocsLink
-                    >
-                    to run this exact source with Front Awesome controls. Continue with
-                    <DocsLink :href="findNavigationItem(navigation, 'dapter/listing').href"
-                        >Read and paginate a source</DocsLink
-                    >
-                    for paging controls.
+                    Select <strong>Start example</strong> to see Notebook 01 through Notebook 10.
+                    Select <strong>Next</strong> to read Notebook 11 through Notebook 20.
                 </p>
-                <p>The existing identity API remains available:</p>
-                <CodeExample language="php" label="Read the package version" :code="identity" />
-                <p>The dump displays <code>1.0.0-alpha.1</code>. No configuration is required.</p>
+                <QuickstartUsageDemo />
             </ProseSection>
-            <ProseSection id="next-steps" title="Next steps">
+            <ProseSection id="next-steps" title="Choose a task">
                 <p>
-                    Read the
-                    <DocsLink :href="findNavigationItem(navigation, 'dapter/roadmap').href"
-                        >Dapter roadmap</DocsLink
-                    >
-                    for the remaining architecture and delivery phases. Completed slices are
-                    identified separately from proposed APIs. No stable release is available.
+                    Choose the feature you want to add. Each guide supplies its prerequisites and
+                    examples.
                 </p>
+                <nav aria-label="Dapter guides" data-search-exclude>
+                    <ul>
+                        <li
+                            v-for="guide in findNavigationItem(navigation, 'dapter').children"
+                            :key="guide.slug">
+                            <DocsLink :href="guide.href">{{ guide.title }}</DocsLink>
+                        </li>
+                    </ul>
+                </nav>
+            </ProseSection>
+            <ProseSection id="vue-controls" title="Add controls to your list">
                 <p>
-                    Read
-                    <DocsLink :href="findNavigationItem(navigation, 'dapter/development').href"
-                        >Develop Dapter</DocsLink
-                    >
-                    for the test matrix, TypeScript contracts, distribution checks, and artwork
-                    workflow.
+                    For a search box, start with
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/field-search').href"
+                        >search by name</DocsLink
+                    >. To display the same result in two layouts,
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/vue-controls').href"
+                        >share one adapter between views</DocsLink
+                    >.
                 </p>
             </ProseSection>
         </div>

@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\DataSources\Dapter\StringActionCatalog;
+use App\Demo\Dapter\Fields\FieldConfiguration;
 use App\Demo\Dapter\Listing\DemoConfiguration;
+use App\Demo\Dapter\Live\Configuration;
+use App\Demo\Dapter\Paging\PagingConfiguration;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
@@ -23,6 +27,13 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         DemoConfiguration::register();
+        FieldConfiguration::register();
+        PagingConfiguration::register();
+        Configuration::register();
+        \App\Demo\Dapter\Literal\DemoConfiguration::register();
+        Gate::define('docsDapterWrite', fn (?User $user): bool => session('docs.dapter.actions.enabled', false) === true);
+        Gate::define('docsDapterRecord', fn (?User $user, array $record, string $scope): bool => $scope === 'fictional' && $record['id'] === 1 && $record['tenant'] === 1 && session('docs.dapter.actions.enabled', false) === true);
+        Gate::define('docsDapterInspectString', fn (?User $user, array $record): bool => in_array($record['id'], StringActionCatalog::IDS, true));
         $origin = Uri::of(config()->string('app.url'));
         URL::useOrigin($origin->toString());
         URL::forceScheme($origin->scheme());

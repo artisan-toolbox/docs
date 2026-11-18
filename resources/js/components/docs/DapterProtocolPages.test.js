@@ -25,8 +25,8 @@ describe('current Dapter protocol references', () => {
                 2,
             ).replace(/\s+/g, ' ');
             expect(documents.some((document) => document.body.includes(expected))).toBe(true);
-            expect(documents.some((document) => document.body.includes('unpublished local'))).toBe(
-                true,
+            expect(documents.find((document) => document.anchor === 'scope')?.body).toContain(
+                'unpublished local preview',
             );
         },
     );

@@ -19,8 +19,8 @@ defineProps({
                 <p>
                     A source owns the records a reader may see. Put tenant and visibility
                     restrictions in <code>source()</code> or the model's applicable scopes. Dapter
-                    does not infer a tenant or add missing application policy. This explanation
-                    covers the unpublished local offset-listing preview.
+                    does not infer a tenant or add missing application policy. The offset example
+                    below uses a fictional studio in the unpublished Dapter preview.
                 </p>
                 <p>
                     Complete
@@ -44,15 +44,16 @@ defineProps({
                     application's actual namespace followed by <code>DataSources</code>. In the
                     usual Laravel application, this is
                     <code>App\DataSources\Dapter\ScopedRecords</code>. Identifiers use dotted ASCII
-                    PHP class segments. There is no current alias registry or namespace
-                    configuration option.
+                    PHP class segments. Explicit aliases registered through the public
+                    SourceRegistry resolve before this convention. No namespace configuration option
+                    is required.
                 </p>
                 <p>
                     Dapter constructs a fresh source for every HTTP request, even if the application
                     registers that source as a container singleton. Its dependencies retain their
-                    own Laravel container lifetimes. After access checks, each read calls
-                    <code>source()</code> once. Constructors and option declarations run earlier and
-                    must not read protected records.
+                    own Laravel container lifetimes. After access checks, the built-in drivers call
+                    <code>source()</code> once per read. Constructors and option declarations run
+                    earlier and must not read protected records.
                 </p>
                 <p>
                     The selected guard and any Gate authorize the read before protected source work.
@@ -93,16 +94,17 @@ defineProps({
             <SourceBoundariesDemo />
             <ProseSection id="current-limits" title="Understand the current boundary">
                 <p>
-                    The HTTP coordinator resolves and authorizes the source, then immediately
-                    executes its bound driver. The current validated plan contains options and
-                    paging. A plan used directly by trusted server code does not authenticate a
-                    reader or seal a source, scope, connection, or projection audience.
+                    The HTTP endpoint checks source access before it runs the selected operations.
+                    If trusted server code executes a read plan directly, the caller owns reader
+                    authorization, the source scope, the connection, and the projection audience.
                 </p>
                 <p>
-                    Eloquent reads prepare a private scoped builder and clone it for counts and
-                    rows. A clone preserves query clauses. It does not promise a database snapshot,
-                    transaction isolation, or a pinned physical connection. Only ordinary SQLite
-                    model queries are established in this preview.
+                    For Eloquent offset reads, Dapter prepares a scoped builder and clones it for
+                    counts and rows. Cloning preserves the clauses. Concurrent writes can still
+                    change the result between queries. The driver retains its read and write PDO
+                    objects and rejects replacement before catalog, count, or page reads. Keep the
+                    connection's SQL session and selected database stable during execution. Ordinary
+                    SQLite, MySQL, and PostgreSQL model queries are supported.
                 </p>
                 <p>
                     Source authors must keep the returned builder and any retained nested builders
@@ -117,22 +119,31 @@ defineProps({
                     may adjust visible attributes while preserving the bounded page. If the returned
                     row count contradicts the exact offset metadata, the server returns a sanitized
                     configuration error instead of a contradictory success. Invalid aggregate counts
-                    fail the same boundary before page rows are read. A count/data race can also
-                    cause that recoverable error; reload explicitly rather than relying on a
-                    transactionally consistent snapshot.
+                    fail before the page query. If concurrent writes change the result between
+                    counting and fetching rows, reload to read the page again.
                 </p>
                 <p>
-                    Normal model visibility and supported top-level <code>Arrayable</code> or
-                    <code>JsonSerializable</code> rows control current JSON projection. There is no
-                    optional Resource pipeline or separate row metadata today. Ordinary Collection
-                    offset pages may contain scalars and do not require row IDs. Future
-                    cross-request identity and execution binding belong to the
-                    <DocsLink
-                        :href="
-                            findNavigationItem(navigation, 'dapter/design/source-boundaries').href
-                        "
-                        >planned source and record boundaries</DocsLink
-                    >.
+                    Ordinary Collection offset pages can contain scalars and need no row IDs. This
+                    example uses <code>Arrayable</code> to choose the public fields. To project each
+                    raw row with the selected reader's request, declare a
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/resources').href"
+                        >Laravel Resource</DocsLink
+                    >. Without a live declaration, protocol 2 reports
+                    <code>metadata.records.mode</code> as <code>unidentified</code> and
+                    <code>metadata.channel</code> as <code>null</code>. A
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/live-updates').href"
+                        >registered live source</DocsLink
+                    >
+                    supplies record identity and channel metadata separately from the public row.
+                </p>
+                <p>
+                    On a Collection, a selected global filter may remove rows. An order preset may
+                    reorder the filtered rows. Both must preserve the original object instances,
+                    their serialized contents, and the number of occurrences allowed by their input.
+                    A preset must keep every occurrence. Dapter checks membership using PHP
+                    serialization, so raw rows must support it when either handler runs. An ordinary
+                    Resource read can project a row with a private closure when neither handler
+                    runs.
                 </p>
                 <p>
                     Continue with

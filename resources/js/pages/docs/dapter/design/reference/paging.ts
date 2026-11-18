@@ -18,6 +18,9 @@ type Navigation = {
     readonly goToNext: () => Promise<AsyncOutcome>;
     readonly reload: () => Promise<AsyncOutcome>;
 };
+type AdvancedCounts =
+    | { readonly counts: 'unknown'; readonly total: null; readonly filtered: null }
+    | { readonly counts: 'exact'; readonly total: number; readonly filtered: number };
 export type PlannedPaging = Navigation &
     (
         | {
@@ -31,28 +34,24 @@ export type PlannedPaging = Navigation &
               readonly goToPage: (page: number) => Promise<AsyncOutcome>;
               readonly goToLast: () => Promise<AsyncOutcome>;
           }
-        | {
+        | (AdvancedCounts & {
               readonly mode: 'simple';
               readonly current: number;
               readonly pages: null;
-              readonly total: null;
-              readonly filtered: null;
               readonly previous_cursor: null;
               readonly next_cursor: null;
               readonly goToPage: null;
               readonly goToLast: null;
-          }
-        | {
+          })
+        | (AdvancedCounts & {
               readonly mode: 'cursor';
               readonly current: null;
               readonly pages: null;
-              readonly total: null;
-              readonly filtered: null;
               readonly previous_cursor: string | null;
               readonly next_cursor: string | null;
               readonly goToPage: null;
               readonly goToLast: null;
-          }
+          })
     );
 type PagingData<P extends PlannedPaging> = Omit<P, keyof Navigation | 'goToPage' | 'goToLast'> & {
     readonly per_page: number;

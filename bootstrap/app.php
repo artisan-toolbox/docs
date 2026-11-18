@@ -1,5 +1,6 @@
 <?php
 
+use App\Demo\Dapter\Paging\DemonstrationClock;
 use App\Http\Middleware\DocumentationSearchHeaders;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\PreventInternalIndexing;
@@ -28,6 +29,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->encryptCookies(except: ['sidebar_state']);
 
         $middleware->web(append: [
+            DemonstrationClock::class,
             HandlePreferences::class,
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,

@@ -1,6 +1,6 @@
 {
-    "reviewedOn": "2026-11-09",
-    "coreBaseline": "3.14.0",
+    "reviewedOn": "2026-11-17",
+    "coreBaseline": "3.15.0",
     "upstream": "https://webawesome.com/docs/",
     "statuses": {
         "implemented": {
@@ -266,6 +266,21 @@
                     }
                 },
                 {
+                    "name": "Option",
+                    "tag": "wa-option",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/option/",
+                    "help": "Define one option in a select.",
+                    "implementation": {
+                        "state": "implemented",
+                        "export": "Option",
+                        "anchor": "option",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "Select"
+                    }
+                },
+                {
                     "name": "OTP Input",
                     "tag": "wa-otp-input",
                     "edition": "Core",
@@ -281,21 +296,6 @@
                     }
                 },
                 {
-                    "name": "Radio Group",
-                    "tag": "wa-radio-group",
-                    "edition": "Core",
-                    "reference": "https://webawesome.com/docs/components/radio-group/",
-                    "help": "Choose one value from related options.",
-                    "implementation": {
-                        "state": "implemented",
-                        "export": "RadioGroup",
-                        "anchor": "radio-group",
-                        "guide": "front-awesome/web-awesome/components/forms",
-                        "guideFragment": "",
-                        "demoOwner": "RadioGroup"
-                    }
-                },
-                {
                     "name": "Radio",
                     "tag": "wa-radio",
                     "edition": "Core",
@@ -305,6 +305,21 @@
                         "state": "implemented",
                         "export": "Radio",
                         "anchor": "radio",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "RadioGroup"
+                    }
+                },
+                {
+                    "name": "Radio Group",
+                    "tag": "wa-radio-group",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/radio-group/",
+                    "help": "Choose one value from related options.",
+                    "implementation": {
+                        "state": "implemented",
+                        "export": "RadioGroup",
+                        "anchor": "radio-group",
                         "guide": "front-awesome/web-awesome/components/forms",
                         "guideFragment": "",
                         "demoOwner": "RadioGroup"
@@ -326,6 +341,18 @@
                     }
                 },
                 {
+                    "name": "Rich Text Editor",
+                    "tag": "wa-rich-text-editor",
+                    "edition": "Pro",
+                    "reference": "https://webawesome.com/docs/components/rich-text-editor/",
+                    "help": "Format text with a toolbar and submit the result as HTML.",
+                    "implementation": {
+                        "state": "planned"
+                    },
+                    "since": "3.15",
+                    "availability": "Experimental in Web Awesome 3.15.0."
+                },
+                {
                     "name": "Select",
                     "tag": "wa-select",
                     "edition": "Core",
@@ -335,21 +362,6 @@
                         "state": "implemented",
                         "export": "Select",
                         "anchor": "select",
-                        "guide": "front-awesome/web-awesome/components/forms",
-                        "guideFragment": "",
-                        "demoOwner": "Select"
-                    }
-                },
-                {
-                    "name": "Option",
-                    "tag": "wa-option",
-                    "edition": "Core",
-                    "reference": "https://webawesome.com/docs/components/option/",
-                    "help": "Define one option in a select.",
-                    "implementation": {
-                        "state": "implemented",
-                        "export": "Option",
-                        "anchor": "option",
                         "guide": "front-awesome/web-awesome/components/forms",
                         "guideFragment": "",
                         "demoOwner": "Select"
@@ -640,21 +652,6 @@
                     }
                 },
                 {
-                    "name": "Stepper",
-                    "tag": "wa-stepper",
-                    "edition": "Core",
-                    "reference": "https://webawesome.com/docs/components/stepper/",
-                    "help": "Show progress through a sequence.",
-                    "implementation": {
-                        "state": "implemented",
-                        "export": "Stepper",
-                        "anchor": "stepper",
-                        "guide": "front-awesome/web-awesome/components/navigation",
-                        "guideFragment": "",
-                        "demoOwner": "Stepper"
-                    }
-                },
-                {
                     "name": "Step",
                     "tag": "wa-step",
                     "edition": "Core",
@@ -670,18 +667,18 @@
                     }
                 },
                 {
-                    "name": "Tab Group",
-                    "tag": "wa-tab-group",
+                    "name": "Stepper",
+                    "tag": "wa-stepper",
                     "edition": "Core",
-                    "reference": "https://webawesome.com/docs/components/tab-group/",
-                    "help": "Switch between related content panels.",
+                    "reference": "https://webawesome.com/docs/components/stepper/",
+                    "help": "Show progress through a sequence.",
                     "implementation": {
                         "state": "implemented",
-                        "export": "TabGroup",
-                        "anchor": "tab-group",
+                        "export": "Stepper",
+                        "anchor": "stepper",
                         "guide": "front-awesome/web-awesome/components/navigation",
                         "guideFragment": "",
-                        "demoOwner": "TabGroup"
+                        "demoOwner": "Stepper"
                     }
                 },
                 {
@@ -694,6 +691,21 @@
                         "state": "implemented",
                         "export": "Tab",
                         "anchor": "tab",
+                        "guide": "front-awesome/web-awesome/components/navigation",
+                        "guideFragment": "",
+                        "demoOwner": "TabGroup"
+                    }
+                },
+                {
+                    "name": "Tab Group",
+                    "tag": "wa-tab-group",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/tab-group/",
+                    "help": "Switch between related content panels.",
+                    "implementation": {
+                        "state": "implemented",
+                        "export": "TabGroup",
+                        "anchor": "tab-group",
                         "guide": "front-awesome/web-awesome/components/navigation",
                         "guideFragment": "",
                         "demoOwner": "TabGroup"
@@ -977,8 +989,7 @@
                     "implementation": {
                         "state": "planned"
                     },
-                    "since": "3.15",
-                    "availability": "Experimental; newer than the Core 3.14.0 baseline."
+                    "availability": "Experimental in Web Awesome 3.15.0."
                 },
                 {
                     "name": "Comparison",
@@ -1009,6 +1020,30 @@
                         "guideFragment": "#icon",
                         "demoOwner": "Icon"
                     }
+                },
+                {
+                    "name": "Lightbox",
+                    "tag": "wa-lightbox",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/lightbox/",
+                    "help": "Open images and videos in a full-screen gallery.",
+                    "implementation": {
+                        "state": "planned"
+                    },
+                    "since": "3.15",
+                    "availability": "Experimental in Web Awesome 3.15.0."
+                },
+                {
+                    "name": "Lightbox Item",
+                    "tag": "wa-lightbox-item",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/lightbox-item/",
+                    "help": "Connect a thumbnail to its full-size image or video in a lightbox.",
+                    "implementation": {
+                        "state": "planned"
+                    },
+                    "since": "3.15",
+                    "availability": "Experimental in Web Awesome 3.15.0."
                 },
                 {
                     "name": "Markdown",
@@ -1121,6 +1156,22 @@
                         "guideFragment": "",
                         "demoOwner": "BubbleChart"
                     }
+                },
+                {
+                    "name": "Chart",
+                    "tag": "wa-chart",
+                    "edition": "Pro",
+                    "reference": "https://webawesome.com/docs/components/chart/",
+                    "help": "Configure chart types, datasets, and plugins.",
+                    "implementation": {
+                        "state": "implemented",
+                        "export": "Chart",
+                        "anchor": "chart",
+                        "guide": "front-awesome/web-awesome/components/data-viz",
+                        "guideFragment": "",
+                        "demoOwner": "Chart"
+                    },
+                    "since": "3.3"
                 },
                 {
                     "name": "Data Grid",
@@ -1241,22 +1292,6 @@
                         "guideFragment": "",
                         "demoOwner": "Sparkline"
                     }
-                },
-                {
-                    "name": "Chart",
-                    "tag": "wa-chart",
-                    "edition": "Pro",
-                    "reference": "https://webawesome.com/docs/components/chart/",
-                    "help": "Configure chart types, datasets, and plugins.",
-                    "implementation": {
-                        "state": "implemented",
-                        "export": "Chart",
-                        "anchor": "chart",
-                        "guide": "front-awesome/web-awesome/components/data-viz",
-                        "guideFragment": "",
-                        "demoOwner": "Chart"
-                    },
-                    "since": "3.3"
                 }
             ]
         },
@@ -1279,6 +1314,18 @@
                         "guideFragment": "",
                         "demoOwner": "Animation"
                     }
+                },
+                {
+                    "name": "Counter",
+                    "tag": "wa-counter",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/counter/",
+                    "help": "Count down to a date or show the time elapsed since it.",
+                    "implementation": {
+                        "state": "planned"
+                    },
+                    "since": "3.15",
+                    "availability": "Experimental in Web Awesome 3.15.0."
                 },
                 {
                     "name": "Format Bytes",
@@ -1369,6 +1416,18 @@
                         "guideFragment": "",
                         "demoOwner": "MutationObserver"
                     }
+                },
+                {
+                    "name": "Number Ticker",
+                    "tag": "wa-number-ticker",
+                    "edition": "Core",
+                    "reference": "https://webawesome.com/docs/components/number-ticker/",
+                    "help": "Animate a number to its target value when it scrolls into view.",
+                    "implementation": {
+                        "state": "planned"
+                    },
+                    "since": "3.15",
+                    "availability": "Experimental in Web Awesome 3.15.0."
                 },
                 {
                     "name": "Popover",

@@ -16,6 +16,11 @@ composer quality:check
 composer distribution:check
 npm run release:build
 npm run standards:check`;
+const phpstan = `includes:
+    - vendor/artisan-toolbox/dapter/extension.neon`;
+const minimumPeers = 'DAPTER_CONSUMER_PEERS=minimum npm run check:dist';
+const gitArchive = `git archive --format=zip --output=build/distribution/dapter-git.zip HEAD
+php scripts/check-composer-distribution.php build/distribution/dapter-git.zip`;
 const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
 const logo = 'python3 scripts/build-logos.py';
 </script>
@@ -34,6 +39,27 @@ const logo = 'python3 scripts/build-logos.py';
             <ProseSection id="checks" title="Run the complete checks">
                 <CodeExample label="Validate the backend and frontend" :code="checks" />
                 <p>
+                    Both PHPUnit configurations set a 512M memory limit for the test process. The
+                    complete Testbench suite can exceed PHP's 128M default even when an individual
+                    test passes. This setting applies to direct Pest runs and the Pest process
+                    started by Maintainer. CI starts PHP at 128M to verify that the project supplies
+                    its own test budget. Your application and system PHP configuration stay
+                    unchanged.
+                </p>
+                <p>
+                    Include <code>dist/index.js</code>, <code>dist/index.d.ts</code>, and both
+                    source maps in the release commit. After the checks above and that commit,
+                    verify its Git archive from the package root. A successful check confirms that
+                    declared frontend targets, PHP resources, and the consumer skill are present. A
+                    missing target fails before a consumer needs to build the package.
+                </p>
+                <CodeExample label="Verify the committed Git archive" :code="gitArchive" />
+                <p>
+                    CI performs this Git check before installing dependencies. The Ubuntu stable
+                    lane also compares the shipped files with a fresh build. A passing local
+                    Composer archive alone does not verify what a Git-backed tag will distribute.
+                </p>
+                <p>
                     Composer runs PHPStan, Pint, PHP type coverage, and Pest. Maintainer runs Pest,
                     Pint, Vite Plus checks and tests, vue-tsc, and PHPStan without skipping tools.
                     The frontend release check also runs type tests, builds ESM with declarations
@@ -41,6 +67,16 @@ const logo = 'python3 scripts/build-logos.py';
                     in an isolated consumer. The archive check requires npm registry access to
                     resolve runtime peers. It also works with an empty npm cache.
                 </p>
+                <p>
+                    The default archive check runs both stable and minimum supported runtime peer
+                    lanes. To run only the minimum lane, use the optional contributor command from
+                    the package root. The minimum lane derives its versions from the declared peer
+                    lower bounds. It currently pins Inertia Vue and Core 3.0.3, Vue 3.5.40, and
+                    Ziggy 2.6.5 in the isolated consumer. The stable lane resolves peers within the
+                    declared constraints. Both lanes check native Vite, ESM, and strict source and
+                    built consumers with Bundler and NodeNext resolution.
+                </p>
+                <CodeExample label="Validate minimum runtime peers" :code="minimumPeers" />
                 <p>
                     The archive check creates a temporary directory alias and resolves its real path
                     before starting Vite. This covers Windows temporary-directory aliases such as
@@ -71,6 +107,69 @@ const logo = 'python3 scripts/build-logos.py';
                     configuration check publishes the real file and caches its defaults on both
                     platforms.
                 </p>
+                <p>
+                    Keep both Composer lanes when changing driver types. The Eloquent driver retains
+                    its Model bound through query preparation and cloning so PHPStan can resolve
+                    hydrated rows with the minimum supported dependencies too. A passing check with
+                    the locally installed versions does not replace the lower dependency lane.
+                </p>
+            </ProseSection>
+            <ProseSection id="phpstan" title="Analyze private framework entry points">
+                <p>
+                    This optional preview integration requires PHPStan 2.3, either directly or
+                    through Larastan. Install the analyzer as development tooling in the consuming
+                    Laravel application. Dapter does not require PHPStan or Larastan at runtime.
+                </p>
+                <p>
+                    With <code>phpstan/extension-installer</code> installed and allowed in Composer,
+                    the next Composer install or update discovers Dapter's
+                    <code>extra.phpstan.includes</code> automatically. Without the installer, add
+                    this public configuration to the application's <code>phpstan.neon</code>. Remove
+                    the manual include if you later enable automatic discovery, because PHPStan
+                    rejects duplicate includes:
+                </p>
+                <CodeExample
+                    label="Enable Dapter's optional PHPStan integration"
+                    language="yaml"
+                    :code="phpstan" />
+                <p>
+                    Run the application's existing PHPStan command. Private methods marked with
+                    <code>Action</code>, <code>GlobalFilter</code>, or <code>GlobalOrder</code> are
+                    recognized as framework entry points and do not report
+                    <code>method.unused</code>. Ordinary unused private helpers still report that
+                    error. The extension preserves all other analysis rules and does not validate
+                    handler signatures or replace Dapter's runtime declaration checks.
+                </p>
+            </ProseSection>
+            <ProseSection id="native-backends" title="Run the native backend journey">
+                <p>
+                    The package's phpunit.native.xml.dist runs the same HTTP acceptance cases on
+                    arrays, Collections, SQLite, MySQL, and PostgreSQL. The dedicated
+                    backend-databases workflow provisions MySQL 8.4 and PostgreSQL 18 services.
+                    Local verification recorded SQLite 3.45.2, MySQL 8.4.11, and PostgreSQL 18.6.
+                    These are measured fixture versions, not a claim about every patch release.
+                </p>
+                <p>
+                    Before running the native configuration, provision disposable databases whose
+                    names start with dapter_. Supply DAPTER_MYSQL_DATABASE and DAPTER_PGSQL_DATABASE
+                    plus each service's HOST, PORT, USERNAME, and PASSWORD variables. The suite
+                    recreates its own dapter_native_records table inside those databases. Run php
+                    vendor/bin/pest --configuration=phpunit.native.xml.dist from the Dapter package
+                    root. Missing services or unsafe database names fail the native gate rather than
+                    skipping it. The default SQLite suite does not replace that native gate.
+                </p>
+                <p>
+                    The journey checks identical base inputs, scope preservation, total and filtered
+                    counts, literal metacharacters, strict values, native comparison differences,
+                    default and selected ordering, and rejection before protected source work. The
+                    documentation's
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/field-search').href"
+                        >field search guide</DocsLink
+                    >
+                    records the observed collation policy. The default Vue adapter remains on
+                    protocol v1. Explicit protocol 2 enables the delivered field controls, URL
+                    namespaces, and targeted scrolling.
+                </p>
             </ProseSection>
             <ProseSection id="typescript" title="Maintain the frontend contract">
                 <p>
@@ -88,9 +187,26 @@ const logo = 'python3 scripts/build-logos.py';
                     properties, unused symbols, and module syntax. Consumer checks cover Bundler and
                     NodeNext resolution for the component and its decoded slot types, unsupported
                     props, readonly records, source-only unknown rows, and the existing version. Use
-                    Vue-aware checking for the source entry. Decoders may return application value
+                    Vue-aware checking for the source entry. Native action options use the exact
+                    installed Inertia types with Bundler resolution. NodeNext uses
+                    compiler-generated conservative native options from the minimum supported
+                    Inertia 3.0.3 declarations, because the SDK public declaration graph has
+                    extensionless imports. The distribution check regenerates and verifies that
+                    compatibility declaration. NodeNext does not promise newer SDK-only fields such
+                    as Page.rescuedProps; Bundler exposes the installed version's fields. Both modes
+                    retain consumer InertiaConfig augmentation for errors, shared page props, and
+                    flash data. Runtime callbacks still receive native objects. Runtime peers and
+                    supported versions remain unchanged. Decoders may return application value
                     objects. Their native methods retain their behavior; plain object and array
                     structure is readonly.
+                </p>
+                <p>
+                    From the package root, <code>npm run native-types:generate</code> regenerates
+                    the NodeNext baseline from an isolated installation of the exact minimum public
+                    Inertia SDK. <code>npm run native-types:check</code> verifies the generated file
+                    without changing it. Both commands require registry access and remove their
+                    temporary installation afterward. The minimum packed-consumer lane runs the same
+                    verification.
                 </p>
                 <p>
                     Consuming Vite applications must use the

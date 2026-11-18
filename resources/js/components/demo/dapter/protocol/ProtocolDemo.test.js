@@ -74,7 +74,7 @@ describe('current Dapter raw protocol examples', () => {
 
     it.each([
         ['Send malformed JSON', 'malformed-json', 'ProtocolRecords'],
-        ['Send version 2', 'future-version', 'ProtocolRecords'],
+        ['Send version 3', 'future-version', 'ProtocolRecords'],
         ['Send a list envelope', 'list-envelope', 'ProtocolRecords'],
         ['Request a missing source', 'missing-source', 'ProtocolMissing'],
         ['Read an invalid definition', 'server-failure', 'ProtocolInvalidRecords'],

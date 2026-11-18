@@ -25,10 +25,11 @@ defineProps({
                 </p>
                 <p>
                     This reference settles proposed source, execution, and record boundaries for
-                    protocol version 2. These APIs and metadata are unavailable in the current
-                    package. The checked TypeScript sources are pure documentation specifications.
-                    Their tests do not establish future database routing, Resource, or Echo
-                    behavior.
+                    later protocol version 2 capabilities. Durable identity, Resources, channel
+                    metadata, and sealed execution remain unavailable. The delivered backend v2
+                    subset reports unidentified records and channel null. The checked TypeScript
+                    sources remain documentation specifications for the broader design. Their tests
+                    do not establish future database routing, Resource, or Echo behavior.
                 </p>
                 <p>
                     Use the

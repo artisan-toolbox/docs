@@ -63,6 +63,19 @@ final class UserActions
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
         <div data-document-content class="flex min-w-0 flex-col gap-10">
+            <ProseSection id="implemented-preview" title="Use the working preview guides"
+                ><p>
+                    This page preserves historical design examples and their original anchors. Some
+                    proposed signatures differ from the delivered unpublished preview. Follow the
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/actions').href"
+                        >native actions guide</DocsLink
+                    >
+                    for executable public APIs, prerequisites, current limits, and behavioral
+                    checks. The design examples below do not replace those instructions. Simple and
+                    cursor paging are delivered through the focused working guides. Resources and
+                    live updates remain proposals.
+                </p></ProseSection
+            >
             <ProseSection>
                 <p>
                     Design proposal for the unpublished Dapter preview. Unless a section explicitly
@@ -83,8 +96,9 @@ final class UserActions
             </ProseSection>
             <ProseSection id="datastore-actions" title="DataStore actions and internal routes">
                 <p>
-                    These action APIs are proposed and unavailable. A private nonstatic DataSource
-                    method opts in with <code>Action</code>. Alternatively,
+                    These historical action examples preserve the original proposal. Follow the
+                    working native-actions guide for current signatures. A private nonstatic
+                    DataSource method opts in with <code>Action</code>. Alternatively,
                     <code>StoreOptions::withActions(UserActions::class)</code> registers a dedicated
                     action class. Its directly declared public nonstatic methods become actions.
                     Trait methods count as declarations of the consuming class. Inherited methods,

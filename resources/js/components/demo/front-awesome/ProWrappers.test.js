@@ -9,6 +9,7 @@ const demos = import.meta.glob('./*/*Demo.vue', { eager: true, import: 'default'
 const pro = catalog.groups
     .flatMap((group) => group.components)
     .filter((item) => item.edition === 'Pro');
+const implemented = pro.filter((item) => item.implementation.state === 'implemented');
 const demoFor = (name) => {
     const owner = catalog.groups
         .flatMap((group) => group.components)
@@ -46,21 +47,20 @@ describe('licensed Pro wrapper live examples', () => {
         const tags = manifest.modules
             .flatMap((module) => module.declarations ?? [])
             .flatMap((declaration) => (declaration.tagName ? [declaration.tagName] : []));
-        expect(pro).toHaveLength(17);
+        expect(pro).toHaveLength(18);
+        expect(implemented).toHaveLength(17);
         expect(
             catalog.groups
                 .flatMap((group) => group.components)
-                .filter((item) => item.implementation.state === 'implemented')
                 .map((item) => item.tag)
                 .sort((left, right) => left.localeCompare(right)),
         ).toEqual(tags.sort((left, right) => left.localeCompare(right)));
-        for (const item of pro) {
-            expect(tags).toContain(item.tag);
-            expect(item.implementation.state).toBe('implemented');
-        }
+        expect(
+            pro.filter((item) => item.implementation.state === 'planned').map((item) => item.tag),
+        ).toEqual(['wa-rich-text-editor']);
     });
 
-    for (const item of pro) {
+    for (const item of implemented) {
         it(`renders the public ${item.name} wrapper with its required context`, async () => {
             const wrapper = mount(demoFor(item.implementation.export));
             if (gated.has(item.implementation.export)) {

@@ -1,0 +1,1059 @@
+{
+    "ResourceFluent": {
+        "version": 1,
+        "data": [
+            {
+                "name": "Notebook 01",
+                "details": {
+                    "reader": "guest",
+                    "selected": "guest"
+                },
+                "related": [
+                    {
+                        "reader": "guest",
+                        "selected": "guest"
+                    }
+                ]
+            }
+        ],
+        "requested": {
+            "version": 1,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 10
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 10
+            }
+        },
+        "paging": {
+            "mode": "offset",
+            "current": 1,
+            "per_page": 10,
+            "pages": 1,
+            "total": 1,
+            "filtered": 1,
+            "has_previous": false,
+            "has_next": false
+        },
+        "capabilities": {
+            "fields": {},
+            "global": {
+                "multi_order": false,
+                "multi_order_limit": 1,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": null
+            },
+            "paging": {
+                "mode": "offset",
+                "per_page": 10,
+                "per_page_options": [5, 10, 50, 100]
+            }
+        }
+    },
+    "ResourceAttributes": {
+        "version": 1,
+        "data": [
+            {
+                "name": "Notebook 01",
+                "details": {
+                    "reader": "guest",
+                    "selected": "guest"
+                },
+                "related": [
+                    {
+                        "reader": "guest",
+                        "selected": "guest"
+                    }
+                ]
+            }
+        ],
+        "requested": {
+            "version": 1,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 10
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 10
+            }
+        },
+        "paging": {
+            "mode": "offset",
+            "current": 1,
+            "per_page": 10,
+            "pages": 1,
+            "total": 1,
+            "filtered": 1,
+            "has_previous": false,
+            "has_next": false
+        },
+        "capabilities": {
+            "fields": {},
+            "global": {
+                "multi_order": false,
+                "multi_order_limit": 1,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": null
+            },
+            "paging": {
+                "mode": "offset",
+                "per_page": 10,
+                "per_page_options": [5, 10, 50, 100]
+            }
+        }
+    },
+    "LivePrivate": {
+        "version": 2,
+        "data": [
+            {
+                "name": "Notebook 01",
+                "details": {
+                    "reader": "Fictional reader",
+                    "selected": "Fictional reader"
+                },
+                "related": [
+                    {
+                        "reader": "Fictional reader",
+                        "selected": "Fictional reader"
+                    }
+                ]
+            },
+            {
+                "name": "Notebook 02",
+                "details": {
+                    "reader": "Fictional reader",
+                    "selected": "Fictional reader"
+                },
+                "related": [
+                    {
+                        "reader": "Fictional reader",
+                        "selected": "Fictional reader"
+                    }
+                ]
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "offset",
+            "current": 1,
+            "per_page": 2,
+            "pages": 1,
+            "total": 2,
+            "filtered": 2,
+            "has_previous": false,
+            "has_next": false
+        },
+        "capabilities": {
+            "fields": {},
+            "global": {
+                "multi_order": false,
+                "multi_order_limit": 1,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": null
+            },
+            "paging": {
+                "mode": "offset",
+                "per_page": 2,
+                "per_page_options": [2]
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "revisioned",
+                "format": "uint64-decimal",
+                "rows": [
+                    {
+                        "id": 1,
+                        "revision": "1"
+                    },
+                    {
+                        "id": 2,
+                        "revision": "1"
+                    }
+                ]
+            },
+            "channel": {
+                "type": "private",
+                "name": "docs.dapter.notebooks.OtWTPQ-ktjNZQHj0PlWZG6W5p9G3_Np3E_B6R45QMZ4",
+                "event": ".dapter.updated"
+            }
+        }
+    },
+    "LiveAttributes": {
+        "version": 2,
+        "data": [
+            {
+                "name": "Notebook 01",
+                "details": {
+                    "reader": "Fictional reader",
+                    "selected": "Fictional reader"
+                },
+                "related": [
+                    {
+                        "reader": "Fictional reader",
+                        "selected": "Fictional reader"
+                    }
+                ]
+            },
+            {
+                "name": "Notebook 02",
+                "details": {
+                    "reader": "Fictional reader",
+                    "selected": "Fictional reader"
+                },
+                "related": [
+                    {
+                        "reader": "Fictional reader",
+                        "selected": "Fictional reader"
+                    }
+                ]
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "offset",
+            "current": 1,
+            "per_page": 2,
+            "pages": 1,
+            "total": 2,
+            "filtered": 2,
+            "has_previous": false,
+            "has_next": false
+        },
+        "capabilities": {
+            "fields": {},
+            "global": {
+                "multi_order": false,
+                "multi_order_limit": 1,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": null
+            },
+            "paging": {
+                "mode": "offset",
+                "per_page": 2,
+                "per_page_options": [2]
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "revisioned",
+                "format": "uint64-decimal",
+                "rows": [
+                    {
+                        "id": 1,
+                        "revision": "1"
+                    },
+                    {
+                        "id": 2,
+                        "revision": "1"
+                    }
+                ]
+            },
+            "channel": {
+                "type": "private",
+                "name": "docs.dapter.attributes.wzun6_qmbODYvuVPLsQ1HxSJDJTKJ5VPdPtTeCqqchQ",
+                "event": ".dapter.updated"
+            }
+        }
+    },
+    "LiveShorthand": {
+        "version": 2,
+        "data": [
+            {
+                "name": "Notebook 01",
+                "details": {
+                    "reader": "Fictional reader",
+                    "selected": "Fictional reader"
+                },
+                "related": [
+                    {
+                        "reader": "Fictional reader",
+                        "selected": "Fictional reader"
+                    }
+                ]
+            },
+            {
+                "name": "Notebook 02",
+                "details": {
+                    "reader": "Fictional reader",
+                    "selected": "Fictional reader"
+                },
+                "related": [
+                    {
+                        "reader": "Fictional reader",
+                        "selected": "Fictional reader"
+                    }
+                ]
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 10
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 10
+            }
+        },
+        "paging": {
+            "mode": "offset",
+            "current": 1,
+            "per_page": 10,
+            "pages": 1,
+            "total": 2,
+            "filtered": 2,
+            "has_previous": false,
+            "has_next": false
+        },
+        "capabilities": {
+            "fields": {},
+            "global": {
+                "multi_order": false,
+                "multi_order_limit": 1,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": null
+            },
+            "paging": {
+                "mode": "offset",
+                "per_page": 10,
+                "per_page_options": [5, 10, 50, 100]
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "identified",
+                "rows": [
+                    {
+                        "id": 1
+                    },
+                    {
+                        "id": 2
+                    }
+                ]
+            },
+            "channel": {
+                "type": "private",
+                "name": "dapter.docs-dapter.Dapter.LiveShorthand.SfFhvC5aQrQpFp_nRPeyW5UuQJ2hOX5BxPp-a8m2GMo",
+                "event": ".dapter.updated"
+            }
+        }
+    },
+    "LiveIdentity": {
+        "version": 2,
+        "data": [
+            {
+                "name": "Notebook 01",
+                "details": {
+                    "reader": "Fictional reader",
+                    "selected": "Fictional reader"
+                },
+                "related": [
+                    {
+                        "reader": "Fictional reader",
+                        "selected": "Fictional reader"
+                    }
+                ]
+            },
+            {
+                "name": "Notebook 02",
+                "details": {
+                    "reader": "Fictional reader",
+                    "selected": "Fictional reader"
+                },
+                "related": [
+                    {
+                        "reader": "Fictional reader",
+                        "selected": "Fictional reader"
+                    }
+                ]
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "offset",
+            "current": 1,
+            "per_page": 2,
+            "pages": 1,
+            "total": 2,
+            "filtered": 2,
+            "has_previous": false,
+            "has_next": false
+        },
+        "capabilities": {
+            "fields": {},
+            "global": {
+                "multi_order": false,
+                "multi_order_limit": 1,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": null
+            },
+            "paging": {
+                "mode": "offset",
+                "per_page": 2,
+                "per_page_options": [2]
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "revisioned",
+                "format": "uint64-decimal",
+                "rows": [
+                    {
+                        "id": "notebook:1",
+                        "revision": "1"
+                    },
+                    {
+                        "id": "notebook:2",
+                        "revision": "1"
+                    }
+                ]
+            },
+            "channel": {
+                "type": "private",
+                "name": "docs.dapter.identity.TdeQ_isqWSO6GeuUp_WiZ8ut-gUGHxX11gqVHgFYFo8",
+                "event": ".dapter.updated"
+            }
+        }
+    },
+    "LiveArrival": {
+        "version": 2,
+        "data": [
+            {
+                "name": "Notebook 01",
+                "details": {
+                    "reader": "Fictional reader",
+                    "selected": "Fictional reader"
+                },
+                "related": [
+                    {
+                        "reader": "Fictional reader",
+                        "selected": "Fictional reader"
+                    }
+                ]
+            },
+            {
+                "name": "Notebook 02",
+                "details": {
+                    "reader": "Fictional reader",
+                    "selected": "Fictional reader"
+                },
+                "related": [
+                    {
+                        "reader": "Fictional reader",
+                        "selected": "Fictional reader"
+                    }
+                ]
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "offset",
+            "current": 1,
+            "per_page": 2,
+            "pages": 1,
+            "total": 2,
+            "filtered": 2,
+            "has_previous": false,
+            "has_next": false
+        },
+        "capabilities": {
+            "fields": {},
+            "global": {
+                "multi_order": false,
+                "multi_order_limit": 1,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": null
+            },
+            "paging": {
+                "mode": "offset",
+                "per_page": 2,
+                "per_page_options": [2]
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "identified",
+                "rows": [
+                    {
+                        "id": 1
+                    },
+                    {
+                        "id": 2
+                    }
+                ]
+            },
+            "channel": {
+                "type": "private",
+                "name": "docs.dapter.arrival.DM44Ry6s9vgo7tm8KFPL-zWW2KrfUBWFltk7lO2fm-g",
+                "event": ".dapter.updated"
+            }
+        }
+    },
+    "LiveNative": {
+        "version": 2,
+        "data": [
+            {
+                "name": "Notebook 01",
+                "details": {
+                    "reader": "Fictional reader",
+                    "selected": "Fictional reader"
+                },
+                "related": [
+                    {
+                        "reader": "Fictional reader",
+                        "selected": "Fictional reader"
+                    }
+                ]
+            },
+            {
+                "name": "Notebook 02",
+                "details": {
+                    "reader": "Fictional reader",
+                    "selected": "Fictional reader"
+                },
+                "related": [
+                    {
+                        "reader": "Fictional reader",
+                        "selected": "Fictional reader"
+                    }
+                ]
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "offset",
+            "current": 1,
+            "per_page": 2,
+            "pages": 1,
+            "total": 2,
+            "filtered": 2,
+            "has_previous": false,
+            "has_next": false
+        },
+        "capabilities": {
+            "fields": {},
+            "global": {
+                "multi_order": false,
+                "multi_order_limit": 1,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": null
+            },
+            "paging": {
+                "mode": "offset",
+                "per_page": 2,
+                "per_page_options": [2]
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "revisioned",
+                "format": "uint64-decimal",
+                "rows": [
+                    {
+                        "id": "notebook:1",
+                        "revision": "1"
+                    },
+                    {
+                        "id": "notebook:2",
+                        "revision": "1"
+                    }
+                ]
+            },
+            "channel": {
+                "type": "private",
+                "name": "docs.dapter.native.Xgv_1MjIZHtxaPN1sUAj251YZSng4wTdF5uaBBvhksk",
+                "event": ".dapter.updated"
+            }
+        }
+    },
+    "LivePublic": {
+        "version": 2,
+        "data": [
+            {
+                "name": "Public notebook"
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 10
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 10
+            }
+        },
+        "paging": {
+            "mode": "offset",
+            "current": 1,
+            "per_page": 10,
+            "pages": 1,
+            "total": 1,
+            "filtered": 1,
+            "has_previous": false,
+            "has_next": false
+        },
+        "capabilities": {
+            "fields": {},
+            "global": {
+                "multi_order": false,
+                "multi_order_limit": 1,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": null
+            },
+            "paging": {
+                "mode": "offset",
+                "per_page": 10,
+                "per_page_options": [5, 10, 50, 100]
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "identified",
+                "rows": [
+                    {
+                        "id": 1
+                    }
+                ]
+            },
+            "channel": {
+                "type": "public",
+                "name": "docs.dapter.public-notebooks",
+                "event": ".dapter.updated"
+            }
+        }
+    },
+    "LivePolling": {
+        "version": 2,
+        "data": [
+            {
+                "name": "Notebook 01",
+                "details": {
+                    "reader": "Fictional reader",
+                    "selected": "Fictional reader"
+                },
+                "related": [
+                    {
+                        "reader": "Fictional reader",
+                        "selected": "Fictional reader"
+                    }
+                ]
+            },
+            {
+                "name": "Notebook 02",
+                "details": {
+                    "reader": "Fictional reader",
+                    "selected": "Fictional reader"
+                },
+                "related": [
+                    {
+                        "reader": "Fictional reader",
+                        "selected": "Fictional reader"
+                    }
+                ]
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "offset",
+            "current": 1,
+            "per_page": 2,
+            "pages": 1,
+            "total": 2,
+            "filtered": 2,
+            "has_previous": false,
+            "has_next": false
+        },
+        "capabilities": {
+            "fields": {},
+            "global": {
+                "multi_order": false,
+                "multi_order_limit": 1,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": null
+            },
+            "paging": {
+                "mode": "offset",
+                "per_page": 2,
+                "per_page_options": [2]
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "LivePollingProps": {
+        "version": 2,
+        "data": [
+            {
+                "name": "Notebook 01",
+                "details": {
+                    "reader": "Fictional reader",
+                    "selected": "Fictional reader"
+                },
+                "related": [
+                    {
+                        "reader": "Fictional reader",
+                        "selected": "Fictional reader"
+                    }
+                ]
+            },
+            {
+                "name": "Notebook 02",
+                "details": {
+                    "reader": "Fictional reader",
+                    "selected": "Fictional reader"
+                },
+                "related": [
+                    {
+                        "reader": "Fictional reader",
+                        "selected": "Fictional reader"
+                    }
+                ]
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "offset",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "offset",
+            "current": 1,
+            "per_page": 2,
+            "pages": 1,
+            "total": 2,
+            "filtered": 2,
+            "has_previous": false,
+            "has_next": false
+        },
+        "capabilities": {
+            "fields": {},
+            "global": {
+                "multi_order": false,
+                "multi_order_limit": 1,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": null
+            },
+            "paging": {
+                "mode": "offset",
+                "per_page": 2,
+                "per_page_options": [2]
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "LivePrivateUpdate": {
+        "version": 1,
+        "eventId": "fee5e9d2-e0b7-4668-ad90-df55d56ae0f6",
+        "source": "Dapter.LivePrivate",
+        "channel": {
+            "type": "private",
+            "name": "docs.dapter.notebooks.OtWTPQ-ktjNZQHj0PlWZG6W5p9G3_Np3E_B6R45QMZ4",
+            "event": ".dapter.updated"
+        },
+        "data": [
+            {
+                "name": "Changed notebook 2",
+                "details": {
+                    "reader": "Fictional reader",
+                    "selected": "Fictional reader"
+                },
+                "related": [
+                    {
+                        "reader": "Fictional reader",
+                        "selected": "Fictional reader"
+                    }
+                ]
+            }
+        ],
+        "records": {
+            "mode": "revisioned",
+            "format": "uint64-decimal",
+            "rows": [
+                {
+                    "id": 1,
+                    "revision": "2"
+                }
+            ]
+        }
+    }
+}

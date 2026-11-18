@@ -102,6 +102,8 @@ it('updates nested fields, server errors, reset, manual validation, and custom b
     const email = live(inertia).get('wa-input');
     await value(email, 'reader@example.com');
     expect(output(inertia)).toContain('Email: reader@example.com');
+    await value(email, 'autofilled@example.com', 'change');
+    expect(output(inertia)).toContain('Email: autofilled@example.com');
     await button(inertia, "Use Grace's email").trigger('click');
     expect(email.element.value).toBe('grace@example.com');
     await button(inertia, 'Simulate server errors').trigger('click');

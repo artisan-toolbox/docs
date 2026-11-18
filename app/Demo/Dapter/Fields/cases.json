@@ -1,0 +1,860 @@
+[
+    {
+        "id": "SearchContains",
+        "guide": "dapter/field-search",
+        "title": "Search literal punctuation",
+        "description": "Contains treats % and _ as ordinary characters. The single matching row is Pencil 100%_!.",
+        "source": "Dapter.FieldsFluent",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "name": {
+                        "search": {
+                            "value": "100%_!",
+                            "matchType": "contains"
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [3],
+            "filtered": 1
+        }
+    },
+    {
+        "id": "SearchEquals",
+        "guide": "dapter/field-search",
+        "title": "Match the complete value",
+        "description": "Equals returns Notebook 2 without matching Notebook 10.",
+        "source": "Dapter.FieldsFluent",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "name": {
+                        "search": {
+                            "value": "Notebook 2",
+                            "matchType": "equals"
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [2],
+            "filtered": 1
+        }
+    },
+    {
+        "id": "SearchStarts",
+        "guide": "dapter/field-search",
+        "title": "Match the beginning",
+        "description": "Starts-with returns both notebook records in their source order.",
+        "source": "Dapter.FieldsFluent",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "name": {
+                        "search": {
+                            "value": "Notebook",
+                            "matchType": "starts_with"
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2],
+            "filtered": 2
+        }
+    },
+    {
+        "id": "SearchEnds",
+        "guide": "dapter/field-search",
+        "title": "Match the end",
+        "description": "Ends-with returns Pencil case.",
+        "source": "Dapter.FieldsFluent",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "name": {
+                        "search": {
+                            "value": "case",
+                            "matchType": "ends_with"
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [4],
+            "filtered": 1
+        }
+    },
+    {
+        "id": "OrderString",
+        "guide": "dapter/field-order",
+        "title": "Order strings",
+        "description": "String order places Notebook 10 before Notebook 2.",
+        "source": "Dapter.FieldsFluent",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "fields",
+                    "terms": [
+                        {
+                            "field": "name",
+                            "direction": "asc",
+                            "sortType": "string"
+                        }
+                    ]
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2, 3, 4],
+            "filtered": 4
+        }
+    },
+    {
+        "id": "OrderNatural",
+        "guide": "dapter/field-order",
+        "title": "Order embedded numbers",
+        "description": "Natural order places Notebook 2 before Notebook 10.",
+        "source": "Dapter.FieldsFluent",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "fields",
+                    "terms": [
+                        {
+                            "field": "name",
+                            "direction": "asc",
+                            "sortType": "natural"
+                        }
+                    ]
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [2, 1, 3, 4],
+            "filtered": 4
+        }
+    },
+    {
+        "id": "OrderNumeric",
+        "guide": "dapter/field-order",
+        "title": "Order numbers descending",
+        "description": "Numeric descending order returns scores 10, 2, 1.5, then 0.",
+        "source": "Dapter.FieldsFluent",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "fields",
+                    "terms": [
+                        {
+                            "field": "score",
+                            "direction": "desc",
+                            "sortType": "numeric"
+                        }
+                    ]
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2, 3, 4],
+            "filtered": 4
+        }
+    },
+    {
+        "id": "OrderInvalid",
+        "guide": "dapter/field-order",
+        "title": "Reject an undeclared sort type",
+        "description": "Locale sorting is not declared and returns a validation error before reading rows.",
+        "source": "Dapter.FieldsFluent",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "fields",
+                    "terms": [
+                        {
+                            "field": "name",
+                            "direction": "asc",
+                            "sortType": "locale"
+                        }
+                    ]
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 422,
+            "ids": [],
+            "kind": "unsupported_operation"
+        }
+    },
+    {
+        "id": "FilterSingle",
+        "guide": "dapter/field-filters",
+        "title": "Choose one category",
+        "description": "The scalar paper selection returns the two notebook records.",
+        "source": "Dapter.FieldsFluent",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "category": {
+                        "filters": {
+                            "category": {
+                                "value": "paper"
+                            }
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2],
+            "filtered": 2
+        }
+    },
+    {
+        "id": "FilterMultiple",
+        "guide": "dapter/field-filters",
+        "title": "Choose several categories",
+        "description": "The declared multiple filter accepts a list and returns all four records.",
+        "source": "Dapter.FieldsFluent",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "category": {
+                        "filters": {
+                            "categories": {
+                                "value": ["paper", "tools"]
+                            }
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2, 3, 4],
+            "filtered": 4
+        }
+    },
+    {
+        "id": "FilterClear",
+        "guide": "dapter/field-filters",
+        "title": "Clear a selection",
+        "description": "An empty multiple selection uses the default Clear policy and returns all four records.",
+        "source": "Dapter.FieldsFluent",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "category": {
+                        "filters": {
+                            "categories": {
+                                "value": []
+                            }
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2, 3, 4],
+            "filtered": 4
+        }
+    },
+    {
+        "id": "FilterBoolean",
+        "guide": "dapter/field-filters",
+        "title": "Keep false distinct",
+        "description": "The JSON boolean false returns Notebook 2 and Pencil case.",
+        "source": "Dapter.FieldsFluent",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "active": {
+                        "filters": {
+                            "active": {
+                                "value": false
+                            }
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [2, 4],
+            "filtered": 2
+        }
+    },
+    {
+        "id": "FilterNull",
+        "guide": "dapter/typed-filters",
+        "title": "Select null",
+        "description": "The multiple list [null] selects a real null option. Reject empty selection sends [] and returns HTTP 422 under EmptySelectionPolicy::Reject.",
+        "source": "Dapter.FieldsFluent",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "optional": {
+                        "filters": {
+                            "optional": {
+                                "value": [null]
+                            }
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2, 3, 4],
+            "filtered": 4
+        },
+        "empty_request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "optional": {
+                        "filters": {
+                            "optional": {
+                                "value": []
+                            }
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        }
+    },
+    {
+        "id": "FilterZero",
+        "guide": "dapter/typed-filters",
+        "title": "Select zero",
+        "description": "The JSON number 0 returns Pencil case. Zero is an active selection.",
+        "source": "Dapter.FieldsFluent",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "score": {
+                        "filters": {
+                            "score": {
+                                "value": 0
+                            }
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [4],
+            "filtered": 1
+        }
+    },
+    {
+        "id": "FilterDecimal",
+        "guide": "dapter/typed-filters",
+        "title": "Select a decimal",
+        "description": "The explicit Number declaration accepts 1.5 and returns Pencil 100%_!.",
+        "source": "Dapter.FieldsFluent",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "score": {
+                        "filters": {
+                            "score": {
+                                "value": 1.5
+                            }
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [3],
+            "filtered": 1
+        }
+    },
+    {
+        "id": "FilterWrongType",
+        "guide": "dapter/typed-filters",
+        "title": "Reject a string boolean",
+        "description": "The string false differs from the advertised boolean false and returns HTTP 422.",
+        "source": "Dapter.FieldsFluent",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "active": {
+                        "filters": {
+                            "active": {
+                                "value": "false"
+                            }
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 4
+                }
+            }
+        },
+        "expected": {
+            "status": 422,
+            "ids": []
+        }
+    },
+    {
+        "id": "FieldsAttributes",
+        "guide": "dapter/field-declarations",
+        "title": "Declare attributes",
+        "description": "The public title field targets name on the server. Its search finds both notebooks without exposing the trusted target in capabilities.",
+        "source": "Dapter.FieldsAttributes",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "title": {
+                        "search": {
+                            "value": "Notebook",
+                            "matchType": "contains"
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 2
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2],
+            "filtered": 2
+        }
+    },
+    {
+        "id": "FieldsRemoved",
+        "guide": "dapter/field-declarations",
+        "title": "Remove inherited fluent declarations",
+        "description": "Fluent removal tombstones erase the inherited search, order, and filter capabilities.",
+        "source": "Dapter.FieldsRemoved",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 2
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2],
+            "filtered": 4
+        }
+    },
+    {
+        "id": "FieldsRemovedAttributes",
+        "guide": "dapter/field-declarations",
+        "title": "Remove inherited attributes",
+        "description": "Removal attributes erase the same inherited capabilities before record work.",
+        "source": "Dapter.FieldsRemovedAttributes",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 2
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2],
+            "filtered": 4
+        }
+    },
+    {
+        "id": "FieldsRemovedRejected",
+        "guide": "dapter/field-declarations",
+        "title": "Reject a removed search",
+        "description": "A browser cannot restore an inherited declaration after its removal.",
+        "source": "Dapter.FieldsRemoved",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {
+                    "title": {
+                        "search": {
+                            "value": "Notebook",
+                            "matchType": "contains"
+                        }
+                    }
+                },
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 2
+                }
+            }
+        },
+        "expected": {
+            "status": 422,
+            "ids": [],
+            "kind": "unsupported_operation"
+        }
+    },
+    {
+        "id": "FieldsDriver",
+        "guide": "dapter/source-registration",
+        "title": "Select a registered driver",
+        "description": "The fluent driver option executes the trusted registered Collection factory. Each returned row includes driver: docs_fields from the selected factory.",
+        "source": "Dapter.FieldsDriver",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 2
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2],
+            "filtered": 4,
+            "driver": "docs_fields"
+        }
+    },
+    {
+        "id": "FieldsDriverAttribute",
+        "guide": "dapter/source-registration",
+        "title": "Select a driver attribute",
+        "description": "The Driver attribute selects the same registered factory. Each returned row includes driver: docs_fields from the selected factory.",
+        "source": "Dapter.FieldsDriverAttribute",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 2
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2],
+            "filtered": 4,
+            "driver": "docs_fields"
+        }
+    },
+    {
+        "id": "FieldsAlias",
+        "guide": "dapter/source-registration",
+        "title": "Resolve an explicit source alias",
+        "description": "An exact registered alias resolves to a fresh FieldsDriver source. Each returned row includes driver: docs_fields from the selected factory.",
+        "source": "Dapter.AliasedFields",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 2
+                }
+            }
+        },
+        "expected": {
+            "status": 200,
+            "ids": [1, 2],
+            "filtered": 4,
+            "driver": "docs_fields"
+        },
+        "source_class": "Dapter.FieldsDriver"
+    },
+    {
+        "id": "FieldsUnknownDriver",
+        "guide": "dapter/source-registration",
+        "title": "Reject an unknown driver",
+        "description": "An unregistered driver is a configuration failure with no successful data envelope.",
+        "source": "Dapter.FieldsUnknownDriver",
+        "request": {
+            "version": 2,
+            "state": {
+                "version": 2,
+                "fields": {},
+                "global": {},
+                "searchMatch": "all",
+                "order": {
+                    "kind": "default"
+                },
+                "paging": {
+                    "mode": "offset",
+                    "current": 1,
+                    "per_page": 2
+                }
+            }
+        },
+        "expected": {
+            "status": 500,
+            "ids": [],
+            "kind": "server"
+        }
+    }
+]

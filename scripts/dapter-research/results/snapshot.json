@@ -1,0 +1,528 @@
+{
+    "scenarios": {
+        "unchanged": {
+            "capture_committed_before_mutation": true,
+            "writer_committed_before_next_window": true,
+            "first_page_ids": [10, 20],
+            "next": {
+                "high_water": [
+                    {
+                        "id": 40,
+                        "rank": 40,
+                        "label": "row-40"
+                    },
+                    {
+                        "id": 50,
+                        "rank": 50,
+                        "label": "row-50"
+                    }
+                ],
+                "keys": [
+                    {
+                        "ordinal": 3,
+                        "id": 40,
+                        "rank": 40,
+                        "label": "row-40"
+                    },
+                    {
+                        "ordinal": 4,
+                        "id": 50,
+                        "rank": 50,
+                        "label": "row-50"
+                    }
+                ],
+                "frozen": [
+                    {
+                        "ordinal": 3,
+                        "id": 40,
+                        "rank": 40,
+                        "label": "row-40"
+                    },
+                    {
+                        "ordinal": 4,
+                        "id": 50,
+                        "rank": 50,
+                        "label": "row-50"
+                    }
+                ]
+            }
+        },
+        "above_bound_insert": {
+            "capture_committed_before_mutation": true,
+            "writer_committed_before_next_window": true,
+            "first_page_ids": [10, 20],
+            "next": {
+                "high_water": [
+                    {
+                        "id": 40,
+                        "rank": 40,
+                        "label": "row-40"
+                    },
+                    {
+                        "id": 50,
+                        "rank": 50,
+                        "label": "row-50"
+                    }
+                ],
+                "keys": [
+                    {
+                        "ordinal": 3,
+                        "id": 40,
+                        "rank": 40,
+                        "label": "row-40"
+                    },
+                    {
+                        "ordinal": 4,
+                        "id": 50,
+                        "rank": 50,
+                        "label": "row-50"
+                    }
+                ],
+                "frozen": [
+                    {
+                        "ordinal": 3,
+                        "id": 40,
+                        "rank": 40,
+                        "label": "row-40"
+                    },
+                    {
+                        "ordinal": 4,
+                        "id": 50,
+                        "rank": 50,
+                        "label": "row-50"
+                    }
+                ]
+            }
+        },
+        "backfilled_gap_insert": {
+            "capture_committed_before_mutation": true,
+            "writer_committed_before_next_window": true,
+            "first_page_ids": [10, 20],
+            "next": {
+                "high_water": [
+                    {
+                        "id": 30,
+                        "rank": 30,
+                        "label": "row-30"
+                    },
+                    {
+                        "id": 40,
+                        "rank": 40,
+                        "label": "row-40"
+                    }
+                ],
+                "keys": [
+                    {
+                        "ordinal": 3,
+                        "id": 40,
+                        "rank": 40,
+                        "label": "row-40"
+                    },
+                    {
+                        "ordinal": 4,
+                        "id": 50,
+                        "rank": 50,
+                        "label": "row-50"
+                    }
+                ],
+                "frozen": [
+                    {
+                        "ordinal": 3,
+                        "id": 40,
+                        "rank": 40,
+                        "label": "row-40"
+                    },
+                    {
+                        "ordinal": 4,
+                        "id": 50,
+                        "rank": 50,
+                        "label": "row-50"
+                    }
+                ]
+            }
+        },
+        "value_update": {
+            "capture_committed_before_mutation": true,
+            "writer_committed_before_next_window": true,
+            "first_page_ids": [10, 20],
+            "next": {
+                "high_water": [
+                    {
+                        "id": 40,
+                        "rank": 40,
+                        "label": "row-40-updated"
+                    },
+                    {
+                        "id": 50,
+                        "rank": 50,
+                        "label": "row-50"
+                    }
+                ],
+                "keys": [
+                    {
+                        "ordinal": 3,
+                        "id": 40,
+                        "rank": 40,
+                        "label": "row-40-updated"
+                    },
+                    {
+                        "ordinal": 4,
+                        "id": 50,
+                        "rank": 50,
+                        "label": "row-50"
+                    }
+                ],
+                "frozen": [
+                    {
+                        "ordinal": 3,
+                        "id": 40,
+                        "rank": 40,
+                        "label": "row-40"
+                    },
+                    {
+                        "ordinal": 4,
+                        "id": 50,
+                        "rank": 50,
+                        "label": "row-50"
+                    }
+                ]
+            }
+        },
+        "mutable_order": {
+            "capture_committed_before_mutation": true,
+            "writer_committed_before_next_window": true,
+            "first_page_ids": [10, 20],
+            "next": {
+                "high_water": [
+                    {
+                        "id": 50,
+                        "rank": 50,
+                        "label": "row-50"
+                    },
+                    {
+                        "id": 60,
+                        "rank": 60,
+                        "label": "row-60"
+                    }
+                ],
+                "keys": [
+                    {
+                        "ordinal": 3,
+                        "id": 40,
+                        "rank": 5,
+                        "label": "row-40-updated"
+                    },
+                    {
+                        "ordinal": 4,
+                        "id": 50,
+                        "rank": 50,
+                        "label": "row-50"
+                    }
+                ],
+                "frozen": [
+                    {
+                        "ordinal": 3,
+                        "id": 40,
+                        "rank": 40,
+                        "label": "row-40"
+                    },
+                    {
+                        "ordinal": 4,
+                        "id": 50,
+                        "rank": 50,
+                        "label": "row-50"
+                    }
+                ]
+            }
+        },
+        "deletion": {
+            "capture_committed_before_mutation": true,
+            "writer_committed_before_next_window": true,
+            "first_page_ids": [10, 20],
+            "next": {
+                "high_water": [
+                    {
+                        "id": 40,
+                        "rank": 40,
+                        "label": "row-40"
+                    },
+                    {
+                        "id": 60,
+                        "rank": 60,
+                        "label": "row-60"
+                    }
+                ],
+                "keys": [
+                    {
+                        "ordinal": 3,
+                        "id": 40,
+                        "rank": 40,
+                        "label": "row-40"
+                    },
+                    {
+                        "ordinal": 5,
+                        "id": 60,
+                        "rank": 60,
+                        "label": "row-60"
+                    }
+                ],
+                "frozen": [
+                    {
+                        "ordinal": 3,
+                        "id": 40,
+                        "rank": 40,
+                        "label": "row-40"
+                    },
+                    {
+                        "ordinal": 5,
+                        "id": 60,
+                        "rank": 60,
+                        "label": "row-60"
+                    }
+                ]
+            }
+        },
+        "authorization_revocation": {
+            "capture_committed_before_mutation": true,
+            "writer_committed_before_next_window": true,
+            "first_page_ids": [10, 20],
+            "next": {
+                "high_water": [
+                    {
+                        "id": 40,
+                        "rank": 40,
+                        "label": "row-40"
+                    },
+                    {
+                        "id": 50,
+                        "rank": 50,
+                        "label": "row-50"
+                    }
+                ],
+                "keys": [
+                    {
+                        "ordinal": 3,
+                        "id": 40,
+                        "rank": 40,
+                        "label": "row-40"
+                    },
+                    {
+                        "ordinal": 4,
+                        "id": 50,
+                        "rank": 50,
+                        "label": "row-50"
+                    }
+                ],
+                "frozen": [
+                    {
+                        "ordinal": 3,
+                        "id": 40,
+                        "rank": 40,
+                        "label": "row-40"
+                    },
+                    {
+                        "ordinal": 4,
+                        "id": 50,
+                        "rank": 50,
+                        "label": "row-50"
+                    }
+                ]
+            },
+            "after_ordinal_4_ids": [70]
+        },
+        "identity_reuse_hazard": {
+            "capture_committed_before_mutation": true,
+            "writer_committed_before_next_window": true,
+            "first_page_ids": [10, 20],
+            "next": {
+                "high_water": [
+                    {
+                        "id": 40,
+                        "rank": 45,
+                        "label": "replacement-entity-40"
+                    },
+                    {
+                        "id": 50,
+                        "rank": 50,
+                        "label": "row-50"
+                    }
+                ],
+                "keys": [
+                    {
+                        "ordinal": 3,
+                        "id": 40,
+                        "rank": 45,
+                        "label": "replacement-entity-40"
+                    },
+                    {
+                        "ordinal": 4,
+                        "id": 50,
+                        "rank": 50,
+                        "label": "row-50"
+                    }
+                ],
+                "frozen": [
+                    {
+                        "ordinal": 3,
+                        "id": 40,
+                        "rank": 40,
+                        "label": "row-40"
+                    },
+                    {
+                        "ordinal": 4,
+                        "id": 50,
+                        "rank": 50,
+                        "label": "row-50"
+                    }
+                ]
+            },
+            "contract_gap": {
+                "identity_only_authorization": true,
+                "keys_admits_replacement_entity": true,
+                "frozen_replays_deleted_entity_payload": true,
+                "production_safe": false,
+                "required_boundary": "A proven no-reuse identity contract or a captured generation identity checked during current authorization."
+            }
+        },
+        "combined": {
+            "capture_committed_before_mutation": true,
+            "writer_committed_before_next_window": true,
+            "first_page_ids": [10, 20],
+            "next": {
+                "high_water": [
+                    {
+                        "id": 30,
+                        "rank": 30,
+                        "label": "row-30"
+                    },
+                    {
+                        "id": 10,
+                        "rank": 65,
+                        "label": "row-10-moved"
+                    }
+                ],
+                "keys": [
+                    {
+                        "ordinal": 3,
+                        "id": 40,
+                        "rank": 5,
+                        "label": "row-40-updated"
+                    },
+                    {
+                        "ordinal": 6,
+                        "id": 70,
+                        "rank": 70,
+                        "label": "row-70"
+                    }
+                ],
+                "frozen": [
+                    {
+                        "ordinal": 3,
+                        "id": 40,
+                        "rank": 40,
+                        "label": "row-40"
+                    },
+                    {
+                        "ordinal": 6,
+                        "id": 70,
+                        "rank": 70,
+                        "label": "row-70"
+                    }
+                ]
+            }
+        }
+    },
+    "storage_repeated_reads": [
+        {
+            "keys": {
+                "entries": 6,
+                "logical_payload_bytes": 42,
+                "physical": {
+                    "heap_main_bytes": 8192,
+                    "indexes_bytes": 32768,
+                    "total_relation_bytes": 40960
+                }
+            },
+            "frozen": {
+                "entries": 6,
+                "logical_payload_bytes": 300,
+                "physical": {
+                    "heap_main_bytes": 8192,
+                    "indexes_bytes": 32768,
+                    "total_relation_bytes": 49152
+                }
+            },
+            "shared_metadata": {
+                "snapshots": 1,
+                "total_relation_bytes": 49152
+            }
+        },
+        {
+            "keys": {
+                "entries": 6,
+                "logical_payload_bytes": 42,
+                "physical": {
+                    "heap_main_bytes": 8192,
+                    "indexes_bytes": 32768,
+                    "total_relation_bytes": 40960
+                }
+            },
+            "frozen": {
+                "entries": 6,
+                "logical_payload_bytes": 300,
+                "physical": {
+                    "heap_main_bytes": 8192,
+                    "indexes_bytes": 32768,
+                    "total_relation_bytes": 49152
+                }
+            },
+            "shared_metadata": {
+                "snapshots": 1,
+                "total_relation_bytes": 49152
+            }
+        },
+        {
+            "keys": {
+                "entries": 6,
+                "logical_payload_bytes": 42,
+                "physical": {
+                    "heap_main_bytes": 8192,
+                    "indexes_bytes": 32768,
+                    "total_relation_bytes": 40960
+                }
+            },
+            "frozen": {
+                "entries": 6,
+                "logical_payload_bytes": 300,
+                "physical": {
+                    "heap_main_bytes": 8192,
+                    "indexes_bytes": 32768,
+                    "total_relation_bytes": 49152
+                }
+            },
+            "shared_metadata": {
+                "snapshots": 1,
+                "total_relation_bytes": 49152
+            }
+        }
+    ],
+    "admission": {
+        "other_principal": "rejected-restart",
+        "revised_scope": "rejected-restart",
+        "expired": "expired-restart",
+        "missing": "missing-restart"
+    },
+    "recovery": {
+        "same_committed_windows": true,
+        "restart_current_ids": [40, 20],
+        "freshSessionIndependent": true
+    },
+    "limits": "Research SQL only. Metadata admission is an experiment function, not an authenticated Dapter handle. No speed claim. Initial storage has one metadata row and six entries per candidate. Frozen output suppresses absent or currently unauthorized identities, but the identity-reuse scenario proves that primary-key-only authorization can replay a deleted entity payload after an allowed replacement takes its key. Neither persisted candidate is safe for production without a no-reuse or generation boundary.",
+    "independentReaderWriterSessions": true,
+    "isDapterImplementation": false,
+    "metadataCompatibilityGap": {
+        "queryHash": "symbolic_descriptor_not_authenticated_digest",
+        "serializerRevisionChecked": false,
+        "productionSafeHandle": false
+    }
+}

@@ -309,6 +309,21 @@ enum EmptySelectionPolicy: string
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
         <div data-document-content class="flex min-w-0 flex-col gap-10">
+            <ProseSection id="implemented-preview" title="Use the working preview guides"
+                ><p>
+                    This page preserves historical design examples and their original anchors. Some
+                    proposed signatures differ from the delivered unpublished preview. Follow the
+                    <DocsLink
+                        :href="findNavigationItem(navigation, 'dapter/composed-declarations').href"
+                        >composed declaration guide</DocsLink
+                    >
+                    for executable public APIs, prerequisites, current limits, and behavioral
+                    checks. The design examples below do not replace those instructions. Simple and
+                    cursor paging are delivered through the focused working guides. Use the
+                    Resource, live authorization, committed replacement, revision race, and polling
+                    working guides for delivered preview behavior.
+                </p></ProseSection
+            >
             <ProseSection>
                 <p>
                     Design proposal for the unpublished Dapter preview. Unless a section explicitly
@@ -426,12 +441,13 @@ enum EmptySelectionPolicy: string
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/authority').href"
                         >server authority guide</DocsLink
                     >
-                    explains the delivered boundary. The additional operation declarations below
-                    remain proposals and must ship their attribute equivalents in their own phases.
+                    explains the delivered boundary. The additional examples below preserve
+                    historical signatures. Delivered composed operations have equivalent attributes
+                    and their own working guides; broadcasting and Resources remain proposed.
                 </p>
                 <p>
-                    The proposed typed Eloquent and Collection source contracts do not require
-                    public <code>options()</code>. Optional <code>WithOptions</code> alone requires
+                    The typed Eloquent and Collection source contracts do not require public
+                    <code>options()</code>. Optional <code>WithOptions</code> alone requires
                     <code>options(): StoreOptions</code> and explicitly opts into that custom hook.
                     <code>EloquentDataSource</code> and <code>CollectionDataSource</code> provide an
                     internal request-scoped options resolution path, not an unconditional public
@@ -465,7 +481,8 @@ enum EmptySelectionPolicy: string
                     <DocsLink href="https://www.php.net/manual/en/language.attributes.overview.php"
                         >PHP attributes overview</DocsLink
                     >. Attribute arguments contain supported metadata, not factory or fluent calls.
-                    All names in this proposal remain unavailable in the current package.
+                    Field and composed global operations, including bounded multi-order, have
+                    focused working guides. Broadcasting and Resources remain proposed.
                 </p>
                 <h3
                     id="store-options"
@@ -473,8 +490,10 @@ enum EmptySelectionPolicy: string
                     A compact StoreOptions builder
                 </h3>
                 <p>
-                    All Dapter classes, contracts, methods, imports, and named arguments below are
-                    proposed and unavailable. This conceptual fixture defines its inputs. Its
+                    The complete declaration below preserves historical field, global, multi-order,
+                    and broadcasting signatures. Broadcasting remains proposed, so this combined
+                    example is unavailable. Use the focused field and composed-operation guides for
+                    executable backend v2 usage. This conceptual fixture defines its inputs. Its
                     intended result allows searching name, ordering price numerically, selecting
                     named field filters, using a fixed global search group, selecting global filter
                     and order presets, and using 25 records per page. For this fixture, global
@@ -657,16 +676,19 @@ enum EmptySelectionPolicy: string
                     </tbody>
                 </DocsTable>
                 <p>
-                    All attribute imports below use the proposed
+                    The delivered field attribute imports use the public
                     <code>ArtisanToolbox\Dapter\Attributes</code> namespace. This complete
                     attribute-only Collection source has no <code>options()</code> override. A name
                     search for Notebook and availability active returns row 1, with a chosen page
                     size of 25. The internal resolver supplies config defaults automatically;
-                    attributes need no <code>WithOptions</code> contract or public hook.
+                    attributes need no <code>WithOptions</code> contract or public hook. The working
+                    field-declaration guide executes this supported subset through public HTTP
+                    examples. The remaining global and broadcast entries in this design table remain
+                    proposed.
                 </p>
                 <CodeExample
                     language="php"
-                    label="Proposed attribute-only Collection source, unavailable"
+                    label="Attribute-only source design illustration"
                     :code="attributeOnlyDeclaration" />
                 <p>
                     Composition is keyed. Field search and order use the field identifier. Field
@@ -694,7 +716,7 @@ enum EmptySelectionPolicy: string
                 </p>
                 <CodeExample
                     language="php"
-                    label="Proposed attributes composed with explicit fluent settings, unavailable"
+                    label="Attributes and fluent settings design illustration"
                     :code="composedDeclaration" />
                 <p>
                     This source retains name search and page size 25 from attributes, adds numeric
@@ -714,7 +736,7 @@ enum EmptySelectionPolicy: string
                 </p>
                 <CodeExample
                     language="php"
-                    label="Proposed empty-baseline factory with retained attributes, unavailable"
+                    label="Empty-baseline design illustration"
                     :code="emptyBaselineDeclaration" />
                 <p>
                     This source retains the name-search attribute and explicitly supplies its guard,
@@ -871,7 +893,7 @@ enum EmptySelectionPolicy: string
                     Field and global operations
                 </h3>
                 <p>
-                    The six proposed root methods are <code>searchableField</code>,
+                    The six operation root methods are <code>searchableField</code>,
                     <code>globalSearchable</code>, <code>orderableField</code>,
                     <code>globalOrderable</code>, <code>filterableField</code>, and
                     <code>globalFilterable</code>. Ordinary field declarations stay short. Typed

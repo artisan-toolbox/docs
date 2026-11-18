@@ -18,12 +18,11 @@ defineProps({ navigation: { type: Array, required: true } });
             >. Keep its Vite plugin and styles. Add examples to a Vue page.
         </p>
         <p>
-            <strong>Beta.</strong> Front Awesome beta includes all 73 Core and 17 Pro wrappers in
-            the Web Awesome 3.14.0 baseline, including Input, Page, Icon, and both Web Awesome
-            barrel entries. Code Highlighter 3.15 remains planned. Front Awesome is a beta release;
-            its API can change before the first stable release. Wrappers forward native properties
-            and events. Data-entry controls share <code>v-model</code> and Inertia form binding,
-            including server errors and manual <code>failed</code> states. See
+            <strong>Beta.</strong> Front Awesome exports 73 Core and 17 Pro wrappers. Six
+            experimental elements in Web Awesome 3.15.0 have planned wrappers. The beta API can
+            change before the first stable release. Wrappers forward native properties and events.
+            Data-entry controls share <code>v-model</code> and Inertia form binding, including
+            server errors and manual <code>failed</code> states. See
             <DocsLink
                 :href="`${findNavigationItem(navigation, 'front-awesome/web-awesome/components/forms').href}#use-v-model`"
                 >Forms binding</DocsLink
@@ -36,7 +35,7 @@ defineProps({ navigation: { type: Array, required: true } });
             individually discoverable and share one complete example with their owning component.
         </p>
         <p>
-            Pro examples require a licensed Web Awesome Pro 3.14.0 installation and the Pro runtime
+            Pro examples require a licensed Web Awesome Pro installation and the Pro runtime
             selected in
             <DocsLink
                 :href="

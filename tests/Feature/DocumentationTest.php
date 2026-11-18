@@ -419,7 +419,45 @@ test('keeps every editorial parent registered and every ancestor walk acyclic', 
     }
 });
 
-test('preserves nearest registered URL prefix ancestry outside Front Awesome', function () {
+test('preserves URL ancestry and the declared Dapter editorial groups outside Front Awesome', function () {
+    $editorial = [
+        'dapter/source-registration' => PageSlug::from('dapter/sources'),
+        'dapter/source-boundaries' => PageSlug::from('dapter/sources'),
+        'dapter/simple-paging' => PageSlug::from('dapter/listing'),
+        'dapter/cursor-paging' => PageSlug::from('dapter/listing'),
+        'dapter/cursor-recovery' => PageSlug::from('dapter/cursor-paging'),
+        'dapter/paging-counts' => PageSlug::from('dapter/listing'),
+        'dapter/infinite-loading' => PageSlug::from('dapter/listing'),
+        'dapter/horizontal-infinite-loading' => PageSlug::from('dapter/infinite-loading'),
+        'dapter/infinite-recovery' => PageSlug::from('dapter/infinite-loading'),
+        'dapter/options' => PageSlug::from('dapter/sources'),
+        'dapter/collection-comparisons' => PageSlug::from('dapter/field-order'),
+        'dapter/typed-filters' => PageSlug::from('dapter/field-filters'),
+        'dapter/field-declarations' => PageSlug::from('dapter/sources'),
+        'dapter/global-search' => PageSlug::from('dapter/field-search'),
+        'dapter/literal-search' => PageSlug::from('dapter/field-search'),
+        'dapter/global-filters' => PageSlug::from('dapter/field-filters'),
+        'dapter/enum-inputs' => PageSlug::from('dapter/authority'),
+        'dapter/handler-requirements' => PageSlug::from('dapter/authority'),
+        'dapter/composed-declarations' => PageSlug::from('dapter/sources'),
+        'dapter/multi-order' => PageSlug::from('dapter/field-order'),
+        'dapter/advanced-queries' => PageSlug::from('dapter/sources'),
+        'dapter/postgresql-full-text' => PageSlug::from('dapter/field-search'),
+        'dapter/access' => PageSlug::from('dapter/sources'),
+        'dapter/composable' => PageSlug::from('dapter/vue-controls'),
+        'dapter/live-authorization' => PageSlug::from('dapter/live-updates'),
+        'dapter/revision-races' => PageSlug::from('dapter/live-updates'),
+        'dapter/polling' => PageSlug::from('dapter/live-updates'),
+        'dapter/action-declarations' => PageSlug::from('dapter/actions'),
+        'dapter/action-outcomes' => PageSlug::from('dapter/actions'),
+        'dapter/vue-definitions' => PageSlug::from('dapter/authority'),
+        'dapter/vue-navigation' => PageSlug::from('dapter/vue-controls'),
+        'dapter/protocol' => PageSlug::from('dapter/authority'),
+        'dapter/comparison-capabilities' => PageSlug::from('dapter/authority'),
+        'dapter/research' => PageSlug::from('dapter/development'),
+        'dapter/roadmap' => PageSlug::from('dapter/development'),
+        'dapter/design' => PageSlug::from('dapter/development'),
+    ];
     foreach (PageSlug::cases() as $slug) {
         if (str_starts_with($slug->value, 'front-awesome')) {
             continue;
@@ -428,6 +466,6 @@ test('preserves nearest registered URL prefix ancestry outside Front Awesome', f
         $prefixes = array_filter(PageSlug::cases(), fn (PageSlug $candidate): bool => $candidate->value !== '' && str_starts_with($slug->value, $candidate->value.'/'));
         usort($prefixes, fn (PageSlug $left, PageSlug $right): int => strlen($right->value) <=> strlen($left->value));
 
-        expect($slug->parent())->toBe($prefixes[0] ?? null);
+        expect($slug->parent())->toBe($editorial[$slug->value] ?? $prefixes[0] ?? null);
     }
 });

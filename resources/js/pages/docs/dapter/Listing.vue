@@ -12,13 +12,23 @@ defineProps({
 const clientCode = `<script setup>
 import { DataAdapter } from '@artisan-toolbox/dapter';
 import { Button } from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import { DataGrid } from '@artisan-toolbox/front-awesome/components/WebAwesome/Pro';
+
+const columns = [
+    { field: 'id', label: 'ID', sortable: false, filterable: false },
+    { field: 'name', label: 'Product', sortable: false, filterable: false },
+    { field: 'category', label: 'Paper', sortable: false, filterable: false },
+];
 \x3C/script>
 <template>
     <DataAdapter source="Dapter.CollectionFluent" v-slot="adapter">
         <p v-if="adapter.paging.loading">Loading...</p>
         <p v-if="adapter.error" role="alert">{{ adapter.error.message }}</p>
-        <pre v-if="adapter.ready">{{ adapter.data }}</pre>
-        <Button :disabled="!adapter.paging.has_next" @click="adapter.paging.goToNext()">Next page</Button>
+        <DataGrid v-if="adapter.ready" label="Notebooks" row-key="id"
+            :data="adapter.data" :columns="columns" :server="true" :paginate="false"
+            :total="adapter.paging.total" :loading="adapter.paging.loading" />
+        <Button :disabled="adapter.paging.loading || !adapter.paging.has_next"
+            @click="adapter.paging.goToNext()">Next page</Button>
     </DataAdapter>
 </template>`;
 </script>
@@ -27,56 +37,30 @@ import { Button } from '@artisan-toolbox/front-awesome/components/WebAwesome';
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
         <div data-document-content class="flex min-w-0 flex-col gap-10">
-            <ProseSection id="starting-environment" title="Prepare the application">
+            <ProseSection id="starting-environment" title="Prepare a numbered list">
                 <p>
-                    Use the Laravel, Inertia, and Vue application from
+                    Use the
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/installation').href"
-                        >Install Dapter</DocsLink
-                    >. Complete Composer installation before frontend installation. This unpublished
-                    preview supports offset paging for Collections and ordinary SQLite Eloquent
-                    sources.
+                        >Laravel and Vue installation</DocsLink
+                    >
+                    with the web session, CSRF protection, and the <code>dapter.data</code> route
+                    exposed through Ziggy. The default protocol 1 reads numbered pages from
+                    Collections and ordinary SQLite, MySQL, or PostgreSQL Eloquent sources.
                 </p>
                 <p>
-                    Collections preserve their input order. SQLite preserves supported source
-                    ordering and appends the qualified primary key ascending when it is absent. With
-                    no source order, that key supplies the complete order. Exact counts cover the
-                    complete authorized source before pagination. Since this preview has no managed
-                    search or filters, <code>total</code> and <code>filtered</code> are equal. An
-                    empty source returns page 1 of 1, both counts zero, and no previous or next
-                    page. A page beyond the last page clamps to the last valid page.
-                </p>
-                <p>
-                    Keep Laravel's web middleware, session, and CSRF integration enabled. Expose the
-                    named <code>dapter.data</code> route through your existing Ziggy configuration.
-                    No worker or broadcaster is needed.
-                </p>
-                <p>
-                    The demos use Front Awesome's public Button, Select, Spinner, Tag, and Pro
-                    DataGrid. Complete
+                    For a list rendered with ordinary Vue markup, use the
+                    <DocsLink
+                        :href="findNavigationItem(navigation, 'dapter').href + '#first-example'"
+                        >notebook quickstart</DocsLink
+                    >. The grid below uses the optional Front Awesome Pro DataGrid. Follow
                     <DocsLink
                         :href="findNavigationItem(navigation, 'front-awesome/installation').href"
                         >Front Awesome installation</DocsLink
                     >
-                    and its Web Awesome Pro prerequisites before copying the grid. Dapter itself has
-                    no presentation-library dependency.
+                    and configure Web Awesome Pro before copying its presentation.
                 </p>
             </ProseSection>
-            <ProseSection id="fixture-defaults" title="Reproduce the demonstration defaults">
-                <p>
-                    The first fixture's <code>config/dapter.php</code> selects
-                    <code>dapter-demo-guest</code>. To copy that configuration, include the
-                    disclosed <code>DemoConfiguration.php</code> and call
-                    <code>DemoConfiguration::register()</code> from
-                    <code>AppServiceProvider::boot()</code>. This registers the fictional guards
-                    before source execution and leaves your sign-in session unchanged. The package
-                    default guard remains <code>web</code>.
-                </p>
-                <p>
-                    The fluent public example below works with the package defaults and needs no
-                    fixture guard. The standalone overview Quickstart also needs no shared fixture
-                    setup.
-                </p>
-            </ProseSection>
+
             <ProseSection id="run-listing" title="Read the first page">
                 <p>
                     Select <strong>Start example</strong> below. The grid displays Notebook 01
@@ -100,16 +84,28 @@ import { Button } from '@artisan-toolbox/front-awesome/components/WebAwesome';
                 </p>
                 <p>
                     Dapter owns server paging. The grid renders only the accepted page, with its own
-                    local paging, sorting, and filters disabled. Search, filters, selectable
-                    sorting, URL persistence, scrolling, and live updates remain future work.
+                    local paging, sorting, and filters disabled. For a control that changes the
+                    server-side query, start with
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/field-search').href"
+                        >field search</DocsLink
+                    >. For shared Vue controls, URL persistence, and targeted scrolling, follow
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/vue-controls').href"
+                        >Build declared Vue controls</DocsLink
+                    >. For authorized replacement-only delivery, follow
+                    <DocsLink
+                        :href="findNavigationItem(navigation, 'dapter/live-authorization').href"
+                        >Authorize live row updates</DocsLink
+                    >.
                 </p>
             </ProseSection>
             <ListingDemo scenario="CollectionFluent" />
             <ProseSection id="connect-adapter" title="Render a headless component">
                 <p>
-                    After declaring <code>Dapter.CollectionFluent</code> in your application, mount
-                    the public component in an existing Inertia page. It requests its first page on
-                    mount. These demos delay mounting until you select Start.
+                    Copy <code>CollectionFluent.php</code> and its notebook fixture from View source
+                    above. To display the optional Pro grid, mount this component in an existing
+                    Inertia page. It requests five notebooks on mount. Select
+                    <strong>Next page</strong>
+                    to see Notebook 06 through Notebook 10.
                 </p>
                 <CodeExample label="Source-only Vue adapter" language="vue" :code="clientCode" />
                 <p>
@@ -117,6 +113,32 @@ import { Button } from '@artisan-toolbox/front-awesome/components/WebAwesome';
                     failures. Keep accepted rows visible during subsequent loads if your
                     presentation supports it. A failed request does not accept partial rows. Reload
                     retries the current request.
+                </p>
+            </ProseSection>
+            <ProseSection id="fixture-defaults" title="Reproduce the demonstration defaults">
+                <p>
+                    The first fixture's <code>config/dapter.php</code> selects
+                    <code>dapter-demo-guest</code>. To copy that configuration, include the
+                    disclosed <code>DemoConfiguration.php</code> and call
+                    <code>DemoConfiguration::register()</code> from
+                    <code>AppServiceProvider::boot()</code>. This registers the fictional guards
+                    before source execution and leaves your sign-in session unchanged. The package
+                    default guard remains <code>web</code>.
+                </p>
+                <p>
+                    The fluent public example below works with the package defaults and needs no
+                    fixture guard. The standalone overview Quickstart also needs no shared fixture
+                    setup.
+                </p>
+            </ProseSection>
+            <ProseSection id="offset-counts" title="Read offset counts and boundaries">
+                <p>
+                    Collections preserve the input order. For ordinary SQLite reads, Dapter appends
+                    the qualified primary key when the source order omits it. The primary key
+                    supplies the order when the source has none. Exact counts cover the authorized
+                    source. Without selections, <code>total</code> equals <code>filtered</code>. An
+                    empty source returns page 1 of 1 with zero records. Requests beyond the last
+                    page return the last valid page.
                 </p>
             </ProseSection>
             <ProseSection id="declare-source" title="Declare another source">

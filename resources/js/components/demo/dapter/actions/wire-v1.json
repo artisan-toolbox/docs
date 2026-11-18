@@ -1,0 +1,104 @@
+{
+    "version": 1,
+    "data": [
+        {
+            "id": 1,
+            "tenant": 1,
+            "name": "Fictional notebook",
+            "writes": 0
+        },
+        {
+            "id": 2,
+            "tenant": 1,
+            "name": "Read-only pencil",
+            "writes": 0
+        }
+    ],
+    "requested": {
+        "version": 1,
+        "fields": {},
+        "global": {},
+        "searchMatch": "all",
+        "order": {
+            "kind": "default"
+        },
+        "paging": {
+            "mode": "offset",
+            "current": 1,
+            "per_page": 2
+        }
+    },
+    "state": {
+        "order": {
+            "kind": "source"
+        },
+        "paging": {
+            "mode": "offset",
+            "current": 1,
+            "per_page": 2
+        }
+    },
+    "paging": {
+        "mode": "offset",
+        "current": 1,
+        "per_page": 2,
+        "pages": 1,
+        "total": 2,
+        "filtered": 2,
+        "has_previous": false,
+        "has_next": false
+    },
+    "capabilities": {
+        "fields": {},
+        "global": {
+            "multi_order": false,
+            "multi_order_limit": 1,
+            "searchMatch": {
+                "default": "all",
+                "allowed": ["all"]
+            },
+            "filters": null,
+            "search": null,
+            "order": null
+        },
+        "paging": {
+            "mode": "offset",
+            "per_page": 2,
+            "per_page_options": [2]
+        }
+    },
+    "actions": {
+        "save": {
+            "method": "post",
+            "transports": ["visit", "http"],
+            "url": "https://atb.test/dapter/actions/Dapter.ActionCatalog/save",
+            "target": null
+        },
+        "record": {
+            "method": "post",
+            "transports": ["http"],
+            "target": {
+                "input": "recordId",
+                "valueType": "integer",
+                "values": [
+                    {
+                        "value": 1,
+                        "url": "https://atb.test/dapter/actions/Dapter.ActionCatalog/record/1"
+                    }
+                ]
+            }
+        },
+        "uncertain": {
+            "method": "post",
+            "transports": ["http"],
+            "url": "https://atb.test/dapter/actions/Dapter.ActionCatalog/uncertain",
+            "target": null
+        },
+        "rename": {
+            "method": "post",
+            "transports": ["visit", "http"],
+            "url": "https://atb.test/dapter/actions/Dapter.ActionCatalog/rename",
+            "target": null
+        }
+    }
+}

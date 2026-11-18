@@ -1,0 +1,82 @@
+{
+    "version": 2,
+    "data": [
+        {
+            "id": 1,
+            "name": "Notebook 10",
+            "category": "paper",
+            "active": true,
+            "score": 10,
+            "optional": null
+        },
+        {
+            "id": 2,
+            "name": "Notebook 2",
+            "category": "paper",
+            "active": false,
+            "score": 2,
+            "optional": null
+        }
+    ],
+    "requested": {
+        "version": 2,
+        "fields": {},
+        "global": {},
+        "searchMatch": "all",
+        "order": { "kind": "default" },
+        "paging": { "mode": "offset", "current": 1, "per_page": 2 }
+    },
+    "state": {
+        "order": { "kind": "source" },
+        "paging": { "mode": "offset", "current": 1, "per_page": 2 }
+    },
+    "paging": {
+        "mode": "offset",
+        "current": 1,
+        "per_page": 2,
+        "pages": 2,
+        "total": 4,
+        "filtered": 4,
+        "has_previous": false,
+        "has_next": true
+    },
+    "capabilities": {
+        "fields": {
+            "name": {
+                "search": { "matchTypes": ["contains", "equals"], "valueType": "string" },
+                "order": { "sortTypes": ["natural"], "directions": ["asc", "desc"] },
+                "filters": null
+            },
+            "category": {
+                "search": null,
+                "order": null,
+                "filters": { "category": { "values": ["paper", "tools"], "multiple": false } }
+            },
+            "active": {
+                "search": null,
+                "order": null,
+                "filters": { "active": { "values": [true, false], "multiple": false } }
+            },
+            "score": {
+                "search": null,
+                "order": null,
+                "filters": { "score": { "values": [0, 1.5, 2, 10], "multiple": false } }
+            },
+            "optional": {
+                "search": null,
+                "order": null,
+                "filters": { "optional": { "values": [null], "multiple": false } }
+            }
+        },
+        "global": {
+            "multi_order": false,
+            "multi_order_limit": 1,
+            "searchMatch": { "default": "all", "allowed": ["all"] },
+            "filters": null,
+            "search": null,
+            "order": null
+        },
+        "paging": { "mode": "offset", "per_page": 2, "per_page_options": [2, 4] }
+    },
+    "metadata": { "records": { "mode": "unidentified" }, "channel": null }
+}

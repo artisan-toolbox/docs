@@ -31,6 +31,7 @@ test('publishes one filtered native Ziggy configuration on initial application d
             'login', 'login.email', 'login.store', 'logout', 'log-viewer.index',
             'demo.mosaicast.delivery', 'demo.mosaicast.queue',
             'demo.core.conditional-arrays',
+            'demo.dapter.actions.start', 'demo.dapter.actions.revoke',
             'qztray_connector.get_public_key', 'qztray_connector.sign_payload',
         ])
         ->and($configuration['routes'])->not->toHaveKeys(['internal.diagnostics', 'horizon.index', 'broadcasting.auth'])
@@ -38,6 +39,8 @@ test('publishes one filtered native Ziggy configuration on initial application d
         ->and($configuration['routes']['login.store']['methods'])->toBe(['POST'])
         ->and($configuration['routes']['logout']['methods'])->toBe(['POST'])
         ->and($configuration['routes']['demo.core.conditional-arrays']['methods'])->toBe(['POST'])
+        ->and($configuration['routes']['demo.dapter.actions.start']['methods'])->toBe(['POST'])
+        ->and($configuration['routes']['demo.dapter.actions.revoke']['methods'])->toBe(['POST'])
         ->and($configuration['routes']['log-viewer.index']['uri'])->toBe('logs/{view?}')
         ->and($configuration['routes']['docs.show']['wheres']['slug'])->toBe('[a-z0-9-]+(?:/[a-z0-9-]+)*');
 })->with(['/', '/docs', '/login']);

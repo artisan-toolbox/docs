@@ -60,7 +60,7 @@ describe('Dapter shared fixture reference', () => {
         const body = (anchor) => documents.find((entry) => entry.anchor === anchor).body;
         expect(body('fixture-scope')).toContain('fixtures.json');
         expect(body('fixture-scope')).toContain('read-v1.json');
-        expect(body('native-fixture-targets')).toContain('Native planned-plan execution pending');
+        expect(body('native-fixture-targets')).toContain('Native backend v2 subset verified');
         expect(body('verify-shared-fixtures')).toContain('DapterSharedFixturesTest.php');
         expect(body('verify-shared-fixtures')).toContain('ProtocolConformanceTest.php');
         expect(body('todo-0-6')).toMatch(/^Completed /);

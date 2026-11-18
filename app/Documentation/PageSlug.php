@@ -9,8 +9,17 @@ use App\Documentation\Pages\CoreMultiDomainInertiaPage;
 use App\Documentation\Pages\CorePage;
 use App\Documentation\Pages\CoreTranslatedAttributesPage;
 use App\Documentation\Pages\DapterAccessPage;
+use App\Documentation\Pages\DapterActionDeclarationsPage;
+use App\Documentation\Pages\DapterActionOutcomesPage;
+use App\Documentation\Pages\DapterActionsPage;
+use App\Documentation\Pages\DapterAdvancedQueriesPage;
 use App\Documentation\Pages\DapterAuthorityPage;
+use App\Documentation\Pages\DapterCollectionComparisonsPage;
+use App\Documentation\Pages\DapterComparisonCapabilitiesPage;
 use App\Documentation\Pages\DapterComposablePage;
+use App\Documentation\Pages\DapterComposedDeclarationsPage;
+use App\Documentation\Pages\DapterCursorPagingPage;
+use App\Documentation\Pages\DapterCursorRecoveryPage;
 use App\Documentation\Pages\DapterDesignActionsPage;
 use App\Documentation\Pages\DapterDesignDeclarationsPage;
 use App\Documentation\Pages\DapterDesignDriversPage;
@@ -21,16 +30,47 @@ use App\Documentation\Pages\DapterDesignPage;
 use App\Documentation\Pages\DapterDesignPagingStatePage;
 use App\Documentation\Pages\DapterDesignSourceBoundariesPage;
 use App\Documentation\Pages\DapterDevelopmentPage;
+use App\Documentation\Pages\DapterEnumInputsPage;
+use App\Documentation\Pages\DapterFieldDeclarationsPage;
+use App\Documentation\Pages\DapterFieldFiltersPage;
+use App\Documentation\Pages\DapterFieldOrderPage;
+use App\Documentation\Pages\DapterFieldSearchPage;
 use App\Documentation\Pages\DapterGatesPage;
+use App\Documentation\Pages\DapterGlobalFiltersPage;
+use App\Documentation\Pages\DapterGlobalSearchPage;
+use App\Documentation\Pages\DapterHandlerRequirementsPage;
+use App\Documentation\Pages\DapterHorizontalInfiniteLoadingPage;
+use App\Documentation\Pages\DapterInfiniteLoadingPage;
+use App\Documentation\Pages\DapterInfiniteRecoveryPage;
 use App\Documentation\Pages\DapterInstallationPage;
 use App\Documentation\Pages\DapterListingPage;
+use App\Documentation\Pages\DapterLiteralConfigurationPage;
+use App\Documentation\Pages\DapterLiteralSearchPage;
+use App\Documentation\Pages\DapterLiveAuthorizationPage;
+use App\Documentation\Pages\DapterLiveUpdatesPage;
+use App\Documentation\Pages\DapterMultiOrderPage;
 use App\Documentation\Pages\DapterOptionsPage;
 use App\Documentation\Pages\DapterPage;
+use App\Documentation\Pages\DapterPagingCountsPage;
+use App\Documentation\Pages\DapterPollingPage;
+use App\Documentation\Pages\DapterPostgresqlFullTextPage;
 use App\Documentation\Pages\DapterProtocolErrorsPage;
 use App\Documentation\Pages\DapterProtocolPage;
+use App\Documentation\Pages\DapterProtocolV2Page;
+use App\Documentation\Pages\DapterResearchPage;
+use App\Documentation\Pages\DapterResourcesPage;
+use App\Documentation\Pages\DapterRevisionRacesPage;
 use App\Documentation\Pages\DapterRoadmapPage;
+use App\Documentation\Pages\DapterSimplePagingPage;
+use App\Documentation\Pages\DapterSnapshotResearchPage;
 use App\Documentation\Pages\DapterSourceBoundariesPage;
+use App\Documentation\Pages\DapterSourceRegistrationPage;
 use App\Documentation\Pages\DapterSourcesPage;
+use App\Documentation\Pages\DapterTypedFiltersPage;
+use App\Documentation\Pages\DapterVectorResearchPage;
+use App\Documentation\Pages\DapterVueControlsPage;
+use App\Documentation\Pages\DapterVueDefinitionsPage;
+use App\Documentation\Pages\DapterVueNavigationPage;
 use App\Documentation\Pages\DumpToConsoleInstallationPage;
 use App\Documentation\Pages\DumpToConsolePage;
 use App\Documentation\Pages\DumpToConsoleUsagePage;
@@ -139,15 +179,53 @@ enum PageSlug: string
     case Dapter = 'dapter';
     case DapterInstallation = 'dapter/installation';
     case DapterSources = 'dapter/sources';
-    case DapterSourceBoundaries = 'dapter/source-boundaries';
-    case DapterListing = 'dapter/listing';
-    case DapterOptions = 'dapter/options';
     case DapterAccess = 'dapter/access';
     case DapterGates = 'dapter/access/gates';
+    case DapterSourceBoundaries = 'dapter/source-boundaries';
+    case DapterOptions = 'dapter/options';
+    case DapterSourceRegistration = 'dapter/source-registration';
+    case DapterFieldDeclarations = 'dapter/field-declarations';
+    case DapterComposedDeclarations = 'dapter/composed-declarations';
+    case DapterAdvancedQueries = 'dapter/advanced-queries';
+    case DapterListing = 'dapter/listing';
+    case DapterSimplePaging = 'dapter/simple-paging';
+    case DapterCursorPaging = 'dapter/cursor-paging';
+    case DapterCursorRecovery = 'dapter/cursor-recovery';
+    case DapterPagingCounts = 'dapter/paging-counts';
+    case DapterInfiniteLoading = 'dapter/infinite-loading';
+    case DapterHorizontalInfiniteLoading = 'dapter/horizontal-infinite-loading';
+    case DapterInfiniteRecovery = 'dapter/infinite-recovery';
+    case DapterVueControls = 'dapter/vue-controls';
     case DapterComposable = 'dapter/composable';
+    case DapterVueNavigation = 'dapter/vue-navigation';
+    case DapterFieldSearch = 'dapter/field-search';
+    case DapterGlobalSearch = 'dapter/global-search';
+    case DapterLiteralSearch = 'dapter/literal-search';
+    case DapterLiteralConfiguration = 'dapter/literal-search/configuration';
+    case DapterPostgresqlFullText = 'dapter/postgresql-full-text';
+    case DapterFieldFilters = 'dapter/field-filters';
+    case DapterTypedFilters = 'dapter/typed-filters';
+    case DapterGlobalFilters = 'dapter/global-filters';
+    case DapterFieldOrder = 'dapter/field-order';
+    case DapterCollectionComparisons = 'dapter/collection-comparisons';
+    case DapterMultiOrder = 'dapter/multi-order';
+    case DapterActions = 'dapter/actions';
+    case DapterActionDeclarations = 'dapter/action-declarations';
+    case DapterActionOutcomes = 'dapter/action-outcomes';
+    case DapterResources = 'dapter/resources';
+    case DapterLiveUpdates = 'dapter/live-updates';
+    case DapterLiveAuthorization = 'dapter/live-authorization';
+    case DapterRevisionRaces = 'dapter/revision-races';
+    case DapterPolling = 'dapter/polling';
     case DapterAuthority = 'dapter/authority';
     case DapterProtocol = 'dapter/protocol';
+    case DapterProtocolV2 = 'dapter/protocol/v2';
     case DapterProtocolErrors = 'dapter/protocol/errors';
+    case DapterVueDefinitions = 'dapter/vue-definitions';
+    case DapterComparisonCapabilities = 'dapter/comparison-capabilities';
+    case DapterEnumInputs = 'dapter/enum-inputs';
+    case DapterHandlerRequirements = 'dapter/handler-requirements';
+    case DapterDevelopment = 'dapter/development';
     case DapterRoadmap = 'dapter/roadmap';
     case DapterDesign = 'dapter/design';
     case DapterDesignDeclarations = 'dapter/design/declarations';
@@ -158,7 +236,9 @@ enum PageSlug: string
     case DapterDesignActions = 'dapter/design/actions';
     case DapterDesignLiveUpdates = 'dapter/design/live-updates';
     case DapterDesignFixtures = 'dapter/design/fixtures';
-    case DapterDevelopment = 'dapter/development';
+    case DapterResearch = 'dapter/research';
+    case DapterVectorResearch = 'dapter/research/vector-retrieval';
+    case DapterSnapshotResearch = 'dapter/research/pagination-consistency';
 
     case DumpToConsole = 'dump-to-console';
     case DumpToConsoleInstallation = 'dump-to-console/installation';
@@ -288,14 +368,54 @@ enum PageSlug: string
             self::Dapter => new DapterPage,
             self::DapterInstallation => new DapterInstallationPage,
             self::DapterListing => new DapterListingPage,
+            self::DapterSimplePaging => new DapterSimplePagingPage,
+            self::DapterCursorPaging => new DapterCursorPagingPage,
+            self::DapterCursorRecovery => new DapterCursorRecoveryPage,
+            self::DapterPagingCounts => new DapterPagingCountsPage,
+            self::DapterInfiniteLoading => new DapterInfiniteLoadingPage,
+            self::DapterHorizontalInfiniteLoading => new DapterHorizontalInfiniteLoadingPage,
+            self::DapterInfiniteRecovery => new DapterInfiniteRecoveryPage,
             self::DapterSources => new DapterSourcesPage,
+            self::DapterSourceRegistration => new DapterSourceRegistrationPage,
             self::DapterSourceBoundaries => new DapterSourceBoundariesPage,
+            self::DapterFieldSearch => new DapterFieldSearchPage,
+            self::DapterFieldOrder => new DapterFieldOrderPage,
+            self::DapterCollectionComparisons => new DapterCollectionComparisonsPage,
+            self::DapterFieldFilters => new DapterFieldFiltersPage,
+            self::DapterTypedFilters => new DapterTypedFiltersPage,
+            self::DapterFieldDeclarations => new DapterFieldDeclarationsPage,
+            self::DapterGlobalSearch => new DapterGlobalSearchPage,
+            self::DapterLiteralSearch => new DapterLiteralSearchPage,
+            self::DapterLiteralConfiguration => new DapterLiteralConfigurationPage,
+            self::DapterGlobalFilters => new DapterGlobalFiltersPage,
+            self::DapterComposedDeclarations => new DapterComposedDeclarationsPage,
+            self::DapterMultiOrder => new DapterMultiOrderPage,
+            self::DapterAdvancedQueries => new DapterAdvancedQueriesPage,
+            self::DapterPostgresqlFullText => new DapterPostgresqlFullTextPage,
+            self::DapterResources => new DapterResourcesPage,
+            self::DapterLiveAuthorization => new DapterLiveAuthorizationPage,
+            self::DapterLiveUpdates => new DapterLiveUpdatesPage,
+            self::DapterRevisionRaces => new DapterRevisionRacesPage,
+            self::DapterPolling => new DapterPollingPage,
+            self::DapterActions => new DapterActionsPage,
+            self::DapterActionDeclarations => new DapterActionDeclarationsPage,
+            self::DapterActionOutcomes => new DapterActionOutcomesPage,
+            self::DapterHandlerRequirements => new DapterHandlerRequirementsPage,
+            self::DapterEnumInputs => new DapterEnumInputsPage,
             self::DapterOptions => new DapterOptionsPage,
             self::DapterAccess => new DapterAccessPage,
             self::DapterGates => new DapterGatesPage,
             self::DapterComposable => new DapterComposablePage,
+            self::DapterVueControls => new DapterVueControlsPage,
+            self::DapterVueDefinitions => new DapterVueDefinitionsPage,
+            self::DapterVueNavigation => new DapterVueNavigationPage,
             self::DapterAuthority => new DapterAuthorityPage,
             self::DapterProtocol => new DapterProtocolPage,
+            self::DapterComparisonCapabilities => new DapterComparisonCapabilitiesPage,
+            self::DapterResearch => new DapterResearchPage,
+            self::DapterVectorResearch => new DapterVectorResearchPage,
+            self::DapterSnapshotResearch => new DapterSnapshotResearchPage,
+            self::DapterProtocolV2 => new DapterProtocolV2Page,
             self::DapterProtocolErrors => new DapterProtocolErrorsPage,
             self::DapterDesign => new DapterDesignPage,
             self::DapterDesignDeclarations => new DapterDesignDeclarationsPage,
@@ -388,6 +508,18 @@ enum PageSlug: string
     public function parent(): ?self
     {
         $editorialParent = match ($this) {
+            self::DapterSourceRegistration, self::DapterSourceBoundaries, self::DapterOptions, self::DapterFieldDeclarations, self::DapterComposedDeclarations, self::DapterAdvancedQueries, self::DapterAccess => self::DapterSources,
+            self::DapterSimplePaging, self::DapterCursorPaging, self::DapterPagingCounts, self::DapterInfiniteLoading => self::DapterListing,
+            self::DapterCursorRecovery => self::DapterCursorPaging,
+            self::DapterHorizontalInfiniteLoading, self::DapterInfiniteRecovery => self::DapterInfiniteLoading,
+            self::DapterCollectionComparisons, self::DapterMultiOrder => self::DapterFieldOrder,
+            self::DapterTypedFilters, self::DapterGlobalFilters => self::DapterFieldFilters,
+            self::DapterGlobalSearch, self::DapterLiteralSearch, self::DapterPostgresqlFullText => self::DapterFieldSearch,
+            self::DapterEnumInputs, self::DapterHandlerRequirements, self::DapterVueDefinitions, self::DapterProtocol, self::DapterComparisonCapabilities => self::DapterAuthority,
+            self::DapterComposable, self::DapterVueNavigation => self::DapterVueControls,
+            self::DapterLiveAuthorization, self::DapterRevisionRaces, self::DapterPolling => self::DapterLiveUpdates,
+            self::DapterActionDeclarations, self::DapterActionOutcomes => self::DapterActions,
+            self::DapterResearch, self::DapterRoadmap, self::DapterDesign => self::DapterDevelopment,
             self::FrontAwesomeVuePlugin, self::FrontAwesomeConfiguration => self::FrontAwesomeSetup,
             self::FrontAwesomeSharedTheme, self::FrontAwesomeBranding,
             self::FrontAwesomePrimevue, self::FrontAwesomeThemeMaintenance => self::FrontAwesomeStyling,

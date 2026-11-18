@@ -1,0 +1,1868 @@
+{
+    "PagingSimple": {
+        "version": 2,
+        "data": [
+            {
+                "id": 1,
+                "name": "Notebook 01",
+                "rank": 0,
+                "tenant": 1
+            },
+            {
+                "id": 2,
+                "name": "Notebook 02",
+                "rank": 0,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "simple",
+            "current": 1,
+            "per_page": 2,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": null,
+            "has_previous": false,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "simple",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown"
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "PagingCursor": {
+        "version": 2,
+        "data": [
+            {
+                "id": 1,
+                "name": "Notebook 01",
+                "rank": 0,
+                "tenant": 1
+            },
+            {
+                "id": 2,
+                "name": "Notebook 02",
+                "rank": 0,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": null,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": null,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "cursor",
+            "cursor": null,
+            "per_page": 2,
+            "current": null,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": "eyJpdiI6IkhVb1hxUnd1R1JwNDM2QjJLazQ0a2c9PSIsInZhbHVlIjoiZmthTXcyZmVpRTZDbTF2R3lZUE1ITUtIem03cy9oeHpIdTBZWDQ5Yy9hLzZZMnN0bU9hd1JTNXVZNlNteGhhR29Fd2owZVZlcjJlZHVnNytMeEZmOGRwU1ZqQUR6eHczNmZ6UWVnUm9xQU43d0owMzRsaXlCVTFUSmlVVWtIakFtNWpFUkRhZ2RCSWJ0amxhTTJOazBOQjlDcVc0aDRmallUMHNvbGRsU0I2QW1VTEhLcnhNTFJkR1AzUDRXZHd4SndBSmdPaXR1emJ5TVpaZTRYSWNtQy9oM2ZFMk5rdXkrTG9MVHBwcUNTL2t4WkVSZk51dmc0S1M4dEhLT2EwbGIrVlNSMVNkUWN6NDkvd0VySUtKbGFKdTQ1dzNLbWRkV3JxMlRkcTZDOGpTMEdhNWVqSTdNd0pLRzR1dWJPdU9yOUZsSUJnTXQwbktKYnRvL3RZMGt1TW1UWThNZ1ljeXhrL2RuSUltbFFtNjF1OGc3RVRRQk51ZGF6VVpJMlRpRXNPRHRHWHhtRUpoQk5kSS95aHh4UTRDUnVmTlhWc0lkM0tCWjJVaThrL2x3N25RbmRpN3I4eVY1NzNzVkpRbG1oSzR2MTdScDlDUXNaYnNjelBWY2gyd2oyUTNZMWN0QSszNE1RTzVPL2d2ZDkwN2pqOUtYbXJXN3FtUlAvYW1yMGJwWVdKeFpJbS9oL3ZvNUZqeVFrNWJnUnczd1ZzK201OFA5NWZQa3RFPSIsIm1hYyI6IjIyM2JjNzVmMDQxNzVjY2MyZTE4ZWFmZGIwZWVjZDg4MjM5N2JkODE5MzRjMDkzOWE1Njc5MGYyM2E3MjBiZWMiLCJ0YWciOiIifQ==",
+            "has_previous": false,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "cursor",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown",
+                "expires_after": 900
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "PagingCounts": {
+        "version": 2,
+        "data": [
+            {
+                "id": 1,
+                "name": "Notebook 01",
+                "rank": 0,
+                "tenant": 1
+            },
+            {
+                "id": 2,
+                "name": "Notebook 02",
+                "rank": 0,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": null,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": null,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "cursor",
+            "cursor": null,
+            "per_page": 2,
+            "current": null,
+            "pages": null,
+            "total": 7,
+            "filtered": 7,
+            "previous_cursor": null,
+            "next_cursor": "eyJpdiI6IjY4ZnV5UWMwRUtsMnJPcUNLdUt4RFE9PSIsInZhbHVlIjoibHQ3Ky93SHBEMm4xeGpBam02cWFldGMrYUpsQ3U2VWZ3dVpKMStTYmFhV0wzSU5zTVFtd1hmc3Y5ejhYa3FjaVpLREJCRWtseTZoaXhUZXM5ZlErUE1UcnpXRGM0Q3lTWDJPbmV1NlJ5RjR2VERuZ1k5UDhUSmVDU2RGREY0SnA0T25zRmZHSkorWWpBUGUyNmVaRkVuOTBZSTA5amxNd0pRYXVLaUQzWC9WRkJ5MlhwZjVoRVFPL3p1WnJjcG1oUXFYenpTNTJNMUVKY0UvcHFXaUhjRlNwa1lMVmYwOVhUUWZ2ejFYV0pVZnA1THZoS3Q5aEVPelBVMDNYTjNMKzlhMUt1bjJJV1hITS9uNW54bzlxNlg2UlROa0lROWNLUzlWSjZwZU5IK0RDNlpXSE16QnFpZVhxN1AzZW90Z2Y5L2xML25IQnJWUWpBbHE2Qkc3L2xMeUJtVjhwL1BFUloyVzlta0srSm4vNFFhQUtUb3FMV01jRzM4RUpkWGFCSmZ3RjBxSUlyd3hpNXYxZlJhYWpJT3FnczllZUhIaTlVMlg3eXpxbDc1cFNiQjZweUVsV1lOZkc4K1ZlTXpNK1lUaUpVdDBTTEJ1S212SU1jU1NQNWlhU29ydjQ5YmVrSjVReWZpT0pNZ0RHUmFFTkhMMFlEUW8yNjhrdUZSVzAraENhUUhkam9EeC8xL3EyTmhnUkhMeUphRWg0NEwrd0FXMGZXb1p4TExRPSIsIm1hYyI6ImM1YzNiZWJiMWJjOGQ1ZDgxZjRhYTMxN2RjZWNhOWIzZWQ4NzQ4ZjNiZjllOThmOWNjZjY2MjM5YTFmMjhiMTYiLCJ0YWciOiIifQ==",
+            "has_previous": false,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "cursor",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "exact",
+                "expires_after": 900
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "PagingSimpleAttributes": {
+        "version": 2,
+        "data": [
+            {
+                "id": 1,
+                "name": "Notebook 01",
+                "rank": 0,
+                "tenant": 1
+            },
+            {
+                "id": 2,
+                "name": "Notebook 02",
+                "rank": 0,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "simple",
+            "current": 1,
+            "per_page": 2,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": null,
+            "has_previous": false,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {},
+            "global": {
+                "multi_order": false,
+                "multi_order_limit": 1,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": null
+            },
+            "paging": {
+                "mode": "simple",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown"
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "PagingCursorAttributes": {
+        "version": 2,
+        "data": [
+            {
+                "id": 1,
+                "name": "Notebook 01",
+                "rank": 0,
+                "tenant": 1
+            },
+            {
+                "id": 2,
+                "name": "Notebook 02",
+                "rank": 0,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": null,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": null,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "cursor",
+            "cursor": null,
+            "per_page": 2,
+            "current": null,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": "eyJpdiI6IkpPVkc3WWxSQ0pPYy9LUm5udUhQcWc9PSIsInZhbHVlIjoiUHFRQUxxYUxPUVhUM2tFT1VUQmxubEZ1RzVWVEZtdGpBVlpreEFPQkVHeVhGeFlaWWt1S2xpRXVaLzYxdUdMOWR5a01wTkcwSUpsdjhUTlVpYTVXaHUxSXZBVi9KRTNUT3JlVkNKeGZLd0FGYVg0KzkwMm9Tb2c4ZitNWWtqQ1d6UW1FUEpGbUk0WUhvRURLaGk5UkdnZVk1aGJsd1VJMUNxdis1eldoTm1xeU5UeUVqcEZVcEs5aXZVZk1XYWV3WGMxaHEveUpaL29JUFBHWUdUSXFLMnZXVU5IM1g1YjArMk5YYTluMzBPdnJCKzQrTnlZanhZNzk2TTIweVV0RW9pTURYNXNkUWlaSTZEUy8zd2ptN005bzdXK1RTRjZLRGZXUnEzVVQzWGZMckMxdXNBTVNneFBqU1g0cno5MmlhaGUyeW1nU0gzRktTRlVyMEZVTEZZUFFHaU5KVFlxL253cytkWG5qVlZsdTA5STVPdkNUWno3c25HaXdoOVhoSmt4KzNOSlpXKzVwN1VOaURVeTBBYzdiRlliQm56MUlnMDFyN0ZHWFR5RW5TTDBOeG5hRGNITlp0eWMxQjQ5QVpxTmNIazNPV043ZjBVRW9IVWN3UEU5WnE0OFZpZWlwSXZxamk1cVRUemx6azFzRks0OXQ2R1MrUFJPMWc2MzRkQlh2cGF1K2xUTkNDNHE3dFhXSHNsWmNsQkthV3lkSDMxUmM1TmFzZmNnPSIsIm1hYyI6ImYwZTEwMTE3MjFkYmRkM2E1ZjM4Zjk4Y2Q4YjlmMDc0YjNjZjE5NGZlM2EyNTE0NGYxNzc2MjYwZjc2ZTFmZjQiLCJ0YWciOiIifQ==",
+            "has_previous": false,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {},
+            "global": {
+                "multi_order": false,
+                "multi_order_limit": 1,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": null,
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "cursor",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown",
+                "expires_after": 900
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "PagingNative": {
+        "version": 2,
+        "data": [
+            {
+                "id": 1,
+                "name": "Notebook 01",
+                "rank": 0,
+                "tenant": 1
+            },
+            {
+                "id": 2,
+                "name": "Notebook 02",
+                "rank": 0,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": null,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": null,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "cursor",
+            "cursor": null,
+            "per_page": 2,
+            "current": null,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": "eyJpdiI6IkVxbTJJVXY3Mk5jaWtjUUJUZ0MvWEE9PSIsInZhbHVlIjoiOHZYMHFqanNDMmNrRE5HbityNkdnaTlQYkh3UisrSmRZaFpZM2lOU1NLNCtSN3dhNlhBdlVoWGU1YmVUem9RZU9rVG5pMjAydzd5d1cwKzdaTHUyTHJVMm1XenVKaUdOSzcwcjFXSlY5ekIrRFZkMTZ2Y3BxL09JT0hIVnZySHA0Q3dNYjg3V1ZPMjJzaDI1VGtscXpJK0dCOXRocldQdTNDYzRXNEFQU3F4WUFJa3RwMmplMzd5UHhVTCtBVUhUbDdsZHJLRDVrNjBvbnV0cmlnOFhUcmo5WXdSNkFzMXB4MHRsbEhMNzFmcTc5U1NaSXVnYjJRZ3hkZCszeDZ5a0t2OXYrNVdOYjhrN0tjQzNTZytTZUp4cmJvRFpxL0RsdTVuNFZ0RmJwOEZKS3pqMXVOanora2hFVHBsWDhIOFFIazVnaVRsY3d2am51K3FaYmh4bmV1MnllTkNqUVlqMjBVWVpMTllmRTNyS0E4Z2pEelFtUlorNnAydHBHcDA3Szh2ZXdXYkFXeEFzSDNMUDNIRnAzVUNmaWRRSG1sdjhTYzN3a1E0TzZFSjh1dnV5NE5mL1B2ZWtCK2w2N3hPOGt0aWN0NXNSRnJSYnh4NkhVNkVhZitEQVd0alJ0NEpVNGRZTkxid1l2SHY5UjZGWjRmb0JGOU9pLzJXQUVmYThnb2lBNTBtcTJMcEdGN2dERmtCNXFMSDFQME9oeUJMZjdUdTI5WnltV0pnPSIsIm1hYyI6ImVmNTgwNjc0MTkwOGU5Y2UwYzlkOTJhNWMwNmI0NDk2NGIxYmY1ZDY3NGQyMDE3NTk0MTIxZGM2ODc4M2JlYmYiLCJ0YWciOiIifQ==",
+            "has_previous": false,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": false,
+                "multi_order_limit": 1,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": null
+            },
+            "paging": {
+                "mode": "cursor",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown",
+                "expires_after": 900
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "PagingRecovery": {
+        "version": 2,
+        "data": [
+            {
+                "id": 1,
+                "name": "Tenant 1 Notebook 01",
+                "rank": 0,
+                "tenant": 1
+            },
+            {
+                "id": 2,
+                "name": "Tenant 1 Notebook 02",
+                "rank": 0,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": null,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": null,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "cursor",
+            "cursor": null,
+            "per_page": 2,
+            "current": null,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": "eyJpdiI6Inh5anpPT2ZRKzI2ZGQ2NmZMVmgwb2c9PSIsInZhbHVlIjoiTC96SGxpeG11N0N2Rk9JWHp1QTA5RVZTSjJPVGE4djkyeXVNVTU5WGJoSi9Ib2xzME1FamZPd0t3MVNmVFNKQ011cHlFQ0Q5QXNQUHIzU1pvVlpQbERGUGxiRmFUZ3hheTVMQ0ozMzI2UlVWcjZ0bkU4dzJyd3hFK2dEd280c040SnNhcXpkZjA2QUxDN3VBZjAySlZ6UjlpTmdvV2FFeFBKWkNuVlBZWTRUUExyaTd3UythanFhWEFmK1l6VzFCRkJlTkp5Zk5Layt4aGlWaExiT3RqWjRsT3RyUXU2ZHZxRUVCdUxxYU1qeDdPaTJUUzZPdENIZ2pOVmJmOXVaV0tVRWxIMnljTkFQR21VSUV1VHpQa0ZJcUtlS3M4djFWSjN2WEhLVjJ2M2FaaEVmNW9JNGZWNVpiQlU3bzVoM2U4VFRxZzRCZnU3ZTEzTGI5aDN6by9FeEpNYkV0VzJhc0RFQ3h0Mm5uQmtUQTlNSHFkbHJYZnhqRmIxTldvdUxIQ3V1a1c5WktxSCtYT25FYnBicFhCM1lpaFA3SXRRSThvUnBNUjBPMHB5QnRMVlVOVFZPUFFVTm5RRlV6S1ovMTNucThhN3h1enF2aXNQaW1YclNYLzRTVUNRbkUwajdFQ0M0UFIvQ1pHV3l0Um9xdE05TzVUcW9sMFRmdWRZRUo2dHZBZTRCNzhBRHRRS05Xb2U1MXIwVldvVXh0b3I0SWplUDJWMDBpcTFRPSIsIm1hYyI6IjQxYTJkZDQ3NDJjNzEzMjQzN2UwZWRkODc3MDgzYmU5ODNhMjIwYTIzNjUxZDVhMzA0ZTUyYTY0N2IzMjE5OGMiLCJ0YWciOiIifQ==",
+            "has_previous": false,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "cursor",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown",
+                "expires_after": 900
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "PagingDriver": {
+        "version": 2,
+        "data": [
+            {
+                "id": 1,
+                "name": "Notebook 01",
+                "rank": 0,
+                "tenant": 1
+            },
+            {
+                "id": 2,
+                "name": "Notebook 02",
+                "rank": 0,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "simple",
+            "current": 1,
+            "per_page": 2,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": null,
+            "has_previous": false,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {},
+            "global": {
+                "multi_order": false,
+                "multi_order_limit": 1,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": null
+            },
+            "paging": {
+                "mode": "simple",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown"
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "PagingCountsAttributes": {
+        "version": 2,
+        "data": [
+            {
+                "id": 1,
+                "name": "Notebook 01",
+                "rank": 0,
+                "tenant": 1
+            },
+            {
+                "id": 2,
+                "name": "Notebook 02",
+                "rank": 0,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "simple",
+            "current": 1,
+            "per_page": 2,
+            "pages": null,
+            "total": 7,
+            "filtered": 7,
+            "previous_cursor": null,
+            "next_cursor": null,
+            "has_previous": false,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "simple",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "exact"
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "PagingCountsConfig": {
+        "version": 2,
+        "data": [
+            {
+                "id": 1,
+                "name": "Notebook 01",
+                "rank": 0,
+                "tenant": 1
+            },
+            {
+                "id": 2,
+                "name": "Notebook 02",
+                "rank": 0,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "simple",
+            "current": 1,
+            "per_page": 2,
+            "pages": null,
+            "total": 7,
+            "filtered": 7,
+            "previous_cursor": null,
+            "next_cursor": null,
+            "has_previous": false,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "simple",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "exact"
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "PagingCountsOff": {
+        "version": 2,
+        "data": [
+            {
+                "id": 1,
+                "name": "Notebook 01",
+                "rank": 0,
+                "tenant": 1
+            },
+            {
+                "id": 2,
+                "name": "Notebook 02",
+                "rank": 0,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "simple",
+                "current": 1,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "simple",
+            "current": 1,
+            "per_page": 2,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": null,
+            "has_previous": false,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {},
+            "global": {
+                "multi_order": false,
+                "multi_order_limit": 1,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": null
+            },
+            "paging": {
+                "mode": "simple",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown"
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "PagingCursorNext": {
+        "version": 2,
+        "data": [
+            {
+                "id": 3,
+                "name": "Notebook 03",
+                "rank": 1,
+                "tenant": 1
+            },
+            {
+                "id": 4,
+                "name": "Notebook 04",
+                "rank": 1,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": "eyJpdiI6IkhVb1hxUnd1R1JwNDM2QjJLazQ0a2c9PSIsInZhbHVlIjoiZmthTXcyZmVpRTZDbTF2R3lZUE1ITUtIem03cy9oeHpIdTBZWDQ5Yy9hLzZZMnN0bU9hd1JTNXVZNlNteGhhR29Fd2owZVZlcjJlZHVnNytMeEZmOGRwU1ZqQUR6eHczNmZ6UWVnUm9xQU43d0owMzRsaXlCVTFUSmlVVWtIakFtNWpFUkRhZ2RCSWJ0amxhTTJOazBOQjlDcVc0aDRmallUMHNvbGRsU0I2QW1VTEhLcnhNTFJkR1AzUDRXZHd4SndBSmdPaXR1emJ5TVpaZTRYSWNtQy9oM2ZFMk5rdXkrTG9MVHBwcUNTL2t4WkVSZk51dmc0S1M4dEhLT2EwbGIrVlNSMVNkUWN6NDkvd0VySUtKbGFKdTQ1dzNLbWRkV3JxMlRkcTZDOGpTMEdhNWVqSTdNd0pLRzR1dWJPdU9yOUZsSUJnTXQwbktKYnRvL3RZMGt1TW1UWThNZ1ljeXhrL2RuSUltbFFtNjF1OGc3RVRRQk51ZGF6VVpJMlRpRXNPRHRHWHhtRUpoQk5kSS95aHh4UTRDUnVmTlhWc0lkM0tCWjJVaThrL2x3N25RbmRpN3I4eVY1NzNzVkpRbG1oSzR2MTdScDlDUXNaYnNjelBWY2gyd2oyUTNZMWN0QSszNE1RTzVPL2d2ZDkwN2pqOUtYbXJXN3FtUlAvYW1yMGJwWVdKeFpJbS9oL3ZvNUZqeVFrNWJnUnczd1ZzK201OFA5NWZQa3RFPSIsIm1hYyI6IjIyM2JjNzVmMDQxNzVjY2MyZTE4ZWFmZGIwZWVjZDg4MjM5N2JkODE5MzRjMDkzOWE1Njc5MGYyM2E3MjBiZWMiLCJ0YWciOiIifQ==",
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": "eyJpdiI6IkhVb1hxUnd1R1JwNDM2QjJLazQ0a2c9PSIsInZhbHVlIjoiZmthTXcyZmVpRTZDbTF2R3lZUE1ITUtIem03cy9oeHpIdTBZWDQ5Yy9hLzZZMnN0bU9hd1JTNXVZNlNteGhhR29Fd2owZVZlcjJlZHVnNytMeEZmOGRwU1ZqQUR6eHczNmZ6UWVnUm9xQU43d0owMzRsaXlCVTFUSmlVVWtIakFtNWpFUkRhZ2RCSWJ0amxhTTJOazBOQjlDcVc0aDRmallUMHNvbGRsU0I2QW1VTEhLcnhNTFJkR1AzUDRXZHd4SndBSmdPaXR1emJ5TVpaZTRYSWNtQy9oM2ZFMk5rdXkrTG9MVHBwcUNTL2t4WkVSZk51dmc0S1M4dEhLT2EwbGIrVlNSMVNkUWN6NDkvd0VySUtKbGFKdTQ1dzNLbWRkV3JxMlRkcTZDOGpTMEdhNWVqSTdNd0pLRzR1dWJPdU9yOUZsSUJnTXQwbktKYnRvL3RZMGt1TW1UWThNZ1ljeXhrL2RuSUltbFFtNjF1OGc3RVRRQk51ZGF6VVpJMlRpRXNPRHRHWHhtRUpoQk5kSS95aHh4UTRDUnVmTlhWc0lkM0tCWjJVaThrL2x3N25RbmRpN3I4eVY1NzNzVkpRbG1oSzR2MTdScDlDUXNaYnNjelBWY2gyd2oyUTNZMWN0QSszNE1RTzVPL2d2ZDkwN2pqOUtYbXJXN3FtUlAvYW1yMGJwWVdKeFpJbS9oL3ZvNUZqeVFrNWJnUnczd1ZzK201OFA5NWZQa3RFPSIsIm1hYyI6IjIyM2JjNzVmMDQxNzVjY2MyZTE4ZWFmZGIwZWVjZDg4MjM5N2JkODE5MzRjMDkzOWE1Njc5MGYyM2E3MjBiZWMiLCJ0YWciOiIifQ==",
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "cursor",
+            "cursor": "eyJpdiI6IkhVb1hxUnd1R1JwNDM2QjJLazQ0a2c9PSIsInZhbHVlIjoiZmthTXcyZmVpRTZDbTF2R3lZUE1ITUtIem03cy9oeHpIdTBZWDQ5Yy9hLzZZMnN0bU9hd1JTNXVZNlNteGhhR29Fd2owZVZlcjJlZHVnNytMeEZmOGRwU1ZqQUR6eHczNmZ6UWVnUm9xQU43d0owMzRsaXlCVTFUSmlVVWtIakFtNWpFUkRhZ2RCSWJ0amxhTTJOazBOQjlDcVc0aDRmallUMHNvbGRsU0I2QW1VTEhLcnhNTFJkR1AzUDRXZHd4SndBSmdPaXR1emJ5TVpaZTRYSWNtQy9oM2ZFMk5rdXkrTG9MVHBwcUNTL2t4WkVSZk51dmc0S1M4dEhLT2EwbGIrVlNSMVNkUWN6NDkvd0VySUtKbGFKdTQ1dzNLbWRkV3JxMlRkcTZDOGpTMEdhNWVqSTdNd0pLRzR1dWJPdU9yOUZsSUJnTXQwbktKYnRvL3RZMGt1TW1UWThNZ1ljeXhrL2RuSUltbFFtNjF1OGc3RVRRQk51ZGF6VVpJMlRpRXNPRHRHWHhtRUpoQk5kSS95aHh4UTRDUnVmTlhWc0lkM0tCWjJVaThrL2x3N25RbmRpN3I4eVY1NzNzVkpRbG1oSzR2MTdScDlDUXNaYnNjelBWY2gyd2oyUTNZMWN0QSszNE1RTzVPL2d2ZDkwN2pqOUtYbXJXN3FtUlAvYW1yMGJwWVdKeFpJbS9oL3ZvNUZqeVFrNWJnUnczd1ZzK201OFA5NWZQa3RFPSIsIm1hYyI6IjIyM2JjNzVmMDQxNzVjY2MyZTE4ZWFmZGIwZWVjZDg4MjM5N2JkODE5MzRjMDkzOWE1Njc5MGYyM2E3MjBiZWMiLCJ0YWciOiIifQ==",
+            "per_page": 2,
+            "current": null,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": "eyJpdiI6Im9iMkQ2djlyVEhMM0lCU1Iwc09XUFE9PSIsInZhbHVlIjoiblRXQUdPQ3Z3cmoyTGc4dTNLOHR5VU9RZ2g0cDJpK1JQSUlqTmM4dDRKK0YzUUJuSlJmMDQ0SkpKb3FiWWNsRTZrRzFMeGQwZnE5OHBXVXJEMmxaUEJtdGszL2sxODY5bnBJeFpVakt6WC8xUjNwNUljdnRNWi9yaEQycHd1aEcxU29hNE9WRnk5VktOL3VMVWY0RExpWERJSkl6SzBIUTl2b2lyVTcxbUw2Y2NJcmxVY0Nkalk2YmRwNlg4RFNWSi9QWEpBVm53YlZCSkZ6UGdvMUFuQjJ1dll4ckNlUUlmeEdaT1M1RXFoY1pCc2hKZVd4Q0M2R0lVK2swVlVwc1JGNzFTa2hCZlAvNHdIRk1QakNUbE90TTJZclc5NnlubDVUSmk5K3JNZzhHUUVRaE5ISFR6eEQ1Qy9RYUxtNlBxa1ZpS3lmM2toZEtCVDNCM283NlQxOWg5ZFVxRCt6R1RMRlZGbnNxY2x1SjhZM0t1M2c2N01WR2lueEltV1l6VXpCWHI0bUcxdDhFaCs0WTl1aUlhODlhTGI2UjYyU24yU2pRb09HZ3lzK2FqZ3BIUHhrRnJiaERmV0traVF4OTZaOXlLU2lEM1VWRFJacGZqYlZxTW43UGk3ZWlteUREN1NHU29kMnVvR0drV0xNOVVPYVBzMmxQMHhHSzFmb25QQXZ2OURORmM4RjdDSGZ6Z1NzRWJZR1RLOVkrZzlyRTBUbTdxZVhFc0M4PSIsIm1hYyI6IjY2ZTc5NjNhYzk5ZTM2NTg3NWM3MWFkNzBiOThmMDg5YWFkZmUyMTlmMmFlOGY2ZmZiM2RiNDUwNmJkYzI0N2IiLCJ0YWciOiIifQ==",
+            "next_cursor": "eyJpdiI6Im90VjRWcTVEYnpFbGNkWDhuZzYzZWc9PSIsInZhbHVlIjoiYWFMRU4zK3ZnYWdENVdONldqcnF3K1E5b0IzTWdLOVJJQisrT050WCtFNnZMdGhqYWVQRWRlSXUzdEFqS21pd0Zkc3lSdytnbFQ1dGtudk5pSU9nazdoWFJrVGw1NVN4RU4wZGJ0ZUEzZ2VHbDg3Q3ptTlBRYTVOT2FjNVQ4dmtvL29MSzMyd0s0ZDNNTExVVS9KeFlRSHJzZkNTUTBrNHJ4UW9SVVp4NjBMbkdxaXd6amsvZFArd2wrMXJZUXdnaGNGYmM5eWM4TmROcEpPZUNWcDVHTlRkVEdxZkpvSDVadVZTV25CRkg3NjdKV1dIdWc0NE1qT3RVS2JlaGE1TnEwVVJ5bFlCbk40RTVhS0RRTjhCb2N5MXk4Z2diY2kwcDVUbGpWM1ZJRzZhRFQ0WVNmb0ZZUytKcEpuUmdZYjQ0Ym5KMVdJZGVaRk54aEMvRjNNZXEzMmQrZVlVa2U1bGtLUUh2WklzblhyWlg0ajZ3U2ZFZk5qVGp2R1pzOEdraDdTU0pqR0laTlgvWWJ3UnRTMWlIYzQ4bkYvQTFlMzRxR3k0RjdFM3F4Tm01clVOMEJVajhGYTE2aWxibDR6STh0STFHa1krSm8rWnhQNExmenQxaGhGWXdPUUNYc2xTYXU3N0RoYi96KzNyZ2tlMmw0K0xzTThzQU1jY0VCcmlJL3d4bGo3N1ZmZ1c1K243bzF2aS8xTk1pSFFGU3JCS1VLdVJpc3p1TkE4PSIsIm1hYyI6ImFhOWRiOGI3NzZiZjU2OTYyZjQzZjNmMzE3ZGMzYjBjYmZmMTFhMmQ4NTZjY2I2YTRiNzE1ZDkzOTMyYWI4NWQiLCJ0YWciOiIifQ==",
+            "has_previous": true,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "cursor",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown",
+                "expires_after": 900
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "PagingCursorSearch": {
+        "version": 2,
+        "data": [
+            {
+                "id": 3,
+                "name": "Notebook 03",
+                "rank": 1,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {
+                "name": {
+                    "search": {
+                        "value": "Notebook 03",
+                        "matchType": "contains"
+                    }
+                }
+            },
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": null,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": null,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "cursor",
+            "cursor": null,
+            "per_page": 2,
+            "current": null,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": null,
+            "has_previous": false,
+            "has_next": false
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "cursor",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown",
+                "expires_after": 900
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "PagingCursorPrevious": {
+        "version": 2,
+        "data": [
+            {
+                "id": 1,
+                "name": "Notebook 01",
+                "rank": 0,
+                "tenant": 1
+            },
+            {
+                "id": 2,
+                "name": "Notebook 02",
+                "rank": 0,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": "eyJpdiI6Im9iMkQ2djlyVEhMM0lCU1Iwc09XUFE9PSIsInZhbHVlIjoiblRXQUdPQ3Z3cmoyTGc4dTNLOHR5VU9RZ2g0cDJpK1JQSUlqTmM4dDRKK0YzUUJuSlJmMDQ0SkpKb3FiWWNsRTZrRzFMeGQwZnE5OHBXVXJEMmxaUEJtdGszL2sxODY5bnBJeFpVakt6WC8xUjNwNUljdnRNWi9yaEQycHd1aEcxU29hNE9WRnk5VktOL3VMVWY0RExpWERJSkl6SzBIUTl2b2lyVTcxbUw2Y2NJcmxVY0Nkalk2YmRwNlg4RFNWSi9QWEpBVm53YlZCSkZ6UGdvMUFuQjJ1dll4ckNlUUlmeEdaT1M1RXFoY1pCc2hKZVd4Q0M2R0lVK2swVlVwc1JGNzFTa2hCZlAvNHdIRk1QakNUbE90TTJZclc5NnlubDVUSmk5K3JNZzhHUUVRaE5ISFR6eEQ1Qy9RYUxtNlBxa1ZpS3lmM2toZEtCVDNCM283NlQxOWg5ZFVxRCt6R1RMRlZGbnNxY2x1SjhZM0t1M2c2N01WR2lueEltV1l6VXpCWHI0bUcxdDhFaCs0WTl1aUlhODlhTGI2UjYyU24yU2pRb09HZ3lzK2FqZ3BIUHhrRnJiaERmV0traVF4OTZaOXlLU2lEM1VWRFJacGZqYlZxTW43UGk3ZWlteUREN1NHU29kMnVvR0drV0xNOVVPYVBzMmxQMHhHSzFmb25QQXZ2OURORmM4RjdDSGZ6Z1NzRWJZR1RLOVkrZzlyRTBUbTdxZVhFc0M4PSIsIm1hYyI6IjY2ZTc5NjNhYzk5ZTM2NTg3NWM3MWFkNzBiOThmMDg5YWFkZmUyMTlmMmFlOGY2ZmZiM2RiNDUwNmJkYzI0N2IiLCJ0YWciOiIifQ==",
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": "eyJpdiI6Im9iMkQ2djlyVEhMM0lCU1Iwc09XUFE9PSIsInZhbHVlIjoiblRXQUdPQ3Z3cmoyTGc4dTNLOHR5VU9RZ2g0cDJpK1JQSUlqTmM4dDRKK0YzUUJuSlJmMDQ0SkpKb3FiWWNsRTZrRzFMeGQwZnE5OHBXVXJEMmxaUEJtdGszL2sxODY5bnBJeFpVakt6WC8xUjNwNUljdnRNWi9yaEQycHd1aEcxU29hNE9WRnk5VktOL3VMVWY0RExpWERJSkl6SzBIUTl2b2lyVTcxbUw2Y2NJcmxVY0Nkalk2YmRwNlg4RFNWSi9QWEpBVm53YlZCSkZ6UGdvMUFuQjJ1dll4ckNlUUlmeEdaT1M1RXFoY1pCc2hKZVd4Q0M2R0lVK2swVlVwc1JGNzFTa2hCZlAvNHdIRk1QakNUbE90TTJZclc5NnlubDVUSmk5K3JNZzhHUUVRaE5ISFR6eEQ1Qy9RYUxtNlBxa1ZpS3lmM2toZEtCVDNCM283NlQxOWg5ZFVxRCt6R1RMRlZGbnNxY2x1SjhZM0t1M2c2N01WR2lueEltV1l6VXpCWHI0bUcxdDhFaCs0WTl1aUlhODlhTGI2UjYyU24yU2pRb09HZ3lzK2FqZ3BIUHhrRnJiaERmV0traVF4OTZaOXlLU2lEM1VWRFJacGZqYlZxTW43UGk3ZWlteUREN1NHU29kMnVvR0drV0xNOVVPYVBzMmxQMHhHSzFmb25QQXZ2OURORmM4RjdDSGZ6Z1NzRWJZR1RLOVkrZzlyRTBUbTdxZVhFc0M4PSIsIm1hYyI6IjY2ZTc5NjNhYzk5ZTM2NTg3NWM3MWFkNzBiOThmMDg5YWFkZmUyMTlmMmFlOGY2ZmZiM2RiNDUwNmJkYzI0N2IiLCJ0YWciOiIifQ==",
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "cursor",
+            "cursor": "eyJpdiI6Im9iMkQ2djlyVEhMM0lCU1Iwc09XUFE9PSIsInZhbHVlIjoiblRXQUdPQ3Z3cmoyTGc4dTNLOHR5VU9RZ2g0cDJpK1JQSUlqTmM4dDRKK0YzUUJuSlJmMDQ0SkpKb3FiWWNsRTZrRzFMeGQwZnE5OHBXVXJEMmxaUEJtdGszL2sxODY5bnBJeFpVakt6WC8xUjNwNUljdnRNWi9yaEQycHd1aEcxU29hNE9WRnk5VktOL3VMVWY0RExpWERJSkl6SzBIUTl2b2lyVTcxbUw2Y2NJcmxVY0Nkalk2YmRwNlg4RFNWSi9QWEpBVm53YlZCSkZ6UGdvMUFuQjJ1dll4ckNlUUlmeEdaT1M1RXFoY1pCc2hKZVd4Q0M2R0lVK2swVlVwc1JGNzFTa2hCZlAvNHdIRk1QakNUbE90TTJZclc5NnlubDVUSmk5K3JNZzhHUUVRaE5ISFR6eEQ1Qy9RYUxtNlBxa1ZpS3lmM2toZEtCVDNCM283NlQxOWg5ZFVxRCt6R1RMRlZGbnNxY2x1SjhZM0t1M2c2N01WR2lueEltV1l6VXpCWHI0bUcxdDhFaCs0WTl1aUlhODlhTGI2UjYyU24yU2pRb09HZ3lzK2FqZ3BIUHhrRnJiaERmV0traVF4OTZaOXlLU2lEM1VWRFJacGZqYlZxTW43UGk3ZWlteUREN1NHU29kMnVvR0drV0xNOVVPYVBzMmxQMHhHSzFmb25QQXZ2OURORmM4RjdDSGZ6Z1NzRWJZR1RLOVkrZzlyRTBUbTdxZVhFc0M4PSIsIm1hYyI6IjY2ZTc5NjNhYzk5ZTM2NTg3NWM3MWFkNzBiOThmMDg5YWFkZmUyMTlmMmFlOGY2ZmZiM2RiNDUwNmJkYzI0N2IiLCJ0YWciOiIifQ==",
+            "per_page": 2,
+            "current": null,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": "eyJpdiI6IjV0bFVaWlljcDdoZ3BONFFzTHJIZkE9PSIsInZhbHVlIjoiSnRBWFQ4NmZMa0gwdFJnd3MxWDgxODFvM0hHbk9Jc3diSDRZbjVVU3NlQnZ6bjk0ZEVHdEtIWkoycWFCUHRsbkZRUngvdUpjVGdQZ2puUzY2cDhDY2VYWTZMbXpRNGRpWllBZjdrTzFmTHpQMVBqQ05sSFNDQUtkVnQzNG5IRm0xZERRdFl6ZEt3ODh2TGtVWjRha3duZE1IWVJPVENCSFF5MzBvYXcxNGFMcGp1cWZ3TnpTQkVoQVdiT1JHanJjSCtXaUg2dUpwQnNOVTlWbUMybWwwWnNISWpJUG16L2VLNTVsNEZvR0ZDeTFyTEpQQlNEd0d4NitTVnJUMzcwT1ZyZVZxQ2UxZlg0R1JJRS9aNnptc1ZoalFkZkFLVW1EQWx2WUNNNnZ0MGFPalRoTUhVanU4bjB5OExhZzJ2UXZReFQ2bTl1cXdhVkR3Mno3RXhwdmk1cnA1SWpDNXZ5T3ZjaXIvdHdWNEhmbHZBTTJDMlNGUE5VdllQM0N5ZjV1MjF3RytqdkhyT0hXOUFqRE55UHVpSWNod1g4d044a1lwNjBwRG5lUFovODFzb2lTVHc4V2l0QjVEVnVaVVRkMFcwVGRHM2VOMnk5dVMzdzNzeGhqZERxWkt5M1oya2ZrZ2Q4RXNpVUM0SFpMenkvUm9mTmFVanEyeDdiTGYrMlZhRDV3ZFdHelZ0bXdDbFBYdGc0MHJuRkt1RFNxS2lRdG54VGRGdnE0YmR3PSIsIm1hYyI6ImExMGRiOGVmODAzZGJhY2VjMjE5ZWFhMGZlYTBkOWI2NDdmYTY5NTNjOTRiODQ1OTNlNWZkNmQ3YzI0OTc0ODIiLCJ0YWciOiIifQ==",
+            "has_previous": false,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "cursor",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown",
+                "expires_after": 900
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "PagingCursorSearchSize": {
+        "version": 2,
+        "data": [
+            {
+                "id": 3,
+                "name": "Notebook 03",
+                "rank": 1,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {
+                "name": {
+                    "search": {
+                        "value": "Notebook 03",
+                        "matchType": "contains"
+                    }
+                }
+            },
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": null,
+                "per_page": 3
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": null,
+                "per_page": 3
+            }
+        },
+        "paging": {
+            "mode": "cursor",
+            "cursor": null,
+            "per_page": 3,
+            "current": null,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": null,
+            "has_previous": false,
+            "has_next": false
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "cursor",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown",
+                "expires_after": 900
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "PagingRecoveryExpired": {
+        "version": 2,
+        "error": {
+            "kind": "cursor_expired",
+            "code": "cursor_expired",
+            "message": "The cursor has expired. Restart pagination to continue.",
+            "recovery": "restart"
+        }
+    },
+    "PagingRecoveryExpiredRestart": {
+        "version": 2,
+        "data": [
+            {
+                "id": 1,
+                "name": "Tenant 1 Notebook 01",
+                "rank": 0,
+                "tenant": 1
+            },
+            {
+                "id": 2,
+                "name": "Tenant 1 Notebook 02",
+                "rank": 0,
+                "tenant": 1
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": null,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": null,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "cursor",
+            "cursor": null,
+            "per_page": 2,
+            "current": null,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": "eyJpdiI6InlpZTFNT2hYL2ZhREVQM3ZtTnIwbVE9PSIsInZhbHVlIjoiVlFBQjMwVFFsZlN5RklBTmc5ZGE5TkZSR1U4ekQ5RjF2WEp6d2t5TVFBYXNibGRjRmw3QVluVm9KbUJIMFhkWlhKNUJVODZ6UnEvajNrcHFMaC9uMHk5UXRtamN3WHJYN1lTb3BXYlJtT1YxdnAxNE9qNGtGMGlkYXNXN05rZG5JVEU2Y1NVQllJN3hIbGthUnFDK3UvUXZzaElCZjZnaThNdTJRMzdzU1k0SFlyR2g4Ulo3S29LOWNFQldjS1g3eWkvSWR3cDVXSzdJOTNpejRjQWFsbzIyNElnMDh0MkkvakJUb3RuMmlIT2dYRisxbE01MjlpNGdZaXl5R2ZMNlZDVDNHNzZML1d5NzUzcFF3ZXU0TGYrSmpMaVozY0JnUVZuU1MrVUd0ZHowaDVRaHVUWmswRWY5Z3FVOFQ1eUp5SmhWUndad1lpWU5GbDllNklZR1FVSDdadlllNmZrQlZuajBRMXh0UXh6WjVTRHE4aWs3aWcvRnoxUmY3ZTg0QzE1akJVNGpmWG1RUkwrMWorNzdhSlpkazllNGZROFQ2U0x4anNOYlFZNFZIcGltQnZ6ZmJxRGg0aUROYS9PQ3ZuYlZLRTZsejlOWmJKeHJTUDJEZmFidXBQaGJNZ3VlVzZhK2tYa3gxdTZ0dGRiS08yY2Y2OE0xcEx0dlBGVVptWmIvVUVpUmpQUzlOSGxRTEdQZTQ5dDlrUDJFdTAwc05FUVhQVFdjZ0wwPSIsIm1hYyI6ImU1ZDY5MGY3ZmQ1YzcyYTBjZTMwOTgzNGViNzdkYjI2Yzk1NmQzMjFmM2VlZjY1OGY2NmM2OWYyMTBmZmEyNzMiLCJ0YWciOiIifQ==",
+            "has_previous": false,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "cursor",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown",
+                "expires_after": 900
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    },
+    "PagingRecoveryInvalid": {
+        "version": 2,
+        "error": {
+            "kind": "validation",
+            "code": "invalid_cursor",
+            "message": "The data request could not be completed."
+        },
+        "errors": {
+            "_dapter_kind": ["validation"],
+            "_dapter_code": ["invalid_cursor"]
+        }
+    },
+    "PagingRecoveryRestart": {
+        "version": 2,
+        "data": [
+            {
+                "id": 101,
+                "name": "Tenant 2 Notebook 01",
+                "rank": 0,
+                "tenant": 2
+            },
+            {
+                "id": 102,
+                "name": "Tenant 2 Notebook 02",
+                "rank": 0,
+                "tenant": 2
+            }
+        ],
+        "requested": {
+            "version": 2,
+            "fields": {},
+            "global": {},
+            "searchMatch": "all",
+            "order": {
+                "kind": "default"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": null,
+                "per_page": 2
+            }
+        },
+        "state": {
+            "order": {
+                "kind": "source"
+            },
+            "paging": {
+                "mode": "cursor",
+                "cursor": null,
+                "per_page": 2
+            }
+        },
+        "paging": {
+            "mode": "cursor",
+            "cursor": null,
+            "per_page": 2,
+            "current": null,
+            "pages": null,
+            "total": null,
+            "filtered": null,
+            "previous_cursor": null,
+            "next_cursor": "eyJpdiI6Ii90Z213OHZmTVk0ckZvdDZCZ0NRSXc9PSIsInZhbHVlIjoiOVR5RTdkRmJRQk1SNmo1Tkk0aGYvTUxMMzhGSWFNcFVJdnFiZW1DSXdXdU9DTTRKTEZDQitLWDdQeC9QN1FsdWN0bHo0UGNHUHMrTEloVXFQK3IwcWt3TlVNdGFkRUY4RVJCUndRbjdtUkMvTlg5MXk2c2FsREVJSVo3WHY2cXRjb1FNYitqUXBSdzdVYStzN3M2Q3U4SVNFelptTUlqK29wandkNG5NV1BHdWU0T0ZvdUNnYldEM0pwaXg5ckx2T2swWHl5cW5QZmJxU2l4Zm5pZXA5NFV6ampuK3BPTW1uT2hXUEs2aHZ1MGJhaGl3S3dPMW9nKzE3bmttWTd3RGwwcVRwTGJVQW9zd1RORnU3ei9ZRlpKTlZ5Z0UyRXFvWDNlOU9GWGZ0UVJHSmtSNEwyVFFweHRxS0VMZzJCMTVVc20rbXEzR1JEeExpRFI3UmIxekVBY29aNG9NSDhNSytpNktkTEZaRlI5SlpuSmpJalZiMW1VRVowTlVPOGxBQWdDZm5oWEo5R0Z0NmN0T2VpdHViTmhxbHk3SW5xM20wRytHdDdLNFpYR3NONG1HWkVlTEdFNjRuOTVoN1UwVTFJaFlpeG1zN040U21DYjdDTGRrWENUYXdHTkFPai82V3ZwSWFtZUJRRjZqdUhFSlVaaU5qVlA4NVRVRjI1a0M3TW02WCtsOU5NQUxscG1TK0NBNGtPa1hpTDBTRW0wQTNvNXRJdnJjcVcwPSIsIm1hYyI6IjU0NjQwMzBlMDgxZjcyOGFlODNlNzJjYzE0ZTQzZWQyNmEwNzdlZTVlODhhMzVkYTE5YmIwODRkYTcwMjkwYjEiLCJ0YWciOiIifQ==",
+            "has_previous": false,
+            "has_next": true
+        },
+        "capabilities": {
+            "fields": {
+                "name": {
+                    "search": {
+                        "matchTypes": ["contains"],
+                        "valueType": "string"
+                    },
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                },
+                "rank": {
+                    "search": null,
+                    "order": {
+                        "sortTypes": ["native"],
+                        "directions": ["asc", "desc"]
+                    },
+                    "filters": null
+                }
+            },
+            "global": {
+                "multi_order": true,
+                "multi_order_limit": 2,
+                "searchMatch": {
+                    "default": "all",
+                    "allowed": ["all"]
+                },
+                "filters": null,
+                "search": null,
+                "order": {
+                    "presets": [
+                        {
+                            "id": "reverse",
+                            "label": "Newest first"
+                        }
+                    ],
+                    "pagingModes": ["offset"]
+                },
+                "stability": {
+                    "prefix": [],
+                    "identity": [
+                        {
+                            "id": "id",
+                            "direction": "asc",
+                            "sortType": "native"
+                        }
+                    ]
+                }
+            },
+            "paging": {
+                "mode": "cursor",
+                "per_page": 2,
+                "per_page_options": [2, 3],
+                "counts": "unknown",
+                "expires_after": 900
+            }
+        },
+        "metadata": {
+            "records": {
+                "mode": "unidentified"
+            },
+            "channel": null
+        }
+    }
+}
