@@ -63,6 +63,16 @@ npm ci`;
             class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Validate a checkout
         </h2>
+        <p>
+            Run <code>npm run typecheck</code> from the package checkout to check the Vue sources
+            and invalid DataView examples. The negative checker launches the installed
+            <code>vue-tsc</code> JavaScript entry with the current Node executable on Windows and
+            Unix. It verifies rejected owner props, missing row fields and keys, invalid filter
+            values, and invalid action operands. Success prints
+            <code>DataView negative Vue fixtures rejected</code> followed by the checked contracts.
+            A missing compiler or process-launch failure fails the check with its original error.
+            Temporary Vue fixtures are removed after success or failure.
+        </p>
         <DocsTable caption="Validate a checkout reference 1"
             ><thead>
                 <tr>

@@ -17,6 +17,89 @@ GitHub Actions runs it after Node setup and before dependency installation.
 The regular frontend tests cover the synchronizer's observable behavior and failure cases.
 See [shared agent standards](agent-standards.md) for installation and version updates. Other adopting projects can run `node .ai/sync.mjs --check` in standalone CI.
 
+## Check frontend dependency advisories
+
+From the documentation checkout, run:
+
+```bash
+npm run audit:check
+```
+
+The command queries `npm audit --json --audit-level=moderate`. It fails for moderate,
+high, and critical advisories, failed npm commands, registry errors, and unsupported
+or inconsistent reports. Low and informational advisories retain npm's existing
+threshold behavior. GitHub Actions runs this command after `npm ci`.
+
+### Temporary picomatch exception
+
+The approved exception accepts only
+[GHSA-fc5q-39xc-vjpf](https://github.com/advisories/GHSA-fc5q-39xc-vjpf) for
+`picomatch`. It expires at **2026-11-25 03:00 UTC**, immediately after November 24
+in `America/Sao_Paulo`. The check accepts a dependent package only when every
+reachable moderate-or-higher advisory has that exact identity. A second advisory
+on `picomatch`, an unrelated vulnerable dependency, or a mixed dependency chain
+continues to fail. Cyclic npm dependency paths do not extend the exception.
+
+An accepted report prints the advisory URL, affected package names, and expiration
+before `Frontend dependency audit passed.` This accepts a known vulnerability;
+it does not repair or remove the installed code. The advisory describes denial of
+service through crafted repeated extglob patterns. Keep build and test glob
+configuration under trusted repository control. Do not treat this exception as
+evidence that arbitrary user-supplied patterns are safe.
+
+At expiration, an affected report fails automatically. A clean report passes even
+after that date. Review a published upstream repair, update within the declared
+compatibility ranges, run the raw `npm audit` and project quality checks, and
+remove the exception after confirming the advisory is resolved. Do not extend its
+deadline automatically or run `npm audit fix --force` to bypass compatibility.
+
+The exception lives in `scripts/check-npm-audit.mjs`. Its subprocess and graph tests
+run in the existing frontend suite. Run the focused checks with:
+
+```bash
+npm test -- scripts/check-npm-audit.test.mjs
+```
+
+This contributor-only policy changes no package API, consumer skill, installation
+journey, application control, or public demo. Existing package guides and shared
+presentation remain applicable.
+
+### Verification on 2026-11-17
+
+The supplied Actions failure and a fresh raw audit both report 19 affected packages
+from this one advisory. The latest published `picomatch` is `4.0.7`, which remains
+affected. `npm audit fix --dry-run --ignore-scripts --json` changes nothing and
+retains those findings. No forced repair or dependency downgrade was applied.
+
+The real `npm run audit:check` passes with an explicit exception warning. Evaluating
+that same registry report immediately before expiration accepts all 19 packages;
+at the expiration instant, all 19 fail. The 37 focused tests pass, including mixed
+advisories, cyclic paths, exact identity and expiration checks, low-severity
+thresholds, malformed reports, process failures, and executable CLI cases.
+The complete frontend suite passes 1,337 tests. Formatting, lint, shared standards,
+the portable Composer lock check, production build, and search-index publication
+and freshness checks pass.
+
+`composer ci:check` passes Rector and all six Maintainer checks with none skipped:
+985 PHP tests, Pint, frontend formatting and lint, 1,337 frontend tests, Vue type
+checking, and PHPStan. The initial sandbox run failed six PostgreSQL comparison
+tests because local service access was restricted. All 16 tests in that file and
+the complete suite pass with local service access. No checks were disabled or
+assertions changed. A new GitHub Actions run was not triggered by this task.
+
+Compatible dependency refresh attempts ran from this checkout in this order:
+
+```bash
+composer update 'artisan-toolbox/*' laravel/framework inertiajs/inertia-laravel laravel/head 'pestphp/*' --with-all-dependencies --dry-run --no-scripts --no-interaction --no-progress
+npm update --dry-run --ignore-scripts --json
+```
+
+Composer reports nothing to modify, install, update, or remove and no security
+advisories. It still reports abandoned `symplify/rule-doc-generator-contracts`.
+The npm dry run reports zero additions, removals, or changes. Installed package
+versions, Composer-delivered frontend copies, dependency ranges, and both lockfiles
+remain unchanged. Registry access required a retry outside the network sandbox.
+
 ## Verify public contact metadata
 
 The public contact address is `contact@atb.dev.br` and the canonical publication origin is `https://atb.dev.br`.
@@ -383,6 +466,57 @@ Package verification passes `composer test` with PHPStan, Pint, 100 percent sour
 Documentation verification passes the affected PHP tests, all Front Awesome frontend tests, formatting and lint, Vue types, PHPStan, the production build, and demo synchronization for 90 public exports and 87 frames. Search indexing and freshness checks pass. Direct browser verification passes 18 checks across the overview, installation, catalog, Data Viz, Feedback, preferences, localization, printing, and development pages, using 1440-pixel light and 390-pixel dark layouts. The complete documentation suites were attempted: the observed PHP run passes 537 of 539 tests and the frontend run passes 686 of 688, with the failures confined to concurrent Filoquent changes whose installed beta version differs from their alpha expectations. The full browser chain fails during navigation with an execution-context error; the targeted Front Awesome checks pass. These results do not claim a clean full-site gate or a remote CI run. Concurrent Filoquent and Dapter work is preserved.
 
 Dependency refresh attempts ran Composer before npm without changing this task's dependency constraints or versions. `composer update 'artisan-toolbox/*' laravel/framework inertiajs/inertia-laravel laravel/head 'pestphp/*' --with-all-dependencies --dry-run --no-scripts --no-interaction` fails to resolve `repo.packagist.org`. `npm update --dry-run --ignore-scripts --no-audit --no-fund --fetch-retries=0 --cache /tmp/front-awesome-beta-npm-cache` encounters registry DNS failures and reports an unresolved Inertia peer tree. No forced resolution, dependency bump, or vendor frontend refresh is claimed. Existing installed frontend exports supply validation.
+
+## Front Awesome DataView checker portability on 2026-11-17
+
+The supplied Windows Actions log for Front Awesome commit `eb8770944aa226e76d24d26384710f6002b56b6c`
+passes PHP tests, formatting, and ordinary Vue analysis, then fails in
+`scripts/check-data-view-types.mjs`. The script directly launches the Unix npm executable
+at `node_modules/.bin/vue-tsc`. A failed launch leaves no diagnostic strings, and adding
+the absent streams produces `NaN`. Writing that number hides the original process error.
+Node documents the platform distinction in
+[spawning Windows command files](https://nodejs.org/api/child_process.html#spawning-bat-and-cmd-files-on-windows).
+
+The checker now launches the installed `vue-tsc/bin/vue-tsc.js` with `process.execPath`.
+It propagates launch errors and combines only diagnostic strings. All five existing
+negative contract checks and temporary-fixture cleanup remain active. Two subprocess
+regressions reproduce the original `ERR_INVALID_ARG_TYPE` before the fix and pass afterward.
+They run the real compiler without npm executable shims in a path containing spaces,
+and verify missing-compiler diagnostics and cleanup after failure.
+
+Package validation passes `composer test`, including PHPStan, Pint, uncached 100 percent
+PHP type coverage, and 216 tests with 719 assertions. `npm run check`, 319 frontend tests,
+and the consumer build pass. The actual CI command,
+`php vendor/bin/maintainer quality:check --no-interaction`, passes all six checks with none
+skipped. The standalone negative checker also passes with Node 24.22.2. Native Windows
+and a new remote Actions run remain pending. These checks ran on macOS with Herd PHP 8.5.12.
+Initial subprocesses selected a broken Homebrew PHP 8.4 installation; a process-local
+PATH selecting Herd resolved that environment failure. Parallel checks required local
+loopback access outside the sandbox. No project assertions or machine configuration changed.
+
+The contributor how-to reuses `DevelopmentContent` and `ProseSection`. The reviewed beginner
+journey remains an existing supported Laravel/Inertia/Vue application, Composer before
+vendor-file npm installation, the dedicated Installation page, and its self-contained
+`FrontAwesomeWelcome` Button example, followed by component guides. The overview toast
+continues to require the Vue plugin and a web session. Documentation validation passes
+31 Front Awesome content tests, 11 journey and DataView feature tests, formatting and lint
+for the changed guide, shared standards, the production build, and search indexing with
+its freshness check. No browser interaction or runtime API changed. The README and
+`front-awesome-development` consumer skill need no edit because contributor tooling is
+outside their adoption guidance. Both repository changelogs describe the fix.
+
+Dependency refresh was attempted from the documentation checkout in Composer-before-npm order:
+
+```bash
+composer update 'artisan-toolbox/*' laravel/framework inertiajs/inertia-laravel laravel/head pestphp/pest pestphp/pest-plugin-laravel --with-all-dependencies --dry-run --no-scripts --no-interaction --no-progress
+npm outdated --json
+```
+
+Packagist resolution failed with curl error 6, and npm registry resolution failed with
+`ENOTFOUND`. Installed versions include Front Awesome 1.0.0-beta.2, Laravel 13.43.0,
+Inertia Laravel 3.7.0, and Pest 5.3.7. No dependency update or frontend-copy refresh completed;
+manifests, lockfiles, and installed package copies were retained. No compatibility constraint
+was relaxed, and the DataView guide still labels its working checkout as an unpublished preview.
 
 ## Front Awesome type-coverage compatibility on 2026-11-16
 

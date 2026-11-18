@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add an expiring, advisory-specific picomatch audit exception while preserving failures for other moderate-or-higher advisories and npm errors.
+
+- Explain Front Awesome's portable DataView negative Vue type check and compiler failure reporting.
+
 - Explain Laravel-version-specific plural condition whitespace in Front Awesome's generated localization catalog and contributor checks.
 
 - Disable Inertia DevTools during PHP tests, including tests that switch to the local environment, to prevent development-history access and related memory exhaustion.
