@@ -11,7 +11,7 @@
     "require": {
         "php": "^8.5",
         "artisan-toolbox/core": "^1.2.0",
-        "artisan-toolbox/dapter": "1.x-dev@dev",
+        "artisan-toolbox/dapter": "^1.0.0-alpha.1",
         "artisan-toolbox/dump-to-console": "^1.1.0",
         "artisan-toolbox/filoquent": "^1.0.0-beta.4",
         "artisan-toolbox/front-awesome": "^1.0.0-beta.2",

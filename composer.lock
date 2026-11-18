@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dd829fba861b5bb2ba73d791c3f2d72a",
+    "content-hash": "3ca652d79264fa3a6a0a1207ac9cba13",
     "packages": [
         {
             "name": "artisan-toolbox/core",
@@ -90,23 +90,36 @@
         },
         {
             "name": "artisan-toolbox/dapter",
-            "version": "1.x-dev",
+            "version": "1.0.0-alpha.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/dapter.git",
-                "reference": "3618599979e25ab04214dd60588c9bad248ff6e8"
+                "reference": "35b0ae0ea0ecc4feb735cbb5f2eff955d5c94c1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/dapter/zipball/3618599979e25ab04214dd60588c9bad248ff6e8",
-                "reference": "3618599979e25ab04214dd60588c9bad248ff6e8",
+                "url": "https://api.github.com/repos/artisan-toolbox/dapter/zipball/35b0ae0ea0ecc4feb735cbb5f2eff955d5c94c1e",
+                "reference": "35b0ae0ea0ecc4feb735cbb5f2eff955d5c94c1e",
                 "shasum": ""
             },
             "require": {
                 "artisan-toolbox/maintainer": "^1.10.0",
+                "illuminate/auth": "^13.0",
+                "illuminate/broadcasting": "^13.0",
+                "illuminate/cache": "^13.0",
+                "illuminate/console": "^13.0",
+                "illuminate/container": "^13.0",
+                "illuminate/contracts": "^13.0",
+                "illuminate/database": "^13.0",
+                "illuminate/encryption": "^13.0",
+                "illuminate/filesystem": "^13.0",
+                "illuminate/http": "^13.0",
+                "illuminate/queue": "^13.0",
+                "illuminate/routing": "^13.0",
                 "illuminate/support": "^13.0",
                 "inertiajs/inertia-laravel": "^3.0",
-                "php": "^8.5"
+                "php": "^8.5",
+                "symfony/polyfill-intl-normalizer": "^1.33"
             },
             "require-dev": {
                 "driftingly/rector-laravel": "^2.7.3",
@@ -123,7 +136,6 @@
                 "phpstan/phpstan-mockery": "^2.0",
                 "rector/rector": "^2.8.4"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -132,6 +144,11 @@
                     },
                     "providers": [
                         "ArtisanToolbox\\Dapter\\DapterServiceProvider"
+                    ]
+                },
+                "phpstan": {
+                    "includes": [
+                        "extension.neon"
                     ]
                 }
             },
@@ -163,10 +180,10 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/dapter/issues",
-                "source": "https://github.com/artisan-toolbox/dapter/tree/1.x"
+                "source": "https://github.com/artisan-toolbox/dapter/tree/1.0.0-alpha.1"
             },
-            "time": "2026-11-16T23:51:04+00:00",
-            "published-time": "2026-11-16T23:51:11+00:00"
+            "time": "2026-11-18T02:15:39+00:00",
+            "published-time": "2026-11-18T02:15:44+00:00"
         },
         {
             "name": "artisan-toolbox/dump-to-console",
@@ -10249,16 +10266,16 @@
         },
         {
             "name": "web-auth/webauthn-lib",
-            "version": "5.3.12",
+            "version": "5.3.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-auth/webauthn-lib.git",
-                "reference": "c7aeeb1d35e39b7d32ab5146cce4b668f271a68e"
+                "reference": "19eb8e4107467052e5b24c023832ef8164062e89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/web-auth/webauthn-lib/zipball/c7aeeb1d35e39b7d32ab5146cce4b668f271a68e",
-                "reference": "c7aeeb1d35e39b7d32ab5146cce4b668f271a68e",
+                "url": "https://api.github.com/repos/web-auth/webauthn-lib/zipball/19eb8e4107467052e5b24c023832ef8164062e89",
+                "reference": "19eb8e4107467052e5b24c023832ef8164062e89",
                 "shasum": ""
             },
             "require": {
@@ -10319,7 +10336,7 @@
                 "webauthn"
             ],
             "support": {
-                "source": "https://github.com/web-auth/webauthn-lib/tree/5.3.12"
+                "source": "https://github.com/web-auth/webauthn-lib/tree/5.3.13"
             },
             "funding": [
                 {
@@ -10331,8 +10348,8 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2026-11-03T09:21:08+00:00",
-            "published-time": "2026-11-03T09:27:24+00:00"
+            "time": "2026-11-17T19:20:46+00:00",
+            "published-time": "2026-11-17T20:10:27+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -14415,7 +14432,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "artisan-toolbox/dapter": 20,
+        "artisan-toolbox/dapter": 15,
         "artisan-toolbox/filoquent": 10,
         "artisan-toolbox/front-awesome": 10
     },

@@ -10,7 +10,7 @@ test('registers the Dapter preview with installation before the roadmap and deve
         ->component('docs/dapter/Index')
         ->where('page.package.id', 'dapter')
         ->where('page.package.stability', 'Work in progress')
-        ->where('page.package.installedVersion', '1.x-dev')
+        ->where('page.package.installedVersion', '1.0.0-alpha.1')
         ->where('page.package.artwork.icon', '/images/packages/dapter/dapter-icon.svg')
     );
 

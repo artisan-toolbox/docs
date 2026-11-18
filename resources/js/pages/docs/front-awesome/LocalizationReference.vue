@@ -329,6 +329,15 @@ const overrides = `php artisan vendor:publish --tag=front-awesome-lang`;
                 plural rules can differ from Intl's plural rules. Source translation values remain
                 in Laravel PHP or JSON files, including package overrides.
             </p>
+            <p>
+                The generated catalog records whether the installed Laravel selector accepts
+                whitespace before and inside exact and interval conditions through the boolean
+                <code>pluralConditionWhitespace</code> metadata. For example,
+                <code> { 1 } One|[ 2,* ] Many</code> returns <code>One</code> for a count of
+                <code>1</code> when that behavior is enabled. Older catalogs without this metadata
+                retain strict condition syntax. Regenerate the catalog and rebuild assets after
+                updating Laravel; do not edit this generated value manually.
+            </p>
         </ProseSection>
         <ProseSection id="editor-types" title="Editor types">
             <p>

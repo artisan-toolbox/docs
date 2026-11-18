@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Explain Laravel-version-specific plural condition whitespace in Front Awesome's generated localization catalog and contributor checks.
+
+- Disable Inertia DevTools during PHP tests, including tests that switch to the local environment, to prevent development-history access and related memory exhaustion.
+
 - Clarify Dapter's minimum-dependency static-analysis checks and sequential simple-page rows for Eloquent collections with custom keys.
 
 - Explain Dapter's project-owned 512M test memory budget and regression checks starting from PHP's 128M default.

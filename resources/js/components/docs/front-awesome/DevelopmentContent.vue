@@ -162,6 +162,12 @@ npm ci`;
             command signatures consistently across platforms. CI lets all matrix jobs finish after
             another job fails. Review both dependency lanes on Ubuntu and Windows.
         </p>
+        <p>
+            The localization tests compare browser choices with the installed Laravel selector.
+            Laravel releases differ in their handling of whitespace around plural conditions. The
+            exporter records that behavior in the generated catalog. Keep coverage for both
+            behaviors and for older catalogs without the metadata when updating dependencies.
+        </p>
         <h2
             id="follow-the-package-conventions"
             class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">

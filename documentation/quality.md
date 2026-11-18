@@ -225,6 +225,29 @@ Maintainer reports unavailable checks as skipped rather than failing them.
 Install development dependencies and frontend dependencies before running the gate, and confirm that every listed tool executes.
 Do not treat a successful exit code with skipped tooling as complete validation.
 
+### Keep request recording out of tests
+
+`phpunit.xml` forces `INERTIA_DEVTOOLS_ENABLED=false` before Laravel boots, including when the developer's environment enables it.
+The PHPUnit server variable takes precedence over inherited environment values in Laravel's configuration loader.
+This keeps Inertia's recorder disabled when a test switches the application environment to `local`, as the Horizon access tests do.
+Tests therefore leave the development history in `storage/inertia-devtools` untouched and avoid decoding its metadata index during request handling.
+Local browser development retains Inertia's automatic recording behavior.
+See [Inertia's DevTools configuration](https://inertiajs.com/docs/v3/advanced/devtools#enabling-devtools) for the upstream switch.
+
+From the documentation checkout, run the regression and Horizon access tests with PHP's 128 MB memory limit:
+
+```bash
+php -d memory_limit=128M vendor/bin/pest tests/Feature/InertiaDevToolsTest.php tests/Feature/HorizonAccessTest.php
+```
+
+The tests pass for the `testing`, `local`, and `production` environments without DevTools response headers or recorded files.
+The regression uses a temporary storage path and removes it after each case, so a failure cannot modify the developer's history.
+
+The November 17, 2026 dependency refresh attempted the compatible Composer dry run before `npm outdated --offline --json`.
+Offline Composer resolution lacked cached Packagist metadata, and npm lacked cached metadata for `@vueuse/core`.
+No dependency versions or frontend vendor copies changed during this fix.
+Package APIs, consumer skills, and beginner installation journeys remain unchanged.
+
 ## Run one workflow
 
 Run all Maintainer checks without the preceding Rector dry run:
