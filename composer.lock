@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0108ec62b9df2427f97e71fb8b8f8050",
+    "content-hash": "5ee6d7b13cd259d3400d083d7c91315b",
     "packages": [
         {
             "name": "artisan-toolbox/core",
@@ -441,16 +441,16 @@
         },
         {
             "name": "artisan-toolbox/maintainer",
-            "version": "1.12.0",
+            "version": "1.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/maintainer.git",
-                "reference": "5d953e47be4d600aa5e7fabb9ffa582a1d2a08b8"
+                "reference": "aa4db6f3cf0cf953bc0d2651fada6488ca060c10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/maintainer/zipball/5d953e47be4d600aa5e7fabb9ffa582a1d2a08b8",
-                "reference": "5d953e47be4d600aa5e7fabb9ffa582a1d2a08b8",
+                "url": "https://api.github.com/repos/artisan-toolbox/maintainer/zipball/aa4db6f3cf0cf953bc0d2651fada6488ca060c10",
+                "reference": "aa4db6f3cf0cf953bc0d2651fada6488ca060c10",
                 "shasum": ""
             },
             "require": {
@@ -522,8 +522,8 @@
                 "issues": "https://github.com/artisan-toolbox/maintainer/issues",
                 "source": "https://github.com/artisan-toolbox/maintainer"
             },
-            "time": "2026-11-18T22:13:28+00:00",
-            "published-time": "2026-11-18T22:13:38+00:00"
+            "time": "2026-11-19T02:22:08+00:00",
+            "published-time": "2026-11-19T02:27:21+00:00"
         },
         {
             "name": "artisan-toolbox/mosaicast",
@@ -10347,16 +10347,16 @@
         },
         {
             "name": "web-auth/webauthn-lib",
-            "version": "5.3.13",
+            "version": "5.3.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-auth/webauthn-lib.git",
-                "reference": "19eb8e4107467052e5b24c023832ef8164062e89"
+                "reference": "768fb8cf7bebaad8a08b3015e206dda95e3320fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/web-auth/webauthn-lib/zipball/19eb8e4107467052e5b24c023832ef8164062e89",
-                "reference": "19eb8e4107467052e5b24c023832ef8164062e89",
+                "url": "https://api.github.com/repos/web-auth/webauthn-lib/zipball/768fb8cf7bebaad8a08b3015e206dda95e3320fa",
+                "reference": "768fb8cf7bebaad8a08b3015e206dda95e3320fa",
                 "shasum": ""
             },
             "require": {
@@ -10417,7 +10417,7 @@
                 "webauthn"
             ],
             "support": {
-                "source": "https://github.com/web-auth/webauthn-lib/tree/5.3.13"
+                "source": "https://github.com/web-auth/webauthn-lib/tree/5.3.14"
             },
             "funding": [
                 {
@@ -10429,8 +10429,8 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2026-11-17T19:20:46+00:00",
-            "published-time": "2026-11-17T20:10:27+00:00"
+            "time": "2026-11-18T16:46:55+00:00",
+            "published-time": "2026-11-18T16:56:49+00:00"
         },
         {
             "name": "webmozart/assert",

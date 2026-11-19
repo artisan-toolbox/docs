@@ -27,12 +27,29 @@ import ProseSection from '@/components/docs/ProseSection.vue';
                 <li>optionally opens an HTML review of the proposal;</li>
                 <li>creates <code>chore(release): prepare VERSION</code>;</li>
                 <li>pushes the commit to <code>origin</code>;</li>
+                <li>waits for the configured GitHub Actions workflow when required;</li>
                 <li>publishes with <code>gh release create</code>.</li>
             </ol>
             <p>
                 Alpha and beta versions use GitHub's prerelease flag. A missing changelog is
                 created; subsequent releases are prepended and grouped by Conventional Commit
                 category.
+            </p>
+            <p>
+                The <code>1.x</code> source preview can require GitHub Actions before publication.
+                Set <code>release.workflow</code> in <code>config/maintainer.php</code> to a
+                workflow filename such as <code>tests.yml</code>. The workflow must run on pushes to
+                the release branch. Maintainer waits for success on the exact prepared commit before
+                publishing a tag for that commit.
+            </p>
+            <p>
+                If the wait or publication fails, stay on the prepared commit and choose
+                <strong>Versioning › GitHub releases</strong> from the menu. Maintainer shows the
+                pending version and asks whether to resume. To invoke the same workflow directly,
+                run <code>php vendor/bin/maintainer release:create --resume</code>. Rerun that
+                commit if the runner or network interrupted CI. If CI found a defect, fix it and
+                prepare a new release commit. Maintainer waits up to 15 minutes for CI and reuses
+                the reviewed title and notes when resuming.
             </p>
             <p>
                 If the project root contains a regular

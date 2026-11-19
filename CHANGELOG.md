@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Keep the Dapter simple pagination guide readable on narrow screens by separating the method name and its argument. Verify page width at 375 pixels in Chromium.
+
 - Update the documentation application to the latest published Artisan Toolbox releases, including Dapter beta.2, Filoquent beta.6, Front Awesome beta.5, and Permit beta.1. Install Permit from Packagist in the quickstart and migrate its assignment table for signed-in readers.
 
 - Prepare the browser CI job with a SQLite search fixture, a Redis worker, and a local Reverb server. Accept the workflow's loopback URL in the Dapter browser scripts.

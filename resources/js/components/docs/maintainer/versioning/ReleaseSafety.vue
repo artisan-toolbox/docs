@@ -15,10 +15,15 @@ import ProseSection from '@/components/docs/ProseSection.vue';
         </ProseSection>
         <ProseSection id="failure-and-rollback" title="Failure and rollback">
             <p>
-                Before the release commit is pushed, a failure restores the captured starting
-                <code>HEAD</code> and removes untracked release files. On platforms with
-                <code>pcntl</code>, <code>SIGTERM</code> performs the same rollback and exits with
-                status <code>143</code>.
+                During preparation, a failure restores the captured starting <code>HEAD</code> and
+                removes untracked release files. On platforms with <code>pcntl</code>,
+                <code>SIGTERM</code> performs the same rollback and exits with status
+                <code>143</code>.
+            </p>
+            <p>
+                For a release that requires GitHub Actions, Maintainer keeps the prepared commit and
+                reviewed notes once it records them. Resume from that commit if the push, workflow
+                wait, or publication fails.
             </p>
             <p>
                 After a successful push, Maintainer does not attempt local rollback because local

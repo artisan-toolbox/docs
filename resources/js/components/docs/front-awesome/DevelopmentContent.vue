@@ -17,7 +17,8 @@ npm ci`;
                 >Front Awesome repository</DocsLink
             >
             and switch to <code>1.x</code>. From the checkout, install the PHP dependencies before
-            the frontend dependencies.
+            the frontend dependencies. Use the Node.js version in <code>.nvmrc</code>. Both install
+            commands use the lockfiles from the checkout.
         </p>
         <CodeExample label="Develop Front Awesome example 1" language="sh" :code="example1" />
         <p>
@@ -164,15 +165,17 @@ npm ci`;
             >. A successful build alone does not prove that theme tokens resolve in the browser.
         </p>
         <p>
-            CI runs both execution coverage commands in the Ubuntu job with stable dependencies.
-            Download the
-            <code>coverage-reports</code> artifact from that job to browse the PHP and frontend HTML
-            reports. PHP type coverage runs across the support matrix.
+            A documentation-only Markdown change runs the workflow's <code>CI</code> check without
+            installing project dependencies. Other changes run the locked Linux quality checks and
+            consumer build, plus the Windows runtime suites and DataView compiler launcher check.
+            Composer changes also exercise the lowest and latest compatible PHP dependencies.
         </p>
         <p>
-            PHPStan loads the package service provider during bootstrap so it checks registered
-            command signatures consistently across platforms. CI lets all matrix jobs finish after
-            another job fails. Review both dependency lanes on Ubuntu and Windows.
+            A release preparation commit, manual workflow dispatch, or workflow change runs browser
+            integration and both PHP compatibility jobs. The browser job uses the Playwright image
+            that matches <code>package-lock.json</code>. Download the <code>coverage-reports</code>
+            artifact from the scheduled run for PHP and frontend execution coverage. The type
+            coverage requirement also runs in the normal Linux quality job.
         </p>
         <p>
             The localization tests compare browser choices with the installed Laravel selector.
@@ -196,6 +199,13 @@ npm ci`;
             regenerate the header after changing the logo or badges, run
             <code>php vendor/bin/maintainer readme:update --no-interaction</code>. The version badge
             links to GitHub Releases. The Packagist badge links to the package registry.
+        </p>
+        <p>
+            The release configuration requires a successful <code>tests.yml</code> push run for the
+            prepared commit. Use a Maintainer build that supports
+            <code>release:create --resume</code>. Until that build is released, run
+            <code>php ../maintainer/maintainer release:create</code> from Front Awesome with the
+            sibling Maintainer source checkout and its Composer dependencies installed.
         </p>
         <h2
             id="use-the-frontend-agent-skills"

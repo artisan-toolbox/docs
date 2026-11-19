@@ -39,6 +39,16 @@ try {
                 scope
                     .locator('[data-paging-row]')
                     .evaluateAll((rows) => rows.map((row) => Number(row.dataset.pagingRow)));
+            async function assertPageFits(guide) {
+                const { viewport, documentWidth } = await page.evaluate(() => ({
+                    viewport: innerWidth,
+                    documentWidth: document.documentElement.scrollWidth,
+                }));
+                assert(
+                    documentWidth <= viewport,
+                    `${guide} in ${theme} mode is ${documentWidth}px wide at a ${viewport}px viewport.`,
+                );
+            }
             async function read(scope, label, source, status = 200, action = null) {
                 const count = reads.length;
                 const pending = page.waitForResponse(
@@ -71,6 +81,17 @@ try {
                 return response.json();
             }
             try {
+                if (width === 390) {
+                    const guide = 'dapter/simple-paging';
+                    await page.setViewportSize({ width: 375, height: 1000 });
+                    await page.goto(new URL(`/docs/${guide}`, base).href);
+                    await frame('PagingSimple')
+                        .getByRole('button', { name: 'Start example', exact: true })
+                        .waitFor();
+                    await page.evaluate(() => document.fonts.ready.then(() => undefined));
+                    await assertPageFits(guide);
+                    await page.setViewportSize({ width, height: 1000 });
+                }
                 for (const guide of new Set(cases.map((item) => item.guide))) {
                     const before = reads.length;
                     await page.goto(new URL(`/docs/${guide}`, base).href);
@@ -164,12 +185,7 @@ try {
                             })
                             .waitFor();
                     }
-                    assert.equal(
-                        await page.evaluate(
-                            () => document.documentElement.scrollWidth > innerWidth,
-                        ),
-                        false,
-                    );
+                    await assertPageFits(guide);
                     await page.screenshot({
                         path: resolve(
                             artifacts,

@@ -85,11 +85,21 @@ const publishedFixtures = fixtures.map((source) => {
         ),
     };
     if (guide.slug === 'front-awesome/development') {
+        const updatedCiParagraphs = new Map([
+            [
+                'CI runs both execution coverage commands in the Ubuntu job with stable dependencies. Download the coverage-reports artifact from that job to browse the PHP and frontend HTML reports. PHP type coverage runs across the support matrix.',
+                "A documentation-only Markdown change runs the workflow's CI check without installing project dependencies.",
+            ],
+            [
+                'PHPStan loads the package service provider during bootstrap so it checks registered command signatures consistently across platforms. CI lets all matrix jobs finish after another job fails. Review both dependency lanes on Ubuntu and Windows.',
+                'A release preparation commit, manual workflow dispatch, or workflow change runs browser integration and both PHP compatibility jobs.',
+            ],
+        ]);
         guide.paragraphs = guide.paragraphs.map((paragraph) =>
             paragraph ===
             'Maintainer manages releases on 1.x and generates the README header. To regenerate the header after changing the logo or badges, run php vendor/bin/maintainer readme:update. When preparing the first release, replace the in-development badge in FrontAwesome::readmeHead() with the GitHub release badge.'
                 ? 'Maintainer manages releases on 1.x and generates the README header. To regenerate the header after changing the logo or badges, run php vendor/bin/maintainer readme:update --no-interaction. The version badge links to GitHub Releases. The Packagist badge links to the package registry.'
-                : paragraph,
+                : (updatedCiParagraphs.get(paragraph) ?? paragraph),
         );
         guide.links.splice(1, 0, {
             href: 'https://viteplus.dev/guide/upgrade-project',

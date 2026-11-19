@@ -211,7 +211,9 @@ const overrides = `php artisan vendor:publish --tag=front-awesome-lang`;
                 file changes even when the modification time stays the same, such as when a
                 replacement changes the file size. Front Awesome <code>1.0.0-beta.5</code> also
                 refreshes the catalog for language files created under the Vite root during startup.
-                When the Laravel application is outside the Vite root, set
+                The <code>1.x</code> source preview also watches the Laravel input paths for
+                creation, deletion, and replacement if Vite misses a filesystem notification. When
+                the Laravel application is outside the Vite root, set
                 <code>translations.cwd</code> to its application root. Unrelated configuration files
                 do not trigger exports. Production export failure stops the build. Restart Vite
                 after package or service-provider changes outside the watched inputs.

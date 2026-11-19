@@ -290,13 +290,23 @@ describe('Maintainer Versioning guides', () => {
             'a non-empty, single-line outcome of at most 100 characters',
             'Unknown AI hashes are discarded',
             'An invalid type aborts the release',
+            'Set release.workflow in config/maintainer.php',
+            'success on the exact prepared commit',
+            'Versioning › GitHub releases',
+            'Maintainer shows the pending version and asks whether to resume.',
+            'php vendor/bin/maintainer release:create --resume',
             'at most 24,000 characters, with no more than 16 fragments',
             'SIGTERM performs the same rollback and exits with status 143',
             'After a successful push, Maintainer does not attempt local rollback',
         ]) {
             expect(text).toContain(phrase);
         }
-        expect(render(guideCases[3]).findAll('ol li')).toHaveLength(12);
+        const steps = render(guideCases[3]).findAll('ol li');
+        expect(steps.slice(-3).map((step) => step.text())).toEqual([
+            'pushes the commit to origin;',
+            'waits for the configured GitHub Actions workflow when required;',
+            'publishes with gh release create.',
+        ]);
     });
 
     it('preserves production autoload discovery, version contracts, hook timing, and README badge migration anchors', () => {

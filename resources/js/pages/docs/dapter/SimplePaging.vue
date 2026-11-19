@@ -24,11 +24,12 @@ defineProps({
             >
             <ProseSection id="declare-simple" title="Declare simple pagination"
                 ><p>
-                    Set StoreOptions::pagingMode(PagingMode::Simple), or use the equivalent Paging
-                    attribute. Keep a bounded pageSize and allowed pageSizeOptions. Use protocol 2
-                    with paging: source in the Vue creator. The source selects the mode. Existing
-                    creators keep their offset types and reject an advanced source unless they opt
-                    in.
+                    Call <code>StoreOptions::pagingMode()</code> with
+                    <code>PagingMode::Simple</code> or use the equivalent
+                    <code>Paging</code> attribute. Keep a bounded <code>pageSize</code> and allowed
+                    <code>pageSizeOptions</code>. Use protocol 2 with paging: source in the Vue
+                    creator. The source selects the mode. Existing creators keep their offset types
+                    and reject an advanced source unless they opt in.
                 </p></ProseSection
             >
             <ProseSection id="expected-result" title="Read seven notebooks"

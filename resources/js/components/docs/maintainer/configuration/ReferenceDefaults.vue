@@ -36,6 +36,9 @@ return [
             'output_format' => env('MAINTAINER_GIT_DIFF_OUTPUT_FORMAT', 'line_by_line'),
         ],
     ],
+    'release' => [
+        'workflow' => null,
+    ],
     'quality' => [
         'fix' => [
             RunsRectorFix::class,
@@ -71,7 +74,7 @@ return [
                 <DocsLink :href="publishingHref">Publish Configuration</DocsLink>
                 to create these files with per-file overwrite protection.
             </p>
-            <p>The published file starts with Maintainer's current defaults:</p>
+            <p>The <code>1.x</code> source preview publishes this configuration by default.</p>
             <CodeExample
                 label="Default Maintainer configuration"
                 language="php"
@@ -93,6 +96,12 @@ return [
                 updates. Every configured release agent delegates model selection to the provider's
                 cheapest compatible model through Laravel AI's
                 <code>UseCheapestModel</code> attribute.
+            </p>
+            <p>
+                The published config sets <code>release.workflow</code> to <code>null</code>, so
+                waiting for GitHub Actions is disabled by default. Replace <code>null</code> with a
+                workflow filename such as <code>tests.yml</code> to require a successful push run
+                for the release commit.
             </p>
         </ProseSection>
     </div>

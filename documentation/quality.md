@@ -245,6 +245,16 @@ The installation routes still come first in the shared navigation. The guide che
 | Permit            | Laravel with an Eloquent user provider and a development database. Install with Composer and migrate before checking a Gate. | The quickstart returns `false` before a grant and `true` after it. Continue to declarations.                                  |
 | QZ Tray Connector | Laravel with Vue and Vite. Install Composer packages before npm.                                                             | The browser renders a ZPL label preview. Continue to connection setup for printing.                                           |
 
+### Simple pagination on narrow screens
+
+GitHub Actions stopped at the page-width assertion in `test-dapter-paging-browser.mjs` on the first 390-pixel layout for commit `0a3d3ce`. Local Chromium reproduced the same assertion at 375 pixels, where the unbroken `StoreOptions::pagingMode(PagingMode::Simple)` expression widened the simple pagination guide to 387 pixels. The guide now uses two inline code spans within the shared prose component. Its live examples still use the public Dapter adapter and the existing Front Awesome controls.
+
+The new 375-pixel check failed before the wording change and passed afterward in both themes. The corrected document also fits at 320, 360, and 390 pixels. The test reports the guide, theme, document width, and viewport width when overflow occurs.
+
+The beginner path still uses Laravel 13, PHP 8.5, Inertia 3, Vue, and a web session. Install Dapter through Composer before npm, then expose the data route through Ziggy. The examples return Notebook 01 and Notebook 02 on the first page and Notebook 03 and Notebook 04 after Next. The guide links to cursor pagination. The consumer skill still applies because the Dapter API and setup are the same.
+
+The compatible Composer refresh offered no updates. The npm dry run offered four unrelated transitive patches. This layout fix keeps the dependency locks at their tested versions.
+
 ### Refresh dependencies before authoring
 
 Attempt compatible updates of Artisan Toolbox packages, Laravel, Inertia, Laravel Head, Pest, and the frontend runtime and test tools before editing their documentation. Run Composer before refreshing the `file:vendor/` frontend copies. Record changed versions or why no update was possible. Do not force a major upgrade, rewrite a lock reference, or label a local branch as a stable release to make an update succeed.
