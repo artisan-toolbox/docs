@@ -20,6 +20,18 @@ For package overviews, state purpose, stability, documented version, requirement
 Provide a dedicated Installation guide. Put prerequisites before the steps that use them.
 Keep a package README concise and link to its package page at `https://atb.dev.br` for detailed guidance.
 
+## Maintain package README badges
+
+For a published package, start the badge row in `readmeHead()` with `Badge::releaseVersion()` linked to the package's GitHub Releases page.
+Follow it with a static Packagist badge linked to `https://packagist.org/packages/artisan-toolbox/<package>`.
+Use `Badge::make()` with the image URL `https://img.shields.io/badge/Packagist-F28D1A?style=flat-square&logo=packagist&logoColor=white` and the alt text `Packagist`.
+Before the first release, use an in-development badge.
+Follow the [README badge policy](https://atb.dev.br/docs/project/documentation-policy#readme-badges) for the remaining badges and the header regeneration command.
+
+Keep numeric versions in the badges. Link to the installation guide for compatibility ranges and version constraints.
+Use a package-scoped Composer stability flag such as `@beta` when installation requires allowing a prerelease.
+Verify that changed installation commands resolve in a compatible application and that Maintainer regenerates the expected header.
+
 ## Write and verify
 
 Apply [the writing standard](references/writing.md) to prose and examples.

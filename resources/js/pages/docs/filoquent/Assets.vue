@@ -108,14 +108,12 @@ dump($document->fresh()->attachment->get('large')->path === $large?->path);`;
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection id="prerequisites" title="Prepare a model with file variants">
                 <DocsCallout variant="note">
-                    <template #title>Development preview</template>
+                    <template #title>Version requirement</template>
                     <p>
                         Generic variant annotations, magic properties, regeneration, and the
-                        <code>RegenerateMissing</code> attribute are development additions on
-                        <code>1.x</code>. They are not included in the published
-                        <code>1.0.0-beta.3</code> release. Use a reviewed package build containing
-                        these APIs before running this guide. The Documented version label reports
-                        this site's installed release, not availability of the preview.
+                        <code>RegenerateMissing</code> attribute are available from
+                        <code>1.0.0-beta.4</code>. The installation guide uses beta.5 for new
+                        databases.
                     </p>
                 </DocsCallout>
                 <p>
@@ -191,10 +189,10 @@ dump($document->fresh()->attachment->get('large')->path === $large?->path);`;
                     Repeating the request for existing keys runs no middleware and uploads nothing.
                 </p>
                 <p>
-                    To copy retained bytes into an independent upload in development builds, pass an
-                    existing <code>Asset</code> to <code>Upload::from()</code> or assign it to
-                    another model's file field and save that model. The new upload owns its own
-                    files; deleting the copy leaves the source intact. Do not assign an
+                    To copy retained bytes into an independent upload, pass an existing
+                    <code>Asset</code> to <code>Upload::from()</code> or assign it to another
+                    model's file field and save that model. The new upload owns its own files;
+                    deleting the copy leaves the source intact. Do not assign an
                     <code>Assets</code>
                     manager or its raw manifest to transfer ownership.
                 </p>

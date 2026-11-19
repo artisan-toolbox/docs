@@ -40,7 +40,7 @@ function render(component, slug, title) {
                     title: 'Filoquent',
                     composerName: 'artisan-toolbox/filoquent',
                     stability: 'Beta',
-                    installedVersion: '1.0.0-beta.3',
+                    installedVersion: '1.0.0-beta.6',
                     installationStatus: 'installed',
                     installationCommands: installationCommands('filoquent'),
                     releasesUrl: 'https://packagist.org/packages/artisan-toolbox/filoquent',
@@ -55,12 +55,12 @@ function render(component, slug, title) {
 }
 
 describe('Filoquent beta documentation', () => {
-    it('documents typed variants and persisted opt-in fallback as development additions', () => {
+    it('documents the released version requirement for typed variants and persisted fallback', () => {
         const guide = render(Assets, 'filoquent/assets', 'Type and regenerate asset variants');
         expect(guide.get('section[aria-labelledby="prerequisites"]').text()).toContain(
-            'Development preview',
+            'Version requirement',
         );
-        expect(guide.text()).toContain('not included in the published 1.0.0-beta.3');
+        expect(guide.text()).toContain('available from 1.0.0-beta.4');
         const types = guide.get('section[aria-labelledby="types"]').text();
         expect(types).toContain("Assets<'original'|'thumb'|'large'");
         expect(types).toContain(
@@ -137,9 +137,9 @@ describe('Filoquent beta documentation', () => {
             expect(content).not.toMatch(
                 /source preview|development source|1\.0\.0-(?:alpha\.1|beta\.1)/,
             );
-            expect(content).toContain('1.0.0-beta.3');
+            expect(content).toContain('1.0.0-beta.6');
             expect(wrapper.text()).toContain('Beta');
-            expect(wrapper.text()).toMatch(/Documented version\s*1\.0\.0-beta\.3/);
+            expect(wrapper.text()).toMatch(/Documented version\s*1\.0\.0-beta\.6/);
             expect(
                 wrapper
                     .find('a[href="https://packagist.org/packages/artisan-toolbox/filoquent"]')
@@ -553,12 +553,15 @@ describe('Filoquent beta documentation', () => {
         expect(logs).toContain('without undoing completed work');
     });
 
-    it('labels the single-migration baseline as a clean-installation development preview', () => {
+    it('limits the published single-migration baseline to a clean installation', () => {
         const guide = render(Installation, 'filoquent/installation', 'Install Filoquent');
         const baseline = guide.get('section[aria-labelledby="migration-baseline"]').text();
-        expect(baseline).toContain('Development preview');
+        expect(baseline).toContain('1.0.0-beta.5');
         expect(baseline).toContain('2026_11_12_000000_create_filoquent_tables.php');
-        expect(baseline).toContain('does not upgrade an existing migration history');
+        expect(baseline).toContain('databases that have never run Filoquent migrations');
+        expect(baseline.indexOf('keep its data and migration history intact')).toBeLessThan(
+            baseline.indexOf('Run php artisan migrate'),
+        );
         expect(baseline).toContain('filoquent_uploads');
         expect(baseline).toContain('filoquent_upload_namespace');
         expect(baseline).toContain('filoquent_owner_tables');

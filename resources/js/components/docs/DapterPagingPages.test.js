@@ -47,7 +47,7 @@ const pages = [
         'PagingCounts',
         ['PagingCounts', 'PagingCountsAttributes', 'PagingCountsConfig', 'PagingCountsOff'],
         ['simple-paging', 'cursor-paging'],
-        ['protocol 2', 'paging: source'],
+        ['protocol: 2', "paging: 'source'"],
         'field-search',
     ],
 ];

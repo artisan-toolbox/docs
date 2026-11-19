@@ -4,7 +4,6 @@ import DocsTable from '@/components/docs/DocsTable.vue';
 import PackageGuideHeader from '@/components/docs/PackageGuideHeader.vue';
 import ProseSection from '@/components/docs/ProseSection.vue';
 import { findNavigationItem } from '@/lib/docsNavigation';
-import ResearchDemo from '@/components/demo/dapter/research/ResearchDemo.vue';
 import CodeExample from '@/components/docs/CodeExample.vue';
 
 defineProps({
@@ -19,18 +18,21 @@ DAPTER_RESEARCH_VECTOR_SCENARIO=revoked php scripts/dapter-research/vector-probe
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
         <div data-document-content class="flex min-w-0 flex-col gap-10">
-            <ProseSection id="scope" title="Native feasibility with a deferred public API">
+            <ProseSection id="scope" title="Historical native ranking experiment">
                 <p>
                     This explanation examines a real PostgreSQL vector column. It is CLI-only
-                    laboratory research, separate from the working scalar search guides. Dapter has
-                    no public vector MatchType, vector capability, embedding control, or
-                    computed-rank cursor.
+                    laboratory research, separate from the working scalar search guides. The current
+                    local preview has a public vector field filter, described in
+                    <DocsLink :href="findNavigationItem(navigation, 'dapter/vector-search').href"
+                        >Filter PostgreSQL vectors by distance</DocsLink
+                    >. This historical experiment explores ranking and computed-distance seek, which
+                    remain outside that API.
                 </p>
                 <p>
                     The initial environment lacked pgvector. After the user installed and enabled
                     version 0.8.7, both native-column scenarios passed on PostgreSQL 18.6. The
-                    earlier absence remains historical evidence. The current deferral concerns
-                    missing package and operational contracts.
+                    earlier absence remains historical evidence. The remaining deferral concerns
+                    ranked retrieval and its operational contracts.
                 </p>
             </ProseSection>
             <ProseSection id="input" title="Prepared three-dimensional L2 input">
@@ -47,8 +49,8 @@ DAPTER_RESEARCH_VECTOR_SCENARIO=revoked php scripts/dapter-research/vector-probe
                     oversized, sparse, null-vector, null-coordinate, boolean, numeric-string,
                     nested, object, text, NaN, infinity, negative infinity, and out-of-bound inputs.
                     Separate native SELECT casts reject dimension mismatch and non-finite literals.
-                    These checks establish this experiment's boundary, not a public Dapter vector
-                    validator.
+                    These checks record the experiment's boundary. The current package validator has
+                    its own native and public API tests.
                 </p>
                 <p>
                     Native L2 uses <code>OPERATOR(public.&lt;-&gt;)</code>. The installed Laravel
@@ -101,16 +103,14 @@ DAPTER_RESEARCH_VECTOR_SCENARIO=revoked php scripts/dapter-research/vector-probe
                     facilities do not establish support for this server or Dapter.
                 </p>
             </ProseSection>
-            <ProseSection id="current-boundary" title="Observe the current unsupported request">
+            <ProseSection id="current-boundary" title="Current public filtering boundary">
                 <p>
-                    Start submits a forged vector matchType to an ordinary declared source through
-                    the real Dapter endpoint. The request returns HTTP 422 unsupported_operation,
-                    with no data or capabilities. No PostgreSQL connection, extension, or vector
-                    fixture is needed for this example. Reset clears the result. Opening the guide
-                    runs no read and no research script.
+                    The local preview now declares MatchType::Vector with FieldOptions and
+                    VectorOptions. It filters with inclusive exact L2 distance and preserves source
+                    ordering and normal pagination. Unsupported drivers omit this capability and
+                    reject a forced operation. This research page has no interactive vector example.
                 </p>
             </ProseSection>
-            <ResearchDemo scenario="VectorRejected" />
             <ProseSection id="reproduce" title="Reproducible CLI laboratory artifacts">
                 <p>
                     The documentation repository owns
@@ -142,15 +142,16 @@ DAPTER_RESEARCH_VECTOR_SCENARIO=revoked php scripts/dapter-research/vector-probe
                     label="Run native vector research from the docs checkout"
                     :code="commands" />
             </ProseSection>
-            <ProseSection id="decision" title="Remaining gates for a public vector driver">
+            <ProseSection id="decision" title="Remaining gates for ranked retrieval">
                 <p>
-                    Defer public support until a typed computed rank, metric and precision contract,
-                    negotiated driver, effective-connection admission, count semantics, and
-                    authorization tests exist. Computed distance needs its own sealed cursor
-                    boundary before vector cursors are admitted. Exact and approximate retrieval
-                    need separate index, recall, mutation, and operational limits. An unsupported
-                    operation must keep the existing sanitized error contract. Reads must never
-                    provision extensions or generate embeddings.
+                    Defer ranked retrieval until a typed computed rank and its ordering,
+                    authorization, count, and operational contracts exist. The delivered
+                    exact-distance field filter does not establish these ranking contracts. Computed
+                    distance needs its own sealed cursor boundary before vector cursors are
+                    admitted. Exact and approximate retrieval need separate index, recall, mutation,
+                    and operational limits. An unsupported operation must keep the existing
+                    sanitized error contract. Reads must never provision extensions or generate
+                    embeddings.
                 </p>
                 <p>
                     Return to

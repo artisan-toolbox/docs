@@ -21,8 +21,8 @@ defineProps({
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/sources').href"
                         >Declare a data source</DocsLink
                     >. Authentication is required by default. Dapter checks the configured guard
-                    before calling <code>source()</code>. This unpublished preview uses Laravel's
-                    existing authentication and Gate services.
+                    before calling <code>source()</code>. Dapter uses Laravel's existing
+                    authentication and Gate services.
                 </p>
                 <p>
                     Set <code>access.guard</code> in published <code>config/dapter.php</code> to

@@ -68,9 +68,9 @@ const failures = [
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection id="scope" title="Current failure contract">
                 <p>
-                    Both read protocols in the unpublished local preview return sanitized failure
-                    envelopes. A failed read contains no rows, requested state, effective state,
-                    paging, capabilities, or action metadata. The
+                    Both read protocols in Dapter 1.0.0-beta.2 return sanitized failure envelopes. A
+                    failed read contains no rows, requested state, effective state, paging,
+                    capabilities, or action metadata. The
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/protocol').href"
                         >read protocol reference</DocsLink
                     >

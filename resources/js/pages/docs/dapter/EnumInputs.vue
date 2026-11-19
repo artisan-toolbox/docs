@@ -15,9 +15,9 @@ defineProps({
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection id="starting-environment" title="Prepare finite domains"
                 ><p>
-                    Complete Install Dapter and the finite global filter guide first. These
-                    unpublished protocol 2 examples use four fictional Collection rows. Send request
-                    begins a read. Reset cancels pending work and clears the response.
+                    Complete Install Dapter and the finite global filter guide first. These protocol
+                    2 examples use four fictional Collection rows. Send request begins a read. Reset
+                    cancels pending work and clears the response.
                 </p></ProseSection
             ><ProseSection id="enum-domains" title="Preserve the declared domain"
                 ><p>

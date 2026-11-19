@@ -17,7 +17,7 @@ defineProps({
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection id="starting-environment" title="Prepare the source declarations">
                 <p>
-                    Start with the unpublished preview setup and seven-row fixture from
+                    Start with the setup and seven-row fixture from
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/literal-search').href"
                         >Choose literal search sensitivity</DocsLink
                     >. Each frame sends the original joao text through the public protocol 2

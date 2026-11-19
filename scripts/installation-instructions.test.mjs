@@ -12,9 +12,9 @@ function vueFiles(directory) {
 
 function authoredRegistryInstall(source) {
     const composer =
-        /composer\s+require\s+(?:--[\w-]+\s+)*["']?[a-z0-9][a-z0-9_-]*\/[a-z0-9][a-z0-9_-]*/gu;
+        /composer[\t ]+require[\t ]+(?:--[\w-]+[\t ]+)*["']?[a-z0-9][a-z0-9_-]*\/[a-z0-9][a-z0-9_-]*/gu;
     const npm =
-        /npm\s+install\s+(?:--[\w-]+\s+)*(?:@[a-z0-9_-]+\/)?[a-z0-9][a-z0-9_-]*(?:@[^\s`"'<>]+)?/gu;
+        /npm[\t ]+install[\t ]+(?:--[\w-]+[\t ]+)*(?:@[a-z0-9_-]+\/)?[a-z0-9][a-z0-9_-]*(?:@[^\s`"'<>]+)?/gu;
     return [...source.matchAll(composer), ...source.matchAll(npm)].map((match) => match[0]);
 }
 
@@ -53,6 +53,7 @@ describe('Installation instruction ownership', () => {
         expect(
             authoredRegistryInstall('composer require --dev artisan-toolbox/maintainer:^1.10'),
         ).toEqual(['composer require --dev artisan-toolbox/maintainer']);
+        expect(authoredRegistryInstall('npm install\nnpm run build')).toEqual([]);
         expect(authoredRegistryInstall('composer require "tightenco/ziggy:^2.0"')).toEqual([
             'composer require "tightenco/ziggy',
         ]);

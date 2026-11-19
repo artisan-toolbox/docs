@@ -16,7 +16,7 @@ final readonly class DapterRoadmapPage extends Page
             slug: self::SLUG,
             component: 'docs/dapter/Roadmap',
             title: 'Dapter roadmap',
-            description: 'Verified Dapter preview phases, source-owned literal search, native paging and live behavior, with completed vector and snapshot research and explicit public API deferrals.',
+            description: 'Verified Dapter preview phases, source-owned literal search, native paging and live behavior, with exact L2 vector filtering, completed research, and explicit ranking and snapshot deferrals.',
             sourcePath: 'resources/js/pages/docs/dapter/Roadmap.vue',
             package: new DapterPackage,
         );

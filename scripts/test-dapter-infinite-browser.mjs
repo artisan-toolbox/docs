@@ -4,7 +4,7 @@ import { resolve } from 'node:path';
 import { chromium } from 'playwright';
 
 const base = new URL(process.env.DOCS_BASE_URL ?? 'https://atb.test');
-assert(base.hostname.endsWith('.test'), 'Infinite verification requires an isolated .test host.');
+assert(base.hostname.endsWith('.test') || ['localhost', '127.0.0.1'].includes(base.hostname));
 const artifacts = resolve('storage/app/browser-verification/dapter-infinite');
 await mkdir(artifacts, { recursive: true });
 const cases = JSON.parse(await readFile('app/Demo/Dapter/Infinite/cases.json', 'utf8'));
@@ -86,7 +86,15 @@ try {
                 assert.equal(count(source), expected, `${source} must not schedule another read.`);
                 if (scope) await expectRows(scope, expectedRows);
             }
-            async function read(scope, source, name, expected, status = 200, action = null) {
+            async function read(
+                scope,
+                source,
+                name,
+                expected,
+                status = 200,
+                action = null,
+                expectedReads = 1,
+            ) {
                 const before = count(source);
                 const pending = page.waitForResponse(
                     (response) => new URL(response.url()).pathname === `/dapter/data/${source}`,
@@ -97,7 +105,11 @@ try {
                 const body = await response.json();
                 await settled(scope);
                 await expectRows(scope, expected);
-                assert.equal(count(source), before + 1, `${source} ${name} sends one read.`);
+                assert.equal(
+                    count(source),
+                    before + expectedReads,
+                    `${source} ${name} read count.`,
+                );
                 return body;
             }
             async function visit(guide, id, suffix = '') {
@@ -402,7 +414,12 @@ try {
                     '?neighbor=kept#expected-result',
                 );
                 await read(history, 'Dapter.InfiniteCursor', 'Start example', ['1', '2']);
-                await read(history, 'Dapter.InfiniteCursor', 'Navigate to next page', ['3', '4']);
+                const cursorPage = await read(
+                    history,
+                    'Dapter.InfiniteCursor',
+                    'Navigate to next page',
+                    ['3', '4'],
+                );
                 const start = page.url();
                 assert.equal(new URL(start).searchParams.get('neighbor'), 'kept');
                 assert.equal(new URL(start).hash, '#expected-result');
@@ -418,10 +435,18 @@ try {
                 restoredUrl.searchParams.sort();
                 originalUrl.searchParams.sort();
                 assert.equal(restoredUrl.href, originalUrl.href);
-                await read(frame('InfiniteCursor'), 'Dapter.InfiniteCursor', 'Start example', [
-                    '3',
-                    '4',
-                ]);
+                await read(
+                    frame('InfiniteCursor'),
+                    'Dapter.InfiniteCursor',
+                    'Start example',
+                    ['3', '4'],
+                    200,
+                    null,
+                    2,
+                );
+                const [admission, restoration] = reads.slice(beforeCold);
+                assert.deepEqual(admission.postDataJSON(), { version: 2 });
+                assert.deepEqual(restoration.postDataJSON().state, cursorPage.requested);
                 assert.equal(page.url(), coldUrl);
                 await read(frame('InfiniteCursor'), 'Dapter.InfiniteCursor', 'Refresh first page', [
                     '1',

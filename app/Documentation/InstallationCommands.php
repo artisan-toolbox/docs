@@ -27,6 +27,10 @@ final class InstallationCommands
             $commands['frontend'] = $this->command($frontend);
         }
 
+        if ($id === 'permit') {
+            $commands['frontend'] = $this->command("npm pkg set 'dependencies.@artisan-toolbox/permit=file:vendor/artisan-toolbox/permit'\nnpm install --install-links");
+        }
+
         if ($id === 'dapter') {
             $commands['frontend'] = $this->command("npm pkg set 'dependencies.@artisan-toolbox/dapter=file:vendor/artisan-toolbox/dapter'\nnpm install --install-links");
             $commands['local-preview'] = $this->command('composer config repositories.dapter path ../dapter'."\n".'composer require artisan-toolbox/dapter:"1.x-dev@dev"');
@@ -35,6 +39,8 @@ final class InstallationCommands
         }
 
         if ($id === 'front-awesome') {
+            $dapter = self::composerVersion('artisan-toolbox/dapter');
+            $commands['composer'] = $this->command($composer === null || $dapter === null ? null : $composer.' artisan-toolbox/dapter:'.$dapter);
             $commands['primevue'] = $this->npm(['primevue', '@primeuix/themes']);
             $qztray = self::composerVersion('artisan-toolbox/qztray');
             $ziggy = self::composerVersion('tightenco/ziggy');

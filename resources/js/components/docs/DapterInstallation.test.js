@@ -105,7 +105,7 @@ describe('Dapter required source-Vue installation', () => {
         const wrapper = render(Installation);
         expect(
             wrapper.findAll('install-command-stub').map((item) => item.attributes('command')),
-        ).toEqual(['local-preview', 'ziggy', 'frontend']);
+        ).toEqual(['composer', 'ziggy', 'frontend']);
         expect(example(wrapper, 'Expose Laravel routes before Vite').split('\n')[0]).toBe(
             '@routes',
         );

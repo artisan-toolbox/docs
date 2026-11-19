@@ -20,7 +20,7 @@ defineProps({
                     A source owns the records a reader may see. Put tenant and visibility
                     restrictions in <code>source()</code> or the model's applicable scopes. Dapter
                     does not infer a tenant or add missing application policy. The offset example
-                    below uses a fictional studio in the unpublished Dapter preview.
+                    below uses a fictional studio.
                 </p>
                 <p>
                     Complete

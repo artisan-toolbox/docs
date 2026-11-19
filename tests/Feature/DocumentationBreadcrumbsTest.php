@@ -83,4 +83,5 @@ test('uses editorial ancestors without changing historical guide URLs', function
     [PageSlug::FrontAwesomeLayout, ['front-awesome', 'front-awesome/web-awesome', 'front-awesome/web-awesome/components', 'front-awesome/web-awesome/components/layout']],
     [PageSlug::FrontAwesomeConfiguration, ['front-awesome', 'front-awesome/setup', 'front-awesome/configuration']],
     [PageSlug::FrontAwesomeSharedTheme, ['front-awesome', 'front-awesome/styling', 'front-awesome/shared-theme']],
+    [PageSlug::FrontAwesomeScrollbar, ['front-awesome', 'front-awesome/styling', 'front-awesome/scrollbar']],
 ]);

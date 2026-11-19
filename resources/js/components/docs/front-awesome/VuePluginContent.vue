@@ -78,6 +78,13 @@ withApp(app, { ssr }) {
             >
             for the generated catalog, Vue I18n formats, and unstyled Language selector.
         </p>
+        <p>
+            Front Awesome registers <code>v-scrollbar</code> when you install the plugin. Follow the
+            <DocsLink :href="findNavigationItem(navigation, 'front-awesome/scrollbar').href"
+                >scrollbar guide</DocsLink
+            >
+            to choose an app-wide color with <code>scrollbar.defaultVariant</code>.
+        </p>
         <h2
             id="add-a-theme-selector"
             class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">

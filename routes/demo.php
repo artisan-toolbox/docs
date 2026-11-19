@@ -2,6 +2,7 @@
 
 use App\Demo\Core\ConditionalArrays\ConditionalArraysController;
 use App\Demo\Dapter\Actions\State;
+use App\Demo\FrontAwesome\PermissionEditor\AssignmentsController;
 use App\Demo\FrontAwesome\Printing\DocumentsController;
 use App\Demo\Mosaicast\InertiaDelivery\DeliveryController;
 use App\Demo\Mosaicast\InertiaDelivery\QueueController;
@@ -10,6 +11,13 @@ use Illuminate\Support\Facades\Route;
 Route::post('demo/front-awesome/printing/documents', DocumentsController::class)
     ->middleware('throttle:20,1')
     ->name('demo.front-awesome.printing.documents');
+
+Route::prefix('demo/front-awesome/permission-editor')->name('demo.front-awesome.permission-editor.')
+    ->middleware('throttle:60,1')->group(function (): void {
+        Route::get('/', [AssignmentsController::class, 'show'])->block()->name('show');
+        Route::put('/', [AssignmentsController::class, 'update'])->block()->name('update');
+        Route::get('/export', [AssignmentsController::class, 'export'])->block()->name('export');
+    });
 
 Route::post('demo/core/conditional-arrays', ConditionalArraysController::class)
     ->middleware('throttle:20,1')

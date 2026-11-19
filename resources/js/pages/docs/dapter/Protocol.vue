@@ -51,10 +51,10 @@ const responseFields = [
             <ProseSection id="scope" title="Implemented read protocol v1">
                 <p>
                     Version 1 is the default for <code>DataAdapter</code> and
-                    <code>useDataAdapter</code> in the unpublished local preview. It reads offset
-                    pages from Collections and supported SQLite, MySQL, and PostgreSQL Eloquent
-                    queries. Declared field and global operations use version 2. To follow a
-                    source's simple or cursor paging in Vue, set <code>protocol: 2</code> and
+                    <code>useDataAdapter</code> in Dapter 1.0.0-beta.2. It reads offset pages from
+                    Collections and supported SQLite, MySQL, and PostgreSQL Eloquent queries.
+                    Declared field and global operations use version 2. To follow a source's simple
+                    or cursor paging in Vue, set <code>protocol: 2</code> and
                     <code>paging: 'source'</code>. Version 3 remains unsupported.
                 </p>
                 <p>

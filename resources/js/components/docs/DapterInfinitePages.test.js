@@ -52,7 +52,7 @@ it.each(pages)(
         expect(wrapper.get('section[aria-labelledby="starting-environment"]').text()).toContain(
             'Composer dependencies before npm',
         );
-        expect(wrapper.text()).toContain('unpublished 1.x preview');
+        expect(wrapper.text()).toContain('1.0.0-beta.2');
         const nextLinks = wrapper.findAll('section[aria-labelledby="next-guide"] a');
         expect(nextLinks.map((link) => link.attributes('href'))).toEqual([
             '/docs/dapter/installation',

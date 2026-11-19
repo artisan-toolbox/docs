@@ -192,6 +192,11 @@ describe('Core, Dump to Console, and Mosaicast documentation', () => {
                     'First run with both options off. The nested contact is omitted without evaluating its closure, while false, null, 0, and the empty string remain. Removing the middle item preserves numeric keys 0 and 2, so JSON represents those items as an object. Include the middle item to see a JSON array instead.',
                 );
             }
+            if (fixture.slug === 'dump-to-console/usage') {
+                extraParagraphs.push(
+                    'Select the fields you need, such as an order ID and an item count. Keep full request bodies, credentials, tokens, and sensitive model attributes out of dumps.',
+                );
+            }
             if (fixture.slug === 'mosaicast/inertia-delivery')
                 extraParagraphs.push(
                     'These examples send real requests to this Laravel application. Each registers its own listeners before your click sends the request and removes them afterward. All use order 42, your message, the same session, and no artificial delay. Counts describe delivery, not performance.',

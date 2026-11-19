@@ -13,13 +13,13 @@ defineProps({
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
         <div data-document-content class="flex min-w-0 flex-col gap-10">
-            <ProseSection id="starting-environment" title="Prepare the simple preview"
+            <ProseSection id="starting-environment" title="Prepare simple pagination"
                 ><p>
                     Complete Install Dapter and Read and paginate a source in your Laravel 13, PHP
                     8.5, Inertia 3, and Vue application. Run backend commands at the application
                     root before npm. Keep the web session, CSRF middleware, and Ziggy dapter.data
-                    route. These APIs belong to the unpublished 1.x preview. No account, worker, or
-                    broadcaster is required.
+                    route. These controls are available in Dapter 1.0.0-beta.2. No account, worker,
+                    or broadcaster is required.
                 </p></ProseSection
             >
             <ProseSection id="declare-simple" title="Declare simple pagination"

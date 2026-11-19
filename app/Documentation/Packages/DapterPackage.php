@@ -15,8 +15,8 @@ final readonly class DapterPackage extends Package
             summary: 'Read, filter, order, and invoke authorized actions through a headless Vue adapter.',
             version: null,
             overview: PageSlug::Dapter,
-            documentedVersion: '1.x preview',
-            stability: 'Work in progress',
+            documentedVersion: '1.0.0-beta.2',
+            stability: 'Beta',
             requirements: [
                 'PHP 8.5 or later within the PHP 8.x series',
                 'Laravel 13 components',

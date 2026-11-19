@@ -16,8 +16,8 @@ defineProps({
             <ProseSection id="starting-environment" title="Prepare trusted handlers"
                 ><p>
                     Complete Install Dapter, finite global filters, and source registration first.
-                    These unpublished protocol 2 examples use fictional Collections or an isolated
-                    in-memory SQLite connection. Start each read explicitly.
+                    These protocol 2 examples use fictional Collections or an isolated in-memory
+                    SQLite connection. Start each read explicitly.
                 </p></ProseSection
             ><ProseSection id="requirements" title="Declare actual compatibility"
                 ><p>

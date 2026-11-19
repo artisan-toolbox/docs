@@ -149,6 +149,7 @@ export function discoverSettings() {
     for (const [name, prefix] of [
         ['LocalePolicy', 'localePolicy'],
         ['FullTextPolicy', 'fullTextPolicy'],
+        ['VectorPolicy', 'vectorPolicy'],
     ]) {
         publicProperties(resolve(discovered.package, 'resources/js/protocol-v2.ts'), name, prefix);
     }
@@ -182,12 +183,62 @@ export function discoverSettings() {
     );
 }
 
+export const vectorCodeOnlySettings = Object.freeze([
+    'enum.MatchType.Vector',
+    'dto.FieldOptions.vector',
+    'dto.VectorOptions.dimensions',
+    'dto.VectorOptions.maxDistance',
+    'config.declarations.fields.*.search.options.vector',
+    'config.declarations.fields.*.search.options.vector.dimensions',
+    'config.declarations.fields.*.search.options.vector.maxDistance',
+    'vectorPolicy.engine',
+    'vectorPolicy.metric',
+    'vectorPolicy.dimensions',
+    'vectorPolicy.maxDistance',
+    'vectorPolicy.input',
+    'vectorPolicy.precision',
+    'vectorPolicy.maxCoordinateMagnitude',
+    'vectorPolicy.threshold',
+    'vectorPolicy.ranking',
+]);
+
 export function coverageIssues(settings, registry) {
     const covered = new Set();
     for (const example of registry.frontend.examples) {
         for (const setting of example.settings) covered.add(setting);
     }
     const issues = [];
+    for (const entry of registry.code_only ?? []) {
+        const valid =
+            entry.id === 'PreparedVectorSearch' &&
+            entry.authorization ===
+                'User requested code snippets and native tests without an interactive vector demo.' &&
+            entry.page === 'resources/js/pages/docs/dapter/VectorSearch.vue' &&
+            existsSync(resolve(root, entry.page)) &&
+            existsSync(resolve(root, entry.behavior_test)) &&
+            JSON.stringify(entry.source_files) ===
+                JSON.stringify([
+                    'vendor/artisan-toolbox/dapter/src/Options/VectorOptions.php',
+                    'vendor/artisan-toolbox/dapter/src/Support/VectorValue.php',
+                    'vendor/artisan-toolbox/dapter/src/Drivers/PostgresStoreDriver.php',
+                ]) &&
+            entry.source_files.every((file) => existsSync(resolve(root, file))) &&
+            JSON.stringify(entry.package_tests) ===
+                JSON.stringify([
+                    'tests/Feature/VectorSearchTest.php',
+                    'tests/Feature/NativeVectorSearchTest.php',
+                    'tests/frontend/vector-search.test.ts',
+                ]);
+        if (!valid)
+            issues.push(
+                'Keep the vector code-only exception linked to its authorized page, source, and native tests.',
+            );
+        for (const setting of entry.settings ?? []) {
+            if (!valid || !vectorCodeOnlySettings.includes(setting)) {
+                issues.push(`No code-only exception permits ${setting}.`);
+            } else covered.add(setting);
+        }
+    }
     const backendCases = registry.backend
         ? [
               ...new Set([
@@ -299,6 +350,7 @@ export function behaviorChecks(registry) {
                     .map((item) => item.backend_behavior_test)
                     .filter(Boolean),
                 registry.generator.behavior_test,
+                ...(registry.code_only ?? []).map((entry) => entry.behavior_test),
             ]),
         ],
         frontend: [

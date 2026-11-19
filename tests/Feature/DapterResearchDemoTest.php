@@ -29,13 +29,14 @@ test('executes the documented current API refusal before source acquisition', fu
 })->with(fn (): array => researchDemoCases());
 
 test('keeps vectors outside scalar equality and the closed top level envelope', function () {
-    $case = researchDemoCases()['VectorRejected'][0];
-    $case->request->state->fields->name->search->matchType = 'equals';
+    $case = clone researchDemoCases()['SnapshotRejected'][0];
+    $case->request->state->paging->mode = 'offset';
+    $case->request->state->fields->name = (object) ['search' => ['value' => [0, 0, 0], 'matchType' => 'equals']];
     researchDemoRequest($case)->assertUnprocessable()->assertJsonPath('error.code', 'invalid_request');
     unset($case->request->state->fields->name);
     $case->request->vector = [0, 0, 0];
     researchDemoRequest($case)->assertUnprocessable()->assertJsonPath('error.code', 'invalid_request');
-    expect(array_column(MatchType::cases(), 'value'))->not->toContain('vector');
+    expect(array_column(MatchType::cases(), 'value'))->toContain('vector');
     expect(array_column(PagingMode::cases(), 'value'))->toBe(['offset', 'simple', 'cursor']);
 });
 

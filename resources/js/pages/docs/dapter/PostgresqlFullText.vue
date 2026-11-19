@@ -27,10 +27,10 @@ ON documents USING GIN (to_tsvector('pg_catalog.english'::regconfig, coalesce(ti
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/installation').href"
                         >Install Dapter</DocsLink
                     >
-                    in an existing Laravel, Inertia, Vue, and Vite application. These APIs are an
-                    unpublished preview. Configure a real PostgreSQL Eloquent connection with PDO
-                    pgsql, a text column, and permission to read the selected text-search
-                    configuration. Use explicit protocol 2. No PostgreSQL extension is required.
+                    in an existing Laravel, Inertia, Vue, and Vite application. Configure a real
+                    PostgreSQL Eloquent connection with PDO pgsql, a text column, and permission to
+                    read the selected text-search configuration. Use explicit protocol 2. No
+                    PostgreSQL extension is required.
                 </p>
                 <p>
                     Keep tenant and visibility predicates in source(). Full-text filters remain

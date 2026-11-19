@@ -58,12 +58,13 @@ test('Filoquent installs its locked prerelease from Packagist without a local ch
     expect($commands)->not->toHaveKey('preview')->not->toHaveKey('frontend');
 });
 
-test('Front Awesome installs directly from Composer without a local checkout', function () {
+test('Front Awesome explicitly allows its Dapter prerelease on a stable Composer host', function () {
     $version = InstallationCommands::composerVersion('artisan-toolbox/front-awesome');
+    $dapter = InstallationCommands::composerVersion('artisan-toolbox/dapter');
 
     $commands = resolve(InstallationCommands::class)->forPackage('front-awesome');
 
-    expect($commands['composer']['code'])->toBe('composer require artisan-toolbox/front-awesome:'.$version);
+    expect($commands['composer']['code'])->toBe('composer require artisan-toolbox/front-awesome:'.$version.' artisan-toolbox/dapter:'.$dapter);
     expect($commands['frontend']['code'])->toBe('npm install --install-links ./vendor/artisan-toolbox/front-awesome ./vendor/artisan-toolbox/mosaicast');
 });
 

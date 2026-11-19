@@ -206,7 +206,11 @@ const overrides = `php artisan vendor:publish --tag=front-awesome-lang`;
                 development error while retaining the last valid output. A later valid edit
                 recovers. Creating missing language directories or publishing
                 <code>config/front-awesome.php</code> after startup also triggers an export. Atomic
-                file replacement and deletion/recreation of input directories remain observable.
+                file replacement and deletion or recreation of input directories also trigger an
+                export. Starting with Front Awesome <code>1.0.0-beta.4</code>, polling can detect
+                file changes even when the modification time stays the same, such as when a
+                replacement changes the file size. Front Awesome <code>1.0.0-beta.5</code> also
+                refreshes the catalog for language files created under the Vite root during startup.
                 When the Laravel application is outside the Vite root, set
                 <code>translations.cwd</code> to its application root. Unrelated configuration files
                 do not trigger exports. Production export failure stops the build. Restart Vite

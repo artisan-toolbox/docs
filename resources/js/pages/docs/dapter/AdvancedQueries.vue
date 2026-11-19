@@ -17,10 +17,9 @@ defineProps({
             <ProseSection id="starting-environment" title="Prepare native queries"
                 ><p>
                     Complete Install Dapter, field declarations, and multiple ordering first. These
-                    unpublished examples create a separate in-memory SQLite connection only after
-                    Send request. They never use the application database or real records. The
-                    fixture has two visible records, three visible lines, and one hidden tenant
-                    record.
+                    examples create a separate in-memory SQLite connection only after Send request.
+                    They never use the application database or real records. The fixture has two
+                    visible records, three visible lines, and one hidden tenant record.
                 </p></ProseSection
             >
             <ProseSection id="projection" title="Declare qualified targets and output keys"

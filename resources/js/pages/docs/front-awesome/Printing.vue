@@ -163,6 +163,12 @@ printing.zpl('^XA^FO40,40^FDShipping label^FS^XZ', {
                 <code>$frontAwesome.printing</code>.
             </p>
             <CodeExample label="Mount the drawer in the layout" language="vue" :code="layout" />
+            <p>
+                The paper preview adopts the
+                <DocsLink :href="findNavigationItem(navigation, 'front-awesome/scrollbar').href"
+                    >app scrollbar color</DocsLink
+                >.
+            </p>
         </ProseSection>
         <ProseSection id="review-your-first-label" title="Review your first label">
             <CodeExample label="Open a label review on user action" language="vue" :code="first" />

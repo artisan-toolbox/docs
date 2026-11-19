@@ -25,17 +25,15 @@ defineProps({
                 </p>
                 <p>
                     Filoquent is in beta. The documented release,
-                    <code>1.0.0-beta.3</code>, is available on
+                    <code>1.0.0-beta.6</code>, is available on
                     <DocsLink :href="page.package.releasesUrl">Packagist</DocsLink>. APIs may change
-                    before the stable release. The Documented version label shows the Composer
-                    version installed in this documentation application.
+                    before the stable release.
                 </p>
                 <p>
-                    The published <code>1.0.0-beta.3</code> release adds the
-                    <code>filoquent:status</code> operational overview. It also includes native PHP
-                    configuration attributes, typed SQL state enums, environment configuration, and
-                    an upload middleware generator. The first file example uses an explicit cast.
-                    See the
+                    This release includes a consolidated schema for new installations, variant
+                    regeneration, and the <code>filoquent:status</code> operational overview. It
+                    also includes native PHP configuration attributes and an upload middleware
+                    generator. The first file example uses an explicit cast. See the
                     <DocsLink
                         :href="
                             findNavigationItem(navigation, 'filoquent/configuration').href +

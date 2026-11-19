@@ -22,7 +22,7 @@ defineProps({
                         >Declare a data source</DocsLink
                     >
                     in your installed Laravel application. The examples below use the same fictional
-                    catalog and wait for Start. This is an unpublished local preview.
+                    catalog and wait for Start. This example uses Dapter 1.0.0-beta.2.
                 </p>
                 <p>
                     To declare fluent options, implement <code>WithOptions</code> and return
@@ -70,8 +70,8 @@ defineProps({
                 <p>
                     <code>StoreOptions::makeWithoutDefaults()</code> omits configured defaults.
                     Supply a guard, <code>PagingMode::Offset</code>, and a positive page size. This
-                    source explicitly permits public access, selects size 4, and has no additional
-                    size choices.
+                    browser state baseline retains a 240-minute lifetime. This source explicitly
+                    permits public access, selects size 4, and has no additional size choices.
                 </p>
                 <p>
                     Start it to display four rows. The only offered size is 4. Missing required

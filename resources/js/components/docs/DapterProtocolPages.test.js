@@ -26,8 +26,25 @@ describe('current Dapter protocol references', () => {
             ).replace(/\s+/g, ' ');
             expect(documents.some((document) => document.body.includes(expected))).toBe(true);
             expect(documents.find((document) => document.anchor === 'scope')?.body).toContain(
-                'unpublished local preview',
+                '1.0.0-beta.2',
             );
         },
     );
+});
+
+it('documents the authorized version check for negotiated browser state', () => {
+    const documents = extractDocumentation([
+        {
+            slug: 'dapter/protocol/v2',
+            title: 'Version 2 field reads',
+            description: 'Current read protocol v2.',
+            packageTitle: 'Dapter',
+            sourcePath: 'resources/js/pages/docs/dapter/ProtocolV2.vue',
+        },
+    ]);
+    const section = documents.find((document) => document.anchor === 'browser-state-policy');
+    expect(section.body).toContain('X-Dapter-Browser-State: 1');
+    expect(section.body).toContain('X-Dapter-State-Version');
+    expect(section.body).toContain('After authorization and before applying the selection');
+    expect(section.body).toContain('returns current defaults and policy');
 });

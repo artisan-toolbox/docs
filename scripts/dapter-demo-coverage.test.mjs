@@ -338,3 +338,33 @@ it('discovers source comparison policies and rejects each missing functional dem
         'resources/js/components/demo/dapter/comparisons/ComparisonDemo.test.js',
     );
 });
+
+it('limits the user-authorized code-only exception to prepared vector search', () => {
+    const entry = registry.code_only[0];
+    expect(entry.settings).toContain('dto.VectorOptions.dimensions');
+    expect(entry.settings).toContain('vectorPolicy.ranking');
+    expect(behaviorChecks(registry).backend).toContain(
+        'tests/Feature/DapterVectorDocumentationTest.php',
+    );
+    const broadened = structuredClone(registry);
+    broadened.code_only[0].settings.push('StoreOptions.stateTtl');
+    expect(coverageIssues(['StoreOptions.stateTtl'], broadened)).toContain(
+        'No code-only exception permits StoreOptions.stateTtl.',
+    );
+    const missingEvidence = structuredClone(registry);
+    missingEvidence.code_only[0].package_tests = [];
+    expect(coverageIssues([], missingEvidence)).toContain(
+        'Keep the vector code-only exception linked to its authorized page, source, and native tests.',
+    );
+    const missingSource = structuredClone(registry);
+    missingSource.code_only[0].source_files = [];
+    expect(coverageIssues([], missingSource)).toContain(
+        'Keep the vector code-only exception linked to its authorized page, source, and native tests.',
+    );
+    const removed = structuredClone(registry);
+    removed.code_only = [];
+    expect(coverageIssues(['enum.MatchType.Vector'], removed)).toContain(
+        'Add a functional Dapter demo for enum.MatchType.Vector.',
+    );
+    expect(registry.backend.examples.some((item) => item.id === 'VectorRejected')).toBe(false);
+});

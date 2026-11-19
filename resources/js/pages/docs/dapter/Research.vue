@@ -19,9 +19,9 @@ defineProps({
                 <p>
                     This explanation records completed experiments for the unpublished Dapter
                     preview. The experiments examine native database behavior and two persisted
-                    traversal prototypes. They do not add a vector MatchType, a snapshot PagingMode,
-                    or a new frontend control. Current public paging remains offset, simple, and
-                    live cursor.
+                    traversal prototypes. The historical experiments do not define the current
+                    vector field filter or add a snapshot PagingMode. Current public paging remains
+                    offset, simple, and live cursor.
                 </p>
                 <DocsTable
                     caption="Research decisions"
@@ -30,7 +30,7 @@ defineProps({
                         [
                             'Prepared vector retrieval',
                             'PostgreSQL 18.6 with pgvector 0.8.7 ranks a real vector(3) column and reapplies SQL authorization.',
-                            'Native feasibility established. Public Dapter support deferred.',
+                            'Native feasibility established. The current preview delivers exact L2 filtering; ranking remains deferred.',
                         ],
                         [
                             'Vector paging and unsupported engines',
@@ -63,7 +63,7 @@ defineProps({
                     Native ranking does not supply a typed Dapter rank, distance metadata, a
                     negotiated driver, authenticated cursor state, or operational limits. Persisted
                     rows do not supply a production snapshot handle. These missing contracts explain
-                    the deferrals independently of extension availability.
+                    the ranking and snapshot deferrals independently of extension availability.
                 </p>
             </ProseSection>
             <ProseSection id="readings" title="Inspect the focused findings">
@@ -75,7 +75,7 @@ defineProps({
                         >Vector retrieval research</DocsLink
                     >
                     defines the prepared input, metric, actual ranks, native paging boundaries, and
-                    unsupported request example.
+                    historical unsupported-engine boundary.
                     <DocsLink
                         :href="
                             findNavigationItem(navigation, 'dapter/research/pagination-consistency')

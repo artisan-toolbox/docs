@@ -26,7 +26,7 @@ const provider = `return [
                 <p>
                     Install Filoquent in an existing Laravel 13 application and save your first file
                     through an Eloquent attribute. Filoquent is in beta. The documented release,
-                    <code>1.0.0-beta.3</code>, is available on
+                    <code>1.0.0-beta.6</code>, is available on
                     <DocsLink :href="page.package.releasesUrl">Packagist</DocsLink>. APIs may change
                     before the stable release.
                 </p>
@@ -67,12 +67,11 @@ const provider = `return [
             </ProseSection>
             <ProseSection id="migration-baseline" title="Install the consolidated schema">
                 <p>
-                    Development preview. The current development branch replaces the three
-                    historical migrations with
-                    <code>2026_11_12_000000_create_filoquent_tables.php</code> for clean
-                    installations. This consolidation is not part of the documented
-                    <code>1.0.0-beta.3</code> release and does not upgrade an existing migration
-                    history. Use a new database when testing this branch.
+                    Filoquent <code>1.0.0-beta.5</code> uses the consolidated migration
+                    <code>2026_11_12_000000_create_filoquent_tables.php</code> for databases that
+                    have never run Filoquent migrations. If your database already has Filoquent
+                    tables or recorded migrations, keep its data and migration history intact. Plan
+                    and verify an upgrade separately before running the beta.5 baseline.
                 </p>
                 <p>
                     Run <code>php artisan migrate</code> from the application root. The single

@@ -115,9 +115,15 @@ defineProps({ navigation: { type: Array, required: true } });
             README badges
         </h3>
         <p>
-            Use the Shields.io <code>flat-square</code> style and keep badges in this order:
-            Release, PHP, Laravel, Node.js, Tests, and Docs. Use the GitHub release badge for
-            published packages and an <code>in development</code> badge before the first release.
+            Use the Shields.io <code>flat-square</code> style. Order the badges as Version,
+            Packagist, PHP, Laravel, Node.js, Tests, and Docs. For published packages, use
+            <code>Badge::releaseVersion()</code> to link the version to GitHub Releases. Use a
+            separate badge labeled Packagist to link to the package registry. Before the first
+            release, use an <code>in development</code> badge.
+        </p>
+        <p>
+            Keep version numbers in the README badges. Link to the installation guide for detailed
+            compatibility and version constraints.
         </p>
         <p>
             Show PHP and Laravel when they apply to the installation. Show Node.js when the package

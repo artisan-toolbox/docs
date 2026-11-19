@@ -2,6 +2,39 @@
 
 ## Unreleased
 
+- Update the documentation application to the latest published Artisan Toolbox releases, including Dapter beta.2, Filoquent beta.6, Front Awesome beta.5, and Permit beta.1. Install Permit from Packagist in the quickstart and migrate its assignment table for signed-in readers.
+
+- Prepare the browser CI job with a SQLite search fixture, a Redis worker, and a local Reverb server. Accept the workflow's loopback URL in the Dapter browser scripts.
+
+- Add the package README badge policy to the shared contributor standards.
+
+- Document the separate version and Packagist badges and identify the published Permit beta alongside the source preview.
+
+- Show how to set the default Front Awesome scrollbar variant for the DataView table, print preview, permission editor, and other regions using bare `v-scrollbar`.
+
+- Use the Front Awesome brand scrollbar on the documentation sidebar and the desktop On this page outline.
+
+- Give the Front Awesome scrollbar directive a guide under Appearance and branding, with live controls for color, auto-hide, and track clicks. Redirect the previous shared theme fragment to the new guide.
+
+- Align package skill adoption guidance with current releases and show how to discover the Maintainer skill in Boost. Clarify the Filoquent beta.5 clean migration baseline and safe debug values.
+
+- Require Dapter `^1.0.0-beta.1`, refresh its Composer and frontend locks, and align current package identity, installation, and DataView guides with the beta release. Preserve historical alpha verification records.
+
+- Document the unpublished PostgreSQL prepared-vector field filter with inclusive exact L2 distance, preserved source ordering and paging, and a task-authorized code-only example exception backed by native package tests. Keep earlier ranked-retrieval research as historical evidence.
+
+- Document local UUID browser state, fixed lifetimes, class declaration versions, authorized restoration, and portable share URLs. Extend the existing Dapter and borrowed DataView examples with reader-triggered share export and browser checks.
+
+- Document the unpublished Permit authorization preview with a runnable Gate quickstart, Artisan command reference, and a reversible assignment migration. Link the Permit and Front Awesome guides and exercise Laravel authorization in their shared fictional-account editor demo.
+- Document the permission editor's content-aware height and separate discard confirmation.
+
+- Correct the Front Awesome installation command for Composer's default stability policy and identify Dapter 1.0.0-beta.1 as the published beta throughout its working guides.
+
+- Added a DataView tutorial and task guides for layouts, search, ordering, selection, paging, writes, and live records. Existing development links redirect to the tutorial and the corresponding guide sections.
+
+- Require Front Awesome beta.3 for the published DataView export and synchronize the Composer and frontend locks for standalone builds.
+
+- Give PHPUnit a fixed synthetic application origin so action fixtures do not depend on a developer's environment file.
+
 - Add an expiring, advisory-specific picomatch audit exception while preserving failures for other moderate-or-higher advisories and npm errors.
 
 - Explain Front Awesome's portable DataView negative Vue type check and compiler failure reporting.

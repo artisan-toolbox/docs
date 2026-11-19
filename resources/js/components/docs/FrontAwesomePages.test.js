@@ -21,6 +21,8 @@ import Guide10 from '../../pages/docs/front-awesome/toasts/Laravel.vue';
 import Guide11 from '../../pages/docs/front-awesome/toasts/Vue.vue';
 import Guide12 from '../../pages/docs/front-awesome/VuePlugin.vue';
 import Guide13 from '../../pages/docs/front-awesome/WebAwesome.vue';
+import scrollbarSource from '@/components/demo/front-awesome/styling/ScrollbarDemo.vue?raw';
+import Scrollbar from '../../pages/docs/front-awesome/Scrollbar.vue';
 
 const components = {
     'front-awesome/branding': Guide0,
@@ -86,7 +88,7 @@ const publishedFixtures = fixtures.map((source) => {
         guide.paragraphs = guide.paragraphs.map((paragraph) =>
             paragraph ===
             'Maintainer manages releases on 1.x and generates the README header. To regenerate the header after changing the logo or badges, run php vendor/bin/maintainer readme:update. When preparing the first release, replace the in-development badge in FrontAwesome::readmeHead() with the GitHub release badge.'
-                ? 'Maintainer manages releases on 1.x and generates the README header. To regenerate the header after changing the logo or badges, run php vendor/bin/maintainer readme:update --no-interaction. The beta badge in FrontAwesome::readmeHead() describes package stability separately from the version managed by Maintainer.'
+                ? 'Maintainer manages releases on 1.x and generates the README header. To regenerate the header after changing the logo or badges, run php vendor/bin/maintainer readme:update --no-interaction. The version badge links to GitHub Releases. The Packagist badge links to the package registry.'
                 : paragraph,
         );
         guide.links.splice(1, 0, {
@@ -101,18 +103,35 @@ const publishedFixtures = fixtures.map((source) => {
             text: 'Appearance preferences guide',
         });
     }
+    if (guide.slug === 'front-awesome/configuration') {
+        guide.headings = [
+            { level: 2, id: 'data-view-options', text: 'DataView presentation options' },
+            ...guide.headings,
+        ];
+        guide.links.splice(1, 0, {
+            slug: 'front-awesome/data-view/ordering',
+            hash: '#header-controls',
+            text: 'header sorting guide',
+        });
+    }
     if (guide.slug === 'front-awesome/shared-theme') {
-        const index = guide.headings.findIndex((heading) => heading.id === 'check-the-result') + 1;
         return {
             ...guide,
             paragraphs: guide.paragraphs.map((paragraph) =>
                 paragraph.replace('the WIP 1.x branch', 'the 1.x beta'),
             ),
-            headings: [
-                ...guide.headings.slice(0, index),
-                { level: 3, id: undefined, text: 'Shared branding preview' },
-                ...guide.headings.slice(index),
-            ],
+            headings: guide.headings.flatMap((heading) => {
+                if (heading.id === 'check-the-result') {
+                    return [heading, { level: 3, id: undefined, text: 'Shared branding preview' }];
+                }
+                if (heading.id === 'keep-an-existing-theme') {
+                    return [
+                        { level: 2, id: 'style-a-scrollbar', text: 'Style a scrollbar' },
+                        heading,
+                    ];
+                }
+                return [heading];
+            }),
         };
     }
     if (guide.slug === 'front-awesome/web-awesome') {
@@ -156,13 +175,22 @@ describe('Front Awesome documentation migration', () => {
         version: '1.x',
         stability: 'Beta',
         allowedExtraLinks: {
+            'front-awesome/shared-theme': [
+                { slug: 'front-awesome/scrollbar', text: 'Style a scrollbar' },
+            ],
             'front-awesome/vue-plugin': [
                 { slug: 'front-awesome/localization', text: 'Translate the browser from Laravel' },
+                { slug: 'front-awesome/scrollbar', text: 'scrollbar guide' },
             ],
             'front-awesome/configuration': [
                 { slug: 'front-awesome/localization/reference', text: 'localization reference' },
             ],
             'front-awesome': [
+                { slug: 'front-awesome/data-view', text: 'Build your first DataView' },
+                {
+                    slug: 'front-awesome/user-permission-editor',
+                    text: 'Try the permission editor',
+                },
                 { slug: 'front-awesome/localization', text: 'Translate the browser from Laravel' },
                 {
                     slug: 'front-awesome/printing',
@@ -190,6 +218,7 @@ describe('Front Awesome documentation migration', () => {
                 },
             ],
             'front-awesome/installation': [
+                { slug: 'front-awesome/data-view', text: 'Build your first DataView' },
                 {
                     slug: 'front-awesome/web-awesome/components',
                     text: 'Vue components catalog',
@@ -222,6 +251,34 @@ describe('Front Awesome documentation migration', () => {
     });
 });
 
+describe('Front Awesome scrollbar guide', () => {
+    it('shows executable usage and the exact source for the configurable example', () => {
+        const wrapper = mount(Scrollbar, {
+            props: {
+                page: {
+                    title: 'Style a scrollbar',
+                    package: {
+                        title: 'Front Awesome',
+                        documentedVersion: '1.x',
+                        stability: 'Beta',
+                    },
+                },
+                navigation: sourceNavigation(),
+            },
+        });
+
+        expect(wrapper.get('#style-a-scrollbar').text()).toContain('Add the directive');
+        const examples = wrapper.findAll('pre code').map((example) => example.element.textContent);
+        expect(examples).toHaveLength(3);
+        expect(examples[0]).toBe(scrollbarSource);
+        expect(examples[1]).toContain(
+            'v-scrollbar.brand="{ scrollbars: { autoHide: \'leave\' } }"',
+        );
+        expect(examples[2]).toContain("scrollbar: { defaultVariant: 'brand' }");
+        wrapper.unmount();
+    });
+});
+
 describe('Front Awesome task hubs', () => {
     it.each([
         [
@@ -239,6 +296,7 @@ describe('Front Awesome task hubs', () => {
             [
                 'front-awesome/shared-theme',
                 'front-awesome/branding',
+                'front-awesome/scrollbar',
                 'front-awesome/primevue',
                 'front-awesome/theme-maintenance',
             ],

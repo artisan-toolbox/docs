@@ -35,6 +35,14 @@ defineProps({
                 >.
             </p>
         </ProseSection>
+        <ProseSection id="style-scrollbars" title="Style scrollbars">
+            <p>Apply shared theme colors to a scroll area and choose how its scrollbar responds.</p>
+            <p>
+                <DocsLink :href="findNavigationItem(navigation, 'front-awesome/scrollbar').href"
+                    >Style a scrollbar</DocsLink
+                >.
+            </p>
+        </ProseSection>
         <ProseSection id="add-primevue" title="Add PrimeVue styling">
             <p>
                 PrimeVue is optional. Use its styled preset only when your application already needs

@@ -49,7 +49,8 @@ Route::get('/dump-example', function () {
         <ProseSection id="send-a-value" title="Send a value from a request">
             <p>
                 In your local application, add this temporary route to
-                <code>routes/web.php</code>:
+                <code>routes/web.php</code>. Reuse the existing <code>Route</code> import if the
+                file already has one.
             </p>
             <CodeExample label="Send a value from a local route" language="php" :code="route" />
             <p>

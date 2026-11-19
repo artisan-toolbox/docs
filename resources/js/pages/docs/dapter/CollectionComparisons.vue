@@ -23,10 +23,10 @@ defineProps({
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/installation').href"
                         >Install Dapter</DocsLink
                     >
-                    in your Laravel, Inertia, Vue, and Vite application. These APIs are an
-                    unpublished preview. Use protocol 2 for declared operations. The fixed examples
-                    require no account, database, broadcaster, or worker. Locale ordering
-                    additionally requires PHP intl with the requested ICU locale available.
+                    in your Laravel, Inertia, Vue, and Vite application. Use protocol 2 for declared
+                    operations. The fixed examples require no account, database, broadcaster, or
+                    worker. Locale ordering additionally requires PHP intl with the requested ICU
+                    locale available.
                 </p>
                 <p>
                     The frames use the public Dapter endpoint and Front Awesome Button, Spinner, and

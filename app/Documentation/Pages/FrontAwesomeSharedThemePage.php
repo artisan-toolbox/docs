@@ -21,4 +21,9 @@ final readonly class FrontAwesomeSharedThemePage extends Page
             package: new FrontAwesomePackage,
         );
     }
+
+    public function fragmentDestinations(): array
+    {
+        return ['style-a-scrollbar' => PageSlug::FrontAwesomeScrollbar];
+    }
 }

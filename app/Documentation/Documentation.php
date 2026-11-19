@@ -9,6 +9,7 @@ use App\Documentation\Packages\FiloquentPackage;
 use App\Documentation\Packages\FrontAwesomePackage;
 use App\Documentation\Packages\MaintainerPackage;
 use App\Documentation\Packages\MosaicastPackage;
+use App\Documentation\Packages\PermitPackage;
 use App\Documentation\Packages\QzTrayPackage;
 
 final class Documentation
@@ -64,6 +65,7 @@ final class Documentation
             new FrontAwesomePackage,
             new MaintainerPackage,
             new MosaicastPackage,
+            new PermitPackage,
             new QzTrayPackage,
         ];
     }

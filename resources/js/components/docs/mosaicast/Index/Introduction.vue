@@ -13,7 +13,7 @@ defineProps({ navigation: { type: Array, required: true } });
             event in the response. Both paths use one event contract and the same Vue listener API.
         </p>
         <p>
-            This guide covers Mosaicast 1.2. When upgrading from 1.1, review the
+            This guide covers Mosaicast 1.3. When upgrading from 1.1, review the
             <DocsLink href="#dispatcher-class">dispatcher, frontend, and session changes</DocsLink>.
         </p>
     </ProseSection>

@@ -1,3 +1,4 @@
+import { execFileSync } from 'node:child_process';
 import { sourceNavigation } from './sourceNavigationFixture';
 import { installationCommands } from './installationFixture';
 import { parse, compileScript } from '@vue/compiler-sfc';
@@ -6,10 +7,17 @@ import { describe, expect, it } from 'vite-plus/test';
 import Installation from '../../pages/docs/front-awesome/Installation.vue';
 
 const navigation = sourceNavigation;
+const [frontAwesomeVersion, dapterVersion] = JSON.parse(
+    execFileSync('php', [
+        '-r',
+        String.raw`require 'vendor/autoload.php'; echo json_encode(array_map(App\Documentation\InstallationCommands::composerVersion(...), array_slice($argv, 1)), JSON_THROW_ON_ERROR);`,
+        'artisan-toolbox/front-awesome',
+        'artisan-toolbox/dapter',
+    ]),
+);
 
 function render() {
     const commands = installationCommands('front-awesome');
-    const installedVersion = commands.composer.code.split(':').at(-1);
 
     return mount(Installation, {
         props: {
@@ -21,9 +29,9 @@ function render() {
                     installationCommands: commands,
                     title: 'Front Awesome',
                     composerName: 'artisan-toolbox/front-awesome',
-                    documentedVersion: installedVersion,
+                    documentedVersion: frontAwesomeVersion,
                     stability: 'Beta',
-                    installedVersion,
+                    installedVersion: frontAwesomeVersion,
                     installationSource: 'distribution',
                 },
             },
@@ -38,7 +46,10 @@ describe('Front Awesome first success', () => {
 
         expect(examples).toHaveLength(9);
         expect(examples[0]).toBe(
-            `composer require artisan-toolbox/front-awesome:${wrapper.props('page').package.installedVersion}`,
+            `composer require artisan-toolbox/front-awesome:${frontAwesomeVersion} artisan-toolbox/dapter:${dapterVersion}`,
+        );
+        expect(wrapper.get('[aria-label="Package details"]').text()).toContain(
+            `Documented version ${frontAwesomeVersion}`,
         );
         expect(examples[1]).toContain(
             'npm install --install-links ./vendor/artisan-toolbox/front-awesome',

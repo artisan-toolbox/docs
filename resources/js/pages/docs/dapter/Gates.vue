@@ -22,8 +22,8 @@ defineProps({
                         >Choose a guard</DocsLink
                     >
                     first. Register the dedicated demonstration guards and catalog abilities before
-                    copying these examples. These unpublished preview fixtures use fictional data
-                    and never change reader permissions.
+                    copying these examples. These fixtures use fictional data and never change
+                    reader permissions.
                 </p>
                 <p>
                     <code>publicAccess()</code> permits guests, but attached Gate abilities still

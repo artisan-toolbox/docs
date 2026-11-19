@@ -26,9 +26,9 @@ defineProps({
                     first. Use a Collection source for rows you already have in memory. Use an
                     Eloquent source to let the database filter, order, and page a query. Keep
                     Laravel's web middleware, sessions, and CSRF protection enabled. Expose
-                    <code>dapter.data</code> through your existing Ziggy configuration. This
-                    unpublished preview supports Collections and ordinary SQLite, MySQL, and
-                    PostgreSQL Eloquent queries.
+                    <code>dapter.data</code> through your existing Ziggy configuration. Dapter
+                    supports Collections and ordinary SQLite, MySQL, and PostgreSQL Eloquent
+                    queries.
                 </p>
                 <p>
                     The grids use Front Awesome's public controls and Pro DataGrid. Complete

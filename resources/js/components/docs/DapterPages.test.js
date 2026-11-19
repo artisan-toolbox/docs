@@ -83,15 +83,15 @@ function render(component, slug) {
             page: {
                 slug,
                 title: findNavigationItem(sourceNavigation(), slug).title,
-                description: 'Unreleased data adapter foundation.',
+                description: 'Read Laravel data with Dapter.',
                 requirements: ['PHP ^8.5', 'Laravel 13', 'Inertia 3', 'Node.js >=24.11.0'],
                 package: {
                     id: 'dapter',
                     title: 'Dapter',
                     composerName: 'artisan-toolbox/dapter',
-                    stability: 'Work in progress',
-                    installedVersion: null,
-                    installationStatus: 'not-installed',
+                    stability: 'Beta',
+                    installedVersion: '1.0.0-beta.2',
+                    installationStatus: 'installed',
                     installationCommands: installationCommands('dapter'),
                     artwork: { icon: '/images/packages/dapter/dapter-icon.svg' },
                 },
@@ -101,7 +101,7 @@ function render(component, slug) {
     });
 }
 
-describe('Dapter preview learning journey', () => {
+describe('Dapter learning journey', () => {
     it.each([
         ['Load the source asynchronously', Index, 'dapter'],
         ['Bind the authorized field in Vue', FieldSearch, 'dapter/field-search'],
@@ -135,11 +135,11 @@ describe('Dapter preview learning journey', () => {
         wrapper.unmount();
     });
 
-    it('introduces the unpublished preview with a runnable notebook list and registry guide links', () => {
+    it('introduces the published beta with a runnable notebook list and registry guide links', () => {
         const wrapper = render(Index, 'dapter');
-        expect(wrapper.text()).toContain('unpublished local preview');
+        expect(wrapper.text()).toContain(installationCommands('dapter').composer.code);
         expect(wrapper.text()).toContain('ordinary SQLite');
-        expect(wrapper.text()).toContain('Not installed');
+        expect(wrapper.text()).toContain('Beta');
         expect(wrapper.get('a[href="/docs/dapter/installation"]').text()).toContain('Install');
         const quickstart = wrapper.get('section[aria-labelledby="first-example"]');
         expect(quickstart.text()).toContain('Notebook 01 through Notebook 10');
@@ -157,9 +157,10 @@ describe('Dapter preview learning journey', () => {
     it('places requirements and Composer before frontend installation with observable results', () => {
         const wrapper = render(Installation, 'dapter/installation');
         const text = wrapper.text();
-        expect(text.indexOf('PHP ^8.5')).toBeLessThan(text.indexOf('composer config'));
+        expect(text.indexOf('PHP ^8.5')).toBeLessThan(text.indexOf('composer require'));
         expect(text.indexOf('composer require')).toBeLessThan(text.indexOf('npm install'));
-        expect(text).toContain('1.x-dev@dev');
+        expect(text).toContain(installationCommands('dapter').composer.code);
+        expect(text).not.toContain('composer config repositories.dapter');
         expect(text).toContain('file:vendor/artisan-toolbox/dapter');
         expect(text).toContain('data-dapter-version');
         expect(wrapper.get('section[aria-labelledby="read-route"]').text()).toContain(
@@ -168,7 +169,7 @@ describe('Dapter preview learning journey', () => {
         expect(wrapper.get('section[aria-labelledby="next-steps"] a').attributes('href')).toBe(
             '/docs/dapter#first-example',
         );
-        expect(text).toContain('1.0.0-alpha.1');
+        expect(text).toContain('1.0.0-beta.2');
         wrapper.unmount();
     });
 
@@ -512,7 +513,7 @@ describe('Dapter proposal roadmap', () => {
         expect(text).toContain('uses those same rules to validate the entire request');
         expect(text).toContain('UnsupportedStoreOperation');
         expect(text).toContain(
-            'Vector retrieval research established native pgvector feasibility and deferred',
+            'Vector retrieval research established native pgvector feasibility.',
         );
         expect(text).toContain('Availability does not require a submitted vector');
         expect(text).toContain('check the actual prepared vector for finite numeric values');
@@ -1633,7 +1634,7 @@ describe('Dapter proposal roadmap', () => {
             'the driver performs zero listing reads or managed transforms',
         );
         expect(section('todo-7-4').body).toContain(
-            'Public vector and snapshot APIs remain deferred',
+            'Ranked vector retrieval and snapshot APIs remain deferred',
         );
         expect(section('todo-7-3').body).toContain(
             'unsafe primary-key-only authorization boundary',

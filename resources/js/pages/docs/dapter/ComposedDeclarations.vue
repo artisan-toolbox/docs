@@ -14,11 +14,11 @@ defineProps({
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
         <div data-document-content class="flex min-w-0 flex-col gap-10">
-            <ProseSection id="starting-environment" title="Prepare the declaration preview"
+            <ProseSection id="starting-environment" title="Prepare the source declarations"
                 ><p>
-                    Complete Install Dapter and the global operation guides. These unpublished PHP
-                    8.5 examples use the same fictional Collection. Inspect the complete executable
-                    source in each frame.
+                    Complete Install Dapter and the global operation guides. These PHP 8.5 examples
+                    use the same fictional Collection. Inspect the complete executable source in
+                    each frame.
                 </p></ProseSection
             >
             <ProseSection id="forms" title="Choose a declaration form"

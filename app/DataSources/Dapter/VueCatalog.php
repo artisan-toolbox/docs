@@ -13,7 +13,7 @@ final class VueCatalog extends FieldRecords implements WithOptions
 {
     public function options(): StoreOptions
     {
-        return StoreOptions::make()->publicAccess()->pageSize(2)->pageSizeOptions([2, 4])
+        return StoreOptions::make()->stateTtl(240)->stateKey('saved_catalog')->publicAccess()->pageSize(2)->pageSizeOptions([2, 4])
             ->searchableField('name', [MatchType::Contains, MatchType::Equals])
             ->orderableField('name', [SortType::Natural])
             ->filterableField('category', 'category', ['paper', 'tools'])

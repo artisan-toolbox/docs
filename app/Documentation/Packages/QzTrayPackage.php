@@ -15,7 +15,7 @@ final readonly class QzTrayPackage extends Package
             summary: 'Print through QZ Tray and preview ESC/POS receipts, ZPL labels, and PDFs.',
             version: '1.x',
             overview: PageSlug::QzTray,
-            documentedVersion: '1.2',
+            documentedVersion: '1.5',
             stability: 'Stable',
             requirements: [
                 'PHP 8.5 or later within the PHP 8.x series',

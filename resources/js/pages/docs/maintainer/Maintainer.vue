@@ -42,7 +42,7 @@ const integrationHref = computed(
                 deployments, and GitHub releases.
             </p>
             <p>
-                This guide covers Maintainer 1.10. If your version class still uses
+                This guide covers Maintainer 1.12. If your version class still uses
                 <code>WithReadmeBadgeVersion</code>, follow the
                 <DocsLink :href="`${integrationHref}#migrate-an-existing-version-badge`"
                     >README badge migration</DocsLink

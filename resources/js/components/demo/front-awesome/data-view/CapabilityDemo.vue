@@ -5,8 +5,19 @@ import DemoFrame from '@/components/demo/DemoFrame.vue';
 import CapabilitySession from './CapabilitySession.vue';
 import client from './CapabilitySession.vue?raw';
 import source from '../../../../../../app/DataSources/Dapter/ComposedCatalog.php?raw';
+import recordsSource from '../../../../../../app/Demo/Dapter/Composed/Records.php?raw';
+import manyStatusesSource from '../../../../../../app/Demo/Dapter/Composed/ManyStatuses.php?raw';
+import reverseOrderSource from '../../../../../../app/Demo/Dapter/Composed/ReverseOrder.php?raw';
+import statusSource from '../../../../../../app/Demo/Dapter/Composed/Status.php?raw';
+import statusFilterSource from '../../../../../../app/Demo/Dapter/Composed/StatusFilter.php?raw';
 const running = ref(false);
 const sources = [
+    { label: 'Records.php', language: 'php', code: recordsSource },
+    { label: 'ManyStatuses.php', language: 'php', code: manyStatusesSource },
+    { label: 'ReverseOrder.php', language: 'php', code: reverseOrderSource },
+    { label: 'Status.php', language: 'php', code: statusSource },
+    { label: 'StatusFilter.php', language: 'php', code: statusFilterSource },
+
     { label: 'CapabilitySession.vue', language: 'vue', code: client },
     { label: 'ComposedCatalog.php', language: 'php', code: source },
 ];

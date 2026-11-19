@@ -11,6 +11,33 @@ const browser = await chromium.launch({
     headless: true,
     executablePath: process.env.CHROMIUM_EXECUTABLE,
 });
+
+async function changeFixture(page, scope, name) {
+    async function submit() {
+        const [response] = await Promise.all([
+            page.waitForResponse(
+                (response) =>
+                    response.request().method() === 'POST' &&
+                    new URL(response.url()).pathname === '/demo/dapter/live/change',
+            ),
+            scope.getByRole('button', { name, exact: true }).click(),
+        ]);
+        return response;
+    }
+
+    let response = await submit();
+    if (response.status() === 429) {
+        const retryAfter = Number(response.headers()['retry-after']);
+        assert(Number.isInteger(retryAfter) && retryAfter >= 0 && retryAfter <= 60);
+        console.log(
+            `Fixture rate limit reached for ${name}. Retrying after ${retryAfter} seconds.`,
+        );
+        await page.waitForTimeout((retryAfter + 1) * 1000);
+        response = await submit();
+    }
+    assert.equal(response.status(), 200, name);
+}
+
 const summary = [];
 /** @type {readonly (readonly [string, readonly string[]])[]} */
 const guides = [
@@ -108,10 +135,9 @@ try {
                                         `/dapter/data/Dapter.${scenario}` &&
                                     received.status() === 200 &&
                                     (await received.json()).data[0]?.name === 'Changed notebook 2',
+                                { timeout: 95000 },
                             );
-                            await scope
-                                .getByRole('button', { name: 'Change fixture only', exact: true })
-                                .click();
+                            await changeFixture(page, scope, 'Change fixture only');
                             assert.equal((await next).status(), 200);
                             await rows.first().filter({ hasText: 'Changed notebook 2' }).waitFor();
                             assert(reads.length >= count + 1);
@@ -191,12 +217,7 @@ try {
                             const positions = await rows.allTextContents();
                             const readCount = reads.length;
                             const eventCount = frames.length;
-                            await scope
-                                .getByRole('button', {
-                                    name: 'Publish one replacement',
-                                    exact: true,
-                                })
-                                .click();
+                            await changeFixture(page, scope, 'Publish one replacement');
                             const deadline = Date.now() + 30000;
                             let delivered;
                             while (!delivered) {
@@ -249,12 +270,7 @@ try {
                             );
                             if (scenario === 'LiveIdentity' || scenario === 'LiveArrival') {
                                 const earlierCount = frames.length;
-                                await scope
-                                    .getByRole('button', {
-                                        name: 'Publish older revision',
-                                        exact: true,
-                                    })
-                                    .click();
+                                await changeFixture(page, scope, 'Publish older revision');
                                 const deadline = Date.now() + 30000;
                                 while (
                                     !frames
@@ -292,13 +308,9 @@ try {
                                     new URL(received.url()).pathname ===
                                         '/dapter/data/Dapter.LivePrivate' &&
                                     received.status() === 401,
+                                { timeout: 95000 },
                             );
-                            await scope
-                                .getByRole('button', {
-                                    name: 'Revoke fictional access',
-                                    exact: true,
-                                })
-                                .click();
+                            await changeFixture(page, scope, 'Revoke fictional access');
                             await denied;
                             await scope.locator('[data-live-http-error]').waitFor();
                             assert.equal(

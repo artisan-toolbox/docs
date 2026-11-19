@@ -5,12 +5,13 @@ use App\Documentation\InstallationCommands;
 use App\Documentation\PageSlug;
 use Inertia\Testing\AssertableInertia as Assert;
 
-test('registers the Dapter preview with installation before the roadmap and development', function () {
+test('registers the published Dapter beta with installation before the roadmap and development', function () {
     $this->withoutVite()->get('/docs/dapter')->assertOk()->assertInertia(fn (Assert $page) => $page
         ->component('docs/dapter/Index')
         ->where('page.package.id', 'dapter')
-        ->where('page.package.stability', 'Work in progress')
-        ->where('page.package.installedVersion', '1.0.0-alpha.1')
+        ->where('page.package.stability', 'Beta')
+        ->where('page.package.documentedVersion', '1.0.0-beta.2')
+        ->where('page.package.installedVersion', InstallationCommands::composerVersion('artisan-toolbox/dapter'))
         ->where('page.package.artwork.icon', '/images/packages/dapter/dapter-icon.svg')
     );
 
@@ -28,9 +29,9 @@ test('registers the Dapter preview with installation before the roadmap and deve
     $this->get('/docs/dapter/missing')->assertNotFound();
 });
 
-test('provides an explicit local preview install before the vendor frontend install', function () {
+test('provides the published Composer release and vendor frontend installation commands', function () {
     $this->withoutVite()->get('/docs/dapter/installation')->assertOk()->assertInertia(fn (Assert $page) => $page
-        ->where('page.package.installationCommands.local-preview.code', 'composer config repositories.dapter path ../dapter'."\n".'composer require artisan-toolbox/dapter:"1.x-dev@dev"')
+        ->where('page.package.installationCommands.composer.code', 'composer require artisan-toolbox/dapter:'.InstallationCommands::composerVersion('artisan-toolbox/dapter'))
         ->where('page.package.installationCommands.frontend.code', "npm pkg set 'dependencies.@artisan-toolbox/dapter=file:vendor/artisan-toolbox/dapter'\nnpm install --install-links")
         ->where('page.package.installationCommands.ziggy.code', 'composer require tightenco/ziggy:'.InstallationCommands::composerVersion('tightenco/ziggy'))
     );
@@ -43,7 +44,7 @@ test('serves the Dapter proposal through the registered documentation route', fu
             ->component('docs/dapter/Roadmap')
             ->where('page.slug', 'dapter/roadmap')
             ->where('page.title', 'Dapter roadmap')
-            ->where('page.description', 'Verified Dapter preview phases, source-owned literal search, native paging and live behavior, with completed vector and snapshot research and explicit public API deferrals.')
+            ->where('page.description', 'Verified Dapter preview phases, source-owned literal search, native paging and live behavior, with exact L2 vector filtering, completed research, and explicit ranking and snapshot deferrals.')
             ->where('page.sourceUrl', config()->string('documentation.source_url').'/resources/js/pages/docs/dapter/Roadmap.vue')
             ->where('page.package.id', 'dapter')
         );
@@ -56,7 +57,7 @@ test('serves the Dapter proposal through the registered documentation route', fu
     $xpath = new DOMXPath($document);
     expect($xpath->evaluate('string(//head/title)'))->toBe('Dapter roadmap - Artisan Toolbox');
     expect($xpath->evaluate('string(//head/meta[@name="description"]/@content)'))
-        ->toContain('source-owned literal search', 'completed vector and snapshot research and explicit public API deferrals');
+        ->toContain('source-owned literal search', 'exact L2 vector filtering', 'ranking and snapshot deferrals');
     expect($xpath->evaluate('string(//head/link[@rel="canonical"]/@href)'))
         ->toBe(rtrim(config()->string('app.url'), '/').'/docs/dapter/roadmap');
 });
@@ -140,7 +141,7 @@ test('keeps literal configuration and research guides under their owning task pa
 test('groups every existing Dapter guide by task without losing routes or ancestry', function () {
     $expectedRoots = ['installation', 'sources', 'listing', 'vue-controls', 'field-search', 'field-filters', 'field-order', 'actions', 'resources', 'live-updates', 'authority', 'development'];
     $slugs = array_values(array_filter(PageSlug::cases(), fn (PageSlug $slug): bool => $slug === PageSlug::Dapter || str_starts_with($slug->value, 'dapter/')));
-    expect($slugs)->toHaveCount(63);
+    expect($slugs)->toHaveCount(64);
     foreach ($slugs as $slug) {
         $visited = [];
         for ($ancestor = $slug; $ancestor !== null; $ancestor = $ancestor->parent()) {
@@ -162,7 +163,7 @@ test('groups every existing Dapter guide by task without losing routes or ancest
         }
         array_push($pending, ...$node->children);
     }
-    expect($actual)->toHaveCount(63)->and(array_unique($actual))->toHaveCount(63);
+    expect($actual)->toHaveCount(64)->and(array_unique($actual))->toHaveCount(64);
     sort($actual);
     $expected = array_map(fn (PageSlug $slug): string => $slug->value, $slugs);
     sort($expected);

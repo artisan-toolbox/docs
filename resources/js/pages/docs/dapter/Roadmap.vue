@@ -18,7 +18,7 @@ defineProps({
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection>
                 <p>
-                    Status: implementation in progress, updated on 2026-11-17. The local preview
+                    Status: implementation in progress, updated on 2026-11-18. The local preview
                     implements Collection, SQLite, MySQL, and PostgreSQL backend offset reads and
                     explicit v2 field operations. Phase 1 backend, Phase 2 Vue, Phase 2a
                     native-action, Phase 3 composed-operation, Phase 3a live-update, and Phase 4
@@ -43,11 +43,12 @@ defineProps({
                     Run the implemented slice in
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/listing').href"
                         >Read and paginate a source</DocsLink
-                    >. Every delivered setting has a public-API demo and behavioral checks. Backend
-                    v2 field search, scalar filters, one selected field order, native SQL drivers,
-                    and trusted registries are implemented in their focused guides. The shared
-                    useDataAdapter handle, declared Vue controls, URL persistence, and targeted
-                    scroll are implemented. Follow
+                    >. Delivered settings have public-API demos and behavioral checks. Vector search
+                    uses code snippets and native package tests under an explicit task exception.
+                    Backend v2 field search, scalar filters, one selected field order, native SQL
+                    drivers, and trusted registries are implemented in their focused guides. The
+                    shared useDataAdapter handle, declared Vue controls, URL persistence, and
+                    targeted scroll are implemented. Follow
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/vue-controls').href"
                         >Build declared Vue controls</DocsLink
                     >,
@@ -1582,7 +1583,7 @@ defineProps({
                                         exact L2 ranking, scoped counts, offset pages, simple
                                         lookahead, revocation, native input rejection, and a
                                         configured MySQL driver without a vector implementation.
-                                        Public vector retrieval remains deferred until a verified
+                                        Ranked vector retrieval remains deferred until a verified
                                         Dapter driver, typed rank and cursor contract, and operating
                                         cost are established.
                                     </p>
@@ -1612,9 +1613,9 @@ defineProps({
                                     <p>
                                         Recorded reproducible CLI experiments, sanitized native
                                         results, current unsupported-request demos, and explicit
-                                        adoption gates. Public vector and snapshot APIs remain
-                                        deferred. Generation identity, authenticated query and
-                                        serializer binding, retention, quotas, cleanup, and
+                                        adoption gates. Ranked vector retrieval and snapshot APIs
+                                        remain deferred. Generation identity, authenticated query
+                                        and serializer binding, retention, quotas, cleanup, and
                                         demonstrated operating cost require a later implementation
                                         contract.
                                     </p>
@@ -1626,7 +1627,8 @@ defineProps({
                             documented outcomes. Read the
                             <DocsLink :href="findNavigationItem(navigation, 'dapter/research').href"
                                 >focused research findings</DocsLink
-                            >. Public vector and snapshot APIs remain deferred.
+                            >. Exact L2 vector field filtering is implemented in the local preview.
+                            Ranked vector retrieval and snapshot APIs remain deferred.
                         </p>
                         <p>
                             Exit when an experiment either supports a concrete feature contract or
@@ -1641,11 +1643,12 @@ defineProps({
                     Completion rules for every implementation phase
                 </h3>
                 <p>
-                    The ordered TODOs follow prerequisites, not estimated dates. Each delivered
-                    backend capability includes a functional Vue example, so a verified vertical
-                    slice can advance dependent frontend tasks while other driver and query gates
-                    remain open. Completed and WIP statuses identify the current slice. Each phase
-                    ends in a verifiable change and can run in a separate interaction.
+                    The ordered TODOs follow prerequisites, not estimated dates. Delivered backend
+                    capabilities include a functional Vue example. The prepared-vector filter uses
+                    its task-authorized code-only and native-test coverage instead. A verified slice
+                    can advance dependent frontend tasks while other driver and query gates remain
+                    open. Completed and WIP statuses identify the current slice. Each phase ends in
+                    a verifiable change and can run in a separate interaction.
                 </p>
                 <p>
                     Each phase starts collapsed. Open a phase to read its task cards and their

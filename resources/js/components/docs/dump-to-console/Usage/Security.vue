@@ -14,5 +14,9 @@ defineProps({ navigation: { type: Array, required: true } });
             The dump protocol has no authentication or encryption. Keep it bound to a trusted local
             interface and treat dumped values with the same care as local logs.
         </p>
+        <p>
+            Select the fields you need, such as an order ID and an item count. Keep full request
+            bodies, credentials, tokens, and sensitive model attributes out of dumps.
+        </p>
     </ProseSection>
 </template>

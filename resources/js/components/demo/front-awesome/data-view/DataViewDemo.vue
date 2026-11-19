@@ -5,8 +5,19 @@ import DemoFrame from '@/components/demo/DemoFrame.vue';
 import DataViewSession from './DataViewSession.vue';
 import client from './DataViewSession.vue?raw';
 import catalog from './catalog.js?raw';
+import collectionFluentSource from '../../../../../../app/DataSources/Dapter/CollectionFluent.php?raw';
+import collectionGateDenySource from '../../../../../../app/DataSources/Dapter/CollectionGateDeny.php?raw';
+import collectionFixtureSource from '../../../../../../app/Demo/Dapter/Listing/CollectionFixture.php?raw';
+import fixtureProductsSource from '../../../../../../app/Demo/Dapter/Listing/FixtureProducts.php?raw';
+import guestSetup from '../../../../../../app/Demo/Dapter/Listing/DemoConfiguration.php?raw';
 const source = ref(null);
 const sources = [
+    { label: 'DemoConfiguration.php', language: 'php', code: guestSetup },
+    { label: 'CollectionFluent.php', language: 'php', code: collectionFluentSource },
+    { label: 'CollectionGateDeny.php', language: 'php', code: collectionGateDenySource },
+    { label: 'CollectionFixture.php', language: 'php', code: collectionFixtureSource },
+    { label: 'FixtureProducts.php', language: 'php', code: fixtureProductsSource },
+
     { label: 'DataViewSession.vue', language: 'vue', code: client },
     { label: 'catalog.js', language: 'javascript', code: catalog },
 ];

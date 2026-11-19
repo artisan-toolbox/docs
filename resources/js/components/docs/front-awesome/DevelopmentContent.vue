@@ -29,11 +29,13 @@ npm ci`;
             that install Front Awesome as a runtime dependency.
         </p>
         <p>
-            <code>composer test:types</code> runs with <code>--no-cache</code> and still requires
-            <code>100</code> percent type coverage. Cached results from another analyzer version can
-            otherwise hide this incompatibility locally while a clean CI runner fails. After
-            updating PHP quality tools, run <code>composer test</code> with newly resolved
-            dependencies before changing either CI dependency lane.
+            The source checkout requires Pest Type Coverage <code>^5.0.2</code>. Starting with
+            <code>5.0.2</code>, <code>--no-cache</code> disables cache writes during analysis.
+            Earlier versions could write to the cache even with the flag and fail on parallel runs.
+            Run <code>composer test:types</code> from the package checkout. It requires
+            <code>100</code> percent type coverage. After updating PHP quality tools, run
+            <code>composer test</code> with newly resolved dependencies before changing either CI
+            dependency lane.
         </p>
         <p>
             The source checkout uses Vite Plus <code>1.6.0</code> and bundled Vitest
@@ -192,9 +194,8 @@ npm ci`;
         <p>
             Maintainer manages releases on <code>1.x</code> and generates the README header. To
             regenerate the header after changing the logo or badges, run
-            <code>php vendor/bin/maintainer readme:update --no-interaction</code>. The beta badge in
-            <code>FrontAwesome::readmeHead()</code> describes package stability separately from the
-            version managed by Maintainer.
+            <code>php vendor/bin/maintainer readme:update --no-interaction</code>. The version badge
+            links to GitHub Releases. The Packagist badge links to the package registry.
         </p>
         <h2
             id="use-the-frontend-agent-skills"

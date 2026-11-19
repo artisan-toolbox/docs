@@ -20,8 +20,8 @@ defineProps({
                         >working paginated source</DocsLink
                     >. This example requires the web session, CSRF middleware, and dapter.data
                     route. It needs no Echo, broadcaster, or worker. Polling and broadcasting are
-                    independent. The unpublished preview requires explicit protocol: 2 for either
-                    opt-in. Protocol 1 remains the default and rejects active integrations.
+                    independent. Dapter requires explicit protocol: 2 for either opt-in. Protocol 1
+                    remains the default and rejects active integrations.
                 </p></ProseSection
             >
             <ProseSection id="interval" title="Choose one bounded interval"

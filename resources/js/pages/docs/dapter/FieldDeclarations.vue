@@ -15,16 +15,15 @@ defineProps({
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
         <div data-document-content class="flex min-w-0 flex-col gap-10">
-            <ProseSection id="starting-environment" title="Prepare the backend preview">
+            <ProseSection id="starting-environment" title="Prepare the Laravel source">
                 <p>
                     Complete
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/installation').href"
                         >Install Dapter</DocsLink
                     >
                     in a compatible Laravel application. Keep the web session, CSRF middleware, and
-                    Ziggy route integration. These unpublished APIs require explicit wire version 2.
-                    DataAdapter and useDataAdapter retain version 1 by default. Set protocol to 2
-                    for the
+                    Ziggy route integration. These APIs require explicit wire version 2. DataAdapter
+                    and useDataAdapter retain version 1 by default. Set protocol to 2 for the
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/vue-controls').href"
                         >declared Vue controls</DocsLink
                     >.

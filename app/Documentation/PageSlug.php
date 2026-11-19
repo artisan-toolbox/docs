@@ -68,6 +68,7 @@ use App\Documentation\Pages\DapterSourceRegistrationPage;
 use App\Documentation\Pages\DapterSourcesPage;
 use App\Documentation\Pages\DapterTypedFiltersPage;
 use App\Documentation\Pages\DapterVectorResearchPage;
+use App\Documentation\Pages\DapterVectorSearchPage;
 use App\Documentation\Pages\DapterVueControlsPage;
 use App\Documentation\Pages\DapterVueDefinitionsPage;
 use App\Documentation\Pages\DapterVueNavigationPage;
@@ -89,7 +90,16 @@ use App\Documentation\Pages\FrontAwesomeActionsPage;
 use App\Documentation\Pages\FrontAwesomeBrandingPage;
 use App\Documentation\Pages\FrontAwesomeComponentsPage;
 use App\Documentation\Pages\FrontAwesomeConfigurationPage;
-use App\Documentation\Pages\FrontAwesomeDataViewLabPage;
+use App\Documentation\Pages\FrontAwesomeDataViewActionsPage;
+use App\Documentation\Pages\FrontAwesomeDataViewLayoutsPage;
+use App\Documentation\Pages\FrontAwesomeDataViewLivePage;
+use App\Documentation\Pages\FrontAwesomeDataViewOrderingPage;
+use App\Documentation\Pages\FrontAwesomeDataViewPage;
+use App\Documentation\Pages\FrontAwesomeDataViewPagingPage;
+use App\Documentation\Pages\FrontAwesomeDataViewQueryPage;
+use App\Documentation\Pages\FrontAwesomeDataViewReferencePage;
+use App\Documentation\Pages\FrontAwesomeDataViewSelectionPage;
+use App\Documentation\Pages\FrontAwesomeDataViewStatePage;
 use App\Documentation\Pages\FrontAwesomeDataVizPage;
 use App\Documentation\Pages\FrontAwesomeDevelopmentPage;
 use App\Documentation\Pages\FrontAwesomeFeedbackPage;
@@ -102,6 +112,7 @@ use App\Documentation\Pages\FrontAwesomeLocalizationReferencePage;
 use App\Documentation\Pages\FrontAwesomeMediaPage;
 use App\Documentation\Pages\FrontAwesomeNavigationPage;
 use App\Documentation\Pages\FrontAwesomePage;
+use App\Documentation\Pages\FrontAwesomePermissionEditorPage;
 use App\Documentation\Pages\FrontAwesomePreferencesAppearancePage;
 use App\Documentation\Pages\FrontAwesomePreferencesCurrencyPage;
 use App\Documentation\Pages\FrontAwesomePreferencesLanguagePage;
@@ -111,6 +122,7 @@ use App\Documentation\Pages\FrontAwesomePreferencesTimezonePage;
 use App\Documentation\Pages\FrontAwesomePrimevuePage;
 use App\Documentation\Pages\FrontAwesomePrintingPage;
 use App\Documentation\Pages\FrontAwesomePrintingReferencePage;
+use App\Documentation\Pages\FrontAwesomeScrollbarPage;
 use App\Documentation\Pages\FrontAwesomeSetupPage;
 use App\Documentation\Pages\FrontAwesomeSharedThemePage;
 use App\Documentation\Pages\FrontAwesomeStylingPage;
@@ -148,6 +160,14 @@ use App\Documentation\Pages\MosaicastInstallationPage;
 use App\Documentation\Pages\MosaicastPage;
 use App\Documentation\Pages\MosaicastSessionChannelsPage;
 use App\Documentation\Pages\MosaicastVuePluginPage;
+use App\Documentation\Pages\PermitAuthorizationPage;
+use App\Documentation\Pages\PermitDeclarationsPage;
+use App\Documentation\Pages\PermitDevelopmentPage;
+use App\Documentation\Pages\PermitInstallationPage;
+use App\Documentation\Pages\PermitManagementPage;
+use App\Documentation\Pages\PermitOperationsPage;
+use App\Documentation\Pages\PermitPage;
+use App\Documentation\Pages\PermitVuePage;
 use App\Documentation\Pages\ProjectDocumentationPolicyPage;
 use App\Documentation\Pages\ProjectPage;
 use App\Documentation\Pages\ProjectVersioningPage;
@@ -203,6 +223,7 @@ enum PageSlug: string
     case DapterLiteralSearch = 'dapter/literal-search';
     case DapterLiteralConfiguration = 'dapter/literal-search/configuration';
     case DapterPostgresqlFullText = 'dapter/postgresql-full-text';
+    case DapterVectorSearch = 'dapter/vector-search';
     case DapterFieldFilters = 'dapter/field-filters';
     case DapterTypedFilters = 'dapter/typed-filters';
     case DapterGlobalFilters = 'dapter/global-filters';
@@ -282,6 +303,7 @@ enum PageSlug: string
     case FrontAwesomeStyling = 'front-awesome/styling';
     case FrontAwesomeSharedTheme = 'front-awesome/shared-theme';
     case FrontAwesomeBranding = 'front-awesome/branding';
+    case FrontAwesomeScrollbar = 'front-awesome/scrollbar';
     case FrontAwesomePrimevue = 'front-awesome/primevue';
     case FrontAwesomeThemeMaintenance = 'front-awesome/theme-maintenance';
     case FrontAwesomeToasts = 'front-awesome/toasts';
@@ -289,8 +311,18 @@ enum PageSlug: string
     case FrontAwesomeToastsVue = 'front-awesome/toasts/vue';
     case FrontAwesomePrinting = 'front-awesome/printing';
     case FrontAwesomePrintingReference = 'front-awesome/printing/reference';
+    case FrontAwesomeDataView = 'front-awesome/data-view';
+    case FrontAwesomeDataViewLayouts = 'front-awesome/data-view/layouts';
+    case FrontAwesomeDataViewQuery = 'front-awesome/data-view/query-controls';
+    case FrontAwesomeDataViewOrdering = 'front-awesome/data-view/ordering';
+    case FrontAwesomeDataViewSelection = 'front-awesome/data-view/selection';
+    case FrontAwesomeDataViewPaging = 'front-awesome/data-view/paging';
+    case FrontAwesomeDataViewActions = 'front-awesome/data-view/actions';
+    case FrontAwesomeDataViewState = 'front-awesome/data-view/adapter-state';
+    case FrontAwesomeDataViewLive = 'front-awesome/data-view/live-updates';
+    case FrontAwesomeDataViewReference = 'front-awesome/data-view/reference';
+    case FrontAwesomePermissionEditor = 'front-awesome/user-permission-editor';
     case FrontAwesomeDevelopment = 'front-awesome/development';
-    case FrontAwesomeDataViewLab = 'front-awesome/development/data-view';
 
     case Maintainer = 'maintainer';
     case MaintainerInstallation = 'maintainer/installation';
@@ -320,6 +352,15 @@ enum PageSlug: string
     case MosaicastSessionChannels = 'mosaicast/session-channels';
     case MosaicastDeliveryGuarantees = 'mosaicast/roadmap';
 
+    case Permit = 'permit';
+    case PermitInstallation = 'permit/installation';
+    case PermitDeclarations = 'permit/declarations';
+    case PermitAuthorization = 'permit/authorization';
+    case PermitManagement = 'permit/management';
+    case PermitVue = 'permit/vue';
+    case PermitOperations = 'permit/operations';
+    case PermitDevelopment = 'permit/development';
+
     case QzTray = 'qztray';
     case QzTrayInstallation = 'qztray/installation';
     case QzTraySecurity = 'qztray/security';
@@ -340,6 +381,14 @@ enum PageSlug: string
     public function page(): Page
     {
         return match ($this) {
+            self::Permit => new PermitPage,
+            self::PermitInstallation => new PermitInstallationPage,
+            self::PermitDeclarations => new PermitDeclarationsPage,
+            self::PermitAuthorization => new PermitAuthorizationPage,
+            self::PermitManagement => new PermitManagementPage,
+            self::PermitVue => new PermitVuePage,
+            self::PermitOperations => new PermitOperationsPage,
+            self::PermitDevelopment => new PermitDevelopmentPage,
             self::MaintainerInstallation => new MaintainerInstallationPage,
             self::CoreInstallation => new CoreInstallationPage,
             self::DumpToConsoleInstallation => new DumpToConsoleInstallationPage,
@@ -392,6 +441,7 @@ enum PageSlug: string
             self::DapterMultiOrder => new DapterMultiOrderPage,
             self::DapterAdvancedQueries => new DapterAdvancedQueriesPage,
             self::DapterPostgresqlFullText => new DapterPostgresqlFullTextPage,
+            self::DapterVectorSearch => new DapterVectorSearchPage,
             self::DapterResources => new DapterResourcesPage,
             self::DapterLiveAuthorization => new DapterLiveAuthorizationPage,
             self::DapterLiveUpdates => new DapterLiveUpdatesPage,
@@ -463,9 +513,20 @@ enum PageSlug: string
             self::FrontAwesomeStyling => new FrontAwesomeStylingPage,
             self::FrontAwesomeToasts => new FrontAwesomeToastsPage,
             self::FrontAwesomeBranding => new FrontAwesomeBrandingPage,
+            self::FrontAwesomeScrollbar => new FrontAwesomeScrollbarPage,
             self::FrontAwesomeConfiguration => new FrontAwesomeConfigurationPage,
             self::FrontAwesomeDevelopment => new FrontAwesomeDevelopmentPage,
-            self::FrontAwesomeDataViewLab => new FrontAwesomeDataViewLabPage,
+            self::FrontAwesomeDataView => new FrontAwesomeDataViewPage,
+            self::FrontAwesomeDataViewLayouts => new FrontAwesomeDataViewLayoutsPage,
+            self::FrontAwesomeDataViewQuery => new FrontAwesomeDataViewQueryPage,
+            self::FrontAwesomeDataViewOrdering => new FrontAwesomeDataViewOrderingPage,
+            self::FrontAwesomeDataViewSelection => new FrontAwesomeDataViewSelectionPage,
+            self::FrontAwesomeDataViewPaging => new FrontAwesomeDataViewPagingPage,
+            self::FrontAwesomeDataViewActions => new FrontAwesomeDataViewActionsPage,
+            self::FrontAwesomeDataViewState => new FrontAwesomeDataViewStatePage,
+            self::FrontAwesomeDataViewLive => new FrontAwesomeDataViewLivePage,
+            self::FrontAwesomeDataViewReference => new FrontAwesomeDataViewReferencePage,
+            self::FrontAwesomePermissionEditor => new FrontAwesomePermissionEditorPage,
             self::FrontAwesome => new FrontAwesomePage,
             self::FrontAwesomeInstallation => new FrontAwesomeInstallationPage,
             self::FrontAwesomePrimevue => new FrontAwesomePrimevuePage,
@@ -514,14 +575,14 @@ enum PageSlug: string
             self::DapterHorizontalInfiniteLoading, self::DapterInfiniteRecovery => self::DapterInfiniteLoading,
             self::DapterCollectionComparisons, self::DapterMultiOrder => self::DapterFieldOrder,
             self::DapterTypedFilters, self::DapterGlobalFilters => self::DapterFieldFilters,
-            self::DapterGlobalSearch, self::DapterLiteralSearch, self::DapterPostgresqlFullText => self::DapterFieldSearch,
+            self::DapterGlobalSearch, self::DapterLiteralSearch, self::DapterPostgresqlFullText, self::DapterVectorSearch => self::DapterFieldSearch,
             self::DapterEnumInputs, self::DapterHandlerRequirements, self::DapterVueDefinitions, self::DapterProtocol, self::DapterComparisonCapabilities => self::DapterAuthority,
             self::DapterComposable, self::DapterVueNavigation => self::DapterVueControls,
             self::DapterLiveAuthorization, self::DapterRevisionRaces, self::DapterPolling => self::DapterLiveUpdates,
             self::DapterActionDeclarations, self::DapterActionOutcomes => self::DapterActions,
             self::DapterResearch, self::DapterRoadmap, self::DapterDesign => self::DapterDevelopment,
             self::FrontAwesomeVuePlugin, self::FrontAwesomeConfiguration => self::FrontAwesomeSetup,
-            self::FrontAwesomeSharedTheme, self::FrontAwesomeBranding,
+            self::FrontAwesomeSharedTheme, self::FrontAwesomeBranding, self::FrontAwesomeScrollbar,
             self::FrontAwesomePrimevue, self::FrontAwesomeThemeMaintenance => self::FrontAwesomeStyling,
             default => null,
         };

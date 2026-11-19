@@ -17,6 +17,7 @@ test('lists packages alphabetically across public catalogs', function (string $p
             'Front Awesome',
             'Maintainer',
             'Mosaicast',
+            'Permit',
             'QZ Tray Connector',
         ])
 
@@ -28,7 +29,7 @@ test('serves the complete package catalog and public navigation on the home page
 
     $this->get('/')->assertOk()->assertInertia(fn (Assert $page) => $page
         ->component('Welcome')
-        ->has('packages', 8)
+        ->has('packages', 9)
         ->where('source.sourceUrl', config()->string('documentation.source_url').'/resources/js/pages/Welcome.vue')
         ->where('source.sourceLabel', 'View page source on GitHub')
         ->where('packages.0.id', 'core')
@@ -40,7 +41,8 @@ test('serves the complete package catalog and public navigation on the home page
         ->where('packages.4.stability', 'Beta')
         ->where('packages.5.id', 'maintainer')
         ->where('packages.6.id', 'mosaicast')
-        ->where('packages.7.id', 'qztray')
+        ->where('packages.7.id', 'permit')
+        ->where('packages.8.id', 'qztray')
         ->where('links', [
             'home' => '/',
             'docs' => '/docs',

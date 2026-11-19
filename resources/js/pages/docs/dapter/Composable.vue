@@ -70,7 +70,7 @@ const catalog = useDataAdapter(props.adapter);
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/listing').href"
                         >Read and paginate a source</DocsLink
                     >. The examples use the public Dapter Vue export in an existing Inertia page.
-                    This API is an unpublished local preview. Apply the
+                    Apply the
                     <DocsLink
                         :href="
                             findNavigationItem(navigation, 'dapter/installation').href +

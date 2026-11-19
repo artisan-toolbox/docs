@@ -29,7 +29,84 @@ async function scrollArticle(page, deltaY) {
     await page.mouse.wheel(0, deltaY);
 }
 
+async function scrollNavigationPanel(page, panel) {
+    await panel.hover();
+    const previous = await panel.evaluate((element) => {
+        const limit = element.scrollHeight - element.clientHeight;
+        return { offset: element.scrollTop, limit, documentOffset: window.scrollY };
+    });
+    assert(previous.limit > 0, 'The navigation panel overflows.');
+    const forward = previous.offset < previous.limit / 2;
+    const remaining = forward ? previous.limit - previous.offset : previous.offset;
+    const distance = Math.min(140, Math.ceil(remaining / 2));
+    await page.mouse.wheel(0, forward ? distance : -distance);
+    await page.waitForFunction(({ element, offset }) => element.scrollTop !== offset, {
+        element: await panel.elementHandle(),
+        offset: previous.offset,
+    });
+    assert.equal(await page.evaluate(() => window.scrollY), previous.documentOffset);
+}
+
 try {
+    const navigationContext = await browser.newContext({
+        locale: 'en-US',
+        viewport: { width: 1440, height: 570 },
+        colorScheme: 'light',
+    });
+    try {
+        const page = await navigationContext.newPage();
+        await page.goto(new URL('/docs/front-awesome/scrollbar', base).href);
+        const preview = page.locator('[data-demo-frame]').filter({ hasText: 'Scrollbar settings' });
+        await preview.waitFor();
+        const overlayAvailable = !(await preview
+            .locator('[data-scrollbar-preview-required]')
+            .count());
+
+        await page.goto(new URL('/docs/front-awesome/web-awesome/components/forms', base).href);
+        const menu = page.locator('#docs-navigation');
+        const outline = page.getByRole('navigation', { name: 'On this page', exact: true });
+        await outline.getByRole('link').last().waitFor({ state: 'attached' });
+        for (const panel of [menu, outline]) {
+            assert.equal(
+                await panel.evaluate((element) => getComputedStyle(element).position),
+                'sticky',
+            );
+            if (overlayAvailable) {
+                await panel
+                    .locator('.os-scrollbar-vertical.os-scrollbar-visible')
+                    .waitFor({ state: 'attached' });
+                assert.equal(await panel.getAttribute('data-fa-scrollbar'), 'brand');
+            }
+            await scrollNavigationPanel(page, panel);
+        }
+
+        await page.setViewportSize({ width: 390, height: 780 });
+        const trigger = page.getByRole('button', { name: 'Menu', exact: true });
+        await trigger.click();
+        assert.equal(await menu.evaluate((element) => getComputedStyle(element).position), 'fixed');
+        assert.equal(
+            await outline.evaluate((element) => getComputedStyle(element).overflowY),
+            'visible',
+        );
+        if (overlayAvailable) {
+            await menu
+                .locator('.os-scrollbar-vertical.os-scrollbar-visible')
+                .waitFor({ state: 'attached' });
+            await outline.locator('.os-scrollbar-vertical').waitFor({ state: 'detached' });
+        }
+        await scrollNavigationPanel(page, menu);
+        await menu.getByRole('link', { name: 'Back to home' }).focus();
+        await page.keyboard.press('Escape');
+        await menu.waitFor({ state: 'hidden' });
+        assert.equal(await trigger.evaluate((element) => element === document.activeElement), true);
+        results.push({
+            documentationNavigation:
+                'Desktop and mobile scroll independently and mobile Escape restores focus',
+        });
+    } finally {
+        await navigationContext.close();
+    }
+
     const readinessContext = await browser.newContext({
         locale: 'en-US',
         viewport: { width: 390, height: 1000 },

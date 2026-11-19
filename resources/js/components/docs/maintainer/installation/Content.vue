@@ -41,6 +41,15 @@ const menu = `vendor/bin/maintainer`;
             <p>To browse the same workflows interactively, open the menu:</p>
             <CodeExample label="Browse Maintainer workflows" language="bash" :code="menu" />
         </ProseSection>
+        <ProseSection id="boost-skill" title="Install the optional agent skill">
+            <p>
+                Maintainer 1.12 ships <code>maintainer-development</code> in the Composer package.
+                In a Laravel application with Boost configured, run
+                <code>php artisan boost:install --skills</code> after installing Maintainer as a
+                direct dependency. Select Maintainer, the skill, and your agent. The standalone PHAR
+                works independently of Boost.
+            </p>
+        </ProseSection>
         <ProseSection id="configure-your-project" title="Configure your project">
             <p>
                 Continue with

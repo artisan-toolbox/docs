@@ -57,15 +57,16 @@ defineProps({
             <ProseSection id="restore-state" title="Restore one complete position"
                 ><p>
                     The creator opts in with protocol: 2, paging: source, and url: true. It persists
-                    the existing full version 2 source and state snapshot in its own ID namespace. A
-                    cold URL or Back and Forward restore applies one compatible cursor and performs
-                    one read. It preserves unrelated query parameters and the fragment. The browser
-                    never decodes the token. A cursor snapshot restored into a default offset owner
-                    rejects locally with a visible validation error, no HTTP, and no URL rewrite. It
-                    cannot leave the owner stuck loading. Expired restored positions require the
-                    same explicit restart. Borrow a creator with useDataAdapter(owner), or bind
-                    DataAdapter to that owner. Source and ID reacquisition must repeat protocol: 2
-                    and paging: source.
+                    requested snapshot in localStorage and puts its UUID in the owned URL key. A
+                    cold mount reads authorized defaults and browser policy before restoring a valid
+                    cursor in a second read. Back and Forward restore an existing owner with its
+                    known policy. Missing, malformed, expired, or incompatible references recover to
+                    defaults and clean the owned key. A failed expired cursor import recovers once
+                    to defaults. Normal interactive cursor failures still require an explicit
+                    restart. Unrelated query parameters and fragments survive. The browser never
+                    decodes the server cursor. Use share() to export a portable URL. Borrow a
+                    creator with useDataAdapter(owner), or bind DataAdapter to that owner. Source
+                    and ID reacquisition must repeat protocol: 2 and paging: source.
                 </p></ProseSection
             >
 

@@ -8,7 +8,7 @@ No Composer or npm installation is required to run the synchronizer itself.
 
 The owning source is `documentation/agent-standards/` in the `docs` repository.
 Its `manifest.json` identifies a standards version, the included skills, and a SHA-256 fingerprint of their content and the synchronizer.
-The current bundle is version `1.1.0`. This is a version of contributor guidance, independent of public package releases.
+The current bundle is version `1.2.0`. This is a version of contributor guidance, independent of public package releases.
 
 The bundle contains two skills:
 
@@ -22,7 +22,9 @@ The skills include the relevant prose review rules and page patterns, so their o
 Existing specialized package skills remain responsible for their own integration, testing, compatibility, and release details.
 Repository instructions and the user's task scope continue to govern local work.
 
-Version `1.1.0` adds a component reuse rule for Vue UI in the documentation application.
+Version `1.2.0` defines the package README badge order and keeps numeric versions in badges. The installation guides own detailed version constraints.
+
+Version `1.1.0` added a component reuse rule for Vue UI in the documentation application.
 Inspect the installed Front Awesome public exports and use its supported Web Awesome Vue wrappers wherever a component fits the required behavior.
 Use public imports and documented props, events, and slots instead of handmade controls or parallel implementations.
 Preserve semantic HTML, meaningful domain wrappers, Inertia navigation, and established focus and accessibility ownership.
@@ -31,22 +33,21 @@ Ordinary layout elements, lists, and links do not require automatic substitution
 
 ## Install into a project
 
-The `docs` repository is the first and only consumer updated to `1.1.0` in this change.
-Other projects keep their selected versions until their own adoption changes are reviewed and checked.
-From its root, synchronize the selected version:
+The `docs` repository adopts each new version first. Dapter, Filoquent, and Permit also use version `1.2.0`.
+From the `docs` root, synchronize the selected version.
 
 ```bash
-npm run standards:sync -- --version 1.1.0
+npm run standards:sync -- --version 1.2.0
 npm run standards:check
 ```
 
-The second command reports `Standards 1.1.0: 0 pending files.` when source and installed copies agree.
+The second command reports `Standards 1.2.0: 0 pending files.` when source and installed copies agree.
 The check is read-only and exits unsuccessfully when a file is missing, edited, or out of sync.
 
 To adopt the same version in another workspace project, run the synchronizer from `docs`, naming the target checkout explicitly:
 
 ```bash
-node scripts/sync-agent-standards.mjs --target ../core --write --version 1.1.0
+node scripts/sync-agent-standards.mjs --target ../core --write --version 1.2.0
 ```
 
 Review the resulting files in that project's diff and ensure its ignore rules permit them to be committed:
@@ -95,9 +96,9 @@ Review the effect on consuming projects before changing their selected version.
 From the `docs` root, seal the reviewed content with a higher version, then update its installed copies:
 
 ```bash
-node scripts/sync-agent-standards.mjs --release 1.1.1
+node scripts/sync-agent-standards.mjs --release 1.2.1
 node_modules/.bin/vp fmt documentation/agent-standards/manifest.json
-npm run standards:sync -- --version 1.1.1
+npm run standards:sync -- --version 1.2.1
 npm run standards:check
 npm test -- scripts/sync-agent-standards.test.mjs
 ```
@@ -110,7 +111,7 @@ Run the complete documentation validation suite before review.
 For another consumer, use its installed checker with the reviewed source checkout:
 
 ```bash
-node .ai/sync.mjs --source ../docs/documentation/agent-standards --write --version 1.1.1
+node .ai/sync.mjs --source ../docs/documentation/agent-standards --write --version 1.2.1
 node .ai/sync.mjs --check
 ```
 

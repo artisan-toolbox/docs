@@ -442,7 +442,13 @@
                 "settings": [
                     "useDataAdapter.protocol",
                     "useDataAdapter.scrollContainer",
-                    "useDataAdapter.url"
+                    "useDataAdapter.url",
+                    "StoreOptions.stateKey",
+                    "StoreOptions.stateKey.key",
+                    "StoreOptions.stateTtl",
+                    "StoreOptions.stateTtl.ttl",
+                    "config.state.ttl",
+                    "handle.share"
                 ],
                 "behavior_test": "resources/js/components/demo/dapter/vue/VueDemos.test.js",
                 "backend_behavior_test": "tests/Feature/DapterVueDemoTest.php",
@@ -1953,7 +1959,7 @@
                 "source": "Dapter.ComparisonsLiteral",
                 "guide": "dapter/collection-comparisons",
                 "title": "Keep literal matching independent",
-                "description": "The exact composed café input matches ID 1 only. ID 2 uses a decomposed accent and ID 3 has no accent. Locale ordering does not change literal search.",
+                "description": "The exact composed caf\u00e9 input matches ID 1 only. ID 2 uses a decomposed accent and ID 3 has no accent. Locale ordering does not change literal search.",
                 "request": {
                     "version": 2,
                     "state": {
@@ -1961,7 +1967,7 @@
                         "fields": {
                             "name": {
                                 "search": {
-                                    "value": "café",
+                                    "value": "caf\u00e9",
                                     "matchType": "contains"
                                 }
                             }
@@ -2243,7 +2249,7 @@
                 "id": "LiteralDefault",
                 "source": "Dapter.LiteralDefault",
                 "guide": "dapter/literal-search",
-                "title": "Default search matches the João variants",
+                "title": "Default search matches the Jo\u00e3o variants",
                 "description": "Input joao returns IDs 1 through 7, including mixed case, composed accents, and a decomposed accent. Tenant 2 remains excluded.",
                 "request": {
                     "version": 2,
@@ -2277,7 +2283,7 @@
                 },
                 "settings": [],
                 "cases_file": "app/Demo/Dapter/Literal/cases.json",
-                "frame": "Default search matches the João variants",
+                "frame": "Default search matches the Jo\u00e3o variants",
                 "page": "resources/js/pages/docs/dapter/LiteralSearch.vue",
                 "component": "resources/js/components/demo/dapter/literal/LiteralDemo.vue",
                 "behavior_test": "tests/Feature/DapterLiteralDemoTest.php",
@@ -2561,50 +2567,6 @@
                 "browser_test": "scripts/test-dapter-literal-research-browser.mjs"
             },
             {
-                "id": "VectorRejected",
-                "source": "Dapter.LiteralDefault",
-                "guide": "dapter/research/vector-retrieval",
-                "title": "Reject a forged vector operation",
-                "description": "Start sends an unsupported operation through the actual Dapter endpoint. Expected HTTP 422 unsupported_operation with no rows or capabilities.",
-                "request": {
-                    "version": 2,
-                    "state": {
-                        "version": 2,
-                        "fields": {
-                            "name": {
-                                "search": {
-                                    "value": [0, 0, 0],
-                                    "matchType": "vector"
-                                }
-                            }
-                        },
-                        "global": {},
-                        "searchMatch": "all",
-                        "order": {
-                            "kind": "default"
-                        },
-                        "paging": {
-                            "mode": "offset",
-                            "current": 1,
-                            "per_page": 7
-                        }
-                    }
-                },
-                "expected": {
-                    "status": 422,
-                    "kind": "unsupported_operation",
-                    "ids": []
-                },
-                "settings": [],
-                "cases_file": "app/Demo/Dapter/Research/cases.json",
-                "frame": "Reject a forged vector operation",
-                "page": "resources/js/pages/docs/dapter/VectorResearch.vue",
-                "component": "resources/js/components/demo/dapter/research/ResearchDemo.vue",
-                "behavior_test": "tests/Feature/DapterResearchDemoTest.php",
-                "component_test": "resources/js/components/demo/dapter/research/ResearchDemo.test.js",
-                "browser_test": "scripts/test-dapter-literal-research-browser.mjs"
-            },
-            {
                 "id": "SnapshotRejected",
                 "source": "Dapter.LiteralDefault",
                 "guide": "dapter/research/pagination-consistency",
@@ -2642,5 +2604,41 @@
                 "browser_test": "scripts/test-dapter-literal-research-browser.mjs"
             }
         ]
-    }
+    },
+    "code_only": [
+        {
+            "id": "PreparedVectorSearch",
+            "authorization": "User requested code snippets and native tests without an interactive vector demo.",
+            "page": "resources/js/pages/docs/dapter/VectorSearch.vue",
+            "behavior_test": "tests/Feature/DapterVectorDocumentationTest.php",
+            "source_files": [
+                "vendor/artisan-toolbox/dapter/src/Options/VectorOptions.php",
+                "vendor/artisan-toolbox/dapter/src/Support/VectorValue.php",
+                "vendor/artisan-toolbox/dapter/src/Drivers/PostgresStoreDriver.php"
+            ],
+            "package_tests": [
+                "tests/Feature/VectorSearchTest.php",
+                "tests/Feature/NativeVectorSearchTest.php",
+                "tests/frontend/vector-search.test.ts"
+            ],
+            "settings": [
+                "enum.MatchType.Vector",
+                "dto.FieldOptions.vector",
+                "dto.VectorOptions.dimensions",
+                "dto.VectorOptions.maxDistance",
+                "config.declarations.fields.*.search.options.vector",
+                "config.declarations.fields.*.search.options.vector.dimensions",
+                "config.declarations.fields.*.search.options.vector.maxDistance",
+                "vectorPolicy.engine",
+                "vectorPolicy.metric",
+                "vectorPolicy.dimensions",
+                "vectorPolicy.maxDistance",
+                "vectorPolicy.input",
+                "vectorPolicy.precision",
+                "vectorPolicy.maxCoordinateMagnitude",
+                "vectorPolicy.threshold",
+                "vectorPolicy.ranking"
+            ]
+        }
+    ]
 }

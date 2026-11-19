@@ -12,5 +12,5 @@ export function decodeNotebook(row) {
 export const columns = [
     { field: 'id', label: 'No.', align: 'end' },
     { id: 'notebook', field: 'name', label: 'Notebook' },
-    { id: 'paper', field: 'category', label: 'Paper' },
+    { id: 'paper', accessor: (row) => row.category, label: 'Paper' },
 ];

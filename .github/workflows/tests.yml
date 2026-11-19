@@ -13,6 +13,17 @@ jobs:
   ci:
     runs-on: ubuntu-latest
 
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379/tcp
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 2s
+          --health-timeout 3s
+          --health-retries 10
+
     env:
       APP_ENV: testing
       CACHE_STORE: array
@@ -66,6 +77,11 @@ jobs:
           php artisan config:clear
 
       - name: Build assets
+        env:
+          VITE_REVERB_APP_KEY: documentation-ci
+          VITE_REVERB_HOST: 127.0.0.1
+          VITE_REVERB_PORT: '8081'
+          VITE_REVERB_SCHEME: http
         run: npm run build
 
       - name: Build documentation search index
@@ -78,22 +94,37 @@ jobs:
 
       - name: Verify interactive documentation
         env:
-          APP_URL: http://127.0.0.1:8080
-          DOCS_BASE_URL: http://127.0.0.1:8080
+          APP_URL: http://localhost:8080
+          DOCS_BASE_URL: http://localhost:8080
+          CACHE_STORE: database
           SESSION_DRIVER: file
           DB_DATABASE: ${{ runner.temp }}/documentation-browser.sqlite
+          BROADCAST_CONNECTION: reverb
+          REDIS_HOST: 127.0.0.1
+          REDIS_PORT: ${{ job.services.redis.ports[6379] }}
+          REVERB_APP_ID: documentation-ci
+          REVERB_APP_KEY: documentation-ci
+          REVERB_HOST: 127.0.0.1
+          REVERB_PORT: '8081'
+          REVERB_SCHEME: http
         run: |
+          export REVERB_APP_SECRET="$(php -r 'echo bin2hex(random_bytes(32));')"
           touch "$DB_DATABASE"
           php artisan migrate --force --no-interaction
+          php scripts/setup-dapter-literal.php
+          php artisan reverb:start --host=127.0.0.1 --port="$REVERB_PORT" --no-interaction > storage/logs/browser-reverb.log 2>&1 &
+          reverb_pid=$!
           php artisan serve --no-reload --host=127.0.0.1 --port=8080 > storage/logs/browser-server.log 2>&1 &
           browser_server_pid=$!
-          trap 'kill "$browser_server_pid" 2>/dev/null || true' EXIT
+          php artisan queue:work redis --queue=demos --sleep=1 --tries=1 --no-interaction > storage/logs/browser-queue.log 2>&1 &
+          queue_pid=$!
+          trap 'kill "$browser_server_pid" "$reverb_pid" "$queue_pid" 2>/dev/null || true' EXIT
           for attempt in {1..50}; do
-            if curl --fail --silent "$APP_URL/up" > /dev/null; then break; fi
+            if curl --fail --silent "$APP_URL/up" > /dev/null && curl --silent "http://127.0.0.1:$REVERB_PORT/" > /dev/null; then break; fi
             sleep 0.2
           done
-          if ! curl --fail --silent "$APP_URL/up" > /dev/null; then
-            cat storage/logs/browser-server.log
+          if ! curl --fail --silent "$APP_URL/up" > /dev/null || ! curl --silent "http://127.0.0.1:$REVERB_PORT/" > /dev/null || ! kill -0 "$queue_pid" 2>/dev/null; then
+            cat storage/logs/browser-server.log storage/logs/browser-reverb.log storage/logs/browser-queue.log
             exit 1
           fi
           npm run test:browser

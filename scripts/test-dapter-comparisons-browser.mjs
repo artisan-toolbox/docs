@@ -66,10 +66,11 @@ try {
                                 `${example.id} requires the isolated native fixture for this verification.`,
                             );
                             await scope
-                                .getByText(
-                                    'This isolated PostgreSQL demo is unavailable on this installation.',
-                                    { exact: false },
-                                )
+                                .getByRole('status')
+                                .filter({
+                                    hasText:
+                                        'This isolated PostgreSQL demo is unavailable on this installation.',
+                                })
                                 .waitFor();
                             assert.equal(
                                 reads.length,

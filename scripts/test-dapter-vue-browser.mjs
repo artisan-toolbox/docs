@@ -137,7 +137,10 @@ try {
                 await controls.locator('[data-vue-rows="table"] [data-row-id="1"]').waitFor();
                 assert.deepEqual(await ids(controls), [1, 2]);
                 assert.deepEqual(await ids(controls, 'grid'), [1, 2]);
-                assert.equal(new URL(page.url()).searchParams.has('dapter[vue-controls]'), false);
+                assert.equal(
+                    new URL(page.url()).searchParams.has('saved_catalog.vue-controls'),
+                    false,
+                );
                 const defaults = await clickRead(page, controls, 'Restore server defaults');
                 assert.deepEqual(defaults.request, { version: 2 });
                 await controls.getByRole('button', { name: 'Reset controls', exact: true }).click();
@@ -217,7 +220,7 @@ try {
                 await reading
                     .getByText('Saved catalog page 2. 4 matching records.', { exact: true })
                     .waitFor();
-                await page.waitForURL((url) => url.searchParams.has('dapter[reading]'));
+                await page.waitForURL((url) => url.searchParams.has('saved_catalog.reading'));
                 await page.waitForFunction(
                     () =>
                         document.querySelector(
@@ -236,14 +239,31 @@ try {
                 await comparison
                     .getByText('Saved catalog page 1. 2 matching records.', { exact: true })
                     .waitFor();
-                await page.waitForURL((url) => url.searchParams.has('dapter[comparison]'));
+                await page.waitForURL((url) => url.searchParams.has('saved_catalog.comparison'));
                 const twoOwnersUrl = page.url();
                 const savedUrl = new URL(twoOwnersUrl);
-                const readingSnapshot = JSON.parse(savedUrl.searchParams.get('dapter[reading]'));
-                const comparisonSnapshot = JSON.parse(
-                    savedUrl.searchParams.get('dapter[comparison]'),
+                const readingUuid = savedUrl.searchParams.get('saved_catalog.reading');
+                const comparisonUuid = savedUrl.searchParams.get('saved_catalog.comparison');
+                assert.match(
+                    readingUuid,
+                    /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/,
                 );
-                assert.equal(readingSnapshot.version, 2);
+                const stored = (uuid) =>
+                    page.evaluate(
+                        (id) => JSON.parse(localStorage.getItem(`dapter:state:${id}`)),
+                        uuid,
+                    );
+                const readingSnapshot = await stored(readingUuid);
+                const comparisonSnapshot = await stored(comparisonUuid);
+                assert.match(readingSnapshot.version, /^[a-f0-9]{64}$/);
+                assert.deepEqual(Object.keys(readingSnapshot).sort(), [
+                    'expiresAt',
+                    'source',
+                    'state',
+                    'version',
+                ]);
+                assert(readingSnapshot.expiresAt > Date.now());
+                assert(readingSnapshot.expiresAt <= Date.now() + 240 * 60000);
                 assert.equal(readingSnapshot.source, 'Dapter.VueCatalog');
                 assert.equal(readingSnapshot.state.paging.current, 2);
                 assert.equal(
@@ -259,9 +279,8 @@ try {
                     .waitFor();
                 await page.waitForURL(
                     (url) =>
-                        !url.searchParams.has('dapter[comparison]') &&
-                        JSON.parse(url.searchParams.get('dapter[reading]')).state.paging.current ===
-                            2,
+                        !url.searchParams.has('saved_catalog.comparison') &&
+                        url.searchParams.get('saved_catalog.reading') === readingUuid,
                 );
                 await page.goBack();
                 await reading
@@ -269,8 +288,8 @@ try {
                     .waitFor();
                 await page.waitForURL(
                     (url) =>
-                        !url.searchParams.has('dapter[reading]') &&
-                        !url.searchParams.has('dapter[comparison]'),
+                        !url.searchParams.has('saved_catalog.reading') &&
+                        !url.searchParams.has('saved_catalog.comparison'),
                 );
                 assert.equal(new URL(page.url()).hash, '#try-history');
                 await page.waitForFunction(
@@ -285,8 +304,8 @@ try {
                     .waitFor();
                 await page.waitForURL(
                     (url) =>
-                        url.searchParams.has('dapter[reading]') &&
-                        !url.searchParams.has('dapter[comparison]'),
+                        url.searchParams.has('saved_catalog.reading') &&
+                        !url.searchParams.has('saved_catalog.comparison'),
                 );
                 await page.goForward();
                 await comparison
@@ -310,7 +329,8 @@ try {
                 await comparison
                     .getByText('Saved catalog page 1. 2 matching records.', { exact: true })
                     .waitFor();
-                assert.equal(reads.length, beforeReload + 2);
+                assert.equal(reads.length, beforeReload + 4);
+                assert.equal((await stored(readingUuid)).expiresAt, readingSnapshot.expiresAt);
                 await page.screenshot({
                     path: resolve(artifacts, `navigation-${width}-${theme}.png`),
                     fullPage: true,
@@ -321,7 +341,7 @@ try {
                 );
                 assert.deepEqual(errors, []);
                 const malformed = new URL('/docs/dapter/vue-navigation', base);
-                malformed.searchParams.set('dapter[reading]', 'invalid-json');
+                malformed.searchParams.set('saved_catalog.reading', 'invalid-json');
                 await page.goto(malformed.href);
                 await saved
                     .getByText('Ready. Start saved catalogs to restore their URL state.', {
@@ -332,15 +352,29 @@ try {
                 await saved
                     .getByRole('button', { name: 'Start saved catalogs', exact: true })
                     .click();
-                await reading.getByRole('alert').filter({ hasText: 'validation' }).waitFor();
+                await reading
+                    .getByText('Saved catalog page 1. 4 matching records.', { exact: true })
+                    .waitFor();
+                await page.waitForURL((url) => !url.searchParams.has('saved_catalog.reading'));
+                assert.equal(await reading.getByRole('alert').count(), 0);
                 await comparison
                     .getByText('Saved catalog page 1. 4 matching records.', { exact: true })
                     .waitFor();
-                assert.equal(reads.length, beforeMalformedStart + 1);
+                assert.equal(reads.length, beforeMalformedStart + 2);
                 const clampedSnapshot = structuredClone(readingSnapshot);
                 clampedSnapshot.state.paging.current = 99;
                 const clampedUrl = new URL('/docs/dapter/vue-navigation', base);
-                clampedUrl.searchParams.set('dapter[reading]', JSON.stringify(clampedSnapshot));
+                clampedUrl.searchParams.set(
+                    'saved_catalog.reading',
+                    's1.' +
+                        Buffer.from(
+                            JSON.stringify({
+                                source: clampedSnapshot.source,
+                                version: clampedSnapshot.version,
+                                state: clampedSnapshot.state,
+                            }),
+                        ).toString('base64url'),
+                );
                 await page.goto(clampedUrl.href);
                 await saved
                     .getByText('Ready. Start saved catalogs to restore their URL state.', {
@@ -357,12 +391,12 @@ try {
                 await comparison
                     .getByText('Saved catalog page 1. 4 matching records.', { exact: true })
                     .waitFor();
-                await page.waitForURL(
-                    (url) =>
-                        JSON.parse(url.searchParams.get('dapter[reading]')).state.paging.current ===
-                        2,
+                await page.waitForURL((url) =>
+                    /^[a-f0-9-]{36}$/.test(url.searchParams.get('saved_catalog.reading') ?? ''),
                 );
-                assert.equal(reads.length, beforeClampedStart + 2);
+                const clampedUuid = new URL(page.url()).searchParams.get('saved_catalog.reading');
+                assert.equal((await stored(clampedUuid)).state.paging.current, 2);
+                assert.equal(reads.length, beforeClampedStart + 3);
                 assert.equal(
                     reads
                         .slice(beforeClampedStart)
@@ -371,6 +405,88 @@ try {
                                 JSON.parse(request.postData()).state?.paging.current === 99,
                         ).length,
                     1,
+                );
+                const beforeShare = page.url();
+                await reading
+                    .getByRole('button', { name: 'Create share URL', exact: true })
+                    .click();
+                const portable = await reading.locator('[data-share-url]').innerText();
+                assert.equal(page.url(), beforeShare);
+                assert(
+                    new URL(portable).searchParams.get('saved_catalog.reading').startsWith('s1.'),
+                );
+                assert.equal(new URL(portable).searchParams.has('saved_catalog.comparison'), false);
+                const recipient = await browser.newContext({
+                    viewport: { width, height: 1000 },
+                    colorScheme: theme,
+                });
+                try {
+                    const received = await recipient.newPage();
+                    await received.goto(portable);
+                    const receivedFrame = received.locator('[data-vue-navigation-demo]');
+                    await receivedFrame
+                        .getByRole('button', { name: 'Start saved catalogs', exact: true })
+                        .click();
+                    await receivedFrame
+                        .locator('[data-navigation-owner="reading"]')
+                        .getByText('Saved catalog page 2. 4 matching records.', { exact: true })
+                        .waitFor();
+                    await received.waitForURL((url) =>
+                        /^[a-f0-9-]{36}$/.test(url.searchParams.get('saved_catalog.reading') ?? ''),
+                    );
+                    assert.notEqual(
+                        new URL(received.url()).searchParams.get('saved_catalog.reading'),
+                        clampedUuid,
+                    );
+                    await received.goto(beforeShare);
+                    await receivedFrame
+                        .getByRole('button', { name: 'Start saved catalogs', exact: true })
+                        .click();
+                    await receivedFrame
+                        .locator('[data-navigation-owner="reading"]')
+                        .getByText('Saved catalog page 1. 4 matching records.', { exact: true })
+                        .waitFor();
+                    await received.waitForURL(
+                        (url) => !url.searchParams.has('saved_catalog.reading'),
+                    );
+                } finally {
+                    await recipient.close();
+                }
+                await clickRead(page, reading, 'Reset saved state');
+                await page.waitForURL((url) => !url.searchParams.has('saved_catalog.reading'));
+                assert.equal(await stored(clampedUuid), null);
+                const beforeVectorGuide = reads.length;
+                await page.goto(new URL('/docs/dapter/vector-search', base).href);
+                await page
+                    .getByRole('heading', {
+                        name: 'Filter PostgreSQL vectors by distance',
+                        exact: true,
+                    })
+                    .waitFor();
+                assert.equal(await page.locator('[data-demo-frame]').count(), 0);
+                assert.equal(reads.length, beforeVectorGuide);
+                assert(
+                    (await page.locator('[data-document-content]').innerText()).includes(
+                        'maxDistance: 1.0',
+                    ),
+                );
+                const found = await page.request.get(
+                    new URL('/docs/search?q=VectorOptions', base).href,
+                );
+                assert.equal(found.status(), 200);
+                assert(
+                    (await found.json()).results.some(
+                        (entry) =>
+                            entry.href === '/docs/dapter/vector-search#declare-vector-search',
+                    ),
+                );
+                await page.screenshot({
+                    path: resolve(artifacts, `vector-guide-${width}-${theme}.png`),
+                    fullPage: true,
+                });
+                assert.equal(
+                    await page.evaluate(() => document.documentElement.scrollWidth),
+                    width,
                 );
                 assert.deepEqual(errors, []);
                 results.push({ width, theme, entryScripts, reads: reads.length, errors });

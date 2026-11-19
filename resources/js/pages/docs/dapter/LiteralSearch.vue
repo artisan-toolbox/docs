@@ -17,16 +17,16 @@ const sqliteSetup = 'php scripts/setup-dapter-literal.php';
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
         <div data-document-content class="flex min-w-0 flex-col gap-10">
-            <ProseSection id="starting-environment" title="Prepare the literal search preview">
+            <ProseSection id="starting-environment" title="Prepare literal search">
                 <p>
                     Complete
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/installation').href"
                         >Install Dapter</DocsLink
                     >
-                    in your Laravel application before copying these source declarations. These APIs
-                    belong to the unpublished protocol 2 preview. Use protocol 2 with the documented
-                    session, CSRF, and Ziggy setup. No browser setting selects sensitivity. Front
-                    Awesome supplies the demonstration controls through its public exports.
+                    in your Laravel application before copying these source declarations. Use
+                    protocol 2 with the documented session, CSRF, and Ziggy setup. No browser
+                    setting selects sensitivity. Front Awesome supplies the demonstration controls
+                    through its public exports.
                 </p>
                 <p>
                     The fictional scoped rows contain Joao, JOAO, João, JOÃO, JoÃo, decomposed Joa

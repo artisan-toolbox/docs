@@ -10,17 +10,44 @@ import orchestration from './ActionDemo.vue?raw';
 import state from '../../../../../../app/Demo/Dapter/Actions/State.php?raw';
 import definitions from '../../dapter/actions/definitions.js?raw';
 import source from '../../../../../../app/DataSources/Dapter/ActionCatalog.php?raw';
+import actionParentSource from '../../../../../../app/Demo/Dapter/Actions/ActionParent.php?raw';
+import parentActionsSource from '../../../../../../app/Demo/Dapter/Actions/ParentActions.php?raw';
+import saveRequestSource from '../../../../../../app/Demo/Dapter/Actions/SaveRequest.php?raw';
+import extended from '../../../../../../app/DataSources/FrontAwesome/NotebookActions.php?raw';
+import provider from '../../../../../../app/Providers/AppServiceProvider.php?raw';
+import demoRoutes from '../../../../../../routes/demo.php?raw';
+const gates = provider
+    .split('\n')
+    .filter(
+        (line) =>
+            line.includes("Gate::define('docsDapterWrite'") ||
+            line.includes("Gate::define('docsDapterRecord'"),
+    )
+    .join('\n');
+const routes = demoRoutes
+    .split('\n')
+    .filter((line) => line.includes("Route::post('demo/dapter/actions/"))
+    .join('\n');
+const protocol = ref(2);
 const running = ref(false),
     starting = ref(false),
     failure = ref(null);
 const sources = [
+    { label: 'NotebookActions.php', language: 'php', code: extended },
+    { label: 'ActionParent.php', language: 'php', code: actionParentSource },
+    { label: 'ParentActions.php', language: 'php', code: parentActionsSource },
+    { label: 'SaveRequest.php', language: 'php', code: saveRequestSource },
+
     { label: 'ActionDemo.vue', language: 'vue', code: orchestration },
     { label: 'ActionSession.vue', language: 'vue', code: client },
     { label: 'definitions.js', language: 'javascript', code: definitions },
     { label: 'ActionCatalog.php', language: 'php', code: source },
     { label: 'State.php', language: 'php', code: state },
+    { label: 'AppServiceProvider.php · Gates', language: 'php', code: gates },
+    { label: 'routes/demo.php · action fixture', language: 'php', code: routes },
 ];
-async function start() {
+async function start(version) {
+    protocol.value = version;
     starting.value = true;
     failure.value = null;
     try {
@@ -47,13 +74,14 @@ async function start() {
         data-search-exclude>
         <div class="flex min-w-0 flex-col gap-4">
             <div class="flex flex-wrap gap-2">
-                <Button :disabled="starting || running" @click="start">Start actions</Button>
+                <Button :disabled="starting || running" @click="start(2)">Start actions</Button>
+                <Button :disabled="starting || running" @click="start(1)">Start protocol 1</Button>
                 <Button variant="neutral" :disabled="starting || !running" @click="running = false"
                     >Reset actions</Button
                 >
             </div>
             <p v-if="failure" role="alert">{{ failure }}</p>
-            <ActionSession v-if="running" />
+            <ActionSession v-if="running" :protocol="protocol" />
             <p v-else role="status">
                 {{
                     starting

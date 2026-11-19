@@ -29,6 +29,8 @@ Route::get('/docs/front-awesome/icon', fn (): RedirectResponse => redirect(PageS
 Route::get('/packages/front-awesome/icon', fn (): RedirectResponse => redirect(PageSlug::FrontAwesomeMedia->url(absolute: false), 301));
 Route::get('/docs/front-awesome/input', fn (): RedirectResponse => redirect(PageSlug::FrontAwesomeForms->url(absolute: false), 301));
 Route::get('/packages/front-awesome/input', fn (): RedirectResponse => redirect(PageSlug::FrontAwesomeForms->url(absolute: false), 301));
+Route::get('/docs/front-awesome/development/data-view', fn (): RedirectResponse => redirect(PageSlug::FrontAwesomeDataView->url(absolute: false), 301));
+Route::get('/packages/front-awesome/development/data-view', fn (): RedirectResponse => redirect(PageSlug::FrontAwesomeDataView->url(absolute: false), 301));
 Route::get('/docs/{slug}', [DocumentationController::class, 'show'])
     ->where('slug', '[a-z0-9-]+(?:/[a-z0-9-]+)*')
     ->name('docs.show');

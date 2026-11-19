@@ -16,7 +16,7 @@ final readonly class DapterVectorResearchPage extends Page
             slug: self::SLUG,
             component: 'docs/dapter/VectorResearch',
             title: 'Vector retrieval research',
-            description: 'Inspect native pgvector ranking, scoped counts, prepared inputs, and the remaining driver contract.',
+            description: 'Inspect native pgvector ranking, scoped counts, prepared inputs, and the remaining ranked-retrieval contract.',
             sourcePath: 'resources/js/pages/docs/dapter/VectorResearch.vue',
             package: new DapterPackage,
         );

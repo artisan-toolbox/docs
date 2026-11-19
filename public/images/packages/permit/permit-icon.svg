@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Permit icon</title>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#20252B"/>
+  <rect x="2.75" y="2.75" width="58.5" height="58.5" rx="13.25" fill="none" stroke="#FFFFFF" stroke-opacity=".16" stroke-width="1.5"/>
+  <path d="m30 11 17 6v12c0 12-8 19-17 24-9-5-17-12-17-24V17Z" fill="#FFF7EF"/>
+  <path d="m30 11 17 6v12c0 12-8 19-17 24Z" fill="#FF9A86"/>
+  <path d="M34 26a4 4 0 1 0-6 3.46V36h4v-6.54A4 4 0 0 0 34 26Z" fill="#20252B"/>
+  <circle cx="44" cy="43" r="11" fill="#FF5947" stroke="#20252B" stroke-width="2.5"/>
+  <path d="m39 43 3.5 3.5 6.5-7" fill="none" stroke="#FFF7EF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

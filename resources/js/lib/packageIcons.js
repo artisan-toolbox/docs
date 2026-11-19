@@ -6,6 +6,7 @@ const names = {
     filoquent: 'atb-filoquent',
     maintainer: 'atb-maintainer',
     mosaicast: 'atb-mosaicast',
+    permit: 'atb-permit',
     qztray: 'atb-qztray',
 };
 

@@ -71,6 +71,11 @@ const example9 = `npm run build`;
             :package="page.package"
             command="composer" />
         <p>
+            The command pins both Front Awesome and Dapter so Composer can install their prereleases
+            with its default stability settings. Install Dapter's JavaScript package when you use
+            DataView.
+        </p>
+        <p>
             Composer installs Front Awesome, Mosaicast, and the QZ Tray backend under
             <code>vendor/artisan-toolbox</code>. Laravel discovers the Front Awesome service
             provider automatically.
@@ -241,6 +246,12 @@ const example9 = `npm run build`;
                 >Vue components catalog</DocsLink
             >
             to find available wrappers, basic examples, and components marked In future.
+        </p>
+        <p>
+            To display a Dapter source, follow
+            <DocsLink :href="findNavigationItem(navigation, 'front-awesome/data-view').href"
+                >Build your first DataView</DocsLink
+            >. Install Dapter in the same Laravel application before mounting the table.
         </p>
     </ProseSection>
 </template>

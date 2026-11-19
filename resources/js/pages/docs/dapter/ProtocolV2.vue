@@ -53,9 +53,28 @@ defineProps({
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
         <div data-document-content class="flex min-w-0 flex-col gap-10">
+            <ProseSection id="browser-state-policy" title="Negotiate browser state separately">
+                <p>
+                    In Dapter 1.0.0-beta.2, a version 2 request with
+                    <code>X-Dapter-Browser-State: 1</code> receives an additional
+                    <code>browserState</code> policy with key, SHA-256 version, and expiration.
+                    Duration policies use <code>{ minutes: 240 }</code>. Fixed deadlines use
+                    <code>{ at: 1795046400000 }</code>, in UTC milliseconds since the Unix epoch.
+                    Existing version 1 and unnegotiated version 2 responses keep their original
+                    envelope. The current Vue adapter negotiates this policy for URL support.
+                </p>
+                <p>
+                    Negotiated requests that restore or submit state also send
+                    <code>X-Dapter-State-Version</code> with the last accepted SHA-256 version.
+                    After authorization and before applying the selection, the server compares that
+                    version with the current source declaration. A mismatch returns current defaults
+                    and policy instead of applying stale criteria. This check closes the gap when a
+                    deployment changes the source between policy discovery and restoration.
+                </p>
+            </ProseSection>
             <ProseSection id="scope" title="Version 2 field reads">
                 <p>
-                    This reference describes a field read in the unpublished preview. POST
+                    For a field read, POST
                     <code>{"version":2}</code> to <code>dapter.data</code> to read source defaults.
                     To select fields, filters, order, or paging, send the complete
                     <code>state</code> shown below. The Vue component and composable use version 1

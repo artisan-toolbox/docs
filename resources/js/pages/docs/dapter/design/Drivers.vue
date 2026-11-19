@@ -492,11 +492,10 @@ return StoreOptions::make()->useResource(ProductResource::class);`;
                     that compatibility claim.
                 </p>
                 <p>
-                    Vector retrieval research established native pgvector feasibility and deferred
-                    public Dapter support. A PostgreSQL source could advertise a distance operation
-                    only after Dapter implements it for a compatible Laravel and server version,
-                    verifies pgvector in the selected database, and confirms a compatible declared
-                    column with supported dimensions, metrics, ranking, and paging modes.
+                    Vector retrieval research established native pgvector feasibility. The local
+                    preview now implements exact L2 field filtering. The PostgreSQL driver admits a
+                    compatible declared vector column only after checking the effective connection,
+                    extension, and dimensions. Ranking remains outside that filter contract.
                     Availability does not require a submitted vector. At request validation, check
                     the actual prepared vector for finite numeric values and the declared dimension,
                     then validate the selected metric and complete ranking and paging combination
@@ -505,7 +504,7 @@ return StoreOptions::make()->useResource(ProductResource::class);`;
                     side effect of a read. The installed Laravel PostgreSQL helpers use cosine
                     distance &lt;=&gt;, not the native L2 &lt;-&gt; tested by the research. Text
                     arguments can invoke the separate Laravel AI SDK embedding macro before grammar
-                    admission. A future Dapter boundary must accept prepared numeric arrays. See
+                    admission. The current Dapter boundary accepts prepared numeric arrays. See
                     <DocsLink href="https://github.com/pgvector/pgvector#querying"
                         >pgvector querying</DocsLink
                     >
@@ -516,15 +515,15 @@ return StoreOptions::make()->useResource(ProductResource::class);`;
                     >.
                 </p>
                 <p>
-                    Current Dapter has no vector MatchType or snapshot PagingMode. A forged
-                    unsupported operation returns HTTP 422
-                    <code>unsupported_operation</code> through the current public boundary. A future
-                    vector driver would need explicit prerequisite admission before listing reads.
-                    Missing pgvector and unsupported MySQL are proposed future admission cases, not
-                    current vector APIs. MySQL variants differ. For example, MySQL 9.7 documents
-                    <code>DISTANCE()</code> for HeatWave on OCI and MySQL AI. Availability in a
-                    database product alone does not enable a Dapter operation. The local tested
-                    MySQL server is 8.4.11. See the
+                    Current Dapter supports MatchType::Vector for the admitted PostgreSQL field
+                    filter. Snapshot PagingMode remains unavailable. A forced unsupported operation
+                    returns HTTP 422
+                    <code>unsupported_operation</code> through the current public boundary. Vector
+                    prerequisites are checked before listing reads. Missing pgvector and unsupported
+                    MySQL omit the capability and reject a forced vector operation. MySQL variants
+                    differ. For example, MySQL 9.7 documents <code>DISTANCE()</code> for HeatWave on
+                    OCI and MySQL AI. Availability in a database product alone does not enable a
+                    Dapter operation. The local tested MySQL server is 8.4.11. See the
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/research').href"
                         >completed research findings</DocsLink
                     >

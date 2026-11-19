@@ -105,7 +105,9 @@ The real styling demo consumes the Composer-installed public `Button.vue` export
 
 Site icons consume Front Awesome's public Icon wrapper, which registers the selected WA runtime when it mounts. `SiteIcon` centralizes native attributes, decorative accessibility, typography-based sizes, and theme inheritance. The existing Font Awesome script and `data-fa-kit-code` derive from one public documentation configuration value. WA owns official icon resolution and caching. Uploaded mono and duotone icons use the configured kit's standard markup in a keyed, isolated child of the same component. Font Awesome may replace that child without taking ownership of Vue's wrapper. Package identity descriptors are shared by the menu and compact guide tags. The app's navigation map and callout variants own other presentation choices; package artwork and authored guide text remain separate. See [icon maintenance](icons.md).
 
-Front Awesome is in beta. Release locks must resolve published Composer distributions within the application's declared constraints. The current development lock also preserves the local Dapter preview. The lockfile records exact installed versions. Package stability is separate from the installed version; Maintainer owns release version changes. npm installs the documented `file:vendor/artisan-toolbox/front-awesome` entry after Composer. Local development routing and aliases remain available, but release locks must pass the distribution check and an isolated consumer build. See [quality checks](quality.md#prepare-standalone-installation).
+Front Awesome is in beta. Release locks must resolve published Composer distributions within the application's declared constraints. The lockfile records exact installed versions. Package stability is separate from the installed version. npm installs the documented `file:vendor/artisan-toolbox/front-awesome` entry after Composer. Local development routing and aliases remain available. Release locks must pass the distribution check and an isolated consumer build. See [quality checks](quality.md#prepare-standalone-installation).
+
+Permit's Inertia middleware shares Gate decisions for signed-in readers. The published `user_permissions` migration supplies the assignment table. The application disables Permit management routes in `config/permit.php`. The documentation examples use Front Awesome's public editor and a separate session-backed endpoint for fictional accounts.
 
 ## Component adoption
 
@@ -118,6 +120,14 @@ PublicSiteHeader reserves the theme selector's existing 44 px control height on 
 The three active shells use the public Page wrapper directly. DocsLayout and Welcome put PublicSiteHeader in the native header slot and keep their existing content in a default-slot div. Login preserves its isolated flex canvas inside Page. The native skip link targets the unique light-DOM `main-content` landmark, with one shared focused style through the public part. Page owns header stickiness; PublicSiteHeader owns its measured content height. A hidden native label part keeps the appearance selector accessible without reserving an empty label row, and its public control-height token matches the header's 44px controls.
 
 The documentation keeps its application-owned mobile navigation and two outline breakpoints. Native Page navigation would replace the anchored mobile panel with a modal Drawer and change the sidebar scroll owner. That is a different interaction contract. Page itself does not override `--spacing`, so its header/default-slot composition preserves the Tailwind unit. The nested Page demo uses `navigation-toggle` instead of `data-toggle-nav`, whose upstream desktop helper also matches an ancestor Page.
+
+The sidebar and the desktop **On this page** outline use the public
+`scrollbarDirective` in the brand variant. The existing elements retain their
+scroll positions, link focus, and mobile menu controls. The mobile outline
+expands in document flow. The welcome page and the article use document
+scrolling so fragment navigation, active headings, and Inertia history share
+the same viewport. The documentation shell uses browser scrollbars when the
+installed package archive lacks the source preview.
 
 Button, Button Group, Page and Icon references live in their upstream Actions, Layout and Media categories. Their former standalone routes are permanent aliases to those categories. Alias responses omit a fragment so browsers retain historical incoming hashes; canonical authored links use the component's category anchor. Existing integration contracts and subheadings remain in shared content partials within those sections. There is no second sidebar entry or searchable page for the same reference.
 

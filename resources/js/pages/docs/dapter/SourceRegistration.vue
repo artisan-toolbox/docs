@@ -22,10 +22,10 @@ defineProps({
                         >Install Dapter</DocsLink
                     >
                     first. Conventional sources need no registry entry. Their dotted identifiers
-                    resolve beneath your application's DataSources namespace. This unpublished
-                    preview adds optional trusted source aliases and driver factories. The examples
-                    use public fictional Collections and explicit protocol v2, with web sessions,
-                    CSRF, and Ziggy enabled.
+                    resolve beneath your application's DataSources namespace. Dapter also supports
+                    trusted source aliases and driver factories. The examples use public fictional
+                    Collections and explicit protocol v2, with web sessions, CSRF, and Ziggy
+                    enabled.
                 </p>
                 <p>
                     The public Front Awesome Button, Spinner, and Tag controls need

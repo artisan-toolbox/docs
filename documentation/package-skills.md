@@ -102,6 +102,22 @@ For a newly added skill, rerun the interactive installer if the installed Boost 
 An unattended update does not prove that a new skill was selected.
 Edit the source in the package, then regenerate consumer copies.
 
+## Select the skill for the installed package
+
+Boost discovers third-party skills from direct application dependencies. A transitive install can supply runtime code without offering its skill for selection. Install the package directly when you want Boost to offer its skill. Keep Boost itself as a development dependency.
+
+| Skill                         | First task                                                                                                                           |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `core-development`            | Build a conditional payload with synthetic input and verify which keys remain.                                                       |
+| `dapter-development`          | Install the published beta and load an authorized listing. Use protocol 2 for browser snapshots and sharing.                         |
+| `dump-to-console-development` | Start the local listener and dump selected values. Use synthetic input or safe fields from a real record.                            |
+| `filoquent-development`       | Store a file through an Eloquent attribute on a clean beta.5 database. Review existing migration histories separately.               |
+| `front-awesome-development`   | Render a DataView and choose sorting instructions that match the installed Front Awesome version.                                    |
+| `maintainer-development`      | List CLI commands and run the checks configured by the project. Availability begins with source distributions containing this skill. |
+| `mosaicast-development`       | Receive an Inertia event first. Add Echo and a broadcaster for private channels when needed.                                         |
+| `permit-development`          | Evaluate a test user's permission in a disposable application with the matching preview installed.                                   |
+| `qztray-development`          | Render a receipt preview, then submit it after the user confirms a printer.                                                          |
+
 ## Review skills with every behavior change
 
 Before completing a change, inspect the owning skill for affected API names, signatures, commands, defaults, configuration, compatibility, prerequisites, examples, and failure behavior.

@@ -2,6 +2,20 @@
 
 use App\Documentation\Documentation;
 use App\Documentation\PageSlug;
+use Inertia\Testing\AssertableInertia as Assert;
+
+test('serves the scrollbar guide and relocates the shared theme fragment', function () {
+    $guide = PageSlug::FrontAwesomeScrollbar;
+
+    $this->withoutVite()->get($guide->url())->assertOk()->assertInertia(fn (Assert $page) => $page
+        ->component('docs/front-awesome/Scrollbar')
+        ->where('page.title', 'Style a scrollbar')
+    );
+
+    $this->withoutVite()->get(PageSlug::FrontAwesomeSharedTheme->url())->assertOk()->assertInertia(fn (Assert $page) => $page
+        ->where('page.fragmentDestinations.style-a-scrollbar', $guide->url().'#style-a-scrollbar')
+    );
+});
 
 function packageGuideSlugs(string $package): array
 {
@@ -28,7 +42,7 @@ test('orders package guides by learning prerequisites rather than their titles',
     'filoquent' => ['filoquent', ['installation', 'files', 'middleware', 'assets', 'configuration', 'health', 'garbage-collection', 'storage', 'rename-owners', 'development']],
     'dump-to-console' => ['dump-to-console', ['installation', 'usage']],
     'mosaicast' => ['mosaicast', ['installation', 'vue-plugin', 'inertia-delivery', 'session-channels', 'roadmap']],
-    'front-awesome' => ['front-awesome', ['installation', 'web-awesome', 'setup', 'localization', 'preferences', 'styling', 'toasts', 'printing', 'development']],
+    'front-awesome' => ['front-awesome', ['installation', 'web-awesome', 'setup', 'localization', 'preferences', 'styling', 'toasts', 'printing', 'data-view', 'user-permission-editor', 'development']],
     'qztray' => ['qztray', ['installation', 'security', 'connection', 'printing', 'escpos-writer', 'escpos-previews', 'zpl-previews', 'pdf-previews', 'compatibility', 'frontend-tooling', 'development']],
 ]);
 
@@ -60,7 +74,7 @@ test('groups Front Awesome by reader tasks while keeping published guide slugs',
         'front-awesome/web-awesome/components/layout' => [],
         'front-awesome/web-awesome/components/media' => [],
         'front-awesome/setup' => ['front-awesome/vue-plugin', 'front-awesome/configuration'],
-        'front-awesome/styling' => ['front-awesome/shared-theme', 'front-awesome/branding', 'front-awesome/primevue', 'front-awesome/theme-maintenance'],
+        'front-awesome/styling' => ['front-awesome/shared-theme', 'front-awesome/branding', 'front-awesome/scrollbar', 'front-awesome/primevue', 'front-awesome/theme-maintenance'],
         'front-awesome/toasts' => ['front-awesome/toasts/laravel', 'front-awesome/toasts/vue'],
         'front-awesome/localization' => ['front-awesome/localization/reference'],
         'front-awesome/printing' => ['front-awesome/printing/reference'],

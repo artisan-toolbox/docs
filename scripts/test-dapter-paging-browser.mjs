@@ -185,20 +185,33 @@ try {
                 await read(scope, 'Start example', 'PagingCursor');
                 await read(scope, 'Next', 'PagingCursor');
                 await page.waitForURL((url) =>
-                    url.searchParams.has('dapter[paging-Dapter.PagingCursor]'),
+                    url.searchParams.has('dapter_paging_cursor.paging-Dapter.PagingCursor'),
                 );
                 const saved = page.url();
                 assert.equal(new URL(saved).searchParams.get('neighbor'), 'kept');
                 assert.equal(new URL(saved).hash, '#expected-result');
                 await page.reload();
-                const cold = await read(frame('PagingCursor'), 'Start example', 'PagingCursor');
+                const coldResponse = page.waitForResponse(
+                    (response) =>
+                        response.url().includes('/dapter/data/Dapter.PagingCursor') &&
+                        JSON.parse(response.request().postData()).state?.paging.cursor,
+                );
+                await frame('PagingCursor')
+                    .getByRole('button', { name: 'Start example', exact: true })
+                    .click();
+                const cold = await (await coldResponse).json();
+                await frame('PagingCursor').locator('[data-paging-row="3"]').waitFor();
                 assert.deepEqual(
                     cold.data.map((row) => row.id),
                     [3, 4],
                 );
-                const owned = new URL(saved).searchParams.get('dapter[paging-Dapter.PagingCursor]');
+                const owned = new URL(saved).searchParams.get(
+                    'dapter_paging_cursor.paging-Dapter.PagingCursor',
+                );
                 assert.equal(
-                    new URL(page.url()).searchParams.get('dapter[paging-Dapter.PagingCursor]'),
+                    new URL(page.url()).searchParams.get(
+                        'dapter_paging_cursor.paging-Dapter.PagingCursor',
+                    ),
                     owned,
                 );
                 const beforeReject = reads.length,
@@ -242,22 +255,26 @@ try {
                 assert.equal(mixed.requested.paging.cursor, null);
                 const historyPosition = await read(frame('PagingCursor'), 'Next', 'PagingCursor');
                 const historyRows = historyPosition.data.map((row) => row.id);
-                await page.waitForURL((url) => {
-                    const saved = url.searchParams.get('dapter[paging-Dapter.PagingCursor]');
-                    return (
-                        saved !== null &&
-                        JSON.parse(saved).state.paging.cursor ===
-                            historyPosition.requested.paging.cursor
+                await page.waitForFunction((cursor) => {
+                    const uuid = new URL(location.href).searchParams.get(
+                        'dapter_paging_cursor.paging-Dapter.PagingCursor',
                     );
-                });
+                    const entry = uuid && JSON.parse(localStorage.getItem(`dapter:state:${uuid}`));
+                    return entry?.state.paging.cursor === cursor;
+                }, historyPosition.requested.paging.cursor);
                 await read(frame('PagingCursor'), 'First', 'PagingCursor');
-                await page.waitForURL((url) => {
-                    const saved = url.searchParams.get('dapter[paging-Dapter.PagingCursor]');
-                    return saved !== null && JSON.parse(saved).state.paging.cursor === null;
+                await page.waitForFunction(() => {
+                    const uuid = new URL(location.href).searchParams.get(
+                        'dapter_paging_cursor.paging-Dapter.PagingCursor',
+                    );
+                    const entry = uuid && JSON.parse(localStorage.getItem(`dapter:state:${uuid}`));
+                    return entry?.state.paging.cursor === null;
                 });
                 const beforeBack = reads.length;
-                const back = page.waitForResponse((response) =>
-                    response.url().includes('/dapter/data/Dapter.PagingCursor'),
+                const back = page.waitForResponse(
+                    (response) =>
+                        response.url().includes('/dapter/data/Dapter.PagingCursor') &&
+                        Boolean(JSON.parse(response.request().postData()).state),
                 );
                 await page.goBack();
                 assert.equal((await back).status(), 200);
@@ -265,10 +282,13 @@ try {
                     .locator(`[data-paging-row="${historyRows[0]}"]`)
                     .waitFor();
                 assert.deepEqual(await ids(frame('PagingCursor')), historyRows);
-                assert.equal(reads.length, beforeBack + 1);
+                assert.equal(reads.length, beforeBack + 2);
+                assert.deepEqual(JSON.parse(reads[beforeBack].postData()), { version: 2 });
                 const beforeForward = reads.length;
-                const forward = page.waitForResponse((response) =>
-                    response.url().includes('/dapter/data/Dapter.PagingCursor'),
+                const forward = page.waitForResponse(
+                    (response) =>
+                        response.url().includes('/dapter/data/Dapter.PagingCursor') &&
+                        Boolean(JSON.parse(response.request().postData()).state),
                 );
                 await page.goForward();
                 const forwardResponse = await forward;
@@ -279,7 +299,8 @@ try {
                     await ids(scope),
                     forwardBody.data.map((row) => row.id),
                 );
-                assert.equal(reads.length, beforeForward + 1);
+                assert.equal(reads.length, beforeForward + 2);
+                assert.deepEqual(JSON.parse(reads[beforeForward].postData()), { version: 2 });
                 const searched = await read(scope, 'Search notebooks', 'PagingCursor', 200, () =>
                     scope
                         .getByRole('textbox', { name: 'Notebook name', exact: true })

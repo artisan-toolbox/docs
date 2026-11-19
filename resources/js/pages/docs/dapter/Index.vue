@@ -41,19 +41,14 @@ import { DataAdapter } from '@artisan-toolbox/dapter';
                     uses a public Collection. Dapter also reads ordinary SQLite, MySQL, and
                     PostgreSQL Eloquent sources.
                 </p>
-                <p>The <code>1.x</code> checkout is an unpublished local preview.</p>
             </ProseSection>
             <Requirements :items="page.requirements" />
-            <ProseSection id="installation" title="Install the local preview">
+            <ProseSection id="installation" title="Install Dapter">
                 <p>
-                    Start in the root of an existing Laravel application with Inertia and Vue. Place
-                    the Dapter checkout in a sibling directory named <code>dapter</code>. Install
-                    the backend first.
+                    From the root of your Laravel application with Inertia and Vue, install the
+                    published beta with Composer.
                 </p>
-                <InstallCommand
-                    :package="page.package"
-                    command="local-preview"
-                    label="Install the local backend preview" />
+                <InstallCommand :package="page.package" label="Install Dapter with Composer" />
                 <p>
                     Follow
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/installation').href"

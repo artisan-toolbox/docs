@@ -751,7 +751,7 @@
         "anchors": [],
         "paragraphs": [
             "Mosaicast sends events to a selected browser session through private broadcasting, independently of the normal HTTP response. A worker can notify that session after the original request has finished. In an Inertia request, Mosaicast can instead include the event in the response. Both paths use one event contract and the same Vue listener API.",
-            "This guide covers Mosaicast 1.2. When upgrading from 1.1, review the dispatcher, frontend, and session changes.",
+            "This guide covers Mosaicast 1.3. When upgrading from 1.1, review the dispatcher, frontend, and session changes.",
             "Start in the root of an existing Laravel application with Vue and Inertia 3. Install the backend package before the frontend client:",
             "Laravel discovers the package service provider automatically. Keep Laravel's session middleware on routes that call Mosaicast::dispatch(). For private broadcasts, enable the broadcast authentication route. Install and register the Vue plugin to receive events in the browser.",
             "Complete Install Mosaicast through Register the client before this example. Use an existing Laravel application with Vue and Inertia 3, a nonempty APP_KEY, and working web sessions. Run Composer before npm from the application root. This Inertia path needs no Echo instance, broadcast server, or queue worker.",

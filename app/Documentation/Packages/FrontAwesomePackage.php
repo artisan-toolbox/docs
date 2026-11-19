@@ -15,7 +15,7 @@ final readonly class FrontAwesomePackage extends Package
             summary: 'Use Web Awesome components, share branding, send toasts, and review print jobs.',
             version: null,
             overview: PageSlug::FrontAwesome,
-            documentedVersion: '1.x',
+            documentedVersion: '1.0.0-beta.5',
             stability: 'Beta',
             requirements: [
                 'PHP 8.5 or later within PHP 8.x, Laravel 13.36 or later within Laravel 13.x, and Inertia Laravel 3.x',

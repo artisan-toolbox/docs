@@ -14,6 +14,7 @@ describe('documentation navigation icons', () => {
         ['front-awesome/toasts/vue', 'comments'],
         ['front-awesome/setup', 'plug'],
         ['front-awesome/styling', 'palette'],
+        ['front-awesome/scrollbar', 'arrows-up-down'],
         ['front-awesome/toasts', 'comments'],
         ['front-awesome/web-awesome/components', 'shapes'],
         ['front-awesome/web-awesome/components/actions', 'hand-pointer'],
@@ -63,7 +64,7 @@ describe('documentation navigation icons', () => {
             expect(navigationIcon(item.slug).name, item.slug).not.toBe('file-lines');
             pending.push(...item.children);
         }
-        expect(slugs).toHaveLength(63);
+        expect(slugs).toHaveLength(64);
     });
 
     it('keeps newly registered guides visible with a document icon before visual refinement', () => {
@@ -80,6 +81,7 @@ describe('documentation navigation icons', () => {
         'front-awesome',
         'maintainer',
         'mosaicast',
+        'permit',
         'qztray',
         'filoquent',
     ])('uses the uploaded duotone identity for %s', (id) => {

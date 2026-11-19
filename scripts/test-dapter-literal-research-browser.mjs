@@ -21,10 +21,7 @@ assert.deepEqual(
     literalCases.map((example) => example.id).sort(),
     Object.keys(literalPolicies).sort(),
 );
-assert.deepEqual(researchCases.map((example) => example.id).sort(), [
-    'SnapshotRejected',
-    'VectorRejected',
-]);
+assert.deepEqual(researchCases.map((example) => example.id).sort(), ['SnapshotRejected']);
 const cases = [...literalCases, ...researchCases];
 const guides = [...new Set([...cases.map((example) => example.guide), 'dapter/research'])];
 const artifacts = resolve('storage/app/browser-verification/dapter-literal-research');

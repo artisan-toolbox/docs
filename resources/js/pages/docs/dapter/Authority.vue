@@ -33,8 +33,8 @@ const example = `return StoreOptions::make()
                     >. For status codes and retry behavior, see
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/protocol/errors').href"
                         >read failures</DocsLink
-                    >. The example below shows how a source in the unpublished preview handles
-                    valid, out-of-range, and undeclared choices.
+                    >. The example below shows how a source handles valid, out-of-range, and
+                    undeclared choices.
                 </p>
                 <p>
                     The live example uses the Laravel, Inertia, Vue, and Ziggy application from

@@ -71,7 +71,7 @@ foreach ($profile->getConstructor()->getParameters() as $parameter) {
 }
 $settings[] = 'DriverCapabilities.supports';
 
-foreach (['FieldOptions', 'LocaleOptions', 'FullTextOptions', 'SearchTarget', 'EnumBinding', 'HandlerRequirements', 'HandlerOptions', 'IdentityColumn', 'ResultIdentity', 'FixedOrderTerm', 'QueryOptions', 'CountQueries', 'RecordTarget'] as $name) {
+foreach (['FieldOptions', 'LocaleOptions', 'FullTextOptions', 'VectorOptions', 'SearchTarget', 'EnumBinding', 'HandlerRequirements', 'HandlerOptions', 'IdentityColumn', 'ResultIdentity', 'FixedOrderTerm', 'QueryOptions', 'CountQueries', 'RecordTarget'] as $name) {
     $dto = new ReflectionClass('ArtisanToolbox\\Dapter\\Options\\'.$name);
     foreach ($dto->getConstructor()?->getParameters() ?? [] as $parameter) {
         $settings[] = 'dto.'.$name.'.'.$parameter->getName();
@@ -122,7 +122,7 @@ $fieldOptions = new ReflectionClass(FieldOptions::class);
 foreach ($fieldOptions->getConstructor()->getParameters() as $parameter) {
     $contexts = match ($parameter->getName()) {
         'locale' => ['fields.*.order.options'],
-        'fullText' => ['fields.*.search.options'],
+        'fullText', 'vector' => ['fields.*.search.options'],
         default => ['fields.*.search.options', 'fields.*.order.options', 'fields.*.filters.*.options'],
     };
     foreach ($contexts as $context) {

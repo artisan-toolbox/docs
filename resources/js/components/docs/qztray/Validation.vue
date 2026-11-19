@@ -76,6 +76,11 @@ defineProps({ navigation: { type: Array, required: true } });
             infrastructure does not become a production requirement in the fixture.
         </p>
         <p>
+            The production dependency tests set <code>auto_prepend_file=none</code> for their PHP
+            subprocesses. This prevents development tools such as Laravel Herd from registering an
+            autoloader before the fixture starts.
+        </p>
+        <p>
             Image-width regressions use real PNG data with an ImageMagick width limit of 32,000 dots
             when that backend is available. The writer checks supported image headers before
             decoding, rejects widths that exceed the byte-padded command limit, and preserves the

@@ -69,6 +69,27 @@ Toast::success('Report saved.')->flash();`;
         <ul>
             <li>
                 <p>
+                    To display a Dapter source, follow
+                    <DocsLink :href="findNavigationItem(navigation, 'front-awesome/data-view').href"
+                        >Build your first DataView</DocsLink
+                    >. Install Dapter in the same Laravel application before mounting the table.
+                </p>
+            </li>
+            <li>
+                <p>
+                    <DocsLink
+                        :href="
+                            findNavigationItem(navigation, 'front-awesome/user-permission-editor')
+                                .href
+                        "
+                        >Try the permission editor</DocsLink
+                    >
+                    with sample accounts. The guide explains how to connect Permit or another
+                    permissions provider.
+                </p>
+            </li>
+            <li>
+                <p>
                     <DocsLink :href="findNavigationItem(navigation, 'front-awesome/printing').href"
                         >Preview and print documents</DocsLink
                     >

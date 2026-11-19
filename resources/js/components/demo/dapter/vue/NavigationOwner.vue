@@ -7,6 +7,7 @@ import RowsView from './RowsView.vue';
 import { decodeRow } from './catalog';
 const props = defineProps({ identity: { type: String, required: true } });
 const viewport = ref(null);
+const sharedUrl = ref(null);
 const catalog = useDataAdapter('Dapter.VueCatalog', {
     protocol: 2,
     id: props.identity,
@@ -38,7 +39,9 @@ const catalog = useDataAdapter('Dapter.VueCatalog', {
                 >Next saved page</Button
             ><Button @click="catalog.paging.reload()">Reload saved catalog</Button
             ><Button @click="catalog.resetState()">Reset saved state</Button>
+            <Button @click="sharedUrl = catalog.share()">Create share URL</Button>
         </div>
+        <p v-if="sharedUrl" class="break-all" data-share-url>{{ sharedUrl }}</p>
         <div
             ref="viewport"
             tabindex="0"

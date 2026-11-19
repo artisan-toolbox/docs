@@ -16,35 +16,22 @@ const original = new Set([
     'Icon',
     'Popover',
 ]);
-const wrappers = catalog.groups.flatMap((group) =>
+const core = catalog.groups.flatMap((group) =>
     group.components
-        .filter(
-            (item) =>
-                item.edition === 'Core' &&
-                item.implementation.state === 'implemented' &&
-                !original.has(item.implementation.export),
-        )
+        .filter((item) => item.edition === 'Core' && item.implementation.state === 'implemented')
         .map((item) => ({ ...item, group: group.id })),
 );
-const ownerFor = (name) =>
-    catalog.groups
-        .flatMap((group) => group.components)
-        .find((item) => item.implementation.export === name).implementation.demoOwner;
+const wrappers = core.filter((item) => !original.has(item.implementation.export));
 const demoFor = async (name) => {
-    name = ownerFor(name);
-    const entry = Object.entries(demos).find(([path]) => path.endsWith(`/${name}Demo.vue`));
-    return (await entry[1]()).default;
+    const item = core.find((component) => component.implementation.export === name);
+    const load = demos[`./${item.group}/${item.implementation.demoOwner}Demo.vue`];
+    return (await load()).default;
 };
 
 enableAutoUnmount(afterEach);
 
 describe('Core wrapper live examples', () => {
-    for (const item of catalog.groups
-        .flatMap((group) => group.components)
-        .filter(
-            (component) =>
-                component.edition === 'Core' && component.implementation.state === 'implemented',
-        )) {
+    for (const item of core) {
         it(`renders the real ${item.name} public wrapper in its live example`, async () => {
             const wrapper = mount(await demoFor(item.implementation.export));
             if (
@@ -67,7 +54,7 @@ describe('Core wrapper live examples', () => {
         expect(wrappers).toHaveLength(65);
         for (const item of wrappers) {
             const name = item.implementation.demoOwner;
-            expect(Object.keys(demos).some((path) => path.endsWith(`/${name}Demo.vue`))).toBe(true);
+            expect(demos[`./${item.group}/${name}Demo.vue`]).toBeTypeOf('function');
             const source = readFileSync(
                 resolve(
                     process.cwd(),

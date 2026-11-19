@@ -13,12 +13,12 @@ defineProps({
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
         <div data-document-content class="flex min-w-0 flex-col gap-10">
-            <ProseSection id="starting-environment" title="Prepare the infinite preview"
+            <ProseSection id="starting-environment" title="Prepare infinite loading"
                 ><p>
                     Complete Install Dapter and Read and paginate a source in your Laravel 13, PHP
                     8.5, Inertia 3, and Vue application. Install Composer dependencies before npm at
                     the application root. Keep the web session, CSRF middleware, and Ziggy
-                    dapter.data route. These APIs belong to the unpublished 1.x preview. The
+                    dapter.data route. These controls are available in Dapter 1.0.0-beta.2. The
                     fictional public sources require no account, broadcaster, or queue worker.
                 </p></ProseSection
             >

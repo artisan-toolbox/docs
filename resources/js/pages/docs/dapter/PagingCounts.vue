@@ -22,7 +22,7 @@ defineProps({
                     or
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/cursor-paging').href"
                         >cursor pagination</DocsLink
-                    >. Use protocol 2 and paging: source with the unpublished 1.x preview. The four
+                    >. Use <code>protocol: 2</code> and <code>paging: 'source'</code>. The four
                     examples each read the same seven fictional notebooks. They expose a server
                     count policy through fluent options, attributes, captured configuration, or an
                     explicit override.

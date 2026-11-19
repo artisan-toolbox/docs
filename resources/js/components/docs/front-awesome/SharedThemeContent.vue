@@ -192,6 +192,17 @@ import { Button } from "@artisan-toolbox/front-awesome/components";
             does not read storage, set an SSR cookie, or add an appearance controller.
         </p>
         <h2
+            id="style-a-scrollbar"
+            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
+            Style a scrollbar
+        </h2>
+        <p>
+            <DocsLink :href="findNavigationItem(navigation, 'front-awesome/scrollbar').href"
+                >Style a scrollbar</DocsLink
+            >
+            to use shared theme colors and try the directive options.
+        </p>
+        <h2
             id="keep-an-existing-theme"
             class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Keep an existing theme

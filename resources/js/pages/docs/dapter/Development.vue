@@ -19,7 +19,10 @@ npm run standards:check`;
 const phpstan = `includes:
     - vendor/artisan-toolbox/dapter/extension.neon`;
 const minimumPeers = 'DAPTER_CONSUMER_PEERS=minimum npm run check:dist';
-const gitArchive = `git archive --format=zip --output=build/distribution/dapter-git.zip HEAD
+const gitArchive = `npm run build
+git diff --exit-code HEAD -- dist
+mkdir -p build/distribution
+git archive --format=zip --output=build/distribution/dapter-git.zip HEAD
 php scripts/check-composer-distribution.php build/distribution/dapter-git.zip`;
 const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
 const logo = 'python3 scripts/build-logos.py';
@@ -47,13 +50,19 @@ const logo = 'python3 scripts/build-logos.py';
                     unchanged.
                 </p>
                 <p>
-                    Include <code>dist/index.js</code>, <code>dist/index.d.ts</code>, and both
-                    source maps in the release commit. After the checks above and that commit,
-                    verify its Git archive from the package root. A successful check confirms that
-                    declared frontend targets, PHP resources, and the consumer skill are present. A
-                    missing target fails before a consumer needs to build the package.
+                    For a manual version bump, run <code>npm install --package-lock-only</code> and
+                    then <code>npm run release:build</code> from the Dapter package root. Commit the
+                    npm lockfile and any changes to <code>dist</code> with the version bump. The
+                    built entry embeds the version from <code>package.json</code>.
                 </p>
-                <CodeExample label="Verify the committed Git archive" :code="gitArchive" />
+                <p>
+                    After committing and before tagging, run these commands from the same directory.
+                    The diff should be empty. The archive check confirms that frontend entries, PHP
+                    resources, and the consumer skill are present.
+                </p>
+                <CodeExample
+                    label="Verify the committed frontend build and Git archive"
+                    :code="gitArchive" />
                 <p>
                     CI performs this Git check before installing dependencies. The Ubuntu stable
                     lane also compares the shipped files with a fresh build. A passing local
@@ -250,10 +259,16 @@ const logo = 'python3 scripts/build-logos.py';
             </ProseSection>
             <ProseSection id="identity" title="Maintain the version and README">
                 <p>
-                    <code>ArtisanToolbox\Dapter\Dapter</code> implements
-                    <code>Versionable</code> and <code>WithReadmeHead</code>. Keep its
-                    <code>VERSION</code> synchronized with <code>package.json</code>, and regenerate
-                    the managed README header after changing <code>readmeHead()</code>:
+                    <code>ArtisanToolbox\Dapter\Dapter</code> implements <code>Versionable</code>,
+                    <code>BeforeVersioning</code>, and <code>WithReadmeHead</code>. When you run
+                    <code>php vendor/bin/maintainer release:create</code> from the package root,
+                    Dapter writes the selected version to <code>package.json</code> and
+                    <code>package-lock.json</code>. It runs
+                    <code>npm run release:build</code> before Maintainer commits the release. If
+                    either npm command fails, the release stops before the commit and tag.
+                </p>
+                <p>
+                    Regenerate the managed README header after changing <code>readmeHead()</code>.
                 </p>
                 <CodeExample label="Regenerate the README header" :code="readme" />
                 <p>

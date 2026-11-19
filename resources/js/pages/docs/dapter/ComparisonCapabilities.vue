@@ -49,10 +49,9 @@ const rows = [
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection id="matrix" title="Source comparison matrix">
                 <p>
-                    This reference describes the unpublished protocol 2 preview. A listed mode still
-                    needs a declaration and admission on the actual bound source. SQL rows stay in
-                    SQL. Dapter never materializes them into PHP to imitate another engine's
-                    comparator.
+                    These comparisons use protocol 2. A listed mode still needs a declaration and
+                    admission on the actual bound source. SQL rows stay in SQL. Dapter never
+                    materializes them into PHP to imitate another engine's comparator.
                 </p>
                 <DocsTable
                     caption="Declared comparisons by source"

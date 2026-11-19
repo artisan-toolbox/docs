@@ -63,7 +63,7 @@ describe('unsupported research demos', () => {
                 complete = resolve;
             }),
         );
-        const wrapper = mount(ResearchDemo, { props: { scenario: 'VectorRejected' } });
+        const wrapper = mount(ResearchDemo, { props: { scenario: 'SnapshotRejected' } });
         await button(wrapper, 'Start').trigger('click');
         const signal = request.mock.calls[0][0].signal;
         expect(button(wrapper, 'Start').props('disabled')).toBe(true);
@@ -76,7 +76,7 @@ describe('unsupported research demos', () => {
     it('shows a failed transport and allows an explicit retry', async () => {
         request.mockRejectedValueOnce(new HttpNetworkError('Disconnected'));
         request.mockResolvedValueOnce({ status: 200, data: '{}', headers: {} });
-        const wrapper = mount(ResearchDemo, { props: { scenario: 'VectorRejected' } });
+        const wrapper = mount(ResearchDemo, { props: { scenario: 'SnapshotRejected' } });
         await button(wrapper, 'Start').trigger('click');
         await flushPromises();
         expect(wrapper.get('[role="alert"]').text()).toContain('try Start again');

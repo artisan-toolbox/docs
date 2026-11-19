@@ -3,7 +3,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { chromium } from 'playwright';
 const base = new URL(process.env.DOCS_BASE_URL ?? 'https://atb.test');
-assert(base.hostname.endsWith('.test'));
+assert(base.hostname.endsWith('.test') || ['localhost', '127.0.0.1'].includes(base.hostname));
 const artifacts = resolve('storage/app/browser-verification/dapter-actions');
 await mkdir(artifacts, { recursive: true });
 const browser = await chromium.launch({

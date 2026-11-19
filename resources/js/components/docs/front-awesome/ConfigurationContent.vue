@@ -55,6 +55,27 @@ return [
             for defaults, globs, path and filename regular expressions, and package overrides.
         </p>
         <h2
+            id="data-view-options"
+            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
+            DataView presentation options
+        </h2>
+        <p>
+            Configure <code>dataView</code> on <code>createFrontAwesome</code> in the Vue bootstrap.
+            <code>multiSortKey</code> selects the modifier, with Command on macOS and Control
+            elsewhere by default. The <code>sortIcons</code> map selects Font Awesome families,
+            variants, names, or literal text. Use <code>useDataViewOptions()</code> to read the
+            immutable resolved settings. Follow the
+            <DocsLink
+                :href="
+                    findNavigationItem(navigation, 'front-awesome/data-view/ordering').href +
+                    '#header-controls'
+                "
+                >header sorting guide</DocsLink
+            >
+            for configuration code and the working header example. The base plugin keeps Dapter
+            optional.
+        </p>
+        <h2
             id="default-toast-icons"
             class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             Default toast icons

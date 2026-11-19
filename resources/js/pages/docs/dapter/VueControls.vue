@@ -19,10 +19,9 @@ defineProps({
                     Use a Laravel and Inertia application with
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/installation').href"
                         >Dapter installed</DocsLink
-                    >. This example uses Dapter's unpublished local preview. It reads a public
-                    four-record Collection with explicit protocol 2. Its table and card grid share
-                    one adapter. Each view displays the same accepted rows after you change a
-                    control.
+                    >. The Dapter 1.0.0-beta.2 adapter reads a public four-record Collection with
+                    explicit protocol 2. Its table and card grid share one adapter. Each view
+                    displays the same accepted rows after you change a control.
                 </p>
                 <p>
                     For one control, start with

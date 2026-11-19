@@ -142,7 +142,7 @@ Before activating a release, run `php artisan docs:search:index --no-interaction
 
 ### Prepare standalone installation
 
-The root manifest declares public package ranges and no local repositories. The release lock uses remote distributions for all six Artisan Toolbox packages. Development routing can nevertheless write absolute `dist.type=path` entries during a later update. Such a lock requires the developer's workspace and cannot be distributed as a standalone installation.
+The root manifest declares public package ranges and no local repositories. The release lock uses remote distributions for all installed Artisan Toolbox packages. Development routing can nevertheless write absolute `dist.type=path` entries during a later update. Such a lock requires the developer's workspace and cannot be distributed as a standalone installation.
 
 Keep local routing and aliases available for development. Do not replace their version numbers merely to obtain a visual label. A release lock must resolve actual package archives or remote source revisions and must be verified independently of that routing. Never copy package internals into the application or bundle a second vendor tree to conceal missing public exports.
 
@@ -152,7 +152,7 @@ To prepare a portable lock:
 
 1. Create an isolated checkout or temporary source copy without private environment files, installed dependencies, or sibling package directories.
 2. Use a separate `COMPOSER_HOME` so development routing does not affect resolution. Keep the global configuration unchanged.
-3. Resolve the application's declared dependencies through their public distributions. Front Awesome uses the explicitly approved `^1.0.0-alpha.2@dev` preview range while no stable release is available; keep the project-wide stability policy unchanged. The resulting lock pins its actual remote commit. The QZ Tray minimum is `^1.4.0` because the application uses its receipt writer and document preparation APIs.
+3. Resolve the application's declared dependencies through their public distributions. The application uses Front Awesome's DataView, scrollbar, and permission editor exports, the Dapter adapter, and QZ Tray's receipt writer and document preparation APIs. Allow prereleases through individual package constraints. Keep global Composer stability at `stable`.
 4. Run the distribution check and install Composer dependencies normally. If Composer changed a frontend package version, rerun its documented `npm install` command with all required `./vendor/` paths together and retain the updated npm lock. Then run `npm ci` against the Composer-delivered frontend directories.
 5. Run the real quality suite, production build, and search indexing checks. Inspect the actual installed exports. A remote URL and a successful dependency installation do not establish that the application can build.
 6. Only after those checks pass, integrate the verified manifest and lock changes into the application. Retain one release lock, not a parallel production manifest or lock file.
@@ -160,6 +160,90 @@ To prepare a portable lock:
 The 2026-11-06 release candidate resolved public archives for Core `1.2.1`, Dump to Console `1.1.1`, Maintainer `1.11.0`, Mosaicast `1.2.1`, QZ Tray `1.3.0`, and Front Awesome `1.0.0-alpha.1`. The Front Awesome archive at commit `a55e06f` supplied the consumed `./vite`, `./tailwind.css`, and `./web-awesome-tailwind` exports and its consumer skill. That candidate permitted `^1.0@dev` for Front Awesome only, with project-wide minimum stability set to `stable`. Composer installation, paired vendor-path npm installation, fresh `npm ci`, the complete quality gate, production build, and search indexing passed in an isolated consumer without sibling packages or private credentials. All six Maintainer checks ran with none skipped. Those locks were the initial release locks. See the current verification below for their replacements; local Composer routing remains unchanged.
 
 All six documented packages are explicit Composer dependencies. Web Awesome Core `3.14.0` is the selected styling dependency; this check does not establish Pro adapter compatibility. Package publication is a separate operator-approved action.
+
+### Front Awesome DataView distribution verification on 2026-11-18
+
+The supplied Actions log passes the approved npm audit exception, then fails the
+production build because the locked Front Awesome `1.0.0-beta.2` archive does not
+export `./data-view`. Local vendor and npm directories contained newer source,
+which concealed the incompatible release lock. A complete source copy with a
+clean `COMPOSER_HOME`, no sibling packages, and only public Composer archives
+reproduces the missing export in the existing `DataViewDemo.test.js` suite.
+
+The application now requires `^1.0.0-beta.3`. Composer resolves the published
+archive at `c04d79707df35e2bfb66d663bede2fcf45e06103`; no development branch or
+local source is substituted. The npm vendor-file metadata records the matching
+beta. Only Front Awesome changes version. Composer installation precedes paired
+installation of all four Artisan Toolbox frontend packages and a fresh `npm ci`.
+The eight DataView demo and guide tests and the production build pass against
+those public artifacts. The guide identifies the API as a published beta preview
+and retains its existing URL, examples, and proposed-feature boundaries.
+
+Rector, all 985 PHP tests, Pint, frontend formatting and lint, Vue type checking,
+and PHPStan pass in that installation. The full frontend suite passes all 1,337
+tests with `npm test -- --maxWorkers=2`. Default parallel runs encounter existing
+five-second timeouts in documentation type and icon checks; the affected type
+file also passes unchanged on its own. No timeout, assertion, or test selection
+is weakened. Verification uses macOS, Herd PHP 8.5.12, and Node 26.5.0. It covers
+this task's changes applied to the committed source snapshot; concurrent Dapter
+authoring in the workspace is preserved and excluded from that isolated snapshot.
+
+The isolated suite also exposes an unrelated environment dependency in the action
+wire-fixture test: the example environment uses `https://atb.dev.br`, while the
+fixtures deliberately use `https://atb.test`. PHPUnit now forces the synthetic
+test origin through its server configuration, including when the parent process
+inherits the production `APP_URL`. The existing action test fails before this
+configuration and all five tests in its file pass afterward. Fixtures, application
+routing, and the production origin remain unchanged.
+
+The beginner path still starts in a supported Laravel/Inertia/Vue application,
+installs Composer packages before vendor-file frontend packages, configures the
+public plugin and styles, and renders `FrontAwesomeWelcome` with the expected
+`Hello from Front Awesome` Button. Its dedicated Installation route, overview,
+and links remain in their existing learning sequence. DataView consumes the
+public export with a compatible Dapter alpha adapter; no application-specific
+replacement or copied package implementation is added. Package consumer skills
+need no API edits for this application-only dependency selection.
+
+The compatible Composer refresh dry run offers only Front Awesome beta.2 to
+beta.3. A subsequent `npm update --dry-run --ignore-scripts --json` reports zero
+additions, removals, or changes. Composer still reports abandoned
+`symplify/rule-doc-generator-contracts`. The optional post-update `boost:update`
+hook needs ignored local Boost installation state, which the clean copy does not
+contain; the regular `composer install` path used by CI passes. No install hook,
+audit, or test assertion is disabled. The npm audit check passes with only the
+previously approved advisory and expiration. Search-index publication and its
+freshness check pass. A new remote Actions run is not part of this verification.
+
+### Artisan Toolbox release refresh on 2026-11-18
+
+The release lock resolves Core `1.3.0`, Dapter `1.0.0-beta.2`, Dump to Console `1.2.0`, Filoquent `1.0.0-beta.6`, Front Awesome `1.0.0-beta.5`, Maintainer `1.12.0`, Mosaicast `1.3.0`, Permit `1.0.0-beta.1`, and QZ Tray `1.5.0` from public Packagist archives. An isolated Composer update also checked Laravel, Inertia, Laravel Head, and Pest within the existing constraints. Those versions held. Composer updated `guzzlehttp/psr7` to `3.5.0` and `paragonie/constant_time_encoding` to `v3.1.5` while resolving the lock. It reported no security advisories and still flagged the abandoned `symplify/rule-doc-generator-contracts` dependency.
+
+After Composer installation, npm refreshed the four vendor-file dependencies used by the site and installed the resulting lock with `npm ci`. The npm refresh dry run offered unrelated transitive updates, which were outside the package refresh. The registry audit passed without an advisory exception.
+
+Permit adds a published assignment-table migration to the documentation app. The beta shares Gate decisions with signed-in readers through its Inertia middleware. The editor demo keeps the public Front Awesome component and its isolated endpoint for fictional accounts. Permit management routes are disabled in the site.
+
+`composer ci:check` passed Rector and all six Maintainer checks on PHP 8.5.12 and Node 24.22.2. Pest passed 1,060 tests and Vite Plus passed 1,362 with two workers. The Maintainer archive is tagged `1.12.0`. Its bundled executable prints `Maintainer 1.11.0` and is the executable used by the CI checks. The Composer distribution check, shared agent standards, production build, search index freshness, and Dapter coverage for 510 discovered settings also passed.
+
+The browser workflow uses `localhost` because the Font Awesome kit accepts that origin. It uses database cache on a disposable SQLite database because the live demos read fixture state across requests. It runs `php scripts/setup-dapter-literal.php` to create the separate SQLite search fixture. It builds the frontend for a loopback Reverb instance and starts that instance with a generated secret. A Redis service and a worker process the same `demos` queue that the site uses. The browser scripts exercise private channel authorization, queued updates, and Reverb delivery without contacting the site's broadcaster.
+
+The live browser script checks the fixture mutation response before waiting for its event. If the guest request limit returns HTTP 429, it waits for the server's `Retry-After` interval and resubmits once. The script still requires a successful mutation and the actual socket event.
+
+The browser run passed 22 scripts. A focused rerun with the rate-limit handling passed the live script, including 44 resource, live, and polling views. Both runs used the Front Awesome beta.5 archive, Chromium, and the local test infrastructure above.
+
+The installation routes still come first in the shared navigation. The guide checks use these starting environments and first results.
+
+| Package           | Starting environment and install order                                                                                       | First result and next guide                                                                                                   |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Core              | Laravel 13 with Composer                                                                                                     | `Arr::sift()` yields only Ada's name. Continue to conditional arrays.                                                         |
+| Dapter            | Laravel, Inertia, Vue, Vite, and a web session. Install Composer packages before npm and configure Ziggy.                    | The public notebook source lists and pages records. Continue to source declarations.                                          |
+| Dump to Console   | A Laravel application and a local listener. Install with Composer before running the listener.                               | The terminal receives `Hello from Laravel` while the route returns `Response unchanged`. Continue to usage and configuration. |
+| Filoquent         | Laravel 13 with a clean database and a writable filesystem. Install with Composer before migrating.                          | Saving and reading the file yields `true` and `Hello Filoquent`. Continue to file attributes and variants.                    |
+| Front Awesome     | Laravel, Inertia, Vue, and Vite. Install Composer packages before npm and load the public plugin and styles.                 | The Button renders in the welcome example. Continue to the component catalog.                                                 |
+| Maintainer        | A Composer project. Git and GitHub CLI are used for the relevant workflows.                                                  | The CLI lists `config:publish` and `quality:check`. Continue to configuration publishing.                                     |
+| Mosaicast         | Laravel with Inertia, Vue, and a working session. Install Composer packages before npm and register the client.              | The listener receives the event through Inertia in the same visit. Continue to Vue integration.                               |
+| Permit            | Laravel with an Eloquent user provider and a development database. Install with Composer and migrate before checking a Gate. | The quickstart returns `false` before a grant and `true` after it. Continue to declarations.                                  |
+| QZ Tray Connector | Laravel with Vue and Vite. Install Composer packages before npm.                                                             | The browser renders a ZPL label preview. Continue to connection setup for printing.                                           |
 
 ### Refresh dependencies before authoring
 
@@ -683,3 +767,346 @@ The required compatible dependency refresh was attempted with Composer before
 npm. Remote resolution still cannot find the concurrent Dapter `1.x-dev`; the npm
 dry run offers 15 updates, not applied, and lock-based frontend copies are already
 current. No documentation dependency constraints or lockfiles change here.
+
+## DataView completion verification on 2026-11-18
+
+The consumer journey starts in Laravel 13.36 or later within 13.x, PHP 8.5,
+Inertia 3, Vue 3.5, Vite, a web session, and CSRF protection. Install Front Awesome
+and Dapter through Composer before installing their vendor frontend dependencies.
+Configure the public Vite plugin, styles, and Ziggy route before the first table.
+The tutorial defines 23 notebooks and displays ten initially. Its next page shows
+notebooks 11 through 20. Task guides then cover layouts, query controls, ordering,
+selection, paging, actions, adapter state, live updates, and the API reference.
+Both former development routes and their eight section destinations remain usable.
+
+Dapter 1.0.0-alpha.1 and Front Awesome 1.0.0-beta.3 are published prereleases.
+The published Front Awesome package contains the original three-layout DataView.
+The additional controls, selection, grouping, localization, and recovery behavior
+are unreleased Front Awesome changes. The documentation checks the imported public
+component before mounting these additions and keeps the released examples usable.
+The beta installation command explicitly allows both prereleases on Composer's
+default-stable hosts. It does not lower the application's overall stability policy.
+
+The compatible refresh ran Composer before npm. Composer updated Front Awesome
+from beta.2 to beta.3; Dapter and the main Laravel, Inertia, Head, and Pest
+dependencies were current. The npm range dry run was current. A stale Front Awesome
+development copy of Dapter had eight older files despite its alpha.1 version label.
+Refreshing that copy restored source parity. The DataView type checker now rejects
+such stale Composer/npm copies with an actionable installation message. Public
+peer constraints and canonical vendor-file dependencies remain intact.
+
+The documentation was built and exercised with the actual beta.3 Composer archive
+and its matching npm copy, then with an explicitly installed local `1.x-dev`
+candidate. Each passed four production-browser sessions at 390 and 1440 pixels in
+light and dark themes. The portable public Composer lock was restored byte for
+byte after each candidate installation. The local preview remains installed;
+no candidate version was fabricated or published.
+
+The implementation keeps query validation, transport, state restoration, polling,
+and live updates in Dapter. Typed slots carry the exact borrowed handle. Selection
+uses current occurrences and honors a parent that rejects an update. Applications
+still scope prefilled keys and map authorized action operands explicitly. Native
+selection controls do not contribute fields to a containing application form.
+Native disclosure and layout controls expose their state on the focusable node;
+Web Awesome host attributes alone did not establish that behavior. Document IDs
+remain distinct across Vue roots. The ordering editor uses Web Awesome tokens and
+was checked at 320 and 375 pixels in RTL without horizontal overflow.
+
+Front Awesome passed PHPStan, Pint, full PHP type coverage, 216 PHP tests with
+719 assertions, 322 frontend unit tests, and 389 Chromium tests. Two existing
+licensed Pro cases remain unavailable in that package's Core test installation.
+Vue type checks include actual macro compilation and invalid public API examples.
+Build, optional-peer consumers, and base and PrimeVue theme consumers passed.
+The final spacing refinement also passed the focused browser and style checks.
+Dapter passed its complete PHP command with 689 tests, 7,971 assertions, PHPStan,
+Pint, and full type coverage. Its runtime source was not changed.
+
+The complete documentation CI passed all six Maintainer checks and Rector, with
+1,016 PHP tests, 119,263 assertions, and 1,347 frontend tests. The demo checker
+covered 488 Dapter settings with 213 backend and 193 frontend checks. Standards,
+portable distribution, source synchronization, production build, and search-index
+publication and freshness checks passed. Real HTTP search found guide prose,
+source code, and reference-table content at their registered destinations. The
+existing time-limited picomatch advisory exception was retained without extension.
+Boost discovered the archived package skill and refreshed an identical consumer
+copy. Dapter's README and skill example returned their documented two products.
+
+Independent Astra reviews produced browser repros for the input, selection,
+numeric, form, and accessibility defects, and a clean-host dependency solve for
+the installation correction. Review used the same model family at the user's
+request. Polling used real requests. Controlled Echo tests cover the new DataView
+push demo's subscription lifecycle. A separate desktop production run also
+verified actual private authorization, acknowledgement, and `dapter.updated`
+delivery on the same socket and channel. The selected `notebook:1` kept its
+identity while its Resource and selection footer changed, with no additional
+listing request. Stop closed the connection; no separate unsubscribe frame was
+observed. The general Dapter live suite verified 44 Resource, live, and polling
+scenarios with actual transport. Hardware IMEs, assistive technology applications,
+and complete SSR hydration were not exercised. No commit, release, or deployment
+was performed.
+
+The final `npm run test:browser` completed all 22 scripts in one uninterrupted
+production run. This includes the four DataView sessions after the spacing
+refinement, the component catalog, application forms, printing, localization,
+preferences, native paging and writes, actual Dapter live transport, infinite
+loading, PostgreSQL comparisons, literal search, and guide navigation. The original
+Vite hot-file reference was restored after the run.
+
+A final smoke check also exercised the active Vite development preview. Its cached
+beta.3 transform was invalidated through the existing configuration watcher without
+changing configuration content. The preview then exposed the candidate controls,
+returned a real listing response, and rendered the final ordering spacing without
+browser errors.
+
+## Vector search and UUID browser state preview, 2026-11-18
+
+The unpublished Dapter preview adds exact PostgreSQL pgvector L2 field filtering.
+It accepts prepared float32 coordinates and an inclusive server-owned distance
+limit. Source scopes, existing ordering, counts, and paging remain in force.
+Embedding generation, relevance ranking, approximate retrieval, and snapshots are
+outside this contract. The focused [vector guide](../resources/js/pages/docs/dapter/VectorSearch.vue)
+uses executable code snippets and native package tests without an interactive
+vector demo, as requested. The demo checker permits only the exact vector settings
+listed by that exception and continues to discover the full public API.
+
+Ordinary protocol 2 navigation stores immutable UUID snapshots in localStorage.
+The default lifetime is 240 minutes. A source can override the duration or supply
+a Carbon deadline and a query key. SHA-256 versions include source, ancestor, and
+trait declarations. Configuration and external dependencies are excluded from
+this simplified version. The authorized server checks the accepted version before
+applying restored criteria. Expired or missing references return to defaults.
+Portable share links import a fresh local UUID. Front Awesome consumes the same
+handle and offers a JSON vector input without a second persistence implementation.
+
+The reader starts from a supported Laravel 13, PHP 8.5, Inertia 3, Vue 3, and Vite
+application. Composer precedes vendor-file npm installation. Dapter's Installation
+page and existing notebook quickstart remain before task guides. The first page
+contains Notebook 01 through Notebook 10. The collection-backed navigation and
+DataView examples need no PostgreSQL service. PostgreSQL, pgvector, a matching
+vector column, and prepared embeddings are prerequisites only for vector search.
+Public exports and existing shared documentation components supply the examples.
+The walkthrough continues through field search or the focused state guide.
+
+Dapter passed its full Composer validation with 753 tests and 8,135 assertions,
+PHPStan, Pint, and 100 percent type coverage. Its Maintainer gate ran all six
+checks without skips, including 552 frontend runtime and type tests. Distribution
+checks verified packed source and built consumers with stable and minimum peers,
+Bundler and NodeNext resolution, and the current consumer skill. PostgreSQL 18.6
+with pgvector 0.8.7 passed 11 native tests and 83 assertions in an isolated local
+database. Regression tests cover class changes, deployment races, elapsed Carbon
+deadlines, decimal threshold precision, and effective read and write connections.
+
+Front Awesome passed 216 PHP tests and 719 assertions, PHPStan, Pint, full type
+coverage, 322 frontend unit tests, its consumer build, and all six Maintainer
+checks. Its broad Chromium run passed 389 tests and retained the two existing
+licensed Pro skips. One unchanged printing scenario exceeded its 15-second test
+deadline while other checks were running. The same printing file passed all 16
+tests in isolation without code or timeout changes. The affected DataView file
+passed all 34 tests, including automatic cleanup of an invalid UUID reference.
+
+Documentation coverage discovered 510 Dapter settings and passed 215 PHP tests
+with 2,100 assertions plus 192 frontend checks. The final documentation frontend
+run passed 1,354 tests across 115 files with bounded workers. The final focused
+PHP run passed 62 tests and 113,743 assertions, covering every file that failed
+in the earlier broad run. That earlier run passed 1,024 of 1,031 tests before the
+new ancestry expectation, temporary font-manifest interference, and concurrent
+Permit catalog updates were resolved. It was not rerun in full. The late protocol
+header prose passed three focused frontend tests. Types, PHPStan, Pint, formatting,
+lint, and demo synchronization passed. Search publication and freshness checks
+passed after the final protocol text.
+
+The Vue navigation, paging, composed-source, and DataView browser scripts passed
+in desktop and mobile sizes with light and dark themes. They verify actual HTTP,
+UUID storage, expiration, history, scroll restoration, and portable import in a
+separate browser context. The final Vue run also checks that the vector guide
+starts no requests, has no interactive demo, exposes its code, and has a working
+search destination. A final active Vite smoke verified UUID navigation and an
+`s1.` share link with no console or page errors. The original `public/hot` file
+was restored without a configuration touch.
+
+The compatible Composer dry run proposed three transitive patch updates but also
+replaced the installed unpublished Front Awesome preview with published beta.3,
+which lacks the required new API. Public manifests and locks were preserved.
+Temporary Composer manifests installed the local package previews before npm
+refreshed their vendor-file copies. Those manifests were removed from the
+repositories and index. Installed direct npm dependencies already matched their
+compatible wanted versions. New majors and the pinned Vite Plus release were not
+forced. Checks used the existing Herd PHP 8.5 executable because the Homebrew
+launcher references a missing tidy library. No system installation was changed.
+Both current Composer archives include their consumer skills, and Boost discovers
+both installed skills. Manual request review matches Dapter vector and state work
+and Front Awesome DataView controls while excluding unrelated database indexing.
+
+Independent Astra review reproduced and corrected the version race, native
+threshold rounding, effective-PDO dimension validation, and interpolated-brace
+hash defects. A separate same-family review checked the decision trail and
+corrected a report link to the actual focused passing run. Evidence and the
+append-only trail remain under the workspace's local
+`.audit/dapter-vector-state/` directory. Concurrent Permit and pre-existing
+DataView changes were preserved. No commit, release, or deployment was performed.
+
+### Front Awesome scrollbar source preview
+
+The beginner path starts in an existing Laravel, Inertia, Vue, and Vite app.
+The Installation guide still puts Composer before the vendor-file npm command,
+then configures Vite and Web Awesome Core. Its first page renders a styled
+`Hello from Front Awesome` button and links to the Button guide. The scrollbar
+example follows both imports in the shared theme guide. It reuses
+`DemoFrame` and the public `fa-scrollbar` class. A named native section owns
+keyboard focus and scrolling.
+
+From the documentation root, the compatible dependency checks ran in this order.
+
+```sh
+composer update 'artisan-toolbox/*' laravel/framework inertiajs/inertia-laravel laravel/head 'pestphp/*' --with-all-dependencies --dry-run --no-scripts --no-interaction --no-progress
+npm outdated vue '@inertiajs/vue3' '@inertiajs/vite' tailwindcss vite-plus '@vue/test-utils' happy-dom --json --fetch-retries=0 --cache /tmp/fa-scrollbar-npm-cache
+npm install --dry-run --ignore-scripts --no-audit --no-fund --fetch-retries=0 --cache /tmp/fa-scrollbar-npm-cache ./vendor/artisan-toolbox/front-awesome ./vendor/artisan-toolbox/dapter ./vendor/artisan-toolbox/mosaicast ./vendor/artisan-toolbox/qztray
+```
+
+Packagist and the npm registry were unavailable by DNS. The npm installation
+dry run also reported an unresolved Inertia peer. The local verification copy of
+`tailwind.css` came from packing the Composer-linked Front Awesome checkout and
+matched it byte for byte. No dependency versions or locks changed for this
+preview. The build used Tailwind 4.3.5, Vue 3.5.45, Inertia Vue 3.11.0, and Web
+Awesome Pro 3.15.0.
+
+The Front Awesome consumer build and theme suite passed with Web Awesome Core
+and optional PrimeVue. A separate build with the installed licensed Web Awesome
+Pro passed the same light, dark, keyboard, and forced-color checks. On the
+documentation build, Chromium loaded the Installation guide and the shared
+theme demo. End brought Notification 12 into view in both panels. The computed
+colors differed across the modes and returned to `auto` in forced colors.
+The demo fit a 390 px viewport and exposed the exact live source. The full
+`composer ci:check`, `npm run build`, and `npm run demos:check` passed.
+
+The broader documentation browser chain reached and passed the Front Awesome
+demo check. A later Dapter script required a `.test` hostname. Resuming against
+a local `.test` hostname passed the action, composed read, and paging checks.
+The live demo returned HTTP 401 with the temporary array cache. The infinite
+cursor demo counted one additional read and the guide navigation check found
+64 links against an expectation of 63. The permission editor browser check
+timed out while waiting for the unsaved-change count. The scrollbar demo uses
+a static list.
+
+### Vue scrollbar directive and brand variant
+
+The Installation guide, the first public Button example, and the shared theme
+prerequisites still precede the scrollbar example. The guide shows plugin
+registration and the directive. The live documentation frame uses the public
+CSS class. This lets the site retain its separate preferences, flash, and
+Mosaicast setup. The package fixture installs the plugin and exercises the
+directive itself.
+
+`npm run test:scrollbar` passed in Playwright Firefox 159.0 and WebKit 27.2
+on macOS. Both engines followed local Tailwind brand values through light and
+dark mode. End scrolled the named region, and a reactive variant change kept
+the region scrolled. The browser test also checked the neutral directive and
+an unstyled control. The Chromium production theme suite checked system
+styling in forced colors. The full Chromium package run passed 424 tests, with
+two skips. The workflow runs the Firefox and WebKit check alongside the
+existing Chromium coverage.
+
+The dependency refresh repeated the Composer dry run and the two npm commands
+above in that order. Composer and npm registry DNS failed. The vendor-copy npm
+dry run reported the unresolved Inertia peer. Packing the Composer-linked
+Front Awesome source supplied the stylesheet for the documentation build.
+The build, documentation CI checks, and Front Awesome browser catalog passed.
+The rendered scrollbar frame matched the brand token in both modes and fit a
+390 px viewport. Boost discovered the updated skill, and the Composer archive
+contained the skill, directive, and stylesheet.
+
+### Overlay scrollbar directive and options
+
+The shared theme guide follows the existing Composer-first installation and
+Button quickstart. The example uses `v-scrollbar.brand`, and the documentation
+frame uses the exported directive without replacing the site's preference and
+realtime plugins. The public modifier selects the thumb token. An options
+binding updates the OverlayScrollbars instance on the existing viewport.
+
+The package pins OverlayScrollbars 2.17.1. The Composer-compatible refresh
+attempt and `npm outdated` checks could not resolve their registries. A targeted
+lock-only npm install resolved the new package. The documentation lock retains
+the Composer vendor path. The installed frontend copy was refreshed from the
+packed Composer-linked source and the resolved OverlayScrollbars distribution.
+
+The browser fixture checks the five theme colors, reactive option removal,
+native scroll events and coordinates, sticky layout, and Vue HTML replacement
+in Firefox and WebKit. The production theme fixture checks resize-driven axis
+changes and toggles forced colors while the region is scrolled. Chromium
+keeps the scroll position when the native bar replaces the overlay. The built
+documentation demo verifies thumb expansion, named keyboard scrolling, local
+brand colors, and fit at 390 px.
+
+### Dedicated scrollbar guide
+
+Appearance and branding lists the scrollbar guide after branding. The
+installation and first Button example still precede the shared theme
+prerequisites. The original shared-theme fragment resolves to the registered
+scrollbar guide. Its live frame uses the public Select and Option wrappers and
+the public directive interface. The demo source and the quickstart are
+searchable through the same guide.
+
+The compatible Composer dry run and `npm outdated` commands above could not
+resolve Packagist or the npm registry. The installed Front Awesome manifest,
+public directive entry, runtime, and stylesheet match the Composer-linked
+source. OverlayScrollbars 2.17.1 is installed. The build and
+`composer ci:check` passed without lock changes for this guide.
+
+Chromium followed the previous fragment, scrolled both panels with the
+keyboard, changed both thumbs without resetting the scroll position, toggled
+auto-hide, and scrolled by clicking the track. The catalog browser run passed.
+The frame also fit a 390 px viewport. The Boost skill links to the new guide.
+
+### Brand scrollbars for documentation navigation
+
+The sidebar and the desktop outline reuse the Front Awesome directive on
+their existing scroll regions. The welcome page and article use document
+scrolling for links, browser history, and active headings. This adoption
+changes the documentation shell. The package's API, installation, and first
+Button example still follow the documented path.
+
+The compatible Composer and npm refresh checks above failed to resolve
+their registries. The installed Front Awesome manifest, entry point,
+directive, and stylesheet matched the Composer-linked source.
+OverlayScrollbars 2.17.1 was present.
+
+The production build, `composer ci:check`, and browser application check passed. Chromium scrolled
+the sidebar and the desktop outline without moving the article. The mobile
+menu remained fixed and Escape restored focus to its trigger. The outline
+returned to document flow on mobile. Deep links and Inertia history kept
+their existing scroll behavior.
+
+### Front Awesome scrollbar default
+
+The scrollbar guide remains under Appearance and branding. A reader starts in a
+Laravel 13 application with Inertia, Vue, and Vite. The Installation guide
+puts Composer before npm, then loads the frontend styles and renders the
+`Hello from Front Awesome` Button. The Button guide follows the installation
+example. For scrollbars, the shared theme and Vue plugin precede the first
+example. The new configuration example shows how to change the color of bare
+`v-scrollbar` in the existing `withApp` hook.
+
+The DataView table, print paper stage, and permission editor use the package
+directive on their existing HTML viewports. The outer print drawer scrolls
+inside Web Awesome's shadow DOM. Documentation navigation has its own explicit
+brand modifier.
+
+The compatible Composer dry run and npm refresh check failed to resolve
+Packagist and the npm registry. No dependency versions changed. The affected
+frontend files in the npm copy were refreshed from the Composer-linked source.
+Front Awesome reports 1.0.0-beta.3 and the new option is a source preview.
+OverlayScrollbars 2.17.1 is installed.
+
+Both production builds, Front Awesome's PHP and frontend checks, and
+`composer ci:check` in the documentation passed. Browser checks covered
+the app default and explicit neutral override in light and dark on Firefox
+and WebKit. Chromium verified the native DataView table and horizontal
+overlay under the shared theme, the print preview, and the permission
+editor. The documentation browser checks exercised navigation and the
+interactive scrollbar demo. The document printing demo completed without
+contacting QZ. The permission demo saved and reloaded a change and opened a
+read-only account on mobile. Its browser context now requests English so the
+English assertions are independent of the host locale.
+
+The frontend coverage run passed 783 tests with two skips. It measured
+90.38% statement coverage and 94.5% line coverage for `scrollbar.ts`.

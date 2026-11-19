@@ -1,7 +1,7 @@
 <script setup>
 import { useDataAdapter } from '@artisan-toolbox/dapter';
 import { DataView } from '@artisan-toolbox/front-awesome/data-view';
-import { Button } from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import { Button, Tag } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 const catalog = useDataAdapter('Dapter.ComposedCatalog', {
     protocol: 2,
     id: 'data-view-capabilities',
@@ -21,6 +21,18 @@ const views = {
 <template>
     <div class="flex min-w-0 flex-col gap-4" data-capability-session>
         <DataView :adapter="catalog" :views="views" row-key="id" label="Searchable catalog">
+            <template #head-name="{ name, sortDirection }">
+                <span>{{ name }}</span>
+                <Tag aria-hidden="true" size="small" :data-head-direction="sortDirection">{{
+                    sortDirection
+                }}</Tag>
+            </template>
+            <template #head-status="{ name, sortDirection }">
+                <span>{{ name }}</span>
+                <Tag aria-hidden="true" size="small" data-head-unavailable>{{
+                    sortDirection === null ? 'Unavailable' : sortDirection
+                }}</Tag>
+            </template>
             <template #filters="{ adapter }">
                 <div class="flex flex-wrap gap-[0.5rem]">
                     <Button

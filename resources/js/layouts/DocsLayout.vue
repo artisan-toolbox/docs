@@ -9,6 +9,7 @@ import DocsTableOfContents from '@/components/docs/DocsTableOfContents.vue';
 import PublicSiteHeader from '@/components/site/PublicSiteHeader.vue';
 import PublicSiteFooter from '@/components/site/PublicSiteFooter.vue';
 import SiteIcon from '@/components/site/SiteIcon.vue';
+import { vScrollbar } from '@/lib/docsScrollbar';
 
 const inertiaPage = usePage();
 const navigation = computed(() => inertiaPage.props.navigation);
@@ -162,8 +163,9 @@ watch(
             <aside
                 id="docs-navigation"
                 ref="navigationPanel"
+                v-scrollbar.brand
                 :class="mobileNavigationOpen ? 'block' : 'hidden'"
-                class="fixed inset-x-0 top-[var(--site-header-height)] z-20 max-h-[calc(100dvh-var(--site-header-height))] [scrollbar-width:thin] [scrollbar-color:var(--color-slate-300)_transparent] overflow-y-auto overscroll-contain border-b border-slate-200 bg-white px-5 py-5 sm:px-8 lg:sticky lg:inset-x-auto lg:z-auto lg:block lg:border-r lg:border-b-0 lg:px-4 dark:[scrollbar-color:var(--color-slate-700)_transparent] dark:border-slate-800 dark:bg-slate-950"
+                class="fixed inset-x-0 top-[var(--site-header-height)] z-20 max-h-[calc(100dvh-var(--site-header-height))] overflow-y-auto overscroll-contain border-b border-slate-200 bg-white px-5 py-5 sm:px-8 lg:sticky lg:inset-x-auto lg:z-auto lg:block lg:border-r lg:border-b-0 lg:px-4 dark:border-slate-800 dark:bg-slate-950"
                 @keydown.esc.prevent="dismissMobileNavigation">
                 <nav aria-label="Documentation" class="flex flex-col gap-1">
                     <DocsLink
@@ -203,7 +205,7 @@ watch(
                 <DocsTableOfContents
                     :content="articleContent"
                     :page-key="inertiaPage.url.split(/[?#]/)[0]"
-                    class="mx-5 border-b border-slate-200 py-4 sm:mx-10 xl:sticky xl:top-[calc(var(--site-header-height)+1rem)] xl:col-start-2 xl:row-start-1 xl:mx-0 xl:max-h-[calc(100dvh-var(--site-header-height)-1rem)] xl:self-start xl:overflow-y-auto xl:border-0 xl:py-8 xl:pr-5 xl:pl-3 dark:border-slate-800" />
+                    class="mx-5 overflow-visible border-b border-slate-200 py-4 sm:mx-10 xl:sticky xl:top-[calc(var(--site-header-height)+1rem)] xl:col-start-2 xl:row-start-1 xl:mx-0 xl:max-h-[calc(100dvh-var(--site-header-height)-1rem)] xl:self-start xl:overflow-y-auto xl:border-0 xl:py-8 xl:pr-5 xl:pl-3 dark:border-slate-800" />
                 <main
                     id="main-content"
                     tabindex="-1"

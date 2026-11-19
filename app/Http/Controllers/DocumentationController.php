@@ -54,6 +54,16 @@ final class DocumentationController extends Controller
             $response->with('comparisonDemoEnabled', (bool) config('docs-dapter-comparisons.enabled'));
         }
 
+        if (in_array($slug, [PageSlug::PermitManagement, PageSlug::FrontAwesomePermissionEditor], true)) {
+            $response->with([
+                'userPermissionEditor' => [
+                    'version' => 1,
+                    'endpoint' => route('demo.front-awesome.permission-editor.show', absolute: false),
+                ],
+                'permissionEditorDemoExport' => route('demo.front-awesome.permission-editor.export', absolute: false),
+            ]);
+        }
+
         return $response;
     }
 }

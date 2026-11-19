@@ -242,7 +242,7 @@ class Document extends Model
                     <DocsLink :href="findNavigationItem(navigation, 'filoquent/assets').href"
                         >typed variants and missing-key recovery</DocsLink
                     >
-                    for preview availability, generic PHPDoc, and the optional middleware fallback
+                    for version requirements, generic PHPDoc, and the optional middleware fallback
                     attribute. Exactly one asset must have <code>default: true</code>. Set
                     <code>default: false</code> for every other asset.
                 </p>

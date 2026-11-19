@@ -75,6 +75,91 @@ let tooltipWorkflows = 0;
 let skeletonWorkflows = 0;
 let pageWorkflows = 0;
 try {
+    await navigate(new URL('/docs/front-awesome/shared-theme#style-a-scrollbar', base).href);
+    await page.waitForURL('**/docs/front-awesome/scrollbar#style-a-scrollbar');
+    await page.getByRole('heading', { name: 'Style a scrollbar', exact: true }).waitFor();
+    for (const name of ['Light notifications', 'Dark notifications']) {
+        const region = page.getByRole('region', { name });
+        await region.press('End');
+        await page.waitForFunction((label) => {
+            const panel = document.querySelector(`section[aria-label="${label}"]`);
+            const lastItem = panel?.querySelector('li:last-child');
+            return (
+                panel?.scrollTop > 0 &&
+                lastItem?.getBoundingClientRect().bottom <= panel.getBoundingClientRect().bottom
+            );
+        }, name);
+    }
+    const scrollbarFrame = page
+        .locator('[data-demo-frame]')
+        .filter({ hasText: 'Scrollbar settings' });
+    if (!(await scrollbarFrame.locator('[data-scrollbar-preview-required]').count())) {
+        const light = scrollbarFrame.getByRole('region', { name: 'Light notifications' });
+        const dark = scrollbarFrame.getByRole('region', { name: 'Dark notifications' });
+        const lightNode = await light.elementHandle();
+        const thumb = '.os-scrollbar-vertical .os-scrollbar-handle';
+        await light.locator(thumb).waitFor({ state: 'attached' });
+        const initial = await light
+            .locator(thumb)
+            .evaluate((node) => getComputedStyle(node).backgroundColor);
+        const scrollTop = await light.evaluate((node) => node.scrollTop);
+        async function chooseScrollbarSetting(label, value) {
+            const select = scrollbarFrame.locator(`wa-select[label="${label}"]`);
+            await select.click();
+            const option = select.locator(`wa-option[value="${value}"]`);
+            await option.click();
+            await option.waitFor({ state: 'hidden' });
+        }
+        await chooseScrollbarSetting('Thumb color', 'brand');
+        for (const panel of [light, dark]) {
+            await panel.locator('[class~="os-scrollbar-vertical"]').waitFor({ state: 'attached' });
+            assert.equal(await panel.getAttribute('data-fa-scrollbar'), 'brand');
+        }
+        await page.waitForFunction(
+            ({ selector, initial }) =>
+                getComputedStyle(
+                    document
+                        .querySelector('[aria-label="Light notifications"]')
+                        .querySelector(selector),
+                ).backgroundColor !== initial,
+            { selector: thumb, initial },
+        );
+        assert.equal(
+            await lightNode.evaluate(
+                (node, expectedTop) => node.isConnected && node.scrollTop === expectedTop,
+                scrollTop,
+            ),
+            true,
+        );
+
+        await chooseScrollbarSetting('Auto-hide', 'scroll');
+        await light
+            .locator('.os-scrollbar-vertical.os-scrollbar-auto-hide-hidden')
+            .waitFor({ state: 'attached' });
+        await chooseScrollbarSetting('Auto-hide', 'never');
+        await light
+            .locator('.os-scrollbar-vertical.os-scrollbar-auto-hide-hidden')
+            .waitFor({ state: 'detached' });
+
+        await chooseScrollbarSetting('Track clicks', 'none');
+        await light
+            .locator('.os-scrollbar-vertical.os-scrollbar-track-interactive')
+            .waitFor({ state: 'detached' });
+        await chooseScrollbarSetting('Track clicks', 'page');
+        await light
+            .locator('.os-scrollbar-vertical.os-scrollbar-track-interactive')
+            .waitFor({ state: 'attached' });
+        await light.evaluate((node) => {
+            node.scrollTop = 0;
+        });
+        const track = light.locator('.os-scrollbar-vertical .os-scrollbar-track');
+        const bounds = await track.boundingBox();
+        await track.click({ position: { x: bounds.width / 2, y: bounds.height - 5 } });
+        await page.waitForFunction(
+            () => document.querySelector('[aria-label="Light notifications"]').scrollTop > 0,
+        );
+    }
+
     for (const group of catalog.groups) {
         await navigate(
             new URL(`/docs/front-awesome/web-awesome/components/${group.id}`, base).href,

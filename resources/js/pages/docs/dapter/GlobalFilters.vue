@@ -14,15 +14,14 @@ defineProps({
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
         <div data-document-content class="flex min-w-0 flex-col gap-10">
-            <ProseSection id="starting-environment" title="Prepare the filter preview"
+            <ProseSection id="starting-environment" title="Prepare the filter example"
                 ><p>
                     Start with
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/installation').href"
                         >Dapter installed</DocsLink
                     >
-                    and a declared source. These unpublished protocol 2 examples use four fictional
-                    Collection rows. Opening the page loads no data. Send request starts each fixed
-                    example.
+                    and a declared source. These protocol 2 examples use four fictional Collection
+                    rows. Opening the page loads no data. Send request starts each fixed example.
                 </p></ProseSection
             >
             <ProseSection id="declare-filters" title="Declare finite inputs and trusted handlers"

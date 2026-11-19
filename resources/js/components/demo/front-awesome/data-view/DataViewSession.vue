@@ -35,6 +35,7 @@ const layouts = {
             <template #cell-notebook="{ value }"
                 ><strong class="font-semibold">{{ value }}</strong></template
             >
+            <template #header-paper="{ column }">{{ column.label }} type</template>
             <template #cell-paper="{ value }"><Tag size="s">{{ value }}</Tag></template>
             <template #grid-item="{ row }">
                 <Card class="h-full w-full">

@@ -29,8 +29,8 @@ describe('Dapter Vue task guides', () => {
                         package: {
                             id: 'dapter',
                             title: 'Dapter',
-                            stability: 'Work in progress',
-                            installedVersion: '1.x-dev',
+                            stability: 'Beta',
+                            installedVersion: '1.0.0-beta.2',
                         },
                     },
                     navigation: sourceNavigation(),
@@ -41,7 +41,7 @@ describe('Dapter Vue task guides', () => {
             expect(wrapper.findAll('[data-demo-frame]')).toHaveLength(1);
             expect(wrapper.text()).toContain('Ready.');
             expect(wrapper.get('section[aria-labelledby="starting-environment"]').text()).toContain(
-                'unpublished',
+                '1.0.0-beta.2',
             );
             wrapper.unmount();
         },

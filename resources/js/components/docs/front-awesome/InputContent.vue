@@ -408,7 +408,7 @@ const valueDomains = [
         </p>
         <slot />
         <p>
-            In the unreleased source preview, Input, OtpInput, NumberInput, and Textarea synchronize
+            In Front Awesome 1.0.0-beta.4, Input, OtpInput, NumberInput, and Textarea synchronize
             their bound values on
             <code>input</code> and <code>change</code>, before your corresponding event listener
             runs. The bridge also observes Web Awesome value updates, including events confined to

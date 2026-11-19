@@ -3,7 +3,7 @@ import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { chromium } from 'playwright';
 const base = new URL(process.env.DOCS_BASE_URL ?? 'https://atb.test');
-assert(base.hostname.endsWith('.test'));
+assert(base.hostname.endsWith('.test') || ['localhost', '127.0.0.1'].includes(base.hostname));
 const artifacts = resolve('storage/app/browser-verification/dapter-composed');
 await mkdir(artifacts, { recursive: true });
 const cases = JSON.parse(await readFile('app/Demo/Dapter/Composed/cases.json', 'utf8'));
@@ -110,7 +110,9 @@ try {
                 await read('Clear preset');
                 await frame.getByLabel('Global catalog search', { exact: true }).fill('Notebook');
                 await frame.locator('[data-composed-row="3"]').waitFor({ state: 'detached' });
-                await page.waitForURL((url) => url.searchParams.has('dapter[composed-controls]'));
+                await page.waitForURL((url) =>
+                    url.searchParams.has('dapter_composed_catalog.composed-controls'),
+                );
                 const saved = page.url();
                 await page.reload();
                 const restart = page.waitForResponse((response) =>
@@ -124,8 +126,10 @@ try {
                 await page.locator('[data-composed-row="2"]').waitFor();
                 assert.equal(await page.locator('[data-composed-row]').count(), 2);
                 assert.equal(
-                    new URL(page.url()).searchParams.get('dapter[composed-controls]'),
-                    new URL(saved).searchParams.get('dapter[composed-controls]'),
+                    new URL(page.url()).searchParams.get(
+                        'dapter_composed_catalog.composed-controls',
+                    ),
+                    new URL(saved).searchParams.get('dapter_composed_catalog.composed-controls'),
                 );
                 assert.deepEqual(errors, []);
                 assert.equal(

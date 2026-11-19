@@ -21,7 +21,7 @@ const generatedRoutes = `import { Ziggy } from './ziggy.js';
 globalThis.Ziggy = Ziggy;`;
 const backend = `use ArtisanToolbox\\Dapter\\Dapter;
 
-dump(Dapter::VERSION); // "1.0.0-alpha.1"`;
+dump(Dapter::VERSION); // "1.0.0-beta.2"`;
 const frontend = `import { version } from '@artisan-toolbox/dapter';
 
 document.querySelector<HTMLElement>('#app')?.setAttribute('data-dapter-version', version);`;
@@ -41,23 +41,20 @@ export default defineConfig({
         <PackageGuideHeader :page="page" />
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <Requirements :items="page.requirements" />
-            <ProseSection id="starting-environment" title="Prepare the local checkout">
+            <ProseSection id="starting-environment" title="Prepare your Laravel application">
                 <p>
-                    Use an existing Laravel application with Inertia, Vue, and a TypeScript-capable
-                    Vite build. Place the unpublished <code>1.x</code> checkout in a sibling
-                    directory named <code>dapter</code>. Run the installation commands from your
-                    application root.
+                    Start in the root of a Laravel application that serves a Vue page through
+                    Inertia and builds it with Vite. Keep Laravel's web session and CSRF middleware
+                    enabled.
                 </p>
             </ProseSection>
             <ProseSection id="backend" title="Install the backend first">
-                <p>Run these commands from the consuming Laravel application root:</p>
-                <InstallCommand
-                    :package="page.package"
-                    command="local-preview"
-                    label="Connect the local Composer package" />
+                <p>Install Dapter’s published beta from the application root.</p>
+                <InstallCommand :package="page.package" label="Install Dapter with Composer" />
                 <p>
                     The Vue adapter uses Ziggy to find Laravel's read route. If your application
-                    does not already include <code>tightenco/ziggy</code> 2.x, install it now.
+                    does not already include a compatible <code>tightenco/ziggy</code> 2.x release,
+                    install it now.
                 </p>
                 <InstallCommand
                     :package="page.package"
@@ -70,7 +67,7 @@ export default defineConfig({
                     installed identity:
                 </p>
                 <CodeExample language="php" label="Check the backend identity" :code="backend" />
-                <p>The dump displays <code>1.0.0-alpha.1</code>.</p>
+                <p>The dump displays <code>1.0.0-beta.2</code>.</p>
             </ProseSection>
             <ProseSection id="frontend" title="Connect the Composer-delivered frontend">
                 <p>After Composer completes, run these commands from the same application root:</p>
@@ -79,9 +76,9 @@ export default defineConfig({
                     command="frontend"
                     label="Install the frontend from vendor" />
                 <p>
-                    Recording the vendor path first keeps the dependency attached to Composer's
-                    installed directory. A direct npm directory argument can otherwise save the
-                    sibling checkout path when Composer uses a local symlink.
+                    The first command records the Composer-installed directory in
+                    <code>package.json</code>. The second installs its JavaScript package and peer
+                    dependencies.
                 </p>
             </ProseSection>
             <ProseSection id="vite-config" title="Configure the required Vue source integration">
@@ -154,7 +151,7 @@ export default defineConfig({
                 <CodeExample language="ts" label="Check the frontend identity" :code="frontend" />
                 <p>
                     Inspect the mounted element. Its <code>data-dapter-version</code> attribute is
-                    <code>1.0.0-alpha.1</code>.
+                    <code>1.0.0-beta.2</code>.
                 </p>
             </ProseSection>
             <ProseSection id="next-steps" title="Read your first source">

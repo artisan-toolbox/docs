@@ -120,13 +120,14 @@ async function checkNavigation(page, width, capture) {
     );
     const links = branch.locator('a');
     const paths = await links.evaluateAll((nodes) => nodes.map((node) => node.pathname));
-    assert.equal(paths.length, 63);
-    assert.equal(new Set(paths).size, 63);
+    assert.equal(paths.length, 64);
+    assert.equal(new Set(paths).size, paths.length);
+    assert(paths.includes(`${home}/vector-search`));
     assert(paths.every((path) => path === home || path.startsWith(`${home}/`)));
 
     const guideLinks = branch.locator(`a[href^="${home}/"]`);
     const icons = guideLinks.locator('wa-icon');
-    await expect(icons).toHaveCount(62);
+    await expect(icons).toHaveCount(paths.length - 1);
     await expect
         .poll(
             () =>

@@ -1,5 +1,6 @@
 <script setup>
 import SiteIcon from '@/components/site/SiteIcon.vue';
+import { vScrollbar } from '@/lib/docsScrollbar';
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, shallowRef, useId, watch } from 'vue';
 
 const props = defineProps({
@@ -145,7 +146,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <nav v-if="entries.length" aria-label="On this page" class="min-w-0">
+    <nav v-if="entries.length" v-scrollbar.brand aria-label="On this page" class="min-w-0">
         <p
             class="hidden items-center gap-2 text-sm font-semibold text-slate-950 xl:flex dark:text-white">
             <SiteIcon name="list-ul" class="text-slate-400" />

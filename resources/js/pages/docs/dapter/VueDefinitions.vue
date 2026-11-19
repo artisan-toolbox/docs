@@ -25,7 +25,7 @@ defineProps({
                         >Build declared Vue controls</DocsLink
                     >. The example uses the same fictional Collection and the public DataAdapter
                     export. Mounting the component starts a read, so this frame mounts it only after
-                    Start definition. These APIs are an unpublished preview.
+                    Start definition. This example uses Dapter 1.0.0-beta.2.
                 </p></ProseSection
             >
             <ProseSection id="decode-definitions" title="Narrow the authorized definition"

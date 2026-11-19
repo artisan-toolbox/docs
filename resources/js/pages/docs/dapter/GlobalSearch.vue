@@ -14,13 +14,12 @@ defineProps({
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
         <div data-document-content class="flex min-w-0 flex-col gap-10">
-            <ProseSection id="starting-environment" title="Prepare the composed preview"
+            <ProseSection id="starting-environment" title="Prepare global search"
                 ><p>
                     Complete Install Dapter in a Laravel 13, PHP 8.5, Inertia 3, and Vue 3
                     application. Preserve the web session, CSRF middleware, Ziggy routes, and
-                    Composer-before-npm installation. These APIs are an unpublished local preview.
-                    Opt in to protocol 2 for composed reads. Default version 1 reads remain
-                    compatible.
+                    Composer-before-npm installation. Opt in to protocol 2 for composed reads.
+                    Default version 1 reads remain compatible.
                 </p></ProseSection
             >
             <ProseSection id="declare-targets" title="Declare trusted targets"
