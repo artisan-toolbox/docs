@@ -179,16 +179,17 @@ npm ci`;
             A documentation-only Markdown change runs the workflow's <code>CI</code> check without
             installing project dependencies. Other changes run the locked Linux quality checks and
             consumer build, plus the Windows runtime suites and DataView compiler launcher check.
-            The Linux job uses Maintainer for manifest validation, Pest, Pint, PHPStan, and the
-            frontend checks. The package runs its PHP type coverage gate and consumer build
-            separately. Vue type checking runs within <code>npm run check</code>. Windows selects
-            Pest and Vitest through Maintainer and runs Pest in serial mode.
+            Both platforms test PHP 8.5 and 8.6. The Linux job uses Maintainer for manifest
+            validation, Pest, Pint, PHPStan, and the frontend checks. The package runs its PHP type
+            coverage gate and consumer build separately. Vue type checking runs within
+            <code>npm run check</code>. Windows selects Pest and Vitest through Maintainer and runs
+            Pest in serial mode.
         </p>
         <p>
             Changes to Composer dependencies or <code>.nvmrc</code> also exercise the lowest and
-            latest compatible PHP dependencies. Both jobs use the Maintainer setup action to install
-            Node.js from <code>.nvmrc</code>. The translation exporter uses Node.js to validate
-            browser locales, so both jobs can skip <code>npm ci</code>.
+            latest compatible dependencies on each PHP version. The Maintainer setup action installs
+            Node.js from <code>.nvmrc</code> for translation export checks. These jobs skip
+            <code>npm ci</code>. The browser and coverage job uses PHP 8.5.
         </p>
         <p>
             Runtime and frontend tests select Chromium when they can affect browser behavior.

@@ -120,10 +120,10 @@ defineProps({ navigation: { type: Array, required: true } });
         </p>
         <p>
             The documentation application's <code>composer ci:check</code> runs a Rector dry run
-            followed by Maintainer's complete PHP and frontend quality workflow. Development and CI
-            use PHP 8.5 with Composer development dependencies installed. Maintainer and Deployer
-            are development tools; the user owns deployment configuration and execution separately
-            from documentation authoring.
+            followed by Maintainer's complete PHP and frontend quality workflow. Install Composer
+            development dependencies before running these checks. CI runs on PHP 8.5 and 8.6.
+            Maintainer and Deployer are development tools; the user owns deployment configuration
+            and execution separately from documentation authoring.
         </p>
         <p>
             The documentation application's

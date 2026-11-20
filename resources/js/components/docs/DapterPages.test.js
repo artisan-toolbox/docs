@@ -177,6 +177,7 @@ describe('Dapter learning journey', () => {
         const wrapper = render(Development, 'dapter/development');
         expect(wrapper.text()).toContain('composer quality:check');
         expect(wrapper.text()).toContain('npm run release:build');
+        expect(wrapper.text().replace(/\s+/g, ' ')).toContain('PHP 8.5 and 8.6');
         expect(wrapper.text()).toContain('NodeNext');
         expect(wrapper.text()).toContain('does not claim a transitive npm dependency minimum');
         const phpstan = wrapper.get('section[aria-labelledby="phpstan"]');

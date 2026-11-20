@@ -22,8 +22,8 @@ defineProps({ navigation: { type: Array, required: true } });
         </p>
         <p>
             Run <code>composer test</code> to check analysis, formatting, type coverage, and runtime
-            behavior. Actions tests the lowest and stable resolutions of the declared dependencies
-            on Ubuntu and Windows. The type coverage command requires a complete report for the
+            behavior. Actions tests PHP 8.5 and 8.6 on Ubuntu and Windows with the lowest and stable
+            dependency resolutions. The type coverage command requires a complete report for the
             files Pest can analyze.
         </p>
     </ProseSection>

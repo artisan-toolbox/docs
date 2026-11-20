@@ -1,7 +1,7 @@
 # Run project quality checks
 
 The application installs Maintainer, Rector, Laravel Rector rules, Pest, Pint, and Larastan/PHPStan as Composer development dependencies.
-The application requires PHP 8.5 in production, development, and CI. Its installed Front Awesome, Core, and Mosaicast dependencies require that version, as does Maintainer's development tooling.
+The application requires PHP 8.5 or later in the PHP 8.x series. CI runs the quality, asset, and browser checks on PHP 8.5 and 8.6.
 Frontend checks use the existing Vite Plus and Vue tooling.
 
 Dated verification entries preserve the results observed during each task. The [current dependency and consistency verification](#documentation-consistency-and-test-dependencies-on-2026-11-11) supersedes their earlier installation blockers and audit findings.

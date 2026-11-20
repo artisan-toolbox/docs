@@ -80,8 +80,8 @@ npm run build`;
         </h3>
         <p>
             For the current development toolchain on the package's
-            <code>1.x</code> branch, use PHP 8.5 and Node.js 24.11 or later within the Node.js 24
-            series, matching CI. From the package checkout, install Composer dependencies before npm
+            <code>1.x</code> branch, use PHP 8.5 or 8.6 and Node.js 24.11 or later within the
+            Node.js 24 series. From the package checkout, install Composer dependencies before npm
             dependencies, run the checks, and rebuild the distributed client:
         </p>
         <CodeExample
@@ -89,9 +89,10 @@ npm run build`;
             language="bash"
             :code="contributorChecks" />
         <p>
-            Actions runs PHP on Ubuntu and Windows with the lowest and stable declared dependencies.
-            Separate frontend jobs run the Node.js checks once on each operating system. The Ubuntu
-            job also compares the rebuilt client with the committed files.
+            Actions tests both PHP versions on Ubuntu and Windows with the lowest and stable
+            Composer dependency resolutions. Separate frontend jobs run the Node.js checks once on
+            each operating system. The Ubuntu job also compares the rebuilt client with the
+            committed files.
         </p>
         <p>
             Successful checks exit without errors. The build writes the ESM client, IIFE bundle, and

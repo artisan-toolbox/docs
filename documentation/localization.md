@@ -141,3 +141,7 @@ among the queried direct updates; that unrelated bump is not applied. No consumi
 or vendor frontend copy is replaced to make the source regression pass. The disposable Boost
 consumer uses its Composer path installation. This check does not claim a new public release,
 a native Windows pass, or another complete documentation-site test run.
+
+## Verify titlecase on PHP 8.5 and 8.6
+
+Run `node scripts/generate-localization-casing.mjs --check` from the Front Awesome checkout with each PHP version on `PATH`. The generator compares PHP titlecase with the browser fallback calculated using the same mbstring tables. Each runtime should verify the same committed 122 titlecase exceptions. The browser uses its own Unicode tables for ordinary uppercase and lowercase conversions.

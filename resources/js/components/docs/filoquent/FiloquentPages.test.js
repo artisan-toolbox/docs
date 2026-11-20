@@ -273,6 +273,7 @@ describe('Filoquent beta documentation', () => {
             .join('\n');
         expect(checks.text()).toContain('MySQL 8.4');
         expect(checks.text()).toContain('PostgreSQL 18');
+        expect(checks.text()).toContain('PHP 8.5 and 8.6');
         expect(checks.text()).toContain('prefer-lowest');
         expect(checks.text()).toContain('prefer-stable');
         expect(checks.text()).toContain('CREATE DATABASE');

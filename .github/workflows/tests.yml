@@ -16,8 +16,13 @@ concurrency:
 
 jobs:
   ci:
+    name: ci${{ matrix.php == '8.6' && ' / PHP 8.6' || '' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.5', '8.6']
 
     services:
       redis:
@@ -49,9 +54,9 @@ jobs:
         run: php scripts/check-distribution.php
 
       - name: Set up CI dependencies
-        uses: artisan-toolbox/maintainer@f3ace73a7020f1a76a62fa3c9137b1b541bb8cc8 # 1.14.3
+        uses: artisan-toolbox/maintainer@c46eefa9d82cdfcd53c83c06c810ca2d3b0c7c33 # 1.14.4
         with:
-          php-version: '8.5'
+          php-version: ${{ matrix.php }}
           php-extensions: bcmath, gd, intl, pdo_sqlite, redis, zip
           composer-validation: strict
           node-version: '24'

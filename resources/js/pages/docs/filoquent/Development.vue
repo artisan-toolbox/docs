@@ -71,9 +71,9 @@ const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
                 <CodeExample label="Validate the Filoquent package" :code="checks" />
                 <p>
                     <code>composer test</code> runs PHPStan, Rector in dry-run mode, Pint, full type
-                    coverage, and Pest. The CI workflow configures PHP 8.5 with Laravel 13 on Linux
-                    and Windows in both lowest and stable dependency lanes. The manifest does not
-                    support PHP 8.3, PHP 8.4, or Laravel 12.
+                    coverage, and Pest. CI uses PHP 8.5 and 8.6 with Laravel 13 on Linux and Windows
+                    in both lowest and stable dependency lanes. The manifest does not support PHP
+                    8.3, PHP 8.4, or Laravel 12.
                 </p>
                 <p>
                     The shared standards check runs once per workflow. The type coverage command
@@ -132,8 +132,7 @@ const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
             </ProseSection>
             <ProseSection id="database-checks" title="Check each database engine">
                 <p>
-                    The CI matrix has ten runtime jobs on PHP 8.5 and Laravel 13. Each engine runs
-                    in both
+                    The CI matrix tests PHP 8.5 and 8.6 with Laravel 13. Each engine runs in both
                     <code>prefer-lowest</code> and <code>prefer-stable</code> dependency lanes:
                 </p>
                 <DocsTable

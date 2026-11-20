@@ -60,15 +60,16 @@ const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
                     Pest's type coverage workers a 512 MB memory limit.
                 </p>
                 <p>
-                    GitHub Actions runs the test matrix on Linux and Windows with the lowest and
+                    GitHub Actions tests PHP 8.5 and 8.6 on Linux and Windows with the lowest and
                     stable Composer dependency resolutions. If one matrix entry fails, the remaining
                     entries run to completion. Use the manual <strong>Run workflow</strong> control
                     on the <strong>Actions</strong> tab to start a fresh run.
                 </p>
                 <p>
-                    CI also runs the authorization integration test with PostgreSQL and Redis, and
-                    with MariaDB and Memcached. To reproduce either job, start the matching services
-                    on their default local ports and enable their PHP extensions. Create the
+                    CI runs the authorization integration test on each PHP version with PostgreSQL
+                    and Redis, and with MariaDB and Memcached. To reproduce either job, start the
+                    matching services on their default local ports and enable their PHP extensions.
+                    Create the
                     <code>permit_testing</code> database with <code>permit_test</code> as the test
                     username and password.
                 </p>

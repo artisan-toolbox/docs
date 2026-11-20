@@ -385,6 +385,8 @@ Compatibility/migration: ensure any custom disclosure/components follow the docu
 
 ## [Unreleased]
 
+- Run the documentation CI on PHP 8.5 and 8.6 with the Maintainer 1.14.4 setup action.
+
 - Document Core's Maintainer 1.14.2 root action, strict checks, and per-commit release gate. Give the Core overview a runnable conditional-array example.
 - Document the shared Larastan minimum and the compatible Pest Type Coverage requirements for Filoquent, Front Awesome, and Permit.
 

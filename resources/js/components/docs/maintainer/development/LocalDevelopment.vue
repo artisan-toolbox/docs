@@ -148,7 +148,7 @@ const example7 = 'vendor/bin/pint --test\nvendor/bin/pint';
             <p>
                 In the <strong>Tests</strong> workflow, the Ubuntu and Windows jobs call the
                 repository-root action with <code>uses: ./</code> after checkout. Inspect the four
-                jobs for the commit under test.
+                jobs for the commit under test. Check the setup log for the exact PHP version.
             </p>
             <p>
                 To also exercise the reusable workflow, run <strong>Tests</strong> manually on the

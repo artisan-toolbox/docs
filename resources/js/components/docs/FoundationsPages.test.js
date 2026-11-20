@@ -198,19 +198,19 @@ describe('Core, Dump to Console, and Mosaicast documentation', () => {
                     "The commands below describe the Maintainer 1.14.3 integration on Core's 1.x branch.",
                     "composer test runs composer quality:check and type coverage. The quality check uses Maintainer's strict mode for PHPStan, Pint, and Pest. It fails if a required tool cannot run. Pest runs serially by default for this small suite. Set MAINTAINER_PEST_PARALLEL=true to try two workers on Unix.",
                     'Type coverage must report all PHP files in src/ and meet the 100% threshold. The distribution check installs a ZIP of the checked-out commit in a temporary Laravel 13 application. It verifies that Laravel discovers Core, Arr::sift() works, and the package contains the Boost skill.',
-                    'GitHub Actions tests the lowest and stable Composer dependency resolutions on Ubuntu and Windows. The root artisan-toolbox/maintainer action sets up PHP and Composer, validates the manifest in strict mode, and installs dependencies with --no-scripts. It caches Composer downloads. Core runs Testbench discovery after installation, then runs composer quality:check in each matrix entry. Type coverage runs on Ubuntu, and the distribution check runs on Ubuntu with stable dependencies.',
+                    'GitHub Actions tests PHP 8.5 and 8.6 on Ubuntu and Windows with the lowest and stable Composer dependency resolutions. The root artisan-toolbox/maintainer action sets up PHP and Composer, validates the manifest in strict mode, and installs dependencies with --no-scripts. It caches Composer downloads. Core runs Testbench discovery after installation, then runs composer quality:check in each matrix entry. Type coverage runs on Ubuntu, and the distribution check runs on Ubuntu with stable dependencies.',
                     'Maintainer requires a successful tests.yml push run for the exact release commit. Each pushed commit gets its own run. New commits on a pull request cancel its previous run. Use Run workflow on the Actions tab to start a manual run for debugging.',
                 );
             }
             if (fixture.slug === 'dump-to-console') {
                 extraParagraphs.push(
-                    'Run composer test to check analysis, formatting, type coverage, and runtime behavior. Actions tests the lowest and stable resolutions of the declared dependencies on Ubuntu and Windows. The type coverage command requires a complete report for the files Pest can analyze.',
+                    'Run composer test to check analysis, formatting, type coverage, and runtime behavior. Actions tests PHP 8.5 and 8.6 on Ubuntu and Windows with the lowest and stable dependency resolutions. The type coverage command requires a complete report for the files Pest can analyze.',
                 );
             }
             if (fixture.slug === 'mosaicast') {
                 extraParagraphs.push(
-                    "For the current development toolchain on the package's 1.x branch, use PHP 8.5 and Node.js 24.11 or later within the Node.js 24 series, matching CI. From the package checkout, install Composer dependencies before npm dependencies, run the checks, and rebuild the distributed client:",
-                    'Actions runs PHP on Ubuntu and Windows with the lowest and stable declared dependencies. Separate frontend jobs run the Node.js checks once on each operating system. The Ubuntu job also compares the rebuilt client with the committed files.',
+                    "For the current development toolchain on the package's 1.x branch, use PHP 8.5 or 8.6 and Node.js 24.11 or later within the Node.js 24 series. From the package checkout, install Composer dependencies before npm dependencies, run the checks, and rebuild the distributed client:",
+                    'Actions tests both PHP versions on Ubuntu and Windows with the lowest and stable Composer dependency resolutions. Separate frontend jobs run the Node.js checks once on each operating system. The Ubuntu job also compares the rebuilt client with the committed files.',
                     'Successful checks exit without errors. The build writes the ESM client, IIFE bundle, and type declarations to dist/. Keep Vite+ 1.5.0, its Vite core alias at 1.5.0, and the bundled Vitest 5.1.0 aligned when refreshing dependencies. See the Vite+ update guide. These contributor requirements do not change how applications install the compiled Composer-delivered client.',
                 );
             }

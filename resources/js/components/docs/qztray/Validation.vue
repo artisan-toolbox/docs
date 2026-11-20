@@ -73,8 +73,9 @@ defineProps({ navigation: { type: Array, required: true } });
             fixture uses that component's own metadata. It verifies that Support helpers are
             available while undeclared Foundation helpers and the optional ESC/POS library remain
             unavailable. A missing optional encoder must produce the documented installation hint.
-            The Maintainer action resolves Composer dependencies for each PHP matrix entry. Composer
-            installs Laravel Framework through the development dependency on Testbench.
+            The Maintainer action resolves the lowest and stable Composer dependencies on PHP 8.5
+            and 8.6 on Ubuntu and Windows. Composer installs Laravel Framework through the
+            development dependency on Testbench.
         </p>
         <p>
             The production dependency tests set <code>auto_prepend_file=none</code> for their PHP

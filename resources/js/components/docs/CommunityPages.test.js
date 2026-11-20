@@ -84,10 +84,15 @@ for (const fixture of fixtures) {
             ).toEqual(
                 fixture.paragraphs.map((paragraph) =>
                     normalize(
-                        paragraph.replace(
-                            'The pending-push feature is explicitly labeled as a preview on the current 1.x branch after 1.10.0.',
-                            'Maintainer 1.11.0 includes the pending-push feature.',
-                        ),
+                        paragraph
+                            .replace(
+                                'The pending-push feature is explicitly labeled as a preview on the current 1.x branch after 1.10.0.',
+                                'Maintainer 1.11.0 includes the pending-push feature.',
+                            )
+                            .replace(
+                                'Development and CI use PHP 8.5 with Composer development dependencies installed.',
+                                'Install Composer development dependencies before running these checks. CI runs on PHP 8.5 and 8.6.',
+                            ),
                     ),
                 ),
             );

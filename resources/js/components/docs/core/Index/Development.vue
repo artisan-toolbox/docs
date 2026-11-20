@@ -34,13 +34,13 @@ composer test:distribution`;
             <code>Arr::sift()</code> works, and the package contains the Boost skill.
         </p>
         <p>
-            GitHub Actions tests the lowest and stable Composer dependency resolutions on Ubuntu and
-            Windows. The root <code>artisan-toolbox/maintainer</code> action sets up PHP and
-            Composer, validates the manifest in strict mode, and installs dependencies with
-            <code>--no-scripts</code>. It caches Composer downloads. Core runs Testbench discovery
-            after installation, then runs <code>composer quality:check</code> in each matrix entry.
-            Type coverage runs on Ubuntu, and the distribution check runs on Ubuntu with stable
-            dependencies.
+            GitHub Actions tests PHP 8.5 and 8.6 on Ubuntu and Windows with the lowest and stable
+            Composer dependency resolutions. The root <code>artisan-toolbox/maintainer</code> action
+            sets up PHP and Composer, validates the manifest in strict mode, and installs
+            dependencies with <code>--no-scripts</code>. It caches Composer downloads. Core runs
+            Testbench discovery after installation, then runs <code>composer quality:check</code> in
+            each matrix entry. Type coverage runs on Ubuntu, and the distribution check runs on
+            Ubuntu with stable dependencies.
         </p>
         <p>
             Maintainer requires a successful <code>tests.yml</code> push run for the exact release

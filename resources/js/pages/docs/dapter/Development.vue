@@ -123,8 +123,8 @@ const logo = 'python3 scripts/build-logos.py';
                     checks.
                 </p>
                 <p>
-                    GitHub Actions runs the backend and frontend on Ubuntu and Windows with PHP 8.5,
-                    Laravel 13, and Node.js 24. Both <code>prefer-lowest</code> and
+                    GitHub Actions runs the backend and frontend on Ubuntu and Windows with PHP 8.5
+                    and 8.6, Laravel 13, and Node.js 24. Both <code>prefer-lowest</code> and
                     <code>prefer-stable</code> Composer lanes run. The lower frontend lane installs
                     the minimum supported direct tool versions, Vue 3.5.40, Inertia Vue and Core
                     3.0.3, and Ziggy 2.6.5. It does not claim a transitive npm dependency minimum.
