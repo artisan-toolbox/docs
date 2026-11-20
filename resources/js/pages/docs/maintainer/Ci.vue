@@ -118,10 +118,12 @@ jobs:
                 :code="reusableWorkflow" />
             <p>
                 The <strong>Check quality</strong> job installs PHP 8.5 and Composer dependencies,
-                then runs the configured checks in strict mode. A failed check or an unavailable
-                required tool fails the job. When a lockfile is present, Composer installs its
-                recorded versions. To install Node.js and run <code>npm ci</code> after Composer,
-                set <code>node-version: '24'</code> in the calling job's <code>with</code> block.
+                then runs the configured checks in strict mode. To use PHP 8.6, pin Maintainer
+                1.14.4 or later and set <code>php-version: '8.6'</code> in the calling job. A failed
+                check or an unavailable required tool fails the job. When a lockfile is present,
+                Composer installs its recorded versions. To install Node.js and run
+                <code>npm ci</code> after Composer, set <code>node-version: '24'</code> in the
+                calling job's <code>with</code> block.
             </p>
             <p>
                 Set <code>runner</code>, <code>timeout-minutes</code>,

@@ -40,7 +40,7 @@ function render(component, slug, title) {
                     title: 'Filoquent',
                     composerName: 'artisan-toolbox/filoquent',
                     stability: 'Beta',
-                    installedVersion: '1.0.0-beta.7',
+                    installedVersion: '1.0.0-beta.8',
                     installationStatus: 'installed',
                     installationCommands: installationCommands('filoquent'),
                     releasesUrl: 'https://packagist.org/packages/artisan-toolbox/filoquent',
@@ -137,9 +137,9 @@ describe('Filoquent beta documentation', () => {
             expect(content).not.toMatch(
                 /source preview|development source|1\.0\.0-(?:alpha\.1|beta\.1)/,
             );
-            expect(content).toContain('1.0.0-beta.7');
+            expect(content).toContain('1.0.0-beta.8');
             expect(wrapper.text()).toContain('Beta');
-            expect(wrapper.text()).toMatch(/Documented version\s*1\.0\.0-beta\.7/);
+            expect(wrapper.text()).toMatch(/Documented version\s*1\.0\.0-beta\.8/);
             expect(
                 wrapper
                     .find('a[href="https://packagist.org/packages/artisan-toolbox/filoquent"]')

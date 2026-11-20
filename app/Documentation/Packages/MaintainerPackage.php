@@ -15,10 +15,10 @@ final readonly class MaintainerPackage extends Package
             summary: 'Run quality checks, create releases, and automate project maintenance.',
             version: '1.x',
             overview: PageSlug::Maintainer,
-            documentedVersion: '1.14.3',
+            documentedVersion: '1.14.4',
             stability: 'Stable',
             requirements: [
-                'PHP 8.5 or later within the PHP 8.x series',
+                'PHP 8.5 minimum within PHP 8.x (tested on PHP 8.5 and 8.6)',
                 'Composer',
                 'Git',
                 'GitHub CLI for workflows that interact with GitHub',

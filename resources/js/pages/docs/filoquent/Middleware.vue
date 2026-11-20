@@ -125,9 +125,9 @@ class Document extends Model
                     <DocsLink :href="findNavigationItem(navigation, 'filoquent/installation').href"
                         >Install Filoquent</DocsLink
                     >
-                    first. Use its Laravel 13 application, PHP 8.5, configured database, writable
-                    filesystem, migrated upload ledger, and <code>documents</code> table with the
-                    nullable <code>attachment</code> file column. Keep the
+                    first. Use its Laravel 13 application on PHP 8.5 or 8.6, configured database,
+                    writable filesystem, migrated upload ledger, and <code>documents</code> table
+                    with the nullable <code>attachment</code> file column. Keep the
                     <code>App\Models\Document</code> model and <code>HasFiloquent</code> trait. Run
                     all commands from that application's root.
                 </p>

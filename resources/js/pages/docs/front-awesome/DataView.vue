@@ -36,8 +36,8 @@ const views = {
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection id="install-the-packages" title="Install both packages">
                 <p>
-                    Start in a Laravel 13.36+ application within 13.x, with PHP 8.5, Inertia 3, Vue
-                    3, Vite, and a web session. From the application root, follow
+                    Start in a Laravel 13.36+ application within 13.x, with PHP 8.5 or 8.6, Inertia
+                    3, Vue 3, Vite, and a web session. From the application root, follow
                     <DocsLink
                         :href="findNavigationItem(navigation, 'front-awesome/installation').href"
                         >Install Front Awesome</DocsLink
@@ -50,7 +50,7 @@ const views = {
                     named data route through Ziggy.
                 </p>
                 <p>
-                    This example uses Front Awesome 1.0.0-beta.6 and Dapter 1.0.0-beta.3. This
+                    This example uses Front Awesome 1.0.0-beta.7 and Dapter 1.0.0-beta.4. This
                     guest-accessible source needs a web session and CSRF protection. Reads run
                     without a worker or a broadcaster.
                 </p>

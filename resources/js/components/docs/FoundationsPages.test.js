@@ -194,8 +194,8 @@ describe('Core, Dump to Console, and Mosaicast documentation', () => {
                 );
             if (fixture.slug === 'core') {
                 extraParagraphs.push(
-                    'Run the checks from the Core checkout with PHP 8.5, Composer, and Git. The distribution check also needs the PHP Zip extension and access to the Composer dependency registry.',
-                    "The commands below describe the Maintainer 1.14.3 integration on Core's 1.x branch.",
+                    'Run the checks from the Core checkout with PHP 8.5 or 8.6, Composer, and Git. The distribution check also needs the PHP Zip extension and access to the Composer dependency registry.',
+                    "The commands below describe the Maintainer 1.14.4 integration on Core's 1.x branch.",
                     "composer test runs composer quality:check and type coverage. The quality check uses Maintainer's strict mode for PHPStan, Pint, and Pest. It fails if a required tool cannot run. Pest runs serially by default for this small suite. Set MAINTAINER_PEST_PARALLEL=true to try two workers on Unix.",
                     'Type coverage must report all PHP files in src/ and meet the 100% threshold. The distribution check installs a ZIP of the checked-out commit in a temporary Laravel 13 application. It verifies that Laravel discovers Core, Arr::sift() works, and the package contains the Boost skill.',
                     'GitHub Actions tests PHP 8.5 and 8.6 on Ubuntu and Windows with the lowest and stable Composer dependency resolutions. The root artisan-toolbox/maintainer action sets up PHP and Composer, validates the manifest in strict mode, and installs dependencies with --no-scripts. It caches Composer downloads. Core runs Testbench discovery after installation, then runs composer quality:check in each matrix entry. Type coverage runs on Ubuntu, and the distribution check runs on Ubuntu with stable dependencies.',

@@ -90,7 +90,7 @@ function render(component, slug) {
                     title: 'Dapter',
                     composerName: 'artisan-toolbox/dapter',
                     stability: 'Beta',
-                    installedVersion: '1.0.0-beta.3',
+                    installedVersion: '1.0.0-beta.4',
                     installationStatus: 'installed',
                     installationCommands: installationCommands('dapter'),
                     artwork: { icon: '/images/packages/dapter/dapter-icon.svg' },
@@ -169,7 +169,7 @@ describe('Dapter learning journey', () => {
         expect(wrapper.get('section[aria-labelledby="next-steps"] a').attributes('href')).toBe(
             '/docs/dapter#first-example',
         );
-        expect(text).toContain('1.0.0-beta.3');
+        expect(text).toContain('1.0.0-beta.4');
         wrapper.unmount();
     });
 

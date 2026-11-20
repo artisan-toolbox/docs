@@ -15,10 +15,10 @@ final readonly class CorePackage extends Package
             summary: 'Use focused Laravel helpers that do not need separate packages, including conditional arrays and translated attributes.',
             version: '1.x',
             overview: PageSlug::Core,
-            documentedVersion: '1.4.1',
+            documentedVersion: '1.4.2',
             stability: 'Stable',
             requirements: [
-                'PHP 8.5 or later within the PHP 8.x series',
+                'PHP 8.5 minimum within PHP 8.x (tested on PHP 8.5 and 8.6)',
                 'Laravel 13 components',
                 'Inertia Laravel 3.x',
             ],

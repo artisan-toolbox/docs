@@ -8,7 +8,7 @@ supersedes the original session-default behavior for unreleased Front Awesome so
 
 ## Reader journey and reuse
 
-The starting environment is a Laravel 13 application with PHP 8.5, Inertia 3, Vue 3.5,
+The starting environment is a Laravel 13 application with PHP 8.5 or 8.6, Inertia 3, Vue 3.5,
 sessions, Vite, and the Composer-installed Front Awesome beta. Composer installation
 precedes npm installation through `file:vendor/artisan-toolbox/front-awesome`.
 

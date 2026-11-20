@@ -24,7 +24,7 @@ This exits unsuccessfully when the artifact is missing, invalid, or differs from
 
 ## Run during deployment
 
-Use PHP 8.5 with PDO SQLite and FTS5, Node.js 24.11 or later, and the project's installed frontend dependencies. The extractor uses the compiler shipped with the installed Vue package. Composer must run before npm because frontend package entries come from Composer distributions.
+Use PHP 8.5 or 8.6 with PDO SQLite and FTS5, Node.js 24.11 or later, and the project's installed frontend dependencies. The extractor uses the compiler shipped with the installed Vue package. Composer must run before npm because frontend package entries come from Composer distributions.
 
 Run these steps in the new release directory before activating it:
 

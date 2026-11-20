@@ -15,10 +15,10 @@ final readonly class MosaicastPackage extends Package
             summary: 'Deliver Laravel events through Inertia props or a private session broadcast channel.',
             version: '1.x',
             overview: PageSlug::Mosaicast,
-            documentedVersion: '1.3.1',
+            documentedVersion: '1.3.2',
             stability: 'Stable',
             requirements: [
-                'PHP 8.5 or later within the PHP 8.x series',
+                'PHP 8.5 minimum within PHP 8.x (tested on PHP 8.5 and 8.6)',
                 'Laravel 13 components',
                 'Inertia Laravel 3.x, installed through Core',
                 'A Laravel web request with an active session for implicit dispatch',

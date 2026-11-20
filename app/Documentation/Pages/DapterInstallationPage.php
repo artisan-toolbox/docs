@@ -16,7 +16,7 @@ final readonly class DapterInstallationPage extends Page
             slug: self::SLUG,
             component: 'docs/dapter/Installation',
             title: 'Install Dapter',
-            description: 'Install Dapter 1.0.0-beta.3 with Composer, connect Vue and Ziggy, and read your first page of notebooks.',
+            description: 'Install Dapter 1.0.0-beta.4 with Composer, connect Vue and Ziggy, and read your first page of notebooks.',
             sourcePath: 'resources/js/pages/docs/dapter/Installation.vue',
             package: new DapterPackage,
         );

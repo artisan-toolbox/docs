@@ -125,8 +125,8 @@ dump($document->fresh()->attachment->get('large')->path === $large?->path);`;
                     <DocsLink :href="findNavigationItem(navigation, 'filoquent/middleware').href"
                         >Create upload middleware</DocsLink
                     >
-                    first. Use their PHP 8.5 and Laravel 13 application, writable disk, migrated
-                    upload ledger, and <code>documents</code> table with its nullable
+                    first. Use their Laravel 13 application on PHP 8.5 or 8.6, writable disk,
+                    migrated upload ledger, and <code>documents</code> table with its nullable
                     <code>attachment</code> column and timestamps. All paths and commands below are
                     relative to that application. Redis, a queue worker, and an image library are
                     optional. The example copies text bytes to demonstrate variants.

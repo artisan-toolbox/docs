@@ -131,6 +131,9 @@ describe('QZ Tray documentation learning journey', () => {
         const guides = renderGuides();
         const wrappers = Object.values(guides);
         const texts = wrappers.map((wrapper) => normalize(wrapper.text()));
+        expect(normalize(guides['qztray/compatibility'].text())).toContain(
+            'CI tests PHP 8.5 and 8.6 on Ubuntu and Windows.',
+        );
         for (const fixture of fixtures) {
             for (const paragraph of fixture.paragraphs) {
                 if (revisedIntroduction.has(paragraph)) continue;

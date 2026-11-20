@@ -32,8 +32,8 @@ import { DataAdapter } from '@artisan-toolbox/dapter';
             <ProseSection id="starting-environment" title="Prepare infinite loading"
                 ><p>
                     Complete Install Dapter and Read and paginate a source in your Laravel 13, PHP
-                    8.5, Inertia 3, and Vue application. Install Composer dependencies before npm at
-                    the application root. Keep the web session, CSRF middleware, and Ziggy
+                    8.5 or 8.6, Inertia 3, and Vue application. Install Composer dependencies before
+                    npm at the application root. Keep the web session, CSRF middleware, and Ziggy
                     dapter.data route. These controls are available in Dapter 1.0.0-beta.2. The
                     fictional public sources require no account, broadcaster, or queue worker.
                 </p></ProseSection

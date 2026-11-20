@@ -15,10 +15,10 @@ final readonly class PermitPackage extends Package
             summary: 'Declare roles and permissions, assign access to users, and authorize actions with Laravel Gates.',
             version: '1.x',
             overview: PageSlug::Permit,
-            documentedVersion: '1.0.0-beta.2',
+            documentedVersion: '1.0.0-beta.3',
             stability: 'Beta',
             requirements: [
-                'PHP 8.5 or later within the PHP 8.x series',
+                'PHP 8.5 minimum within PHP 8.x (tested on PHP 8.5 and 8.6)',
                 'PHP intl extension for locale-aware catalog order',
                 'Laravel 13 with an Eloquent user provider',
                 'Inertia Laravel 3.x',

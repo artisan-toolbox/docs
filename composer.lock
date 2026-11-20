@@ -4,24 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "130f008fc037fdf9b93e4833530d6245",
+    "content-hash": "86a9d783fc7307823df13f0aed80c701",
     "packages": [
         {
             "name": "artisan-toolbox/core",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/core.git",
-                "reference": "4ec8b1be5a536cd1a30961416e679d4aa0de634f"
+                "reference": "cff10f19aa18123be08f06e1ca36f822d246939d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/core/zipball/4ec8b1be5a536cd1a30961416e679d4aa0de634f",
-                "reference": "4ec8b1be5a536cd1a30961416e679d4aa0de634f",
+                "url": "https://api.github.com/repos/artisan-toolbox/core/zipball/cff10f19aa18123be08f06e1ca36f822d246939d",
+                "reference": "cff10f19aa18123be08f06e1ca36f822d246939d",
                 "shasum": ""
             },
             "require": {
-                "artisan-toolbox/maintainer": "^1.14.2",
+                "artisan-toolbox/maintainer": "^1.14.3",
                 "illuminate/support": "^13.0",
                 "inertiajs/inertia-laravel": "^3.0",
                 "php": "^8.5"
@@ -77,7 +77,7 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/core/issues",
-                "source": "https://github.com/artisan-toolbox/core/tree/1.4.1"
+                "source": "https://github.com/artisan-toolbox/core/tree/1.4.2"
             },
             "funding": [
                 {
@@ -85,21 +85,21 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-20T05:45:53+00:00",
-            "published-time": "2026-11-20T05:47:19+00:00"
+            "time": "2026-11-20T23:31:34+00:00",
+            "published-time": "2026-11-20T23:33:01+00:00"
         },
         {
             "name": "artisan-toolbox/dapter",
-            "version": "1.0.0-beta.3",
+            "version": "1.0.0-beta.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/dapter.git",
-                "reference": "f63d4f5120d6a91eb311722677822a125afd6be6"
+                "reference": "14e7ac3f979081eec8557fc37988ad5ca4220a41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/dapter/zipball/f63d4f5120d6a91eb311722677822a125afd6be6",
-                "reference": "f63d4f5120d6a91eb311722677822a125afd6be6",
+                "url": "https://api.github.com/repos/artisan-toolbox/dapter/zipball/14e7ac3f979081eec8557fc37988ad5ca4220a41",
+                "reference": "14e7ac3f979081eec8557fc37988ad5ca4220a41",
                 "shasum": ""
             },
             "require": {
@@ -180,23 +180,23 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/dapter/issues",
-                "source": "https://github.com/artisan-toolbox/dapter/tree/1.0.0-beta.3"
+                "source": "https://github.com/artisan-toolbox/dapter/tree/1.0.0-beta.4"
             },
-            "time": "2026-11-20T15:47:23+00:00",
-            "published-time": "2026-11-20T15:51:49+00:00"
+            "time": "2026-11-20T23:33:42+00:00",
+            "published-time": "2026-11-20T23:40:06+00:00"
         },
         {
             "name": "artisan-toolbox/dump-to-console",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/dump-to-console.git",
-                "reference": "d7eef68a1b6bbbf69f7b2d6ef59b64e46a296787"
+                "reference": "46e5bf19b54446bf0dc869c8f8d970bf8a17502b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/dump-to-console/zipball/d7eef68a1b6bbbf69f7b2d6ef59b64e46a296787",
-                "reference": "d7eef68a1b6bbbf69f7b2d6ef59b64e46a296787",
+                "url": "https://api.github.com/repos/artisan-toolbox/dump-to-console/zipball/46e5bf19b54446bf0dc869c8f8d970bf8a17502b",
+                "reference": "46e5bf19b54446bf0dc869c8f8d970bf8a17502b",
                 "shasum": ""
             },
             "require": {
@@ -256,7 +256,7 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/dump-to-console/issues",
-                "source": "https://github.com/artisan-toolbox/dump-to-console/tree/1.2.1"
+                "source": "https://github.com/artisan-toolbox/dump-to-console/tree/1.2.2"
             },
             "funding": [
                 {
@@ -264,21 +264,21 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-20T15:16:28+00:00",
-            "published-time": "2026-11-20T15:18:04+00:00"
+            "time": "2026-11-20T23:32:39+00:00",
+            "published-time": "2026-11-20T23:34:04+00:00"
         },
         {
             "name": "artisan-toolbox/filoquent",
-            "version": "1.0.0-beta.7",
+            "version": "1.0.0-beta.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/filoquent.git",
-                "reference": "7d0e7c92496d580866dd7efed90f1b6c9be40a29"
+                "reference": "c2b3a83e2afe1cc337013b819223a690b1afe310"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/filoquent/zipball/7d0e7c92496d580866dd7efed90f1b6c9be40a29",
-                "reference": "7d0e7c92496d580866dd7efed90f1b6c9be40a29",
+                "url": "https://api.github.com/repos/artisan-toolbox/filoquent/zipball/c2b3a83e2afe1cc337013b819223a690b1afe310",
+                "reference": "c2b3a83e2afe1cc337013b819223a690b1afe310",
                 "shasum": ""
             },
             "require": {
@@ -346,23 +346,23 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/filoquent/issues",
-                "source": "https://github.com/artisan-toolbox/filoquent/tree/1.0.0-beta.7"
+                "source": "https://github.com/artisan-toolbox/filoquent/tree/1.0.0-beta.8"
             },
-            "time": "2026-11-20T15:40:00+00:00",
-            "published-time": "2026-11-20T15:43:16+00:00"
+            "time": "2026-11-20T23:32:42+00:00",
+            "published-time": "2026-11-20T23:37:34+00:00"
         },
         {
             "name": "artisan-toolbox/front-awesome",
-            "version": "1.0.0-beta.6",
+            "version": "1.0.0-beta.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/front-awesome.git",
-                "reference": "387a1a97d923ab1ad05432d6d03d9cdbf73b5f8d"
+                "reference": "f29404531ae1d75fe9fabb30c005b38445985637"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/front-awesome/zipball/387a1a97d923ab1ad05432d6d03d9cdbf73b5f8d",
-                "reference": "387a1a97d923ab1ad05432d6d03d9cdbf73b5f8d",
+                "url": "https://api.github.com/repos/artisan-toolbox/front-awesome/zipball/f29404531ae1d75fe9fabb30c005b38445985637",
+                "reference": "f29404531ae1d75fe9fabb30c005b38445985637",
                 "shasum": ""
             },
             "require": {
@@ -425,7 +425,7 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/front-awesome/issues",
-                "source": "https://github.com/artisan-toolbox/front-awesome/tree/1.0.0-beta.6"
+                "source": "https://github.com/artisan-toolbox/front-awesome/tree/1.0.0-beta.7"
             },
             "funding": [
                 {
@@ -433,21 +433,21 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-20T16:43:22+00:00",
-            "published-time": "2026-11-20T17:09:37+00:00"
+            "time": "2026-11-20T23:32:54+00:00",
+            "published-time": "2026-11-20T23:37:04+00:00"
         },
         {
             "name": "artisan-toolbox/maintainer",
-            "version": "1.14.3",
+            "version": "1.14.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/maintainer.git",
-                "reference": "f3ace73a7020f1a76a62fa3c9137b1b541bb8cc8"
+                "reference": "c46eefa9d82cdfcd53c83c06c810ca2d3b0c7c33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/maintainer/zipball/f3ace73a7020f1a76a62fa3c9137b1b541bb8cc8",
-                "reference": "f3ace73a7020f1a76a62fa3c9137b1b541bb8cc8",
+                "url": "https://api.github.com/repos/artisan-toolbox/maintainer/zipball/c46eefa9d82cdfcd53c83c06c810ca2d3b0c7c33",
+                "reference": "c46eefa9d82cdfcd53c83c06c810ca2d3b0c7c33",
                 "shasum": ""
             },
             "require": {
@@ -519,21 +519,21 @@
                 "issues": "https://github.com/artisan-toolbox/maintainer/issues",
                 "source": "https://github.com/artisan-toolbox/maintainer"
             },
-            "time": "2026-11-20T05:55:22+00:00",
-            "published-time": "2026-11-20T06:00:19+00:00"
+            "time": "2026-11-20T18:09:30+00:00",
+            "published-time": "2026-11-20T18:20:44+00:00"
         },
         {
             "name": "artisan-toolbox/mosaicast",
-            "version": "1.3.1",
+            "version": "1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/mosaicast.git",
-                "reference": "d10bed57b10ebd6b6b53cf4496716cd4b49d2b54"
+                "reference": "d3f01f008db6e592eeb745d4da755fb160017775"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/mosaicast/zipball/d10bed57b10ebd6b6b53cf4496716cd4b49d2b54",
-                "reference": "d10bed57b10ebd6b6b53cf4496716cd4b49d2b54",
+                "url": "https://api.github.com/repos/artisan-toolbox/mosaicast/zipball/d3f01f008db6e592eeb745d4da755fb160017775",
+                "reference": "d3f01f008db6e592eeb745d4da755fb160017775",
                 "shasum": ""
             },
             "require": {
@@ -593,7 +593,7 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/mosaicast/issues",
-                "source": "https://github.com/artisan-toolbox/mosaicast/tree/1.3.1"
+                "source": "https://github.com/artisan-toolbox/mosaicast/tree/1.3.2"
             },
             "funding": [
                 {
@@ -601,25 +601,25 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-20T15:24:58+00:00",
-            "published-time": "2026-11-20T15:26:49+00:00"
+            "time": "2026-11-20T23:32:57+00:00",
+            "published-time": "2026-11-20T23:35:23+00:00"
         },
         {
             "name": "artisan-toolbox/permit",
-            "version": "1.0.0-beta.2",
+            "version": "1.0.0-beta.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/permit.git",
-                "reference": "6064465a16f4c7a503471d5e5529de13081560ce"
+                "reference": "d22d3f83241511fa74e540e1c1550a14d063ae4f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/permit/zipball/6064465a16f4c7a503471d5e5529de13081560ce",
-                "reference": "6064465a16f4c7a503471d5e5529de13081560ce",
+                "url": "https://api.github.com/repos/artisan-toolbox/permit/zipball/d22d3f83241511fa74e540e1c1550a14d063ae4f",
+                "reference": "d22d3f83241511fa74e540e1c1550a14d063ae4f",
                 "shasum": ""
             },
             "require": {
-                "artisan-toolbox/maintainer": "^1.10.0",
+                "artisan-toolbox/maintainer": "^1.14.3",
                 "ext-intl": "*",
                 "illuminate/support": "^13.0",
                 "inertiajs/inertia-laravel": "^3.0",
@@ -627,16 +627,15 @@
             },
             "require-dev": {
                 "driftingly/rector-laravel": "^2.5",
-                "larastan/larastan": "^3.9",
+                "larastan/larastan": "^3.12.1",
                 "laravel/pao": "^1.0",
                 "laravel/pint": "^1.29",
                 "orchestra/testbench": "^11.0",
                 "pestphp/pest": "^5.0",
                 "pestphp/pest-plugin-laravel": "^5.0",
                 "pestphp/pest-plugin-phpstan": "^5.3",
-                "pestphp/pest-plugin-type-coverage": "^5.0",
+                "pestphp/pest-plugin-type-coverage": "^5.1.1",
                 "phpstan/extension-installer": "^1.4",
-                "phpstan/phpstan": "^2.2.8 <2.3.6",
                 "rector/rector": "^2.6.2"
             },
             "type": "library",
@@ -672,7 +671,7 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/permit/issues",
-                "source": "https://github.com/artisan-toolbox/permit/tree/1.0.0-beta.2"
+                "source": "https://github.com/artisan-toolbox/permit/tree/1.0.0-beta.3"
             },
             "funding": [
                 {
@@ -680,21 +679,21 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-19T22:03:10+00:00",
-            "published-time": "2026-11-19T22:03:16+00:00"
+            "time": "2026-11-20T23:27:22+00:00",
+            "published-time": "2026-11-20T23:30:08+00:00"
         },
         {
             "name": "artisan-toolbox/qztray",
-            "version": "1.5.1",
+            "version": "1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/qztray.git",
-                "reference": "5bc0259a4a05e81d9674e27433f27ec8be273a9d"
+                "reference": "eb90620d21d263220f1488ba9021ea8939a051ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/qztray/zipball/5bc0259a4a05e81d9674e27433f27ec8be273a9d",
-                "reference": "5bc0259a4a05e81d9674e27433f27ec8be273a9d",
+                "url": "https://api.github.com/repos/artisan-toolbox/qztray/zipball/eb90620d21d263220f1488ba9021ea8939a051ad",
+                "reference": "eb90620d21d263220f1488ba9021ea8939a051ad",
                 "shasum": ""
             },
             "require": {
@@ -756,7 +755,7 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/qztray/issues",
-                "source": "https://github.com/artisan-toolbox/qztray/tree/1.5.1"
+                "source": "https://github.com/artisan-toolbox/qztray/tree/1.5.2"
             },
             "funding": [
                 {
@@ -764,8 +763,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-20T15:22:39+00:00",
-            "published-time": "2026-11-20T15:24:35+00:00"
+            "time": "2026-11-20T23:32:59+00:00",
+            "published-time": "2026-11-20T23:37:36+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1818,22 +1817,22 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "8.5.2",
+            "version": "8.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "8e893188e1ac92b457eca35ddf2b574024b66280"
+                "reference": "047202b4f2ac14265ad5f9e039932df4efe0d9bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/8e893188e1ac92b457eca35ddf2b574024b66280",
-                "reference": "8e893188e1ac92b457eca35ddf2b574024b66280",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/047202b4f2ac14265ad5f9e039932df4efe0d9bf",
+                "reference": "047202b4f2ac14265ad5f9e039932df4efe0d9bf",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "guzzlehttp/promises": "^3.1",
-                "guzzlehttp/psr7": "^3.4",
+                "guzzlehttp/promises": "^3.1.1",
+                "guzzlehttp/psr7": "^3.5.1",
                 "php": "^7.4 || ^8.0",
                 "psr/http-client": "^1.0",
                 "psr/http-factory": "^1.0",
@@ -1925,7 +1924,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/8.5.2"
+                "source": "https://github.com/guzzle/guzzle/tree/8.5.4"
             },
             "funding": [
                 {
@@ -1941,8 +1940,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-11-17T16:24:00+00:00",
-            "published-time": "2026-11-17T16:24:22+00:00"
+            "time": "2026-11-20T22:56:36+00:00",
+            "published-time": "2026-11-20T22:58:14+00:00"
         },
         {
             "name": "guzzlehttp/promises",

@@ -29,6 +29,10 @@ const navigation = (prefix = '/docs') =>
         children: [],
     }));
 const normalize = (value) => value.replace(/\s+/g, ' ').trim();
+const currentPhpRequirement = (text) =>
+    text === 'PHP 8.5 or later'
+        ? 'PHP 8.5 or later within PHP 8.x. The packages test PHP 8.5 and 8.6.'
+        : text;
 const packageEntry = (id, title, href) => ({
     id,
     title,
@@ -84,7 +88,7 @@ for (const fixture of fixtures) {
             ).toEqual(
                 fixture.paragraphs.map((paragraph) =>
                     normalize(
-                        paragraph
+                        currentPhpRequirement(paragraph)
                             .replace(
                                 'The pending-push feature is explicitly labeled as a preview on the current 1.x branch after 1.10.0.',
                                 'Maintainer 1.11.0 includes the pending-push feature.',
@@ -97,7 +101,7 @@ for (const fixture of fixtures) {
                 ),
             );
             expect(content.findAll('li').map((item) => normalize(item.text()))).toEqual(
-                fixture.listItems.map(normalize),
+                fixture.listItems.map((item) => normalize(currentPhpRequirement(item))),
             );
             expect(content.findAll('a').map((link) => link.attributes('href'))).toEqual(
                 fixture.links.map((link) => link.href),

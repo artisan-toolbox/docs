@@ -39,9 +39,8 @@ const menu = `vendor/bin/maintainer`;
                 <code>config:publish</code>. Maintainer has no browser package to install.
             </p>
             <p>
-                The published 1.14.3 executable reports 1.14.2 when you pass
-                <code>--version</code>. Run <code>composer show artisan-toolbox/maintainer</code>
-                to verify the installed Composer release.
+                Run <code>vendor/bin/maintainer --version</code> to verify the installed version.
+                Starting with 1.14.4, this command reports the version of the packaged release.
             </p>
             <p>To browse the same workflows interactively, open the menu:</p>
             <CodeExample label="Browse Maintainer workflows" language="bash" :code="menu" />

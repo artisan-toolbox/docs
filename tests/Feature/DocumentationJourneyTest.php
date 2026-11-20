@@ -33,7 +33,10 @@ test('starts each package journey with an installation guide', function () {
         $installation = $package->id.'/installation';
 
         expect($navigation->get($package->id)?->children[0]->slug)->toBe($installation);
-        $this->withoutVite()->get('/docs/'.$installation)->assertOk();
+        $this->withoutVite()->get('/docs/'.$installation)->assertOk()->assertInertia(fn (Assert $page) => $page
+            ->where('page.requirements.0', fn (string $requirement): bool => str_starts_with($requirement, 'PHP 8.5 minimum')
+                && str_contains($requirement, 'tested on PHP 8.5 and 8.6'))
+        );
     }
 });
 

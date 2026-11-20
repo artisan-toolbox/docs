@@ -16,9 +16,9 @@ defineProps({
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection id="starting-environment" title="Prepare the source declarations"
                 ><p>
-                    Complete Install Dapter and the global operation guides. These PHP 8.5 examples
-                    use the same fictional Collection. Inspect the complete executable source in
-                    each frame.
+                    Complete Install Dapter and the global operation guides. These examples run on
+                    PHP 8.5 and 8.6. They use the same fictional Collection. Inspect the complete
+                    executable source in each frame.
                 </p></ProseSection
             >
             <ProseSection id="forms" title="Choose a declaration form"
@@ -26,8 +26,8 @@ defineProps({
                     GlobalSearch, GlobalFilter, GlobalOrder, MultiOrder, SearchGrouping, and Query
                     attributes use the same contracts as fluent options. A class GlobalFilter or
                     GlobalOrder requires id and apply. A private nonstatic method supplies its
-                    handler and defaults its id to the method name. Method forms reject apply. PHP
-                    8.5 static Closures in trusted attributes and invokable classes use the same
+                    handler and defaults its id to the method name. Method forms reject apply.
+                    Static closures in trusted attributes and invokable classes use the same
                     validated binder. Do not combine Action and a global operation on one method.
                 </p></ProseSection
             >

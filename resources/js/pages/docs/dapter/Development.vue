@@ -36,8 +36,8 @@ const logo = 'python3 scripts/build-logos.py';
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection id="setup" title="Prepare the package checkout">
                 <p>
-                    Use PHP ^8.5, Composer, and Node.js >=24.11.0. From the Dapter package root,
-                    run:
+                    Use PHP 8.5 or 8.6, Composer, and Node.js 24.11.0 or later. From the Dapter
+                    package root, run:
                 </p>
                 <CodeExample label="Install development dependencies" :code="setup" />
             </ProseSection>

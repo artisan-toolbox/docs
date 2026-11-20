@@ -26,9 +26,9 @@ const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection id="checks" title="Run package checks">
                 <p>
-                    Start in the Permit package checkout with PHP 8.5 and Composer. Use Node.js
-                    24.11 or later in the Node.js 24 release line to match CI. Run these commands
-                    from the package root, where its own <code>composer.json</code> and
+                    Start in the Permit package checkout with PHP 8.5 or 8.6 and Composer. Use
+                    Node.js 24.11 or later in the Node.js 24 release line to match CI. Run these
+                    commands from the package root, where its own <code>composer.json</code> and
                     <code>package.json</code> live.
                 </p>
                 <CodeExample label="Build and validate Permit" :code="checks" />

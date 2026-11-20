@@ -23,7 +23,7 @@ const example1 = `composer require artisan-toolbox/<package>`;
             package generation targets:
         </p>
         <ul>
-            <li><p>PHP 8.5 or later</p></li>
+            <li><p>PHP 8.5 or later within PHP 8.x. The packages test PHP 8.5 and 8.6.</p></li>
             <li><p>Laravel 13 components</p></li>
             <li><p>Composer 2</p></li>
         </ul>

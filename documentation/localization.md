@@ -10,7 +10,7 @@ The live demonstration owns only example inputs, layout, and restoration of the 
 
 ## Beginner journey audit
 
-The learner starts with an existing Laravel 13.36 or later within 13.x, Inertia 3, Vue 3.5, Vite, PHP 8.5, and supported Node application. Front Awesome is in beta and includes localization. The installed Composer version is displayed through shared package metadata and remains separate from package stability.
+The learner starts with an existing Laravel 13.36 or later within 13.x, Inertia 3, Vue 3.5, Vite, PHP 8.5 or 8.6, and supported Node application. Front Awesome is in beta and includes localization. The installed Composer version is displayed through shared package metadata and remains separate from package stability.
 
 The existing overview and dedicated Installation guide retain their Composer-before-npm procedure and first Button example. Its observable result remains the Hello from Front Awesome button. Localization remains optional and does not add an exporter prerequisite to ordinary wrappers.
 

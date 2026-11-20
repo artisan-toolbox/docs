@@ -15,10 +15,10 @@ final readonly class DumpToConsolePackage extends Package
             summary: 'Send Laravel dumps to a separate console without changing the application response.',
             version: '1.x',
             overview: PageSlug::DumpToConsole,
-            documentedVersion: '1.2.1',
+            documentedVersion: '1.2.2',
             stability: 'Stable',
             requirements: [
-                'PHP 8.5 or later within the PHP 8.x series',
+                'PHP 8.5 minimum within PHP 8.x (tested on PHP 8.5 and 8.6)',
                 'Laravel 13 components',
             ],
         );

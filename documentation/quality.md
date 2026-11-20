@@ -1287,3 +1287,32 @@ seconds. Serial runs ranged from 7.85 to 12.79 seconds, and parallel runs from
 Core, Dump to Console, and Mosaicast had overlapping ranges and retain serial
 defaults. These local timings cover the runtime suite. The hosted matrix also
 includes setup, analysis, distribution, and Windows runners.
+
+### PHP 8.6 documentation verification
+
+The catalog covers the nine Artisan Toolbox releases that test PHP 8.5 and 8.6.
+Each release tag on GitHub matches its Composer lock reference. PHP 8.5 remains
+the minimum in the PHP 8.x series.
+
+The [package learning paths](#artisan-toolbox-release-refresh-on-2026-11-18) now
+start on either tested PHP version. Chromium on Herd opened every package
+overview and installation guide, checked the displayed Composer command against
+its release, and ran the Dapter quickstart through Notebook 11 on the second page.
+The guides use the existing requirements, navigation, and installation components.
+The published Maintainer executable reports `1.14.4` with `--version`.
+
+Run `composer update --with-all-dependencies --dry-run --no-scripts` from `docs` to
+check compatible versions. The refresh found the lock current and reported no
+advisories. Composer still reports `symplify/rule-doc-generator-contracts` as
+abandoned. After `composer install --no-scripts`, `npm update --dry-run --ignore-scripts`
+proposed reinstalling same-version Vitest dependencies. The four installed npm
+copies match their Composer distributions. The npm advisory check passed.
+
+`composer ci:check` passed on PHP 8.5.13 and 8.6.0. Each run passed Rector and
+all six Maintainer checks, including 1,061 Pest tests and 1,362 Vitest tests.
+PHPStan reported zero analysis errors on both runtimes. Its optional macOS Turbo
+extension failed to load on PHP 8.6.
+
+The production build and search index freshness check passed. The local search
+endpoint returned guide sections for `PHP 8.6`. The Dapter coverage check verified
+510 settings and ran the backend and frontend demos.

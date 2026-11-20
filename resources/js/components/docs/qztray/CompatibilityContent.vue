@@ -37,6 +37,7 @@ defineProps({ navigation: { type: Array, required: true } });
             requirement from
             <code>^1.5</code> in 1.1.1 to <code>^1.10.0</code>.
         </p>
+        <p>CI tests PHP 8.5 and 8.6 on Ubuntu and Windows.</p>
         <p>
             QZ Tray Connector 1.4.0 requires Core <code>^1.1.0</code> and Maintainer
             <code>^1.11.0</code>. These requirements are included in the published release.

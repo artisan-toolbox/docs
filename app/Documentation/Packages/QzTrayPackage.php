@@ -15,10 +15,10 @@ final readonly class QzTrayPackage extends Package
             summary: 'Print through QZ Tray and preview ESC/POS receipts, ZPL labels, and PDFs.',
             version: '1.x',
             overview: PageSlug::QzTray,
-            documentedVersion: '1.5.1',
+            documentedVersion: '1.5.2',
             stability: 'Stable',
             requirements: [
-                'PHP 8.5 or later within the PHP 8.x series',
+                'PHP 8.5 minimum within PHP 8.x (tested on PHP 8.5 and 8.6)',
                 'PHP OpenSSL extension (ext-openssl, enforced by Composer)',
                 'Laravel 13 components',
                 'Composer installs Artisan Toolbox Core ^1.4.1 and Maintainer ^1.14.3 automatically.',

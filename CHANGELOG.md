@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Document PHP 8.6 alongside PHP 8.5 in package requirements and guides. Update the documentation catalog and installation examples for the nine package releases that test both versions.
+
 - Document the newly published package versions, verify the published permission editor in Chromium, and run the quality checks with bounded Pest and Vitest workers.
 
 - Document the shared Maintainer root action across the package CI workflows and the Dapter archive gate before dependency installation.

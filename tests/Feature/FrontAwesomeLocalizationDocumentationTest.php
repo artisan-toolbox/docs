@@ -8,7 +8,7 @@ test('serves localization guides with canonical registry metadata', function (Pa
         ->assertInertia(fn (Assert $page) => $page->component($component)
             ->where('page.slug', $slug->value)
             ->where('page.package.id', 'front-awesome')
-            ->where('page.requirements.0', 'PHP 8.5 or later within PHP 8.x, Laravel 13.36 or later within Laravel 13.x, and Inertia Laravel 3.x'));
+            ->where('page.requirements.0', 'PHP 8.5 minimum within PHP 8.x (tested on PHP 8.5 and 8.6), Laravel 13.36 or later within Laravel 13.x, and Inertia Laravel 3.x'));
 
     expect(base_path($slug->page()->sourcePath))->toBeFile();
 })->with([

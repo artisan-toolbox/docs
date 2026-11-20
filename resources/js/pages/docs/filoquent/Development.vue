@@ -64,9 +64,9 @@ const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection id="checks" title="Run package checks">
                 <p>
-                    Start in the Filoquent package checkout with PHP ^8.5, Composer, and Node 24 or
-                    later. Run these commands from that package root, rather than the consuming
-                    Laravel application:
+                    Start in the Filoquent package checkout with PHP 8.5 or 8.6, Composer, and Node
+                    24 or later. Run these commands from that package root, rather than the
+                    consuming Laravel application:
                 </p>
                 <CodeExample label="Validate the Filoquent package" :code="checks" />
                 <p>

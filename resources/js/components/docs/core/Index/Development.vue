@@ -16,10 +16,11 @@ composer test:distribution`;
             Development
         </h2>
         <p>
-            Run the checks from the Core checkout with PHP 8.5, Composer, and Git. The distribution
-            check also needs the PHP Zip extension and access to the Composer dependency registry.
+            Run the checks from the Core checkout with PHP 8.5 or 8.6, Composer, and Git. The
+            distribution check also needs the PHP Zip extension and access to the Composer
+            dependency registry.
         </p>
-        <p>The commands below describe the Maintainer 1.14.3 integration on Core's 1.x branch.</p>
+        <p>The commands below describe the Maintainer 1.14.4 integration on Core's 1.x branch.</p>
         <CodeExample label="Validate Core and its distribution" :code="checks" />
         <p>
             <code>composer test</code> runs <code>composer quality:check</code> and type coverage.

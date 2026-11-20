@@ -38,7 +38,7 @@ Run `php artisan docs:search:index --no-interaction` after content changes and b
 
 Run `composer ci:check` for the Rector dry run and Maintainer's PHP and frontend checks.
 Use `composer quality:fix` to open the fixing workflow.
-The application requires PHP 8.5. Asset builds and CI require Node.js 24.11 or newer. Quality checks require Composer development dependencies.
+The application requires PHP 8.5 or later within PHP 8.x. CI tests PHP 8.5 and 8.6. Asset builds and CI require Node.js 24.11 or newer. Quality checks require Composer development dependencies.
 Vue SSR is disabled. Production does not need an Inertia SSR service.
 
 Read [the quality workflow](documentation/quality.md), [the authoring workflow](documentation/authoring.md), [the architecture](documentation/architecture.md), [asset maintenance](documentation/assets.md), and [the migration plan](documentation/migration.md) before adding content.
