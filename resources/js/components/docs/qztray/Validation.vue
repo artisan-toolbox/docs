@@ -58,8 +58,9 @@ defineProps({ navigation: { type: Array, required: true } });
             and exercise the actual QZ SDK's signing error boundary through an emulated transport.
             PDF engine tests use the real legacy distribution for headless Node rendering; browser
             builds retain the modern distribution. CI runs source validation on Node 22.18 and 24.11
-            for Ubuntu and Windows, plus the PHP matrix's Node 24 runtime. A separate check
-            exercises the compiled ESM and CommonJS connector entries on Node 20.19.
+            for Ubuntu and Windows in separate jobs from the PHP matrix. The distribution job runs
+            <code>npm run check:dist</code> and exercises the compiled ESM and CommonJS connector
+            entries on Node 20.19.
         </p>
         <p>
             Credential publishing tests resolve source paths and verify the published file contents
@@ -72,8 +73,8 @@ defineProps({ navigation: { type: Array, required: true } });
             fixture uses that component's own metadata. It verifies that Support helpers are
             available while undeclared Foundation helpers and the optional ESC/POS library remain
             unavailable. A missing optional encoder must produce the documented installation hint.
-            CI adds Laravel Framework and Testbench with <code>composer require --dev</code> so test
-            infrastructure does not become a production requirement in the fixture.
+            The Maintainer action resolves Composer dependencies for each PHP matrix entry. Composer
+            installs Laravel Framework through the development dependency on Testbench.
         </p>
         <p>
             The production dependency tests set <code>auto_prepend_file=none</code> for their PHP

@@ -16,8 +16,8 @@ defineProps({
         <ProseSection>
             <p>
                 Maintainer 1.11.0 includes the <code>deploy:run</code> workflow and server
-                maintenance tasks. Search in its interactive task selector is a source preview on
-                the current <code>1.x</code> branch after 1.11.0.
+                maintenance tasks. Starting in Maintainer 1.12.0, type in the interactive selector
+                to filter tasks by name.
             </p>
         </ProseSection>
         <DeploymentExecution :navigation="navigation" />

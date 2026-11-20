@@ -28,6 +28,10 @@ interface Reports
     public function export(): void;
 }`;
 
+const icons = `#[Group('reports', 'Reports', 'Manage reporting access.', icon: 'chart-column')]
+
+#[Permission('Export reports', 'Download a report as a file.', icon: 'file-export')]`;
+
 const roles = String.raw`<?php
 
 namespace App\Permit;
@@ -64,9 +68,9 @@ interface ApplicationRoles
                     Permit registers <code>reports::read</code> and
                     <code>reports::export</code> when Laravel boots. The group ID prefixes each
                     Gate. The CRUD attribute adds enabled keys in the order <code>create</code>,
-                    <code>read</code>, <code>update</code>, and <code>delete</code>. Each CRUD key
-                    defaults to <code>false</code>. Omit the attribute to declare only custom
-                    permissions.
+                    <code>read</code>, <code>update</code>, and <code>delete</code>. The attribute
+                    enables each operation by default. Each generated permission starts denied until
+                    you grant it. Omit the attribute to declare only custom permissions.
                 </p>
                 <p>
                     Custom permissions use the exact method name after <code>::</code>. Declare a
@@ -74,6 +78,37 @@ interface ApplicationRoles
                     type or no return type. Add <code>default: true</code> to a permission attribute
                     when users without a saved assignment should receive access. Saved
                     <code>true</code> and <code>false</code> both override the default.
+                </p>
+            </ProseSection>
+            <ProseSection id="catalog-icons" title="Add icons to a permission group">
+                <p>
+                    Permit 1.0.0-beta.2 adds the optional
+                    <code>icon:</code> argument on <code>#[Group]</code> and
+                    <code>#[Permission]</code>. Use a lowercase, hyphenated Font Awesome icon name,
+                    such as <code>chart-column</code>. Replace the two attributes in your Reports
+                    declaration to add a group icon and an icon for the export permission.
+                </p>
+                <CodeExample
+                    label="Name icons in a group declaration"
+                    language="php"
+                    :code="icons" />
+                <p>
+                    If you use a compiled catalog, run
+                    <code>php artisan permit:catalog:cache</code> from the application root to pick
+                    up the edited declaration. The editor preview shows the group and export icons
+                    next to their labels. The generated read permission uses the configured CRUD
+                    icon.
+                </p>
+                <p>
+                    See
+                    <DocsLink
+                        :href="
+                            findNavigationItem(navigation, 'permit/management').href +
+                            '#configure-catalog-icons'
+                        "
+                        >Configure icons in the editor</DocsLink
+                    >
+                    for generated permissions, the icon family, and the global switch.
                 </p>
             </ProseSection>
             <ProseSection id="declare-roles" title="Declare roles">

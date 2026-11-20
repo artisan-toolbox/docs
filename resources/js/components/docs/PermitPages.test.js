@@ -12,7 +12,7 @@ const page = {
     package: {
         installationCommands: {
             composer: {
-                code: 'composer require artisan-toolbox/permit:1.0.0-beta.1',
+                code: 'composer require artisan-toolbox/permit:1.0.0-beta.2',
             },
             frontend: {
                 code: "npm pkg set 'dependencies.@artisan-toolbox/permit=file:vendor/artisan-toolbox/permit'\nnpm install --install-links",
@@ -48,7 +48,7 @@ describe('Permit beta learning journey', () => {
         );
         expect(wrapper.text()).toContain('The first check prints false');
         const samples = wrapper.findAllComponents(CodeExample).map((item) => item.props('code'));
-        expect(samples).toContain('composer require artisan-toolbox/permit:1.0.0-beta.1');
+        expect(samples).toContain('composer require artisan-toolbox/permit:1.0.0-beta.2');
         expect(samples).toContain(
             'php artisan vendor:publish --tag=permit-config\nphp artisan vendor:publish --tag=permit-migrations\nphp artisan migrate\nphp artisan make:permission-group Users',
         );
@@ -120,8 +120,9 @@ describe('Permit beta learning journey', () => {
 
         expect(wrapper.text()).toContain('Run these commands from the package root');
         expect(commands).toContain(
-            'composer install\nnpm install\nnpm run build\ncomposer test\nnpm run check\nnpm test -- --run',
+            'composer install\nnpm ci\ncomposer test\nnpm run release:build\ngit diff --exit-code -- dist',
         );
+        expect(commands).toContain('npm run standards:check');
         expect(commands).toContain('php vendor/bin/maintainer readme:update --no-interaction');
     });
 });

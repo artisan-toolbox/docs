@@ -80,7 +80,7 @@ return StoreOptions::make()->useResource(ProductResource::class);`;
                 id="store-drivers-and-capabilities"
                 title="Store drivers and capabilities">
                 <p>
-                    The local preview implements the <code>StoreDriver</code> interface and the
+                    The published beta implements the <code>StoreDriver</code> interface and the
                     <code>DriverCapabilities</code>, <code>ValidatedReadPlan</code>, and
                     <code>RawPage</code> types shown below for offset reads. Its factory selects
                     <code>CollectionStoreDriver</code> or <code>EloquentStoreDriver</code>, with

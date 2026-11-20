@@ -7,9 +7,11 @@ const example1 = `use Illuminate\\Support\\Arr;
 use function ArtisanToolbox\\Core\\sift_when;
 
 $payload = Arr::sift([
-    'name' => $user->name,
-    'email' => sift_when($canViewEmail, fn () => $user->email),
-]);`;
+    'name' => 'Ada',
+    'email' => sift_when(false, fn () => 'ada@example.test'),
+]);
+
+dump($payload);`;
 </script>
 
 <template>
@@ -24,8 +26,8 @@ $payload = Arr::sift([
             language="php"
             :code="example1" />
         <p>
-            When <code>$canViewEmail</code> is <code>false</code>, <code>$payload</code> contains
-            only <code>name</code>.
+            Run this example in a Laravel route or command after installing Core. The dump contains
+            exactly <code>['name' =&gt; 'Ada']</code>.
         </p>
     </ProseSection>
 </template>

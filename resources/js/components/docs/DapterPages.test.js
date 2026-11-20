@@ -90,7 +90,7 @@ function render(component, slug) {
                     title: 'Dapter',
                     composerName: 'artisan-toolbox/dapter',
                     stability: 'Beta',
-                    installedVersion: '1.0.0-beta.2',
+                    installedVersion: '1.0.0-beta.3',
                     installationStatus: 'installed',
                     installationCommands: installationCommands('dapter'),
                     artwork: { icon: '/images/packages/dapter/dapter-icon.svg' },
@@ -169,7 +169,7 @@ describe('Dapter learning journey', () => {
         expect(wrapper.get('section[aria-labelledby="next-steps"] a').attributes('href')).toBe(
             '/docs/dapter#first-example',
         );
-        expect(text).toContain('1.0.0-beta.2');
+        expect(text).toContain('1.0.0-beta.3');
         wrapper.unmount();
     });
 
@@ -379,7 +379,7 @@ describe('Dapter proposal roadmap', () => {
         expect(text).toContain("Options API's setup()");
         expect(text).toContain('public handle never contains them');
         expect(text).toContain('unconfigured consumer linter');
-        expect(text).toContain('local preview exports useDataAdapter and DataAdapterHandle');
+        expect(text).toContain('Dapter exports useDataAdapter and DataAdapterHandle');
         expect(
             wrapper
                 .findAllComponents(RoadmapPhase)
@@ -444,7 +444,7 @@ describe('Dapter proposal roadmap', () => {
         const text = wrapper.text();
         expect(wrapper.get('h1').text()).toBe('Dapter roadmap');
         expect(text).toContain(
-            'The local preview implements Collection, SQLite, MySQL, and PostgreSQL backend offset reads and explicit v2 field operations.',
+            'Dapter 1.0.0-beta.3 includes Collection, SQLite, MySQL, and PostgreSQL backend offset reads and explicit v2 field operations.',
         );
         expect(text).toContain('<DataAdapter source="Products">');
         expect(text).toContain('total: 100');
@@ -1556,7 +1556,7 @@ describe('Dapter proposal roadmap', () => {
         );
         expect(tasks.map(({ anchor }) => anchor)).toEqual(expectedAnchors);
         expect(documents[0].body).toContain(
-            'The local preview implements Collection, SQLite, MySQL, and PostgreSQL backend offset reads and explicit v2 field operations.',
+            'Dapter 1.0.0-beta.3 includes Collection, SQLite, MySQL, and PostgreSQL backend offset reads and explicit v2 field operations.',
         );
         expect(section('the-smallest-useful-implementation').body).toContain(
             '<DataAdapter source="Products">',

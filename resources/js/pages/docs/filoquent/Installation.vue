@@ -26,9 +26,10 @@ const provider = `return [
                 <p>
                     Install Filoquent in an existing Laravel 13 application and save your first file
                     through an Eloquent attribute. Filoquent is in beta. The documented release,
-                    <code>1.0.0-beta.6</code>, is available on
-                    <DocsLink :href="page.package.releasesUrl">Packagist</DocsLink>. APIs may change
-                    before the stable release.
+                    <code>{{ page.package.documentedVersion }}</code>, is available on
+                    <DocsLink href="https://packagist.org/packages/artisan-toolbox/filoquent"
+                        >Packagist</DocsLink
+                    >. APIs may change before the stable release.
                 </p>
             </ProseSection>
             <Requirements :items="page.requirements">

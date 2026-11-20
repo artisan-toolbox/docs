@@ -9,6 +9,7 @@ const endpoint = '/demo/front-awesome/permission-editor';
 const exportEndpoint = endpoint + '/export';
 const editor = 'wa-dialog.permission-editor';
 const exportPermission = '[data-ability="notebooks::export"]';
+const reviewerRole = '[data-ability="role::reviewer"]';
 const isEndpoint = (traffic, method) =>
     new URL(traffic.url()).pathname === endpoint && traffic.request().method() === method;
 const isExport = (response) => new URL(response.url()).pathname === exportEndpoint;
@@ -17,6 +18,53 @@ const browser = await chromium.launch({
     headless: true,
     executablePath: process.env.CHROMIUM_EXECUTABLE,
 });
+
+async function verifyCatalog(dialog) {
+    const sidebar = dialog.getByRole('navigation', { name: 'Permission sections' });
+    const notebooks = dialog.locator('wa-accordion-item').filter({ hasText: 'Notebooks' });
+    const roles = dialog.locator('wa-accordion-item').filter({ hasText: 'Roles' });
+    const workflow = dialog.locator('wa-accordion-item').filter({ hasText: 'Publishing workflow' });
+    const search = dialog.getByRole('searchbox', { name: 'Find a permission or role' });
+    const exportRow = notebooks.locator('li').filter({ hasText: 'Export CSV' });
+
+    await sidebar.getByText('Permission groups', { exact: true }).waitFor();
+    await sidebar.getByText('Role assignments', { exact: true }).waitFor();
+    await dialog.getByRole('heading', { name: 'Role assignments', exact: true }).waitFor();
+    await notebooks.getByText('2 of 2 allowed', { exact: true }).waitFor();
+    await exportRow.getByText('Allowed', { exact: true }).waitFor();
+    await notebooks.locator('wa-icon[name="book-open"][family="classic"]').waitFor();
+    await exportRow.locator('wa-icon[name="file-export"][family="classic"]').waitFor();
+
+    await workflow.getByRole('button', { name: /Publishing workflow/ }).click();
+    await workflow.locator('[data-ability="workflow::draft"]').waitFor();
+    await dialog.locator(exportPermission).waitFor();
+
+    await sidebar.getByRole('button', { name: 'Roles', exact: true }).click();
+    await notebooks.locator(exportPermission).waitFor({ state: 'detached' });
+    await workflow.locator('[data-ability="workflow::draft"]').waitFor({ state: 'detached' });
+    const rolesHeader = roles.getByRole('button', { name: /Roles/ });
+    await dialog
+        .page()
+        .waitForFunction(
+            (id) => document.getElementById(id)?.matches(':focus-within'),
+            await roles.getAttribute('id'),
+        );
+    assert.equal(await rolesHeader.isVisible(), true);
+    await roles.getByText('1 of 2 assigned', { exact: true }).waitFor();
+    await roles.getByText('Assigned', { exact: true }).waitFor();
+    await roles.getByText('Unassigned', { exact: true }).waitFor();
+    await roles.locator(reviewerRole).locator('[part~="control"]').click();
+    await roles.getByText('2 of 2 assigned', { exact: true }).waitFor();
+
+    await search.fill('reviewer');
+    await roles.getByText('1 of 1 assigned', { exact: true }).waitFor();
+    await notebooks.waitFor({ state: 'detached' });
+    await search.fill('export');
+    await notebooks.getByText('1 of 1 allowed', { exact: true }).waitFor();
+    await roles.waitFor({ state: 'detached' });
+    await search.fill('');
+    await dialog.getByText('2 unsaved changes', { exact: true }).waitFor();
+}
 
 async function verifyEditor() {
     const desktop = await browser.newPage({
@@ -39,35 +87,14 @@ async function verifyEditor() {
         .getByRole('link', { name: 'Open the dialog from your user list', exact: true })
         .waitFor();
 
-    const previewRequired = desktop.getByText('Front Awesome beta.4 required', {
-        exact: true,
-    });
     const edit = desktop.getByRole('button', { name: "Edit Jordan's permissions" });
     const tryJordan = desktop.getByRole('button', { name: "Try Jordan's CSV export" });
-    await edit.or(previewRequired).waitFor();
+    await edit.waitFor();
     assert.deepEqual(methods, []);
 
     const [denied] = await Promise.all([desktop.waitForResponse(isExport), tryJordan.click()]);
     assert.equal(denied.status(), 403);
     await desktop.getByText('403 Forbidden. CSV export denied.', { exact: true }).waitFor();
-
-    if (await previewRequired.isVisible()) {
-        assert.equal(await edit.count(), 0);
-        const [allowed] = await Promise.all([
-            desktop.waitForResponse(isExport),
-            desktop.getByRole('button', { name: "Try Avery's CSV export" }).click(),
-        ]);
-        assert.equal(allowed.status(), 200);
-        await desktop
-            .getByRole('status')
-            .getByText(/1,Field notes/)
-            .waitFor();
-        assert.deepEqual(errors, []);
-        console.log(
-            'Permit demo exercises denied and allowed exports with the installed-release fallback.',
-        );
-        return;
-    }
 
     const dialog = desktop.locator(editor);
     await edit.click();
@@ -75,6 +102,7 @@ async function verifyEditor() {
     const checkbox = dialog.locator(exportPermission);
     await checkbox.locator('[part~="control"]').click();
     await dialog.getByText('1 unsaved change', { exact: true }).waitFor();
+    await verifyCatalog(dialog);
     assert.deepEqual(methods, ['GET']);
 
     const [saved] = await Promise.all([
@@ -92,7 +120,9 @@ async function verifyEditor() {
         desktop.waitForResponse((response) => isEndpoint(response, 'GET')),
         edit.click(),
     ]);
-    assert.equal((await loaded.json()).values['notebooks::export'], true);
+    const values = (await loaded.json()).values;
+    assert.equal(values['notebooks::export'], true);
+    assert.equal(values['role::reviewer'], true);
     await desktop.keyboard.press('Escape');
     await desktop.locator(editor + '[open]').waitFor({ state: 'hidden' });
     const [allowed] = await Promise.all([desktop.waitForResponse(isExport), tryJordan.click()]);
@@ -128,7 +158,7 @@ async function verifyEditor() {
         true,
     );
     console.log(
-        'Permission editor demo saves and reloads an editable account and supports mobile read only.',
+        'Permission editor demo verifies catalog icons, focus, summaries, role and permission drafts, saving, and mobile read-only access.',
     );
 }
 

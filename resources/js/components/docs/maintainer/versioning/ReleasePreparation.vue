@@ -30,8 +30,8 @@ const integrationHref = computed(
                 <li>authenticated GitHub CLI access;</li>
                 <li>a supported semantic version when the version constant already exists;</li>
                 <li>
-                    configured AI providers and credentials for release recommendations and
-                    generated content.
+                    configured AI providers and credentials for generating the release notes and
+                    changelog.
                 </li>
             </ul>
             <p>
@@ -70,22 +70,33 @@ const integrationHref = computed(
                 <li>A major increment requires the matching new major branch.</li>
             </ul>
             <p>
-                For a stable baseline, the provider under
-                <code>ai.providers.release_type_suggestion</code> recommends patch or minor. Any
-                analyzed fragment recommending minor makes minor the consolidated default; otherwise
-                patch remains the default. AI is not consulted when no baseline exists or a
-                prerelease line must finish.
+                In Maintainer 1.14.0 and later, when the baseline is stable, the provider under
+                <code>ai.providers.release_type_suggestion</code> recommends a version and explains
+                its choice and the other versions in the picker. The recommendation sets the initial
+                selection. You can select any version the branch allows. Maintainer opens the picker
+                directly for a first release or when a prerelease line must finish.
             </p>
             <p>
-                Package recommendations include development AI instructions and MCP configuration
-                because those files can be part of the package's reusable developer experience.
-                Laravel applications omit conventional AI-assistant instructions, rules, prompts,
-                skills, and MCP configuration from the SemVer recommendation because they do not
-                change the delivered site or application. Development-only AI or MCP dependencies
-                that remain visible in shared manifests are explicitly treated as internal
-                maintenance rather than evidence for a minor release. When only omitted development
-                files or other normally omitted artifacts changed in an application, Maintainer
-                defaults to patch without asking AI.
+                If the report identifies a breaking change that requires a new major version, review
+                the warning before proceeding on the current branch. Patch remains the picker's
+                default when the report finds no suitable version or the analysis fails.
+            </p>
+            <p>
+                Routine documentation, GitHub Actions, test, and development-environment changes
+                support a patch when they leave public behavior unchanged. A new compatible
+                capability must be backed by a changed line in the supplied diff to support a minor
+                recommendation. For reusable packages, the public contract includes capabilities
+                shipped for developers. Maintainer omits conventional AI-assistant files for Laravel
+                applications and uses patch if the available diff cannot support a higher
+                recommendation.
+            </p>
+            <p>
+                Maintainer 1.14.0 uses <code>ai.local_feedback_locale</code> for explanations in the
+                terminal. Set it to <code>pt_BR</code>, for example, or leave it
+                <code>null</code> to detect the language. When the terminal supplies no language or
+                reports a generic locale such as <code>C.UTF-8</code>, Maintainer 1.14.1 uses the
+                first preferred language on macOS. Use <code>ai.project_locale</code> for generated
+                commit messages, release notes, and changelog text. It defaults to <code>en</code>.
             </p>
         </ProseSection>
     </div>

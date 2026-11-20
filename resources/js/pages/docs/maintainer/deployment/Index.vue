@@ -17,9 +17,9 @@ const example1 = 'vendor/bin/maintainer config:publish';
         <ProseSection>
             <p>
                 Maintainer 1.11.0 includes the task selector, server maintenance tasks, optional
-                deployment retry after unlock, and namespace-isolated PM2 replacement. Search in the
-                <code>deploy:run</code> task selector is a source preview on the current
-                <code>1.x</code> branch after 1.11.0.
+                deployment retry after unlock, and namespace-isolated PM2 replacement. Starting in
+                Maintainer 1.12.0, type in the <code>deploy:run</code> selector to filter tasks by
+                name.
             </p>
         </ProseSection>
         <ProseSection>

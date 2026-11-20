@@ -3,9 +3,9 @@ import CodeExample from '@/components/docs/CodeExample.vue';
 import ProseSection from '@/components/docs/ProseSection.vue';
 defineProps({ navigation: { type: Array, required: true } });
 const example1 = `php artisan dump:listen`;
-const example2 = `$order = dc(Order::find($id));
+const example2 = `dc('Hello from Laravel');
 
-dc(orderId: $order?->id);`;
+dc(orderId: 42);`;
 </script>
 
 <template>

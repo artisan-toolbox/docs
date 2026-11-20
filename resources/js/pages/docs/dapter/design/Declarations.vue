@@ -435,7 +435,7 @@ enum EmptySelectionPolicy: string
                     Declaration choices
                 </h3>
                 <p>
-                    The local preview already implements the optional options hook, config and empty
+                    The published beta implements the optional options hook, config and empty
                     baselines, inherited paging and access attributes, and explicit fluent
                     precedence. Its normalized definition is immutable and request-scoped. The
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/authority').href"

@@ -42,27 +42,44 @@ const payload = `{
     "revision": "snapshot-42",
     "canUpdate": true,
     "isCurrentUser": false,
+    "iconFamily": "classic",
     "sections": [
         {
             "id": "notebooks",
             "kind": "permissions",
             "name": "Notebooks",
             "description": "Catalog access",
+            "icon": "book-open",
             "order": "alphabetical",
             "abilities": [
                 {
                     "key": "notebooks::export",
                     "name": "Export CSV",
-                    "description": "Download the notebook catalog."
+                    "description": "Download the notebook catalog.",
+                    "icon": "file-export"
+                }
+            ]
+        },
+        {
+            "id": "role",
+            "kind": "roles",
+            "name": "Roles",
+            "description": "Assignments for the sample account.",
+            "order": "alphabetical",
+            "abilities": [
+                {
+                    "key": "role::reviewer",
+                    "name": "Reviewer",
+                    "description": "Identify a catalog reviewer."
                 }
             ]
         }
     ],
-    "values": { "notebooks::export": false }
+    "values": { "notebooks::export": false, "role::reviewer": true }
 }`;
 const replace = `{
     "revision": "snapshot-42",
-    "values": { "notebooks::export": true }
+    "values": { "notebooks::export": true, "role::reviewer": true }
 }`;
 
 const exposed = `<template>
@@ -88,13 +105,17 @@ const editor = useTemplateRef<UserPermissionEditorHandle>('permissionEditor');
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection id="try-the-editor" title="Try the editor">
                 <p>
-                    The editor is available in Front Awesome 1.0.0-beta.4. Start with an Inertia 3
-                    and Vue 3.5 application with a web session, Vite, and Front Awesome installed.
-                    Install Composer dependencies before npm as shown in
+                    Front Awesome 1.0.0-beta.4 introduced the editor. Use 1.0.0-beta.6 or later for
+                    catalog icons and navigation by permission group and role.
+                </p>
+                <p>
+                    To integrate the editor in your project, start with an Inertia 3 and Vue 3.5
+                    application with a web session, Vite, and Front Awesome installed. Install
+                    Composer dependencies before npm as shown in
                     <DocsLink
                         :href="findNavigationItem(navigation, 'front-awesome/installation').href"
                         >Install Front Awesome</DocsLink
-                    >. Use a checkout that exports <code>UserPermissionEditor</code>.
+                    >.
                 </p>
                 <p>
                     Try Jordan's CSV export before granting access. In a new session, Laravel
@@ -105,6 +126,31 @@ const editor = useTemplateRef<UserPermissionEditorHandle>('permissionEditor');
                 <PermissionEditorDemo
                     :sources="permissionEditorSources"
                     :export-endpoint="permissionEditorDemoExport" />
+            </ProseSection>
+            <ProseSection id="browse-permissions-and-roles" title="Browse permissions and roles">
+                <p>
+                    <strong>Permission groups</strong> and <strong>Role assignments</strong> appear
+                    in the sidebar and the catalog. Activate a sidebar entry to close the other
+                    sections. The catalog scrolls to the selected header and moves focus to it. Open
+                    the accordion headers directly to keep several sections open.
+                </p>
+                <p>
+                    Permission rows show <strong>Allowed</strong> or <strong>Denied</strong>. Role
+                    rows show <strong>Assigned</strong> or <strong>Unassigned</strong>. Each section
+                    summarizes its allowed permissions or assigned roles. The counts reflect the
+                    draft and the rows that match the current search.
+                </p>
+                <p>
+                    Use <strong>Find a permission or role</strong> to search both sections. Search
+                    and navigation keep your edits. Select <strong>Save changes</strong> to write
+                    your draft to the server.
+                </p>
+                <p>
+                    When upgrading custom editor translations to beta.6, replace
+                    <code>user-permission-editor.results</code> with
+                    <code>user-permission-editor.matching</code>. Preserve the plural forms for the
+                    matching row count.
+                </p>
             </ProseSection>
             <ProseSection id="open-a-user" title="Open the dialog">
                 <p>
@@ -152,6 +198,10 @@ const editor = useTemplateRef<UserPermissionEditorHandle>('permissionEditor');
                         >app scrollbar color</DocsLink
                     >.
                 </p>
+                <p>
+                    After updating Front Awesome through Composer and npm, restart any running Vite
+                    dev server so it loads the updated scrollbar styles.
+                </p>
             </ProseSection>
             <ProseSection id="connect-a-provider" title="Connect a permissions provider">
                 <p>
@@ -168,6 +218,13 @@ const editor = useTemplateRef<UserPermissionEditorHandle>('permissionEditor');
                     is the signed-in user in <code>isCurrentUser</code>. Send sections and abilities
                     in display order. A locked section preserves its provider order in filtered
                     views.
+                </p>
+                <p>
+                    To add decorative icons, send
+                    <code>iconFamily</code> once for the response and use the optional
+                    <code>icon</code> field on each section or ability that has an icon. Use
+                    lowercase, hyphenated Font Awesome names such as <code>book-open</code>. Labels
+                    and accordion chevrons stay visible when icons are omitted or fail to load.
                 </p>
                 <CodeExample label="Example GET response" language="json" :code="payload" />
                 <p>

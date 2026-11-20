@@ -21,7 +21,7 @@ const generatedRoutes = `import { Ziggy } from './ziggy.js';
 globalThis.Ziggy = Ziggy;`;
 const backend = `use ArtisanToolbox\\Dapter\\Dapter;
 
-dump(Dapter::VERSION); // "1.0.0-beta.2"`;
+dump(Dapter::VERSION); // "1.0.0-beta.3"`;
 const frontend = `import { version } from '@artisan-toolbox/dapter';
 
 document.querySelector<HTMLElement>('#app')?.setAttribute('data-dapter-version', version);`;
@@ -67,7 +67,7 @@ export default defineConfig({
                     installed identity:
                 </p>
                 <CodeExample language="php" label="Check the backend identity" :code="backend" />
-                <p>The dump displays <code>1.0.0-beta.2</code>.</p>
+                <p>The dump displays <code>1.0.0-beta.3</code>.</p>
             </ProseSection>
             <ProseSection id="frontend" title="Connect the Composer-delivered frontend">
                 <p>After Composer completes, run these commands from the same application root:</p>
@@ -151,7 +151,7 @@ export default defineConfig({
                 <CodeExample language="ts" label="Check the frontend identity" :code="frontend" />
                 <p>
                     Inspect the mounted element. Its <code>data-dapter-version</code> attribute is
-                    <code>1.0.0-beta.2</code>.
+                    <code>1.0.0-beta.3</code>.
                 </p>
             </ProseSection>
             <ProseSection id="next-steps" title="Read your first source">

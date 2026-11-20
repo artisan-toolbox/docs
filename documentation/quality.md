@@ -386,6 +386,14 @@ The application browser test measures the reading position after a real wheel ac
 
 ## Run the complete CI gate
 
+From `docs`, build the client assets and build and verify the documentation search index:
+
+```bash
+composer ci:assets
+```
+
+Then run the quality checks:
+
 ```bash
 composer ci:check
 ```
@@ -480,14 +488,10 @@ The standalone binary preserves fixture isolation because the Composer proxy res
 
 ## Run checks in GitHub Actions
 
-The tests workflow checks the distribution lock and installs locked Composer dependencies before running `npm ci` with Node.js 24. Use the standalone verification procedure above when refreshing release dependencies.
-The frontend installation receives `WEBAWESOME_NPM_TOKEN` from the repository secret with the same name.
-Keep the token in GitHub secrets rather than repository files.
-The Web Awesome Pro dependency requires a licensed registry token. Fork pull requests do not automatically receive repository secrets and need an authorized trusted workflow to install that dependency.
+The tests workflow checks the distribution lock and Composer manifest before installing locked dependencies. It caches public Composer archives and runs `npm ci` with Node.js 24 after Composer. Use the standalone verification procedure above when refreshing release dependencies.
+The frontend installation receives `WEBAWESOME_NPM_TOKEN` from the repository secret with the same name. It disables npm lifecycle scripts and uses the separate frontend audit command. The workflow leaves npm caching disabled because the installation includes licensed Web Awesome Pro archives. Fork pull requests lack the registry secret and fail at installation with an explicit diagnostic.
 
-The workflow prepares the application key, clears cached configuration, and builds client assets.
-It then runs `composer rector:check` and invokes Maintainer directly with `php vendor/bin/maintainer quality:check --no-interaction`.
-This sequence preserves the checks provided by the local `composer ci:check` command.
+The workflow generates an application key and runs the local `composer ci:assets` and `composer ci:check` commands. These checks run before the workflow downloads Chromium and starts the browser fixtures. Rerun the workflow through the Actions tab when investigating a runner failure. See the [shared package CI guide](package-ci.md) for checkout, cache, and compatibility conventions.
 
 The PHP quality steps use `APP_ENV=testing`, array cache, session and mail stores, synchronous queues, and SQLite in memory. Pest creates its own test schema. The [browser step](#verify-interactive-documentation-in-ci) overrides sessions with file storage and migrates a disposable SQLite file for its real HTTP requests.
 
@@ -534,7 +538,7 @@ This command is archived migration tooling and requires historical source files 
 
 ## Verify interactive documentation in CI
 
-After the production build and search checks, CI installs Playwright Chromium and runs the catalog, application, and sign-in browser chain against a disposable local Laravel server. The step sets `APP_URL` and `DOCS_BASE_URL` to the same localhost origin, uses file sessions for actual request-forgery protection, and migrates an isolated SQLite file under the runner temporary directory. It stops the server when the step exits. It does not start mail, Redis, broadcasting, or external services. Sign-in requests remain intercepted by the browser harness.
+After the build, search, and quality checks, CI installs Chromium using the Playwright version in the npm lock. The browser suite runs against a disposable Laravel server with a local Reverb server and Redis queue worker. The step uses the same localhost origin for `APP_URL` and `DOCS_BASE_URL`, file sessions for request-forgery protection, and a migrated SQLite file under the runner temporary directory. It checks service readiness before launching Playwright and stops the three processes when the step exits. The suite intercepts sign-in requests in the browser.
 
 The browser step complements Maintainer's six configured checks; it does not replace them or the earlier distribution lock check. The committed lock resolves public Composer archives, including Front Awesome 1.0.0-alpha.2, QZ Tray Connector 1.4.0, and Maintainer 1.11.0. The Front Awesome and QZ Tray archives include the APIs used by the print demo. Front Awesome is in beta; its installed version remains separate from package stability. Passing local browser checks does not establish a successful remote workflow run.
 
@@ -622,9 +626,9 @@ in PHPStan 2.3.6. The [upstream release](https://github.com/phpstan/phpstan/rele
 includes the collected-data streaming change. Composer's current published plugin versions
 list 5.1.0 as the latest stable version, so no verified stable plugin upgrade resolves this pair.
 
-The source checkout now requires `phpstan/phpstan: ^2.2.8 <2.3.6` under `require-dev`.
-There is no package-wide conflict that would constrain a consuming application's analyzer.
-Lift the temporary upper bound only after testing a compatible plugin/analyzer pair.
+The source checkout temporarily required `phpstan/phpstan: ^2.2.8 <2.3.6` under `require-dev`.
+The current [package CI requirements](package-ci.md#run-checks-locally) use Pest Type Coverage
+5.1.1 or later in the 5.x series with its compatible PHPStan dependency.
 The `test:types` script retains `--min=100` and the 512 MB memory limit, and adds `--no-cache`.
 The plugin caches analysis by source-content hash; unchanged source can reuse results from
 another dependency installation. This initially masked the failure locally. An uncached
@@ -684,11 +688,11 @@ uncached type coverage fails because the plugin calls the removed
 reproduces that same exception. The earlier local verification used PHPStan
 `2.3.5` and did not exercise the new dependency resolution.
 
-Filoquent now requires `phpstan/phpstan: ^2.3.5 <2.3.6` only in `require-dev`.
-Its existing generic-analysis minimum remains `2.3.5`. Runtime dependencies and
-consumer analyzer choices are unaffected. Keep `composer test:types` uncached
-with `--min=100` and remove the temporary bound only after verifying a compatible
-plugin/analyzer pair. See the [upstream PHPStan release](https://github.com/phpstan/phpstan/releases/tag/2.3.6)
+Filoquent temporarily required `phpstan/phpstan: ^2.3.5 <2.3.6` in `require-dev`.
+The current [package CI requirements](package-ci.md#run-checks-locally) use Pest Type Coverage
+5.1.1 or later in the 5.x series and retain the PHPStan 2.3.5 minimum for generic analysis.
+Keep `composer test:types` uncached with `--min=100`.
+See the [upstream PHPStan release](https://github.com/phpstan/phpstan/releases/tag/2.3.6)
 and the related Front Awesome compatibility investigation above.
 
 From the package checkout root, `composer update` applies the development bound.
@@ -1120,3 +1124,166 @@ English assertions are independent of the host locale.
 
 The frontend coverage run passed 783 tests with two skips. It measured
 90.38% statement coverage and 94.5% line coverage for `scrollbar.ts`.
+
+## Permit catalog and minimum dependencies
+
+The Permit `prefer-lowest` job reported seven PHPStan 2.2.8 errors. Conditional array unpacking
+erased the distinction between each named catalog field and the union of all field values.
+Building the required fields first and adding `icon` when present preserved the array shapes.
+An isolated install matched the logged dependency versions. PHPStan reported zero errors after
+the change. The public editor test verifies localized ordering and optional icons. It checks
+the same response with discovery pointed at an empty path and the catalog loaded from cache.
+
+The [shared package development skill](agent-standards/skills/atb-package-development/SKILL.md#check-for-the-same-failure-across-packages)
+now requires a cross-package check. The audit covered all nine packages in the documentation
+catalog. Core, Dump to Console, Front Awesome, Mosaicast, and QZ Tray did not use the affected
+shape construction. Their installed analyzers passed. Their installed extensions require a
+newer analyzer than 2.2.8, so these passes cover the installed resolutions. Dapter and Filoquent
+use conditional unpacking and passed with PHPStan 2.3.5, the lower bound in both manifests.
+Maintainer's comparable expression builds a list of flags. Its PHPStan 2.3.5 check passed.
+
+Permit passed its PHP checks with the lowest and installed stable dependencies. The stable
+checkout also passed its six Maintainer checks, Vite+ release build, and committed distribution
+comparison. The PostgreSQL and Redis integration test passed with disposable local services.
+`actionlint` accepted the workflow. The GitHub-hosted matrix and the MariaDB and Memcached
+service pair still need a runner with those services.
+
+The documentation dependency refresh attempted the Composer dry run before the npm dry run.
+Packagist and npm failed to resolve their registry hosts, so the existing locks and installed
+copies supplied validation. The documentation Pest and Vitest suites and the standalone standards
+checks in `docs`, Dapter, Filoquent, and Permit all passed.
+
+## Core continuous integration and distribution
+
+The lowest and stable Composer resolutions both failed PHPStan with a 128 MB PHP memory limit
+in clean local checkouts. After raising the static analysis limit, Pest's stable type coverage
+still returned 100% and exit code zero despite two workers running out of memory. The JSON
+report omitted `CoreServiceProvider.php` and `HandleInertiaCrossDomainVisits.php`.
+
+Core now sets a 2 GB PHPStan limit and a 512 MB Pest type coverage limit. The coverage command
+runs without the Pest result cache and fails if any PHP file in `src/` is missing from the JSON
+report. It rejected the incomplete report and accepted the report containing all nine files.
+PHPStan, Pint, type coverage, and 29 Pest tests passed with both dependency resolutions.
+The Dapter type coverage command also returned success after memory errors at 128 MB. The
+[Dapter review](#dapter-continuous-integration-and-distribution) covers that fix. QZ Tray
+reproduced the PHPStan memory failure and now uses a 2 GB analysis limit. See the
+[shared CI verification](#shared-ci-verification) for the follow-up checks.
+
+The Ubuntu stable job installs a Git ZIP of the checked-out Core commit into a temporary Laravel
+13 application through Composer. The check confirms automatic package discovery by running
+`Arr::sift()` and inspects the installed Boost skill file. The valid ZIP passed. Excluding the
+skill from the archive made the check fail. `actionlint` accepted the workflow. The hosted
+run for `cc64f81` passed both Windows jobs. Both Ubuntu jobs reported all nine files before
+the cleanup step failed because Rector had replaced `unlink()` with Laravel's `File` facade.
+The coverage command runs as a standalone script and now uses a concrete `Filesystem` instance
+for cleanup. The fixed command passes locally in both Composer resolutions. A Rector dry run
+leaves the cleanup intact. The [initial workflow run](https://github.com/artisan-toolbox/core/actions/runs/44629689450)
+records the failing jobs.
+
+The documentation dependency dry runs used Composer before npm. Composer proposed Permit
+`1.0.0-beta.2` and `guzzlehttp/psr7` `3.5.1`. The documentation's direct Vite+ pin remains
+`1.6.0`. The Composer-delivered npm copy dry run proposed reinstalling Front Awesome at the same
+version. These unrelated package updates were left pending.
+
+## Dapter continuous integration and distribution
+
+The Windows lowest job spent 110 to 156 seconds building and verifying the frontend distribution
+across three successful workflow runs. The npm archive tests started a separate Node process for
+each runtime proof. Inertia kept those processes alive for its two-second form success indicator.
+The archive fixtures now set that indicator to expire immediately in their isolated processes.
+[Most recent baseline run](https://github.com/artisan-toolbox/dapter/actions/runs/44431096563)
+
+Five alternating before-and-after runs on macOS with Node 24.22.2 used the same archive, compiler,
+and resolved peers. The median for `npm run check:dist` fell from 57.48 to 23.97 seconds, a 58%
+reduction. The ranges were 54.90 to 60.22 seconds before and 22.33 to 26.21 seconds after. Each run
+passed the same source and built runtime proofs and both TypeScript resolution modes against both
+peer sets. These timings measure the local archive check. The next hosted run will measure the
+effect on the full workflow.
+
+The matrix keeps separate gates for PHPStan, Pint, Pest, PHP type coverage, frontend checks,
+and package distributions. `npm test` runs the frontend runtime and type tests together.
+An invalid assignment added to a disposable type-only test made that command fail. The release
+and CI commands now run the type tests once per job.
+
+At 128 MB, the original Pest type coverage process returned success even though its JSON report
+contained just one of 177 source files. The new coverage check uses 512 MB and fails if the
+uncached report omits any file. It rejected the captured incomplete report. The installed stable
+and freshly resolved lowest PHP dependencies pass analysis, formatting, 100% type coverage over
+all 177 files, and 757 Pest tests. The lowest resolution also exposed a Symfony Translation
+deprecation on the standard output of the locale fixture. Its command now sends PHP diagnostics
+to standard error so the test can decode the JSON response and assert all three outcomes.
+
+The native suite passed 464 tests with disposable MySQL 8.4 and PostgreSQL 18 with pgvector 0.8.7.
+The local Maintainer gate passed all six checks. Both frontend resolutions passed all 552 tests
+and the release build. The stable release build reproduced the Git distribution. Both Git and
+Composer archives passed the package rules. `actionlint` accepted both workflows.
+
+The cross-package check reproduced the same false success in QZ Tray. At 128 MB, one of eight
+files reached its report after a worker ran out of memory. All eight appeared at 512 MB.
+Core already enforces report completeness. Permit reported all 31 files at 512 MB. Dump to
+Console, Mosaicast, and Filoquent reported every eligible file. The Pest plugin excludes files
+containing `trait `, which also excluded one command in Front Awesome because the text appears
+in a user-facing string. Maintainer has no Pest type coverage command. The QZ Tray and Front
+Awesome findings remain open in their owning packages.
+
+Front Awesome's translation subprocess passed with the same Symfony Translation version.
+Filoquent and Maintainer passed their comparable subprocess checks with installed dependencies.
+
+The beginner path uses a Laravel application with Inertia, Vue, Vite, and session middleware.
+The Installation guide places Composer and Ziggy before the Composer-delivered npm package and
+Vite configuration. The quickstart test exercises the public read route and verifies the first ten
+notebooks, subsequent pages, and the end of the listing. The overview links to field search and
+shared Vue controls. The contributor edit reuses the existing guide components and adds no public
+API, demo, or consumer skill requirement. The Dapter demo check verified 510 settings and passed
+216 PHP tests and 192 frontend tests with the isolated PostgreSQL comparison fixture. The full
+documentation suites passed 1,061 PHP tests and 1,362 frontend tests.
+
+The documentation dependency dry runs used Composer before npm. Composer proposed Core 1.4.0,
+Permit 1.0.0-beta.2, and `guzzlehttp/psr7` 3.5.1. npm proposed reinstalling the same
+Composer-delivered Front Awesome version. The direct Vite+ pin resolves to 1.6.0. The validation
+used the existing locks and installed copies.
+
+The Dapter stable lockfile returned zero npm advisories. The `vue@3.5.40` compatibility test
+resolution reported the same server-renderer advisory against two package entries. The patched
+3.5.42 release is within Dapter's declared Vue range. All five workspace lockfiles that include
+the renderer resolve 3.5.45. [Vue security advisory](https://github.com/advisories/GHSA-g2v6-rqmx-r4w6)
+
+## Shared CI verification
+
+The [package CI guide](package-ci.md) defines the common checks and documents the platform and service requirements. `npm run ci:lint-workspace` validated the ten workflow checkouts with `actionlint`. Running it against an isolated malformed workflow produced a nonzero exit code.
+
+Dump to Console, Mosaicast, and QZ Tray resolved published Core archives in both Composer compatibility lanes. The package type coverage checks reject a successful Pest process that reports only part of the source inventory. A QZ Tray run at 128 MB reproduced the false success with one file out of eight. The new check analyzed all eight. Permit reported all 31 source files with its existing 512 MB command. Front Awesome's check declares the two files that Pest omits. Filoquent's Redis, MySQL, and PostgreSQL checks still execute against disposable services.
+
+The documentation's portable lock installed in a separate source copy with an isolated Composer home. The locked build, search publication and freshness checks, dependency audit, Rector, and all six Maintainer checks passed. Pest ran 1,061 tests. Vite Plus ran 1,362 tests. The focused guide suite ran 124 tests across installation, overview, and contributor content. The Dump to Console overview uses concrete values that can be sent to its local listener without an application model. Those pages continue to use the existing documentation components and the packages' public entry points.
+
+The compatible dependency dry runs ran Composer before npm. Composer proposed Core `1.4.0`, Permit `1.0.0-beta.2`, and `guzzlehttp/psr7` `3.5.1`. npm proposed 15 version updates and a same-version reinstall of the Composer-delivered Front Awesome copy. The installation and checks used the committed lockfiles. The GitHub-hosted Windows and browser jobs for the changed workflows require a fresh run to verify timing and runner behavior.
+
+### Published package refresh and bounded test workers
+
+The package registry describes the published Core 1.4.1, Dapter 1.0.0-beta.3,
+Dump to Console 1.2.1, Filoquent 1.0.0-beta.7, Front Awesome 1.0.0-beta.6,
+Maintainer 1.14.3, Mosaicast 1.3.1, Permit 1.0.0-beta.2, and QZ Tray 1.5.1
+releases. The installation routes still lead to working examples. The
+permission editor guide and browser check exercise the published catalog
+icons and role navigation through the existing demo and public editor.
+
+The compatible Composer update preview found the application lock current.
+After `composer install`, a single `npm install --package-lock-only` with
+the four `./vendor/artisan-toolbox/` paths synchronized the Composer-delivered
+frontend packages. The npm refresh aligned the Vue runtime and compiler at
+3.5.46. The Vite+ and Vite core pins remain at 1.6.0. A clean `npm ci` and
+`npm run audit:check` passed with the refreshed lock.
+
+The Maintainer gate ran all six tools with zero skips. Pest passed 1,061 tests
+and Vitest passed 1,362 tests. The production build and search freshness check
+passed. The Dapter demo check verified 510 discovered settings. The Front
+Awesome demo check verified its source frames, and Chromium verified the
+permission editor's grant, save, and CSV export flow.
+
+Five alternating calls through the same Maintainer CLI compared serial Pest
+with four processes in Dapter on macOS. The median fell from 9.54 to 3.71
+seconds. Serial runs ranged from 7.85 to 12.79 seconds, and parallel runs from
+3.35 to 5.91 seconds. Each run passed all 758 tests and 8,146 assertions.
+Core, Dump to Console, and Mosaicast had overlapping ranges and retain serial
+defaults. These local timings cover the runtime suite. The hosted matrix also
+includes setup, analysis, distribution, and Windows runners.

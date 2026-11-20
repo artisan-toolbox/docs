@@ -38,13 +38,18 @@ const menu = `vendor/bin/maintainer`;
                 The output lists the available commands, including
                 <code>config:publish</code>. Maintainer has no browser package to install.
             </p>
+            <p>
+                The published 1.14.3 executable reports 1.14.2 when you pass
+                <code>--version</code>. Run <code>composer show artisan-toolbox/maintainer</code>
+                to verify the installed Composer release.
+            </p>
             <p>To browse the same workflows interactively, open the menu:</p>
             <CodeExample label="Browse Maintainer workflows" language="bash" :code="menu" />
         </ProseSection>
         <ProseSection id="boost-skill" title="Install the optional agent skill">
             <p>
-                Maintainer 1.12 ships <code>maintainer-development</code> in the Composer package.
-                In a Laravel application with Boost configured, run
+                Maintainer ships <code>maintainer-development</code> in the Composer package. In a
+                Laravel application with Boost configured, run
                 <code>php artisan boost:install --skills</code> after installing Maintainer as a
                 direct dependency. Select Maintainer, the skill, and your agent. The standalone PHAR
                 works independently of Boost.

@@ -75,7 +75,7 @@ describe('Maintainer overview', () => {
                         id: 'maintainer',
                         title: 'Maintainer',
                         composerName: 'artisan-toolbox/maintainer',
-                        documentedVersion: '1.12',
+                        documentedVersion: '1.14.3',
                         installedVersion: '1.x-dev',
                         installationStatus: 'installed',
                         installationSource: 'local-path',
@@ -111,7 +111,7 @@ describe('Maintainer overview', () => {
         ]);
         for (const paragraph of [
             'Maintainer provides a single entry point for repetitive package and application maintenance tasks, including validation, commits, versioning, changelogs, deployments, and GitHub releases.',
-            'This guide covers Maintainer 1.12. If your version class still uses WithReadmeBadgeVersion, follow the README badge migration.',
+            'If your version class uses WithReadmeBadgeVersion, follow the README badge migration.',
             'Install Maintainer as a development dependency:',
             "The PHAR bundles Maintainer's CLI dependencies and keeps them separate from the project being maintained.",
             'Open its interactive menu:',

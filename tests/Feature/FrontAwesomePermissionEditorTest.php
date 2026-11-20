@@ -20,43 +20,32 @@ test('advertises the same fictional provider in both permission editor guides', 
     ['permit/management', 'permit/Management'],
 ]);
 
-test('gates the sample CSV with the saved assignment and keeps unknown subjects out', function () {
-    $assignments = '/demo/front-awesome/permission-editor?user=42';
-    $jordan = '/demo/front-awesome/permission-editor/export?user=42';
-    $avery = '/demo/front-awesome/permission-editor/export?user=77';
-
-    $this->get($jordan)->assertForbidden();
-    $this->get($avery)->assertOk()->assertSee('1,Field notes');
+test('limits the sample CSV to known subjects', function () {
+    $this->get('/demo/front-awesome/permission-editor/export?user=77')->assertOk()->assertSee('1,Field notes');
     $this->get('/demo/front-awesome/permission-editor/export?user=99')->assertNotFound();
-
-    $initial = $this->getJson($assignments)->assertOk()->json();
-    $this->putJson($assignments, [
-        'revision' => $initial['revision'],
-        'values' => array_replace($initial['values'], ['notebooks::export' => true]),
-    ])->assertNoContent();
-    $this->get($jordan)
-        ->assertOk()
-        ->assertHeader('Content-Type', 'text/csv; charset=UTF-8')
-        ->assertHeader('Cache-Control', 'no-store, private')
-        ->assertSee('2,Release checklist');
-
-    $current = $this->getJson($assignments)->assertOk()->json();
-    $this->putJson($assignments, [
-        'revision' => $current['revision'],
-        'values' => $initial['values'],
-    ])->assertNoContent();
-    $this->get($jordan)->assertForbidden();
 });
 
-test('reads and replaces fictional assignments through the editor protocol', function () {
+test('grants and revokes CSV access through the editor revision protocol', function () {
     $endpoint = '/demo/front-awesome/permission-editor?user=42';
+    $export = '/demo/front-awesome/permission-editor/export?user=42';
+
+    $this->get($export)->assertForbidden();
+
     $initial = $this->getJson($endpoint)
         ->assertOk()
         ->assertHeader('Cache-Control', 'no-store, private')
         ->assertJsonPath('subject', '42')
         ->assertJsonPath('canUpdate', true)
+        ->assertJsonPath('iconFamily', 'classic')
+        ->assertJsonPath('sections.0.icon', 'book-open')
+        ->assertJsonPath('sections.0.abilities.0.icon', 'file-export')
         ->assertJsonPath('sections.1.order', 'locked')
         ->assertJsonPath('sections.1.abilities.2.key', 'workflow::publish')
+        ->assertJsonMissingPath('sections.1.icon')
+        ->assertJsonMissingPath('sections.1.abilities.0.icon')
+        ->assertJsonPath('sections.2.kind', 'roles')
+        ->assertJsonPath('values.role::publisher', true)
+        ->assertJsonPath('values.role::reviewer', false)
         ->assertJsonPath('values.notebooks::export', false)
         ->json();
     $values = array_replace($initial['values'], ['notebooks::export' => true]);
@@ -73,7 +62,37 @@ test('reads and replaces fictional assignments through the editor protocol', fun
     expect($saved['revision'])->not->toBe($initial['revision']);
     $this->putJson($endpoint, ['revision' => $initial['revision'], 'values' => $initial['values']])
         ->assertConflict();
-    $this->getJson($endpoint)->assertJsonPath('values.notebooks::export', true);
+    $this->get($export)
+        ->assertOk()
+        ->assertHeader('Content-Type', 'text/csv; charset=UTF-8')
+        ->assertHeader('Cache-Control', 'no-store, private')
+        ->assertSee('2,Release checklist');
+
+    $this->putJson($endpoint, ['revision' => $saved['revision'], 'values' => $initial['values']])
+        ->assertNoContent();
+    $this->get($export)->assertForbidden();
+});
+
+test('keeps existing session edits when the demo catalog adds an assignment', function () {
+    $endpoint = '/demo/front-awesome/permission-editor?user=42';
+    $original = $this->getJson($endpoint)->assertOk()->json('values');
+    unset($original['role::publisher']);
+    $original['notebooks::export'] = true;
+
+    $current = $this->withSession([
+        'docs.front-awesome.permission-editor' => [
+            'revision' => 'previous-session',
+            'values' => $original,
+        ],
+    ])->getJson($endpoint)
+        ->assertOk()
+        ->assertJsonPath('revision', 'previous-session')
+        ->assertJsonPath('values.notebooks::export', true)
+        ->assertJsonPath('values.role::publisher', true)
+        ->json();
+
+    $this->putJson($endpoint, ['revision' => $current['revision'], 'values' => $current['values']])
+        ->assertNoContent();
 });
 
 test('keeps read-only and unknown demo subjects out of writes', function () {

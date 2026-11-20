@@ -8,7 +8,7 @@ No Composer or npm installation is required to run the synchronizer itself.
 
 The owning source is `documentation/agent-standards/` in the `docs` repository.
 Its `manifest.json` identifies a standards version, the included skills, and a SHA-256 fingerprint of their content and the synchronizer.
-The current bundle is version `1.2.0`. This is a version of contributor guidance, independent of public package releases.
+The current bundle is version `1.3.0`. This is a version of contributor guidance, independent of public package releases.
 
 The bundle contains two skills:
 
@@ -22,6 +22,8 @@ The skills include the relevant prose review rules and page patterns, so their o
 Existing specialized package skills remain responsible for their own integration, testing, compatibility, and release details.
 Repository instructions and the user's task scope continue to govern local work.
 
+Version `1.3.0` adds cross-package regression checks. When you find a test, build, or static analysis failure, or a critical runtime defect, check every Artisan Toolbox package for the same cause. Record each result and run the relevant check where the cause could apply. Follow the [package development skill](agent-standards/skills/atb-package-development/SKILL.md#check-for-the-same-failure-across-packages).
+
 Version `1.2.0` defines the package README badge order and keeps numeric versions in badges. The installation guides own detailed version constraints.
 
 Version `1.1.0` added a component reuse rule for Vue UI in the documentation application.
@@ -33,21 +35,21 @@ Ordinary layout elements, lists, and links do not require automatic substitution
 
 ## Install into a project
 
-The `docs` repository adopts each new version first. Dapter, Filoquent, and Permit also use version `1.2.0`.
+The `docs` repository adopts each new version first. Dapter, Filoquent, and Permit also use version `1.3.0`.
 From the `docs` root, synchronize the selected version.
 
 ```bash
-npm run standards:sync -- --version 1.2.0
+npm run standards:sync -- --version 1.3.0
 npm run standards:check
 ```
 
-The second command reports `Standards 1.2.0: 0 pending files.` when source and installed copies agree.
+The second command reports `Standards 1.3.0: 0 pending files.` when source and installed copies agree.
 The check is read-only and exits unsuccessfully when a file is missing, edited, or out of sync.
 
 To adopt the same version in another workspace project, run the synchronizer from `docs`, naming the target checkout explicitly:
 
 ```bash
-node scripts/sync-agent-standards.mjs --target ../core --write --version 1.2.0
+node scripts/sync-agent-standards.mjs --target ../core --write --version 1.3.0
 ```
 
 Review the resulting files in that project's diff and ensure its ignore rules permit them to be committed:
@@ -96,9 +98,9 @@ Review the effect on consuming projects before changing their selected version.
 From the `docs` root, seal the reviewed content with a higher version, then update its installed copies:
 
 ```bash
-node scripts/sync-agent-standards.mjs --release 1.2.1
+node scripts/sync-agent-standards.mjs --release 1.3.1
 node_modules/.bin/vp fmt documentation/agent-standards/manifest.json
-npm run standards:sync -- --version 1.2.1
+npm run standards:sync -- --version 1.3.1
 npm run standards:check
 npm test -- scripts/sync-agent-standards.test.mjs
 ```
@@ -111,7 +113,7 @@ Run the complete documentation validation suite before review.
 For another consumer, use its installed checker with the reviewed source checkout:
 
 ```bash
-node .ai/sync.mjs --source ../docs/documentation/agent-standards --write --version 1.2.1
+node .ai/sync.mjs --source ../docs/documentation/agent-standards --write --version 1.3.1
 node .ai/sync.mjs --check
 ```
 

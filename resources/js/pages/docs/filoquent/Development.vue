@@ -42,14 +42,14 @@ FILOQUENT_TEST_MYSQL_PORT=13306 \\
 FILOQUENT_TEST_MYSQL_DATABASE=filoquent_test \\
 FILOQUENT_TEST_MYSQL_USERNAME=root \\
 FILOQUENT_TEST_MYSQL_PASSWORD=filoquent \\
-composer test:unit -- --processes=2`;
+MAINTAINER_PEST_PROCESSES=2 php vendor/bin/maintainer quality:check --no-interaction --strict --tool=pest`;
 const postgresChecks = `FILOQUENT_TEST_DATABASE_DRIVER=pgsql \\
 FILOQUENT_TEST_PGSQL_HOST=127.0.0.1 \\
 FILOQUENT_TEST_PGSQL_PORT=15432 \\
 FILOQUENT_TEST_PGSQL_DATABASE=filoquent_test \\
 FILOQUENT_TEST_PGSQL_USERNAME=filoquent \\
 FILOQUENT_TEST_PGSQL_PASSWORD=filoquent \\
-composer test:unit -- --processes=2`;
+MAINTAINER_PEST_PROCESSES=2 php vendor/bin/maintainer quality:check --no-interaction --strict --tool=pest`;
 const refactoring = `composer refactor:check
 composer refactor`;
 const staticAnalysis = 'php vendor/bin/maintainer quality:check --tool=phpstan --no-interaction';
@@ -76,13 +76,32 @@ const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
                     support PHP 8.3, PHP 8.4, or Laravel 12.
                 </p>
                 <p>
+                    The shared standards check runs once per workflow. The type coverage command
+                    rejects reports that omit any eligible file. Pest excludes the package's source
+                    trait from this report. PHPStan and the runtime suite still check its use.
+                </p>
+                <p>
+                    The SQLite jobs own PHPStan, Pint, and Rector for each platform and dependency
+                    lane. The Ubuntu SQLite jobs also check full PHP type coverage. The same
+                    Composer resolutions are used by the SQL service jobs.
+                </p>
+                <p>
+                    Composer installs ParaTest through Pest. The Pest 5 minimum is 5.3.6, which
+                    supports the grouped test files introduced in ParaTest 7.28. Run
+                    <code
+                        >MAINTAINER_PEST_PROCESSES=2 php vendor/bin/maintainer quality:check
+                        --no-interaction --strict --tool=pest</code
+                    >
+                    when reviewing a runner upgrade.
+                </p>
+                <p>
                     Composer and Maintainer use the same PHPStan profile in
                     <code>phpstan.neon.dist</code>, included by <code>phpstan.neon</code>. It
                     analyzes source, configuration, and tests at level 7. The development
                     dependencies include the official Pest 5 PHPStan adapter, registered by
                     <code>phpstan/extension-installer</code> alongside Larastan, Carbon, and the
-                    official Mockery extension. Do not add those extensions to
-                    <code>includes</code> again. The profile identifies the package's
+                    official Mockery extension for dynamic mock method types. Do not add those
+                    extensions to <code>includes</code> again. The profile identifies the package's
                     <code>config</code> directory explicitly because Larastan boots through
                     Testbench.
                 </p>
@@ -97,18 +116,14 @@ const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
                     sequentially when they use the same checkout.
                 </p>
                 <p>
-                    PHPStan starts at <code>2.3.5</code> and stays below <code>2.3.6</code> while
-                    Pest type-coverage plugin <code>5.1.0</code> calls the removed
-                    <code>AnalyserResult::getCollectedData()</code> method. This upper bound applies
-                    only to the package checkout's development dependencies. It does not restrict a
-                    consuming application's analyzer. Remove the bound only after verifying a
-                    compatible pair with <code>composer test:types</code>. Keep the uncached
-                    <code>--min=100</code> requirement.
+                    Larastan <code>^3.12.1</code> and Pest Type Coverage <code>^5.1.1</code> resolve
+                    PHPStan <code>^2.3.5</code> for development. The coverage plugin supports the
+                    collected-data API used by PHPStan 2.3.6 and later. Keep the uncached
+                    <code>--min=100</code> requirement in <code>composer test:types</code>.
                 </p>
                 <p>
-                    The Pest type-coverage plugin starts at <code>5.1</code>. Earlier analyzer
-                    versions report invalid generic errors, and the earlier coverage plugin cannot
-                    construct PHPUnit 13's configuration builder. Rector starts at
+                    PHPStan 2.3.5 includes the fixes for generic analysis. The coverage plugin
+                    supports PHPUnit 13's configuration builder. Rector starts at
                     <code>2.8.4</code> with its Laravel extension at <code>2.7.3</code> so their
                     parser and Composer-based rules remain compatible. Keep both lowest and stable
                     dependency lanes enabled.
@@ -117,7 +132,8 @@ const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
             </ProseSection>
             <ProseSection id="database-checks" title="Check each database engine">
                 <p>
-                    The CI matrix has ten jobs on PHP 8.5 and Laravel 13. Each engine runs in both
+                    The CI matrix has ten runtime jobs on PHP 8.5 and Laravel 13. Each engine runs
+                    in both
                     <code>prefer-lowest</code> and <code>prefer-stable</code> dependency lanes:
                 </p>
                 <DocsTable
@@ -125,10 +141,9 @@ const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
                     :columns="['Database', 'Operating system', 'Dependency lanes', 'Coverage']"
                     :rows="databaseMatrix" />
                 <p>
-                    MySQL and PostgreSQL jobs run PHPStan, Rector, Pint, type coverage, and the
-                    complete Pest suite with two parallel workers. Each job owns its SQL service and
-                    a private Redis service, so journal recovery also runs with the selected SQL
-                    engine. The default suite uses SQLite when
+                    MySQL and PostgreSQL jobs run the complete Pest suite with two parallel workers.
+                    Each job owns its SQL service and a private Redis service, so journal recovery
+                    also runs with the selected SQL engine. The default suite uses SQLite when
                     <code>FILOQUENT_TEST_DATABASE_DRIVER</code> is absent or <code>sqlite</code>.
                 </p>
                 <p>
@@ -210,12 +225,6 @@ const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
                     with a null value. It also excludes the <code>WithoutTimestamps</code> attribute
                     conversion because Laravel 13.0 does not provide that attribute.
                 </p>
-                <p>
-                    Development dependencies pin ParaTest to <code>~7.27.5</code>. Pest 5.3.5
-                    expects that runner format; ParaTest 7.28 changes it. Keep the parallel Pest
-                    check when reviewing an upgrade. The Mockery PHPStan extension provides dynamic
-                    mock method types across the supported lowest and stable dependency lanes.
-                </p>
             </ProseSection>
             <ProseSection id="journal-checks" title="Verify optional journal recovery">
                 <p>
@@ -281,10 +290,10 @@ const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
             </ProseSection>
             <ProseSection id="skills" title="Keep agent guidance synchronized">
                 <p>
-                    The package adopts contributor standards version <code>1.0.6</code> through the
-                    standalone <code>.ai/sync.mjs</code> tool. Its check runs in CI. Keep the
-                    generated <code>.ai</code> and <code>.agents</code> copies synchronized through
-                    that tool and preserve the package's specialized contributor skills.
+                    The standalone <code>.ai/sync.mjs</code> tool reports the installed contributor
+                    standards version and any pending files. The check runs in CI. Use the tool to
+                    synchronize the <code>.ai</code> and <code>.agents</code> copies, preserving the
+                    package's specialized contributor skills.
                 </p>
                 <p>
                     The source at <code>resources/boost/skills/filoquent-development/SKILL.md</code>

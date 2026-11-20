@@ -42,7 +42,7 @@ const components = {
 const publishedInstallationParagraphs = new Map([
     [
         'Composer installs Front Awesome and Mosaicast under vendor/artisan-toolbox. Laravel discovers the Front Awesome service provider automatically.',
-        'Composer installs Front Awesome, Mosaicast, and the QZ Tray backend under vendor/artisan-toolbox. Laravel discovers the Front Awesome service provider automatically.',
+        'Composer installs Front Awesome, Dapter, Mosaicast, and QZ Tray under vendor/artisan-toolbox. Laravel discovers the Front Awesome service provider automatically.',
     ],
     [
         'Start in an existing Laravel application with Inertia, Vue, and Vite. Check the requirements before installing the development branch.',
@@ -92,7 +92,7 @@ const publishedFixtures = fixtures.map((source) => {
             ],
             [
                 'PHPStan loads the package service provider during bootstrap so it checks registered command signatures consistently across platforms. CI lets all matrix jobs finish after another job fails. Review both dependency lanes on Ubuntu and Windows.',
-                'A release preparation commit, manual workflow dispatch, or workflow change runs browser integration and both PHP compatibility jobs.',
+                'Release preparation, manual runs, workflow changes, and scheduled runs select all platform and browser checks.',
             ],
         ]);
         guide.paragraphs = guide.paragraphs.map((paragraph) =>
@@ -105,6 +105,27 @@ const publishedFixtures = fixtures.map((source) => {
             href: 'https://viteplus.dev/guide/upgrade-project',
             text: 'Vite Plus update guide',
         });
+        const [commandTable] = guide.tables;
+        guide.tables = [
+            [
+                commandTable[0],
+                [
+                    'composer ci:check',
+                    'Runs the Linux quality checks and builds the consumer fixture.',
+                ],
+                ...commandTable
+                    .slice(1)
+                    .map((row) =>
+                        row[0] === 'php vendor/bin/maintainer quality:check --no-interaction'
+                            ? [
+                                  'composer quality:check',
+                                  'Runs the configured Maintainer checks in strict mode.',
+                              ]
+                            : row,
+                    ),
+            ],
+            ...guide.tables.slice(1),
+        ];
     }
     if (guide.slug === 'front-awesome/vue-plugin') {
         guide.links.splice(2, 0, {

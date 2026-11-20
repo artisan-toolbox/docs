@@ -84,7 +84,7 @@ describe('Maintainer fixes and CI checks guide', () => {
         ]);
     });
 
-    it('preserves all ten copyable examples including workflow versions and public contract namespaces', () => {
+    it('provides copyable workflow examples with public contract namespaces', () => {
         const wrapper = mount(Quality, { props: { page } });
 
         expect(wrapper.findAll('pre code').map((code) => code.text())).toEqual(expectedExamples);
@@ -97,7 +97,7 @@ describe('Maintainer fixes and CI checks guide', () => {
             'language-bash',
             'language-bash',
             'language-yaml',
-            'language-yaml',
+            'language-bash',
             'language-bash',
             'language-php',
             'language-php',
@@ -112,8 +112,8 @@ describe('Maintainer fixes and CI checks guide', () => {
             'Copy Discover frontend scripts',
             'Copy Apply automated fixes',
             'Copy Run CI checks',
-            'Copy GitHub Actions quality workflow',
             'Copy Run PHP checks in CI',
+            'Copy Require PHPStan in CI',
             'Copy Select workflow tools',
             'Copy Configure workflow commands',
             'Copy Default workflow commands',
@@ -125,6 +125,9 @@ describe('Maintainer fixes and CI checks guide', () => {
     it('explains selection, requirements, skips, failures, confirmations, and supported configuration', () => {
         const wrapper = mount(Quality, { props: { page } });
         const text = wrapper.text();
+        expect(wrapper.get('a[href="/docs/maintainer/ci#github-actions"]').text()).toBe(
+            'GitHub Actions guide',
+        );
 
         for (const phrase of [
             'All configured commands are selected by default in the interactive multi-select.',
@@ -139,9 +142,11 @@ describe('Maintainer fixes and CI checks guide', () => {
             'Only an explicit confirmation starts the commit workflow and its optional diff review.',
             'Non-interactive runs do not prompt for checks or offer to create a commit.',
             'configured but unavailable commands remain visible and report why they were skipped.',
-            "Adapt the Node.js version and package-manager install command to the consuming project's lock file.",
-            'Projects without configured frontend checks can omit the Node.js and frontend dependency steps.',
-            'a successful job does not prove that a skipped tool ran.',
+            'After you confirm, choose Commit, the default, or Commit and release.',
+            'use Maintainer as the quality gate for those tools in GitHub Actions.',
+            'call the reusable workflow or add the setup action to an existing job.',
+            'Check the result for each tool to confirm it ran',
+            'An empty selection, missing binary, or missing configuration file fails the command.',
             'The --no-interaction option is required in CI.',
             "Direct invocations accept either the command's short name or its FQCN.",
             'Lists replace the distributed defaults instead of merging by numeric index.',
@@ -149,6 +154,7 @@ describe('Maintainer fixes and CI checks guide', () => {
             'move RunsRectorFix::class ahead of RunsPintFix::class',
             'RunsPintFix modifies files while RunsPintCheck only verifies them.',
             'Parallel Pest execution remains opt-in',
+            'Omit the setting or use null to let Pest choose the count.',
             'PHPStan uses a 2G memory limit by default.',
             'Valid configured values include 512M, 4G, a byte count, or -1',
             'MAINTAINER_PEST_PARALLEL',
@@ -169,47 +175,9 @@ const expectedExamples = [
 }`,
     String.raw`vendor/bin/maintainer quality:fix`,
     String.raw`vendor/bin/maintainer quality:check --no-interaction`,
-    String.raw`name: Code Quality
-
-on:
-  pull_request:
-  push:
-
-permissions:
-  contents: read
-
-jobs:
-  check:
-    name: Check
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out the repository
-        uses: actions/checkout@v6
-
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.5"
-          coverage: none
-          tools: composer:v2
-
-      - name: Install Composer dependencies
-        run: composer install --no-interaction --no-progress --prefer-dist
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: npm
-
-      - name: Install frontend dependencies
-        run: npm ci
-
-      - name: Run configured quality checks
-        run: php vendor/bin/maintainer quality:check --no-interaction`,
     String.raw`- name: Run PHP checks
   run: php vendor/bin/maintainer quality:check --no-interaction --tool=pest --tool=pint --tool=phpstan`,
+    String.raw`php vendor/bin/maintainer quality:check --no-interaction --strict --tool=phpstan`,
     String.raw`vendor/bin/maintainer quality:fix --tool=pint
 vendor/bin/maintainer quality:check --tool=pest --tool=phpstan
 vendor/bin/maintainer quality:check --tool=vite-plus-test`,
@@ -248,6 +216,7 @@ return [
     String.raw`'quality' => [
     'pest' => [
         'parallel' => true,
+        'processes' => 4,
     ],
 ],`,
     String.raw`'quality' => [

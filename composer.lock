@@ -4,31 +4,31 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5ee6d7b13cd259d3400d083d7c91315b",
+    "content-hash": "130f008fc037fdf9b93e4833530d6245",
     "packages": [
         {
             "name": "artisan-toolbox/core",
-            "version": "1.3.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/core.git",
-                "reference": "4046c384e95bba2a7b3c5588db4d1b6e2535506b"
+                "reference": "4ec8b1be5a536cd1a30961416e679d4aa0de634f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/core/zipball/4046c384e95bba2a7b3c5588db4d1b6e2535506b",
-                "reference": "4046c384e95bba2a7b3c5588db4d1b6e2535506b",
+                "url": "https://api.github.com/repos/artisan-toolbox/core/zipball/4ec8b1be5a536cd1a30961416e679d4aa0de634f",
+                "reference": "4ec8b1be5a536cd1a30961416e679d4aa0de634f",
                 "shasum": ""
             },
             "require": {
-                "artisan-toolbox/maintainer": "^1.11.0",
+                "artisan-toolbox/maintainer": "^1.14.2",
                 "illuminate/support": "^13.0",
                 "inertiajs/inertia-laravel": "^3.0",
                 "php": "^8.5"
             },
             "require-dev": {
                 "driftingly/rector-laravel": "^2.5",
-                "larastan/larastan": "^3.9",
+                "larastan/larastan": "^3.12.1",
                 "laravel/pao": "^1.0",
                 "laravel/pint": "^1.29",
                 "orchestra/testbench": "^11.0",
@@ -77,7 +77,7 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/core/issues",
-                "source": "https://github.com/artisan-toolbox/core/tree/1.3.0"
+                "source": "https://github.com/artisan-toolbox/core/tree/1.4.1"
             },
             "funding": [
                 {
@@ -85,25 +85,25 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-18T22:02:44+00:00",
-            "published-time": "2026-11-18T22:02:49+00:00"
+            "time": "2026-11-20T05:45:53+00:00",
+            "published-time": "2026-11-20T05:47:19+00:00"
         },
         {
             "name": "artisan-toolbox/dapter",
-            "version": "1.0.0-beta.2",
+            "version": "1.0.0-beta.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/dapter.git",
-                "reference": "2ea696443917908256f42741f393e2984b384809"
+                "reference": "f63d4f5120d6a91eb311722677822a125afd6be6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/dapter/zipball/2ea696443917908256f42741f393e2984b384809",
-                "reference": "2ea696443917908256f42741f393e2984b384809",
+                "url": "https://api.github.com/repos/artisan-toolbox/dapter/zipball/f63d4f5120d6a91eb311722677822a125afd6be6",
+                "reference": "f63d4f5120d6a91eb311722677822a125afd6be6",
                 "shasum": ""
             },
             "require": {
-                "artisan-toolbox/maintainer": "^1.10.0",
+                "artisan-toolbox/maintainer": "^1.14.3",
                 "illuminate/auth": "^13.0",
                 "illuminate/broadcasting": "^13.0",
                 "illuminate/cache": "^13.0",
@@ -180,34 +180,34 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/dapter/issues",
-                "source": "https://github.com/artisan-toolbox/dapter/tree/1.0.0-beta.2"
+                "source": "https://github.com/artisan-toolbox/dapter/tree/1.0.0-beta.3"
             },
-            "time": "2026-11-18T22:53:33+00:00",
-            "published-time": "2026-11-18T22:53:40+00:00"
+            "time": "2026-11-20T15:47:23+00:00",
+            "published-time": "2026-11-20T15:51:49+00:00"
         },
         {
             "name": "artisan-toolbox/dump-to-console",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/dump-to-console.git",
-                "reference": "d60b4e228acdeeaf8e469e056f1b46163c0d0fc5"
+                "reference": "d7eef68a1b6bbbf69f7b2d6ef59b64e46a296787"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/dump-to-console/zipball/d60b4e228acdeeaf8e469e056f1b46163c0d0fc5",
-                "reference": "d60b4e228acdeeaf8e469e056f1b46163c0d0fc5",
+                "url": "https://api.github.com/repos/artisan-toolbox/dump-to-console/zipball/d7eef68a1b6bbbf69f7b2d6ef59b64e46a296787",
+                "reference": "d7eef68a1b6bbbf69f7b2d6ef59b64e46a296787",
                 "shasum": ""
             },
             "require": {
-                "artisan-toolbox/core": "^1.0",
-                "artisan-toolbox/maintainer": "^1.11.0",
+                "artisan-toolbox/core": "^1.4.1",
+                "artisan-toolbox/maintainer": "^1.14.3",
                 "illuminate/support": "^13.0",
                 "php": "^8.5"
             },
             "require-dev": {
                 "driftingly/rector-laravel": "^2.5",
-                "larastan/larastan": "^3.9",
+                "larastan/larastan": "^3.12.1",
                 "laravel/pao": "^1.0",
                 "laravel/pint": "^1.29",
                 "orchestra/testbench": "^11.0",
@@ -256,7 +256,7 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/dump-to-console/issues",
-                "source": "https://github.com/artisan-toolbox/dump-to-console/tree/1.2.0"
+                "source": "https://github.com/artisan-toolbox/dump-to-console/tree/1.2.1"
             },
             "funding": [
                 {
@@ -264,25 +264,25 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-18T22:09:51+00:00",
-            "published-time": "2026-11-18T22:09:57+00:00"
+            "time": "2026-11-20T15:16:28+00:00",
+            "published-time": "2026-11-20T15:18:04+00:00"
         },
         {
             "name": "artisan-toolbox/filoquent",
-            "version": "1.0.0-beta.6",
+            "version": "1.0.0-beta.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/filoquent.git",
-                "reference": "45c78faa9c915eee8a5b094cb8cbefe968b4695e"
+                "reference": "7d0e7c92496d580866dd7efed90f1b6c9be40a29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/filoquent/zipball/45c78faa9c915eee8a5b094cb8cbefe968b4695e",
-                "reference": "45c78faa9c915eee8a5b094cb8cbefe968b4695e",
+                "url": "https://api.github.com/repos/artisan-toolbox/filoquent/zipball/7d0e7c92496d580866dd7efed90f1b6c9be40a29",
+                "reference": "7d0e7c92496d580866dd7efed90f1b6c9be40a29",
                 "shasum": ""
             },
             "require": {
-                "artisan-toolbox/maintainer": "^1.10.0",
+                "artisan-toolbox/maintainer": "^1.14.3",
                 "illuminate/console": "^13.0",
                 "illuminate/database": "^13.0",
                 "illuminate/filesystem": "^13.0",
@@ -291,22 +291,20 @@
                 "illuminate/support": "^13.0",
                 "laravel/prompts": "^0.3.25",
                 "php": "^8.5",
-                "symfony/http-foundation": "^7.4 || ^8.0",
-                "symfony/mime": "^7.4 || ^8.0"
+                "symfony/http-foundation": "^8.0",
+                "symfony/mime": "^8.0"
             },
             "require-dev": {
-                "brianium/paratest": "~7.27.5",
                 "driftingly/rector-laravel": "^2.7.3",
-                "larastan/larastan": "^3.9",
+                "larastan/larastan": "^3.12.1",
                 "laravel/pao": "^1.0",
                 "laravel/pint": "^1.29",
-                "orchestra/testbench": "^10.0||^11.0",
-                "pestphp/pest": "^4.6||^5.0",
-                "pestphp/pest-plugin-laravel": "^4.1||^5.0",
+                "orchestra/testbench": "^11.0",
+                "pestphp/pest": "^5.3.6",
+                "pestphp/pest-plugin-laravel": "^5.0",
                 "pestphp/pest-plugin-phpstan": "^5.3",
-                "pestphp/pest-plugin-type-coverage": "^5.1",
+                "pestphp/pest-plugin-type-coverage": "^5.1.1",
                 "phpstan/extension-installer": "^1.4",
-                "phpstan/phpstan": "^2.3.5 <2.3.6",
                 "phpstan/phpstan-mockery": "^2.0",
                 "rector/rector": "^2.8.4"
             },
@@ -348,30 +346,30 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/filoquent/issues",
-                "source": "https://github.com/artisan-toolbox/filoquent/tree/1.0.0-beta.6"
+                "source": "https://github.com/artisan-toolbox/filoquent/tree/1.0.0-beta.7"
             },
-            "time": "2026-11-18T22:14:50+00:00",
-            "published-time": "2026-11-18T22:14:56+00:00"
+            "time": "2026-11-20T15:40:00+00:00",
+            "published-time": "2026-11-20T15:43:16+00:00"
         },
         {
             "name": "artisan-toolbox/front-awesome",
-            "version": "1.0.0-beta.5",
+            "version": "1.0.0-beta.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/front-awesome.git",
-                "reference": "e318d68601addf955bbf17c97ecf85c18cdc176e"
+                "reference": "387a1a97d923ab1ad05432d6d03d9cdbf73b5f8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/front-awesome/zipball/e318d68601addf955bbf17c97ecf85c18cdc176e",
-                "reference": "e318d68601addf955bbf17c97ecf85c18cdc176e",
+                "url": "https://api.github.com/repos/artisan-toolbox/front-awesome/zipball/387a1a97d923ab1ad05432d6d03d9cdbf73b5f8d",
+                "reference": "387a1a97d923ab1ad05432d6d03d9cdbf73b5f8d",
                 "shasum": ""
             },
             "require": {
-                "artisan-toolbox/dapter": "^1.0.0-beta.1",
-                "artisan-toolbox/maintainer": "^1.10.0",
-                "artisan-toolbox/mosaicast": "^1.1.1",
-                "artisan-toolbox/qztray": "^1.4",
+                "artisan-toolbox/dapter": "^1.0.0-beta.3",
+                "artisan-toolbox/maintainer": "^1.14.3",
+                "artisan-toolbox/mosaicast": "^1.3.1",
+                "artisan-toolbox/qztray": "^1.5.1",
                 "illuminate/support": "^13.0",
                 "illuminate/translation": "^13.36",
                 "inertiajs/inertia-laravel": "^3.0",
@@ -379,15 +377,14 @@
             },
             "require-dev": {
                 "driftingly/rector-laravel": "^2.5",
-                "larastan/larastan": "^3.9",
+                "larastan/larastan": "^3.12.1",
                 "laravel/pao": "^1.0",
                 "laravel/pint": "^1.29",
                 "orchestra/testbench": "^11.0",
                 "pestphp/pest": "^5.0",
                 "pestphp/pest-plugin-laravel": "^5.0",
-                "pestphp/pest-plugin-type-coverage": "^5.0.2",
+                "pestphp/pest-plugin-type-coverage": "^5.1.1",
                 "phpstan/extension-installer": "^1.4",
-                "phpstan/phpstan": "^2.2.8 <2.3.6",
                 "rector/rector": "^2.6.2"
             },
             "type": "library",
@@ -428,7 +425,7 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/front-awesome/issues",
-                "source": "https://github.com/artisan-toolbox/front-awesome/tree/1.0.0-beta.5"
+                "source": "https://github.com/artisan-toolbox/front-awesome/tree/1.0.0-beta.6"
             },
             "funding": [
                 {
@@ -436,21 +433,21 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-19T01:11:29+00:00",
-            "published-time": "2026-11-19T01:11:35+00:00"
+            "time": "2026-11-20T16:43:22+00:00",
+            "published-time": "2026-11-20T17:09:37+00:00"
         },
         {
             "name": "artisan-toolbox/maintainer",
-            "version": "1.13.0",
+            "version": "1.14.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/maintainer.git",
-                "reference": "aa4db6f3cf0cf953bc0d2651fada6488ca060c10"
+                "reference": "f3ace73a7020f1a76a62fa3c9137b1b541bb8cc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/maintainer/zipball/aa4db6f3cf0cf953bc0d2651fada6488ca060c10",
-                "reference": "aa4db6f3cf0cf953bc0d2651fada6488ca060c10",
+                "url": "https://api.github.com/repos/artisan-toolbox/maintainer/zipball/f3ace73a7020f1a76a62fa3c9137b1b541bb8cc8",
+                "reference": "f3ace73a7020f1a76a62fa3c9137b1b541bb8cc8",
                 "shasum": ""
             },
             "require": {
@@ -522,32 +519,32 @@
                 "issues": "https://github.com/artisan-toolbox/maintainer/issues",
                 "source": "https://github.com/artisan-toolbox/maintainer"
             },
-            "time": "2026-11-19T02:22:08+00:00",
-            "published-time": "2026-11-19T02:27:21+00:00"
+            "time": "2026-11-20T05:55:22+00:00",
+            "published-time": "2026-11-20T06:00:19+00:00"
         },
         {
             "name": "artisan-toolbox/mosaicast",
-            "version": "1.3.0",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/mosaicast.git",
-                "reference": "3a9b11b3827f01485fcb83ddb86a751365a29727"
+                "reference": "d10bed57b10ebd6b6b53cf4496716cd4b49d2b54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/mosaicast/zipball/3a9b11b3827f01485fcb83ddb86a751365a29727",
-                "reference": "3a9b11b3827f01485fcb83ddb86a751365a29727",
+                "url": "https://api.github.com/repos/artisan-toolbox/mosaicast/zipball/d10bed57b10ebd6b6b53cf4496716cd4b49d2b54",
+                "reference": "d10bed57b10ebd6b6b53cf4496716cd4b49d2b54",
                 "shasum": ""
             },
             "require": {
-                "artisan-toolbox/core": "^1.1.0",
-                "artisan-toolbox/maintainer": "^1.11.0",
+                "artisan-toolbox/core": "^1.4.1",
+                "artisan-toolbox/maintainer": "^1.14.3",
                 "illuminate/support": "^13.0",
                 "php": "^8.5"
             },
             "require-dev": {
                 "driftingly/rector-laravel": "^2.5",
-                "larastan/larastan": "^3.9",
+                "larastan/larastan": "^3.12.1",
                 "laravel/pao": "^1.0",
                 "laravel/pint": "^1.29",
                 "orchestra/testbench": "^11.0",
@@ -555,7 +552,6 @@
                 "pestphp/pest-plugin-laravel": "^5.0",
                 "pestphp/pest-plugin-type-coverage": "^5.0",
                 "phpstan/extension-installer": "^1.4",
-                "phpstan/phpstan": "^2.2.8",
                 "rector/rector": "^2.6.2"
             },
             "type": "library",
@@ -597,7 +593,7 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/mosaicast/issues",
-                "source": "https://github.com/artisan-toolbox/mosaicast/tree/1.3.0"
+                "source": "https://github.com/artisan-toolbox/mosaicast/tree/1.3.1"
             },
             "funding": [
                 {
@@ -605,21 +601,21 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-18T22:17:42+00:00",
-            "published-time": "2026-11-18T22:17:47+00:00"
+            "time": "2026-11-20T15:24:58+00:00",
+            "published-time": "2026-11-20T15:26:49+00:00"
         },
         {
             "name": "artisan-toolbox/permit",
-            "version": "1.0.0-beta.1",
+            "version": "1.0.0-beta.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/permit.git",
-                "reference": "31333818328309d5f715a9cc04034b05a56f3600"
+                "reference": "6064465a16f4c7a503471d5e5529de13081560ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/permit/zipball/31333818328309d5f715a9cc04034b05a56f3600",
-                "reference": "31333818328309d5f715a9cc04034b05a56f3600",
+                "url": "https://api.github.com/repos/artisan-toolbox/permit/zipball/6064465a16f4c7a503471d5e5529de13081560ce",
+                "reference": "6064465a16f4c7a503471d5e5529de13081560ce",
                 "shasum": ""
             },
             "require": {
@@ -676,7 +672,7 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/permit/issues",
-                "source": "https://github.com/artisan-toolbox/permit/tree/1.0.0-beta.1"
+                "source": "https://github.com/artisan-toolbox/permit/tree/1.0.0-beta.2"
             },
             "funding": [
                 {
@@ -684,33 +680,33 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-18T23:59:51+00:00",
-            "published-time": "2026-11-18T23:59:57+00:00"
+            "time": "2026-11-19T22:03:10+00:00",
+            "published-time": "2026-11-19T22:03:16+00:00"
         },
         {
             "name": "artisan-toolbox/qztray",
-            "version": "1.5.0",
+            "version": "1.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/qztray.git",
-                "reference": "480157c880954d5360b4b73cd5905051c206a58f"
+                "reference": "5bc0259a4a05e81d9674e27433f27ec8be273a9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/qztray/zipball/480157c880954d5360b4b73cd5905051c206a58f",
-                "reference": "480157c880954d5360b4b73cd5905051c206a58f",
+                "url": "https://api.github.com/repos/artisan-toolbox/qztray/zipball/5bc0259a4a05e81d9674e27433f27ec8be273a9d",
+                "reference": "5bc0259a4a05e81d9674e27433f27ec8be273a9d",
                 "shasum": ""
             },
             "require": {
-                "artisan-toolbox/core": "^1.1.0",
-                "artisan-toolbox/maintainer": "^1.11.0",
+                "artisan-toolbox/core": "^1.4.1",
+                "artisan-toolbox/maintainer": "^1.14.3",
                 "ext-openssl": "*",
                 "illuminate/support": "^13.0",
                 "php": "^8.5"
             },
             "require-dev": {
                 "driftingly/rector-laravel": "^2.5",
-                "larastan/larastan": "^3.9",
+                "larastan/larastan": "^3.12.1",
                 "laravel/pao": "^1.0",
                 "laravel/pint": "^1.29",
                 "mike42/escpos-php": "^5.0",
@@ -719,7 +715,6 @@
                 "pestphp/pest-plugin-laravel": "^5.0",
                 "pestphp/pest-plugin-type-coverage": "^5.0",
                 "phpstan/extension-installer": "^1.4",
-                "phpstan/phpstan": "^2.2.8",
                 "rector/rector": "^2.6.2"
             },
             "suggest": {
@@ -761,7 +756,7 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/qztray/issues",
-                "source": "https://github.com/artisan-toolbox/qztray/tree/1.5.0"
+                "source": "https://github.com/artisan-toolbox/qztray/tree/1.5.1"
             },
             "funding": [
                 {
@@ -769,8 +764,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-18T22:30:36+00:00",
-            "published-time": "2026-11-18T22:30:42+00:00"
+            "time": "2026-11-20T15:22:39+00:00",
+            "published-time": "2026-11-20T15:24:35+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1951,16 +1946,16 @@
         },
         {
             "name": "guzzlehttp/promises",
-            "version": "3.1.0",
+            "version": "3.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/promises.git",
-                "reference": "094d0ec418eb3b1411ea271a180ec95cae6ae933"
+                "reference": "863d10526fe8232e79a8005220472ea553fd0b82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/094d0ec418eb3b1411ea271a180ec95cae6ae933",
-                "reference": "094d0ec418eb3b1411ea271a180ec95cae6ae933",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/863d10526fe8232e79a8005220472ea553fd0b82",
+                "reference": "863d10526fe8232e79a8005220472ea553fd0b82",
                 "shasum": ""
             },
             "require": {
@@ -2015,7 +2010,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/promises/issues",
-                "source": "https://github.com/guzzle/promises/tree/3.1.0"
+                "source": "https://github.com/guzzle/promises/tree/3.1.1"
             },
             "funding": [
                 {
@@ -2031,21 +2026,21 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-10-18T12:48:16+00:00",
-            "published-time": "2026-10-18T12:48:47+00:00"
+            "time": "2026-11-20T00:03:31+00:00",
+            "published-time": "2026-11-20T00:04:39+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "3.5.0",
+            "version": "3.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "b7d9cd94918e1f042d22cf188a7a866e5906bf1d"
+                "reference": "ef2058cc884d864affa6ef7cd23a68d45e015c2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/b7d9cd94918e1f042d22cf188a7a866e5906bf1d",
-                "reference": "b7d9cd94918e1f042d22cf188a7a866e5906bf1d",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/ef2058cc884d864affa6ef7cd23a68d45e015c2f",
+                "reference": "ef2058cc884d864affa6ef7cd23a68d45e015c2f",
                 "shasum": ""
             },
             "require": {
@@ -2137,7 +2132,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/3.5.0"
+                "source": "https://github.com/guzzle/psr7/tree/3.5.1"
             },
             "funding": [
                 {
@@ -2153,8 +2148,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-11-18T15:29:09+00:00",
-            "published-time": "2026-11-18T15:29:39+00:00"
+            "time": "2026-11-19T20:35:18+00:00",
+            "published-time": "2026-11-19T20:36:27+00:00"
         },
         {
             "name": "guzzlehttp/uri-template",
@@ -4994,16 +4989,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "3.0.58",
+            "version": "3.0.59",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "91f3a6436bb84040ac0cf49e761977f17d16a39b"
+                "reference": "527959f6f26591d532c07cf1c426585ef7279fa9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/91f3a6436bb84040ac0cf49e761977f17d16a39b",
-                "reference": "91f3a6436bb84040ac0cf49e761977f17d16a39b",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/527959f6f26591d532c07cf1c426585ef7279fa9",
+                "reference": "527959f6f26591d532c07cf1c426585ef7279fa9",
                 "shasum": ""
             },
             "require": {
@@ -5084,7 +5079,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.58"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.59"
             },
             "funding": [
                 {
@@ -5100,8 +5095,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-11-02T10:45:48+00:00",
-            "published-time": "2026-11-02T10:50:21+00:00"
+            "time": "2026-11-20T07:39:42+00:00",
+            "published-time": "2026-11-20T07:45:20+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
@@ -10347,7 +10342,7 @@
         },
         {
             "name": "web-auth/webauthn-lib",
-            "version": "5.3.14",
+            "version": "5.3.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/web-auth/webauthn-lib.git",
@@ -10417,7 +10412,7 @@
                 "webauthn"
             ],
             "support": {
-                "source": "https://github.com/web-auth/webauthn-lib/tree/5.3.14"
+                "source": "https://github.com/web-auth/webauthn-lib/tree/5.3.15"
             },
             "funding": [
                 {
@@ -10430,7 +10425,7 @@
                 }
             ],
             "time": "2026-11-18T16:46:55+00:00",
-            "published-time": "2026-11-18T16:56:49+00:00"
+            "published-time": "2026-11-19T11:40:19+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -11481,20 +11476,20 @@
         },
         {
             "name": "laravel/pao",
-            "version": "v1.1.5",
+            "version": "v1.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pao.git",
-                "reference": "620424f1ce744d96937fb6be60a94793e79b67ad"
+                "reference": "1266f9ccd0f97105983e9d88ffcedb844b8d4898"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pao/zipball/620424f1ce744d96937fb6be60a94793e79b67ad",
-                "reference": "620424f1ce744d96937fb6be60a94793e79b67ad",
+                "url": "https://api.github.com/repos/laravel/pao/zipball/1266f9ccd0f97105983e9d88ffcedb844b8d4898",
+                "reference": "1266f9ccd0f97105983e9d88ffcedb844b8d4898",
                 "shasum": ""
             },
             "require": {
-                "laravel/agent-detector": "^2.0.2",
+                "laravel/agent-detector": "^2.0.5",
                 "php": "^8.3"
             },
             "conflict": {
@@ -11505,14 +11500,14 @@
             },
             "require-dev": {
                 "brianium/paratest": "^7.20.0",
-                "laravel/pint": "^1.30.5",
-                "orchestra/testbench": "^10.11.0 || ^11.2.0",
-                "pestphp/pest": "^4.7.8 || ^5.1.4",
-                "pestphp/pest-plugin-type-coverage": "^4.0.4 || ^5.0.2",
-                "phpstan/phpstan": "^2.2.13",
-                "rector/rector": "^2.6.6",
-                "symfony/process": "^7.4.13 || ^8.1.6",
-                "symfony/var-dumper": "^7.4.15 || ^8.1.6"
+                "laravel/pint": "^1.32.3",
+                "orchestra/testbench": "^10.11.0 || ^11.3.0",
+                "pestphp/pest": "^4.7.8 || ^5.2.1",
+                "pestphp/pest-plugin-type-coverage": "^4.0.6 || ^5.0.2",
+                "phpstan/phpstan": "^2.3.7",
+                "rector/rector": "^2.8.5",
+                "symfony/process": "^7.4.13 || ^8.1.10",
+                "symfony/var-dumper": "^7.4.15 || ^8.1.10"
             },
             "type": "library",
             "extra": {
@@ -11562,8 +11557,8 @@
                 "issues": "https://github.com/laravel/pao/issues",
                 "source": "https://github.com/laravel/pao"
             },
-            "time": "2026-09-07T14:48:06+00:00",
-            "published-time": "2026-09-07T14:51:37+00:00"
+            "time": "2026-11-19T13:50:51+00:00",
+            "published-time": "2026-11-19T13:55:50+00:00"
         },
         {
             "name": "laravel/pint",
@@ -12613,11 +12608,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.3.6",
+            "version": "2.3.7",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/00cedebb76cc82c1592414fa4f616cefdccda16f",
-                "reference": "00cedebb76cc82c1592414fa4f616cefdccda16f",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/90c91c2498849ab8cc4e873864bbf1cb2bf6ea12",
+                "reference": "90c91c2498849ab8cc4e873864bbf1cb2bf6ea12",
                 "shasum": ""
             },
             "require": {
@@ -12673,8 +12668,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-15T19:58:26+00:00",
-            "published-time": "2026-11-15T19:58:39+00:00"
+            "time": "2026-11-19T10:31:11+00:00",
+            "published-time": "2026-11-19T10:31:27+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

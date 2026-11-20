@@ -6,10 +6,10 @@
         "sourceSha256": "22323fc16908ef52de0960af6e9c5d884ccabe421746ef22e592ffcacecbbfe2"
     },
     {
-        "artifactSha256": "9faf1d4b7ebba345735e9655fb96148dfe3568d47074104f35191f4a29e38f97",
+        "artifactSha256": "021ebefdfd686ebd37a9096de8cb80aafbbcd5716e2f053c4f2a34e4fe66a0f1",
         "id": "maintainer",
         "source": "public/images/packages/maintainer/maintainer-icon.svg",
-        "sourceSha256": "8a342b85ffb218974e6ab57655c2af51ae50dc83cff2356fa53129ac2f65c749"
+        "sourceSha256": "c7619d2326ef1b419a375948cc158c689854532fb1e009c7cb2800a68463de7f"
     },
     {
         "artifactSha256": "25169a92203f7d8c72d29466e1709e2eea0d6d651585bccd41a6725e777b0429",

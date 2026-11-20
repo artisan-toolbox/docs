@@ -32,10 +32,10 @@ This declaration registers `users::create`, `users::read`, `users::update`, and 
 
 | Attribute     | Target          | Arguments and behavior                                                                                                                                                                                                        |
 | ------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Group`       | Interface       | `string $id, string $name, ?string $description = null`. The ID is a lowercase identifier with optional underscore-separated segments.                                                                                        |
+| `Group`       | Interface       | `string $id, string $name, ?string $description = null, ?string $icon = null`. The ID is a lowercase identifier with optional underscore-separated segments.                                                                  |
 | `CRUD`        | Group interface | `bool $create = true, bool $read = true, bool $update = true, bool $delete = true`. Enabled operations generate Gates with those exact names and a default of `false`. Omit the attribute to declare only custom permissions. |
 | `LockedOrder` | Group interface | Marker that fixes the order of permissions inside that group.                                                                                                                                                                 |
-| `Permission`  | Group method    | `string $name, ?string $description = null, bool $default = false`. The exact method name is the permission ID.                                                                                                               |
+| `Permission`  | Group method    | `string $name, ?string $description = null, bool $default = false, ?string $icon = null`. The exact method name is the permission ID.                                                                                         |
 | `Roles`       | Interface       | Marker for the application's role declarations. The interface name can be any valid PHP interface name.                                                                                                                       |
 | `Role`        | Role method     | `string $name, ?string $description = null, bool $default = false`. The exact method name is the role ID.                                                                                                                     |
 
@@ -206,29 +206,35 @@ Read and update rights cover all users in the configured provider by default. An
 
 The GET response uses a provider-neutral format. Sections and their abilities arrive in display order. Each section's `order` is `alphabetical` or `locked`. Providers preserve the fixed sequence of locked sections across locales and filters. This example includes the six permissions in the declared and built-in groups and one role.
 
+The optional `iconFamily` field applies to each section or ability that has an `icon` field. Use lowercase, hyphenated Font Awesome names. Permit reads `permit.icons` when it builds the response. Changes to generated icons use the current Laravel configuration. A change to a declared icon requires recompiling a cached catalog. See [the icon configuration guide](https://atb.dev.br/docs/permit/management#configure-catalog-icons) for the defaults and the global switch.
+
 ```json
 {
     "subject": "42",
     "revision": "opaque-revision",
     "canUpdate": true,
     "isCurrentUser": false,
+    "iconFamily": "classic",
     "sections": [
         {
             "kind": "permissions",
             "id": "user_permissions",
             "name": "User permissions",
             "description": "Manage user permissions.",
+            "icon": "user-shield",
             "order": "alphabetical",
             "abilities": [
                 {
                     "key": "user_permissions::read",
                     "name": "Read",
-                    "description": "Read user permissions."
+                    "description": "Read user permissions.",
+                    "icon": "eye"
                 },
                 {
                     "key": "user_permissions::update",
                     "name": "Update",
-                    "description": "Update user permissions."
+                    "description": "Update user permissions.",
+                    "icon": "pen-to-square"
                 }
             ]
         },
@@ -239,9 +245,24 @@ The GET response uses a provider-neutral format. Sections and their abilities ar
             "description": "Permissions for Users.",
             "order": "locked",
             "abilities": [
-                { "key": "users::create", "name": "Create", "description": "Create users." },
-                { "key": "users::read", "name": "Read", "description": "Read users." },
-                { "key": "users::update", "name": "Update", "description": "Update users." },
+                {
+                    "key": "users::create",
+                    "name": "Create",
+                    "description": "Create users.",
+                    "icon": "plus"
+                },
+                {
+                    "key": "users::read",
+                    "name": "Read",
+                    "description": "Read users.",
+                    "icon": "eye"
+                },
+                {
+                    "key": "users::update",
+                    "name": "Update",
+                    "description": "Update users.",
+                    "icon": "pen"
+                },
                 {
                     "key": "users::print",
                     "name": "Print user data",
@@ -380,7 +401,9 @@ The editor validates a same-origin endpoint, adds the `user` query parameter, an
 
 Reuse the public Web Awesome `Dialog`, `Accordion`, `AccordionItem`, `Checkbox`, `Input`, `Callout`, `Spinner`, and `Button` wrappers. Keep the subject and search field visible as the body scrolls. On wide screens, provide a compact group index next to the permission list. On narrow screens, stack the sections in a single column and let long labels and descriptions wrap. Each row pairs a readable label and description with its current state. The footer keeps **Cancel**, **Save changes**, and the unsaved change count visible. Read-only mode shows values without a Save action.
 
-Search matches localized group names, permission names, and descriptions without requiring exact accents or case. A group-name match includes its permissions. A permission match shows that row in its group. The editor preserves the order supplied by the API when searching or rendering sections. Closed groups keep their rows unmounted. For a very large group, progressive rendering keeps visible controls manageable while search still covers all its permissions. Filtering and collapsing groups retain the full draft. Show a localized empty state for a search with no results.
+Show **Permission groups** and **Role assignments** within both the index and the catalog. Activating an index entry opens that section, closes the others, and moves focus and scroll to its header. Direct accordion controls can leave several sections open. Permission rows show **Allowed** or **Denied**. Role rows show **Assigned** or **Unassigned**. Section summaries count the allowed permissions or assigned roles in the current draft and search results.
+
+Search matches localized section names, ability names, and descriptions without requiring exact accents or case. A section-name match includes all of its abilities. An ability match shows that row in its section. The editor preserves the provider order during search. Closed sections keep their rows unmounted. Large sections display rows in batches and search still covers every ability. Filtering and collapsing sections retain the full draft. Show a localized empty state for a search with no results.
 
 ### Editor quality target
 

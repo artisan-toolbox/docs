@@ -15,12 +15,12 @@ final readonly class FrontAwesomePackage extends Package
             summary: 'Use Web Awesome components, share branding, send toasts, and review print jobs.',
             version: null,
             overview: PageSlug::FrontAwesome,
-            documentedVersion: '1.0.0-beta.5',
+            documentedVersion: '1.0.0-beta.6',
             stability: 'Beta',
             requirements: [
                 'PHP 8.5 or later within PHP 8.x, Laravel 13.36 or later within Laravel 13.x, and Inertia Laravel 3.x',
                 'Vue 3.5 or later within Vue 3.x, Inertia Vue 3.x, and Tailwind CSS 4.x',
-                'Mosaicast 1.1.1 or later within Mosaicast 1.x',
+                'Composer installs Dapter ^1.0.0-beta.3, Mosaicast ^1.3.1, and QZ Tray ^1.5.1',
                 'Node.js 24.11 or later',
             ],
         );

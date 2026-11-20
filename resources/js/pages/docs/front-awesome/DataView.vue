@@ -50,7 +50,7 @@ const views = {
                     named data route through Ziggy.
                 </p>
                 <p>
-                    This example uses Front Awesome 1.0.0-beta.5 and Dapter 1.0.0-beta.2. This
+                    This example uses Front Awesome 1.0.0-beta.6 and Dapter 1.0.0-beta.3. This
                     guest-accessible source needs a web session and CSRF protection. Reads run
                     without a worker or a broadcaster.
                 </p>

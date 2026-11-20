@@ -10,7 +10,7 @@ test('registers the published Dapter beta with installation before the roadmap a
         ->component('docs/dapter/Index')
         ->where('page.package.id', 'dapter')
         ->where('page.package.stability', 'Beta')
-        ->where('page.package.documentedVersion', '1.0.0-beta.2')
+        ->where('page.package.documentedVersion', '1.0.0-beta.3')
         ->where('page.package.installedVersion', InstallationCommands::composerVersion('artisan-toolbox/dapter'))
         ->where('page.package.artwork.icon', '/images/packages/dapter/dapter-icon.svg')
     );

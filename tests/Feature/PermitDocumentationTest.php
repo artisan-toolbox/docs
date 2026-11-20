@@ -13,7 +13,7 @@ test('shows Permit beta stability and installs the published release', function 
         ->component('docs/permit/Index')
         ->where('page.package.id', 'permit')
         ->where('page.package.stability', 'Beta')
-        ->where('page.package.documentedVersion', '1.0.0-beta.1')
+        ->where('page.package.documentedVersion', '1.0.0-beta.2')
         ->where('page.package.installedVersion', $version)
         ->where('page.package.installationStatus', 'installed')
         ->where('page.package.installationCommands.composer.code', 'composer require artisan-toolbox/permit:'.$version)

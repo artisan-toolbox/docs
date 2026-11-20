@@ -5,13 +5,19 @@ on:
     branches:
       - 1.x
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}-${{ github.event_name == 'pull_request' && 'latest' || github.sha }}
+  cancel-in-progress: true
+
 jobs:
   ci:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
 
     services:
       redis:
@@ -39,33 +45,30 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2.40.0
+      - name: Check distribution lock
+        run: php scripts/check-distribution.php
+
+      - name: Set up CI dependencies
+        uses: artisan-toolbox/maintainer@f3ace73a7020f1a76a62fa3c9137b1b541bb8cc8 # 1.14.3
         with:
           php-version: '8.5'
-          extensions: bcmath, gd, intl, pdo_sqlite, redis, zip
-          tools: composer:v2
-          coverage: none
-
-      - name: Setup Node
-        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
-        with:
+          php-extensions: bcmath, gd, intl, pdo_sqlite, redis, zip
+          composer-validation: strict
           node-version: '24'
-          cache: npm
+          npm-install: 'false'
 
       - name: Check shared agent standards
         run: npm run standards:check
 
-      - name: Check distribution lock
-        run: php scripts/check-distribution.php
-
-      - name: Install dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
-
       - name: Install frontend dependencies
         env:
           WEBAWESOME_NPM_TOKEN: ${{ secrets.WEBAWESOME_NPM_TOKEN }}
-        run: npm ci
+        run: |
+          if [[ -z "$WEBAWESOME_NPM_TOKEN" ]]; then
+            echo '::error::Installing the documentation lock requires the Web Awesome Pro registry secret. Fork pull requests cannot access this secret.'
+            exit 1
+          fi
+          npm ci --ignore-scripts --no-audit --no-fund
 
       - name: Check frontend dependency advisories
         run: npm run audit:check
@@ -73,24 +76,21 @@ jobs:
       - name: Prepare application
         run: |
           cp .env.example .env
-          php artisan key:generate
-          php artisan config:clear
+          php artisan key:generate --no-interaction
 
-      - name: Build assets
+      - name: Build assets and verify the search index
         env:
           VITE_REVERB_APP_KEY: documentation-ci
           VITE_REVERB_HOST: 127.0.0.1
           VITE_REVERB_PORT: '8081'
           VITE_REVERB_SCHEME: http
-        run: npm run build
+        run: composer ci:assets
 
-      - name: Build documentation search index
-        run: |
-          php artisan docs:search:index --no-interaction
-          php artisan docs:search:index --check --no-interaction
+      - name: Run CI checks
+        run: composer ci:check
 
       - name: Install Chromium for interactive documentation
-        run: npx playwright install --with-deps chromium --only-shell
+        run: npm exec --no -- playwright install --with-deps chromium --only-shell
 
       - name: Verify interactive documentation
         env:
@@ -101,7 +101,7 @@ jobs:
           DB_DATABASE: ${{ runner.temp }}/documentation-browser.sqlite
           BROADCAST_CONNECTION: reverb
           REDIS_HOST: 127.0.0.1
-          REDIS_PORT: ${{ job.services.redis.ports[6379] }}
+          REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           REVERB_APP_ID: documentation-ci
           REVERB_APP_KEY: documentation-ci
           REVERB_HOST: 127.0.0.1
@@ -119,18 +119,17 @@ jobs:
           php artisan queue:work redis --queue=demos --sleep=1 --tries=1 --no-interaction > storage/logs/browser-queue.log 2>&1 &
           queue_pid=$!
           trap 'kill "$browser_server_pid" "$reverb_pid" "$queue_pid" 2>/dev/null || true' EXIT
+          ready() {
+            curl --fail --silent --max-time 1 "$APP_URL/up" > /dev/null &&
+              curl --silent --max-time 1 "http://127.0.0.1:$REVERB_PORT/" > /dev/null &&
+              kill -0 "$queue_pid" "$reverb_pid" "$browser_server_pid" 2>/dev/null
+          }
           for attempt in {1..50}; do
-            if curl --fail --silent "$APP_URL/up" > /dev/null && curl --silent "http://127.0.0.1:$REVERB_PORT/" > /dev/null; then break; fi
+            if ready; then break; fi
             sleep 0.2
           done
-          if ! curl --fail --silent "$APP_URL/up" > /dev/null || ! curl --silent "http://127.0.0.1:$REVERB_PORT/" > /dev/null || ! kill -0 "$queue_pid" 2>/dev/null; then
+          if ! ready; then
             cat storage/logs/browser-server.log storage/logs/browser-reverb.log storage/logs/browser-queue.log
             exit 1
           fi
           npm run test:browser
-
-      - name: Run Rector check
-        run: composer rector:check
-
-      - name: Run CI Checks
-        run: php vendor/bin/maintainer quality:check --no-interaction

@@ -8,7 +8,8 @@ const example1 = `php vendor/bin/maintainer readme:update`;
 const contributorChecks = `composer install
 npm ci
 composer test
-php vendor/bin/maintainer quality:check --no-interaction
+npm run check
+npm test
 npm run build`;
 </script>
 
@@ -78,7 +79,7 @@ npm run build`;
             Build the package
         </h3>
         <p>
-            For the unreleased development toolchain on the package's
+            For the current development toolchain on the package's
             <code>1.x</code> branch, use PHP 8.5 and Node.js 24.11 or later within the Node.js 24
             series, matching CI. From the package checkout, install Composer dependencies before npm
             dependencies, run the checks, and rebuild the distributed client:
@@ -87,6 +88,11 @@ npm run build`;
             label="Validate and build the package checkout"
             language="bash"
             :code="contributorChecks" />
+        <p>
+            Actions runs PHP on Ubuntu and Windows with the lowest and stable declared dependencies.
+            Separate frontend jobs run the Node.js checks once on each operating system. The Ubuntu
+            job also compares the rebuilt client with the committed files.
+        </p>
         <p>
             Successful checks exit without errors. The build writes the ESM client, IIFE bundle, and
             type declarations to <code>dist/</code>. Keep Vite+ 1.5.0, its Vite core alias at 1.5.0,

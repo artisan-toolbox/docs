@@ -115,6 +115,8 @@ test('indexes and checks the real registered Vue corpus through the deployment c
     $index = resolve(DocumentationSearchIndex::class);
     expect(array_column($index->search('maintainer_ssh_key'), 'href'))->toContain('/docs/maintainer/configuration/ssh-keys#use-the-helpers');
     expect(array_column($index->search('phpstan.dist.neon'), 'href'))->toContain('/docs/maintainer/ci/quality#requirements-and-skipped-commands');
+    expect(array_column($index->search('coverage.yml'), 'href'))->toContain('/docs/maintainer/versioning/releases#release-workflow');
+    expect(array_column($index->search('Require PHPStan in CI'), 'href'))->toContain('/docs/maintainer/ci/quality#github-actions');
     expect(array_column($index->search('files_inconclusive'), 'href'))->toContain('/docs/filoquent/health#results');
     expect(array_column($index->search('atomic database'), 'href'))->toContain('/docs/filoquent/health#coverage');
     expect(array_column($index->search('dailyAt'), 'href'))->toContain('/docs/filoquent/health#schedule');

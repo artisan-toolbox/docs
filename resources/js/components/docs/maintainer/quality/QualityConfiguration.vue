@@ -39,6 +39,7 @@ const defaultCommands = String.raw`'quality' => [
 const parallelPest = String.raw`'quality' => [
     'pest' => [
         'parallel' => true,
+        'processes' => 4,
     ],
 ],`;
 
@@ -84,6 +85,12 @@ const phpstanMemory = String.raw`'quality' => [
         <ProseSection id="pest-and-phpstan-options" title="Pest and PHPStan options">
             <p>Parallel Pest execution remains opt-in:</p>
             <CodeExample label="Enable parallel Pest" language="php" :code="parallelPest" />
+            <p>
+                Maintainer 1.14.0 accepts a positive integer in
+                <code>quality.pest.processes</code> to select the worker count when parallel
+                execution is enabled. Omit the setting or use <code>null</code> to let Pest choose
+                the count.
+            </p>
             <p>
                 PHPStan uses a <code>2G</code> memory limit by default. Valid configured values
                 include <code>512M</code>, <code>4G</code>, a byte count, or <code>-1</code>:

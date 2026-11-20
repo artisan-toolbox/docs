@@ -54,7 +54,7 @@
                 "installationCommand": "composer"
             },
             {
-                "code": "use Illuminate\\Support\\Arr;\n\nuse function ArtisanToolbox\\Core\\sift_when;\n\n$payload = Arr::sift([\n    'name' => $user->name,\n    'email' => sift_when($canViewEmail, fn () => $user->email),\n]);",
+                "code": "use Illuminate\\Support\\Arr;\n\nuse function ArtisanToolbox\\Core\\sift_when;\n\n$payload = Arr::sift([\n    'name' => 'Ada',\n    'email' => sift_when(false, fn () => 'ada@example.test'),\n]);\n\ndump($payload);",
                 "language": "php",
                 "meta": null
             },
@@ -110,14 +110,14 @@
             "Core collects useful, focused Laravel helpers that do not need a separate package of their own. Use it for conditional arrays, translated model attributes, and cross-domain Inertia visits. Applications can install Core directly or receive it through another Artisan Toolbox package.",
             "Core 1.1 added Sift. Core 1.2 installs Maintainer as a runtime dependency because Core's production-autoloaded identity class implements its versioning and README contracts. Maintainer supports the package's maintenance, quality, and release workflows. It is not the implementation of Core's application helpers.",
             "Laravel discovers Core's service provider and registers the Sift macros.",
-            "When $canViewEmail is false, $payload contains only name.",
+            "Run this example in a Laravel route or command after installing Core. The dump contains exactly ['name' => 'Ada'].",
             "Sift conditional arrays: include values conditionally and recursively remove rejected entries from arrays and other iterables.",
             "Multi-domain Inertia visits: keep Inertia navigation working when links move between trusted domains or subdomains served by the same Laravel application.",
             "Translated model attributes: store stable translation keys while exposing localized strings from Eloquent models.",
             "The features above work without publishing resources or running migrations. Run the following command to publish all bundled resources together.",
             "Individual publish tags are available for configuration, migrations, views, translations, and public assets:",
             "The bundled migration creates a core_placeholder table. Run it only if you need that table in a development application.",
-            "On Windows, Core's CI requires PHPStan 2.2.8 or later in the 2.x series. This version fixes a Turbo parser bug that can drop PHPDoc comments during static analysis.",
+            "Core requires Larastan 3.12.1 or later in the 3.x series for development. This minimum resolves PHPStan 2.2.14 or later in the 2.x series on Ubuntu and Windows. It includes the Turbo parser fix for missing PHPDoc comments on Windows.",
             "Source code",
             "Packagist releases",
             "The canonical documentation is available at atb.dev.br. Contact the project at contact@atb.dev.br."
@@ -473,7 +473,7 @@
             "Continue with the usage and configuration guide for listener options, named values, fluent dumps, benchmarks, and configuration.",
             "The dump protocol has no authentication or encryption. Keep the listener bound to a trusted local interface and handle dumped values with the same care as local logs.",
             "Run composer analyse from the package root. Larastan uses the package's config/ directory to recognize valid env() calls, including those in local Maintainer configuration.",
-            "On Windows, Dump to Console's CI requires PHPStan 2.2.8 or later in the 2.x series. This version fixes a Turbo parser bug that can drop PHPDoc comments during static analysis.",
+            "Larastan 3.12.1 or later in the 3.x series supplies PHPStan 2.2.14 or later in the 2.x series. Both CI runners use that requirement, which includes the Windows Turbo parser fix for missing PHPDoc comments.",
             "Source code",
             "Packagist releases",
             "The canonical documentation is available at atb.dev.br. Contact the project at contact@atb.dev.br."

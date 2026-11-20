@@ -876,7 +876,7 @@ const users = useDataAdapter('Users');
                     Shared useDataAdapter instances
                 </h3>
                 <p>
-                    This shared-handle contract is implemented in the local preview. Follow
+                    The published beta supports shared adapter handles. Follow
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/composable').href"
                         >Share an adapter with component logic</DocsLink
                     >
@@ -885,9 +885,9 @@ const users = useDataAdapter('Users');
                     proposed.
                 </p>
                 <p>
-                    The local preview's <code>useDataAdapter('Users', options)</code> creates or
-                    acquires one DataStore handle in the current Vue owner scope. It exposes the
-                    same public state and operations as the component slot. Bind that handle with
+                    <code>useDataAdapter('Users', options)</code> creates or acquires one DataStore
+                    handle in the current Vue owner scope. It exposes the same public state and
+                    operations as the component slot. Bind that handle with
                     <code>&lt;DataAdapter :adapter="users"&gt;</code> to share it with the host
                     component. A separate <code>&lt;DataAdapter source="Users"&gt;</code> creates a
                     separate store, even when the source name matches. Source name identifies a
@@ -976,8 +976,8 @@ const users = useDataAdapter('Users');
                     lint rule for forbidden deep imports and verify consumer discovery when it
                     ships. An internal annotation alone cannot hide a property from every IDE or
                     make an unconfigured consumer linter report an error. Type checks and package
-                    exports reject unsupported access independently of that optional lint setup. The
-                    local preview exports useDataAdapter and DataAdapterHandle.
+                    exports reject unsupported access independently of that optional lint setup.
+                    Dapter exports useDataAdapter and DataAdapterHandle.
                 </p>
             </ProseSection>
         </div>

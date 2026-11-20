@@ -42,7 +42,7 @@ test('lists all nine packages with their registered overview routes', function (
         ->where('packages.0.migrated', true)
         ->where('packages.0.stability', 'Stable')
         ->where('packages.4.stability', 'Beta')
-        ->where('packages.6.documentedVersion', '1.3')
+        ->where('packages.6.documentedVersion', '1.3.1')
         ->where('packages.7.href', '/docs/permit')
         ->where('packages.8.href', '/docs/qztray')
         ->where('packages.3.id', 'filoquent')
@@ -57,7 +57,7 @@ test('serves the documented Maintainer version and consumer requirements', funct
         ->component('docs/maintainer/Maintainer')
         ->where('page.title', 'Maintainer')
         ->where('page.package.composerName', 'artisan-toolbox/maintainer')
-        ->where('page.package.documentedVersion', '1.12')
+        ->where('page.package.documentedVersion', '1.14.3')
         ->where('page.requirements', [
             'PHP 8.5 or later within the PHP 8.x series',
             'Composer',
@@ -82,7 +82,7 @@ test('serves the Code Quality overview with its package, navigation, metadata, a
         ->where('page.title', 'Code Quality')
         ->where('page.description', "Run the consuming project's code-quality tools locally or in continuous integration.")
         ->where('page.package.composerName', 'artisan-toolbox/maintainer')
-        ->where('page.package.documentedVersion', '1.12')
+        ->where('page.package.documentedVersion', '1.14.3')
         ->where('page.sourceUrl', 'https://github.com/artisan-toolbox/docs/blob/1.x/resources/js/pages/docs/maintainer/Ci.vue')
         ->where('page.sourceLabel', 'View page source on GitHub')
         ->where('navigation.7.active', false)
@@ -114,7 +114,7 @@ test('serves the quality guide with canonical metadata, navigation, and its publ
         ->where('page.title', 'Fixes and CI Checks')
         ->where('page.description', 'Apply automated fixes and run configured PHP and frontend quality checks.')
         ->where('page.package.composerName', 'artisan-toolbox/maintainer')
-        ->where('page.package.documentedVersion', '1.12')
+        ->where('page.package.documentedVersion', '1.14.3')
         ->where('page.sourceUrl', 'https://github.com/artisan-toolbox/docs/blob/1.x/resources/js/pages/docs/maintainer/Quality.vue')
         ->where('page.sourceLabel', 'View page source on GitHub')
         ->where('navigation.7.children.2.active', false)
@@ -359,7 +359,7 @@ test('serves configuration guides with their package, canonical metadata, and ac
         ->where('page.description', $description)
         ->where('page.package.title', 'Maintainer')
         ->where('page.package.composerName', 'artisan-toolbox/maintainer')
-        ->where('page.package.documentedVersion', '1.12')
+        ->where('page.package.documentedVersion', '1.14.3')
         ->where('page.sourceUrl', 'https://github.com/artisan-toolbox/docs/blob/1.x/resources/js/pages/docs/maintainer/configuration/'.$component.'.vue')
         ->where('page.sourceLabel', 'View page source on GitHub')
     );
@@ -390,7 +390,7 @@ test('serves versioning guides with canonical metadata, package navigation, and 
         ->where('page.description', $description)
         ->where('page.package.title', 'Maintainer')
         ->where('page.package.composerName', 'artisan-toolbox/maintainer')
-        ->where('page.package.documentedVersion', '1.12')
+        ->where('page.package.documentedVersion', '1.14.3')
         ->where('page.sourceUrl', 'https://github.com/artisan-toolbox/docs/blob/1.x/resources/js/pages/docs/maintainer/versioning/'.$component.'.vue')
         ->where('page.sourceLabel', 'View page source on GitHub')
     );

@@ -1,53 +1,16 @@
 <script setup>
 import CodeExample from '@/components/docs/CodeExample.vue';
+import DocsLink from '@/components/docs/DocsLink.vue';
 import ProseSection from '@/components/docs/ProseSection.vue';
 
 const applyFixes = String.raw`vendor/bin/maintainer quality:fix`;
 
 const runChecks = String.raw`vendor/bin/maintainer quality:check --no-interaction`;
 
-const githubWorkflow = String.raw`name: Code Quality
-
-on:
-  pull_request:
-  push:
-
-permissions:
-  contents: read
-
-jobs:
-  check:
-    name: Check
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out the repository
-        uses: actions/checkout@v6
-
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.5"
-          coverage: none
-          tools: composer:v2
-
-      - name: Install Composer dependencies
-        run: composer install --no-interaction --no-progress --prefer-dist
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: npm
-
-      - name: Install frontend dependencies
-        run: npm ci
-
-      - name: Run configured quality checks
-        run: php vendor/bin/maintainer quality:check --no-interaction`;
-
 const phpChecks = String.raw`- name: Run PHP checks
   run: php vendor/bin/maintainer quality:check --no-interaction --tool=pest --tool=pint --tool=phpstan`;
+
+const strictPhpStan = String.raw`php vendor/bin/maintainer quality:check --no-interaction --strict --tool=phpstan`;
 
 const selectedTools = String.raw`vendor/bin/maintainer quality:fix --tool=pint
 vendor/bin/maintainer quality:check --tool=pest --tool=phpstan
@@ -68,6 +31,10 @@ vendor/bin/maintainer quality:check --tool=vite-plus-test`;
                 the commit workflow and its optional diff review. Non-interactive runs do not prompt
                 for checks or offer to create a commit.
             </p>
+            <p>
+                When you accept the CI checks and they pass, the commit confirmation leads to the
+                same action menu as a direct interactive check.
+            </p>
         </ProseSection>
         <ProseSection id="run-ci-checks" title="Run CI checks">
             <CodeExample label="Run CI checks" language="bash" :code="runChecks" />
@@ -77,34 +44,37 @@ vendor/bin/maintainer quality:check --tool=vite-plus-test`;
                 PHPStan. The check workflow never modifies the selection based on availability:
                 configured but unavailable commands remain visible and report why they were skipped.
             </p>
+            <p>
+                In Maintainer 1.14.0 and later, when an interactive check runs at least one tool,
+                succeeds, and finds Git changes, Maintainer asks whether to create a commit. After
+                you confirm, choose <strong>Commit</strong>, the default, or
+                <strong>Commit and release</strong>. The second option uses the normal release
+                workflow after the work commit succeeds. The release workflow handles its own
+                review, push, and publication checks. Select all changes you intend to release
+                because release preparation requires a clean working tree.
+            </p>
             <h3
                 id="github-actions"
                 class="scroll-mt-28 text-xl font-semibold tracking-tight text-slate-950 dark:text-white">
                 GitHub Actions
             </h3>
             <p>
-                Use one non-interactive Maintainer invocation as the job&#x27;s quality gate. In
-                consuming projects, Composer installs Maintainer under <code>vendor/bin</code>;
-                there is no project-root <code>maintainer</code> executable. Invoke it as
-                <code>php vendor/bin/maintainer</code>, after installing every PHP and frontend
-                dependency required by the configured checks:
+                If a project already delegates checks to Maintainer, use Maintainer as the quality
+                gate for those tools in GitHub Actions. Call the same configured commands locally
+                and in Actions so both use the project's tool selection, configuration files, and
+                package scripts.
             </p>
-            <CodeExample
-                label="GitHub Actions quality workflow"
-                language="yaml"
-                :code="githubWorkflow" />
             <p>
-                Adapt the Node.js version and package-manager install command to the consuming
-                project&#x27;s lock file. Projects without configured frontend checks can omit the
-                Node.js and frontend dependency steps.
+                Follow the
+                <DocsLink href="/docs/maintainer/ci#github-actions">GitHub Actions guide</DocsLink>
+                to call the reusable workflow or add the setup action to an existing job. The guide
+                also shows how to verify the run in GitHub Actions.
             </p>
             <p>
                 <code>quality:check</code> returns the first executed command&#x27;s non-zero exit
-                code, so GitHub Actions fails the job naturally. Missing binaries or configuration
-                files are reported as <code>Skipped</code> and do not fail the workflow.
-                Consequently, the job must install every dependency and retain every configuration
-                file that CI is expected to enforce; a successful job does not prove that a skipped
-                tool ran.
+                code, so GitHub Actions fails the job. By default, missing binaries or configuration
+                files are reported as <code>Skipped</code>. Check the result for each tool to
+                confirm it ran, or require every selected tool with <code>--strict</code>.
             </p>
             <p>
                 The <code>--no-interaction</code> option is required in CI. It selects the complete
@@ -113,6 +83,15 @@ vendor/bin/maintainer quality:check --tool=vite-plus-test`;
                 <code>--tool</code> options, for example:
             </p>
             <CodeExample label="Run PHP checks in CI" language="yaml" :code="phpChecks" />
+            <p>
+                Use <code>--strict</code> for required checks when your installed Maintainer version
+                supports it. Maintainer 1.14.0 includes this option. An empty selection, missing
+                binary, or missing configuration file fails the command. For a PHPStan-only job,
+                enable <code>RunsPhpStanCheck</code> in <code>quality.test</code> and install and
+                configure PHPStan in the consuming project. Run this command from the project root.
+                It exits successfully when the configured PHPStan check runs and passes.
+            </p>
+            <CodeExample label="Require PHPStan in CI" language="bash" :code="strictPhpStan" />
         </ProseSection>
         <ProseSection id="select-a-subset" title="Select a subset">
             <p>

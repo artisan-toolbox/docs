@@ -2,6 +2,26 @@
 
 ## Unreleased
 
+- Document the newly published package versions, verify the published permission editor in Chromium, and run the quality checks with bounded Pest and Vitest workers.
+
+- Document the shared Maintainer root action across the package CI workflows and the Dapter archive gate before dependency installation.
+- Document Maintainer's PHP 8.5 and 8.6 test matrix and how it verifies the distributed PHAR.
+- Document terminal progress for AI release recommendations and diff summaries.
+
+- Clarify the Maintainer release preview, post-publication hook, diff size limit, and PHAR rebuild step for contributor tests.
+
+- Document release recommendation explanations, structured commit messages and release notes, separate AI locales, model overrides, and terminal output showing the resolved provider and model.
+
+- Document the interactive commit and release actions, optional deployment of the published tag, and use of Maintainer as the Actions quality gate for its configured tools.
+
+- Document automatic `package.json` version synchronization and the position of a new version in the Maintainer release workflow.
+
+- Show how the Maintainer source checkout runs strict quality checks in GitHub Actions and how to set the parallel Pest worker count.
+
+- Document release progress, multiple required workflows, and strict quality checks in the Maintainer source preview.
+
+- Use the same asset, search, and quality commands in local development and GitHub Actions. Cache public Composer downloads and keep the licensed npm installation outside shared caches.
+
 - Keep the Dapter simple pagination guide readable on narrow screens by separating the method name and its argument. Verify page width at 375 pixels in Chromium.
 
 - Update the documentation application to the latest published Artisan Toolbox releases, including Dapter beta.2, Filoquent beta.6, Front Awesome beta.5, and Permit beta.1. Install Permit from Packagist in the quickstart and migrate its assignment table for signed-in readers.
@@ -364,6 +384,9 @@ Compatibility/migration: ensure any custom disclosure/components follow the docu
   Introduces new contributor “skill” documentation and supporting standards for Artisan Toolbox’s AI/agent tooling. Adds documentation-writing and documentation page-pattern guides under `.agents/skills/atb-documentation/` (including audience selection, Diataxis/page-pattern selection, preserving public contracts/links, verifying examples against APIs/behavior, dependency boundary guidance, navigation component coordination, and migration handling). Adds a package-development workflow standard under `.agents/skills/atb-package-development/` for implementing/fixing/reviewing Laravel packages, emphasizing contract preservation, regression testing, consumer adoption guidance, and release evidence. Adds corresponding AI-side skill documentation under `.ai/skills/` and adds new standards lock/sync tooling via `.ai/standards.lock.json` and `.ai/sync.mjs` so the AI can verify/pin expected file contents and safely synchronize managed standards bundles. Updates tooling expectations that consume these standards (primarily affecting contributor/CI automation). User-facing runtime behavior is not changed by this commit; the impact is on documentation authoring/review processes and any automation that enforces these standards.
 
 ## [Unreleased]
+
+- Document Core's Maintainer 1.14.2 root action, strict checks, and per-commit release gate. Give the Core overview a runnable conditional-array example.
+- Document the shared Larastan minimum and the compatible Pest Type Coverage requirements for Filoquent, Front Awesome, and Permit.
 
 - Reject valueless maintenance scope options and explicit reader connection selectors in Filoquent commands to prevent unintended scans or cleanup against stale replicas.
 

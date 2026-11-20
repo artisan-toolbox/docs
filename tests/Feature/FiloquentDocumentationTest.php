@@ -14,7 +14,7 @@ test('registers Filoquent beta status with installation before reference and dev
         ->component('docs/filoquent/Index')
         ->where('page.package.id', 'filoquent')
         ->where('page.package.stability', 'Beta')
-        ->where('page.package.documentedVersion', '1.0.0-beta.6')
+        ->where('page.package.documentedVersion', '1.0.0-beta.7')
         ->where('page.package.installedVersion', $version)
         ->where('page.package.installationSource', 'composer')
         ->where('page.package.installationCommands.composer.code', 'composer require artisan-toolbox/filoquent:'.$version)
@@ -78,7 +78,7 @@ test('registers upload middleware as a task guide under the shared package ances
         ->component('docs/filoquent/Middleware')
         ->where('page.title', 'Create upload middleware')
         ->where('page.package.id', 'filoquent')
-        ->where('page.package.documentedVersion', '1.0.0-beta.6')
+        ->where('page.package.documentedVersion', '1.0.0-beta.7')
     );
 
     expect(PageSlug::FiloquentMiddleware->parent())->toBe(PageSlug::Filoquent);

@@ -5,7 +5,7 @@ import ProseSection from '@/components/docs/ProseSection.vue';
 const example2 = 'composer install';
 const example3 = 'php maintainer list';
 const example4 = 'vendor/bin/pest';
-const example5 = 'composer exec pest -- --parallel --processes=4';
+const example5 = 'php maintainer quality:check --no-interaction --strict';
 const example6 = 'vendor/bin/pest --profile';
 const example7 = 'vendor/bin/pint --test\nvendor/bin/pint';
 </script>
@@ -31,16 +31,39 @@ const example7 = 'vendor/bin/pint --test\nvendor/bin/pint';
                 unprefixed defaults packaged under <code>config/</code>. The prefixed secrets path
                 should remain ignored by Git.
             </p>
+            <p>
+                The source checkout includes <code>config/dev_maintainer.php</code> so local runs
+                and GitHub Actions use the repository's quality and release settings.
+            </p>
+            <p>
+                After changing source or templates packaged in the PHAR, run
+                <code>php maintainer app:build</code> before running the test suite. The
+                distribution tests compare the bundled templates in <code>builds/maintainer</code>
+                with the source templates.
+            </p>
             <p>Run automated tests:</p>
             <CodeExample
                 label="Development and Building example 4"
                 language="bash"
                 :code="example4" />
-            <p>Run the same parallel configuration as CI:</p>
+            <p>Run the checks configured for the source checkout:</p>
             <CodeExample
                 label="Development and Building example 5"
                 language="bash"
                 :code="example5" />
+            <p>
+                The Maintainer source checkout runs Pint, PHPStan, and Pest through this command.
+                Each Ubuntu job runs all three checks and uses four Pest workers. Windows runs Pest
+                serially. Select a single tool with <code>--tool</code> to match an individual CI
+                step.
+            </p>
+            <p>
+                The repository requires <code>tests.yml</code> before publication. A push of the
+                release commit runs the suite on PHP 8.5 and 8.6 on both Ubuntu and Windows. Each
+                job tests the same <code>builds/maintainer</code> PHAR from that commit. The test
+                workflow runs on branch pushes, pull requests, and manual runs. Publishing the tag
+                starts no additional test run.
+            </p>
             <p>
                 Recipe tests live under <code>tests/Unit/Deployer</code>, grouped by recipe loading,
                 PM2 lifecycle, process validation, ownership, runtime failures, and server
@@ -114,6 +137,26 @@ const example7 = 'vendor/bin/pint --test\nvendor/bin/pint';
                 label="Development and Building example 7"
                 language="bash"
                 :code="example7" />
+        </ProseSection>
+
+        <ProseSection id="test-the-ci-helpers" title="Test the CI helpers">
+            <p>
+                From the Maintainer source checkout, run <code>actionlint</code> and run the quality
+                checks configured for the repository. For dependency setup changes, verify a clean
+                installation with real Composer and, when enabled, npm.
+            </p>
+            <p>
+                In the <strong>Tests</strong> workflow, the Ubuntu and Windows jobs call the
+                repository-root action with <code>uses: ./</code> after checkout. Inspect the four
+                jobs for the commit under test.
+            </p>
+            <p>
+                To also exercise the reusable workflow, run <strong>Tests</strong> manually on the
+                branch with your change. The workflow needs to be available for manual runs on the
+                default branch, and you need write access to the repository. The
+                <strong>Reusable CI</strong> job calls <code>.github/workflows/ci.yml</code> and
+                runs Pint through the Maintainer CLI from the source checkout.
+            </p>
         </ProseSection>
     </div>
 </template>

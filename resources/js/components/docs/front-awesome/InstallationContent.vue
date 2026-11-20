@@ -76,7 +76,7 @@ const example9 = `npm run build`;
             DataView.
         </p>
         <p>
-            Composer installs Front Awesome, Mosaicast, and the QZ Tray backend under
+            Composer installs Front Awesome, Dapter, Mosaicast, and QZ Tray under
             <code>vendor/artisan-toolbox</code>. Laravel discovers the Front Awesome service
             provider automatically.
         </p>

@@ -30,6 +30,14 @@ return [
             'release_notes' => env('MAINTAINER_AI_RELEASE_NOTES_PROVIDER', 'openai'),
             'release_changelog_update' => env('MAINTAINER_AI_RELEASE_CHANGELOG_UPDATE_PROVIDER', 'openai'),
         ],
+        'models' => [
+            'commit_message' => env('MAINTAINER_AI_COMMIT_MESSAGE_MODEL'),
+            'release_type_suggestion' => env('MAINTAINER_AI_RELEASE_TYPE_SUGGESTION_MODEL'),
+            'release_notes' => env('MAINTAINER_AI_RELEASE_NOTES_MODEL'),
+            'release_changelog_update' => env('MAINTAINER_AI_RELEASE_CHANGELOG_UPDATE_MODEL'),
+        ],
+        'local_feedback_locale' => env('MAINTAINER_AI_LOCAL_FEEDBACK_LOCALE'),
+        'project_locale' => env('MAINTAINER_AI_PROJECT_LOCALE', 'en'),
     ],
     'git' => [
         'diff' => [
@@ -74,7 +82,7 @@ return [
                 <DocsLink :href="publishingHref">Publish Configuration</DocsLink>
                 to create these files with per-file overwrite protection.
             </p>
-            <p>The <code>1.x</code> source preview publishes this configuration by default.</p>
+            <p>Maintainer 1.14.0 publishes this configuration by default.</p>
             <CodeExample
                 label="Default Maintainer configuration"
                 language="php"
@@ -93,15 +101,30 @@ return [
             <p>
                 The four <code>ai.providers</code> values select the Laravel AI provider used for
                 commit messages, release type suggestions, release notes, and release changelog
-                updates. Every configured release agent delegates model selection to the provider's
-                cheapest compatible model through Laravel AI's
-                <code>UseCheapestModel</code> attribute.
+                updates. In Maintainer 1.14.0 and later, set a model ID under
+                <code>ai.models</code> for each task you want to override. With a
+                <code>null</code> value, Maintainer uses <code>gpt-6.2-sol</code> for OpenAI and
+                Laravel AI's cheapest model selection for other providers. Changelog diff summaries
+                share the changelog model. Check your provider's API catalog for newer model IDs and
+                account availability and structured output support before changing an override. The
+                terminal shows the resolved provider and model for each AI request.
+            </p>
+            <p>
+                Set <code>ai.local_feedback_locale</code> to a locale such as <code>pt_BR</code>
+                to choose the language of release recommendation explanations. Leave it
+                <code>null</code> to detect the language from the terminal. If the terminal supplies
+                no language, Maintainer 1.14.1 checks the first preferred macOS language. English is
+                the fallback when no language is available. <code>ai.project_locale</code> controls
+                the language of AI-generated commit messages, release notes, and changelog text. It
+                defaults to <code>en</code>.
             </p>
             <p>
                 The published config sets <code>release.workflow</code> to <code>null</code>, so
                 waiting for GitHub Actions is disabled by default. Replace <code>null</code> with a
                 workflow filename such as <code>tests.yml</code> to require a successful push run
-                for the release commit.
+                for the release commit. Maintainer 1.14.0 and later also accepts a nonempty list of
+                workflow filenames or names. Every listed workflow must pass on the release commit.
+                Prefer filenames to identify workflows.
             </p>
         </ProseSection>
     </div>

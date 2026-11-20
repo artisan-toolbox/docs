@@ -11,10 +11,12 @@ defineProps({
 });
 const setup = `composer install
 npm ci`;
-const checks = `composer test
-composer quality:check
+const checks = `composer quality:check
+composer test:types
 composer distribution:check
-npm run release:build
+npm run build
+npm run build:consumer
+npm run check:dist
 npm run standards:check`;
 const phpstan = `includes:
     - vendor/artisan-toolbox/dapter/extension.neon`;
@@ -69,12 +71,25 @@ const logo = 'python3 scripts/build-logos.py';
                     Composer archive alone does not verify what a Git-backed tag will distribute.
                 </p>
                 <p>
-                    Composer runs PHPStan, Pint, PHP type coverage, and Pest. Maintainer runs Pest,
-                    Pint, Vite Plus checks and tests, vue-tsc, and PHPStan without skipping tools.
-                    The frontend release check also runs type tests, builds ESM with declarations
-                    and source maps, builds a Vue and Inertia consumer, and installs an npm archive
-                    in an isolated consumer. The archive check requires npm registry access to
-                    resolve runtime peers. It also works with an empty npm cache.
+                    <code>composer test</code> runs PHPStan, Pint, PHP type coverage, and Pest. The
+                    coverage check gives Pest 512 MB and requires every PHP file in
+                    <code>src/</code> to appear in its uncached report with 100% type coverage
+                    across the source tree. <code>composer quality:check</code> runs the PHP and
+                    frontend suites through Maintainer. Pest uses four processes on Unix and runs
+                    serially on Windows.
+                </p>
+                <p>
+                    The configuration integration test publishes <code>dapter.php</code> and builds
+                    the Laravel config cache in a temporary application. Use a private application
+                    directory for tests that write either file so other Pest workers can boot from
+                    the shared Testbench skeleton.
+                </p>
+                <p>
+                    <code>npm run release:build</code> runs the same frontend checks in the release
+                    hook. Vitest runs the runtime and type tests together. The release build then
+                    builds ESM with declarations and source maps, builds a Vue and Inertia consumer,
+                    and installs the npm archive in an isolated consumer. The archive check can
+                    resolve runtime peers from an empty npm cache.
                 </p>
                 <p>
                     The default archive check runs both stable and minimum supported runtime peer
@@ -90,7 +105,9 @@ const logo = 'python3 scripts/build-logos.py';
                     The archive check creates a temporary directory alias and resolves its real path
                     before starting Vite. This covers Windows temporary-directory aliases such as
                     <code>RUNNER~1</code> while retaining Vite's filesystem restrictions. The check
-                    verifies the resolved root and loads the actual consumer modules.
+                    verifies the resolved root and loads the actual consumer modules. The isolated
+                    Node processes set the Inertia form success indicator to expire immediately so
+                    they can exit as soon as the assertions finish.
                 </p>
                 <p>
                     PHPStan and Rector both include source and tests. The Eloquent fixture has no
@@ -115,6 +132,11 @@ const logo = 'python3 scripts/build-logos.py';
                     Windows PHPStan uses one worker to avoid shared Testbench bootstrap writes. The
                     configuration check publishes the real file and caches its defaults on both
                     platforms.
+                </p>
+                <p>
+                    Open the failing job in Actions and expand the Maintainer quality step to find
+                    the failing tool. PHP type coverage, builds, and distribution checks have their
+                    own steps. Each matrix job can run for up to 20 minutes.
                 </p>
                 <p>
                     Keep both Composer lanes when changing driver types. The Eloquent driver retains

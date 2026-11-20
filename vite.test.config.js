@@ -18,6 +18,7 @@ export default defineConfig({
         },
     },
     test: {
+        maxWorkers: 4,
         env: {
             VITE_REVERB_APP_KEY: '',
             VITE_REVERB_HOST: '',

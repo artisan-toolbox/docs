@@ -49,7 +49,13 @@ func core() -> CGPath {
 }
 
 func maintainer() -> CGPath {
-  stroke([(16, 45), (16, 20), (32, 36), (48, 20), (48, 45)], 6)
+  let mark = polygon([
+    (0, 22), (0, 0), (5, 0), (10, 7), (15, 0), (20, 0), (20, 22), (15, 22),
+    (15, 8), (10, 15), (5, 8), (5, 22),
+  ])
+  var transform = CGAffineTransform(
+    a: 1.65, b: 0, c: -1.38 * tan(11 * CGFloat.pi / 180), d: 1.38, tx: 0, ty: 0)
+  return mark.copy(using: &transform)!
 }
 
 func mosaicast() -> CGPath {

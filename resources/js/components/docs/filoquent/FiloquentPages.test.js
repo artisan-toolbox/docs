@@ -40,7 +40,7 @@ function render(component, slug, title) {
                     title: 'Filoquent',
                     composerName: 'artisan-toolbox/filoquent',
                     stability: 'Beta',
-                    installedVersion: '1.0.0-beta.6',
+                    installedVersion: '1.0.0-beta.7',
                     installationStatus: 'installed',
                     installationCommands: installationCommands('filoquent'),
                     releasesUrl: 'https://packagist.org/packages/artisan-toolbox/filoquent',
@@ -137,9 +137,9 @@ describe('Filoquent beta documentation', () => {
             expect(content).not.toMatch(
                 /source preview|development source|1\.0\.0-(?:alpha\.1|beta\.1)/,
             );
-            expect(content).toContain('1.0.0-beta.6');
+            expect(content).toContain('1.0.0-beta.7');
             expect(wrapper.text()).toContain('Beta');
-            expect(wrapper.text()).toMatch(/Documented version\s*1\.0\.0-beta\.6/);
+            expect(wrapper.text()).toMatch(/Documented version\s*1\.0\.0-beta\.7/);
             expect(
                 wrapper
                     .find('a[href="https://packagist.org/packages/artisan-toolbox/filoquent"]')
@@ -256,9 +256,11 @@ describe('Filoquent beta documentation', () => {
         expect(code).toContain('node .ai/sync.mjs --check');
         expect(code).toContain('composer test');
         expect(code).toContain('php vendor/bin/maintainer readme:update --no-interaction');
-        expect(wrapper.text()).toContain('stays below 2.3.6');
-        expect(wrapper.text()).toContain('AnalyserResult::getCollectedData()');
-        expect(wrapper.text()).toContain('development dependencies');
+        expect(wrapper.text()).toContain('Composer installs ParaTest through Pest');
+        expect(wrapper.text()).toContain('The Pest 5 minimum is 5.3.6');
+        expect(wrapper.text()).toContain('Pest Type Coverage ^5.1.1');
+        expect(wrapper.text()).toContain('resolve PHPStan ^2.3.5 for development');
+        expect(wrapper.text()).toContain('collected-data API used by PHPStan 2.3.6 and later');
         expect(wrapper.text()).toContain('--min=100');
     });
 
@@ -286,7 +288,9 @@ describe('Filoquent beta documentation', () => {
         expect(code).toContain('FILOQUENT_TEST_DATABASE_DRIVER=pgsql');
         expect(code).toContain('FILOQUENT_TEST_MYSQL_DATABASE=filoquent_test');
         expect(code).toContain('FILOQUENT_TEST_PGSQL_DATABASE=filoquent_test');
-        expect(code).toContain('composer test:unit -- --processes=2');
+        expect(code).toContain(
+            'MAINTAINER_PEST_PROCESSES=2 php vendor/bin/maintainer quality:check --no-interaction --strict --tool=pest',
+        );
         expect(checks.text()).not.toContain('--group=mysql');
     });
 

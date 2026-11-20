@@ -21,8 +21,8 @@ DAPTER_RESEARCH_VECTOR_SCENARIO=revoked php scripts/dapter-research/vector-probe
             <ProseSection id="scope" title="Historical native ranking experiment">
                 <p>
                     This explanation examines a real PostgreSQL vector column. It is CLI-only
-                    laboratory research, separate from the working scalar search guides. The current
-                    local preview has a public vector field filter, described in
+                    laboratory research, separate from the working scalar search guides. Dapter
+                    1.0.0-beta.1 introduced a public vector field filter, described in
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/vector-search').href"
                         >Filter PostgreSQL vectors by distance</DocsLink
                     >. This historical experiment explores ranking and computed-distance seek, which
@@ -105,10 +105,10 @@ DAPTER_RESEARCH_VECTOR_SCENARIO=revoked php scripts/dapter-research/vector-probe
             </ProseSection>
             <ProseSection id="current-boundary" title="Current public filtering boundary">
                 <p>
-                    The local preview now declares MatchType::Vector with FieldOptions and
-                    VectorOptions. It filters with inclusive exact L2 distance and preserves source
-                    ordering and normal pagination. Unsupported drivers omit this capability and
-                    reject a forced operation. This research page has no interactive vector example.
+                    Dapter declares MatchType::Vector with FieldOptions and VectorOptions. It
+                    filters with inclusive exact L2 distance and preserves source ordering and
+                    normal pagination. Unsupported drivers omit this capability and reject a forced
+                    operation. This research page has no interactive vector example.
                 </p>
             </ProseSection>
             <ProseSection id="reproduce" title="Reproducible CLI laboratory artifacts">

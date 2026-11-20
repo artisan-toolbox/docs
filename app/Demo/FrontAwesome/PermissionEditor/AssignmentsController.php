@@ -19,6 +19,7 @@ final class AssignmentsController
         'workflow::draft' => true,
         'workflow::review' => false,
         'workflow::publish' => false,
+        'role::publisher' => true,
         'role::reviewer' => false,
     ];
 
@@ -32,16 +33,18 @@ final class AssignmentsController
             'revision' => $assignments['revision'],
             'canUpdate' => $subject === '42',
             'isCurrentUser' => false,
+            'iconFamily' => 'classic',
             'sections' => [
                 [
                     'kind' => 'permissions',
                     'id' => 'notebooks',
                     'name' => 'Notebooks',
                     'description' => 'Control access to the notebook catalog.',
+                    'icon' => 'book-open',
                     'order' => 'alphabetical',
                     'abilities' => [
-                        ['key' => 'notebooks::export', 'name' => 'Export CSV', 'description' => 'Download the notebook catalog.'],
-                        ['key' => 'notebooks::read', 'name' => 'Read notebooks', 'description' => 'Open the notebook catalog.'],
+                        ['key' => 'notebooks::export', 'name' => 'Export CSV', 'description' => 'Download the notebook catalog.', 'icon' => 'file-export'],
+                        ['key' => 'notebooks::read', 'name' => 'Read notebooks', 'description' => 'Open the notebook catalog.', 'icon' => 'eye'],
                     ],
                 ],
                 [
@@ -63,6 +66,7 @@ final class AssignmentsController
                     'description' => 'Assignments for the sample account.',
                     'order' => 'alphabetical',
                     'abilities' => [
+                        ['key' => 'role::publisher', 'name' => 'Publisher', 'description' => 'Identify a catalog publisher.'],
                         ['key' => 'role::reviewer', 'name' => 'Reviewer', 'description' => 'Identify a catalog reviewer.'],
                     ],
                 ],
@@ -128,6 +132,7 @@ final class AssignmentsController
 
         /** @var array{revision: string, values: array<string, bool>} $stored */
         $stored = $request->session()->get(self::SESSION_KEY, $original);
+        $stored['values'] += self::INITIAL_VALUES;
 
         return $stored;
     }

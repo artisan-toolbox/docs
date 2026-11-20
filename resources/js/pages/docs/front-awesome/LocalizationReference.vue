@@ -211,12 +211,20 @@ const overrides = `php artisan vendor:publish --tag=front-awesome-lang`;
                 file changes even when the modification time stays the same, such as when a
                 replacement changes the file size. Front Awesome <code>1.0.0-beta.5</code> also
                 refreshes the catalog for language files created under the Vite root during startup.
-                The <code>1.x</code> source preview also watches the Laravel input paths for
-                creation, deletion, and replacement if Vite misses a filesystem notification. When
-                the Laravel application is outside the Vite root, set
-                <code>translations.cwd</code> to its application root. Unrelated configuration files
-                do not trigger exports. Production export failure stops the build. Restart Vite
-                after package or service-provider changes outside the watched inputs.
+                Front Awesome <code>1.0.0-beta.6</code> checks PHP and JSON files within the
+                language directories and <code>config/front-awesome.php</code> independently of
+                Vite's watcher. Edits inside those directories and replacements of the configuration
+                file still refresh the catalog when Vite misses a notification. When the Laravel
+                application is outside the Vite root, set <code>translations.cwd</code> to its
+                application root. Unrelated configuration files do not trigger exports. Production
+                export failure stops the build. Restart Vite after package or service-provider
+                changes outside the watched inputs.
+            </p>
+            <p>
+                On Windows, Front Awesome <code>1.0.0-beta.6</code> briefly retries replacing
+                generated translation files when a reader keeps a file open. If the export reports
+                that a generated file is locked, close the process that holds it and run the export
+                again.
             </p>
             <p>
                 The generated JSON is an ordinary module, bundled with the application. The catalog

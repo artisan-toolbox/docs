@@ -56,6 +56,12 @@ const example3 = 'vendor/bin/maintainer push --branch=1.x --yes --no-interaction
                 before selecting an AI mode.
             </p>
             <p>
+                Maintainer 1.14.0 generates the commit as structured data. Maintainer composes the
+                Conventional Commit prefix, subject, and body from the type, scope, title, and typed
+                changes. Breaking changes and Git trailers have their own fields. You can review the
+                formatted message before committing.
+            </p>
+            <p>
                 For large selections, Maintainer limits the amount of status, diff, and optional
                 context sent to the provider. It prioritizes source changes over generated files and
                 dependency lock files in large diffs and marks omitted details in the prompt. If the
@@ -71,9 +77,16 @@ const example3 = 'vendor/bin/maintainer push --branch=1.x --yes --no-interaction
         </ProseSection>
         <ProseSection id="push-the-commit" title="Push the commit">
             <p>
-                After Git creates the commit, Maintainer offers to push
+                After <code>commit</code> creates the commit, Maintainer offers to push
                 <code>HEAD</code> to <code>origin</code>. The default is no, and pushing always
                 requires confirmation.
+            </p>
+            <p>
+                With Maintainer 1.14.0 or later, run
+                <code>php vendor/bin/maintainer commit --release</code> to start
+                <code>release:create</code> after creating a work commit. The release workflow
+                handles the push and publication. Select all pending changes so the release starts
+                with a clean working tree.
             </p>
             <p>
                 The complete workflow requires interactive input. It does not create a commit when

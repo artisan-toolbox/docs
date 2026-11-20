@@ -26,11 +26,14 @@ function packageGuideSlugs(string $package): array
 }
 
 test('starts each package journey with an installation guide', function () {
-    foreach (resolve(Documentation::class)->packages() as $package) {
-        $children = packageGuideSlugs($package->id);
+    $documentation = resolve(Documentation::class);
+    $navigation = collect($documentation->navigation(PageSlug::Index))->keyBy('slug');
 
-        expect($children[0])->toBe($package->id.'/installation');
-        $this->withoutVite()->get('/docs/'.$children[0])->assertOk();
+    foreach ($documentation->packages() as $package) {
+        $installation = $package->id.'/installation';
+
+        expect($navigation->get($package->id)?->children[0]->slug)->toBe($installation);
+        $this->withoutVite()->get('/docs/'.$installation)->assertOk();
     }
 });
 

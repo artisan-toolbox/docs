@@ -36,6 +36,10 @@ const example1 = 'vendor/bin/maintainer';
                 language="bash"
                 :code="example1" />
             <p>
+                Starting in Maintainer 1.14.3, the menu shows a five-line wordmark with the version
+                on the middle line. Narrow terminals get a single-line header.
+            </p>
+            <p>
                 Press <code>Ctrl+C</code> inside a submenu to return to <strong>Main Menu</strong>.
                 Choose <strong>Exit</strong> from the main menu to close Maintainer. Compatible
                 terminals are cleared before the banner and breadcrumb are redrawn; unsupported

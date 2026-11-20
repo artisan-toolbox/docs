@@ -25,9 +25,10 @@ defineProps({
                 </p>
                 <p>
                     Filoquent is in beta. The documented release,
-                    <code>1.0.0-beta.6</code>, is available on
-                    <DocsLink :href="page.package.releasesUrl">Packagist</DocsLink>. APIs may change
-                    before the stable release.
+                    <code>{{ page.package.documentedVersion }}</code>, is available on
+                    <DocsLink href="https://packagist.org/packages/artisan-toolbox/filoquent"
+                        >Packagist</DocsLink
+                    >. APIs may change before the stable release.
                 </p>
                 <p>
                     This release includes a consolidated schema for new installations, variant

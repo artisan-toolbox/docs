@@ -76,6 +76,12 @@ OPENAI_API_KEY=your-api-key`;
                 <li><code>MAINTAINER_AI_RELEASE_TYPE_SUGGESTION_PROVIDER</code>;</li>
                 <li><code>MAINTAINER_AI_RELEASE_NOTES_PROVIDER</code>;</li>
                 <li><code>MAINTAINER_AI_RELEASE_CHANGELOG_UPDATE_PROVIDER</code>;</li>
+                <li><code>MAINTAINER_AI_COMMIT_MESSAGE_MODEL</code>;</li>
+                <li><code>MAINTAINER_AI_RELEASE_TYPE_SUGGESTION_MODEL</code>;</li>
+                <li><code>MAINTAINER_AI_RELEASE_NOTES_MODEL</code>;</li>
+                <li><code>MAINTAINER_AI_RELEASE_CHANGELOG_UPDATE_MODEL</code>;</li>
+                <li><code>MAINTAINER_AI_LOCAL_FEEDBACK_LOCALE</code>;</li>
+                <li><code>MAINTAINER_AI_PROJECT_LOCALE</code>;</li>
                 <li><code>MAINTAINER_GIT_DIFF_OUTPUT_FORMAT</code>;</li>
                 <li><code>MAINTAINER_PEST_PARALLEL</code>;</li>
                 <li><code>MAINTAINER_PHPSTAN_MEMORY_LIMIT</code>.</li>

@@ -22,19 +22,14 @@ npm ci`;
         </p>
         <CodeExample label="Develop Front Awesome example 1" language="sh" :code="example1" />
         <p>
-            The source checkout requires PHPStan <code>^2.2.8 &lt;2.3.6</code> as a development
-            dependency. PHPStan <code>2.3.6</code> removes an internal method used by Pest's
-            type-coverage plugin <code>5.1.0</code>, causing <code>composer test:types</code> to
-            fail before producing a report. Keep this upper bound until an updated plugin is
-            verified against the newer analyzer. This restriction does not apply to applications
-            that install Front Awesome as a runtime dependency.
+            Larastan <code>^3.12.1</code> and Pest Type Coverage <code>^5.1.1</code> resolve PHPStan
+            <code>^2.3.5</code> for development. The updated coverage plugin supports the
+            collected-data API used by PHPStan 2.3.6 and later.
         </p>
         <p>
-            The source checkout requires Pest Type Coverage <code>^5.0.2</code>. Starting with
-            <code>5.0.2</code>, <code>--no-cache</code> disables cache writes during analysis.
-            Earlier versions could write to the cache even with the flag and fail on parallel runs.
-            Run <code>composer test:types</code> from the package checkout. It requires
-            <code>100</code> percent type coverage. After updating PHP quality tools, run
+            Run <code>composer test:types</code> from the package checkout. It runs without cached
+            analysis and requires <code>100</code> percent type coverage and a report with every
+            eligible source file. After updating PHP quality tools, run
             <code>composer test</code> with newly resolved dependencies before changing either CI
             dependency lane.
         </p>
@@ -85,10 +80,12 @@ npm ci`;
             </thead>
             <tbody>
                 <tr>
-                    <td>
-                        <code>php vendor/bin/maintainer quality:check --no-interaction</code>
-                    </td>
-                    <td>Runs the configured PHP and frontend checks.</td>
+                    <td><code>composer ci:check</code></td>
+                    <td>Runs the Linux quality checks and builds the consumer fixture.</td>
+                </tr>
+                <tr>
+                    <td><code>composer quality:check</code></td>
+                    <td>Runs the configured Maintainer checks in strict mode.</td>
                 </tr>
                 <tr>
                     <td><code>composer test</code></td>
@@ -153,10 +150,24 @@ npm ci`;
             public-wrapper scenario.
         </p>
         <p>
+            Keep tests that require an unregistered custom element in their own browser test files.
+            Registration lasts for the document. Run
+            <code>npm test -- localization-vite</code> to run the localization build, configuration
+            watcher, and exporter lifecycle tests. Each case creates a temporary application, and
+            Vitest runs the files in parallel.
+        </p>
+        <p>
             Native and Vue parity examples must both fit in the same viewport. The side-by-side
-            suite uses a 1600-by-1000 viewport and checks horizontal visibility. Tab groups
-            initialize through an IntersectionObserver, so the suite also waits for the public
-            active panel before comparing state, colors, and dimensions.
+            suite uses a 1600-by-1000 viewport and checks horizontal visibility. Move the pointer
+            outside both examples before comparing their resting styles. The Option scenario
+            exercises this step by hovering the native option first. Tab groups initialize through
+            an IntersectionObserver, so the suite also waits for the public active panel before
+            comparing state, colors, and dimensions.
+        </p>
+        <p>
+            The reset inventory runs the light and dark cases in separate browser files. Each
+            fixture starts in its target theme. The tests settle animations inside the document and
+            the sampled shadow roots before comparing computed styles.
         </p>
         <p>
             For changes to Tailwind, Web Awesome, or the optional PrimeVue integration, also follow
@@ -168,12 +179,27 @@ npm ci`;
             A documentation-only Markdown change runs the workflow's <code>CI</code> check without
             installing project dependencies. Other changes run the locked Linux quality checks and
             consumer build, plus the Windows runtime suites and DataView compiler launcher check.
-            Composer changes also exercise the lowest and latest compatible PHP dependencies.
+            The Linux job uses Maintainer for manifest validation, Pest, Pint, PHPStan, and the
+            frontend checks. The package runs its PHP type coverage gate and consumer build
+            separately. Vue type checking runs within <code>npm run check</code>. Windows selects
+            Pest and Vitest through Maintainer and runs Pest in serial mode.
         </p>
         <p>
-            A release preparation commit, manual workflow dispatch, or workflow change runs browser
-            integration and both PHP compatibility jobs. The browser job uses the Playwright image
-            that matches <code>package-lock.json</code>. Download the <code>coverage-reports</code>
+            Changes to Composer dependencies or <code>.nvmrc</code> also exercise the lowest and
+            latest compatible PHP dependencies. Both jobs use the Maintainer setup action to install
+            Node.js from <code>.nvmrc</code>. The translation exporter uses Node.js to validate
+            browser locales, so both jobs can skip <code>npm ci</code>.
+        </p>
+        <p>
+            Runtime and frontend tests select Chromium when they can affect browser behavior.
+            Frontend source, theme and scrollbar fixtures, and dependency or tooling changes also
+            run theme consumer checks and scrollbar checks on Firefox and WebKit. Release
+            preparation, manual runs, workflow changes, and scheduled runs select all platform and
+            browser checks. The browser job uses the Playwright image that matches
+            <code>package-lock.json</code>. It sets <code>HOME</code> to the container user's home
+            only for browser commands so Firefox can start. The Maintainer setup uses the runner's
+            default home. The workflow registers the mounted checkout as a Git safe directory before
+            Composer runs. Download the <code>coverage-reports</code>
             artifact from the scheduled run for PHP and frontend execution coverage. The type
             coverage requirement also runs in the normal Linux quality job.
         </p>

@@ -68,18 +68,39 @@ describe('Maintainer Code Quality overview', () => {
         expect(paragraphs).toContain(
             "Maintainer always runs the consuming project's binaries, configuration files, and package scripts. Dependencies bundled inside the Maintainer PHAR are isolated and are never used to analyze or modify the consuming project.",
         );
+        const githubActions = wrapper.get('section[aria-labelledby="github-actions"]').text();
+        expect(githubActions).toContain(
+            'Maintainer 1.14.2 introduced the root CI action for GitHub.com',
+        );
+        expect(githubActions).toContain('contains action.yml at the repository root');
         expect(wrapper.get('li').text()).toBe(
             'Fixes and CI checks: install, configure, select, and run the supported tools.',
         );
-        expect(wrapper.findAll('pre code').map((code) => code.text())).toEqual([
-            'vendor/bin/maintainer quality:check',
-            'vendor/bin/maintainer quality:fix',
-        ]);
+        const [check, fix, workflow, matrix] = wrapper
+            .findAll('pre code')
+            .map((code) => code.text());
+        expect(check).toBe('vendor/bin/maintainer quality:check');
+        expect(fix).toBe('vendor/bin/maintainer quality:fix');
+        expect(workflow).toContain('artisan-toolbox/maintainer/.github/workflows/ci.yml@');
+        expect(matrix).toContain('uses: artisan-toolbox/maintainer@MAINTAINER_COMMIT_SHA');
+        const customJobs = wrapper.get('section[aria-labelledby="custom-ci-jobs"]').text();
+        expect(customJobs).toContain('contains action.yml at the repository root');
+        expect(matrix).toContain('composer-mode: ${{ matrix.resolution }}');
+        expect(matrix).toContain('maintainer quality:check --no-interaction --strict --tool=pest');
+        const verification = wrapper.get('section[aria-labelledby="verify-ci-run"]').text();
+        expect(verification).toContain('actionlint');
+        expect(verification).toContain('workflow_dispatch');
+        expect(verification).toContain('dependency installation');
         expect(
             wrapper
                 .findAll('wa-button[aria-label^="Copy "]')
                 .map((button) => button.attributes('aria-label')),
-        ).toEqual(['Copy Run CI checks', 'Copy Run automated fixes']);
+        ).toEqual([
+            'Copy Run CI checks',
+            'Copy Run automated fixes',
+            'Copy Call the Maintainer CI workflow',
+            'Copy Set up a Composer compatibility matrix',
+        ]);
         expect(wrapper.findAll('a').map((link) => [link.text(), link.attributes('href')])).toEqual([
             ['Fixes and CI checks', '/docs/maintainer/ci/quality'],
             ['Fixes and CI checks guide', '/docs/maintainer/ci/quality'],

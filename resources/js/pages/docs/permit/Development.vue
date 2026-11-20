@@ -9,11 +9,10 @@ defineProps({
 });
 
 const checks = `composer install
-npm install
-npm run build
+npm ci
 composer test
-npm run check
-npm test -- --run`;
+npm run release:build
+git diff --exit-code -- dist`;
 const sharedCache = `PERMIT_INTEGRATION_DB=pgsql PERMIT_INTEGRATION_CACHE=redis php vendor/bin/pest tests/Feature/AuthorizationIntegrationTest.php
 PERMIT_INTEGRATION_DB=mariadb PERMIT_INTEGRATION_CACHE=memcached php vendor/bin/pest tests/Feature/AuthorizationIntegrationTest.php`;
 const standards = 'npm run standards:check';
@@ -27,20 +26,30 @@ const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection id="checks" title="Run package checks">
                 <p>
-                    Start in the Permit package checkout with PHP 8.5, Composer, and npm. Use
-                    Node.js ^20.19, ^22.18, or >=24.11. Run these commands from the package root,
-                    where its own <code>composer.json</code> and <code>package.json</code> live:
+                    Start in the Permit package checkout with PHP 8.5 and Composer. Use Node.js
+                    24.11 or later in the Node.js 24 release line to match CI. Run these commands
+                    from the package root, where its own <code>composer.json</code> and
+                    <code>package.json</code> live.
                 </p>
                 <CodeExample label="Build and validate Permit" :code="checks" />
                 <p>
-                    Composer installs PHP dependencies before npm prepares the frontend. The
-                    frontend build produces the JavaScript entry point and TypeScript declarations
-                    consumed through <code>file:vendor/artisan-toolbox/permit</code>.
+                    Composer installs PHP dependencies before npm installs from the frontend lock
+                    file. The release build runs the Vite+ checks, Vitest, and TypeScript analysis.
+                    It builds the JavaScript and type declarations and verifies the distribution
+                    imports. The final command reports any changes to the committed files in
+                    <code>dist/</code>.
                 </p>
                 <p>
                     Keep package behavior covered by its Pest suite. The shared Laravel laboratory
                     complements those tests when evaluating real application discovery and container
                     resolution.
+                </p>
+                <p>
+                    Maintainer runs Pest with two workers on Unix and serially on Windows. Each
+                    Testbench test gets its own temporary bootstrap directory before Laravel
+                    registers service providers. The test removes that directory during teardown.
+                    Keep cache setup in the base test case so parallel processes cannot write to the
+                    same <code>services.php</code>.
                 </p>
                 <p>
                     When changing refactoring rules, run
@@ -49,6 +58,12 @@ const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
                     <code>tests/Fixtures</code> use direct Eloquent inserts. The factory rule is
                     scoped to exclude those fixtures. The <code>test:types</code> script gives
                     Pest's type coverage workers a 512 MB memory limit.
+                </p>
+                <p>
+                    GitHub Actions runs the test matrix on Linux and Windows with the lowest and
+                    stable Composer dependency resolutions. If one matrix entry fails, the remaining
+                    entries run to completion. Use the manual <strong>Run workflow</strong> control
+                    on the <strong>Actions</strong> tab to start a fresh run.
                 </p>
                 <p>
                     CI also runs the authorization integration test with PostgreSQL and Redis, and
@@ -61,9 +76,8 @@ const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
             </ProseSection>
             <ProseSection id="standards" title="Check contributor standards">
                 <p>
-                    Permit adopts shared Artisan Toolbox contributor standards version
-                    <code>1.1.0</code>. Run the standalone synchronization check from the package
-                    root:
+                    Run the standalone check from the package root. It reports the installed version
+                    of the shared contributor standards and any pending files.
                 </p>
                 <CodeExample label="Check installed contributor standards" :code="standards" />
                 <p>

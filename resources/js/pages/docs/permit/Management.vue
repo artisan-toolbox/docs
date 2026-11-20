@@ -4,6 +4,7 @@ import { permissionEditorSources } from '@/components/demo/front-awesome/permiss
 import CodeExample from '@/components/docs/CodeExample.vue';
 import DocsCallout from '@/components/docs/DocsCallout.vue';
 import DocsLink from '@/components/docs/DocsLink.vue';
+import DocsTable from '@/components/docs/DocsTable.vue';
 import PackageGuideHeader from '@/components/docs/PackageGuideHeader.vue';
 import ProseSection from '@/components/docs/ProseSection.vue';
 import { findNavigationItem } from '@/lib/docsNavigation';
@@ -28,6 +29,18 @@ Permit::add(42, ['user_permissions::read', 'user_permissions::update']);`;
 const inspect = `php artisan permit:inspect
 php artisan permit:inspect 42
 php artisan permit:inspect --defaults`;
+
+const iconOptions = [
+    ['enabled', 'true', 'Include decorative icons in the management catalog.'],
+    ['family', 'classic', 'Use this Font Awesome family for the catalog icons.'],
+    ['crud.create', 'plus', 'Icon for generated create permissions.'],
+    ['crud.read', 'eye', 'Icon for generated read permissions.'],
+    ['crud.update', 'pen', 'Icon for generated update permissions.'],
+    ['crud.delete', 'trash', 'Icon for generated delete permissions.'],
+    ['user_permissions.group', 'user-shield', 'Icon for the built-in user permissions group.'],
+    ['user_permissions.read', 'eye', 'Icon for the built-in read permission.'],
+    ['user_permissions.update', 'pen-to-square', 'Icon for the built-in update permission.'],
+];
 </script>
 
 <template>
@@ -131,6 +144,45 @@ php artisan permit:inspect --defaults`;
                                 .href
                         "
                         >Open the dialog from your user list</DocsLink
+                    >.
+                </p>
+            </ProseSection>
+            <ProseSection id="configure-catalog-icons" title="Configure icons in the editor">
+                <p>
+                    Start with a working editor on Permit 1.0.0-beta.2 and Front Awesome
+                    1.0.0-beta.6 or later. Edit the <code>icons</code> array in your published
+                    <code>config/permit.php</code>. The keys below are relative to that array.
+                </p>
+                <DocsTable
+                    caption="Permit catalog icon options"
+                    :columns="['Key', 'Default', 'Effect']"
+                    :rows="iconOptions">
+                    <template #cell="{ value, columnIndex }">
+                        <code v-if="columnIndex < 2">{{ value }}</code>
+                        <span v-else>{{ value }}</span>
+                    </template>
+                </DocsTable>
+                <p>
+                    Set an individual icon to <code>null</code> to hide it. For example,
+                    <code>icons.crud.read</code> affects generated read permissions, and
+                    <code>icons.user_permissions.read</code> controls the built-in read permission.
+                    Set <code>icons.enabled</code> to <code>false</code> to hide all decorative
+                    catalog icons. Labels and accordion chevrons stay visible.
+                </p>
+                <p>
+                    Permit reads these options on each management GET request. Refresh Laravel's
+                    configuration cache if you use it. If you edit declaration attributes, rebuild
+                    the compiled Permit catalog. Changes to the icon settings only need the current
+                    Laravel configuration.
+                </p>
+                <p>
+                    To choose icons for your own groups and permissions, see
+                    <DocsLink
+                        :href="
+                            findNavigationItem(navigation, 'permit/declarations').href +
+                            '#catalog-icons'
+                        "
+                        >Add icons to a permission group</DocsLink
                     >.
                 </p>
             </ProseSection>

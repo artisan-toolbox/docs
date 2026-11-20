@@ -18,19 +18,18 @@ defineProps({
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection>
                 <p>
-                    Status: implementation in progress, updated on 2026-11-18. The local preview
-                    implements Collection, SQLite, MySQL, and PostgreSQL backend offset reads and
-                    explicit v2 field operations. Phase 1 backend, Phase 2 Vue, Phase 2a
-                    native-action, Phase 3 composed-operation, Phase 3a live-update, and Phase 4
-                    pagination, Phase 5 guarded infinite loading, and Phase 6 comparison acceptance
-                    gates are complete. Explicit protocol 2 adds declared Vue controls, definition
-                    decoding, URL history, and targeted scroll. Protocol 1 remains the default.
-                    Native actions now work with both read versions. Explicit protocol 2 also
-                    supports composed global search, finite filters, bounded multi-order, opaque
-                    presets, and declared joined or grouped queries. Explicit Collection locale
-                    ordering and PostgreSQL plain-text full-text filters are implemented. Phases 2a,
-                    3, 3a, 4, 5, and 6 passed their final acceptance gates. Remaining architecture
-                    examples describe proposed APIs, not a complete release.
+                    Dapter 1.0.0-beta.3 includes Collection, SQLite, MySQL, and PostgreSQL backend
+                    offset reads and explicit v2 field operations. Phase 1 backend, Phase 2 Vue,
+                    Phase 2a native-action, Phase 3 composed-operation, Phase 3a live-update, and
+                    Phase 4 pagination, Phase 5 guarded infinite loading, and Phase 6 comparison
+                    acceptance gates are complete. Explicit protocol 2 adds declared Vue controls,
+                    definition decoding, URL history, and targeted scroll. Protocol 1 remains the
+                    default. Native actions now work with both read versions. Explicit protocol 2
+                    also supports composed global search, finite filters, bounded multi-order,
+                    opaque presets, and declared joined or grouped queries. Explicit Collection
+                    locale ordering and PostgreSQL plain-text full-text filters are implemented.
+                    Phases 2a, 3, 3a, 4, 5, and 6 passed their final acceptance gates. Remaining
+                    architecture examples describe proposed APIs, not a complete release.
                 </p>
                 <p>
                     This explanation records the intended contracts and delivery order for Dapter
@@ -131,11 +130,11 @@ defineProps({
                     </li>
                 </ol>
                 <p>
-                    This source-only path is implemented in the local preview. The Eloquent example
-                    assumes an application-owned <code>Product</code> model with an ordinary primary
-                    key and SQLite query. Complete installation and retain the default web
-                    authentication requirement, or explicitly declare public access for a public
-                    source. Use the Sources guide for a self-contained fictional fixture.
+                    This source-only setup works in the published beta. The Eloquent example assumes
+                    an application-owned <code>Product</code> model with an ordinary primary key and
+                    SQLite query. Complete installation and retain the default web authentication
+                    requirement, or explicitly declare public access for a public source. Use the
+                    Sources guide for a self-contained fictional fixture.
                 </p>
                 <p>
                     With the package defaults and no optional declarations, the adapter loads
@@ -1627,8 +1626,8 @@ defineProps({
                             documented outcomes. Read the
                             <DocsLink :href="findNavigationItem(navigation, 'dapter/research').href"
                                 >focused research findings</DocsLink
-                            >. Exact L2 vector field filtering is implemented in the local preview.
-                            Ranked vector retrieval and snapshot APIs remain deferred.
+                            >. Dapter 1.0.0-beta.2 includes exact L2 vector field filtering. Ranked
+                            vector retrieval and snapshot APIs remain deferred.
                         </p>
                         <p>
                             Exit when an experiment either supports a concrete feature contract or
@@ -1682,21 +1681,22 @@ defineProps({
 
             <ProseSection id="current-baseline" title="Current baseline">
                 <p>
-                    The <code>1.0.0-alpha.1</code> source preview contains PHP package identity, a
+                    The published <code>1.0.0-alpha.1</code> introduced PHP package identity, a
                     service provider and facade, a frontend <code>version</code> export, strict
-                    TypeScript tooling, and distribution checks. Its current local checkout adds
-                    Collection and ordinary SQLite, MySQL, and PostgreSQL DataSources, offset
-                    paging, paging and access options and attributes, guard and Gate checks, and the
-                    headless Vue DataAdapter. Explicit backend v2 adds declared search, typed scalar
-                    and multiple filters, single-field ordering, inherited declaration removal,
-                    trusted source aliases, and driver registration. The Vue adapter defaults to
-                    protocol v1 and supports explicit protocol 2 field controls, definition
-                    decoding, URL history, and scoped scrolling. Composed global reads add finite
-                    enum-aware filters, search grouping, bounded multi-order, opaque presets, fixed
-                    prefixes, result identity ties, and custom counts. Native authorized actions
-                    share the same handle under either read version. Optional Resources preserve
-                    both read versions. Registered committed live replacements and polling use
-                    explicit protocol 2 owners. Simple and cursor pagination are implemented.
+                    TypeScript tooling, and distribution checks. The published
+                    <code>1.0.0-beta.3</code> supports Collection and ordinary SQLite, MySQL, and
+                    PostgreSQL DataSources, offset paging, paging and access options and attributes,
+                    guard and Gate checks, and the headless Vue DataAdapter. Explicit backend v2
+                    adds declared search, typed scalar and multiple filters, single-field ordering,
+                    inherited declaration removal, trusted source aliases, and driver registration.
+                    The Vue adapter defaults to protocol v1 and supports explicit protocol 2 field
+                    controls, definition decoding, URL history, and scoped scrolling. Composed
+                    global reads add finite enum-aware filters, search grouping, bounded
+                    multi-order, opaque presets, fixed prefixes, result identity ties, and custom
+                    counts. Native authorized actions share the same handle under either read
+                    version. Optional Resources preserve both read versions. Registered committed
+                    live replacements and polling use explicit protocol 2 owners. Simple and cursor
+                    pagination are implemented.
                 </p>
                 <p>
                     The package declares PHP <code>^8.5</code>, Illuminate Support

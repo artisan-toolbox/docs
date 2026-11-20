@@ -17,8 +17,8 @@ it('places both installations before a runnable published first table with the n
     for (const slug of ['front-awesome/installation', 'dapter/installation']) {
         expect(intro.querySelector(`a[href="/docs/${slug}"]`)).toBeTruthy();
     }
-    expect(wrapper.text()).toContain('1.0.0-beta.5');
-    expect(wrapper.text()).toContain('1.0.0-beta.2');
+    expect(wrapper.text()).toContain('1.0.0-beta.6');
+    expect(wrapper.text()).toContain('1.0.0-beta.3');
     expect(wrapper.text()).toContain('Notebook 11 through Notebook 20');
     expect(wrapper.find('a[href="/docs/front-awesome/data-view/layouts"]').exists()).toBe(true);
     const code = wrapper

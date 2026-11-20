@@ -16,8 +16,15 @@ defineProps({ navigation: { type: Array, required: true } });
             those in local Maintainer configuration.
         </p>
         <p>
-            On Windows, Dump to Console's CI requires PHPStan 2.2.8 or later in the 2.x series. This
-            version fixes a Turbo parser bug that can drop PHPDoc comments during static analysis.
+            Larastan 3.12.1 or later in the 3.x series supplies PHPStan 2.2.14 or later in the 2.x
+            series. Both CI runners use that requirement, which includes the Windows Turbo parser
+            fix for missing PHPDoc comments.
+        </p>
+        <p>
+            Run <code>composer test</code> to check analysis, formatting, type coverage, and runtime
+            behavior. Actions tests the lowest and stable resolutions of the declared dependencies
+            on Ubuntu and Windows. The type coverage command requires a complete report for the
+            files Pest can analyze.
         </p>
     </ProseSection>
 </template>

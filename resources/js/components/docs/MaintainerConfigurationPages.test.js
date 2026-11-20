@@ -61,6 +61,14 @@ return [
             'release_notes' => env('MAINTAINER_AI_RELEASE_NOTES_PROVIDER', 'openai'),
             'release_changelog_update' => env('MAINTAINER_AI_RELEASE_CHANGELOG_UPDATE_PROVIDER', 'openai'),
         ],
+        'models' => [
+            'commit_message' => env('MAINTAINER_AI_COMMIT_MESSAGE_MODEL'),
+            'release_type_suggestion' => env('MAINTAINER_AI_RELEASE_TYPE_SUGGESTION_MODEL'),
+            'release_notes' => env('MAINTAINER_AI_RELEASE_NOTES_MODEL'),
+            'release_changelog_update' => env('MAINTAINER_AI_RELEASE_CHANGELOG_UPDATE_MODEL'),
+        ],
+        'local_feedback_locale' => env('MAINTAINER_AI_LOCAL_FEEDBACK_LOCALE'),
+        'project_locale' => env('MAINTAINER_AI_PROJECT_LOCALE', 'en'),
     ],
     'git' => [
         'diff' => [
@@ -257,7 +265,9 @@ describe('Maintainer Configuration guides', () => {
         for (const phrase of [
             'even when invoked from vendor/bin or another subdirectory',
             'Project configuration must use these contracts instead of the private App\\... implementation namespace.',
-            'UseCheapestModel',
+            'Maintainer uses gpt-6.2-sol for OpenAI',
+            'ai.local_feedback_locale',
+            'ai.project_locale',
             'only when encryption or decryption is requested',
             'MissingAppKeyException',
             'Changing the key makes existing ciphertext unreadable.',

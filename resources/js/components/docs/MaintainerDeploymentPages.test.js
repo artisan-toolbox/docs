@@ -11,6 +11,10 @@ import Development from '../../pages/docs/maintainer/Development.vue';
 
 const releasedParagraphs = new Map([
     [
+        'Run the same parallel configuration as CI:',
+        'Run the checks configured for the source checkout:',
+    ],
+    [
         'The grouped Deployer tests, standard-input preservation and Windows input inheritance, isolated APT test environment, and Symfony 8.1.11 security updates described here are previews available on the current 1.x branch after the 1.10.0 release. They are not included in that stable release.',
         'Maintainer 1.11.0 includes the grouped Deployer tests, standard-input preservation and Windows input inheritance, isolated APT test environment, and Symfony 8.1.11 security updates described here.',
     ],
@@ -73,17 +77,30 @@ describe('Maintainer deployment and contributor guides', () => {
                 'Documented version 1.10',
             );
             expect(wrapper.get('[aria-label="Package details"]').text()).toContain('Stable');
+            const headings = document.headings.flatMap((heading) =>
+                guide.source === 'development' && heading.id === 'local-development'
+                    ? [
+                          heading,
+                          { level: 2, id: 'test-the-ci-helpers', text: 'Test the CI helpers' },
+                      ]
+                    : [heading],
+            );
             expect(
                 wrapper.findAll('h2, h3').map((heading) => ({
                     level: Number(heading.element.tagName.slice(1)),
                     id: heading.attributes('id'),
                     text: heading.text(),
                 })),
-            ).toEqual(document.headings);
+            ).toEqual(headings);
             for (const anchor of document.anchors)
                 expect(wrapper.get(`[id="${anchor}"]`).exists()).toBe(true);
             expect(wrapper.findAll('pre code').map((code) => code.text())).toEqual(
-                document.examples.map(({ code }) => code),
+                document.examples.map(({ code }) =>
+                    guide.source === 'development' &&
+                    code === 'composer exec pest -- --parallel --processes=4'
+                        ? 'php maintainer quality:check --no-interaction --strict'
+                        : code,
+                ),
             );
             expect(
                 wrapper
@@ -101,6 +118,19 @@ describe('Maintainer deployment and contributor guides', () => {
             const text = normalize(wrapper.text());
             for (const paragraph of document.paragraphs)
                 expect(text).toContain(normalize(releasedParagraphs.get(paragraph) ?? paragraph));
+            if (guide.source === 'development') {
+                expect(text).toContain('php maintainer app:build before running the test suite.');
+                expect(text).toContain('Windows runs Pest serially.');
+                expect(text).toContain('The repository requires tests.yml before publication.');
+                expect(text).toContain(
+                    'runs the suite on PHP 8.5 and 8.6 on both Ubuntu and Windows',
+                );
+                expect(text).toContain('Each job tests the same builds/maintainer PHAR');
+                const verification = wrapper.get('section[aria-labelledby="test-the-ci-helpers"]');
+                expect(verification.text()).toContain('uses: ./');
+                expect(verification.text()).toContain('Reusable CI');
+                expect(verification.text()).toContain('runs Pint');
+            }
         });
         if (guide.document.links.length > 0) {
             it(`resolves every source link from navigation and reacts to updated routes in ${guide.source}`, async () => {
@@ -123,15 +153,15 @@ describe('Maintainer deployment and contributor guides', () => {
             });
         }
     }
-    it('identifies released workflows and reserves the source preview for task search', () => {
+    it('identifies the released deployment workflow and searchable task selector', () => {
         for (const guide of guides.filter(
             ({ source }) => source !== 'deployment/repository-tags',
         )) {
             const text = normalize(render(guide).text());
             expect(text).toContain('Maintainer 1.11.0 includes');
             if (['deployment/index', 'deployment/deploy'].includes(guide.source)) {
-                expect(text).toContain('source preview');
-                expect(text).toContain('1.x branch after 1.11.0');
+                expect(text).toContain('Starting in Maintainer 1.12.0');
+                expect(text).toContain('filter tasks by name');
             } else {
                 expect(text).not.toContain('previews available');
             }
