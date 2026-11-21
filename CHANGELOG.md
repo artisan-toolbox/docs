@@ -1,5 +1,44 @@
 # Changelog
 
+## [1.4.0] - 2026-11-21
+
+### Features
+
+- **Add an expiring npm audit exception and document Vue type checking** (`1b7ef07`)
+  Adds a time-limited npm audit exception so the accepted finding is not ignored indefinitely. Also documents the Vue type-checking workflow so contributors know how to verify Vue types separately from the asset build.
+
+- **Add runnable Dapter action and data-source demos** (`98746d7`)
+  Adds a public, two-record demo data source with a shared write counter and fixed two-record pagination. Its examples cover Visit and HTTP actions, write authorization, resolving an integer input to a target record, Form Request validation without an action-level authorization attribute, and a write followed by a 422 response to show that a validation error does not itself imply rollback. Companion sources show how to register external actions and their policies through attributes, source options, or configuration; the configuration example restores the previous settings afterward. The updated demo documentation keeps SQLite as the default and shows how to opt in to PostgreSQL comparison demos with a dedicated fixture database.
+
+### Fixes
+
+- **Keep Dapter’s simple pagination readable at 375 px** (`3e43822`)
+  Adjusts the Dapter documentation layout so the simple pagination example remains readable on 375 px-wide screens. The change is limited to the documentation display and does not alter pagination behavior.
+
+### Documentation
+
+- **Expand DataView guides with interactive demos** (`bbe16b0`)
+  Adds a DataView tutorial and task-focused guides, with topic icons, active-page highlighting, and redirects from the previous development URLs. A print-shop demo uses the same adapter across table, list, and grid views so readers can compare layouts and try a single View options dialog, combined field searches and filters, multi-column sort priorities, record counts, pagination, selection, writes, and live updates. Also adds an interactive `v-scrollbar` guide, redirects the old theme anchor, applies the branded scrollbar to site navigation, and updates the Web Awesome catalog to 3.15.0.
+
+- **Document PHP 8.6 compatibility across package releases** (`b294059`)
+  Records PHP 8.5 and 8.6 compatibility for nine package releases. Clarifies that the documentation application requires PHP 8.5 or later within the PHP 8.x series and that CI covers both PHP 8.5 and 8.6. The documentation does not make PHP 8.6 the minimum requirement.
+
+- **Update package release guides and standardize documentation CI** (`e2b1fe3`)
+  Updates the documentation application to Dapter beta.2, Filoquent beta.6, Front Awesome beta.5, and Permit beta.1. The Permit quickstart now installs from Packagist and explains the assignment-table migration needed for signed-in readers. CI checks the distribution lock first and uses Maintainer 1.14.4 for dependency setup with strict Composer validation and Node 24. It uses `composer ci:assets` to build assets and verify the search index, and `composer ci:check` for quality checks. Frontend installation uses `npm ci` without lifecycle scripts, audit, or funding output and fails explicitly if `WEBAWESOME_NPM_TOKEN` is missing, so fork pull requests without the secret cannot complete that step. Browser checks install Chromium’s headless shell, run the app with migrated SQLite and a database cache, prepare the Dapter literal demo, and start Reverb and a Redis worker for the `demos` queue. The workflow also supports manual runs and cancels superseded ones. Contributor guidance now requires checking every Artisan Toolbox package for the same diagnosed failure or critical runtime defect, using the smallest relevant check—including `prefer-lowest` when the stable lane passes—and recording fixes, verification blockers, or pending out-of-scope cases.
+
+- **Record plural whitespace and Inertia DevTools test coverage** (`e030587`)
+  Updates the changelog to record test coverage for whitespace in plural translations and for Inertia DevTools, making those verification changes visible in the release history.
+
+### Continuous Integration
+
+- **Test the documentation application on PHP 8.6** (`460250e`)
+  Adds PHP 8.6 as an independent lane alongside PHP 8.5 in the documentation CI matrix. Both lanes run on Ubuntu 24.04 with a 25-minute timeout and a health-checked Redis 7 service, allowing compatibility failures to be identified by PHP version.
+
+### Maintenance
+
+- **Standardize package README badges** (`0a3d3ce`)
+  Updates README badges and documents how Maintainer should regenerate package headers. Published packages start `readmeHead()` with a release-version badge linked to GitHub Releases, followed by a static Packagist badge linked to the package listing; unreleased packages use an in-development badge. Numeric versions stay in badges, while compatibility ranges and constraints belong in the linked installation guide. The policy calls for package-scoped Composer stability flags such as `@beta` when needed and asks contributors to verify that installation commands resolve and that Maintainer regenerates the expected header. Refreshes the standards manifest and lockfile to version 1.3.0 without changing their schema version.
+
 ## Unreleased
 
 - Match sidebar icons to the tasks in the package guides, including notifications, file lifecycle, request protocols, and delivery guarantees.
