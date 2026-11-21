@@ -215,11 +215,14 @@ export function extractDocumentation(pages, { root = process.cwd() } = {}) {
                             isInsideDirectory(resolve(applicationRoot, directory), file),
                         );
                     const typedReference = dirname(file) === referenceRoot && file.endsWith('.ts');
-                    if (!phpExample && !typedReference)
+                    const vueDemo =
+                        file.endsWith('.vue') &&
+                        isInsideDirectory(resolve(sourceRoot, 'components/demo'), file);
+                    if (!phpExample && !typedReference && !vueDemo)
                         fail(
                             component.file,
                             node,
-                            'Raw searchable examples must be PHP sources inside app/DataSources or app/Demo, or TypeScript files directly inside the Dapter design reference directory.',
+                            'Raw searchable examples must be PHP sources inside app/DataSources or app/Demo, TypeScript files directly inside the Dapter design reference directory, or Vue files inside resources/js/components/demo.',
                         );
                     return readFileSync(file, 'utf8');
                 }

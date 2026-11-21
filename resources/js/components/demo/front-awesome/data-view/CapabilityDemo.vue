@@ -32,7 +32,7 @@ const sources = [
         <div class="flex min-w-0 flex-col gap-4">
             <div>
                 <Button @click="running = !running">{{
-                    running ? 'Reset capabilities' : 'Start capabilities'
+                    running ? 'Close catalog' : 'Start capabilities'
                 }}</Button>
             </div>
             <CapabilitySession v-if="running" />

@@ -88,6 +88,21 @@ import { Select, Option } from '@artisan-toolbox/front-awesome/components/WebAwe
                     Pencil 100%_! and Pencil case (IDs 3 and 4). Clear category restores both
                     notebooks (IDs 1 and 2).
                 </p>
+                <p>
+                    The Front Awesome workspace preview also supplies a standalone editor. Pass the
+                    field name and its filter ID to <code>DataViewFilter</code>, for example
+                    <code>field="category" filter="category"</code>. Omit the field for a global
+                    filter. The control preserves the advertised scalar types and multiple-selection
+                    policy. See the
+                    <DocsLink
+                        :href="
+                            findNavigationItem(navigation, 'front-awesome/data-view/layouts').href +
+                            '#compose-controls'
+                        "
+                        >standalone control example</DocsLink
+                    >
+                    for a borrowed adapter in a sidebar.
+                </p>
             </ProseSection>
             <FieldUsageDemo task="filter" />
             <ProseSection id="declaration-details" title="Declaration details">

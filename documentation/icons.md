@@ -59,6 +59,10 @@ The integration follows [WA's native Font Awesome kit support](https://webawesom
 
 Compact monochrome versions of all six package symbols are available in the [package upload folder](assets/fontawesome/packages/README.md). Their committed single-path SVGs have portable format, fingerprint, winding, and small-size rendering checks. The optional macOS authoring script is not part of the Linux application build. Their published names are now recorded below and consumed through the shared kit branch.
 
+Choose a sidebar icon for the page's task. Use a shared icon for recurring tasks such as installation and reference. Use the full guide slug when a title like “roadmap” or “navigation” needs the meaning of its specific page. The [navigation icon tests](../resources/js/lib/navigationIcons.test.js) check the registered sidebar for generic document icons.
+
+The DataView guide icons come from `resources/js/lib/navigationIcons.js`. Sidebar icons use a neutral color until their page is selected. Each child guide links back to the DataView tutorial through the registered breadcrumb.
+
 ## Use uploaded kit icons
 
 Use `family="kit"` for mono uploads and `family="kit-duotone"` for duotone uploads:

@@ -9,7 +9,6 @@ const endpoint = '/demo/front-awesome/permission-editor';
 const exportEndpoint = endpoint + '/export';
 const editor = 'wa-dialog.permission-editor';
 const exportPermission = '[data-ability="notebooks::export"]';
-const reviewerRole = '[data-ability="role::reviewer"]';
 const isEndpoint = (traffic, method) =>
     new URL(traffic.url()).pathname === endpoint && traffic.request().method() === method;
 const isExport = (response) => new URL(response.url()).pathname === exportEndpoint;
@@ -53,7 +52,11 @@ async function verifyCatalog(dialog) {
     await roles.getByText('1 of 2 assigned', { exact: true }).waitFor();
     await roles.getByText('Assigned', { exact: true }).waitFor();
     await roles.getByText('Unassigned', { exact: true }).waitFor();
-    await roles.locator(reviewerRole).locator('[part~="control"]').click();
+    await roles
+        .getByRole('listitem')
+        .filter({ hasText: 'Reviewer' })
+        .getByText('Unassigned', { exact: true })
+        .click();
     await roles.getByText('2 of 2 assigned', { exact: true }).waitFor();
 
     await search.fill('reviewer');
@@ -99,8 +102,13 @@ async function verifyEditor() {
     const dialog = desktop.locator(editor);
     await edit.click();
     await dialog.getByText('Jordan Lee', { exact: true }).waitFor();
-    const checkbox = dialog.locator(exportPermission);
-    await checkbox.locator('[part~="control"]').click();
+    const checkbox = dialog.getByRole('checkbox', { name: 'Export CSV' });
+    await dialog
+        .getByRole('listitem')
+        .filter({ hasText: 'Export CSV' })
+        .getByText('Denied', { exact: true })
+        .click();
+    assert.equal(await checkbox.isChecked(), true);
     await dialog.getByText('1 unsaved change', { exact: true }).waitFor();
     await verifyCatalog(dialog);
     assert.deepEqual(methods, ['GET']);

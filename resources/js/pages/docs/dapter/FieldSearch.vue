@@ -86,6 +86,20 @@ import { Input } from '@artisan-toolbox/front-awesome/components/WebAwesome';
                     Pencil 100%_! and Pencil case (IDs 3 and 4). Type <strong>Eraser</strong> to see
                     the empty result. Clear search restores Notebook 10 and Notebook 2.
                 </p>
+                <p>
+                    The Front Awesome workspace preview also supplies a standalone editor. Pass
+                    <code>field="name"</code> to <code>DataViewSearch</code> for an explicit Apply
+                    action and the match operators the source advertises. Omit the field to use the
+                    adapter's debounced global search. See the
+                    <DocsLink
+                        :href="
+                            findNavigationItem(navigation, 'front-awesome/data-view/layouts').href +
+                            '#compose-controls'
+                        "
+                        >standalone control example</DocsLink
+                    >
+                    for a borrowed adapter in a sidebar.
+                </p>
             </ProseSection>
             <FieldUsageDemo task="search" />
             <ProseSection id="declaration-details" title="Declaration details">

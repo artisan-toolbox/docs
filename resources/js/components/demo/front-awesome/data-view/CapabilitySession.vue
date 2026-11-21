@@ -1,7 +1,7 @@
 <script setup>
 import { useDataAdapter } from '@artisan-toolbox/dapter';
 import { DataView } from '@artisan-toolbox/front-awesome/data-view';
-import { Button, Tag } from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import { Button, Details } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 const catalog = useDataAdapter('Dapter.ComposedCatalog', {
     protocol: 2,
     id: 'data-view-capabilities',
@@ -23,15 +23,9 @@ const views = {
         <DataView :adapter="catalog" :views="views" row-key="id" label="Searchable catalog">
             <template #head-name="{ name, sortDirection }">
                 <span>{{ name }}</span>
-                <Tag aria-hidden="true" size="small" :data-head-direction="sortDirection">{{
-                    sortDirection
-                }}</Tag>
-            </template>
-            <template #head-status="{ name, sortDirection }">
-                <span>{{ name }}</span>
-                <Tag aria-hidden="true" size="small" data-head-unavailable>{{
-                    sortDirection === null ? 'Unavailable' : sortDirection
-                }}</Tag>
+                <span aria-hidden="true">{{
+                    sortDirection === 1 ? '↑' : sortDirection === -1 ? '↓' : '↕'
+                }}</span>
             </template>
             <template #filters="{ adapter }">
                 <div class="flex flex-wrap gap-[0.5rem]">
@@ -40,26 +34,13 @@ const views = {
                         @click="adapter.global.filters.status.call({ value: 'paused' })"
                         >Paused notebooks</Button
                     >
-                    <Button
-                        v-if="adapter.global?.filters?.status"
-                        @click="adapter.global.filters.status.clear()"
-                        >Clear notebook status</Button
-                    >
-                    <Button @click="adapter.resetState()">Restore catalog defaults</Button>
                 </div>
             </template>
-            <template #footer="{ adapter }"
-                ><p data-capability-state class="text-sm">
-                    Shared handle {{ adapter === catalog ? 'yes' : 'no' }}.
-                    {{ adapter.paging.filtered }} matching.
-                </p></template
-            >
         </DataView>
-        <p data-sibling-state class="text-sm">
-            Sibling control sees {{ catalog.data.length }} rows and {{ catalog.status }} status.
-        </p>
-        <pre data-capability-requested class="overflow-x-auto text-xs">{{
-            JSON.stringify(catalog.requested, null, 2)
-        }}</pre>
+        <Details summary="Inspect the requested order">
+            <pre class="overflow-x-auto text-xs">{{
+                JSON.stringify(catalog.requested?.order, null, 2)
+            }}</pre>
+        </Details>
     </div>
 </template>

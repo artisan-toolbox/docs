@@ -84,6 +84,7 @@ The extractor reads Vue syntax through `vue/compiler-sfc`. It does not execute c
 - Give every section a stable heading ID. `ProseSection` uses its existing `title` and `id` props; ordinary `h2` through `h6` elements use their existing `id` attributes.
 - Keep code in `CodeExample` with a literal string, template literal, or `String.raw` template. Literal bindings and static props forwarded through partials are supported.
 - Public PHP examples may import `?raw` files under `app/DataSources` or `app/Demo`. The extractor reads their displayed bytes without executing PHP. Canonical paths outside those directories, non-PHP helpers, and symlinks exposing private files remain invalid.
+- Import a live demo's Vue source with a relative `?raw` import from `resources/js/components/demo` when you display it in `DemoFrame` or `CodeExample`. Search reads the source as text and checks that the resolved file is inside the demo directory.
 - Keep bound `DocsTable` columns and rows as literal arrays. Formatting in its cell slot does not change the searchable values. Ordinary authored HTML tables also work.
 - Pass package requirements through the existing `page.requirements` metadata. They need no duplicate search data.
 - Keep user-specific output and active behavior in the existing demo directories. Demo components, `data-docs-outline-exclude` regions, and explicitly marked `data-search-exclude` regions are excluded. Put a useful explanation and static example in the surrounding guide.

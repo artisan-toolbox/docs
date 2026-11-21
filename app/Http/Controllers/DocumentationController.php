@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataSources\FrontAwesome\Pressroom;
 use App\Demo\Mosaicast\InertiaDelivery\DemoConfiguration;
 use App\Documentation\Documentation;
 use App\Documentation\PageSlug;
@@ -45,6 +46,10 @@ final class DocumentationController extends Controller
             'packages' => PackageResource::collection($documentation->packages())->resolve($request),
             'links' => $documentation->links(),
         ]);
+
+        if (in_array($slug, [PageSlug::FrontAwesomeDataView, PageSlug::FrontAwesomeDataViewLayouts], true)) {
+            $response->with('pressroomPreview', (new Pressroom)->source()[0]);
+        }
 
         if ($slug === PageSlug::MosaicastInertiaDelivery) {
             $response->with('mosaicastDemo', resolve(DemoConfiguration::class)->props($request));

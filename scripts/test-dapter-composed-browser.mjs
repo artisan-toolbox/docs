@@ -81,17 +81,40 @@ try {
                     .getByText('Ready. Start composed controls to read.', { exact: true })
                     .waitFor();
                 assert.equal(reads.length, before);
-                const read = async (label) => {
+                const change = async (interact) => {
                     const next = page.waitForResponse((response) =>
                         response.url().includes('/dapter/data/Dapter.ComposedCatalog'),
                     );
-                    await frame.getByRole('button', { name: label, exact: true }).click();
+                    await interact();
                     const response = await next;
                     assert.equal(response.status(), 200);
                     return response.json();
                 };
+                const read = (label) =>
+                    change(() => frame.getByRole('button', { name: label, exact: true }).click());
                 await read('Start composed controls');
                 await frame.locator('[data-composed-row="4"]').waitFor();
+                await change(() =>
+                    frame.getByLabel('Global catalog search', { exact: true }).fill('0'),
+                );
+                const all = await change(() =>
+                    frame.getByLabel('Product name contains', { exact: true }).fill('Notebook'),
+                );
+                assert.equal(all.requested.fields.name.search.matchType, 'contains');
+                assert.deepEqual(
+                    all.data.map((row) => row.id),
+                    [1],
+                );
+                await frame.getByRole('combobox', { name: 'Search grouping', exact: true }).click();
+                const any = await change(() =>
+                    frame.getByRole('option', { name: 'Any', exact: true }).click(),
+                );
+                assert.equal(any.requested.searchMatch, 'any');
+                assert.deepEqual(
+                    any.data.map((row) => row.id),
+                    [1, 2, 3],
+                );
+                await read('Restore composed defaults');
                 const paused = await read('Paused only');
                 assert.deepEqual(
                     paused.data.map((row) => row.id),

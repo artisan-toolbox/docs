@@ -51,27 +51,389 @@ async function read(page, scope, label, source, gesture = 'click') {
     };
 }
 async function choose(scope, label, option) {
-    const host = scope.locator('wa-select').filter({
-        has: scope.page().getByRole('combobox', { name: label, exact: true }),
-    });
-    const input = host.getByRole('combobox', { name: label, exact: true });
-    const opened = host.evaluate(
-        (element) =>
-            new Promise((done) =>
-                element.addEventListener('wa-after-show', () => done(), { once: true }),
-            ),
-    );
-    await input.click();
-    await opened;
-    const closed = host.evaluate(
-        (element) =>
-            new Promise((done) =>
-                element.addEventListener('wa-after-hide', () => done(), { once: true }),
-            ),
-    );
-    await scope.getByRole('option', { name: option, exact: true }).click();
-    await closed;
+    const control = scope.getByRole('combobox', { name: label, exact: true });
+    await control.click({ timeout: 10000 });
+    const choice = scope.page().getByRole('option', { name: option, exact: true });
+    await choice.click({ timeout: 10000 });
+    await choice.waitFor({ state: 'hidden', timeout: 10000 });
 }
+function optionsButton(scope) {
+    return scope.getByRole('button', { name: 'View options', exact: true });
+}
+async function openOptions(scope, section) {
+    const dialog = scope.getByRole('dialog', { name: 'View options', exact: true });
+    const trigger = optionsButton(scope);
+    if ((await trigger.getAttribute('aria-expanded')) !== 'true') await trigger.click();
+    await dialog.waitFor();
+    const navigation = scope.getByRole('button', { name: section, exact: true });
+    await navigation.click();
+    return dialog;
+}
+async function chooseLayout(scope, name) {
+    const layouts = scope.getByRole('group', { name: 'Results layout', exact: true });
+    await layouts.getByRole('button', { name, exact: true }).click();
+}
+async function waitForTrigger(page, trigger) {
+    await page.waitForFunction((button) => button.matches(':focus'), await trigger.elementHandle());
+}
+async function captureDemo(page, frame, width, filename) {
+    const path = resolve(artifacts, filename);
+    if (width !== 390) {
+        await frame.screenshot({ path });
+        return;
+    }
+    await frame.evaluate((element) => {
+        element.scrollIntoView({ block: 'start', behavior: 'instant' });
+        const header = document.querySelector('header[slot="header"]');
+        window.scrollBy({
+            top:
+                element.getBoundingClientRect().top -
+                (header?.getBoundingClientRect().height ?? 0) -
+                8,
+            behavior: 'instant',
+        });
+    });
+    await page.screenshot({ path });
+}
+
+async function verifyShortFinalPage(page, reads) {
+    const table = page.getByTestId('data-view-first');
+    const source = 'Dapter.Quickstart';
+    await read(page, table, 'Start example', source);
+    await read(page, table, 'Next page', source);
+    await table.getByRole('cell', { name: 'Notebook 20', exact: true }).waitFor();
+    const footer = table.locator('footer');
+    const next = footer.getByRole('button', { name: 'Next page', exact: true });
+    await next.focus();
+    await footer.evaluate((element) =>
+        element.scrollIntoView({ block: 'center', behavior: 'instant' }),
+    );
+    const before = await footer.boundingBox();
+    assert(before);
+    const viewport = page.viewportSize().height;
+    assert(before.y > 0 && before.y + before.height < viewport);
+    assert(
+        await page.evaluate(
+            () => document.documentElement.scrollHeight - scrollY > 2 * innerHeight,
+        ),
+        'The fixture must have another screen of content below the pager',
+    );
+    const beforeReads = reads.length;
+    const [response] = await Promise.all([
+        page.waitForResponse(sourceResponse(source)),
+        page.viewportSize().width === 390 ? next.tap() : next.press('Enter'),
+    ]);
+    assert.equal(response.status(), 200);
+    await table.getByRole('cell', { name: 'Notebook 23', exact: true }).waitFor();
+    await footer.getByText('21–23 of 23 records', { exact: true }).waitFor();
+    await page.evaluate(
+        () => new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done))),
+    );
+    const after = await footer.boundingBox();
+    assert(
+        after && Math.abs(after.y - before.y) <= 4,
+        `Short final page moved the footer from ${before.y} to ${after?.y} CSS pixels`,
+    );
+    assert.equal(await table.locator('tbody tr').count(), 3);
+    assert.equal(
+        reads.length,
+        beforeReads + 1,
+        'Moving to the short final page must issue exactly one read',
+    );
+    assert(
+        await footer.evaluate((element) => element.matches(':focus-within')),
+        'Keyboard focus left the pager after the final page loaded',
+    );
+    await page.keyboard.press('Tab');
+    const active = await page.evaluate(() => {
+        let control = document.activeElement;
+        while (control?.shadowRoot?.activeElement) control = control.shadowRoot.activeElement;
+        return control && control !== document.body && !control.matches(':disabled');
+    });
+    assert(active, 'Tab must reach an enabled control after loading the final page');
+}
+
+async function verifyPressSchedule(page, reads, width, theme) {
+    const schedule = page.getByTestId('press-schedule');
+    const source = 'FrontAwesome.PressSchedule';
+    const before = reads.length;
+    await read(page, schedule, 'Open the press schedule', source);
+    const gesture = width === 390 ? 'tap' : 'click';
+    for (const [action, state, jobs] of [
+        [
+            'Earliest deadline first',
+            'Earliest deadline. Job ID breaks ties.',
+            [201, 202, 204, 203, 205],
+        ],
+        [
+            'Add largest run first',
+            'Earliest deadline, then most sheets. Job ID breaks ties.',
+            [202, 201, 204, 203, 205],
+        ],
+        [
+            'Smallest run first',
+            'Earliest deadline, then fewest sheets. Job ID breaks ties.',
+            [201, 204, 202, 205, 203],
+        ],
+        ['Remove run size', 'Earliest deadline. Job ID breaks ties.', [201, 202, 204, 203, 205]],
+    ]) {
+        const accepted = await read(page, schedule, action, source, gesture);
+        assert.deepEqual(
+            accepted.body.data.map((row) => row.id),
+            jobs,
+        );
+        await schedule.locator('[data-schedule-order]').filter({ hasText: state }).waitFor();
+        const visible = await schedule
+            .locator('[data-job]')
+            .evaluateAll((rows) => rows.map((row) => Number(row.dataset.job)));
+        assert.deepEqual(visible, jobs);
+        if (await schedule.locator('.data-view-header').count()) {
+            const icons = await schedule
+                .locator('thead .sort-priority wa-icon')
+                .evaluateAll((elements) => elements.map((icon) => icon.getAttribute('name')));
+            assert.deepEqual(
+                icons,
+                action === 'Add largest run first' || action === 'Smallest run first'
+                    ? ['square-1', 'square-2']
+                    : [],
+            );
+        }
+        if (action === 'Add largest run first') {
+            if (width === 390) {
+                const fits = await schedule.locator('table').evaluate((table) => {
+                    const frame = table.parentElement;
+                    return frame.scrollWidth <= frame.clientWidth + 1;
+                });
+                assert(fits, 'All three print schedule columns must fit in the mobile guide');
+            }
+            await captureDemo(page, schedule, width, `${width}-${theme}-multi-sort.png`);
+        }
+    }
+    assert.equal(
+        reads.length,
+        before + 5,
+        'Each touch or button action must issue exactly one read',
+    );
+    if (width === 390) return;
+    const modifier = await page.evaluate(() =>
+        /Mac|iPhone|iPad|iPod/i.test(navigator.platform) ? 'Meta' : 'Control',
+    );
+    const [sorted] = await Promise.all([
+        page.waitForResponse(sourceResponse(source)),
+        schedule
+            .getByRole('button', { name: 'Sheets', exact: true })
+            .click({ modifiers: [modifier] }),
+    ]);
+    const result = await sorted.json();
+    assert.deepEqual(
+        result.requested.order.terms.map((term) => [term.field, term.direction]),
+        [
+            ['due', 'asc'],
+            ['sheets', 'asc'],
+        ],
+    );
+    assert.deepEqual(
+        result.data.map((row) => row.id),
+        [201, 204, 202, 205, 203],
+    );
+    assert.equal(reads.length, before + 6);
+}
+
+async function verifyPressroom(page, reads, width, theme) {
+    const queue = page.getByTestId('pressroom-queue');
+    const source = 'FrontAwesome.Pressroom';
+    const initial = await read(page, queue, 'Open the support queue', source);
+    assert.equal(initial.body.paging.total, 12);
+    const before = reads.length;
+    const trigger = optionsButton(queue);
+    const unified = (await trigger.count()) > 0;
+    if (process.env.DATA_VIEW_EXPECT_REDESIGN === '1')
+        assert(unified, 'The queue must expose View options');
+    const legacyFilters = queue.getByRole('button', { name: 'Search and filters', exact: true });
+    if (unified) {
+        assert.equal(await trigger.count(), 1);
+        assert.equal(await trigger.getAttribute('aria-haspopup'), 'dialog');
+        for (const label of ['Filters', 'Sort', 'Page settings']) {
+            assert.equal(await queue.getByRole('button', { name: label, exact: true }).count(), 0);
+        }
+        const search = await queue
+            .getByRole('textbox', { name: 'Search results', exact: true })
+            .boundingBox();
+        const button = await trigger.boundingBox();
+        assert(
+            search &&
+                button &&
+                button.x >= search.x + search.width - 1 &&
+                button.y < search.y + search.height &&
+                search.y < button.y + button.height,
+            'The filter trigger must sit beside the quick search',
+        );
+        await queue
+            .getByRole('group', { name: 'Results layout' })
+            .getByRole('button', { name: 'Table', exact: true })
+            .waitFor();
+        await trigger.click();
+        await queue.getByRole('dialog', { name: 'View options', exact: true }).waitFor();
+        await queue.getByRole('group', { name: 'Status', exact: true }).waitFor();
+        assert.equal(
+            await queue.getByRole('button', { name: 'Results layout', exact: true }).count(),
+            0,
+        );
+        await openOptions(queue, 'Page settings');
+        assert.equal(await queue.getByRole('group', { name: 'Status', exact: true }).count(), 0);
+        await queue.getByRole('spinbutton', { name: 'Go to page' }).waitFor();
+        await openOptions(queue, 'Search');
+        await choose(queue, 'Search scope', 'Search Ticket title');
+        await queue.getByRole('group', { name: 'Search Ticket title' }).waitFor();
+        await openOptions(queue, 'Sort');
+        await queue.getByRole('combobox', { name: 'Order field', exact: true }).waitFor();
+        await openOptions(queue, 'Filters');
+    } else await legacyFilters.click();
+    const status = queue.getByRole('group', { name: 'Status', exact: true });
+    await status.getByRole('combobox', { name: 'Status', exact: true }).waitFor();
+    await choose(status, 'Status', 'Waiting');
+    assert.equal(reads.length, before, 'Editing a status sent a request');
+    const filtered = await read(page, status, 'Apply', source);
+    assert.equal(filtered.body.paging.filtered, 4);
+    assert.equal(reads.length, before + 1);
+    if (unified) {
+        const dialog = queue.getByRole('dialog', { name: 'View options', exact: true });
+        const bounds = await dialog.boundingBox();
+        const viewport = page.viewportSize();
+        assert(
+            bounds &&
+                bounds.x >= 0 &&
+                bounds.y >= 0 &&
+                bounds.x + bounds.width <= viewport.width + 1 &&
+                bounds.y + bounds.height <= viewport.height + 1,
+            'View options must fit the viewport',
+        );
+        await dialog.screenshot({ path: resolve(artifacts, `${width}-${theme}-view-options.png`) });
+        await queue.getByRole('button', { name: 'Done', exact: true }).click();
+        await waitForTrigger(page, trigger);
+        await queue.getByRole('button', { name: 'Remove Status: Waiting', exact: true }).waitFor();
+    } else await legacyFilters.click();
+    await chooseLayout(queue, 'Table');
+    const ordered = await read(page, queue, 'Reply due', source);
+    const ids = [416, 418, 408, 406];
+    assert.deepEqual(
+        ordered.body.data.map((row) => row.id),
+        ids,
+    );
+    async function displayedTickets() {
+        return queue
+            .locator('[data-ticket]')
+            .evaluateAll((items) => items.map((item) => Number(item.dataset.ticket)));
+    }
+    const sortedReads = reads.length;
+    for (const layout of ['List', 'Grid', 'Table']) {
+        await chooseLayout(queue, layout);
+        assert.deepEqual(await displayedTickets(), ids);
+        if (layout === 'List')
+            await queue
+                .locator('li')
+                .first()
+                .getByText(/The copper foil/)
+                .waitFor();
+        if (layout === 'Grid') await queue.locator('li').first().getByText('Ravi Shah').waitFor();
+    }
+    assert.equal(reads.length, sortedReads);
+    if (width === 390) await chooseLayout(queue, 'List');
+    await captureDemo(page, queue, width, `${width}-${theme}-pressroom.png`);
+    if (unified) {
+        const cleared = await read(page, queue, 'Remove Status: Waiting', source);
+        assert.equal(cleared.body.paging.filtered, 12);
+        assert.equal(cleared.body.requested.order.terms[0].field, 'due');
+        const remainingSort = queue
+            .getByRole('group', { name: 'Applied criteria' })
+            .getByRole('button', { name: /Remove .*Reply due/ });
+        await waitForTrigger(page, remainingSort);
+        assert.equal(reads.length, sortedReads + 1);
+        const search = await queue
+            .getByRole('textbox', { name: 'Search results', exact: true })
+            .boundingBox();
+        const badge = await remainingSort.boundingBox();
+        assert(
+            search && badge && badge.y >= search.y + search.height,
+            'Applied badges must sit below quick search',
+        );
+        await openOptions(queue, 'Page settings');
+        const resized = page.waitForResponse(sourceResponse(source));
+        await choose(queue, 'Rows per page', '10');
+        assert.equal((await (await resized).json()).paging.per_page, 10);
+        await queue.getByRole('button', { name: 'Done', exact: true }).click();
+        const restored = await read(page, queue, 'Remove Rows per page: 10', source);
+        assert.equal(restored.body.paging.per_page, 5);
+    }
+}
+
+async function verifyPressroomSidebar(page, reads, width, theme) {
+    const demo = page.getByTestId('pressroom-sidebar');
+    await demo.getByRole('heading', { name: 'Ticket requests', exact: true }).waitFor();
+    if (
+        await demo
+            .getByText(/The standalone controls require the local Front Awesome preview/)
+            .count()
+    ) {
+        assert.notEqual(
+            process.env.DATA_VIEW_EXPECT_REDESIGN,
+            '1',
+            'The requested standalone controls are unavailable',
+        );
+        await demo
+            .getByText(/The standalone controls require the local Front Awesome preview/)
+            .waitFor();
+        return;
+    }
+    const source = 'FrontAwesome.Pressroom';
+    const before = reads.length;
+    await read(page, demo, 'Open the ticket list', source);
+    const main = demo.locator('[data-queue="pressroom-main"]');
+    await main.getByRole('navigation').waitFor();
+    assert.equal(await main.getByRole('navigation').count(), 1);
+    assert.equal(reads.length, before + 1);
+    const status = main.getByRole('group', { name: 'Status', exact: true });
+    await status.getByRole('combobox', { name: 'Status', exact: true }).waitFor();
+    await choose(status, 'Status', 'Waiting');
+    await read(page, status, 'Apply', source);
+    const afterFilter = reads.length;
+    const compare = main.getByRole('button', { name: 'Compare deadlines', exact: true });
+    await compare.click();
+    const dialog = main.getByRole('dialog', { name: 'Reply deadlines', exact: true });
+    await dialog.waitFor();
+    const host = main.locator('wa-dialog[label="Reply deadlines"]');
+    const deadlines = host.getByRole('table', { name: 'Ticket deadlines', exact: true });
+    await deadlines.getByRole('cell', { name: '09:45', exact: true }).waitFor();
+    assert.equal(await deadlines.locator('tbody tr').count(), 4);
+    assert.equal(await host.getByRole('navigation').count(), 0);
+    assert.equal(await host.getByRole('textbox').count(), 0);
+    const bounds = await dialog.boundingBox();
+    assert(bounds && bounds.width <= 384, 'The comparison table must fit its narrow dialog');
+    await dialog.screenshot({ path: resolve(artifacts, `${width}-${theme}-pressroom-dialog.png`) });
+    await page.keyboard.press('Escape');
+    await dialog.waitFor({ state: 'hidden' });
+    await page.waitForFunction(
+        () => document.activeElement?.textContent.trim() === 'Compare deadlines',
+    );
+    assert.equal(reads.length, afterFilter, 'Borrowing the page for a comparison sent a request');
+    const searched = page.waitForResponse(sourceResponse(source));
+    await main.getByRole('textbox', { name: 'Search tickets', exact: true }).fill('foil');
+    assert.equal((await searched).status(), 200);
+    await main.locator('[data-ticket="416"]').waitFor();
+    await main.locator('[data-ticket]').nth(1).waitFor({ state: 'detached' });
+    assert.equal(await main.locator('[data-ticket]').count(), 1);
+    await captureDemo(page, demo, width, `${width}-${theme}-pressroom-sidebar.png`);
+    const other = await read(page, demo, 'Open an independent queue', source);
+    assert.equal(other.body.paging.filtered, 12);
+    const comparison = demo.locator('[data-queue="pressroom-independent"]');
+    await comparison.locator('[data-ticket]').nth(4).waitFor();
+    assert.equal(await comparison.locator('[data-ticket]').count(), 5);
+    await read(page, comparison, 'Next page', source);
+    assert.equal(await main.getByRole('textbox', { name: 'Search tickets' }).inputValue(), 'foil');
+    assert.equal(await main.locator('[data-ticket]').count(), 1);
+    assert.equal(reads.length, before + 5);
+}
+
 try {
     for (const width of [1440, 390]) {
         for (const theme of ['light', 'dark']) {
@@ -110,6 +472,21 @@ try {
                             .href,
                     );
                     await page.locator('article [data-document-content]').waitFor();
+                    const guideHeader = page.locator('article > header');
+                    assert.equal(await guideHeader.locator('h1 wa-icon').count(), 0);
+                    const sidebarIcon = page.locator(
+                        '#docs-navigation a[aria-current="page"] wa-icon',
+                    );
+                    await sidebarIcon.locator('svg').waitFor({ state: 'attached' });
+                    assert.equal(await sidebarIcon.getAttribute('aria-hidden'), 'true');
+                    if (path) {
+                        assert.equal(
+                            await guideHeader
+                                .getByRole('link', { name: 'DataView', exact: true })
+                                .getAttribute('href'),
+                            '/docs/front-awesome/data-view',
+                        );
+                    }
                     if (process.env.DATA_VIEW_EXPECT_PRODUCTION === '1') {
                         const scripts = await page
                             .locator('script[src]')
@@ -135,10 +512,18 @@ try {
                     await openGuide('');
                     const translated = page.getByTestId('data-view-first');
                     await read(page, translated, 'Start example', 'Dapter.Quickstart');
+                    const numbered = (await translated.locator('wa-pagination').count()) > 0;
                     await translated
-                        .getByRole('button', { name: 'Próxima', exact: true })
+                        .getByRole('button', {
+                            name: numbered ? 'Próxima página' : 'Próxima',
+                            exact: true,
+                        })
                         .waitFor();
-                    await translated.getByText('Página 1 de 3', { exact: true }).waitFor();
+                    await translated
+                        .getByText(numbered ? '1–10 de 23 registros' : 'Página 1 de 3', {
+                            exact: true,
+                        })
+                        .waitFor();
                 }
                 await page.goto(new URL('/docs/front-awesome/preferences', base).href);
                 await page
@@ -152,10 +537,45 @@ try {
                 const initial = await read(page, first, 'Start example', 'Dapter.Quickstart');
                 assert.equal(initial.body.paging.total, 23);
                 assert.equal(initial.body.data.length, 10);
-                const nextFirst = await read(page, first, 'Next', 'Dapter.Quickstart');
+                const numbered = (await first.locator('wa-pagination').count()) > 0;
+                const offsetNext = numbered ? 'Next page' : 'Next';
+                const nextFirst = await read(
+                    page,
+                    first,
+                    offsetNext,
+                    'Dapter.Quickstart',
+                    width === 390 ? 'tap' : 'click',
+                );
                 assert.equal(nextFirst.body.data[0].name, 'Notebook 11');
                 await first.getByRole('cell', { name: 'Notebook 11', exact: true }).waitFor();
+                const lastFirst = await read(page, first, offsetNext, 'Dapter.Quickstart');
+                assert.equal(lastFirst.body.data.length, 3);
+                assert.equal(lastFirst.body.data[0].name, 'Notebook 21');
+                if (numbered) {
+                    assert.equal(
+                        await first.getByRole('group', { name: 'Applied criteria' }).count(),
+                        0,
+                        'Paging alone must not add a badge',
+                    );
+                    const beforeSettings = reads.length;
+                    const settings = optionsButton(first);
+                    await openOptions(first, 'Page settings');
+                    assert.equal(
+                        await first.getByRole('spinbutton', { name: 'Go to page' }).inputValue(),
+                        '3',
+                    );
+                    await page.keyboard.press('Escape');
+                    await waitForTrigger(page, settings);
+                    assert.equal(
+                        reads.length,
+                        beforeSettings,
+                        'Opening and dismissing page settings sent a read',
+                    );
+                }
+                if (expectedApi === 'candidate') await verifyPressroom(page, reads, width, theme);
                 await openGuide('layouts');
+                if (expectedApi === 'candidate')
+                    await verifyPressroomSidebar(page, reads, width, theme);
                 const layoutReads = reads.length;
                 const main = page.getByTestId('data-view-demo');
                 await main.getByText('No source is running.', { exact: true }).waitFor();
@@ -176,16 +596,16 @@ try {
                     { times: 1 },
                 );
                 const pending = page.waitForResponse(sourceResponse('Dapter.CollectionFluent'));
-                await main.getByRole('button', { name: 'Next', exact: true }).click();
+                await main.getByRole('button', { name: offsetNext, exact: true }).click();
                 await main.getByRole('status').filter({ hasText: 'Updating results…' }).waitFor();
-                await main.getByRole('button', { name: 'Grid', exact: true }).click();
-                await main.locator('li wa-card').filter({ hasText: 'Notebook 01' }).waitFor();
+                await chooseLayout(main, 'Grid');
+                await main.locator('li strong').filter({ hasText: 'Notebook 01' }).waitFor();
                 release();
                 assert.equal((await pending).status(), 200);
-                await main.locator('li wa-card').filter({ hasText: 'Notebook 06' }).waitFor();
-                await main.getByRole('button', { name: 'List', exact: true }).click();
                 await main.locator('li strong').filter({ hasText: 'Notebook 06' }).waitFor();
-                await main.getByRole('button', { name: 'Table', exact: true }).click();
+                await chooseLayout(main, 'List');
+                await main.locator('li strong').filter({ hasText: 'Notebook 06' }).waitFor();
+                await chooseLayout(main, 'Table');
                 await main.locator('tbody strong').filter({ hasText: 'Notebook 06' }).waitFor();
                 assert.equal(reads.length - layoutReads, 2);
                 await main.screenshot({
@@ -307,13 +727,35 @@ try {
                 await openGuide('query-controls');
                 const query = page.getByTestId('data-view-query');
                 await read(page, query, 'Start example', 'FrontAwesome.Notebooks');
+                const redesigned = (await optionsButton(query).count()) > 0;
+                const selectCriterion = async (label) => {
+                    if (!redesigned) return;
+                    const search = label.startsWith('Search ');
+                    await openOptions(query, search ? 'Search' : 'Filters');
+                    const chooser = query.getByRole('combobox', {
+                        name: search ? 'Search scope' : 'Criterion',
+                        exact: true,
+                    });
+                    if (await chooser.count())
+                        await choose(query, search ? 'Search scope' : 'Criterion', label);
+                };
+                const selectOrder = async (frame, label) => {
+                    const chooser = frame.getByRole('combobox', {
+                        name: 'Order field',
+                        exact: true,
+                    });
+                    if (redesigned && (await chooser.count()))
+                        await choose(frame, 'Order field', label);
+                };
                 const disclosure = query.getByRole('button', {
-                    name: 'Search and filters',
+                    name: redesigned ? 'View options' : 'Search and filters',
                     exact: true,
+                    includeHidden: true,
                 });
                 await disclosure.focus();
                 await disclosure.press('Enter');
                 assert.equal(await disclosure.getAttribute('aria-expanded'), 'true');
+                await selectCriterion('mark');
                 const markGroup = query.getByRole('group', { name: 'mark', exact: true });
                 for (const [label, value, expected] of [
                     ['Null', null, 1],
@@ -330,11 +772,22 @@ try {
                         result.body.data.map((row) => row.id),
                         [expected],
                     );
+                    if (redesigned) {
+                        await query.getByRole('button', { name: 'Done' }).click();
+                        await waitForTrigger(page, disclosure);
+                    }
                     await query
                         .getByRole('cell', { name: result.body.data[0].name, exact: true })
                         .waitFor();
+                    if (redesigned) {
+                        await query
+                            .getByRole('button', { name: `Remove mark: ${label}`, exact: true })
+                            .waitFor();
+                        await disclosure.click();
+                    }
                 }
                 await read(page, markGroup, 'Clear', 'FrontAwesome.Notebooks');
+                await selectCriterion('Search name');
                 const name = query.getByRole('group', { name: 'Search name', exact: true });
                 await choose(name, 'Match operator', 'Equals');
                 await name.getByRole('textbox').fill('Notebook 2');
@@ -346,12 +799,19 @@ try {
                 );
                 const waitStock = () =>
                     page.waitForResponse(sourceResponse('FrontAwesome.Notebooks'));
-                const [all] = await Promise.all([
-                    waitStock(),
-                    query.getByRole('textbox', { name: 'Search results', exact: true }).fill('C'),
-                ]);
+                if (redesigned) {
+                    await query.getByRole('button', { name: 'Done' }).click();
+                    await waitForTrigger(page, disclosure);
+                }
+                const globalSearch = query.getByRole('textbox', {
+                    name: 'Search results',
+                    exact: true,
+                });
+                await globalSearch.click();
+                const [all] = await Promise.all([waitStock(), globalSearch.fill('C')]);
                 assert.equal(JSON.parse(all.request().postData()).state.searchMatch, 'all');
                 assert.deepEqual((await all.json()).data, []);
+                if (redesigned) await openOptions(query, 'Search');
                 const [any] = await Promise.all([
                     waitStock(),
                     choose(query, 'Combine searches', 'Any'),
@@ -362,6 +822,7 @@ try {
                     [2, 5, 6],
                 );
                 await read(page, query, 'Reset to source defaults', 'FrontAwesome.Notebooks');
+                await selectCriterion('Search Sheet count');
                 const sheets = query.getByRole('group', {
                     name: 'Search Sheet count',
                     exact: true,
@@ -374,6 +835,7 @@ try {
                     [2],
                 );
                 await read(page, sheets, 'Clear', 'FrontAwesome.Notebooks');
+                await selectCriterion('Allowed stock marks');
                 const allowed = query.getByRole('group', {
                     name: 'Allowed stock marks',
                     exact: true,
@@ -382,17 +844,15 @@ try {
                 await allowed.getByRole('button', { name: 'Apply', exact: true }).click();
                 await allowed.getByText('Choose an option.', { exact: true }).waitFor();
                 assert.equal(reads.length, beforeEmpty);
-                await name.getByRole('button', { name: 'Apply', exact: true }).press('Escape');
-                assert.equal(
-                    await disclosure.evaluate(
-                        (node) => node === document.activeElement || node.matches(':focus'),
-                    ),
-                    true,
-                );
+                await allowed.getByRole('button', { name: 'Apply', exact: true }).press('Escape');
+                await waitForTrigger(page, disclosure);
 
                 const literal = page.locator('[data-comparison="literal"]');
                 await read(page, literal, 'Start example', 'Dapter.LiteralStrictFluent');
-                await literal.getByRole('button', { name: 'Search and filters' }).click();
+                if (redesigned) {
+                    await openOptions(literal, 'Search');
+                    await choose(literal, 'Search scope', 'Search name');
+                } else await literal.getByRole('button', { name: 'Search and filters' }).click();
                 const exact = literal.getByRole('group', { name: 'Search name', exact: true });
                 await exact.getByRole('textbox').fill('joao');
                 const literalResult = await read(
@@ -433,12 +893,12 @@ try {
                         .getByRole('checkbox', { name: 'Select all loaded rows' })
                         .evaluate((input) => input.indeterminate),
                 );
-                await group.getByRole('button', { name: 'List', exact: true }).click();
+                await chooseLayout(group, 'List');
                 assert(
                     await group.getByRole('checkbox', { name: 'Select Notebook 10' }).isChecked(),
                 );
                 assert.equal(reads.length, selectionReads);
-                await read(page, group, 'Next', 'FrontAwesome.Notebooks');
+                await read(page, group, offsetNext, 'FrontAwesome.Notebooks');
                 await group
                     .locator('[data-picked]')
                     .getByText('Selected []. Current rows none.', { exact: true })
@@ -477,26 +937,27 @@ try {
                 await read(page, scoped, 'Start a fresh owner', 'FrontAwesome.Notebooks');
                 assert((await scoped.locator('[data-parent-keys]').textContent()).includes('[]'));
                 await openGuide('ordering');
+                await verifyPressSchedule(page, reads, width, theme);
                 const capabilities = page.getByTestId('data-view-capabilities');
                 await read(page, capabilities, 'Start capabilities', 'Dapter.ComposedCatalog');
-                await capabilities
-                    .locator('[data-capability-state]')
-                    .filter({ hasText: 'Shared handle yes' })
-                    .waitFor();
+                const notebookHeader = capabilities.getByRole('columnheader', {
+                    name: /^Notebook/,
+                });
+                await notebookHeader.getByText('↕', { exact: true }).waitFor();
                 assert.equal(
                     await capabilities
-                        .locator('[data-head-direction]')
-                        .getAttribute('data-head-direction'),
-                    '0',
-                );
-                assert.equal(
-                    await capabilities.locator('[data-head-unavailable]').textContent(),
-                    'Unavailable',
+                        .getByRole('columnheader', { name: 'Status', exact: true })
+                        .getByRole('button')
+                        .count(),
+                    0,
                 );
                 const quantityIcon = capabilities
                     .getByRole('columnheader', { name: 'Quantity', exact: true })
                     .locator('wa-icon');
-                assert.equal(await quantityIcon.evaluate((icon) => icon.name), 'sort');
+                assert.equal(
+                    await quantityIcon.evaluate((icon) => icon.name),
+                    redesigned ? 'up-down' : 'sort',
+                );
                 const multiKey = await page.evaluate(() =>
                     /Mac|iPhone|iPad|iPod/i.test(navigator.platform) ? 'Meta' : 'Control',
                 );
@@ -528,29 +989,15 @@ try {
                     kind: 'fields',
                     terms: [{ field: 'name', direction: 'desc', sortType: 'native' }],
                 });
-                assert.equal(
-                    await capabilities
-                        .locator('[data-head-direction]')
-                        .getAttribute('data-head-direction'),
-                    '-1',
-                );
+                await notebookHeader.getByText('↓', { exact: true }).waitFor();
                 await headerOrder('Quantity', true);
                 assert.deepEqual(await headerOrder('Notebook'), {
                     kind: 'fields',
                     terms: [{ field: 'name', direction: 'asc', sortType: 'native' }],
                 });
-                assert.equal(
-                    await capabilities
-                        .locator('[data-head-direction]')
-                        .getAttribute('data-head-direction'),
-                    '1',
-                );
+                await notebookHeader.getByText('↑', { exact: true }).waitFor();
                 await quantityIcon.waitFor();
-                await page.waitForFunction(() =>
-                    Array.from(document.querySelectorAll('[data-capability-session] wa-icon')).some(
-                        (icon) => icon.name === 'sort' && icon.shadowRoot?.querySelector('svg'),
-                    ),
-                );
+                await quantityIcon.locator('svg').waitFor();
                 const searchRead = page.waitForResponse(sourceResponse('Dapter.ComposedCatalog'));
                 await capabilities
                     .getByRole('textbox', { name: 'Search results', exact: true })
@@ -575,13 +1022,18 @@ try {
                     'Dapter.ComposedCatalog',
                 );
                 assert.equal(ordered.request.state.order.terms[0].field, 'name');
+                if (redesigned) await openOptions(capabilities, 'Sort');
                 const presetRead = page.waitForResponse(sourceResponse('Dapter.ComposedCatalog'));
                 await choose(capabilities, 'Order preset', 'Newest first');
                 assert.deepEqual(JSON.parse((await presetRead).request().postData()).state.order, {
                     kind: 'preset',
                     id: 'reverse',
                 });
-                await capabilities.getByRole('button', { name: 'Ordering', exact: true }).click();
+                if (!redesigned)
+                    await capabilities
+                        .getByRole('button', { name: 'Ordering', exact: true })
+                        .click();
+                await selectOrder(capabilities, 'name');
                 const byName = capabilities.getByRole('group', { name: 'name', exact: true });
                 await choose(byName, 'Sort type', 'Natural');
                 const firstTerm = await read(
@@ -591,6 +1043,7 @@ try {
                     'Dapter.ComposedCatalog',
                 );
                 assert.equal(firstTerm.request.state.order.terms[0].sortType, 'natural');
+                await selectOrder(capabilities, 'quantity');
                 const byQuantity = capabilities.getByRole('group', {
                     name: 'quantity',
                     exact: true,
@@ -615,17 +1068,22 @@ try {
                         ['quantity', 'numeric', 'desc'],
                     ],
                 );
+                await selectOrder(capabilities, 'rank');
                 const rank = capabilities.getByRole('group', { name: 'rank', exact: true });
                 assert.equal(await rank.getByRole('button', { name: 'Add to order' }).count(), 0);
+                await selectOrder(capabilities, 'quantity');
                 await read(
                     page,
                     capabilities.getByRole('group', { name: /quantity.*Priority 2/ }),
                     'Remove term',
                     'Dapter.ComposedCatalog',
                 );
+                if (redesigned) await capabilities.getByRole('button', { name: 'Done' }).click();
                 const locale = page.locator('[data-comparison="locale"]');
                 await read(page, locale, 'Start example', 'Dapter.ComparisonsLocaleFluent');
-                await locale.getByRole('button', { name: 'Ordering', exact: true }).click();
+                if (redesigned) await openOptions(locale, 'Sort');
+                else await locale.getByRole('button', { name: 'Ordering', exact: true }).click();
+                await selectOrder(locale, 'name');
                 const localeOrder = locale.getByRole('group', { name: 'name', exact: true });
                 await choose(localeOrder, 'Sort type', 'Locale');
                 const collated = await read(
@@ -686,6 +1144,7 @@ try {
                 await read(page, action, 'Revoke permission', 'FrontAwesome.NotebookActions');
                 assert.equal(await action.locator('[data-action-outcome]').count(), 0);
                 await openGuide('paging');
+                if (numbered) await verifyShortFinalPage(page, reads);
                 for (const source of [
                     'Dapter.PagingSimple',
                     'Dapter.PagingCursor',
@@ -693,10 +1152,17 @@ try {
                 ]) {
                     const scope = page.locator(`[data-paging-demo="${source}"]`);
                     const initial = await read(page, scope, 'Start traversal', source);
-                    await scope
-                        .locator('[data-paging-summary]')
-                        .getByText(/Exact total unknown/)
-                        .waitFor();
+                    assert.equal(initial.body.paging.total, null);
+                    if (numbered) {
+                        await scope
+                            .getByText(
+                                source === 'Dapter.InfiniteSimple'
+                                    ? '2 records in view'
+                                    : '2 records on this page',
+                                { exact: true },
+                            )
+                            .waitFor();
+                    }
                     assert.equal(
                         await scope.getByRole('button', { name: 'Last', exact: true }).count(),
                         0,
@@ -708,6 +1174,11 @@ try {
                         source,
                     );
                     await scope.locator('tbody tr').first().waitFor();
+                    assert.equal(
+                        await scope.getByRole('group', { name: 'Applied criteria' }).count(),
+                        0,
+                        'Traversing pages or cursor positions must not add a badge',
+                    );
                     if (source === 'Dapter.InfiniteSimple') {
                         await page.waitForFunction(
                             () =>

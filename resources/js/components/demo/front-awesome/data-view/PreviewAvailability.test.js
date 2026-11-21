@@ -6,6 +6,7 @@ import { flushPromises } from '@vue/test-utils';
 const api = vi.hoisted(() => ({ props: { adapter: {}, views: {}, rowKey: {} } }));
 vi.mock('@artisan-toolbox/front-awesome/data-view', () => ({ DataView: api }));
 import QueryDemo from './QueryDemo.vue';
+import PressroomDemo from './PressroomDemo.vue';
 import PreviewAvailability, { supportsDataViewPreview } from './PreviewAvailability.vue';
 
 const released = { adapter: {}, views: {}, rowKey: {} };
@@ -30,6 +31,32 @@ it('keeps extended source visible without starting work on the released base', (
     expect(wrapper.text()).toContain('Notebooks.php');
     expect(wrapper.findComponent(Button).exists()).toBe(false);
     expect(wrapper.find('[data-query-requested]').exists()).toBe(false);
+});
+
+it('shows the ticket list source when the installed package lacks standalone controls', () => {
+    const wrapper = mount(PressroomDemo, {
+        props: {
+            sidebar: true,
+            preview: { id: 1, title: 'Preview ticket', status: 'Waiting', due: '09:45' },
+        },
+        global: {
+            stubs: {
+                DemoFrame: {
+                    props: ['sources'],
+                    template:
+                        '<section><slot /><p v-for="source in sources">{{source.label}}</p></section>',
+                },
+            },
+        },
+    });
+    expect(wrapper.text()).toContain(
+        'The standalone controls require the local Front Awesome preview.',
+    );
+    expect(wrapper.text()).toContain('Preview ticket');
+    expect(wrapper.text()).toContain('PressroomSidebar.vue');
+    expect(wrapper.text()).toContain('app/DataSources/FrontAwesome/Pressroom.php');
+    expect(wrapper.findComponent(Button).exists()).toBe(false);
+    expect(wrapper.find('[data-queue]').exists()).toBe(false);
 });
 
 it('starts the candidate demo only on a reader action', async () => {

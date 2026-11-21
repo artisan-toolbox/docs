@@ -2,9 +2,11 @@
 import PackageGuideHeader from '@/components/docs/PackageGuideHeader.vue';
 import ProseSection from '@/components/docs/ProseSection.vue';
 import DocsLink from '@/components/docs/DocsLink.vue';
+import PressroomDemo from '@/components/demo/front-awesome/data-view/PressroomDemo.vue';
 import DataViewDemo from '@/components/demo/front-awesome/data-view/DataViewDemo.vue';
 import { findNavigationItem } from '@/lib/docsNavigation';
 defineProps({
+    pressroomPreview: { type: Object, required: true },
     page: { type: Object, required: true },
     navigation: { type: Array, required: true },
 });
@@ -17,9 +19,10 @@ defineProps({
             <ProseSection id="compare-layouts" title="Switch layouts on the same page">
                 <p>
                     Select <strong>Start catalog</strong> and then <strong>Next</strong>. This
-                    source declares five rows per page. Switch to Grid or List while the next page
-                    loads. You see the same five accepted records until Notebook 06 through Notebook
-                    10 arrive. Changing the layout sends no request.
+                    source declares five rows per page. Use the layout buttons above the results to
+                    switch to Grid or List while the next page loads. You see the same five accepted
+                    records until Notebook 06 through Notebook 10 arrive. Changing the layout sends
+                    no request.
                 </p>
                 <p>
                     Open <strong>Layout settings and adapter state</strong>. Choose Table only or
@@ -49,8 +52,25 @@ defineProps({
                     label and numeric sort direction. The existing <code>#header-ID</code> slot
                     replaces its complete header, including the sort button. Give that full
                     replacement its own sorting control when needed. The Vue file in the source
-                    panel renders a paper tag, card, and list item.
+                    panel renders a paper tag, a grid item, and a list item.
                 </p>
+            </ProseSection>
+            <ProseSection id="compose-controls" title="Place controls beside a ticket list">
+                <p>
+                    This example uses the local Front Awesome preview. Pass one
+                    <code>useDataAdapter</code> handle to <code>DataViewSearch</code>,
+                    <code>DataViewFilter</code>, and the list. Set <code>hide-header</code> and
+                    <code>hide-footer</code> on DataView. Mount <code>DataViewStatus</code> and
+                    <code>DataViewPagination</code> below it to show one summary and one navigation
+                    area.
+                </p>
+                <p>
+                    Open the ticket list. Apply <strong>Waiting</strong> in the status filter. The
+                    list shows four tickets. Search for <strong>foil</strong> to find PR-416. Open
+                    an independent queue to see the original twelve tickets while the first queue
+                    keeps its search and filter.
+                </p>
+                <PressroomDemo :preview="pressroomPreview" sidebar />
                 <p>
                     Continue with
                     <DocsLink

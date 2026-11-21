@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "86a9d783fc7307823df13f0aed80c701",
+    "content-hash": "fe5dc047a49802396608afb91a2ac719",
     "packages": [
         {
             "name": "artisan-toolbox/core",
@@ -353,16 +353,16 @@
         },
         {
             "name": "artisan-toolbox/front-awesome",
-            "version": "1.0.0-beta.7",
+            "version": "1.0.0-beta.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/front-awesome.git",
-                "reference": "f29404531ae1d75fe9fabb30c005b38445985637"
+                "reference": "37abb475392d69c7c33207d5318dfacfb21ba680"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/front-awesome/zipball/f29404531ae1d75fe9fabb30c005b38445985637",
-                "reference": "f29404531ae1d75fe9fabb30c005b38445985637",
+                "url": "https://api.github.com/repos/artisan-toolbox/front-awesome/zipball/37abb475392d69c7c33207d5318dfacfb21ba680",
+                "reference": "37abb475392d69c7c33207d5318dfacfb21ba680",
                 "shasum": ""
             },
             "require": {
@@ -425,7 +425,7 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/front-awesome/issues",
-                "source": "https://github.com/artisan-toolbox/front-awesome/tree/1.0.0-beta.7"
+                "source": "https://github.com/artisan-toolbox/front-awesome/tree/1.0.0-beta.8"
             },
             "funding": [
                 {
@@ -433,8 +433,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-20T23:32:54+00:00",
-            "published-time": "2026-11-20T23:37:04+00:00"
+            "time": "2026-11-21T00:28:05+00:00",
+            "published-time": "2026-11-21T00:31:29+00:00"
         },
         {
             "name": "artisan-toolbox/maintainer",

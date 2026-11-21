@@ -37,7 +37,10 @@ watch([() => props.currentUrl, () => props.item], () => {
                           : 'border-transparent text-slate-600 hover:text-slate-950 dark:text-slate-400 dark:hover:text-white'
                 "
                 @click="emit('navigate')"
-                ><SiteIcon v-bind="icon" :size="depth ? 'sm' : 'md'" class="opacity-70" />
+                ><SiteIcon
+                    v-bind="icon"
+                    :size="depth ? 'sm' : 'md'"
+                    :class="{ 'text-slate-500 dark:text-slate-400': !item.active }" />
                 <span class="min-w-0">{{ item.title }}</span></DocsLink
             >
             <button

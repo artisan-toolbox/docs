@@ -16,7 +16,7 @@ final readonly class FrontAwesomeDataViewPage extends Page
             slug: self::SLUG,
             component: 'docs/front-awesome/DataView',
             title: 'Build your first DataView',
-            description: 'Show ten fictional notebooks in a table and open the next page with one Dapter handle.',
+            description: 'Explore a print shop’s support queue, then build a notebook table with a Dapter handle.',
             sourcePath: 'resources/js/pages/docs/front-awesome/DataView.vue',
             package: new FrontAwesomePackage,
         );

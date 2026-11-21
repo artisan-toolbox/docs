@@ -10,6 +10,22 @@ defineProps({
 });
 const contracts = [
     [
+        'hideHeader, hideFooter (development preview)',
+        'Set either Boolean to omit that region, including its slots. Both default to false. Hiding the header also hides the layout switcher. A controlled view, row selection and read feedback still work.',
+    ],
+    [
+        'View options (development preview)',
+        'The filter icon beside quick search opens one dialog. The source determines which Search, Filters, Sort, and Page settings sections appear. When two or more layouts are configured, the toolbar shows a separate layout switch above the results. Small badges below the quick search show each accepted filter value, field or global search, search grouping, sort term or preset, and an explicitly changed page size. The paginator shows the current position. Removing a control clears that setting. Keyboard focus moves to the next remaining control or back to View options. The footer keeps the result status and page navigation. Done or Escape returns focus to the opener.',
+    ],
+    [
+        'DataViewSearch, DataViewFilter (development preview)',
+        'Import from @artisan-toolbox/front-awesome/data-view. Pass the existing adapter and an optional field to search. For a filter, pass its declared filter ID and, for a field filter, the field ID. Each control uses the operation advertised by its adapter.',
+    ],
+    [
+        'DataViewStatus, DataViewPagination (development preview)',
+        'Pass the same adapter to show an accepted result summary and navigation independently. Offset pages can show a range and numbered navigation. Cursor and infinite sources expose their available traversal controls. Place both in a custom layout or replace the whole pagination slot.',
+    ],
+    [
         'adapter, views, rowKey',
         'Required. Pass one existing Dapter handle, an ordered layout object, and a decoded field name or callback returning a stable string or number. Replacing the handle requires a keyed remount.',
     ],
@@ -43,7 +59,7 @@ const contracts = [
     ],
     [
         'toolbar, filters, actions',
-        'toolbar replaces the built-in search, filters, ordering, presets, and default reset. The filters slot adds content after the toolbar. actions supplies explicit application-owned controls.',
+        'toolbar replaces the built-in search, filters, ordering, presets, and default reset. In the development preview, replacing the toolbar leaves Page settings accessible from the default footer. The filters slot adds content after the toolbar. actions supplies explicit application-owned controls.',
     ],
     [
         'pagination, footer, loading, empty, error, integration-error',
@@ -82,10 +98,15 @@ const contracts = [
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection id="review-next" title="Release availability">
                 <p>
-                    Front Awesome 1.0.0-beta.4 includes the DataView examples in these guides. This
-                    beta adds integrated field and global criteria, an order editor, extended paging
-                    and recovery, selection, grouped cells, and indexed row keys. Dapter
-                    1.0.0-beta.2 supplies the adapter.
+                    The redesigned regions and the four standalone controls are available in the
+                    Front Awesome development checkout. The public beta.8 release supports the
+                    original DataView. The layout guide identifies the examples that need the
+                    preview.
+                </p>
+                <p>
+                    Front Awesome 1.0.0-beta.4 introduced integrated field and global criteria, an
+                    order editor, extended paging and recovery, selection, grouped cells, and
+                    indexed row keys. Dapter 1.0.0-beta.2 supplies the adapter.
                 </p>
             </ProseSection>
             <ProseSection id="dapter-coverage" title="DataView presentation props and slots">

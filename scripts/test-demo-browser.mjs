@@ -80,6 +80,8 @@ try {
     await page.getByRole('heading', { name: 'Style a scrollbar', exact: true }).waitFor();
     for (const name of ['Light notifications', 'Dark notifications']) {
         const region = page.getByRole('region', { name });
+        await region.locator('.os-scrollbar-vertical').waitFor({ state: 'attached' });
+        await region.scrollIntoViewIfNeeded();
         await region.press('End');
         await page.waitForFunction((label) => {
             const panel = document.querySelector(`section[aria-label="${label}"]`);
@@ -158,6 +160,48 @@ try {
         await page.waitForFunction(
             () => document.querySelector('[aria-label="Light notifications"]').scrollTop > 0,
         );
+    }
+
+    const shadowDemo = page
+        .locator('[data-demo-frame]')
+        .filter({ hasText: 'Shadows on both scroll axes' });
+    for (const [name, start, end] of [
+        ['Vertical notifications', 'top', 'bottom'],
+        ['Horizontal months', 'left', 'right'],
+    ]) {
+        const panel = await shadowDemo.getByRole('region', { name }).elementHandle();
+        for (const [position, expected] of [
+            [0, [0, 1]],
+            [0.5, [1, 1]],
+            [1, [1, 0]],
+        ]) {
+            await panel.evaluate(
+                (region, { position, vertical }) => {
+                    const range = vertical
+                        ? region.scrollHeight - region.clientHeight
+                        : region.scrollWidth - region.clientWidth;
+                    if (range <= 0) throw new Error('The shadow demo must overflow');
+                    region.scrollTo(
+                        vertical ? 0 : range * position,
+                        vertical ? range * position : 0,
+                    );
+                },
+                { position, vertical: start === 'top' },
+            );
+            await page.waitForFunction(
+                ({ panel, start, end, expected }) => {
+                    const layer = panel.querySelector('.fa-scrollbar-shadows');
+                    if (!layer) return false;
+                    const styles = getComputedStyle(layer);
+                    return [start, end].every(
+                        (edge, index) =>
+                            Number(styles.getPropertyValue(`--fa-shadow-${edge}`)) ===
+                            expected[index],
+                    );
+                },
+                { panel, start, end, expected },
+            );
+        }
     }
 
     for (const group of catalog.groups) {

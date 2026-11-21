@@ -395,6 +395,25 @@ const code = 'import { Rating } from "@artisan-toolbox/front-awesome/components/
         expect(setup.extract()[0].body).toContain('Updated source');
     });
 
+    it('indexes Vue demo source and rejects a demo symlink outside the examples', () => {
+        const code = '<template><p>Demo source</p></template>';
+        const setup = fixture({
+            'components/demo/Shared.vue': code,
+            'components/Private.vue': '<template><p>Private fixture</p></template>',
+            'pages/docs/Fixture.vue': `<script setup>import CodeExample from '@/components/docs/CodeExample.vue'; import code from '../../components/demo/Shared.vue?raw';</script><template><CodeExample label="Demo" :code="code" /></template>`,
+        });
+        expect(setup.extract()[0].body).toBe(`Learn the package. Demo ${code}`);
+        symlinkSync(
+            resolve(setup.root, 'resources/js/components/Private.vue'),
+            resolve(setup.root, 'resources/js/components/demo/Link.vue'),
+        );
+        setup.write(
+            'pages/docs/Fixture.vue',
+            `<script setup>import CodeExample from '@/components/docs/CodeExample.vue'; import code from '../../components/demo/Link.vue?raw';</script><template><CodeExample label="Demo" :code="code" /></template>`,
+        );
+        expect(() => setup.extract()).toThrow('Vue files inside resources/js/components/demo');
+    });
+
     it('indexes the public demo helper shown by a Resource guide without executing it', () => {
         const code = '<?php throw new RuntimeException("Never execute demo helpers");';
         const setup = fixture({
@@ -453,7 +472,7 @@ const code = 'import { Rating } from "@artisan-toolbox/front-awesome/components/
             'pages/docs/Fixture.vue': `<script setup>import CodeExample from '@/components/docs/CodeExample.vue'; import code from '../../${path}?raw';</script><template><CodeExample label="Example" :code="code" /></template>`,
         });
         expect(() => setup.extract()).toThrow(
-            'Raw searchable examples must be PHP sources inside app/DataSources or app/Demo, or TypeScript files directly inside the Dapter design reference directory.',
+            'Raw searchable examples must be PHP sources inside app/DataSources or app/Demo',
         );
     });
 
@@ -468,7 +487,7 @@ const code = 'import { Rating } from "@artisan-toolbox/front-awesome/components/
             resolve(setup.root, 'app/DataSources/Link.php'),
         );
         expect(() => setup.extract()).toThrow(
-            'Raw searchable examples must be PHP sources inside app/DataSources or app/Demo, or TypeScript files directly inside the Dapter design reference directory.',
+            'Raw searchable examples must be PHP sources inside app/DataSources or app/Demo',
         );
     });
 

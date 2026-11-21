@@ -94,3 +94,54 @@ test('advertises different empty policies for shelves and allowed marks', functi
     $state['global'] = ['filters' => ['marks' => ['value' => []]]];
     $this->postJson($uri, ['version' => 2, 'state' => $state])->assertUnprocessable()->assertJsonMissingPath('data');
 });
+
+test('finds the four waiting Pressroom tickets and sorts their reply deadlines', function () {
+    $uri = route('dapter.data', ['source' => 'FrontAwesome.Pressroom']);
+    $first = $this->postJson($uri, ['version' => 2])->assertOk()
+        ->assertJsonPath('paging.total', 12)->assertJsonCount(5, 'data');
+    foreach ([PageSlug::FrontAwesomeDataView, PageSlug::FrontAwesomeDataViewLayouts] as $page) {
+        $this->withoutVite()->get($page->url(false))->assertInertia(fn (Assert $props) => $props
+            ->where('pressroomPreview', $first->json('data.0')));
+    }
+    $state = $first->json('requested');
+    $state['fields'] = ['status' => ['filters' => ['status' => ['value' => 'Waiting']]]];
+    $state['global'] = new stdClass;
+    $state['order'] = ['kind' => 'fields', 'terms' => [['field' => 'due', 'direction' => 'asc', 'sortType' => 'native']]];
+    $waiting = $this->postJson($uri, ['version' => 2, 'state' => $state])->assertOk()
+        ->assertJsonPath('paging.filtered', 4)->assertJsonPath('paging.total', 12);
+    expect(array_column($waiting->json('data'), 'id'))->toBe([416, 418, 408, 406]);
+
+    $state['order']['terms'][0]['direction'] = 'desc';
+    $lastFirst = $this->postJson($uri, ['version' => 2, 'state' => $state])->assertOk();
+    expect(array_column($lastFirst->json('data'), 'id'))->toBe([406, 408, 418, 416]);
+
+    $state['fields']['title'] = ['search' => ['value' => 'spine', 'matchType' => 'contains']];
+    $this->postJson($uri, ['version' => 2, 'state' => $state])->assertOk()
+        ->assertJsonCount(1, 'data')->assertJsonPath('data.0.id', 418);
+    unset($state['fields']['title']);
+
+    $state['global'] = ['search' => ['value' => 'foil']];
+    $this->postJson($uri, ['version' => 2, 'state' => $state])->assertOk()
+        ->assertJsonCount(1, 'data')->assertJsonPath('data.0.title', 'Approve the second foil proof');
+});
+
+test('orders print jobs within each deadline and breaks complete ties by job ID', function () {
+    $uri = route('dapter.data', ['source' => 'FrontAwesome.PressSchedule']);
+    $first = $this->postJson($uri, ['version' => 2])->assertOk()->assertJsonCount(5, 'data');
+    $state = $first->json('requested');
+    $state['global'] = new stdClass;
+    $state['fields'] = new stdClass;
+    $due = ['field' => 'due', 'direction' => 'asc', 'sortType' => 'native'];
+    $sheets = ['field' => 'sheets', 'direction' => 'desc', 'sortType' => 'numeric'];
+    foreach ([
+        [[$due], [201, 202, 204, 203, 205]],
+        [[$due, $sheets], [202, 201, 204, 203, 205]],
+        [[$due, [...$sheets, 'direction' => 'asc']], [201, 204, 202, 205, 203]],
+    ] as [$terms, $ids]) {
+        $state['order'] = ['kind' => 'fields', 'terms' => $terms];
+        $result = $this->postJson($uri, ['version' => 2, 'state' => $state])->assertOk();
+        expect(array_column($result->json('data'), 'id'))->toBe($ids);
+        expect(array_column($result->json('state.order.terms'), 'field'))->toBe([...array_column($terms, 'field'), 'id']);
+        expect($result->json('state.order.terms.'.count($terms).'.role'))->toBe('tie');
+    }
+});

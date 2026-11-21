@@ -10,19 +10,23 @@ import { sourceNavigation } from './sourceNavigationFixture';
 
 it('places both installations before a runnable published first table with the next guide', () => {
     const wrapper = mount(DataView, {
-        props: { page: { title: 'Build your first DataView' }, navigation: sourceNavigation() },
-        global: { stubs: { PackageGuideHeader: true, FirstDemo: true } },
+        props: {
+            page: { title: 'Build your first DataView' },
+            navigation: sourceNavigation(),
+            pressroomPreview: {},
+        },
+        global: { stubs: { PackageGuideHeader: true, FirstDemo: true, PressroomDemo: true } },
     });
     const intro = wrapper.get('#install-the-packages').element.closest('section');
     for (const slug of ['front-awesome/installation', 'dapter/installation']) {
         expect(intro.querySelector(`a[href="/docs/${slug}"]`)).toBeTruthy();
     }
-    expect(wrapper.text()).toContain('Front Awesome 1.0.0-beta.7 and Dapter 1.0.0-beta.4');
+    expect(wrapper.text()).toContain('Front Awesome 1.0.0-beta.8 and Dapter 1.0.0-beta.4');
     expect(wrapper.text()).toContain('Notebook 11 through Notebook 20');
     expect(wrapper.find('a[href="/docs/front-awesome/data-view/layouts"]').exists()).toBe(true);
     const code = wrapper
         .findAllComponents(CodeExample)
-        .find((block) => block.props('language') === 'vue')
+        .find((block) => block.props('label') === 'FirstTable.vue')
         .props('code');
     expect(code.trim()).toBe(executableFirstTable.trim());
     const { descriptor, errors } = parse(code, { filename: 'FirstTable.vue' });
@@ -43,6 +47,10 @@ it('indexes source, behaviors, and contracts on the registered page and visible 
         ['layouts', 'A field column reads a decoded property', 'columns-and-slots'],
         ['query-controls', 'Numeric zero selects Notebook 7', 'typed-choices'],
         ['selection', 'record_id, line_id', 'joined-occurrences'],
+        ['', 'View options', 'support-queue'],
+        ['query-controls', 'View options', 'server-controls'],
+        ['paging', 'View options', 'paging-modes'],
+        ['ordering', 'Add largest run first', 'multi-sort'],
         ['ordering', 'multiSortKey', 'header-controls'],
         ['ordering', 'sortDirection', 'head-slots'],
         ['reference', 'DataViewHeadScope', 'dapter-coverage'],

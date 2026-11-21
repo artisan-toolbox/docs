@@ -99,6 +99,37 @@ try {
         await page.keyboard.press('Escape');
         await menu.waitFor({ state: 'hidden' });
         assert.equal(await trigger.evaluate((element) => element === document.activeElement), true);
+        await page.goto(new URL('/docs/front-awesome/data-view/query-controls', base).href);
+        const icons = menu.locator('a wa-icon');
+        await icons.first().waitFor({ state: 'attached' });
+        await page.waitForFunction(() => {
+            const entries = document.querySelectorAll('#docs-navigation a wa-icon');
+            return (
+                entries.length > 0 &&
+                Array.from(entries).every((icon) => icon.shadowRoot?.querySelector('svg'))
+            );
+        });
+        await trigger.click();
+        const activeGuide = menu.getByRole('link', {
+            name: 'Search and filter records',
+            exact: true,
+        });
+        assert.equal(await activeGuide.locator('wa-icon').getAttribute('name'), 'filter');
+        const parentGuide = menu.getByRole('link', {
+            name: 'Build your first DataView',
+            exact: true,
+        });
+        const siblingGuide = menu.getByRole('link', { name: 'Order records', exact: true });
+        const iconColor = (link) =>
+            link.locator('wa-icon').evaluate((icon) => getComputedStyle(icon).color);
+        const neutralColor = await iconColor(parentGuide);
+        assert.equal(await iconColor(siblingGuide), neutralColor);
+        assert.notEqual(await iconColor(activeGuide), neutralColor);
+        await activeGuide.scrollIntoViewIfNeeded();
+        await menu.screenshot({ path: resolve(artifacts, 'data-view-navigation-mobile.png') });
+        await page.setViewportSize({ width: 1440, height: 900 });
+        await activeGuide.scrollIntoViewIfNeeded();
+        await menu.screenshot({ path: resolve(artifacts, 'data-view-navigation-desktop.png') });
         results.push({
             documentationNavigation:
                 'Desktop and mobile scroll independently and mobile Escape restores focus',

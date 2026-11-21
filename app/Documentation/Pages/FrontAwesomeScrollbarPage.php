@@ -16,7 +16,7 @@ final readonly class FrontAwesomeScrollbarPage extends Page
             slug: self::SLUG,
             component: 'docs/front-awesome/Scrollbar',
             title: 'Style a scrollbar',
-            description: 'Try the Front Awesome scrollbar colors, auto-hide, and track clicks in light and dark mode.',
+            description: 'Try Front Awesome scrollbar colors, auto-hide, track clicks, and edge shadows.',
             sourcePath: 'resources/js/pages/docs/front-awesome/Scrollbar.vue',
             package: new FrontAwesomePackage,
         );

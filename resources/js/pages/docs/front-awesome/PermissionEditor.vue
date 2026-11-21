@@ -141,6 +141,12 @@ const editor = useTemplateRef<UserPermissionEditorHandle>('permissionEditor');
                     draft and the rows that match the current search.
                 </p>
                 <p>
+                    Starting in Front Awesome 1.0.0-beta.8, click anywhere on an editable row to
+                    toggle its value. With a keyboard, focus the row with Tab and press Space. The
+                    status badge shows a check when enabled and a cross when disabled. Read-only
+                    rows display their status as text.
+                </p>
+                <p>
                     Use <strong>Find a permission or role</strong> to search both sections. Search
                     and navigation keep your edits. Select <strong>Save changes</strong> to write
                     your draft to the server.

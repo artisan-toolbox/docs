@@ -160,3 +160,21 @@ it('opens the editorial component path while marking only the canonical Actions 
     expect(wrapper.emitted('navigate')).toBeUndefined();
     wrapper.unmount();
 });
+
+it('reserves the active icon color for the current page as the DataView guide changes', async () => {
+    const activeItem = (slug) =>
+        sourceNavigation('/docs', slug).find((item) => item.slug === 'front-awesome');
+    const slug = 'front-awesome/data-view/query-controls';
+    const next = 'front-awesome/data-view/ordering';
+    const other = 'front-awesome/data-view';
+    const wrapper = mount(DocsNavigationItem, {
+        props: { item: activeItem(slug), currentUrl: `/docs/${slug}` },
+    });
+    const icon = (path) => wrapper.get(`a[href="/docs/${path}"] > site-icon-stub`);
+    expect(icon(slug).classes()).not.toContain('text-slate-500');
+    expect(icon(other).classes()).toContain('text-slate-500');
+    expect(icon(next).classes()).toContain('text-slate-500');
+    await wrapper.setProps({ item: activeItem(next), currentUrl: `/docs/${next}` });
+    expect(icon(slug).classes()).toContain('text-slate-500');
+    expect(icon(next).classes()).not.toContain('text-slate-500');
+});

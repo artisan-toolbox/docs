@@ -49,9 +49,11 @@ defineProps({
                     searchMatch declares the default and allowed choices. All combines active field
                     searches and the single global OR group with AND. Any combines these search
                     clauses with OR. Field and global finite filters remain mandatory AND
-                    restrictions. Mandatory source predicates remain outside the search group.
-                    GlobalAny uses Notebook plus numeric 0 and returns IDs 1, 2, and 3. All with the
-                    same input returns only ID 1.
+                    restrictions. Mandatory source predicates remain outside the search group. Start
+                    the composed controls. Enter <code>0</code> in Global catalog search and
+                    <code>Notebook</code> in Product name contains. All returns Notebook 10 (ID 1).
+                    Choose Any to include Notebook 2 and Pencil (IDs 2 and 3). Clear both inputs or
+                    select Restore composed defaults to return to all four records.
                 </p></ProseSection
             ><ComposedControlsDemo /><ComposedDemo scenario="GlobalNotebook" />
             <ComposedDemo scenario="GlobalZero" />

@@ -2,13 +2,7 @@
 import { ref } from 'vue';
 import { useDataAdapter } from '@artisan-toolbox/dapter';
 import { DataView } from '@artisan-toolbox/front-awesome/data-view';
-import {
-    Card,
-    Details,
-    Option,
-    Select,
-    Tag,
-} from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import { Details, Option, Select, Tag } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 import { columns, decodeNotebook } from './catalog';
 
 const props = defineProps({ source: { type: String, required: true } });
@@ -38,25 +32,17 @@ const layouts = {
             <template #header-paper="{ column }">{{ column.label }} type</template>
             <template #cell-paper="{ value }"><Tag size="s">{{ value }}</Tag></template>
             <template #grid-item="{ row }">
-                <Card class="h-full w-full">
-                    <div class="flex flex-col items-start gap-[0.5rem]">
-                        <span class="text-xs">Catalog no. {{ row.id }}</span>
-                        <strong>{{ row.name }}</strong>
-                        <Tag size="s" variant="brand">{{ row.category }}</Tag>
-                    </div>
-                </Card>
+                <div class="flex flex-col items-start gap-[0.5rem]">
+                    <span class="text-xs">Catalog no. {{ row.id }}</span>
+                    <strong>{{ row.name }}</strong>
+                    <Tag size="s" variant="brand">{{ row.category }}</Tag>
+                </div>
             </template>
             <template #list-item="{ row }">
                 <div
                     class="flex flex-wrap items-baseline justify-between gap-[0.5rem] py-[0.75rem] text-sm">
                     <strong>{{ row.name }}</strong><span>{{ row.category }} paper</span>
                 </div>
-            </template>
-            <template #footer="{ adapter, view }">
-                <p data-shared-state class="text-sm">
-                    {{ adapter.data.length }} accepted rows. Layout {{ view }}. Same owner
-                    {{ adapter === catalog ? 'yes' : 'no' }}.
-                </p>
             </template>
         </DataView>
         <Details summary="Layout settings and adapter state" class="min-w-0 text-sm">

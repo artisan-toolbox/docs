@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- Match sidebar icons to the tasks in the package guides, including notifications, file lifecycle, request protocols, and delivery guarantees.
+
+- Give each DataView guide a task icon in the sidebar and highlight the current page. Link child guides back to the DataView tutorial and make the first example easier to follow. Give the remaining sidebar pages topic icons and distinguish the Dapter design guides.
+
+- Explore the DataView development preview through one View options dialog. The guides show how to apply and remove a filter, combine field searches, set sort priorities, and adjust paging while keeping quick search and page navigation in view.
+
+- Try multi-column ordering on a print schedule with tied deadlines. The development preview shows each accepted priority beside its direction. The paging guide also demonstrates keeping the footer in view on a short final page.
+
+- Explore a working print shop support queue in table, list, and grid views. The Front Awesome DataView guides also demonstrate standalone search, field filters, accepted counts, and pagination with a shared adapter in the development preview.
+
 - Document PHP 8.6 alongside PHP 8.5 in package requirements and guides. Update the documentation catalog and installation examples for the nine package releases that test both versions.
 
 - Document the newly published package versions, verify the published permission editor in Chromium, and run the quality checks with bounded Pest and Vitest workers.

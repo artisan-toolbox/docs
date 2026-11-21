@@ -1,0 +1,1171 @@
+<!doctype html>
+<html lang="en" class="wa-theme-default wa-palette-default wa-light">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Pressroom · Support queue | DataView study</title>
+        <style>
+            :root {
+                color-scheme: light;
+                --ink: #142c37;
+                --blue: #1e526a;
+                --sky: #d8eff3;
+                --paper: #f4f7f7;
+                --line: #cad6d9;
+                --muted: #49616a;
+                --white: #fff;
+                --action: #783b12;
+                --action-bg: #ffedd8;
+                --active: #075871;
+                --active-bg: #dbf1f6;
+                --waiting: #68428c;
+                --waiting-bg: #f0e7f8;
+                --cyan: #19a9bd;
+                --magenta: #d64b75;
+                --yellow: #f8cc4f;
+                --wa-font-family-body:
+                    Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            }
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                margin: 0;
+                font: 15px/1.45 var(--wa-font-family-body);
+                color: var(--ink);
+                background: var(--paper);
+            }
+            button,
+            select,
+            input {
+                font: inherit;
+                color: inherit;
+            }
+            button,
+            select {
+                cursor: pointer;
+            }
+            button:disabled {
+                cursor: default;
+                opacity: 0.44;
+            }
+            :focus-visible {
+                outline: 3px solid var(--blue);
+                outline-offset: 3px;
+            }
+            [hidden] {
+                display: none !important;
+            }
+            button,
+            select,
+            input {
+                border: 1px solid var(--line);
+                background: var(--white);
+                border-radius: 6px;
+            }
+            button,
+            select {
+                min-height: 36px;
+                padding: 5px 12px;
+            }
+            button:not(:disabled):hover,
+            select:hover {
+                border-color: var(--blue);
+            }
+            button[aria-pressed='true'] {
+                background: var(--ink);
+                border-color: var(--ink);
+                color: var(--white);
+            }
+            .wrap {
+                width: min(1180px, calc(100% - 72px));
+                margin: 0 auto;
+            }
+            .mast {
+                color: var(--white);
+                background: var(--ink);
+            }
+            .mast .wrap,
+            .heading,
+            .tools,
+            .modes,
+            .meta,
+            .pager,
+            .page-buttons,
+            .brand,
+            .byline,
+            .identity,
+            .settings {
+                display: flex;
+                align-items: center;
+            }
+            .mast .wrap {
+                min-height: 58px;
+                justify-content: space-between;
+                gap: 12px;
+            }
+            .brand {
+                gap: 10px;
+                font-size: 21px;
+                font-weight: 750;
+                letter-spacing: -0.045em;
+            }
+            .mark {
+                position: relative;
+                width: 27px;
+                height: 25px;
+                flex: none;
+            }
+            .mark i {
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+                background: var(--cyan);
+                left: 0;
+                bottom: 0;
+            }
+            .mark i:nth-child(2) {
+                background: var(--magenta);
+                margin-left: 11px;
+            }
+            .mark i:nth-child(3) {
+                background: var(--yellow);
+                margin-left: 5px;
+                bottom: 9px;
+            }
+            .settings {
+                gap: 9px;
+                font-size: 13px;
+            }
+            .settings select {
+                min-height: 32px;
+                font-size: 13px;
+                color: var(--ink);
+            }
+            .heading {
+                justify-content: space-between;
+                align-items: end;
+                padding: 44px 0 28px;
+                gap: 12px;
+            }
+            h1,
+            h2,
+            h3,
+            p {
+                margin: 0;
+            }
+            h1 {
+                font:
+                    600 clamp(38px, 5vw, 68px)/1.03 Futura,
+                    'Avenir Next',
+                    var(--wa-font-family-body);
+                letter-spacing: -0.065em;
+            }
+            .heading p {
+                color: var(--muted);
+                margin-top: 10px;
+            }
+            .date {
+                text-align: right;
+                white-space: nowrap;
+                font-size: 14px;
+                font-weight: 550;
+                color: var(--muted);
+            }
+            .panel {
+                border-radius: 12px;
+                background: var(--white);
+                border: 1px solid var(--line);
+            }
+            .work {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr);
+                align-items: start;
+                gap: 18px;
+            }
+            body.split .work {
+                grid-template-columns: 202px minmax(0, 1fr);
+            }
+            body:not(.split) #rail,
+            body.split #integrated-filter {
+                display: none;
+            }
+            #rail {
+                padding: 18px;
+            }
+            #rail h2 {
+                font-size: 18px;
+                letter-spacing: -0.025em;
+                margin: 0 0 18px;
+            }
+            .filter-options {
+                border: 0;
+                padding: 0;
+                margin: 0;
+            }
+            .filter-options legend {
+                font-weight: 650;
+                font-size: 13px;
+                margin-bottom: 7px;
+            }
+            .filter-options label {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 5px 0;
+                cursor: pointer;
+            }
+            input[type='radio'] {
+                accent-color: var(--blue);
+                margin: 0;
+            }
+            .result-panel {
+                min-width: 0;
+            }
+            .tools {
+                flex-wrap: wrap;
+                gap: 10px;
+                padding: 17px 20px;
+                border-bottom: 1px solid var(--line);
+            }
+            .search {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                flex: 1 1 185px;
+                max-width: 360px;
+                padding: 0 10px;
+                background: var(--paper);
+                border: 1px solid var(--line);
+                border-radius: 7px;
+            }
+            .search:focus-within {
+                outline: 2px solid var(--blue);
+            }
+            .search-icon {
+                border-radius: 50%;
+                border: 1.7px solid var(--muted);
+                width: 13px;
+                height: 13px;
+                position: relative;
+                flex: none;
+            }
+            .search-icon::after {
+                content: '';
+                position: absolute;
+                height: 1.7px;
+                width: 5px;
+                background: var(--muted);
+                transform: rotate(45deg);
+                top: 10px;
+                left: 8px;
+            }
+            .search input {
+                min-width: 0;
+                width: 100%;
+                height: 36px;
+                background: transparent;
+                border: 0;
+                outline: 0;
+            }
+            .search input::placeholder {
+                color: var(--muted);
+                opacity: 1;
+            }
+            .filter-anchor {
+                position: relative;
+            }
+            #filter-trigger {
+                font-weight: 550;
+            }
+            #filter-trigger[aria-expanded='true'] {
+                border-color: var(--blue);
+                background: var(--sky);
+            }
+            .pop {
+                width: 211px;
+                z-index: 3;
+                position: absolute;
+                top: calc(100% + 7px);
+                left: 0;
+                padding: 16px;
+                box-shadow: 0 8px 20px #142c371c;
+            }
+            .sort {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                white-space: nowrap;
+            }
+            .sort span {
+                font-size: 13px;
+                color: var(--muted);
+            }
+            .modes {
+                gap: 2px;
+                border-radius: 8px;
+                padding: 2px;
+                background: var(--paper);
+                border: 1px solid var(--line);
+                margin-left: auto;
+            }
+            .modes button {
+                border: 1px solid transparent;
+                background: transparent;
+                min-height: 31px;
+                padding: 3px 10px;
+                font-size: 14px;
+            }
+            .modes button[aria-pressed='true'] {
+                background: var(--ink);
+            }
+            .meta {
+                justify-content: space-between;
+                gap: 8px;
+                padding: 13px 20px;
+                font-size: 13px;
+                color: var(--muted);
+            }
+            #reset {
+                border: 0;
+                min-height: 28px;
+                padding: 2px 5px;
+                color: var(--blue);
+                text-decoration: underline;
+            }
+            .scroll {
+                overflow-x: auto;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 14px;
+                text-align: left;
+            }
+            th,
+            td {
+                padding: 12px 14px;
+            }
+            th:first-child,
+            td:first-child {
+                padding-left: 20px;
+            }
+            th:last-child,
+            td:last-child {
+                padding-right: 20px;
+            }
+            th {
+                font-size: 12px;
+                color: var(--muted);
+                font-weight: 630;
+                background: var(--paper);
+                border-block: 1px solid var(--line);
+                white-space: nowrap;
+            }
+            td {
+                border-bottom: 1px solid var(--line);
+            }
+            tbody tr:last-child td {
+                border-bottom: 0;
+            }
+            .title {
+                font-size: 16px;
+                font-weight: 630;
+                line-height: 1.26;
+                letter-spacing: -0.017em;
+            }
+            .secondary {
+                margin-top: 4px;
+                color: var(--muted);
+                font-size: 13px;
+            }
+            .ticket-id {
+                font-variant-numeric: tabular-nums;
+            }
+            .status {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                border-radius: 4px;
+                padding: 4px 8px;
+                font-size: 12px;
+                white-space: nowrap;
+                font-weight: 600;
+            }
+            .status::before {
+                content: '';
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: currentColor;
+            }
+            .needs {
+                color: var(--action);
+                background: var(--action-bg);
+            }
+            .progress {
+                color: var(--active);
+                background: var(--active-bg);
+            }
+            .waiting {
+                color: var(--waiting);
+                background: var(--waiting-bg);
+            }
+            .identity {
+                gap: 8px;
+                white-space: nowrap;
+            }
+            .avatar {
+                display: inline-grid;
+                place-items: center;
+                flex-shrink: 0;
+                width: 25px;
+                height: 25px;
+                border: 1px solid var(--line);
+                border-radius: 50%;
+                font-size: 10px;
+                font-weight: 650;
+                background: var(--paper);
+                color: var(--blue);
+            }
+            time {
+                white-space: nowrap;
+                font-variant-numeric: tabular-nums;
+            }
+            ul.records {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+            .list > li {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) auto;
+                gap: 10px 30px;
+                padding: 15px 20px;
+                border-top: 1px solid var(--line);
+            }
+            .list .summary,
+            .card .summary {
+                color: var(--muted);
+                font-size: 14px;
+                margin-top: 6px;
+                max-width: 72ch;
+            }
+            .byline {
+                gap: 10px;
+                flex-wrap: wrap;
+                font-size: 12px;
+                color: var(--muted);
+            }
+            .list .byline {
+                margin-top: 9px;
+            }
+            .list .deadline {
+                text-align: right;
+                font-size: 13px;
+            }
+            .list .deadline time {
+                display: block;
+                margin: 5px 0 0;
+                color: var(--muted);
+            }
+            ul.grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+                gap: 12px;
+                padding: 0 16px 16px;
+            }
+            .card {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                border: 1px solid var(--line);
+                border-radius: 8px;
+                padding: 16px;
+            }
+            .card .card-top,
+            .card footer {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 8px;
+                flex-wrap: wrap;
+            }
+            .card .card-top {
+                color: var(--muted);
+                font-size: 13px;
+            }
+            .card footer {
+                margin-top: auto;
+                border-top: 1px solid var(--line);
+                padding-top: 10px;
+                font-size: 13px;
+            }
+            .empty {
+                padding: 32px 20px;
+                text-align: center;
+                border-top: 1px solid var(--line);
+            }
+            .empty p {
+                margin: 5px 0 10px;
+                color: var(--muted);
+            }
+            .pager {
+                justify-content: space-between;
+                padding: 14px 20px;
+                gap: 8px;
+                border-top: 1px solid var(--line);
+            }
+            .pager p {
+                color: var(--muted);
+                font-size: 13px;
+            }
+            .page-buttons {
+                gap: 6px;
+            }
+            .page-buttons button {
+                font-size: 13px;
+            }
+            main {
+                padding-bottom: 32px;
+            }
+            th button {
+                display: inline-flex;
+                gap: 6px;
+                align-items: center;
+                color: inherit;
+                font: inherit;
+                border: 0;
+                border-radius: 3px;
+                padding: 2px 0;
+                min-height: 26px;
+                background: transparent;
+            }
+            th[aria-sort]:not([aria-sort='none']) button {
+                color: var(--ink);
+            }
+            th button:hover {
+                text-decoration: underline;
+            }
+            .pager p {
+                font-variant-numeric: tabular-nums;
+            }
+            .pager .page-buttons {
+                flex-shrink: 0;
+            }
+            .list > li:first-child {
+                border-top: 0;
+            }
+            ul.grid {
+                padding-top: 16px;
+            }
+            @media (max-width: 900px) {
+                .wrap {
+                    width: calc(100% - 40px);
+                }
+                .tools {
+                    padding: 12px;
+                }
+                body.split .work {
+                    grid-template-columns: 170px minmax(0, 1fr);
+                    gap: 12px;
+                }
+                .modes {
+                    margin-left: 0;
+                }
+            }
+            @media (max-width: 690px) {
+                .wrap {
+                    width: calc(100% - 24px);
+                }
+                .mast .wrap {
+                    min-height: 54px;
+                }
+                .settings {
+                    gap: 5px;
+                    font-size: 12px;
+                }
+                .heading {
+                    padding: 25px 0 18px;
+                    display: block;
+                }
+                .heading p {
+                    font-size: 14px;
+                    margin-top: 6px;
+                }
+                .date {
+                    display: none;
+                }
+                body.split .work {
+                    grid-template-columns: minmax(0, 1fr);
+                }
+                #rail {
+                    padding: 12px;
+                }
+                #rail h2 {
+                    font-size: 15px;
+                    margin-bottom: 8px;
+                }
+                #rail legend {
+                    position: absolute;
+                    width: 1px;
+                    height: 1px;
+                    overflow: hidden;
+                    clip-path: inset(50%);
+                }
+                #rail fieldset {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                }
+                #rail label {
+                    font-size: 13px;
+                }
+                .tools {
+                    gap: 8px;
+                }
+                .search {
+                    flex-basis: calc(100% - 100px);
+                    max-width: none;
+                }
+                .sort {
+                    flex: 1 1 auto;
+                }
+                .sort span {
+                    display: none;
+                }
+                .sort select {
+                    font-size: 13px;
+                    padding: 5px 6px;
+                    min-height: 34px;
+                }
+                .modes button {
+                    min-height: 28px;
+                    font-size: 13px;
+                    padding: 2px 7px;
+                }
+                .pop {
+                    left: auto;
+                    right: 0;
+                }
+                .meta,
+                .pager {
+                    padding: 10px 12px;
+                }
+                .list > li {
+                    padding: 14px 12px;
+                    display: block;
+                }
+                .list .deadline {
+                    text-align: left;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    margin-top: 8px;
+                }
+                .list .deadline time {
+                    margin: 0;
+                }
+                .list .byline {
+                    gap: 7px;
+                    margin-top: 6px;
+                }
+                table {
+                    min-width: 660px;
+                }
+                ul.grid {
+                    padding: 0 12px 12px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <header class="mast">
+            <div class="wrap">
+                <div class="brand">
+                    <span class="mark" aria-hidden="true"><i></i><i></i><i></i></span>Pressroom
+                </div>
+                <label class="settings"
+                    >Study layout
+                    <select id="variant">
+                        <option value="integrated">Integrated</option>
+                        <option value="split">Sidebar</option>
+                    </select></label
+                >
+            </div>
+        </header>
+        <main class="wrap">
+            <header class="heading">
+                <div>
+                    <h1>Support queue</h1>
+                    <p>Proof approvals, press issues and delivery questions.</p>
+                </div>
+                <time class="date" datetime="2026-11-20">Friday, November 20</time>
+            </header>
+            <div class="work">
+                <aside id="rail" class="panel" aria-label="Queue filters"><h2>Filters</h2></aside>
+                <section class="panel result-panel" aria-label="Support tickets">
+                    <div class="tools">
+                        <label class="search"
+                            ><span class="search-icon" aria-hidden="true"></span
+                            ><input
+                                id="search"
+                                type="search"
+                                aria-label="Search tickets"
+                                placeholder="Search tickets"
+                        /></label>
+                        <div class="filter-anchor" id="integrated-filter">
+                            <button
+                                type="button"
+                                id="filter-trigger"
+                                aria-expanded="false"
+                                aria-controls="popup">
+                                Filters
+                            </button>
+                            <div id="popup" class="panel pop" hidden></div>
+                        </div>
+                        <label class="sort"
+                            ><span>Sort by</span
+                            ><select id="sort" aria-label="Sort tickets">
+                                <option value="due">Due first</option>
+                                <option value="latest">Due last</option>
+                                <option value="client">Client A to Z</option>
+                                <option value="client-desc">Client Z to A</option>
+                            </select></label
+                        >
+                        <div class="modes" role="group" aria-label="Result layout">
+                            <button data-view="table">Table</button
+                            ><button data-view="list">List</button
+                            ><button data-view="grid">Grid</button>
+                        </div>
+                    </div>
+                    <div class="meta" id="criteria" hidden>
+                        <span id="applied"></span><button id="reset" hidden>Clear filters</button>
+                    </div>
+                    <div id="results"></div>
+                    <footer class="pager">
+                        <p id="summary" role="status"></p>
+                        <div class="page-buttons" id="paging">
+                            <button id="previous">Previous</button><button id="next">Next</button>
+                        </div>
+                    </footer>
+                </section>
+            </div>
+        </main>
+        <script>
+            const rows = [
+                [
+                    417,
+                    'Magenta plate out of register',
+                    'Solstice Editions',
+                    'Needs action',
+                    'Nora Chen',
+                    '09:15',
+                    'Fine outlines on the atlas cover show a magenta edge. The press operator sent a sample from sheet 40.',
+                ],
+                [
+                    416,
+                    'Approve the second foil proof',
+                    'Field Notes Studio',
+                    'Waiting',
+                    'Ravi Shah',
+                    '09:45',
+                    'The copper foil is lighter on the uncoated stock. The client has both proofs for comparison.',
+                ],
+                [
+                    412,
+                    'Confirm the revised gatefold',
+                    'Museum of Type',
+                    'In progress',
+                    'Inez Cruz',
+                    '10:30',
+                    'The inner panel needs another two millimeters of clearance before the folding team can start.',
+                ],
+                [
+                    414,
+                    'Swap stock for the insert',
+                    'Northline Books',
+                    'Needs action',
+                    'Owen Park',
+                    '10:50',
+                    'The specified stock sold out. The buyer requested an alternative with the same opacity.',
+                ],
+                [
+                    409,
+                    'Trace the split delivery',
+                    'Morrow Coffee',
+                    'In progress',
+                    'Nora Chen',
+                    '11:15',
+                    'The first pallet reached the café. The warehouse needs the dispatch scan for the second pallet.',
+                ],
+                [
+                    418,
+                    'Verify spine width',
+                    'Atelier Moss',
+                    'Waiting',
+                    'Ravi Shah',
+                    '11:40',
+                    'The bindery measured a thicker text block and is waiting for an updated cover file.',
+                ],
+                [
+                    408,
+                    'Replace a low-resolution map',
+                    'Solstice Editions',
+                    'Waiting',
+                    'Inez Cruz',
+                    '12:10',
+                    'Preflight flagged the map on page 19. The illustrator will send the original vector artwork.',
+                ],
+                [
+                    415,
+                    'Confirm spot varnish coverage',
+                    'Field Notes Studio',
+                    'Needs action',
+                    'Owen Park',
+                    '12:30',
+                    'The varnish mask overlaps the fold. The finisher needs approval to reduce the coated area.',
+                ],
+                [
+                    410,
+                    'Check the carton labels',
+                    'Northline Books',
+                    'In progress',
+                    'Nora Chen',
+                    '13:00',
+                    'Two cartons share the same destination code. The packing team requested a fresh label sheet.',
+                ],
+                [
+                    407,
+                    'Reprint the cyan test strip',
+                    'Museum of Type',
+                    'In progress',
+                    'Ravi Shah',
+                    '13:20',
+                    'The first strip dried darker than the approved reference. A press check is booked after lunch.',
+                ],
+                [
+                    406,
+                    'Hold booklets for pickup',
+                    'Atelier Moss',
+                    'Waiting',
+                    'Owen Park',
+                    '14:00',
+                    'The studio will collect the booklets in person once the courier booking has been canceled.',
+                ],
+                [
+                    411,
+                    'Review cropped sleeve artwork',
+                    'Morrow Coffee',
+                    'Needs action',
+                    'Inez Cruz',
+                    '15:10',
+                    'The cutting path clips a line of text. The roastery needs an updated proof before packing.',
+                ],
+            ];
+            const tickets = rows.map(([id, title, client, status, owner, due, note]) => ({
+                id,
+                title,
+                client,
+                status,
+                owner,
+                due,
+                note,
+            }));
+            const statuses = ['All statuses', 'Needs action', 'In progress', 'Waiting'];
+            const statusClasses = ['', 'needs', 'progress', 'waiting'];
+            const pageSize = 6;
+            const state = {
+                view: matchMedia('(max-width:690px)').matches ? 'list' : 'table',
+                status: statuses[0],
+                search: '',
+                sort: 'due',
+                page: 1,
+            };
+            const el = (id) => document.getElementById(id);
+            function filterOptions(name) {
+                return (
+                    '<fieldset class="filter-options"><legend>Ticket status</legend>' +
+                    statuses
+                        .map(
+                            (s, i) =>
+                                '<label><input type="radio" name="' +
+                                name +
+                                '" value="' +
+                                s +
+                                '" ' +
+                                (i === 0 ? 'checked' : '') +
+                                '>' +
+                                s +
+                                '</label>',
+                        )
+                        .join('') +
+                    '</fieldset>'
+                );
+            }
+            el('rail').insertAdjacentHTML('beforeend', filterOptions('rail-status'));
+            el('popup').innerHTML = filterOptions('pop-status');
+            const badge = (t) =>
+                '<span class="status ' +
+                statusClasses[statuses.indexOf(t.status)] +
+                '">' +
+                t.status +
+                '</span>';
+            const owner = (t) =>
+                '<span class="identity"><span class="avatar" aria-hidden="true">' +
+                t.owner
+                    .split(' ')
+                    .map((n) => n[0])
+                    .join('') +
+                '</span>' +
+                t.owner +
+                '</span>';
+            const time = (t) => '<time datetime="2026-11-20T' + t.due + '">' + t.due + '</time>';
+            const ref = (t) => '<span class="ticket-id">PR-' + t.id + '</span>';
+            function sortHeading(label, field, ascending, descending) {
+                const direction =
+                    state.sort === ascending
+                        ? 'ascending'
+                        : state.sort === descending
+                          ? 'descending'
+                          : 'none';
+                const arrow =
+                    direction === 'ascending' ? '↑' : direction === 'descending' ? '↓' : '↕';
+                const next = direction === 'ascending' ? 'descending' : 'ascending';
+                return (
+                    '<th scope="col" aria-sort="' +
+                    direction +
+                    '"><button data-order="' +
+                    field +
+                    '" aria-label="Sort ' +
+                    label +
+                    ' ' +
+                    next +
+                    '">' +
+                    label +
+                    ' <span aria-hidden="true">' +
+                    arrow +
+                    '</span></button></th>'
+                );
+            }
+            function table(items) {
+                return (
+                    '<div class="scroll" role="region" aria-label="Support tickets table" tabindex="0"><table aria-label="Support tickets"><thead><tr><th scope="col">Ticket</th>' +
+                    sortHeading('Client', 'client', 'client', 'client-desc') +
+                    '<th scope="col">Status</th><th scope="col">Assignee</th>' +
+                    sortHeading('Reply due', 'due', 'due', 'latest') +
+                    '</tr></thead><tbody>' +
+                    items
+                        .map(
+                            (t) =>
+                                '<tr><td><div class="title">' +
+                                t.title +
+                                '</div><div class="secondary">' +
+                                ref(t) +
+                                '</div></td><td>' +
+                                t.client +
+                                '</td><td>' +
+                                badge(t) +
+                                '</td><td>' +
+                                owner(t) +
+                                '</td><td>' +
+                                time(t) +
+                                '</td></tr>',
+                        )
+                        .join('') +
+                    '</tbody></table></div>'
+                );
+            }
+            function list(items) {
+                return (
+                    '<ul class="records list">' +
+                    items
+                        .map(
+                            (t) =>
+                                '<li><div><h2 class="title">' +
+                                t.title +
+                                '</h2><p class="summary">' +
+                                t.note +
+                                '</p><div class="byline">' +
+                                ref(t) +
+                                '<span>' +
+                                t.client +
+                                '</span><span>' +
+                                t.owner +
+                                '</span></div></div><div class="deadline">' +
+                                badge(t) +
+                                '<time datetime="2026-11-20T' +
+                                t.due +
+                                '">Due ' +
+                                t.due +
+                                '</time></div></li>',
+                        )
+                        .join('') +
+                    '</ul>'
+                );
+            }
+            function grid(items) {
+                return (
+                    '<ul class="records grid">' +
+                    items
+                        .map(
+                            (t) =>
+                                '<li class="card"><div class="card-top">' +
+                                ref(t) +
+                                badge(t) +
+                                '</div><div><h2 class="title">' +
+                                t.title +
+                                '</h2><p class="secondary">' +
+                                t.client +
+                                '</p></div><footer>' +
+                                owner(t) +
+                                '<span>Due ' +
+                                time(t) +
+                                '</span></footer></li>',
+                        )
+                        .join('') +
+                    '</ul>'
+                );
+            }
+            function render() {
+                const query = state.search.trim().toLowerCase();
+                const matches = tickets.filter(
+                    (t) =>
+                        (state.status === statuses[0] || t.status === state.status) &&
+                        [t.title, t.client, t.owner, t.note, 'PR-' + t.id].some((s) =>
+                            s.toLowerCase().includes(query),
+                        ),
+                );
+                const orders = {
+                    due: (a, b) => a.due.localeCompare(b.due),
+                    latest: (a, b) => b.due.localeCompare(a.due),
+                    client: (a, b) =>
+                        a.client.localeCompare(b.client) || a.due.localeCompare(b.due),
+                    'client-desc': (a, b) =>
+                        b.client.localeCompare(a.client) || a.due.localeCompare(b.due),
+                };
+                matches.sort(orders[state.sort]);
+                const pages = Math.max(1, Math.ceil(matches.length / pageSize));
+                state.page = Math.min(pages, state.page);
+                const start = (state.page - 1) * pageSize;
+                const items = matches.slice(start, start + pageSize);
+                const criteria = [
+                    state.status === statuses[0] ? '' : state.status,
+                    query ? '“' + state.search.trim() + '”' : '',
+                ].filter(Boolean);
+                const range =
+                    (items.length
+                        ? 'Showing ' + (start + 1) + '–' + (start + items.length) + ' of '
+                        : '') + matches.length;
+                const countWord = matches.length === 1 ? 'ticket' : 'tickets';
+                el('summary').textContent =
+                    range +
+                    ' ' +
+                    (criteria.length ? 'matching ' : '') +
+                    countWord +
+                    (criteria.length ? ' (' + tickets.length + ' total)' : '');
+                el('criteria').hidden = !criteria.length;
+                el('applied').textContent = criteria.join(' · ');
+                el('reset').hidden = !criteria.length;
+                el('filter-trigger').textContent =
+                    state.status === statuses[0] ? 'Filters' : 'Filters (1)';
+                document
+                    .querySelectorAll('[data-view]')
+                    .forEach((b) => b.setAttribute('aria-pressed', b.dataset.view === state.view));
+                document
+                    .querySelectorAll('input[type=radio]')
+                    .forEach((r) => (r.checked = r.value === state.status));
+                const renderers = { table, list, grid };
+                el('results').innerHTML = items.length
+                    ? renderers[state.view](items)
+                    : '<div class="empty"><h2>No matching tickets</h2><p>Try a different search or clear the active filters.</p></div>';
+                el('sort').value = state.sort;
+                el('paging').hidden = pages === 1;
+                el('next').disabled = state.page >= pages;
+                el('previous').disabled = state.page <= 1;
+            }
+            function closeFilters() {
+                el('popup').hidden = true;
+                el('filter-trigger').setAttribute('aria-expanded', 'false');
+            }
+            el('variant').onchange = (e) => {
+                document.body.classList.toggle('split', e.target.value === 'split');
+                closeFilters();
+            };
+            el('filter-trigger').onclick = () => {
+                const open = el('popup').hidden;
+                el('popup').hidden = !open;
+                el('filter-trigger').setAttribute('aria-expanded', open);
+                if (open) el('popup').querySelector(':checked').focus();
+            };
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !el('popup').hidden) {
+                    closeFilters();
+                    el('filter-trigger').focus();
+                }
+            });
+            document.addEventListener('focusin', (e) => {
+                if (!el('integrated-filter').contains(e.target)) closeFilters();
+            });
+            document.addEventListener('click', (e) => {
+                if (!el('integrated-filter').contains(e.target)) closeFilters();
+            });
+            document.querySelectorAll('input[type=radio]').forEach(
+                (r) =>
+                    (r.onchange = () => {
+                        state.status = r.value;
+                        state.page = 1;
+                        render();
+                    }),
+            );
+            el('results').onclick = (e) => {
+                const button = e.target.closest('[data-order]');
+                if (!button) return;
+                const field = button.dataset.order;
+                const descending = field === 'client' ? 'client-desc' : 'latest';
+                state.sort = state.sort === field ? descending : field;
+                state.page = 1;
+                render();
+                el('results')
+                    .querySelector('[data-order="' + field + '"]')
+                    .focus();
+            };
+            el('search').oninput = (e) => {
+                state.search = e.target.value;
+                state.page = 1;
+                render();
+            };
+            el('sort').onchange = (e) => {
+                state.sort = e.target.value;
+                state.page = 1;
+                render();
+            };
+            document.querySelectorAll('[data-view]').forEach(
+                (b) =>
+                    (b.onclick = () => {
+                        state.view = b.dataset.view;
+                        render();
+                    }),
+            );
+            el('reset').onclick = () => {
+                state.status = statuses[0];
+                state.search = '';
+                el('search').value = '';
+                state.page = 1;
+                render();
+                el('search').focus();
+            };
+            el('next').onclick = () => {
+                state.page++;
+                render();
+                if (el('next').disabled) el('previous').focus();
+            };
+            el('previous').onclick = () => {
+                state.page--;
+                render();
+                if (el('previous').disabled) el('next').focus();
+            };
+            render();
+        </script>
+    </body>
+</html>

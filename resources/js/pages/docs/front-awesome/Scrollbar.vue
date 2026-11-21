@@ -1,6 +1,8 @@
 <script setup>
 import DemoFrame from '@/components/demo/DemoFrame.vue';
 import ScrollbarDemo from '@/components/demo/front-awesome/styling/ScrollbarDemo.vue';
+import ScrollbarShadowsDemo from '@/components/demo/front-awesome/styling/ScrollbarShadowsDemo.vue';
+import shadowDemoSource from '../../../components/demo/front-awesome/styling/ScrollbarShadowsDemo.vue?raw';
 import CodeExample from '@/components/docs/CodeExample.vue';
 import DocsCallout from '@/components/docs/DocsCallout.vue';
 import DocsLink from '@/components/docs/DocsLink.vue';
@@ -127,7 +129,7 @@ Preview.props = ['mode', 'variant', 'options'];
         <ProseSection>
             <DocsCallout variant="note">
                 <template #title>Beta availability</template>
-                The directive is available in Front Awesome 1.0.0-beta.4.
+                The directive is available in Front Awesome 1.0.0-beta.4 and later.
             </DocsCallout>
         </ProseSection>
         <ProseSection id="try-the-scrollbar" title="Try the scrollbar">
@@ -203,6 +205,33 @@ Preview.props = ['mode', 'variant', 'options'];
                 A Vue template modifier is fixed. To switch colors at runtime, use Vue's
                 <code>withDirectives</code> with the exported <code>scrollbarDirective</code>, as
                 shown in the demo source.
+            </p>
+        </ProseSection>
+        <ProseSection id="show-edge-shadows" title="Show edge shadows">
+            <p>
+                In Front Awesome 1.0.0-beta.8 and later, set <code>shadows: true</code> to show
+                where more content is available. The directive fades the top and bottom edges for
+                vertical overflow and the left and right edges for horizontal overflow. Shadows are
+                off by default.
+            </p>
+            <DemoFrame
+                title="Shadows on both scroll axes"
+                :sources="[
+                    { label: 'ScrollbarShadowsDemo.vue', language: 'vue', code: shadowDemoSource },
+                ]">
+                <ScrollbarShadowsDemo />
+            </DemoFrame>
+            <p>
+                Scroll the notifications down and the months sideways. Midway through either panel,
+                both edges show a shadow. At the end, the shadow remains only on the edge you
+                scrolled away from. A panel with overflow on both axes can show four shadows.
+            </p>
+            <p>
+                Shadows follow the local surface color and are <code>2rem</code> wide or tall. Set
+                <code>--fa-scrollbar-shadow-color</code> or
+                <code>--fa-scrollbar-shadow-size</code> on the scroll region to customize them.
+                Shadows appear with OverlayScrollbars. Forced colors and other native scrollbar
+                fallbacks use the browser scrollbar alone.
             </p>
         </ProseSection>
         <ProseSection id="native-scroll-behavior" title="Keep native scroll behavior">

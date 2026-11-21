@@ -4,6 +4,7 @@ import Setup from '../../pages/docs/front-awesome/Setup.vue';
 import Styling from '../../pages/docs/front-awesome/Styling.vue';
 import Toasts from '../../pages/docs/front-awesome/Toasts.vue';
 import { describe, expect, it } from 'vite-plus/test';
+import { extractDocumentation } from '../../../../scripts/documentation-search.mjs';
 import fixtures from './front-awesome/legacy-parity.json';
 import { installationCommands } from './installationFixture';
 import { verifyLegacyPages } from './front-awesome/legacyParity';
@@ -300,13 +301,36 @@ describe('Front Awesome scrollbar guide', () => {
 
         expect(wrapper.get('#style-a-scrollbar').text()).toContain('Add the directive');
         const examples = wrapper.findAll('pre code').map((example) => example.element.textContent);
-        expect(examples).toHaveLength(3);
+        expect(examples).toHaveLength(4);
         expect(examples[0]).toBe(scrollbarSource);
         expect(examples[1]).toContain(
             'v-scrollbar.brand="{ scrollbars: { autoHide: \'leave\' } }"',
         );
         expect(examples[2]).toContain("scrollbar: { defaultVariant: 'brand' }");
+        expect(wrapper.get('#show-edge-shadows').text()).toBe('Show edge shadows');
+        expect(wrapper.text()).toContain('In Front Awesome 1.0.0-beta.8 and later');
+        expect(examples[3]).toContain('v-scrollbar.brand="{ shadows: true }"');
+        expect(examples[3]).toContain('v-scrollbar="{ shadows: true }"');
+        expect(wrapper.get('[aria-labelledby="shadow-notifications-label"]').text()).toContain(
+            'Notification 12',
+        );
+        expect(wrapper.get('[aria-labelledby="shadow-months-label"]').text()).toContain('December');
         wrapper.unmount();
+    });
+
+    it('indexes the edge shadow demo source under its heading', () => {
+        const sections = extractDocumentation([
+            {
+                slug: 'front-awesome/scrollbar',
+                title: 'Style a scrollbar',
+                description: 'Try Front Awesome scrollbar settings.',
+                packageTitle: 'Front Awesome',
+                sourcePath: 'resources/js/pages/docs/front-awesome/Scrollbar.vue',
+            },
+        ]);
+
+        const section = sections.find((section) => section.anchor === 'show-edge-shadows');
+        expect(section?.body).toContain('v-scrollbar.brand="{ shadows: true }"');
     });
 });
 

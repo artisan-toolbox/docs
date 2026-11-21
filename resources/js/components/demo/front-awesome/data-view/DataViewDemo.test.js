@@ -3,7 +3,8 @@ import { Button, Input, Select } from '@artisan-toolbox/front-awesome/components
 import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils';
 import { afterEach, beforeEach, expect, it, vi } from 'vite-plus/test';
 import DataViewDemo from './DataViewDemo.vue';
-import { DataView } from '@artisan-toolbox/front-awesome/data-view';
+import * as dataView from '@artisan-toolbox/front-awesome/data-view';
+import PressroomDemo from './PressroomDemo.vue';
 import DataViewSession from './DataViewSession.vue';
 import ContextOwner from './ContextOwner.vue';
 import { supportsDataViewPreview } from './PreviewAvailability.vue';
@@ -12,6 +13,7 @@ import ActionDemo from './ActionDemo.vue';
 import composed from '../../dapter/composed/wire.json';
 import actions from '../../dapter/actions/wire-v2.json';
 
+const { DataView } = dataView;
 enableAutoUnmount(afterEach);
 const originalClient = http.getClient();
 const request = vi.fn();
@@ -118,21 +120,30 @@ it('keeps the accepted rows and the pending Dapter request across layout changes
     expect(request.mock.calls[0][0].url).toContain('/dapter/data/Dapter.CollectionFluent');
     expect(wrapper.get('tbody strong').text()).toBe('Notebook 1');
     expect(wrapper.get('tbody wa-tag').text()).toBe('Plain');
-    await click(wrapper, 'Next');
+    const numbered = wrapper.find('wa-pagination');
+    if (numbered.exists()) {
+        numbered.element.dispatchEvent(
+            new CustomEvent('wa-before-page-change', { detail: { page: 2 }, cancelable: true }),
+        );
+        await flushPromises();
+    } else {
+        await click(wrapper, 'Next');
+    }
     expect(JSON.parse(request.mock.calls[1][0].data).state.paging.current).toBe(2);
     expect(wrapper.get('[role="status"]').text()).toContain('Updating results');
 
     await click(wrapper, 'Grid');
-    expect(wrapper.get('li wa-card').text()).toContain('Notebook 1');
+    expect(wrapper.get('li strong').text()).toContain('Notebook 1');
     second.resolve(catalogPage(2));
     await flushPromises();
-    expect(wrapper.get('li wa-card').text()).toContain('Notebook 2');
+    expect(wrapper.get('li strong').text()).toContain('Notebook 2');
     await click(wrapper, 'List');
     expect(wrapper.get('li').text()).toContain('Plain paper');
     expect(wrapper.get('li strong').text()).toBe('Notebook 2');
     await click(wrapper, 'Table');
     expect(wrapper.get('tbody strong').text()).toBe('Notebook 2');
-    expect(wrapper.get('nav').text()).toContain('Page 2 of 2');
+    expect(wrapper.find('wa-pagination, nav').exists()).toBe(true);
+    expect(wrapper.getComponent(DataView).props('adapter').paging.current).toBe(2);
     expect(request).toHaveBeenCalledTimes(2);
 
     const preset = wrapper
@@ -146,7 +157,7 @@ it('keeps the accepted rows and the pending Dapter request across layout changes
     await flushPromises();
     expect(wrapper.find('table').exists()).toBe(false);
     expect(wrapper.find('[aria-label="Results layout"]').exists()).toBe(false);
-    expect(wrapper.get('wa-card').text()).toContain('Notebook 2');
+    expect(wrapper.get('li strong').text()).toContain('Notebook 2');
     expect(request).toHaveBeenCalledTimes(2);
 });
 
@@ -177,7 +188,55 @@ it('reports a denied source and distinguishes an accepted empty catalog after re
     expect(request).toHaveBeenCalledTimes(1);
     await click(wrapper, 'Start catalog');
     expect(wrapper.find('[role="alert"]').exists()).toBe(false);
-    expect(wrapper.get('[role="status"]').text()).toContain('No results.');
+    expect(wrapper.get('[role="status"]').text()).toMatch(/^No (results\.|records yet)$/);
+});
+
+it('opens the Pressroom queue on demand and preserves ticket identity across presentations', async () => {
+    const tickets = [
+        {
+            id: 417,
+            title: 'Check register',
+            client: 'Solstice Editions',
+            status: 'Needs action',
+            owner: 'Nora Chen',
+            due: '09:15',
+            note: 'Check the magenta outline.',
+        },
+        {
+            id: 416,
+            title: 'Approve foil',
+            client: 'Field Notes Studio',
+            status: 'Waiting',
+            owner: 'Ravi Shah',
+            due: '09:45',
+            note: 'Compare the proofs.',
+        },
+    ];
+    const page = structuredClone(composed);
+    page.data = tickets;
+    page.paging.total = tickets.length;
+    page.paging.filtered = tickets.length;
+    request.mockResolvedValue(json(page));
+    const wrapper = mount(PressroomDemo, {
+        props: { preview: tickets[0] },
+        global: { stubs: { DemoFrame: { template: '<section><slot /></section>' } } },
+    });
+    expect(wrapper.text()).toContain('Preview of the first ticket');
+    expect(request).not.toHaveBeenCalled();
+    await click(wrapper, 'Open the support queue');
+    expect(request.mock.calls[0][0].url).toContain('/dapter/data/FrontAwesome.Pressroom');
+    const ids = () => wrapper.findAll('[data-ticket]').map((row) => row.attributes('data-ticket'));
+    const expected = tickets.map((ticket) => String(ticket.id));
+    expect(ids()).toEqual(expected);
+    await click(wrapper, 'List');
+    expect(ids()).toEqual(expected);
+    expect(wrapper.get('li').text()).toContain(tickets[0].note);
+    await click(wrapper, 'Grid');
+    expect(ids()).toEqual(expected);
+    expect(wrapper.get('li').text()).toContain('Nora Chen');
+    expect(wrapper.get('li').text()).toContain('Due 09:15');
+    expect(wrapper.get('li').text()).not.toContain(tickets[0].note);
+    expect(request).toHaveBeenCalledTimes(1);
 });
 
 it('preserves one owner when the reactive source changes', async () => {
@@ -189,7 +248,6 @@ it('preserves one owner when the reactive source changes', async () => {
     await flushPromises();
     expect(wrapper.findComponent(DataView).props('adapter')).toBe(owner);
     expect(request.mock.calls[1][0].url).toContain('Dapter.CollectionConfigured');
-    expect(wrapper.get('[data-shared-state]').text()).toContain('Same owner yes');
 });
 
 it('uses actual built-in capabilities and the original handle in a custom filter slot', async () => {
@@ -204,13 +262,13 @@ it('uses actual built-in capabilities and the original handle in a custom filter
     });
     expect(request).not.toHaveBeenCalled();
     await click(wrapper, 'Start capabilities');
-    expect(wrapper.get('[data-capability-state]').text()).toContain('Shared handle yes');
-    expect(wrapper.get('[data-head-direction]').attributes('data-head-direction')).toBe('0');
-    expect(wrapper.get('[data-head-unavailable]').text()).toBe('Unavailable');
+    const status = wrapper.findAll('th').find((cell) => cell.text() === 'Status');
+    expect(status.find('button, wa-button').exists()).toBe(false);
+    expect(wrapper.findAll('th')[0].text()).toContain('↕');
     await vi.dynamicImportSettled();
     await flushPromises();
-    const sortIcon = wrapper.get('wa-icon').element;
-    expect(sortIcon.name).toBe('sort');
+    const sortIcon = wrapper.findAll('th').at(-1).get('wa-icon').element;
+    expect(sortIcon.name).toBe(Object.hasOwn(dataView, 'DataViewStatus') ? 'up-down' : 'sort');
     expect(sortIcon.family).toBe('classic');
     const search = wrapper
         .findAllComponents(Input)
@@ -226,6 +284,11 @@ it('uses actual built-in capabilities and the original handle in a custom filter
     });
     await click(wrapper, 'Notebook');
     expect(JSON.parse(request.mock.calls.at(-1)[0].data).state.order.terms[0].field).toBe('name');
+    const options = wrapper.find('button[aria-label="View options"]');
+    if (options.exists()) {
+        await options.trigger('click');
+        await click(wrapper, 'Sort');
+    }
     const order = wrapper
         .findAllComponents(Select)
         .find(

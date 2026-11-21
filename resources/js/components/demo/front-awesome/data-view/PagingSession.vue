@@ -103,14 +103,7 @@ async function change(action, message) {
             :tabindex="observed ? 0 : undefined"
             :aria-label="observed ? 'Notebook scroll window' : undefined"
             :role="observed ? 'region' : undefined">
-            <DataView :adapter="catalog" :views="views" row-key="id" label="Notebook traversal">
-                <template #footer="{ adapter }"
-                    ><p data-paging-summary>
-                        Mode {{ adapter.paging.mode }}. {{ adapter.data.length }} loaded. Exact
-                        total {{ adapter.paging.total == null ? 'unknown' : adapter.paging.total }}.
-                    </p></template
-                >
-            </DataView>
+            <DataView :adapter="catalog" :views="views" row-key="id" label="Notebook traversal" />
             <div v-if="observed" ref="sentinel" aria-hidden="true" class="h-px" />
         </div>
     </div>

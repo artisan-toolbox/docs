@@ -3,10 +3,12 @@ import PackageGuideHeader from '@/components/docs/PackageGuideHeader.vue';
 import ProseSection from '@/components/docs/ProseSection.vue';
 import CodeExample from '@/components/docs/CodeExample.vue';
 import DocsLink from '@/components/docs/DocsLink.vue';
+import PressroomDemo from '@/components/demo/front-awesome/data-view/PressroomDemo.vue';
 import FirstDemo from '@/components/demo/front-awesome/data-view/FirstDemo.vue';
 import { findNavigationItem } from '@/lib/docsNavigation';
 import backend from '../../../../../app/DataSources/Dapter/Quickstart.php?raw';
 defineProps({
+    pressroomPreview: { type: Object, required: true },
     page: { type: Object, required: true },
     navigation: { type: Array, required: true },
 });
@@ -34,6 +36,44 @@ const views = {
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
         <div data-document-content class="flex min-w-0 flex-col gap-10">
+            <ProseSection id="support-queue" title="Find the next ticket due">
+                <p>
+                    DataView displays a Dapter source as a table, list, or grid. Try the print shop
+                    queue below, or
+                    <DocsLink href="#install-the-packages">install both packages</DocsLink>
+                    to build your first table.
+                </p>
+                <ol class="list-decimal space-y-2 pl-5">
+                    <li>
+                        Open the support queue. In the development preview, choose
+                        <strong>View options</strong> beside quick search, then open
+                        <strong>Filters</strong>. On beta.8, use
+                        <strong>Search and filters</strong>.
+                    </li>
+                    <li>
+                        Set <strong>Status</strong> to <strong>Waiting</strong> and choose
+                        <strong>Apply</strong>. In the preview, choose <strong>Done</strong>. Four
+                        of the twelve tickets need a reply.
+                    </li>
+                    <li>
+                        Sort <strong>Reply due</strong> in ascending order. PR-416 is first, due at
+                        09:45. Choose <strong>List</strong> to read the request or
+                        <strong>Grid</strong> to see who owns it.
+                    </li>
+                </ol>
+                <PressroomDemo :preview="pressroomPreview" />
+                <p>
+                    In the preview, remove the <strong>Waiting</strong> badge below quick search to
+                    see all twelve tickets again. When deadlines match,
+                    <DocsLink
+                        :href="
+                            findNavigationItem(navigation, 'front-awesome/data-view/ordering')
+                                .href + '#multi-sort'
+                        "
+                        >sort by deadline and run size</DocsLink
+                    >.
+                </p>
+            </ProseSection>
             <ProseSection id="install-the-packages" title="Install both packages">
                 <p>
                     Start in a Laravel 13.36+ application within 13.x, with PHP 8.5 or 8.6, Inertia
@@ -50,7 +90,7 @@ const views = {
                     named data route through Ziggy.
                 </p>
                 <p>
-                    This example uses Front Awesome 1.0.0-beta.7 and Dapter 1.0.0-beta.4. This
+                    This example uses Front Awesome 1.0.0-beta.8 and Dapter 1.0.0-beta.4. This
                     guest-accessible source needs a web session and CSRF protection. Reads run
                     without a worker or a broadcaster.
                 </p>

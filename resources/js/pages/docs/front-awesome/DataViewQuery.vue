@@ -17,8 +17,8 @@ defineProps({
         <PackageGuideHeader :page="page" />
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <DocsCallout variant="note"
-                ><template #title>Beta availability</template>These controls are available in Front
-                Awesome 1.0.0-beta.4. See
+                ><template #title>Choose a version</template>The steps below cover the beta.8
+                toolbar and the workspace preview. See
                 <DocsLink
                     :href="findNavigationItem(navigation, 'front-awesome/data-view/reference').href"
                     >DataView release availability</DocsLink
@@ -26,9 +26,13 @@ defineProps({
             >
             <ProseSection id="server-controls" title="Search the source">
                 <p>
-                    Start the stock example. Open Search and filters for field and filter controls.
-                    Search globally for <code>C</code> to match shelf C, then search the name field
-                    for <code>Notebook 2</code> with Equals. Combine the searches with All to get no
+                    Select <strong>Start example</strong>. Enter <code>C</code> in the quick search
+                    to match shelf C. In the workspace preview, open the
+                    <strong>View options</strong> button next to the search box. Choose
+                    <strong>Search</strong>, then select the name field under
+                    <strong>Search scope</strong>. In beta.8, open
+                    <strong>Search and filters</strong>. Search the name field for
+                    <code>Notebook 2</code> with Equals. Combine the searches with All to get no
                     rows. Choose Any to see Notebook 2 and the two notebooks on shelf C. Clear both
                     searches before trying filters.
                 </p>
@@ -38,19 +42,40 @@ defineProps({
                     sheet-count search before applying a stock mark. Each editor offers the
                     operators declared by the source.
                 </p>
+                <QueryDemo />
             </ProseSection>
             <ProseSection id="typed-choices" title="Filter exact scalar values">
                 <p>
-                    Choose one stock mark in the global filter. The six options select different
-                    rows. Numeric zero selects Notebook 7, string zero selects Notebook 3, and one
-                    space selects Notebook 4. Open Requested and accepted criteria to inspect the
-                    value sent to Dapter. Selecting Null sends a value. Clear removes the filter.
+                    In the preview, open <strong>View options</strong> and select
+                    <strong>Filters</strong>. Use the <strong>Criterion</strong> dropdown to choose
+                    the global stock mark filter, then select one mark. The six options select
+                    different rows. Numeric zero selects Notebook 7, string zero selects Notebook 3,
+                    and one space selects Notebook 4. Open Requested and accepted criteria to
+                    inspect the value sent to Dapter. Selecting Null sends a value. Clear removes
+                    the filter. In the workspace preview, each accepted value appears as a small
+                    badge below the quick search. Choose <strong>Done</strong> and remove its badge
+                    below quick search to keep the other active criteria. Press Escape before
+                    applying to discard a draft without reading the source.
                 </p>
                 <p>
                     Select shelves A and B in the field filter. Its empty selection clears the
                     filter. Under Allowed stock marks, select two marks. Applying an empty selection
                     to that filter is rejected. Its explicit Clear still removes the filter. The
                     source controls both policies.
+                </p>
+                <p>
+                    To place a field in an application form, borrow the same adapter in
+                    <code>DataViewSearch</code> or <code>DataViewFilter</code>. The workspace
+                    preview's
+                    <DocsLink
+                        :href="
+                            findNavigationItem(navigation, 'front-awesome/data-view/layouts').href +
+                            '#compose-controls'
+                        "
+                        >standalone control example</DocsLink
+                    >
+                    shares one handle with the result list. Field edits wait for Apply. Global
+                    typing uses the adapter's configured debounce.
                 </p>
                 <p>
                     The published base also supports global search, a sortable header, presets and
@@ -63,7 +88,6 @@ defineProps({
                     >
                     to try those controls.
                 </p>
-                <QueryDemo />
                 <p>
                     For server declarations, see
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/field-search').href"
