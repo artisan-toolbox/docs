@@ -1,9 +1,5 @@
 # Changelog
 
-## Unreleased
-
-- Allow 35 minutes for each GitHub Actions job to install Chromium and complete the full browser suite.
-
 ## [1.6.0] - 2026-11-24
 
 ### Documentation
@@ -15,6 +11,7 @@
 ### Continuous Integration
 
 - Check Dapter's valid and invalid TypeScript examples in the type-checking step. Verify the badge and its icon in the permission editor browser test.
+- Allow 35 minutes for each PHP job to install Chromium and complete the full browser suite.
 
 ## [1.5.0] - 2026-11-24
 
