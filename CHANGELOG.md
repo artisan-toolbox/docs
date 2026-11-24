@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Allow 35 minutes for each GitHub Actions job to install Chromium and complete the full browser suite.
+
 ## [1.6.0] - 2026-11-24
 
 ### Documentation
