@@ -1,8 +1,18 @@
 # Changelog
 
-## Unreleased
+## [1.5.0] - 2026-11-24
 
-- Add a runnable DataView table feedback example for Front Awesome beta.10. Try loading, empty sources, no matching records, and skeleton rows in both table feedback layouts. The layout guide and API reference explain each option and its default.
+### Documentation
+
+- **Document DataView table feedback and skeleton rows** (`a72eacd`)
+  Adds a runnable notebook inventory example and expands the DataView layout guide and reference for Front Awesome 1.0.0-beta.10. The default layout keeps the headings and shows loading feedback in one cell spanning every column. The replacement layout hides the table while displaying a message. The example distinguishes an empty catalog from a search with no matches and documents how to customize both the loading and empty slots.
+
+    Readers can switch between feedback layouts and try custom skeleton cells with reduced-motion support. Skeletons keep the headings in both layouts. The demo reuses the last accepted page length when available and uses two rows on the first load or after an empty page. Older Front Awesome versions still show the example source. The quickstart, filtering, and ordering guides identify the controls introduced in beta.9.
+
+### Continuous Integration
+
+- **Require the docs workflow before publishing releases** (`bad9184`)
+  Configures Maintainer to publish releases after both PHP jobs in `tests.yml` pass for the exact release commit.
 
 ## [1.4.0] - 2026-11-21
 
