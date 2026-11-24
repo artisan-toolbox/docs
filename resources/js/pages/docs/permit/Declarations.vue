@@ -44,6 +44,30 @@ interface ApplicationRoles
 {
     #[Role('Administrator')]
     public function admin(): void;
+
+    #[Role('Developer')]
+    public function developer(): void;
+}`;
+
+const invoices = String.raw`<?php
+
+namespace App\Permit;
+
+use ArtisanToolbox\Permit\Attributes\CRUD;
+use ArtisanToolbox\Permit\Attributes\Group;
+use ArtisanToolbox\Permit\Attributes\ManageableByRoleUser;
+use ArtisanToolbox\Permit\Attributes\Permission;
+use ArtisanToolbox\Permit\Attributes\WithRole;
+use ArtisanToolbox\Permit\RoleMatch;
+
+#[Group('invoices', 'Invoices')]
+#[CRUD(create: false, update: false, delete: false)]
+#[WithRole('admin,developer', RoleMatch::Or)]
+interface Invoices
+{
+    #[Permission('Refund invoices')]
+    #[ManageableByRoleUser('admin, developer')]
+    public function refund(): void;
 }`;
 </script>
 
@@ -114,17 +138,58 @@ interface ApplicationRoles
             <ProseSection id="declare-roles" title="Declare roles">
                 <p>
                     Place this interface in <code>app/Permit/ApplicationRoles.php</code>. Permit
-                    registers <code>role::admin</code> with a default of <code>false</code>. Each
-                    role has its own value. A grant to this role leaves the report Gates at their
-                    own saved values or defaults.
+                    registers <code>role::admin</code> and <code>role::developer</code>. Both
+                    default to <code>false</code>. Each role has its own value. Granting a role
+                    leaves the report permissions at their own saved values or defaults.
                 </p>
-                <CodeExample label="Register an administrator role" language="php" :code="roles" />
+                <CodeExample
+                    label="Register administrator and developer roles"
+                    language="php"
+                    :code="roles" />
                 <p>
                     Use one role interface. Use lowercase group IDs with optional
                     underscore-separated segments. The <code>role</code> and
                     <code>user_permissions</code> group IDs are reserved. Resolve duplicate Gate
                     names, incomplete declarations, and inherited interfaces before booting the
                     application.
+                </p>
+            </ProseSection>
+            <ProseSection id="require-a-role" title="Require a role for an action">
+                <p>
+                    These attributes require Permit <code>1.0.0-beta.4</code> or later. Declare the
+                    two roles above, then create <code>app/Permit/Invoices.php</code>. Each
+                    attribute accepts one role method name or a comma-separated list of names.
+                    Spaces around names and repeated names have no effect. An empty entry or an
+                    undeclared name fails catalog validation. If you cache the catalog, rebuild it
+                    with <code>php artisan permit:catalog:cache</code>.
+                </p>
+                <CodeExample
+                    label="Restrict invoice actions and refund edits"
+                    language="php"
+                    :code="invoices" />
+                <p>
+                    By default, <code>WithRole('admin,developer')</code> requires both roles. This
+                    example passes <code>RoleMatch::Or</code>, so a user with
+                    <code>invoices::refund</code> can issue a refund with either
+                    <code>role::admin</code> or <code>role::developer</code>. Granting a role alone
+                    leaves the refund denied. The group-level rule also covers the generated
+                    <code>invoices::read</code> permission. Put the attribute on a permission method
+                    to restrict just that action. If both the group and the method use
+                    <code>WithRole</code>, the user must satisfy each declaration using its own
+                    match mode. Laravel's <code>Gate::before</code> callbacks can override the
+                    permission or a role check.
+                </p>
+                <p>
+                    <code>#[ManageableByRoleUser('admin, developer')]</code> checks the person
+                    editing the refund assignment. Its default is <code>RoleMatch::Or</code>. Follow
+                    <DocsLink
+                        :href="
+                            findNavigationItem(navigation, 'permit/management').href +
+                            '#restrict-assignment-edits'
+                        "
+                        >Restrict assignment edits by role</DocsLink
+                    >
+                    to protect the administrator role itself and check a save.
                 </p>
             </ProseSection>
             <ProseSection id="localization-and-order" title="Localize and order the editor">

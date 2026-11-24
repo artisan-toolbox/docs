@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe5dc047a49802396608afb91a2ac719",
+    "content-hash": "7aa1cd9e143110d27f25954eae42edda",
     "packages": [
         {
             "name": "artisan-toolbox/core",
@@ -353,16 +353,16 @@
         },
         {
             "name": "artisan-toolbox/front-awesome",
-            "version": "1.0.0-beta.10",
+            "version": "1.0.0-beta.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/front-awesome.git",
-                "reference": "886c2e336afe014b11d8d9914fd5fb192a07cfbe"
+                "reference": "4f62744d48118c74c4da6c6e19b0407c39f59ff4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/front-awesome/zipball/886c2e336afe014b11d8d9914fd5fb192a07cfbe",
-                "reference": "886c2e336afe014b11d8d9914fd5fb192a07cfbe",
+                "url": "https://api.github.com/repos/artisan-toolbox/front-awesome/zipball/4f62744d48118c74c4da6c6e19b0407c39f59ff4",
+                "reference": "4f62744d48118c74c4da6c6e19b0407c39f59ff4",
                 "shasum": ""
             },
             "require": {
@@ -425,7 +425,7 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/front-awesome/issues",
-                "source": "https://github.com/artisan-toolbox/front-awesome/tree/1.0.0-beta.10"
+                "source": "https://github.com/artisan-toolbox/front-awesome/tree/1.0.0-beta.11"
             },
             "funding": [
                 {
@@ -433,8 +433,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-24T00:13:10+00:00",
-            "published-time": "2026-11-24T00:16:42+00:00"
+            "time": "2026-11-24T02:21:15+00:00",
+            "published-time": "2026-11-24T02:25:13+00:00"
         },
         {
             "name": "artisan-toolbox/maintainer",
@@ -606,16 +606,16 @@
         },
         {
             "name": "artisan-toolbox/permit",
-            "version": "1.0.0-beta.3",
+            "version": "1.0.0-beta.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/permit.git",
-                "reference": "d22d3f83241511fa74e540e1c1550a14d063ae4f"
+                "reference": "8a21c7ce147093023092b34774dd6bb635781752"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/permit/zipball/d22d3f83241511fa74e540e1c1550a14d063ae4f",
-                "reference": "d22d3f83241511fa74e540e1c1550a14d063ae4f",
+                "url": "https://api.github.com/repos/artisan-toolbox/permit/zipball/8a21c7ce147093023092b34774dd6bb635781752",
+                "reference": "8a21c7ce147093023092b34774dd6bb635781752",
                 "shasum": ""
             },
             "require": {
@@ -671,7 +671,7 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/permit/issues",
-                "source": "https://github.com/artisan-toolbox/permit/tree/1.0.0-beta.3"
+                "source": "https://github.com/artisan-toolbox/permit/tree/1.0.0-beta.5"
             },
             "funding": [
                 {
@@ -679,8 +679,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-20T23:27:22+00:00",
-            "published-time": "2026-11-20T23:30:08+00:00"
+            "time": "2026-11-24T02:17:20+00:00",
+            "published-time": "2026-11-24T02:20:00+00:00"
         },
         {
             "name": "artisan-toolbox/qztray",

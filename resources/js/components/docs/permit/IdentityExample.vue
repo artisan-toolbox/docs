@@ -17,7 +17,7 @@ dump(Permit::VERSION);`;
         <CodeExample label="Resolve the Permit identity" language="php" :code="identity" />
         <p>
             The output contains <code>true</code> and your installed version, such as
-            <code>"1.0.0-beta.3"</code>. Laravel resolves the shared Permit instance through its
+            <code>"1.0.0-beta.5"</code>. Laravel resolves the shared Permit instance through its
             automatically discovered service provider.
         </p>
     </ProseSection>

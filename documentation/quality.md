@@ -4,6 +4,8 @@ The application installs Maintainer, Rector, Laravel Rector rules, Pest, Pint, a
 The application requires PHP 8.5 or later in the PHP 8.x series. CI runs the quality, asset, and browser checks on PHP 8.5 and 8.6.
 Frontend checks use the existing Vite Plus and Vue tooling.
 
+From the documentation checkout, run `npm run types:check` to check the Vue application and the Dapter design reference. The reference checker compiles the displayed TypeScript definitions and their usage examples in one program. Each invalid example must produce a diagnostic on its own line of code. The definitions and the valid example must compile cleanly. Run `node scripts/check-dapter-reference-types.mjs` to check just that contract.
+
 Dated verification entries preserve the results observed during each task. The [current dependency and consistency verification](#documentation-consistency-and-test-dependencies-on-2026-11-11) supersedes their earlier installation blockers and audit findings.
 
 Formatting is configured in `vite.config.ts` under `fmt`: 100-column lines, four-space indentation, single quotes, semicolons, and closing brackets on the last attribute line. Attributes may share a line, and HTML whitespace sensitivity follows CSS display rules. The formatter excludes `.github/**`, `composer.json`, `resources/js/components/ui/*`, `resources/views/mail/*`, and `resources/js/ziggy.js`.

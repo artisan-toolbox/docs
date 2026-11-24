@@ -26,6 +26,25 @@ const operator = String.raw`use ArtisanToolbox\Permit\Facades\Permit;
 
 Permit::add(42, ['user_permissions::read', 'user_permissions::update']);`;
 
+const protectAdmin = String.raw`<?php
+
+namespace App\Permit;
+
+use ArtisanToolbox\Permit\Attributes\ManageableByRoleUser;
+use ArtisanToolbox\Permit\Attributes\Role;
+use ArtisanToolbox\Permit\Attributes\Roles;
+
+#[Roles]
+#[ManageableByRoleUser('admin')]
+interface ApplicationRoles
+{
+    #[Role('Administrator')]
+    public function admin(): void;
+
+    #[Role('Developer')]
+    public function developer(): void;
+}`;
+
 const inspect = `php artisan permit:inspect
 php artisan permit:inspect 42
 php artisan permit:inspect --defaults`;
@@ -118,10 +137,9 @@ const iconOptions = [
                     On the configured session guard,
                     <code>GET /permit/user-permissions?user=42</code> requires
                     <code>user_permissions::read</code>. The PUT route requires
-                    <code>user_permissions::update</code> and Laravel's CSRF protection. Each write
-                    replaces the complete assignment for the selected user using the editor's
-                    current revision. A stale revision returns <code>409</code> and preserves the
-                    other writer's changes.
+                    <code>user_permissions::update</code> and Laravel's CSRF protection. The editor
+                    sends the current revision and a boolean for every key it received. A stale
+                    revision returns <code>409</code> and preserves the other writer's changes.
                 </p>
                 <p>
                     Each Gate applies to all users of the configured provider by default. To scope
@@ -145,6 +163,58 @@ const iconOptions = [
                         "
                         >Open the dialog from your user list</DocsLink
                     >.
+                </p>
+            </ProseSection>
+            <ProseSection id="restrict-assignment-edits" title="Restrict assignment edits by role">
+                <p>
+                    Use Permit <code>1.0.0-beta.4</code> or later and the
+                    <DocsLink
+                        :href="
+                            findNavigationItem(navigation, 'permit/declarations').href +
+                            '#require-a-role'
+                        "
+                        >Invoices declaration</DocsLink
+                    >. Its <code>#[ManageableByRoleUser('admin, developer')]</code> lets an
+                    administrator or a developer see and edit the refund assignment. To require both
+                    roles, import <code>ArtisanToolbox\Permit\RoleMatch</code> and use
+                    <code>#[ManageableByRoleUser('admin,developer', RoleMatch::And)]</code>. The
+                    operator still needs the management Gates and access to the selected user.
+                </p>
+                <p>
+                    Put the attribute on a group to protect every permission in it, including
+                    generated CRUD permissions. If the group and the method both restrict edits, the
+                    operator must satisfy each declaration. The editor shows only the permissions
+                    the operator can manage and hides a group when none of its permissions are
+                    visible.
+                </p>
+                <p>
+                    Use Permit <code>1.0.0-beta.5</code> or later and Front Awesome
+                    <code>1.0.0-beta.11</code> or later to show <code>WithRole</code> requirements
+                    in a badge on visible permission rows. An operator with edit access can save the
+                    permission even if the selected user lacks a required role.
+                </p>
+                <p>
+                    To reserve grants of both roles for existing administrators, replace
+                    <code>app/Permit/ApplicationRoles.php</code> with this declaration.
+                </p>
+                <CodeExample
+                    label="Reserve role grants for administrators"
+                    language="php"
+                    :code="protectAdmin" />
+                <p>
+                    Rebuild a cached catalog. From trusted application code, grant the first
+                    administrator <code>role::admin</code> with <code>Permit::add()</code>. As that
+                    administrator, enable refunds for a test user. Open the same user as a second
+                    operator who has management access and neither role. The editor omits the refund
+                    permission and both roles.
+                </p>
+                <p>
+                    Change a visible permission and save. Reopen the user as the administrator to
+                    confirm refunds are still enabled. Permit preserves each hidden assignment,
+                    including an unset value that follows its declaration default. It ignores a
+                    hidden key even if a client submits a different boolean for it. If the
+                    operator's visible keys change while the editor is open, reload after the
+                    <code>409</code> response before editing again.
                 </p>
             </ProseSection>
             <ProseSection id="configure-catalog-icons" title="Configure icons in the editor">

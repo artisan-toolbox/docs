@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vite-plus/test';
 import Index from '../../pages/docs/permit/Index.vue';
 import Installation from '../../pages/docs/permit/Installation.vue';
+import Declarations from '../../pages/docs/permit/Declarations.vue';
 import Development from '../../pages/docs/permit/Development.vue';
 import Management from '../../pages/docs/permit/Management.vue';
 import Operations from '../../pages/docs/permit/Operations.vue';
@@ -96,6 +97,28 @@ describe('Permit beta learning journey', () => {
         ).toBe(true);
         expect(wrapper.find('a[href="/docs/permit/operations#artisan-commands"]').exists()).toBe(
             true,
+        );
+    });
+
+    it('connects the role declaration to its protected editor walkthrough', () => {
+        const declarations = render(Declarations).get('section[aria-labelledby="require-a-role"]');
+        const management = render(Management, {
+            permissionEditorDemoExport: '/demo/front-awesome/permission-editor/export',
+        }).get('section[aria-labelledby="restrict-assignment-edits"]');
+
+        expect(declarations.text()).toContain('1.0.0-beta.4 or later');
+        expect(management.text()).toContain('1.0.0-beta.4 or later');
+        const invoiceGroup = declarations.getComponent(CodeExample).props('code');
+        expect(invoiceGroup).toContain("#[WithRole('admin,developer', RoleMatch::Or)]");
+        expect(invoiceGroup).toContain("#[ManageableByRoleUser('admin, developer')]");
+        expect(declarations.get('a').attributes('href')).toBe(
+            '/docs/permit/management#restrict-assignment-edits',
+        );
+        expect(management.get('a').attributes('href')).toBe(
+            '/docs/permit/declarations#require-a-role',
+        );
+        expect(management.getComponent(CodeExample).props('code')).toContain(
+            "#[ManageableByRoleUser('admin')]",
         );
     });
 

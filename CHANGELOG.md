@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Document Permit role rules and add the role requirement badge to the permission editor demo using Front Awesome `1.0.0-beta.11` and Permit `1.0.0-beta.5`.
+- Compile and check the Dapter reference examples as part of the type check. Keep the press schedule columns within the mobile demo.
+
 ## [1.5.0] - 2026-11-24
 
 ### Documentation

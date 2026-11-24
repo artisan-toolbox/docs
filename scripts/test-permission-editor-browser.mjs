@@ -31,6 +31,11 @@ async function verifyCatalog(dialog) {
     await dialog.getByRole('heading', { name: 'Role assignments', exact: true }).waitFor();
     await notebooks.getByText('2 of 2 allowed', { exact: true }).waitFor();
     await exportRow.getByText('Allowed', { exact: true }).waitFor();
+    const requirement = exportRow.locator('wa-badge').filter({
+        hasText: 'Requires Publisher and Reviewer',
+    });
+    await requirement.waitFor();
+    await requirement.locator('svg[aria-hidden="true"]').waitFor();
     await notebooks.locator('wa-icon[name="book-open"][family="classic"]').waitFor();
     await exportRow.locator('wa-icon[name="file-export"][family="classic"]').waitFor();
 
@@ -160,13 +165,14 @@ async function verifyEditor() {
     const mobileDialog = mobile.locator(editor);
     await mobileDialog.getByText('Avery Brooks', { exact: true }).waitFor();
     await mobileDialog.getByText('Read only. You can view these permissions.').waitFor();
+    await mobileDialog.locator('wa-badge').getByText('Requires Publisher and Reviewer').waitFor();
     assert.equal(await mobileDialog.getByRole('button', { name: 'Save changes' }).count(), 0);
     assert.equal(
         await mobile.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
         true,
     );
     console.log(
-        'Permission editor demo verifies catalog icons, focus, summaries, role and permission drafts, saving, and mobile read-only access.',
+        'Permission editor demo verifies catalog and requirement badges, focus, summaries, drafts, saving, and mobile read-only access.',
     );
 }
 

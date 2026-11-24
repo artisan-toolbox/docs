@@ -43,7 +43,13 @@ final class AssignmentsController
                     'icon' => 'book-open',
                     'order' => 'alphabetical',
                     'abilities' => [
-                        ['key' => 'notebooks::export', 'name' => 'Export CSV', 'description' => 'Download the notebook catalog.', 'icon' => 'file-export'],
+                        [
+                            'key' => 'notebooks::export',
+                            'name' => 'Export CSV',
+                            'description' => 'Download the notebook catalog.',
+                            'icon' => 'file-export',
+                            'roleRequirements' => [['Publisher'], ['Reviewer']],
+                        ],
                         ['key' => 'notebooks::read', 'name' => 'Read notebooks', 'description' => 'Open the notebook catalog.', 'icon' => 'eye'],
                     ],
                 ],

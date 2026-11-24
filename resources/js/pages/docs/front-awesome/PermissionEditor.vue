@@ -56,7 +56,8 @@ const payload = `{
                     "key": "notebooks::export",
                     "name": "Export CSV",
                     "description": "Download the notebook catalog.",
-                    "icon": "file-export"
+                    "icon": "file-export",
+                    "roleRequirements": [["Publisher"], ["Reviewer"]]
                 }
             ]
         },
@@ -68,6 +69,11 @@ const payload = `{
             "order": "alphabetical",
             "abilities": [
                 {
+                    "key": "role::publisher",
+                    "name": "Publisher",
+                    "description": "Identify a catalog publisher."
+                },
+                {
                     "key": "role::reviewer",
                     "name": "Reviewer",
                     "description": "Identify a catalog reviewer."
@@ -75,11 +81,11 @@ const payload = `{
             ]
         }
     ],
-    "values": { "notebooks::export": false, "role::reviewer": true }
+    "values": { "notebooks::export": false, "role::publisher": true, "role::reviewer": false }
 }`;
 const replace = `{
     "revision": "snapshot-42",
-    "values": { "notebooks::export": true, "role::reviewer": true }
+    "values": { "notebooks::export": true, "role::publisher": true, "role::reviewer": false }
 }`;
 
 const exposed = `<template>
@@ -145,6 +151,12 @@ const editor = useTemplateRef<UserPermissionEditorHandle>('permissionEditor');
                     toggle its value. With a keyboard, focus the row with Tab and press Space. The
                     status badge shows a check when enabled and a cross when disabled. Read-only
                     rows display their status as text.
+                </p>
+                <p>
+                    In Front Awesome <code>1.0.0-beta.11</code>, <strong>Export CSV</strong> shows a
+                    <strong>Requires Publisher and Reviewer</strong> badge with an information icon.
+                    The demo uses the saved Export CSV checkbox to decide access. When connected to
+                    Permit, the badge describes the permission's <code>WithRole</code> rule.
                 </p>
                 <p>
                     Use <strong>Find a permission or role</strong> to search both sections. Search
@@ -219,8 +231,8 @@ const editor = useTemplateRef<UserPermissionEditorHandle>('permissionEditor');
                 </p>
                 <CodeExample label="Advertise the capability" language="php" :code="server" />
                 <p>
-                    On GET, return the selected subject and its complete set of effective assignment
-                    values. Send an opaque revision, <code>canUpdate</code>, and whether the subject
+                    On GET, return the selected subject and the assignment values the operator can
+                    view. Send an opaque revision, <code>canUpdate</code>, and whether the subject
                     is the signed-in user in <code>isCurrentUser</code>. Send sections and abilities
                     in display order. A locked section preserves its provider order in filtered
                     views.
@@ -232,13 +244,23 @@ const editor = useTemplateRef<UserPermissionEditorHandle>('permissionEditor');
                     lowercase, hyphenated Font Awesome names such as <code>book-open</code>. Labels
                     and accordion chevrons stay visible when icons are omitted or fail to load.
                 </p>
+                <p>
+                    With Front Awesome <code>1.0.0-beta.11</code> or later, add optional
+                    <code>roleRequirements</code> to a permission in the GET response. Send an array
+                    of nonempty lists of role display names. The selected user needs one role from
+                    each list. For example,
+                    <code>[["Admin", "Developer"], ["Reviewer"]]</code> displays
+                    <strong>Requires (Admin or Developer) and Reviewer</strong>. Use
+                    <code>null</code> in place of a role name the operator cannot view.
+                </p>
                 <CodeExample label="Example GET response" language="json" :code="payload" />
                 <p>
                     On PUT, the component sends the last revision and an explicit boolean for each
-                    key. Validate the complete key set, apply the update atomically, and return
-                    <code>204</code>. The editor reads the resource again to confirm its latest
-                    values and revision. Return <code>409</code> for an outdated revision and
-                    <code>422</code> for invalid values.
+                    key returned by GET. Check the operator's current access, preserve hidden
+                    assignments, apply the update atomically, and return <code>204</code>. The
+                    editor reads the resource again to confirm its latest values and revision.
+                    Return <code>409</code> for an outdated revision and <code>422</code> for
+                    invalid values.
                 </p>
                 <CodeExample label="Example PUT body" language="json" :code="replace" />
                 <p>

@@ -62,8 +62,10 @@ const readme = 'php vendor/bin/maintainer readme:update --no-interaction';
                 <p>
                     GitHub Actions tests PHP 8.5 and 8.6 on Linux and Windows with the lowest and
                     stable Composer dependency resolutions. If one matrix entry fails, the remaining
-                    entries run to completion. Use the manual <strong>Run workflow</strong> control
-                    on the <strong>Actions</strong> tab to start a fresh run.
+                    entries run to completion. On Windows, PHPStan runs one analysis worker because
+                    Larastan rebuilds the same Testbench service manifest for each worker. Use the
+                    manual <strong>Run workflow</strong> control on the <strong>Actions</strong> tab
+                    to start a fresh run.
                 </p>
                 <p>
                     CI runs the authorization integration test on each PHP version with PostgreSQL

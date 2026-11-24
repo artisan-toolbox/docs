@@ -45,7 +45,12 @@ function sortBySheets(direction) {
 </script>
 
 <template>
-    <DataView :adapter="schedule" :views="views" row-key="id" label="Press schedule">
+    <DataView
+        :adapter="schedule"
+        :views="views"
+        row-key="id"
+        label="Press schedule"
+        class="@max-sm:[--wa-form-control-padding-inline:var(--wa-space-2xs)] @max-sm:[--wa-space-m:var(--wa-space-2xs)]">
         <template #toolbar>
             <div class="@container grid w-full min-w-0 gap-3">
                 <div

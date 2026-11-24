@@ -15,7 +15,7 @@
         "icons:build": "node scripts/build-icons.mjs && node scripts/build-brand-logos.mjs",
         "check": "vp check",
         "check:fix": "vp check --fix",
-        "types:check": "vue-tsc --noEmit",
+        "types:check": "vue-tsc --noEmit && node scripts/check-dapter-reference-types.mjs",
         "test:browser": "node scripts/test-dapter-browser.mjs && node scripts/test-dapter-authority-browser.mjs && node scripts/test-dapter-protocol-browser.mjs && node scripts/test-dapter-boundaries-browser.mjs && node scripts/test-demo-browser.mjs && node scripts/test-application-browser.mjs && node scripts/test-login-browser.mjs && node scripts/test-autofill-browser.mjs && node scripts/test-printing-browser.mjs && node scripts/test-localization-browser.mjs && node scripts/test-preferences-browser.mjs && node scripts/test-dapter-fields-browser.mjs && node scripts/test-dapter-vue-browser.mjs && node scripts/test-dapter-actions-browser.mjs && node scripts/test-dapter-composed-browser.mjs && node scripts/test-dapter-paging-browser.mjs && node scripts/test-dapter-live-browser.mjs && node scripts/test-dapter-infinite-browser.mjs && node scripts/test-dataview-browser.mjs && node scripts/test-dapter-comparisons-browser.mjs && node scripts/test-dapter-literal-research-browser.mjs && node scripts/test-dapter-guides-browser.mjs && node scripts/test-permission-editor-browser.mjs",
         "demos:sync": "node scripts/sync-front-awesome-demos.mjs",
         "demos:check": "node scripts/sync-front-awesome-demos.mjs --check",

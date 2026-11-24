@@ -39,6 +39,7 @@ test('grants and revokes CSV access through the editor revision protocol', funct
         ->assertJsonPath('iconFamily', 'classic')
         ->assertJsonPath('sections.0.icon', 'book-open')
         ->assertJsonPath('sections.0.abilities.0.icon', 'file-export')
+        ->assertJsonPath('sections.0.abilities.0.roleRequirements', [['Publisher'], ['Reviewer']])
         ->assertJsonPath('sections.1.order', 'locked')
         ->assertJsonPath('sections.1.abilities.2.key', 'workflow::publish')
         ->assertJsonMissingPath('sections.1.icon')
@@ -57,6 +58,7 @@ test('grants and revokes CSV access through the editor revision protocol', funct
     $saved = $this->getJson($endpoint)
         ->assertOk()
         ->assertJsonPath('values.notebooks::export', true)
+        ->assertJsonPath('values.role::reviewer', false)
         ->json();
 
     expect($saved['revision'])->not->toBe($initial['revision']);
