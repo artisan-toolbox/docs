@@ -1,9 +1,16 @@
 # Changelog
 
-## Unreleased
+## [1.6.0] - 2026-11-24
 
-- Document Permit role rules and add the role requirement badge to the permission editor demo using Front Awesome `1.0.0-beta.11` and Permit `1.0.0-beta.5`.
-- Compile and check the Dapter reference examples as part of the type check. Keep the press schedule columns within the mobile demo.
+### Documentation
+
+- Explain how Permit checks roles for permission use and restricts who can edit an assignment. Show how to combine role rules and how the editor preserves hidden assignments.
+- Show an information badge in the permission editor demo. Update the app to Front Awesome `1.0.0-beta.11` and Permit `1.0.0-beta.5`, and document the catalog field that supplies the badge text.
+- Keep all three columns in view on narrow screens in the DataView press schedule.
+
+### Continuous Integration
+
+- Check Dapter's valid and invalid TypeScript examples in the type-checking step. Verify the badge and its icon in the permission editor browser test.
 
 ## [1.5.0] - 2026-11-24
 
