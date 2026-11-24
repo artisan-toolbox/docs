@@ -64,7 +64,7 @@ const sources = [
                 <p class="text-sm">
                     {{
                         sidebar && !hasControls
-                            ? 'The standalone controls require the local Front Awesome preview. View source for the complete example.'
+                            ? 'The standalone controls require Front Awesome beta.9 or later. View source for the complete example.'
                             : 'Preview of the first ticket'
                     }}
                 </p>

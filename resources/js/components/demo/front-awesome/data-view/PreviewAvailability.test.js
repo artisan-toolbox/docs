@@ -6,6 +6,7 @@ import { flushPromises } from '@vue/test-utils';
 const api = vi.hoisted(() => ({ props: { adapter: {}, views: {}, rowKey: {} } }));
 vi.mock('@artisan-toolbox/front-awesome/data-view', () => ({ DataView: api }));
 import QueryDemo from './QueryDemo.vue';
+import TableFeedbackDemo from './TableFeedbackDemo.vue';
 import PressroomDemo from './PressroomDemo.vue';
 import PreviewAvailability, { supportsDataViewPreview } from './PreviewAvailability.vue';
 
@@ -33,6 +34,24 @@ it('keeps extended source visible without starting work on the released base', (
     expect(wrapper.find('[data-query-requested]').exists()).toBe(false);
 });
 
+it('keeps the table feedback source available when the installed DataView lacks feedback layouts', () => {
+    const wrapper = mount(TableFeedbackDemo, {
+        global: {
+            stubs: {
+                DemoFrame: {
+                    props: ['sources'],
+                    template:
+                        '<section><slot /><p v-for="source in sources">{{ source.label }}</p></section>',
+                },
+            },
+        },
+    });
+    expect(wrapper.text()).toContain('Table feedback requires Front Awesome beta.10 or later');
+    expect(wrapper.text()).toContain('TableFeedbackSession.vue');
+    expect(wrapper.text()).toContain('EmptyNotebooks.php');
+    expect(wrapper.findComponent(Button).exists()).toBe(false);
+});
+
 it('shows the ticket list source when the installed package lacks standalone controls', () => {
     const wrapper = mount(PressroomDemo, {
         props: {
@@ -50,7 +69,7 @@ it('shows the ticket list source when the installed package lacks standalone con
         },
     });
     expect(wrapper.text()).toContain(
-        'The standalone controls require the local Front Awesome preview.',
+        'The standalone controls require Front Awesome beta.9 or later.',
     );
     expect(wrapper.text()).toContain('Preview ticket');
     expect(wrapper.text()).toContain('PressroomSidebar.vue');

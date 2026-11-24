@@ -16,7 +16,7 @@ final readonly class FrontAwesomeDataViewLayoutsPage extends Page
             slug: self::SLUG,
             component: 'docs/front-awesome/DataViewLayouts',
             title: 'Switch layouts and customize cells',
-            description: 'Present the same accepted results in a table, grid, or list.',
+            description: 'Switch between a table, grid, and list. Customize cells, loading rows, and empty states.',
             sourcePath: 'resources/js/pages/docs/front-awesome/DataViewLayouts.vue',
             package: new FrontAwesomePackage,
         );

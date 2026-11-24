@@ -1,10 +1,16 @@
 import { http } from '@inertiajs/core';
-import { Button, Input, Select } from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import {
+    Button,
+    Checkbox,
+    Input,
+    Select,
+} from '@artisan-toolbox/front-awesome/components/WebAwesome';
 import { enableAutoUnmount, flushPromises, mount } from '@vue/test-utils';
 import { afterEach, beforeEach, expect, it, vi } from 'vite-plus/test';
 import DataViewDemo from './DataViewDemo.vue';
 import * as dataView from '@artisan-toolbox/front-awesome/data-view';
 import PressroomDemo from './PressroomDemo.vue';
+import TableFeedbackDemo from './TableFeedbackDemo.vue';
 import DataViewSession from './DataViewSession.vue';
 import ContextOwner from './ContextOwner.vue';
 import { supportsDataViewPreview } from './PreviewAvailability.vue';
@@ -130,7 +136,9 @@ it('keeps the accepted rows and the pending Dapter request across layout changes
         await click(wrapper, 'Next');
     }
     expect(JSON.parse(request.mock.calls[1][0].data).state.paging.current).toBe(2);
-    expect(wrapper.get('[role="status"]').text()).toContain('Updating results');
+    expect(wrapper.findAll('[role="status"]').map((status) => status.text())).toContainEqual(
+        expect.stringContaining('Updating results'),
+    );
 
     await click(wrapper, 'Grid');
     expect(wrapper.get('li strong').text()).toContain('Notebook 1');
@@ -188,7 +196,80 @@ it('reports a denied source and distinguishes an accepted empty catalog after re
     expect(request).toHaveBeenCalledTimes(1);
     await click(wrapper, 'Start catalog');
     expect(wrapper.find('[role="alert"]').exists()).toBe(false);
-    expect(wrapper.get('[role="status"]').text()).toMatch(/^No (results\.|records yet)$/);
+    expect(wrapper.findAll('[role="status"]').map((status) => status.text())).toContainEqual(
+        expect.stringMatching(/^No (results\.|records yet)$/),
+    );
+});
+
+it('shows table feedback and custom placeholder cells through the notebook demo controls', async () => {
+    const wrapper = mount(TableFeedbackDemo, {
+        global: { stubs: { DemoFrame: { template: '<section><slot /></section>' } } },
+    });
+    expect(request).not.toHaveBeenCalled();
+    const available = Array.isArray(DataView.props)
+        ? DataView.props.includes('stateLayout')
+        : 'stateLayout' in DataView.props;
+    if (!available) {
+        expect(wrapper.text()).toContain('Table feedback requires Front Awesome beta.10 or later');
+        expect(wrapper.findComponent(Button).exists()).toBe(false);
+        return;
+    }
+
+    const pending = Promise.withResolvers();
+    request.mockReturnValueOnce(pending.promise);
+    await click(wrapper, 'Open notebook catalog');
+    const feedbackRow = wrapper.get('tbody td');
+    expect(feedbackRow.attributes('colspan')).toBe('3');
+    expect(feedbackRow.text()).toMatch(/loading/i);
+    const layout = wrapper
+        .findAllComponents(Select)
+        .find((select) => select.vm.$attrs.label === 'Table feedback');
+    layout.vm.$emit('update:modelValue', 'replace');
+    await flushPromises();
+    expect(wrapper.find('table').exists()).toBe(false);
+
+    wrapper.getComponent(Checkbox).vm.$emit('update:modelValue', true);
+    await flushPromises();
+    expect(wrapper.findAll('thead th')).toHaveLength(3);
+    expect(wrapper.findAll('tbody tr')).toHaveLength(2);
+    for (const row of wrapper.findAll('tbody tr')) {
+        expect(row.findAll('td')).toHaveLength(3);
+        expect(row.findAll('wa-skeleton')).toHaveLength(2);
+    }
+    pending.resolve(json(composed));
+    await flushPromises();
+    expect(wrapper.findAll('tbody tr')).toHaveLength(4);
+
+    const noMatches = structuredClone(composed);
+    noMatches.data = [];
+    noMatches.requested.global.search = { value: 'envelope' };
+    Object.assign(noMatches.paging, { pages: 1, filtered: 0 });
+    request.mockResolvedValueOnce(json(noMatches));
+    await click(wrapper, 'Search for envelopes');
+    expect(wrapper.findAll('tbody tr')).toHaveLength(4);
+    expect(wrapper.findAll('wa-skeleton')).toHaveLength(8);
+    await vi.waitFor(() => expect(wrapper.text()).toContain('No matching records'), {
+        timeout: 3500,
+    });
+    expect(wrapper.find('table').exists()).toBe(false);
+
+    layout.vm.$emit('update:modelValue', 'row');
+    await flushPromises();
+    expect(wrapper.get('tbody td').text()).toContain('No matching records');
+    const clear = Promise.withResolvers();
+    request.mockReturnValueOnce(clear.promise);
+    await click(wrapper, 'Clear search');
+    expect(wrapper.findAll('tbody tr')).toHaveLength(2);
+    clear.resolve(json(composed));
+    await flushPromises();
+
+    const empty = structuredClone(noMatches);
+    empty.requested.global = {};
+    empty.paging.total = 0;
+    request.mockResolvedValueOnce(json(empty));
+    await click(wrapper, 'Open empty catalog');
+    expect(wrapper.get('tbody td').text()).toBe('No records yet');
+    expect(request.mock.calls.at(-1)[0].url).toContain('/dapter/data/FrontAwesome.EmptyNotebooks');
 });
 
 it('opens the Pressroom queue on demand and preserves ticket identity across presentations', async () => {

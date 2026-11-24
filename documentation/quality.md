@@ -1316,3 +1316,30 @@ extension failed to load on PHP 8.6.
 The production build and search index freshness check passed. The local search
 endpoint returned guide sections for `PHP 8.6`. The Dapter coverage check verified
 510 settings and ran the backend and frontend demos.
+
+## DataView table feedback preview on 2026-11-23
+
+The [table feedback example](../resources/js/pages/docs/front-awesome/DataViewLayouts.vue)
+uses the development checkout delivered through Composer. It checks for the new public
+prop before starting a source. With the published beta.9, the example shows its source
+and explains which checkout supports interactive feedback.
+
+From `docs`, a Composer dry run for `artisan-toolbox/*`, Laravel, Inertia and Pest
+proposed Front Awesome beta.9, Inertia Laravel 3.8.0 and five transitive updates.
+The npm dry run for Vue, Inertia, Playwright, Vue Test Utils and Vite Plus reported
+the selected packages up to date. The browser check used an npm package built
+from `vendor/artisan-toolbox/front-awesome` and installed locally with `--no-save`.
+The documentation lockfiles moved to Front Awesome beta.9, which fits the three-column
+schedule at 390 pixels. The other Composer packages retained their locked versions.
+
+Chromium exercised the production build at 390 and 1440 pixels in light and dark
+themes. A delayed notebook search showed four skeleton rows after a four-record page.
+Clearing a search with no matches showed the configured two rows. Opening the empty
+source produced one message cell spanning the two data columns and the selection column.
+Searching the documentation index for `skeleton` returned the `table-feedback` section.
+
+After publication, a targeted Composer update and npm vendor-path refresh moved
+the Front Awesome locks to beta.10. A clean npm install, dependency audit, build,
+search index check, and Maintainer quality checks passed against the published
+package on PHP 8.6. The DataView browser suite verified the table feedback demo
+at both widths in both themes using that package.

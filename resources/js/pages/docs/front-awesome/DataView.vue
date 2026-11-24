@@ -45,15 +45,15 @@ const views = {
                 </p>
                 <ol class="list-decimal space-y-2 pl-5">
                     <li>
-                        Open the support queue. In the development preview, choose
+                        Open the support queue. On beta.9, choose
                         <strong>View options</strong> beside quick search, then open
                         <strong>Filters</strong>. On beta.8, use
                         <strong>Search and filters</strong>.
                     </li>
                     <li>
                         Set <strong>Status</strong> to <strong>Waiting</strong> and choose
-                        <strong>Apply</strong>. In the preview, choose <strong>Done</strong>. Four
-                        of the twelve tickets need a reply.
+                        <strong>Apply</strong>. On beta.9, choose <strong>Done</strong>. Four of the
+                        twelve tickets need a reply.
                     </li>
                     <li>
                         Sort <strong>Reply due</strong> in ascending order. PR-416 is first, due at
@@ -63,8 +63,8 @@ const views = {
                 </ol>
                 <PressroomDemo :preview="pressroomPreview" />
                 <p>
-                    In the preview, remove the <strong>Waiting</strong> badge below quick search to
-                    see all twelve tickets again. When deadlines match,
+                    On beta.9, remove the <strong>Waiting</strong> badge below quick search to see
+                    all twelve tickets again. When deadlines match,
                     <DocsLink
                         :href="
                             findNavigationItem(navigation, 'front-awesome/data-view/ordering')
@@ -90,7 +90,7 @@ const views = {
                     named data route through Ziggy.
                 </p>
                 <p>
-                    This example uses Front Awesome 1.0.0-beta.8 and Dapter 1.0.0-beta.4. This
+                    This example uses Front Awesome 1.0.0-beta.9 and Dapter 1.0.0-beta.4. This
                     guest-accessible source needs a web session and CSRF protection. Reads run
                     without a worker or a broadcaster.
                 </p>

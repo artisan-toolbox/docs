@@ -35,6 +35,20 @@ test('preserves both development URLs and their historical section destinations'
     }
 });
 
+test('distinguishes an empty notebook catalog from a populated catalog without matching notebooks', function () {
+    $this->postJson(route('dapter.data', ['source' => 'FrontAwesome.EmptyNotebooks']), ['version' => 2])
+        ->assertOk()->assertJsonCount(0, 'data')->assertJsonPath('paging.total', 0)->assertJsonPath('paging.filtered', 0);
+
+    $uri = route('dapter.data', ['source' => 'FrontAwesome.Notebooks']);
+    $first = $this->postJson($uri, ['version' => 2])->assertOk()->assertJsonCount(4, 'data');
+    $state = $first->json('requested');
+    $state['fields'] = new stdClass;
+    $state['global'] = ['search' => ['value' => 'envelope']];
+
+    $this->postJson($uri, ['version' => 2, 'state' => $state])
+        ->assertOk()->assertJsonCount(0, 'data')->assertJsonPath('paging.total', 6)->assertJsonPath('paging.filtered', 0);
+});
+
 test('selects exact stock marks and returns distinct stationery records through the public adapter', function (mixed $mark, int $id) {
     $uri = route('dapter.data', ['source' => 'FrontAwesome.Notebooks']);
     $this->postJson($uri, ['version' => 2])->assertOk()->assertJsonPath('capabilities.global.filters.mark.values', [null, false, 0, '0', '', ' ']);

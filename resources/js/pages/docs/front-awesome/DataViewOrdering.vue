@@ -50,11 +50,10 @@ defineProps({
                     Choose <strong>Smallest run first</strong>. Coffee sleeves and Foil invitations
                     now lead the 10:00 group. Both need 500 sheets, so job 201 stays ahead of job
                     204. Choose <strong>Remove run size</strong> to keep only the deadline sort.
-                    Applied order reports the terms the server accepted. In the development
-                    checkout, numbered squares mark the first and second columns beside their
-                    direction arrows. Removing the second sort also removes the priority markers. If
-                    a kit lacks the icon, or a priority exceeds nine, the header shows its number in
-                    a square.
+                    Applied order reports the terms the server accepted. On beta.9, numbered squares
+                    mark the first and second columns beside their direction arrows. Removing the
+                    second sort also removes the priority markers. If a kit lacks the icon, or a
+                    priority exceeds nine, the header shows its number in a square.
                 </p>
                 <p>
                     You can also use the column headers. With <strong>Due</strong> as the only sort,
@@ -74,7 +73,7 @@ defineProps({
             >
             <ProseSection id="sort-priority" title="Choose fields and priority">
                 <p>
-                    Start the composed catalog. In the development preview, open
+                    Start the composed catalog. On beta.9, open
                     <strong>View options</strong> and choose <strong>Sort</strong>. Open
                     <strong>Ordering</strong> in beta.8. Choose Natural ascending for the name
                     field. Within the first fixed rank, Notebook 2 precedes Notebook 10. Add
@@ -108,7 +107,7 @@ defineProps({
                     language="js"
                     :code="configuration" />
                 <p>
-                    In the development checkout, sortable headers use Font Awesome classic solid
+                    On beta.9, sortable headers use Font Awesome classic solid
                     <code>arrow-down-a-z</code> for ascending and <code>arrow-up-z-a</code> for
                     descending. An unordered sortable column uses <code>up-down</code>. Beta.8 uses
                     <code>sort-up</code> and <code>sort-down</code> for the two directions.
@@ -147,9 +146,9 @@ defineProps({
                     Choose <strong>Newest first</strong> in <strong>Order preset</strong> to replace
                     the active terms. Inspect the requested state for the preset ID. Manual field
                     ordering shows <strong>No preset</strong>. Clearing a preset leaves manual field
-                    terms alone. In the preview, remove a sort indicator above the results to clear
-                    that term. Choose <strong>Reset to source defaults</strong> to restore the
-                    source order. Fixed rank and identity tie-breakers belong to the server. See
+                    terms alone. On beta.9, remove a sort indicator above the results to clear that
+                    term. Choose <strong>Reset to source defaults</strong> to restore the source
+                    order. Fixed rank and identity tie-breakers belong to the server. See
                     <DocsLink :href="findNavigationItem(navigation, 'dapter/multi-order').href"
                         >multi-order declarations</DocsLink
                     >.

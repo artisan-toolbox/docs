@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Add a runnable DataView table feedback example for Front Awesome beta.10. Try loading, empty sources, no matching records, and skeleton rows in both table feedback layouts. The layout guide and API reference explain each option and its default.
+
 ## [1.4.0] - 2026-11-21
 
 ### Features

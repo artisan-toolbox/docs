@@ -96,6 +96,87 @@ async function captureDemo(page, frame, width, filename) {
     await page.screenshot({ path });
 }
 
+async function verifyTableFeedback(page, width, theme) {
+    const demo = page.getByTestId('table-feedback');
+    const open = demo.getByRole('button', { name: 'Open notebook catalog', exact: true });
+    if (!(await open.count())) {
+        await demo.getByText(/requires Front Awesome beta.10 or later/).waitFor();
+        return;
+    }
+    const inventory = demo.getByRole('region', { name: 'Notebook inventory', exact: true }).first();
+    const source = 'FrontAwesome.Notebooks';
+    const screenshot = (state) =>
+        inventory.screenshot({ path: resolve(artifacts, `${width}-${theme}-${state}.png`) });
+    async function duringRead(action, inspect) {
+        let release;
+        const pending = new Promise((done) => {
+            release = done;
+        });
+        await page.route(
+            `**/dapter/data/${source}`,
+            async (route) => {
+                await pending;
+                await route.continue();
+            },
+            { times: 1 },
+        );
+        const response = page.waitForResponse(sourceResponse(source));
+        try {
+            await action.click();
+            await inspect();
+        } finally {
+            release();
+        }
+        assert.equal((await response).status(), 200);
+    }
+    await duringRead(open, async () => {
+        const cell = inventory.getByRole('cell').filter({ hasText: 'Loading results' });
+        await cell.locator('wa-spinner').waitFor();
+        assert.equal(await cell.getAttribute('colspan'), '3');
+        await screenshot('loading');
+    });
+    await inventory.getByRole('cell', { name: 'Notebook 10', exact: true }).waitFor();
+    await choose(demo, 'Table feedback', 'Replace the table');
+    await demo.getByRole('checkbox', { name: 'Use skeleton rows' }).press('Space');
+    const skeletonRows = inventory.locator('tbody tr').filter({ has: page.locator('wa-skeleton') });
+    await duringRead(demo.getByRole('button', { name: 'Search for envelopes' }), async () => {
+        await skeletonRows.nth(3).waitFor();
+        assert.equal(await skeletonRows.count(), 4);
+        assert.equal(await skeletonRows.first().locator('td').count(), 3);
+        const cellPadding = await skeletonRows
+            .first()
+            .locator('td')
+            .evaluateAll((cells) => cells.map((cell) => getComputedStyle(cell).paddingInlineStart));
+        assert.equal(new Set(cellPadding).size, 1, 'Skeleton cells use the table row padding');
+        const bar = await skeletonRows
+            .first()
+            .locator('wa-skeleton [part="indicator"]')
+            .first()
+            .boundingBox();
+        assert(bar && bar.width > 0 && bar.height > 0);
+        await screenshot('skeleton');
+    });
+    await inventory.getByText('No matching records', { exact: true }).waitFor();
+    assert.equal(await inventory.locator('table').count(), 0);
+    await inventory
+        .getByText('Try a different search or adjust your filters.', { exact: true })
+        .waitFor();
+    await inventory.locator('wa-icon[name="magnifying-glass"] svg path').waitFor();
+    await screenshot('no-matches');
+    await duringRead(demo.getByRole('button', { name: 'Clear search' }), async () => {
+        await skeletonRows.first().waitFor();
+        assert.equal(await skeletonRows.count(), 2);
+    });
+    await read(page, demo, 'Open empty catalog', 'FrontAwesome.EmptyNotebooks');
+    await inventory.getByText('No records yet', { exact: true }).waitFor();
+    await choose(demo, 'Table feedback', 'Keep column headings');
+    const empty = inventory.getByRole('cell').filter({ hasText: 'No records yet' });
+    await empty.waitFor();
+    assert.equal(await empty.getAttribute('colspan'), '3');
+    await empty.locator('wa-icon[name="table-columns"] svg path').waitFor();
+    await screenshot('empty');
+}
+
 async function verifyShortFinalPage(page, reads) {
     const table = page.getByTestId('data-view-first');
     const source = 'Dapter.Quickstart';
@@ -326,16 +407,15 @@ async function verifyPressroom(page, reads, width, theme) {
             .evaluateAll((items) => items.map((item) => Number(item.dataset.ticket)));
     }
     const sortedReads = reads.length;
+    const firstTicket = queue
+        .getByRole('list', { name: 'Support tickets', exact: true })
+        .getByRole('listitem')
+        .first();
     for (const layout of ['List', 'Grid', 'Table']) {
         await chooseLayout(queue, layout);
         assert.deepEqual(await displayedTickets(), ids);
-        if (layout === 'List')
-            await queue
-                .locator('li')
-                .first()
-                .getByText(/The copper foil/)
-                .waitFor();
-        if (layout === 'Grid') await queue.locator('li').first().getByText('Ravi Shah').waitFor();
+        if (layout === 'List') await firstTicket.getByText(/The copper foil/).waitFor();
+        if (layout === 'Grid') await firstTicket.getByText('Ravi Shah').waitFor();
     }
     assert.equal(reads.length, sortedReads);
     if (width === 390) await chooseLayout(queue, 'List');
@@ -372,7 +452,7 @@ async function verifyPressroomSidebar(page, reads, width, theme) {
     await demo.getByRole('heading', { name: 'Ticket requests', exact: true }).waitFor();
     if (
         await demo
-            .getByText(/The standalone controls require the local Front Awesome preview/)
+            .getByText(/The standalone controls require Front Awesome beta.9 or later/)
             .count()
     ) {
         assert.notEqual(
@@ -381,7 +461,7 @@ async function verifyPressroomSidebar(page, reads, width, theme) {
             'The requested standalone controls are unavailable',
         );
         await demo
-            .getByText(/The standalone controls require the local Front Awesome preview/)
+            .getByText(/The standalone controls require Front Awesome beta.9 or later/)
             .waitFor();
         return;
     }
@@ -574,6 +654,7 @@ try {
                 }
                 if (expectedApi === 'candidate') await verifyPressroom(page, reads, width, theme);
                 await openGuide('layouts');
+                await verifyTableFeedback(page, width, theme);
                 if (expectedApi === 'candidate')
                     await verifyPressroomSidebar(page, reads, width, theme);
                 const layoutReads = reads.length;

@@ -21,7 +21,7 @@ it('places both installations before a runnable published first table with the n
     for (const slug of ['front-awesome/installation', 'dapter/installation']) {
         expect(intro.querySelector(`a[href="/docs/${slug}"]`)).toBeTruthy();
     }
-    expect(wrapper.text()).toContain('Front Awesome 1.0.0-beta.8 and Dapter 1.0.0-beta.4');
+    expect(wrapper.text()).toContain('Front Awesome 1.0.0-beta.9 and Dapter 1.0.0-beta.4');
     expect(wrapper.text()).toContain('Notebook 11 through Notebook 20');
     expect(wrapper.find('a[href="/docs/front-awesome/data-view/layouts"]').exists()).toBe(true);
     const code = wrapper
@@ -44,6 +44,8 @@ it('indexes source, behaviors, and contracts on the registered page and visible 
     for (const [path, text, anchor] of [
         ['', "useDataAdapter('Dapter.Quickstart'", 'show-a-table'],
         ['', 'class Quickstart extends CollectionDataSource', 'create-a-source'],
+        ['layouts', 'No matching records', 'table-feedback'],
+        ['reference', 'preserveSkeletonRows', 'dapter-coverage'],
         ['layouts', 'A field column reads a decoded property', 'columns-and-slots'],
         ['query-controls', 'Numeric zero selects Notebook 7', 'typed-choices'],
         ['selection', 'record_id, line_id', 'joined-occurrences'],

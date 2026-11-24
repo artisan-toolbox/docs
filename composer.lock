@@ -353,16 +353,16 @@
         },
         {
             "name": "artisan-toolbox/front-awesome",
-            "version": "1.0.0-beta.8",
+            "version": "1.0.0-beta.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/front-awesome.git",
-                "reference": "37abb475392d69c7c33207d5318dfacfb21ba680"
+                "reference": "886c2e336afe014b11d8d9914fd5fb192a07cfbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/front-awesome/zipball/37abb475392d69c7c33207d5318dfacfb21ba680",
-                "reference": "37abb475392d69c7c33207d5318dfacfb21ba680",
+                "url": "https://api.github.com/repos/artisan-toolbox/front-awesome/zipball/886c2e336afe014b11d8d9914fd5fb192a07cfbe",
+                "reference": "886c2e336afe014b11d8d9914fd5fb192a07cfbe",
                 "shasum": ""
             },
             "require": {
@@ -425,7 +425,7 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/front-awesome/issues",
-                "source": "https://github.com/artisan-toolbox/front-awesome/tree/1.0.0-beta.8"
+                "source": "https://github.com/artisan-toolbox/front-awesome/tree/1.0.0-beta.10"
             },
             "funding": [
                 {
@@ -433,8 +433,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-21T00:28:05+00:00",
-            "published-time": "2026-11-21T00:31:29+00:00"
+            "time": "2026-11-24T00:13:10+00:00",
+            "published-time": "2026-11-24T00:16:42+00:00"
         },
         {
             "name": "artisan-toolbox/maintainer",
