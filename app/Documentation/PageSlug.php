@@ -3,6 +3,7 @@
 namespace App\Documentation;
 
 use App\Documentation\Pages\ChoosePackagePage;
+use App\Documentation\Pages\CoreBrasilianValuesPage;
 use App\Documentation\Pages\CoreConditionalArraysPage;
 use App\Documentation\Pages\CoreInstallationPage;
 use App\Documentation\Pages\CoreMultiDomainInertiaPage;
@@ -196,6 +197,7 @@ enum PageSlug: string
     case CoreConditionalArrays = 'core/conditional-arrays';
     case CoreMultiDomainInertia = 'core/multi-domain-inertia';
     case CoreTranslatedAttributes = 'core/translated-attributes';
+    case CoreBrasilianValues = 'core/brazilian-values';
 
     case Dapter = 'dapter';
     case DapterInstallation = 'dapter/installation';
@@ -484,6 +486,7 @@ enum PageSlug: string
             self::CoreConditionalArrays => new CoreConditionalArraysPage,
             self::CoreMultiDomainInertia => new CoreMultiDomainInertiaPage,
             self::CoreTranslatedAttributes => new CoreTranslatedAttributesPage,
+            self::CoreBrasilianValues => new CoreBrasilianValuesPage,
             self::DumpToConsole => new DumpToConsolePage,
             self::Filoquent => new FiloquentPage,
             self::FiloquentInstallation => new FiloquentInstallationPage,

@@ -44,13 +44,20 @@ test('orders package guides by learning prerequisites rather than their titles',
     expect(packageGuideSlugs($package))->toBe(array_map(fn (string $guide): string => $package.'/'.$guide, $guides));
 })->with([
     'maintainer' => ['maintainer', ['installation', 'configuration', 'ci', 'versioning', 'deployment', 'commands', 'development']],
-    'core' => ['core', ['installation', 'conditional-arrays', 'multi-domain-inertia', 'translated-attributes']],
+    'core' => ['core', ['installation', 'conditional-arrays', 'multi-domain-inertia', 'translated-attributes', 'brazilian-values']],
     'filoquent' => ['filoquent', ['installation', 'files', 'middleware', 'assets', 'configuration', 'health', 'garbage-collection', 'storage', 'rename-owners', 'development']],
     'dump-to-console' => ['dump-to-console', ['installation', 'usage']],
     'mosaicast' => ['mosaicast', ['installation', 'vue-plugin', 'inertia-delivery', 'session-channels', 'roadmap']],
     'front-awesome' => ['front-awesome', ['installation', 'web-awesome', 'setup', 'localization', 'preferences', 'styling', 'toasts', 'printing', 'data-view', 'user-permission-editor', 'development']],
     'qztray' => ['qztray', ['installation', 'security', 'connection', 'printing', 'escpos-writer', 'escpos-previews', 'zpl-previews', 'pdf-previews', 'compatibility', 'frontend-tooling', 'development']],
 ]);
+
+test('serves the Brazilian values guide under Core', function () {
+    $this->withoutVite()->get('/docs/core/brazilian-values')->assertOk()->assertInertia(fn (Assert $page) => $page
+        ->component('docs/core/BrasilianValues')
+        ->where('page.title', 'Validate Brazilian Documents and Phone Numbers')
+    );
+});
 
 test('places setup and inspection before their dependent maintainer actions', function () {
     $maintainer = collect(resolve(Documentation::class)->navigation(PageSlug::Maintainer))->firstWhere('slug', 'maintainer');

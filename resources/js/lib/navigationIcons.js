@@ -19,6 +19,7 @@ const guideIcons = {
     [`${dataViewSlug}/adapter-state`]: 'clock-rotate-left',
     [`${dataViewSlug}/live-updates`]: 'arrows-rotate',
     [`${dataViewSlug}/reference`]: 'file-code',
+    'core/brazilian-values': 'id-card',
     'filoquent/files': 'file-arrow-up',
     'filoquent/middleware': 'filter',
     'filoquent/assets': 'layer-group',

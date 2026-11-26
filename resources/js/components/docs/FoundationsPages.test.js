@@ -17,7 +17,10 @@ import { sourceNavigation } from './sourceNavigationFixture';
 import { expectLegacyLinks } from './front-awesome/legacyParity';
 
 const allowedExtraLinks = {
-    core: [{ slug: 'core/installation', text: 'Install Core' }],
+    core: [
+        { slug: 'core/installation', text: 'Install Core' },
+        { slug: 'core/brazilian-values', text: 'Validate Brazilian documents and phone numbers' },
+    ],
     'dump-to-console': [
         {
             slug: 'dump-to-console/installation',
@@ -187,13 +190,14 @@ describe('Core, Dump to Console, and Mosaicast documentation', () => {
                 )
                 .map((paragraph) => normalize(paragraph.text()));
             const extraParagraphs = (allowedExtraLinks[fixture.slug] ?? [])
-                .filter((link) => link.slug)
+                .filter((link) => link.slug?.endsWith('/installation'))
                 .map(
                     (link) =>
                         `Follow ${link.text} for the complete setup and a first working example.`,
                 );
             if (fixture.slug === 'core') {
                 extraParagraphs.push(
+                    'Validate Brazilian documents and phone numbers with typed values and Laravel rules. Available in the Core development preview.',
                     'Run the checks from the Core checkout with PHP 8.5 or 8.6, Composer, and Git. The distribution check also needs the PHP Zip extension and access to the Composer dependency registry.',
                     "The commands below describe the Maintainer 1.14.4 integration on Core's 1.x branch.",
                     "composer test runs composer quality:check and type coverage. The quality check uses Maintainer's strict mode for PHPStan, Pint, and Pest. It fails if a required tool cannot run. Pest runs serially by default for this small suite. Set MAINTAINER_PEST_PARALLEL=true to try two workers on Unix.",
