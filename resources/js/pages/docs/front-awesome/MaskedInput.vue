@@ -45,6 +45,27 @@ const cpf = ref('');
     <MaskedInput v-model="cpf" :mask="useMaskTemplate().Brazilian.cpf()" label="CPF" name="cpf" />
 </template>`;
 
+const globalMaskExample = `<template>
+    <MaskedInput v-model="cpf" :mask="$maskTemplates.Brazilian.cpf()" label="CPF" />
+    <MaskedInput v-model="postalCode" :mask="postalCodeMask" label="Brazilian postal code" />
+</template>
+
+<script>
+import { MaskedInput } from '@artisan-toolbox/front-awesome';
+
+export default {
+    components: { MaskedInput },
+    data() {
+        return { cpf: '', postalCode: '' };
+    },
+    computed: {
+        postalCodeMask() {
+            return this.$maskTemplates.Brazilian.cep();
+        },
+    },
+};
+\x3C/script>`;
+
 const shelfExample = `<script setup lang="ts">
 import { ref } from 'vue';
 import { MaskedInput, type MaskTemplate } from '@artisan-toolbox/front-awesome';
@@ -166,6 +187,26 @@ const identifierRows = [
                 :sources="[{ label: 'Vue example', language: 'vue', code: templateDemoSource }]">
                 <MaskTemplatesDemo />
             </DemoFrame>
+            <h3 id="use-mask-templates-through-the-vue-plugin">
+                Use mask templates through the Vue plugin
+            </h3>
+            <p>
+                After you
+                <DocsLink href="/docs/front-awesome/vue-plugin"
+                    >register the Front Awesome plugin</DocsLink
+                >, use <code>$maskTemplates</code> in Vue templates and
+                <code>this.$maskTemplates</code> in Options API methods and computed properties.
+                Both expose the same catalog as <code>useMaskTemplate()</code>.
+            </p>
+            <CodeExample
+                label="Use the Vue mask catalog"
+                language="vue"
+                :code="globalMaskExample" />
+            <p>
+                Enter <code>01234567890</code> and <code>01310100</code>. The fields show
+                <code>012.345.678-90</code> and <code>01310-100</code>. The two models keep the
+                original digit strings.
+            </p>
             <h3 id="choose-a-brazilian-document-template">
                 Choose a Brazilian document or postal code
             </h3>
