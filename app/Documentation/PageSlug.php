@@ -109,6 +109,7 @@ use App\Documentation\Pages\FrontAwesomeInstallationPage;
 use App\Documentation\Pages\FrontAwesomeLayoutPage;
 use App\Documentation\Pages\FrontAwesomeLocalizationPage;
 use App\Documentation\Pages\FrontAwesomeLocalizationReferencePage;
+use App\Documentation\Pages\FrontAwesomeMaskedInputPage;
 use App\Documentation\Pages\FrontAwesomeMediaPage;
 use App\Documentation\Pages\FrontAwesomeNavigationPage;
 use App\Documentation\Pages\FrontAwesomePage;
@@ -283,6 +284,7 @@ enum PageSlug: string
     case FrontAwesomeComponents = 'front-awesome/web-awesome/components';
     case FrontAwesomeActions = 'front-awesome/web-awesome/components/actions';
     case FrontAwesomeForms = 'front-awesome/web-awesome/components/forms';
+    case FrontAwesomeMaskedInput = 'front-awesome/web-awesome/components/forms/masked-input';
     case FrontAwesomeLayout = 'front-awesome/web-awesome/components/layout';
     case FrontAwesomeNavigation = 'front-awesome/web-awesome/components/navigation';
     case FrontAwesomeFeedback = 'front-awesome/web-awesome/components/feedback';
@@ -504,6 +506,7 @@ enum PageSlug: string
             self::FrontAwesomeComponents => new FrontAwesomeComponentsPage,
             self::FrontAwesomeActions => new FrontAwesomeActionsPage,
             self::FrontAwesomeForms => new FrontAwesomeFormsPage,
+            self::FrontAwesomeMaskedInput => new FrontAwesomeMaskedInputPage,
             self::FrontAwesomeLayout => new FrontAwesomeLayoutPage,
             self::FrontAwesomeNavigation => new FrontAwesomeNavigationPage,
             self::FrontAwesomeFeedback => new FrontAwesomeFeedbackPage,

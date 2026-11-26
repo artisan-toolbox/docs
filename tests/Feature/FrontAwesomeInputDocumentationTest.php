@@ -12,3 +12,12 @@ test('serves the canonical forms guide with package metadata and its source dest
             ->where('page.sourceUrl', 'https://github.com/artisan-toolbox/docs/blob/1.x/resources/js/pages/docs/front-awesome/web-awesome/components/Forms.vue')
         );
 });
+
+test('serves the masked text guide under forms', function () {
+    $this->withoutVite()->get('/docs/front-awesome/web-awesome/components/forms/masked-input')->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('docs/front-awesome/MaskedInput')
+            ->where('page.slug', 'front-awesome/web-awesome/components/forms/masked-input')
+            ->where('page.package.composerName', 'artisan-toolbox/front-awesome')
+        );
+});

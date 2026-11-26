@@ -500,6 +500,12 @@ defineProps({
             <ComponentCatalog group="forms" :navigation="navigation" />
         </ProseSection>
         <ProseSection id="input" title="Input">
+            <p>
+                To format postal codes, document numbers, or phone numbers as users type, see
+                <DocsLink href="/docs/front-awesome/web-awesome/components/forms/masked-input"
+                    >MaskedInput</DocsLink
+                >.
+            </p>
             <InputContent :navigation="navigation">
                 <DemoFrame
                     data-catalog-demo="Input"

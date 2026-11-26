@@ -34,6 +34,7 @@ const guideIcons = {
     'front-awesome/preferences/currency': 'coins',
     'front-awesome/toasts/laravel': 'paper-plane',
     'front-awesome/toasts/vue': 'message',
+    'front-awesome/web-awesome/components/forms/masked-input': 'keyboard',
     'front-awesome/printing/reference': 'file-code',
     'front-awesome/user-permission-editor': 'user-shield',
     'maintainer/ci': 'clipboard-check',
