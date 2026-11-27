@@ -326,8 +326,10 @@ try {
                     state: 'hidden',
                 });
                 await search.press('ArrowDown');
-                await nativeTransition(select, 'wa-after-hide', () => page.keyboard.press('Enter'));
+                assert.equal(await result.evaluate((option) => option.matches(':focus')), true);
+                await page.keyboard.press('Enter');
                 await output.filter({ hasText: 'Selected city ID: 2 (number)' }).waitFor();
+                await search.waitFor({ state: 'detached' });
 
                 await frame
                     .getByRole('checkbox', { name: 'Match case and accents' })
