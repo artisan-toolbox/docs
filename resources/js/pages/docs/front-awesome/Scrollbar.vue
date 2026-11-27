@@ -39,7 +39,7 @@ const usage = `<template>
 const demoSource = `<script setup>
 import { computed, h, ref, withDirectives } from 'vue';
 import * as frontAwesome from '@artisan-toolbox/front-awesome';
-import { Option, Select } from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import { Select } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 import DocsCallout from '@/components/docs/DocsCallout.vue';
 
 const scrollbarDirective = Reflect.get(frontAwesome, 'scrollbarDirective');
@@ -92,21 +92,32 @@ Preview.props = ['mode', 'variant', 'options'];
 <template>
     <div class="grid min-w-0 gap-4">
         <div v-if="scrollbarDirective" class="grid min-w-0 gap-3 @lg:grid-cols-3">
-            <Select v-model="variant" label="Thumb color">
-                <Option v-for="color in variants" :key="color" :value="color.toLowerCase()">
-                    {{ color }}
-                </Option>
-            </Select>
-            <Select v-model="autoHide" label="Auto-hide">
-                <Option value="never">Never</Option>
-                <Option value="scroll">After scrolling</Option>
-                <Option value="leave">When the pointer leaves</Option>
-            </Select>
-            <Select v-model="trackClick" label="Track clicks">
-                <Option value="instant">Jump to position</Option>
-                <Option value="page">Scroll by a page</Option>
-                <Option value="none">Ignore track clicks</Option>
-            </Select>
+            <Select
+                v-model="variant"
+                label="Thumb color"
+                option-value="value"
+                option-label="label"
+                :options="variants.map((label) => ({ value: label.toLowerCase(), label }))" />
+            <Select
+                v-model="autoHide"
+                label="Auto-hide"
+                option-value="value"
+                option-label="label"
+                :options="[
+                    { value: 'never', label: 'Never' },
+                    { value: 'scroll', label: 'After scrolling' },
+                    { value: 'leave', label: 'When the pointer leaves' },
+                ]" />
+            <Select
+                v-model="trackClick"
+                label="Track clicks"
+                option-value="value"
+                option-label="label"
+                :options="[
+                    { value: 'instant', label: 'Jump to position' },
+                    { value: 'page', label: 'Scroll by a page' },
+                    { value: 'none', label: 'Ignore track clicks' },
+                ]" />
         </div>
         <DocsCallout v-else variant="note" data-scrollbar-preview-required>
             <template #title>Front Awesome beta.4 required</template>

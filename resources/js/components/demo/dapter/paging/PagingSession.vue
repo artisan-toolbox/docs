@@ -1,12 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { DataAdapter, useDataAdapter } from '@artisan-toolbox/dapter';
-import {
-    Button,
-    Input,
-    Select,
-    Option,
-} from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import { Button, Input, Select } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 import CodeExample from '@/components/docs/CodeExample.vue';
 const props = defineProps({ source: { type: String, required: true }, recovery: Boolean });
 const catalog = useDataAdapter(props.source, {
@@ -105,15 +100,9 @@ async function changeFixture(action) {
             </div>
             <Select
                 label="Notebooks per page"
-                :model-value="String(view.paging.per_page.value ?? 2)"
-                @update:model-value="view.paging.per_page.setValue(Number($event))">
-                <Option
-                    v-for="size in view.paging.per_page.options"
-                    :key="size"
-                    :value="String(size)"
-                    >{{ size }}</Option
-                >
-            </Select>
+                :model-value="view.paging.per_page.value ?? 2"
+                @update:model-value="view.paging.per_page.setValue($event)"
+                :options="view.paging.per_page.options" />
             <Input
                 v-if="view.fields?.name?.search"
                 label="Notebook name"

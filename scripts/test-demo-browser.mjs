@@ -281,6 +281,107 @@ try {
             );
             const full = await viewport.boundingBox();
             assert(full.width >= compact.width, `${item.name} restores the available width`);
+            if (item.implementation.export === 'Select') {
+                const select = frame.locator('wa-select');
+                const search = select.locator('wa-input input');
+                const result = select.getByRole('option', { name: 'São Paulo', exact: true });
+                const output = frame.locator('[data-demo-viewport] output');
+                const northeast = select.getByText('Northeast', { exact: true });
+                const southeast = select.getByText('Southeast', { exact: true });
+                const divider = select.locator('wa-divider:visible');
+
+                await select.click();
+                await northeast.waitFor({ state: 'visible' });
+                await southeast.waitFor({ state: 'visible' });
+                await divider.waitFor({ state: 'visible' });
+                await search.fill('Southeast');
+                await select
+                    .getByRole('status')
+                    .filter({ hasText: 'No matching results' })
+                    .waitFor();
+                await northeast.waitFor({ state: 'hidden' });
+                await southeast.waitFor({ state: 'hidden' });
+                await divider.waitFor({ state: 'hidden' });
+                await search.fill('Paulo');
+                await result.waitFor({ state: 'visible' });
+                await southeast.waitFor({ state: 'visible' });
+                await northeast.waitFor({ state: 'hidden' });
+                await divider.waitFor({ state: 'hidden' });
+                await output.filter({ hasText: 'Selected city ID: 1 (number)' }).waitFor();
+                await search.fill('');
+                await northeast.waitFor({ state: 'visible' });
+                await divider.waitFor({ state: 'visible' });
+                await search.fill('sao');
+                await result.waitFor({ state: 'visible' });
+                await northeast.waitFor({ state: 'visible' });
+                await southeast.waitFor({ state: 'visible' });
+                await divider.waitFor({ state: 'visible' });
+                assert.equal(
+                    await select
+                        .getByRole('option', { name: 'São Luís', exact: true })
+                        .getAttribute('aria-disabled'),
+                    'true',
+                );
+                await select.getByRole('option', { name: 'Salvador', exact: true }).waitFor({
+                    state: 'hidden',
+                });
+                await search.press('ArrowDown');
+                await nativeTransition(select, 'wa-after-hide', () => page.keyboard.press('Enter'));
+                await output.filter({ hasText: 'Selected city ID: 2 (number)' }).waitFor();
+
+                await frame
+                    .getByRole('checkbox', { name: 'Match case and accents' })
+                    .press('Space');
+                await select.click();
+                await search.fill('sao');
+                await select
+                    .getByRole('status')
+                    .filter({ hasText: 'No matching results' })
+                    .waitFor();
+                await result.waitFor({ state: 'hidden' });
+                await output.filter({ hasText: 'Selected city ID: 2 (number)' }).waitFor();
+                await search.fill('São');
+                await result.waitFor({ state: 'visible' });
+                await search.press('Escape');
+                await search.waitFor({ state: 'hidden' });
+                formWorkflows++;
+            }
+            if (item.implementation.export === 'Option') {
+                const select = frame.locator('wa-select');
+                await select.click();
+                assert.equal(
+                    await select
+                        .getByRole('option', { name: 'Flavored (unavailable)' })
+                        .getAttribute('aria-disabled'),
+                    'true',
+                );
+                await select.getByRole('option', { name: 'Sparkling', exact: true }).click();
+                await frame
+                    .locator('[data-demo-viewport] output')
+                    .filter({ hasText: 'Selected water: sparkling' })
+                    .waitFor();
+                formWorkflows++;
+            }
+            if (item.implementation.export === 'Combobox') {
+                const combobox = frame.locator('wa-combobox');
+                const input = combobox.getByRole('combobox');
+                const output = frame.locator('[data-demo-viewport] output');
+                const foundations = combobox.getByText('Foundations', { exact: true });
+                const frontend = combobox.getByText('Frontend', { exact: true });
+                const divider = combobox.locator('wa-divider:visible');
+                await input.press('ArrowDown');
+                await foundations.waitFor({ state: 'visible' });
+                await frontend.waitFor({ state: 'visible' });
+                await divider.waitFor({ state: 'visible' });
+                await input.fill('front');
+                await frontend.waitFor({ state: 'visible' });
+                await foundations.waitFor({ state: 'hidden' });
+                await divider.waitFor({ state: 'hidden' });
+                await output.filter({ hasText: 'Selected package: core' }).waitFor();
+                await combobox.getByRole('option', { name: 'Front Awesome', exact: true }).click();
+                await output.filter({ hasText: 'Selected package: front-awesome' }).waitFor();
+                formWorkflows++;
+            }
             if (item.implementation.export === 'Pagination') {
                 await frame.getByRole('button', { name: 'Go to page five', exact: true }).click();
                 await frame

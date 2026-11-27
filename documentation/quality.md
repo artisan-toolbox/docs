@@ -159,6 +159,12 @@ To prepare a portable lock:
 5. Run the real quality suite, production build, and search indexing checks. Inspect the actual installed exports. A remote URL and a successful dependency installation do not establish that the application can build.
 6. Only after those checks pass, integrate the verified manifest and lock changes into the application. Retain one release lock, not a parallel production manifest or lock file.
 
+The grouped Select and Combobox demos use a Front Awesome 1.x source preview.
+The Composer requirement excludes beta.11, and the lock records the GitHub
+archive revision. The Front Awesome installation guide lists the published
+beta separately. Run Composer before npm so the frontend build uses the
+locked PHP package's JavaScript sources.
+
 The 2026-11-06 release candidate resolved public archives for Core `1.2.1`, Dump to Console `1.1.1`, Maintainer `1.11.0`, Mosaicast `1.2.1`, QZ Tray `1.3.0`, and Front Awesome `1.0.0-alpha.1`. The Front Awesome archive at commit `a55e06f` supplied the consumed `./vite`, `./tailwind.css`, and `./web-awesome-tailwind` exports and its consumer skill. That candidate permitted `^1.0@dev` for Front Awesome only, with project-wide minimum stability set to `stable`. Composer installation, paired vendor-path npm installation, fresh `npm ci`, the complete quality gate, production build, and search indexing passed in an isolated consumer without sibling packages or private credentials. All six Maintainer checks ran with none skipped. Those locks were the initial release locks. See the current verification below for their replacements; local Composer routing remains unchanged.
 
 All six documented packages are explicit Composer dependencies. Web Awesome Core `3.14.0` is the selected styling dependency; this check does not establish Pro adapter compatibility. Package publication is a separate operator-approved action.

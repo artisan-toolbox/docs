@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { useDataAdapter } from '@artisan-toolbox/dapter';
 import { DataView } from '@artisan-toolbox/front-awesome/data-view';
-import { Details, Option, Select, Tag } from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import { Details, Select, Tag } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 import { columns, decodeNotebook } from './catalog';
 
 const props = defineProps({ source: { type: String, required: true } });
@@ -47,11 +47,16 @@ const layouts = {
         </DataView>
         <Details summary="Layout settings and adapter state" class="min-w-0 text-sm">
             <div class="mt-[0.75rem] flex min-w-0 flex-col gap-[0.75rem]">
-                <Select v-model="preset" label="Configured layouts">
-                    <Option value="all">Table, grid, and list</Option>
-                    <Option value="table">Table only</Option>
-                    <Option value="grid">Grid only</Option>
-                </Select>
+                <Select
+                    v-model="preset"
+                    label="Configured layouts"
+                    option-value="value"
+                    option-label="label"
+                    :options="[
+                        { value: 'all', label: 'Table, grid, and list' },
+                        { value: 'table', label: 'Table only' },
+                        { value: 'grid', label: 'Grid only' },
+                    ]" />
                 <dl class="grid min-w-0 gap-[0.5rem]">
                     <dt class="font-semibold">Requested state</dt>
                     <dd>

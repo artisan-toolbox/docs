@@ -1,11 +1,5 @@
 <script setup>
-import {
-    Button,
-    Option,
-    Select,
-    Spinner,
-    Tag,
-} from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import { Button, Select, Spinner, Tag } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 import { DataGrid } from '@artisan-toolbox/front-awesome/components/WebAwesome/Pro';
 import CodeExample from '@/components/docs/CodeExample.vue';
 import { columns } from './products';
@@ -34,15 +28,9 @@ defineProps({ adapter: { type: Object, required: true } });
                 <Select
                     label="Rows per page"
                     :disabled="adapter.paging.loading"
-                    :model-value="String(adapter.paging.per_page.value)"
-                    @update:model-value="adapter.paging.per_page.setValue(Number($event))">
-                    <Option
-                        v-for="size in adapter.paging.per_page.options"
-                        :key="size"
-                        :value="String(size)"
-                        >{{ size }}</Option
-                    >
-                </Select>
+                    :model-value="adapter.paging.per_page.value"
+                    @update:model-value="adapter.paging.per_page.setValue($event)"
+                    :options="adapter.paging.per_page.options" />
             </div>
             <DataGrid
                 label="Catalog page returned by Dapter"

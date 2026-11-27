@@ -129,11 +129,46 @@ const publishedFixtures = fixtures.map((source) => {
         ];
     }
     if (guide.slug === 'front-awesome/vue-plugin') {
-        guide.links.splice(2, 0, {
-            slug: 'front-awesome/preferences/appearance',
-            hash: '',
-            text: 'Appearance preferences guide',
-        });
+        guide.headings = [
+            {
+                level: 2,
+                id: 'set-default-option-properties',
+                text: 'Set default option properties',
+            },
+            ...guide.headings,
+        ];
+        guide.examples = [
+            guide.examples[0],
+            {
+                language: 'ts',
+                code: "app.use(createFrontAwesome({ optionValue: 'id', optionLabel: 'name' }));",
+            },
+            {
+                language: 'ts',
+                code: `import '@artisan-toolbox/front-awesome';
+
+declare module '@artisan-toolbox/front-awesome' {
+    interface FrontAwesomeOptionTypes {
+        optionValue: 'id';
+    }
+}`,
+            },
+            ...guide.examples.slice(1),
+        ];
+        guide.links.splice(
+            2,
+            0,
+            {
+                slug: 'front-awesome/web-awesome/components/forms',
+                hash: '#select',
+                text: 'Select example',
+            },
+            {
+                slug: 'front-awesome/preferences/appearance',
+                hash: '',
+                text: 'Appearance preferences guide',
+            },
+        );
     }
     if (guide.slug === 'front-awesome/configuration') {
         guide.headings = [

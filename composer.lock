@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7aa1cd9e143110d27f25954eae42edda",
+    "content-hash": "23dd9a8412a0eafe7f446287a1ec0fef",
     "packages": [
         {
             "name": "artisan-toolbox/core",
@@ -353,16 +353,16 @@
         },
         {
             "name": "artisan-toolbox/front-awesome",
-            "version": "1.0.0-beta.11",
+            "version": "1.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/artisan-toolbox/front-awesome.git",
-                "reference": "4f62744d48118c74c4da6c6e19b0407c39f59ff4"
+                "reference": "56222dc08cfce4ec71248a55de9168e58d509e88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/artisan-toolbox/front-awesome/zipball/4f62744d48118c74c4da6c6e19b0407c39f59ff4",
-                "reference": "4f62744d48118c74c4da6c6e19b0407c39f59ff4",
+                "url": "https://api.github.com/repos/artisan-toolbox/front-awesome/zipball/56222dc08cfce4ec71248a55de9168e58d509e88",
+                "reference": "56222dc08cfce4ec71248a55de9168e58d509e88",
                 "shasum": ""
             },
             "require": {
@@ -387,6 +387,7 @@
                 "phpstan/extension-installer": "^1.4",
                 "rector/rector": "^2.6.2"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -425,7 +426,7 @@
             ],
             "support": {
                 "issues": "https://github.com/artisan-toolbox/front-awesome/issues",
-                "source": "https://github.com/artisan-toolbox/front-awesome/tree/1.0.0-beta.11"
+                "source": "https://github.com/artisan-toolbox/front-awesome/tree/1.x"
             },
             "funding": [
                 {
@@ -433,8 +434,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-24T02:21:15+00:00",
-            "published-time": "2026-11-24T02:25:13+00:00"
+            "time": "2026-11-27T01:43:56+00:00",
+            "published-time": "2026-11-27T01:44:23+00:00"
         },
         {
             "name": "artisan-toolbox/maintainer",
@@ -14509,7 +14510,7 @@
     "stability-flags": {
         "artisan-toolbox/dapter": 10,
         "artisan-toolbox/filoquent": 10,
-        "artisan-toolbox/front-awesome": 10,
+        "artisan-toolbox/front-awesome": 20,
         "artisan-toolbox/permit": 10
     },
     "prefer-stable": true,

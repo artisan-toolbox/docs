@@ -1,16 +1,16 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3';
-import {
-    Button,
-    Option,
-    Select,
-    TagInput,
-} from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import { Button, Select, TagInput } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 import { FileInput } from '@artisan-toolbox/front-awesome/components/WebAwesome/Pro';
 
 /** @type {{ country: string | null, topics: string[], attachments: File[] }} */
 const initial = { country: 'br', topics: ['docs'], attachments: [] };
 const form = useForm(initial);
+const countries = [
+    { value: 'br', label: 'Brazil' },
+    { value: 'pt', label: 'Portugal' },
+    { value: 'ca', label: 'Canada' },
+];
 
 function showErrors() {
     form.setError({
@@ -24,10 +24,14 @@ function showErrors() {
 <template>
     <div class="flex min-w-0 flex-col gap-5" data-docs-outline-exclude>
         <div class="min-w-0">
-            <Select :form="form" field="country" label="Country" with-clear
-                ><Option value="br">Brazil</Option><Option value="pt">Portugal</Option
-                ><Option value="ca">Canada</Option></Select
-            >
+            <Select
+                :form="form"
+                field="country"
+                label="Country"
+                :options="countries"
+                option-value="value"
+                option-label="label"
+                with-clear />
         </div>
         <div class="min-w-0">
             <TagInput

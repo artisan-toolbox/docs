@@ -60,17 +60,18 @@ describe('PublicSiteHeader', () => {
 
     it('reports its rendered height when controls wrap or resize, then releases observation', () => {
         let height = 148;
-        let notify;
-        const disconnect = vi.fn();
+        const observers = new Map();
         const onResize = vi.fn();
         vi.stubGlobal(
             'ResizeObserver',
             class {
                 constructor(callback) {
-                    notify = callback;
+                    this.notify = callback;
                 }
-                observe() {}
-                disconnect = disconnect;
+                observe(target) {
+                    observers.set(target, this);
+                }
+                disconnect = vi.fn();
             },
         );
         vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(
@@ -81,6 +82,7 @@ describe('PublicSiteHeader', () => {
             global: { stubs: { AccountLinks: true } },
         });
 
+        const { notify, disconnect } = observers.get(wrapper.get('header').element);
         expect(wrapper.emitted('resize')).toEqual([[148]]);
         height = 88;
         notify();

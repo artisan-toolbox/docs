@@ -1,11 +1,6 @@
 <script setup>
 import { useDataAdapter } from '@artisan-toolbox/dapter';
-import {
-    Button,
-    Input,
-    Option,
-    Select,
-} from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import { Button, Input, Select } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 const props = defineProps({ adapter: { type: Object, required: true } });
 const catalog = useDataAdapter(props.adapter);
 </script>
@@ -98,15 +93,9 @@ const catalog = useDataAdapter(props.adapter);
         <div v-if="catalog.ready" class="w-fit">
             <Select
                 label="Catalog page size"
-                :model-value="String(catalog.paging.per_page.value)"
-                @update:model-value="catalog.paging.per_page.setValue(Number($event))">
-                <Option
-                    v-for="size in catalog.paging.per_page.options"
-                    :key="size"
-                    :value="String(size)"
-                    >{{ size }}</Option
-                >
-            </Select>
+                :model-value="catalog.paging.per_page.value"
+                @update:model-value="catalog.paging.per_page.setValue($event)"
+                :options="catalog.paging.per_page.options" />
         </div>
     </div>
 </template>

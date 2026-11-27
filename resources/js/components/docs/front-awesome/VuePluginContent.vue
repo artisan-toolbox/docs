@@ -10,6 +10,14 @@ const example1 = `import { createFrontAwesome } from "@artisan-toolbox/front-awe
 withApp(app) {
   app.use(createFrontAwesome());
 }`;
+const optionDefaultsExample = `app.use(createFrontAwesome({ optionValue: 'id', optionLabel: 'name' }));`;
+const optionTypesExample = `import '@artisan-toolbox/front-awesome';
+
+declare module '@artisan-toolbox/front-awesome' {
+    interface FrontAwesomeOptionTypes {
+        optionValue: 'id';
+    }
+}`;
 const example2 = `app.use(createFrontAwesome({ appearance: true }));`;
 const example3 = `<template>
   <Appearance v-slot="{ appearance, toggle, system, dark, light }">
@@ -85,6 +93,43 @@ withApp(app, { ssr }) {
             >
             to choose an app-wide color with <code>scrollbar.defaultVariant</code>.
         </p>
+        <h2
+            id="set-default-option-properties"
+            class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
+            Set default option properties
+        </h2>
+        <p>
+            In the 1.x source preview, set <code>optionValue</code> and
+            <code>optionLabel</code> when your Select and Combobox options use the same property
+            names across the app. In this example, each component reads <code>id</code> as its bound
+            value and <code>name</code> as its label unless that component supplies its own
+            mappings.
+        </p>
+        <CodeExample label="Set option defaults" language="ts" :code="optionDefaultsExample" />
+        <p>
+            Both defaults start as <code>undefined</code>, so the item supplies both the value and
+            the label. Pass a different property name on a component to override the corresponding
+            default. Pass <code>null</code> on a component to use the item itself for that mapping.
+            See the
+            <DocsLink
+                :href="
+                    findNavigationItem(navigation, 'front-awesome/web-awesome/components/forms')
+                        .href + '#select'
+                "
+                >Select example</DocsLink
+            >
+            for an array of cities with these properties.
+        </p>
+        <p>
+            If you use TypeScript, pass <code>option-value</code> on the component to infer the
+            bound type from that property. To rely on the plugin default, add the declaration below
+            to a <code>.d.ts</code> file included by your TypeScript project. Keep its
+            <code>optionValue</code> key in sync with the plugin configuration.
+        </p>
+        <CodeExample
+            label="Declare the default option value type"
+            language="ts"
+            :code="optionTypesExample" />
         <h2
             id="add-a-theme-selector"
             class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">

@@ -26,6 +26,7 @@ const groupNames = {
 };
 const slugs = [
     'front-awesome/installation',
+    'front-awesome/vue-plugin',
     'front-awesome/web-awesome',
     'front-awesome/shared-theme',
     'front-awesome/toasts/laravel',

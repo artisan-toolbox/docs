@@ -209,10 +209,12 @@ describe('Core wrapper live examples', () => {
             const wrapper = mount(await demoFor(name));
             await settleDetachedHostUpdates(wrapper);
             const control = wrapper.get(tag);
-            const value = name === 'Select' ? 'front-awesome' : 'preview';
+            const value = name === 'Select' ? '2' : 'preview';
             control.element.value = value;
             await control.trigger('input');
-            expect(wrapper.get('output').text()).toContain(value);
+            expect(wrapper.get('output').text()).toContain(
+                name === 'Select' ? '2 (number)' : value,
+            );
         });
     }
 

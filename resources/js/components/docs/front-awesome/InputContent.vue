@@ -82,17 +82,17 @@ function showErrors() {
 
 const collectionBindingDemoSource = `<script setup>
 import { useForm } from '@inertiajs/vue3';
-import {
-    Button,
-    Option,
-    Select,
-    TagInput,
-} from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import { Button, Select, TagInput } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 import { FileInput } from '@artisan-toolbox/front-awesome/components/WebAwesome/Pro';
 
 /** @type {{ country: string | null, topics: string[], attachments: File[] }} */
 const initial = { country: 'br', topics: ['docs'], attachments: [] };
 const form = useForm(initial);
+const countries = [
+    { value: 'br', label: 'Brazil' },
+    { value: 'pt', label: 'Portugal' },
+    { value: 'ca', label: 'Canada' },
+];
 
 function showErrors() {
     form.setError({
@@ -106,10 +106,14 @@ function showErrors() {
 <template>
     <div class="flex min-w-0 flex-col gap-5" data-docs-outline-exclude>
         <div class="min-w-0">
-            <Select :form="form" field="country" label="Country" with-clear
-                ><Option value="br">Brazil</Option><Option value="pt">Portugal</Option
-                ><Option value="ca">Canada</Option></Select
-            >
+            <Select
+                :form="form"
+                field="country"
+                label="Country"
+                :options="countries"
+                option-value="value"
+                option-label="label"
+                with-clear />
         </div>
         <div class="min-w-0">
             <TagInput
@@ -354,8 +358,8 @@ const valueDomains = [
     ['RadioGroup', 'string | number | null', 'string | number | null'],
     ['Rating', 'number', 'number'],
     ['Slider', 'number | null', 'number'],
-    ['Select, Combobox in single mode', 'string | string[] | null', 'string | null'],
-    ['Select, Combobox with multiple', 'string | string[] | null', 'string[] | null'],
+    ['Select, Combobox in single mode', 'Option value or null', 'Option value or null'],
+    ['Select, Combobox with multiple', 'Array of option values or null', 'Array of option values'],
     ['TagInput', 'string[] | string | FormData | null', 'string[]'],
     ['KnownDate, TimeInput', 'string | Date | null', 'string'],
     ['DateInput', 'string | Date | { from?: Date | null; to?: Date | null } | null', 'string'],
@@ -670,12 +674,12 @@ const valueDomains = [
             TypeScript checks field compatibility in both directions. The field's declared value
             must fit the setter domain and accept every native committed value. A Date-only field
             cannot accept a date control's string output. Declare a wider field when both are
-            required. For controls that can commit null, declare a nullable field, such as
-            <code>string | null</code> for a single Select. Multiple Select and Combobox fields must
-            accept <code>string[] | null</code>. A bound null clears the current selection without
-            replacing its reset default. In multiple mode, the native empty selection reads as an
-            empty array. A plain string or array inferred from an initial value may be too narrow.
-            Optional undefined values are supported only where the control's domain accepts them.
+            required. Select and Combobox derive the field's value type from the options. For
+            numeric option values, use <code>number | null</code> in single mode or
+            <code>number[] | null</code> in multiple mode. Assigning null clears the current
+            selection without replacing its reset default. In multiple mode, clearing the control
+            commits an empty array. Optional undefined values are supported only where the control's
+            domain accepts them.
         </p>
 
         <h3 id="reuse-the-bridge">Reuse the bridge in a text control</h3>

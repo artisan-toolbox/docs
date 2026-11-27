@@ -1,12 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { DataAdapter } from '@artisan-toolbox/dapter';
-import {
-    Button,
-    Input,
-    Option,
-    Select,
-} from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import { Button, Input, Select } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 import DemoFrame from '@/components/demo/DemoFrame.vue';
 import RowsView from '../vue/RowsView.vue';
 import catalogSource from '../../../../../../app/DataSources/Dapter/VueCatalog.php?raw';
@@ -67,15 +62,8 @@ const started = ref(false);
                         :model-value="catalog.fields.category.filters.category.current?.value ?? ''"
                         @update:model-value="
                             catalog.fields.category.filters.category.call({ value: $event })
-                        ">
-                        <Option
-                            v-for="category in catalog.fields.category.filters.category.available
-                                .values"
-                            :key="category"
-                            :value="category"
-                            >{{ category }}</Option
-                        >
-                    </Select>
+                        "
+                        :options="catalog.fields.category.filters.category.available.values" />
                     <p>
                         Current category:
                         {{
@@ -99,14 +87,15 @@ const started = ref(false);
                                 sortType: 'natural',
                                 multiSort: false,
                             })
-                        ">
-                        <Option
-                            v-for="direction in catalog.fields.name.order.available.directions"
-                            :key="direction"
-                            :value="direction"
-                            >{{ direction === 'asc' ? 'Ascending' : 'Descending' }}</Option
-                        >
-                    </Select>
+                        "
+                        option-value="value"
+                        option-label="label"
+                        :options="
+                            catalog.fields.name.order.available.directions.map((value) => ({
+                                value,
+                                label: value === 'asc' ? 'Ascending' : 'Descending',
+                            }))
+                        " />
                     <p>
                         Current order:
                         {{ catalog.fields.name.order.current?.direction ?? 'source order' }}.

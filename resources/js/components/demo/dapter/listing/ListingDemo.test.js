@@ -103,7 +103,7 @@ describe('Dapter public listing demo', () => {
                     scenario.expected.per_page,
                 );
                 expect(wrapper.findAllComponents(Select)[0].props('modelValue')).toBe(
-                    String(scenario.expected.per_page),
+                    scenario.expected.per_page,
                 );
                 expect(wrapper.find('[role="alert"]').exists()).toBe(false);
             } else {
@@ -129,7 +129,7 @@ describe('Dapter public listing demo', () => {
             state: intent(2, 10),
         });
         expect(wrapper.getComponent(DataGrid).vm.$attrs.data[0].name).toBe('Notebook 11');
-        wrapper.findAllComponents(Select)[0].vm.$emit('update:modelValue', '5');
+        wrapper.findAllComponents(Select)[0].vm.$emit('update:modelValue', 5);
         await settle();
         expect(JSON.parse(request.mock.calls[2][0].data)).toEqual({
             version: 1,

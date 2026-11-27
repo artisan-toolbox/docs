@@ -1,5 +1,5 @@
 <script setup>
-import { Option, Select } from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import { Select } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 import AccountLinks from '@/components/AccountLinks.vue';
 import DocsLink from '@/components/docs/DocsLink.vue';
 import DocumentationSearch from '@/components/docs/search/DocumentationSearch.vue';
@@ -15,6 +15,11 @@ defineProps({
 });
 
 const { appearance, updateAppearance, pending, error } = useAppearance();
+const themes = [
+    { value: 'light', label: 'Light' },
+    { value: 'dark', label: 'Dark' },
+    { value: 'system', label: 'System' },
+];
 const emit = defineEmits(['resize']);
 /** @type {import('vue').Ref<HTMLElement | null>} */
 const headerElement = ref(null);
@@ -66,16 +71,15 @@ onBeforeUnmount(() => resizeObserver?.disconnect());
                     ><SiteIcon name="github" family="brands" class="mr-2" />GitHub</DocsLink
                 >
                 <Select
-                    :value="appearance"
+                    :model-value="appearance"
                     :disabled="pending"
                     size="s"
                     label="Color theme"
                     class="h-11 w-28 [--wa-form-control-height:2.75rem] [&::part(form-control-label)]:sr-only"
-                    @change="updateAppearance($event.currentTarget.value)">
-                    <Option value="light">Light</Option>
-                    <Option value="dark">Dark</Option>
-                    <Option value="system">System</Option>
-                </Select>
+                    @update:model-value="updateAppearance"
+                    option-value="value"
+                    option-label="label"
+                    :options="themes" />
                 <p v-if="error" role="alert" class="text-sm text-red-700 dark:text-red-300">
                     {{ error }}
                 </p>

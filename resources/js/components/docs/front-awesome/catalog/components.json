@@ -270,14 +270,14 @@
                     "tag": "wa-option",
                     "edition": "Core",
                     "reference": "https://webawesome.com/docs/components/option/",
-                    "help": "Define one option in a select.",
+                    "help": "Define an option for a native Web Awesome control.",
                     "implementation": {
                         "state": "implemented",
                         "export": "Option",
                         "anchor": "option",
                         "guide": "front-awesome/web-awesome/components/forms",
                         "guideFragment": "",
-                        "demoOwner": "Select"
+                        "demoOwner": "Option"
                     }
                 },
                 {

@@ -6,7 +6,6 @@ import { DataView } from '@artisan-toolbox/front-awesome/data-view';
 import {
     Button,
     Checkbox,
-    Option,
     Select,
     Skeleton,
 } from '@artisan-toolbox/front-awesome/components/WebAwesome';
@@ -34,10 +33,15 @@ const motion = usePreferredReducedMotion();
 <template>
     <div class="grid min-w-0 gap-4">
         <div class="flex flex-wrap items-end gap-4">
-            <Select v-model="stateLayout" label="Table feedback">
-                <Option value="row">Keep column headings</Option>
-                <Option value="replace">Replace the table</Option>
-            </Select>
+            <Select
+                v-model="stateLayout"
+                label="Table feedback"
+                option-value="value"
+                option-label="label"
+                :options="[
+                    { value: 'row', label: 'Keep column headings' },
+                    { value: 'replace', label: 'Replace the table' },
+                ]" />
             <Checkbox v-model="useSkeleton">Use skeleton rows</Checkbox>
         </div>
         <DataView

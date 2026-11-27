@@ -15,6 +15,7 @@ import OtpInputDemo from '@/components/demo/front-awesome/forms/OtpInputDemo.vue
 import RadioGroupDemo from '@/components/demo/front-awesome/forms/RadioGroupDemo.vue';
 import RatingDemo from '@/components/demo/front-awesome/forms/RatingDemo.vue';
 import SelectDemo from '@/components/demo/front-awesome/forms/SelectDemo.vue';
+import OptionDemo from '@/components/demo/front-awesome/forms/OptionDemo.vue';
 import SliderDemo from '@/components/demo/front-awesome/forms/SliderDemo.vue';
 import SwitchDemo from '@/components/demo/front-awesome/forms/SwitchDemo.vue';
 import TagInputDemo from '@/components/demo/front-awesome/forms/TagInputDemo.vue';
@@ -26,6 +27,8 @@ import CatalogContext from '@/components/docs/front-awesome/catalog/CatalogConte
 import ComponentCatalog from '@/components/docs/front-awesome/catalog/ComponentCatalog.vue';
 import DemoFrame from '@/components/demo/DemoFrame.vue';
 import DocsLink from '@/components/docs/DocsLink.vue';
+import DocsCallout from '@/components/docs/DocsCallout.vue';
+import { findNavigationItem } from '@/lib/docsNavigation';
 const example1 = `<script setup>
 import { ref } from 'vue';
 import { Button, Input } from '@artisan-toolbox/front-awesome/components';
@@ -249,23 +252,62 @@ const value = ref(initialValue);
 `;
 const selectDemoSource = `<script setup>
 import { ref } from 'vue';
-import { Select, Option } from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import { Checkbox, Icon, Select } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 
-const value = ref('core');
+const cityId = ref(1);
+const strictSearch = ref(false);
+const cityGroups = [
+    {
+        label: 'Northeast',
+        options: [
+            { id: 1, name: 'Salvador', icon: 'location-dot' },
+            { id: 4, name: 'São Luís', icon: 'location-dot', disabled: true },
+            { id: 3, name: 'Recife', icon: 'location-dot' },
+        ],
+    },
+    {
+        label: 'Southeast',
+        options: [{ id: 2, name: 'São Paulo', icon: 'location-dot' }],
+    },
+];
 \x3C/script>
 
 <template>
     <div class="flex min-w-0 flex-col gap-4" data-docs-outline-exclude>
-        <div class="min-w-0">
-            <Select label="Package" v-model="value">
-                <Option value="core">Core</Option>
-                <Option value="front-awesome">Front Awesome</Option>
-                <Option value="unavailable" :disabled="true">Unavailable</Option>
-            </Select>
-        </div>
-        <div class="min-w-0">
-            <output>Selected package: {{ value }}</output>
-        </div>
+        <Select
+            v-model="cityId"
+            label="City"
+            :options="cityGroups"
+            grouped
+            option-value="id"
+            option-label="name"
+            :strict-search="strictSearch">
+            <template #option="{ label, option }">
+                <Icon slot="start" :name="option.icon" aria-hidden="true" />
+                {{ label }}
+            </template>
+        </Select>
+        <Checkbox v-model="strictSearch">Match case and accents</Checkbox>
+        <output aria-live="polite">Selected city ID: {{ cityId }} ({{ typeof cityId }})</output>
+    </div>
+</template>
+`;
+const optionDemoSource = `<script setup>
+import { ref } from 'vue';
+import { Option } from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import '@web.awesome.me/webawesome-pro/dist/components/select/select.js';
+
+const value = ref('still');
+\x3C/script>
+
+<template>
+    <div class="flex min-w-0 flex-col gap-4" data-docs-outline-exclude>
+        <wa-select label="Water" value="still" @change="value = $event.currentTarget.value">
+            <Option value="still">Still</Option>
+            <Option value="sparkling">Sparkling</Option>
+            <Option value="flavored" disabled>Flavored (unavailable)</Option>
+        </wa-select>
+        <output aria-live="polite">Selected water: {{ value }}</output>
     </div>
 </template>
 `;
@@ -382,23 +424,33 @@ const value = ref(initialValue);
 const comboboxDemoSource = `<script setup>
 import { ref } from 'vue';
 import { Combobox } from '@artisan-toolbox/front-awesome/components/WebAwesome/Pro';
-import { Button, Option } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 
 const value = ref('core');
+const packageGroups = [
+    {
+        label: 'Foundations',
+        options: [{ id: 'core', name: 'Core' }],
+    },
+    {
+        label: 'Frontend',
+        options: [
+            { id: 'front-awesome', name: 'Front Awesome' },
+            { id: 'mosaicast', name: 'Mosaicast' },
+        ],
+    },
+];
 \x3C/script>
 
 <template>
     <div class="flex min-w-0 flex-col gap-4" data-docs-outline-exclude>
-        <div class="min-w-0">
-            <Combobox label="Package" v-model="value">
-                <Option value="core">Core</Option>
-                <Option value="front-awesome">Front Awesome</Option>
-                <Option value="mosaicast">Mosaicast</Option>
-            </Combobox>
-        </div>
-        <div class="min-w-0">
-            <output>Selected package: {{ value }}</output>
-        </div>
+        <Combobox
+            v-model="value"
+            label="Package"
+            :options="packageGroups"
+            grouped
+            option-value="id"
+            option-label="name" />
+        <output aria-live="polite">Selected package: {{ value }}</output>
     </div>
 </template>
 `;
@@ -694,7 +746,34 @@ defineProps({
             </p>
         </ProseSection>
         <ProseSection id="select" title="Select">
-            <p>Choose from a list of options.</p>
+            <DocsCallout variant="caution">
+                <template #title>Front Awesome 1.x source preview</template>
+                <p>
+                    The array-based options API, grouping, and dropdown search are preview features.
+                </p>
+            </DocsCallout>
+            <p>
+                Pass an array through <code>options</code>. By default, each item supplies both the
+                value and the label. For object items, use <code>option-value</code> and
+                <code>option-label</code> to read named properties. When no label mapping applies,
+                Vue displays the item itself. Use <code>v-model</code> or an Inertia form binding to
+                receive the original value type.
+            </p>
+            <p>
+                Give each option a unique value. Select skips items whose resolved value is
+                <code>undefined</code>. Set <code>disabled: true</code> on an object item to make
+                the option unavailable. An empty or omitted <code>options</code> array displays
+                <strong>No options</strong> when you open the list.
+            </p>
+            <p>
+                <code>grouped</code> defaults to <code>false</code>. Enable it to pass an array of
+                groups, each with an <code>options</code> array and an optional <code>label</code>.
+                TypeScript apps can import <code>OptionGroup&lt;T&gt;</code> from
+                <code>@artisan-toolbox/front-awesome</code>. Select places a divider between visible
+                groups and renders each label as a <code>&lt;small&gt;</code> heading above its
+                choices. Search keeps groups with matching options and hides empty groups and their
+                dividers.
+            </p>
             <DemoFrame
                 data-catalog-demo="Select"
                 title="Select example"
@@ -704,16 +783,61 @@ defineProps({
                 <SelectDemo />
             </DemoFrame>
             <p>
-                Expected result. Open Package and choose Front Awesome. The displayed selection
-                changes. Unavailable cannot be selected.
+                Open <strong>City</strong> and type <code>sao</code>. Press Arrow Down to skip the
+                disabled São Luís option and focus São Paulo. Press Enter to select São Paulo. The
+                output shows <code>2 (number)</code>. If you move focus to a result while the list
+                is opening, the result keeps focus.
+            </p>
+            <p>
+                Search ignores case and accents by default. Enable
+                <strong>Match case and accents</strong> to set <code>strict-search</code>. Open City
+                again. The same query yields no matches, while <code>São</code> finds São Paulo.
+                Changing the search leaves the selected city ID in place. Press Escape to close the
+                list and return focus to City.
+            </p>
+            <p>
+                When migrating from the default slot, move each option's value and label into the
+                <code>options</code> array. Use <code>#option</code> for custom content. The slot
+                receives <code>value</code>, the display string <code>label</code>, and the original
+                item as <code>option</code>. Use the slot to customize an individual option. The
+                example reads <code>option.icon</code> to add a decorative icon alongside the label.
+            </p>
+            <p>
+                Open <strong>City</strong> to see Northeast and Southeast. Type
+                <code>Paulo</code> to see São Paulo under Southeast. Clear the search to restore
+                both groups and the divider. Search matches option labels, so typing
+                <code>Southeast</code> shows <strong>No matching results</strong>.
+            </p>
+            <p>
+                To reuse property names across the application, set
+                <DocsLink
+                    :href="
+                        findNavigationItem(navigation, 'front-awesome/vue-plugin').href +
+                        '#set-default-option-properties'
+                    "
+                    >defaults in the Vue plugin</DocsLink
+                >.
             </p>
         </ProseSection>
         <ProseSection id="option" title="Option">
             <p>
-                Option supplies Select choices, labels, values, and disabled state. Option is also
-                usable in Combobox; retain that distinct scenario.
+                Use the standalone <code>Option</code> wrapper with the native Select or Combobox
+                element. Import the parent element from the Web Awesome edition configured for your
+                application. This example uses Pro. With Core, import the native Select from
+                <code>@awesome.me/webawesome</code>.
             </p>
-            <p><DocsLink href="#select">See the Select example and source</DocsLink>.</p>
+            <DemoFrame
+                data-catalog-demo="Option"
+                title="Option example"
+                :sources="[
+                    { label: 'Option basic example', language: 'vue', code: optionDemoSource },
+                ]">
+                <OptionDemo />
+            </DemoFrame>
+            <p>
+                Open <strong>Water</strong> and select <strong>Sparkling</strong>. The output shows
+                <code>sparkling</code>. Flavored remains disabled.
+            </p>
         </ProseSection>
         <ProseSection id="slider" title="Slider">
             <p>Choose a value along a range.</p>
@@ -793,8 +917,9 @@ defineProps({
         </ProseSection>
         <ProseSection id="combobox" title="Combobox">
             <p>
-                Combine text entry with suggested choices. This example requires the Front Awesome
-                beta Pro wrappers and Web Awesome Pro 3.14.0.
+                Combine text entry with suggested choices. The array-based options API is part of
+                the Front Awesome 1.x source preview. It requires the Pro wrapper and licensed Web
+                Awesome Pro assets. Combobox uses its native text field to search the options.
             </p>
             <DemoFrame
                 data-catalog-demo="Combobox"
@@ -805,8 +930,13 @@ defineProps({
                 <ComboboxDemo />
             </DemoFrame>
             <p>
-                Expected result. Type part of a package name to filter local options. Select one to
-                update Selected package. No server request is made.
+                Open <strong>Package</strong> to see Foundations and Frontend. Type
+                <code>front</code> to see Front Awesome under Frontend. The committed value stays
+                <code>core</code> until you select Front Awesome. The output then shows
+                <code>front-awesome</code>. See the
+                <DocsLink href="#select">Select example</DocsLink> for the shared
+                <code>grouped</code> prop, option mappings, and <code>#option</code>
+                slot.
             </p>
         </ProseSection>
         <ProseSection id="date-input" title="Date Input">

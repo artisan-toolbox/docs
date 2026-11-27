@@ -11,7 +11,7 @@ describe('Front Awesome live example synchronization', () => {
         const source = `<template>
     <div class="flex min-w-0 flex-col gap-4">
         <Rating />
-        <Select v-if="ready"><Option value="a">A</Option></Select>
+        <TabGroup v-if="ready"><Tab value="a">A</Tab></TabGroup>
         <p v-else-if="loading">Loading</p>
         <p v-else>Ready</p>
         <output>{{value}}</output>
@@ -19,7 +19,7 @@ describe('Front Awesome live example synchronization', () => {
 </template>`;
         const result = blockDemoCells(source);
         expect(result.match(/<div class="min-w-0">/gu)).toHaveLength(3);
-        expect(result).toContain('<Select v-if="ready"><Option value="a">A</Option></Select>');
+        expect(result).toContain('<TabGroup v-if="ready"><Tab value="a">A</Tab></TabGroup>');
         expect(compileTemplate({ source: result, id: 'cells' }).errors).toEqual([]);
         expect(blockDemoCells(result)).toBe(result);
     });
@@ -33,7 +33,7 @@ describe('Front Awesome live example synchronization', () => {
             (item) => item.implementation.demoOwner === item.implementation.export,
         );
         expect(exports).toHaveLength(90);
-        expect(owners).toHaveLength(80);
+        expect(owners).toHaveLength(81);
         expect(result).toMatchObject({
             implementedExports: exports.length,
             catalogOwners: owners.length,
@@ -239,7 +239,7 @@ const example = \`old source\`;
         );
         const demoFile = resolve(
             root,
-            'resources/js/components/demo/front-awesome/actions/SelectDemo.vue',
+            'resources/js/components/demo/front-awesome/actions/TabGroupDemo.vue',
         );
         const pageFile = resolve(
             root,
@@ -249,21 +249,25 @@ const example = \`old source\`;
             groups: [
                 {
                     id: 'actions',
-                    components: ['Select', 'Option'].map((name) => ({
-                        implementation: { state: 'implemented', export: name, demoOwner: 'Select' },
+                    components: ['TabGroup', 'Tab'].map((name) => ({
+                        implementation: {
+                            state: 'implemented',
+                            export: name,
+                            demoOwner: 'TabGroup',
+                        },
                     })),
                 },
             ],
         };
         const frame =
-            '<DemoFrame data-catalog-demo="Select" :sources="[{ label: \'Select.vue\', code: example }]"> <SelectDemo /> </DemoFrame>';
+            '<DemoFrame data-catalog-demo="TabGroup" :sources="[{ label: \'TabGroup.vue\', code: example }]"> <TabGroupDemo /> </DemoFrame>';
         function save(file, value) {
             mkdirSync(resolve(file, '..'), { recursive: true });
             writeFileSync(file, value);
         }
         function page(frames = frame, name = 'example') {
             return (
-                "<script setup>\nimport SelectDemo from '@/components/demo/front-awesome/actions/SelectDemo.vue';\nconst " +
+                "<script setup>\nimport TabGroupDemo from '@/components/demo/front-awesome/actions/TabGroupDemo.vue';\nconst " +
                 name +
                 ' = `outdated`;\n</script>\n<template><div>' +
                 frames +
@@ -274,7 +278,7 @@ const example = \`old source\`;
             save(catalogFile, JSON.stringify(metadata));
             save(
                 demoFile,
-                "<script setup>import { Select, Option } from '@artisan-toolbox/front-awesome/components/WebAwesome';</script><template><Select><Option /></Select></template>",
+                "<script setup>import { TabGroup, Tab } from '@artisan-toolbox/front-awesome/components/WebAwesome';</script><template><TabGroup><Tab /></TabGroup></template>",
             );
             save(pageFile, page());
             expect(syncFrontAwesomeDemos({ root, check: true })).toMatchObject({
@@ -288,7 +292,7 @@ const example = \`old source\`;
             save(resolve(demoFile, '..', 'ChoiceLabel.vue'), helper);
             save(
                 demoFile,
-                "<script setup>import ChoiceLabel from './ChoiceLabel.vue';import { Select, Option } from '@artisan-toolbox/front-awesome/components/WebAwesome';</script><template><Select><Option><ChoiceLabel /></Option></Select></template>",
+                "<script setup>import ChoiceLabel from './ChoiceLabel.vue';import { TabGroup, Tab } from '@artisan-toolbox/front-awesome/components/WebAwesome';</script><template><TabGroup><Tab><ChoiceLabel /></Tab></TabGroup></template>",
             );
             const multipleSources = page(
                 frame.replace(
@@ -318,7 +322,7 @@ const example = \`old source\`;
             save(resolve(demoFile, '..', 'nested/ChoiceLabel.vue'), helper);
             save(
                 demoFile,
-                "<script setup>import ChoiceLabel from './ChoiceLabel.vue';import OtherLabel from './nested/ChoiceLabel.vue';import { Select, Option } from '@artisan-toolbox/front-awesome/components/WebAwesome';</script><template><Select><Option><ChoiceLabel /><OtherLabel /></Option></Select></template>",
+                "<script setup>import ChoiceLabel from './ChoiceLabel.vue';import OtherLabel from './nested/ChoiceLabel.vue';import { TabGroup, Tab } from '@artisan-toolbox/front-awesome/components/WebAwesome';</script><template><TabGroup><Tab><ChoiceLabel /><OtherLabel /></Tab></TabGroup></template>",
             );
             save(pageFile, multipleSources);
             expect(() => syncFrontAwesomeDemos({ root })).toThrow(
@@ -327,13 +331,13 @@ const example = \`old source\`;
             expect(readFileSync(pageFile, 'utf8')).toBe(multipleSources);
             save(
                 demoFile,
-                "<script setup>import { Select, Option } from '@artisan-toolbox/front-awesome/components/WebAwesome';</script><template><Select><Option /></Select></template>",
+                "<script setup>import { TabGroup, Tab } from '@artisan-toolbox/front-awesome/components/WebAwesome';</script><template><TabGroup><Tab /></TabGroup></template>",
             );
             save(
                 pageFile,
                 page().replace(
                     'const example',
-                    'const abandoned = `<template><Select><Option /></Select></template>`;\nconst example',
+                    'const abandoned = `<template><TabGroup><Tab /></TabGroup></template>`;\nconst example',
                 ),
             );
             expect(() => syncFrontAwesomeDemos({ root, check: true })).toThrow(
@@ -352,7 +356,7 @@ const example = \`old source\`;
                 'unknown static source binding',
             );
             save(pageFile, page());
-            for (const owner of ['Missing', 'Option']) {
+            for (const owner of ['Missing', 'Tab']) {
                 metadata.groups[0].components[0].implementation.demoOwner = owner;
                 save(catalogFile, JSON.stringify(metadata));
                 expect(() => syncFrontAwesomeDemos({ root, check: true })).toThrow(

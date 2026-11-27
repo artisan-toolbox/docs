@@ -29,17 +29,14 @@ final class VueCatalog extends FieldRecords implements WithOptions
 }`;
 const binding = `<script setup>
 import { DataAdapter } from '@artisan-toolbox/dapter';
-import { Select, Option } from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import { Select } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 \x3C/script>
 
 <template>
     <DataAdapter source="Dapter.VueCatalog" :protocol="2" :url="false" v-slot="catalog">
         <Select v-if="catalog.fields?.category?.filters?.category" label="Category"
             :model-value="catalog.fields.category.filters.category.current?.value ?? ''"
-            @update:model-value="catalog.fields.category.filters.category.call({ value: $event })">
-            <Option v-for="category in catalog.fields.category.filters.category.available.values"
-                :key="category" :value="category">{{ category }}</Option>
-        </Select>
+            @update:model-value="catalog.fields.category.filters.category.call({ value: $event })" :options="catalog.fields.category.filters.category.available.values" />
         <ul><li v-for="row in catalog.data" :key="row.id">{{ row.name }}</li></ul>
     </DataAdapter>
 </template>`;

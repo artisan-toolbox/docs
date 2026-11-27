@@ -398,7 +398,7 @@ describe('DocsLayout', () => {
         const wrapper = mount(DocsLayout);
         await flushPromises();
         wrapper.get('wa-select').element.value = 'dark';
-        await wrapper.get('wa-select').trigger('change');
+        await wrapper.get('wa-select').trigger('input');
         expect(preferencesContext.fixture.service.setAppearance).toHaveBeenCalledExactlyOnceWith(
             'dark',
         );

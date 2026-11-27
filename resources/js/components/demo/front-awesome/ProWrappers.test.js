@@ -85,7 +85,7 @@ describe('licensed Pro wrapper live examples', () => {
             await settleDetachedHostUpdates(wrapper);
             const control = wrapper.get(tag);
             control.element.value = name === 'Combobox' ? 'front-awesome' : '2026-11-15';
-            await control.trigger('input');
+            await control.trigger(name === 'Combobox' ? 'change' : 'input');
             expect(wrapper.get('output').text()).toContain(control.element.value);
         });
     }

@@ -11,6 +11,7 @@ const navigation = (prefix = '/docs') => [
         href: `${prefix}/front-awesome/installation`,
         children: [],
     },
+    { slug: 'front-awesome/vue-plugin', href: `${prefix}/front-awesome/vue-plugin`, children: [] },
 ];
 function render() {
     return mount(Forms, {

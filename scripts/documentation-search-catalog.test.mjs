@@ -220,7 +220,7 @@ describe('catalog semantic search adapter', () => {
         expect(section('catalog/Forms', 'option')).toContain('Combobox');
         expect(section('catalog/Navigation', 'tab-panel')).toContain('TabPanel');
         expect(section('catalog/Navigation', 'tab-panel')).toContain('TabGroup');
-        expect(section('catalog/Forms', 'components')).toContain('Used with Select.');
+        expect(section('catalog/Forms', 'select')).toContain('strict-search');
         for (const page of pages) {
             const documents = result.filter((document) => document.slug === page.slug);
             expect(new Set(documents.map((document) => document.anchor)).size).toBe(

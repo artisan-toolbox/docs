@@ -100,7 +100,7 @@ it('resets cursor position on the public search, mixed order, and size operation
     expect(JSON.parse(request.mock.calls.at(-1)[0].data).state.fields.name.search.value).toBe(
         'Notebook 03',
     );
-    wrapper.find('[data-paging-session]').findComponent(Select).vm.$emit('update:modelValue', '3');
+    wrapper.find('[data-paging-session]').findComponent(Select).vm.$emit('update:modelValue', 3);
     await settle();
     expect(JSON.parse(request.mock.calls.at(-1)[0].data).state.paging).toEqual({
         mode: 'cursor',

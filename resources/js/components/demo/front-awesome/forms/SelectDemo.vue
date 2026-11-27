@@ -1,21 +1,41 @@
 <script setup>
 import { ref } from 'vue';
-import { Select, Option } from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import { Checkbox, Icon, Select } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 
-const value = ref('core');
+const cityId = ref(1);
+const strictSearch = ref(false);
+const cityGroups = [
+    {
+        label: 'Northeast',
+        options: [
+            { id: 1, name: 'Salvador', icon: 'location-dot' },
+            { id: 4, name: 'São Luís', icon: 'location-dot', disabled: true },
+            { id: 3, name: 'Recife', icon: 'location-dot' },
+        ],
+    },
+    {
+        label: 'Southeast',
+        options: [{ id: 2, name: 'São Paulo', icon: 'location-dot' }],
+    },
+];
 </script>
 
 <template>
     <div class="flex min-w-0 flex-col gap-4" data-docs-outline-exclude>
-        <div class="min-w-0">
-            <Select label="Package" v-model="value">
-                <Option value="core">Core</Option>
-                <Option value="front-awesome">Front Awesome</Option>
-                <Option value="unavailable" :disabled="true">Unavailable</Option>
-            </Select>
-        </div>
-        <div class="min-w-0">
-            <output>Selected package: {{ value }}</output>
-        </div>
+        <Select
+            v-model="cityId"
+            label="City"
+            :options="cityGroups"
+            grouped
+            option-value="id"
+            option-label="name"
+            :strict-search="strictSearch">
+            <template #option="{ label, option }">
+                <Icon slot="start" :name="option.icon" aria-hidden="true" />
+                {{ label }}
+            </template>
+        </Select>
+        <Checkbox v-model="strictSearch">Match case and accents</Checkbox>
+        <output aria-live="polite">Selected city ID: {{ cityId }} ({{ typeof cityId }})</output>
     </div>
 </template>

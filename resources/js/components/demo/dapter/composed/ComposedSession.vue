@@ -1,11 +1,6 @@
 <script setup>
 import { useDataAdapter } from '@artisan-toolbox/dapter';
-import {
-    Button,
-    Input,
-    Select,
-    Option,
-} from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import { Button, Input, Select } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 import CodeExample from '@/components/docs/CodeExample.vue';
 const catalog = useDataAdapter('Dapter.ComposedCatalog', {
     protocol: 2,
@@ -52,9 +47,13 @@ const catalog = useDataAdapter('Dapter.ComposedCatalog', {
                 v-if="catalog.setSearchMatch"
                 label="Search grouping"
                 :model-value="catalog.requested?.searchMatch ?? 'all'"
-                @update:model-value="catalog.setSearchMatch($event)">
-                <Option value="all">All</Option><Option value="any">Any</Option>
-            </Select>
+                @update:model-value="catalog.setSearchMatch($event)"
+                option-value="value"
+                option-label="label"
+                :options="[
+                    { value: 'all', label: 'All' },
+                    { value: 'any', label: 'Any' },
+                ]" />
         </fieldset>
         <fieldset class="grid min-w-0 gap-3 rounded-lg border p-3">
             <legend class="px-1 font-medium">Order records</legend>

@@ -30,17 +30,20 @@ final class VueCatalog extends FieldRecords implements WithOptions
 }`;
 const binding = `<script setup>
 import { DataAdapter } from '@artisan-toolbox/dapter';
-import { Select, Option } from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import { Select } from '@artisan-toolbox/front-awesome/components/WebAwesome';
 \x3C/script>
 
 <template>
     <DataAdapter source="Dapter.VueCatalog" :protocol="2" :url="false" v-slot="catalog">
         <Select v-if="catalog.fields?.name?.order" label="Name order"
             :model-value="catalog.fields.name.order.current?.direction ?? ''"
-            @update:model-value="catalog.fields.name.order.call({ direction: $event, sortType: 'natural', multiSort: false })">
-            <Option v-for="direction in catalog.fields.name.order.available.directions"
-                :key="direction" :value="direction">{{ direction === 'asc' ? 'Ascending' : 'Descending' }}</Option>
-        </Select>
+            @update:model-value="catalog.fields.name.order.call({ direction: $event, sortType: 'natural', multiSort: false })"
+option-value="value"
+option-label="label"
+:options="catalog.fields.name.order.available.directions.map((value) => ({
+    value,
+    label: value === 'asc' ? 'Ascending' : 'Descending',
+}))" />
         <ul><li v-for="row in catalog.data" :key="row.id">{{ row.name }}</li></ul>
     </DataAdapter>
 </template>`;

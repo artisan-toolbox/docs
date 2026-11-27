@@ -121,7 +121,7 @@ describe('Welcome', () => {
         expect(wrapper.get('header button').text()).toBe('Sign out');
         await flushPromises();
         wrapper.get('wa-select').element.value = 'dark';
-        await wrapper.get('wa-select').trigger('change');
+        await wrapper.get('wa-select').trigger('input');
         expect(preferencesContext.fixture.service.setAppearance).toHaveBeenCalledExactlyOnceWith(
             'dark',
         );
