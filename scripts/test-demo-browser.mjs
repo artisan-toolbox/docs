@@ -1047,6 +1047,33 @@ try {
             return top >= bottom && top <= bottom + 64;
         }, anchor);
     }
+
+    await navigate(
+        new URL('/docs/front-awesome/web-awesome/components/forms/masked-input', base).href,
+    );
+    const postalCode = page.locator('wa-input[name="postal_code"] input');
+    await page.getByRole('button', { name: 'Load saved postal code', exact: true }).click();
+    assert.equal(await postalCode.inputValue(), '01.310-100');
+    await page.getByRole('button', { name: 'Preview submitted postal code', exact: true }).click();
+    await page.getByRole('status').filter({ hasText: 'Submitted postal code 01310100' }).waitFor();
+
+    const cpfHost = page.locator('wa-input[name="cpf"]');
+    const cpf = cpfHost.locator('input');
+    const previewValues = page.getByRole('button', { name: 'Preview form values', exact: true });
+    const submittedValues = page.getByRole('status').filter({ hasText: 'Submitted CPF' });
+    await page.locator('wa-input[name="address"] input').fill('2001:db8::1');
+    await cpf.fill('012');
+    await previewValues.click();
+    assert.equal(
+        await cpfHost.evaluate((element) => element.validationMessage),
+        'Enter all eleven CPF digits.',
+    );
+    assert.equal(await submittedValues.count(), 0);
+    await cpf.fill('01234567890');
+    assert.equal(await cpf.inputValue(), '012.345.678-90');
+    await previewValues.click();
+    await submittedValues.filter({ hasText: '01234567890 and IP address 2001:db8::1' }).waitFor();
+
     assert.equal(errors.length, 0, errors.join('\n'));
     console.log(
         JSON.stringify(

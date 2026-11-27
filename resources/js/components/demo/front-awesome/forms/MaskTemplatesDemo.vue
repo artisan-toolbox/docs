@@ -1,11 +1,9 @@
 <script setup>
 import { ref } from 'vue';
-import * as frontAwesome from '@artisan-toolbox/front-awesome';
+import { MaskedInput, useMaskTemplate } from '@artisan-toolbox/front-awesome';
 import Button from '@artisan-toolbox/front-awesome/components/Button.vue';
 
-const MaskedInput = Reflect.get(frontAwesome, 'MaskedInput');
-const useMaskTemplate = Reflect.get(frontAwesome, 'useMaskTemplate');
-const masks = useMaskTemplate?.();
+const masks = useMaskTemplate();
 const cpf = ref('');
 const address = ref('');
 const submitted = ref(null);
@@ -17,18 +15,14 @@ function previewSubmission(event) {
 </script>
 
 <template>
-    <p v-if="!MaskedInput || !masks">
-        This demo requires a Front Awesome checkout that exports useMaskTemplate.
-    </p>
-    <form v-else class="grid min-w-0 gap-5" @submit.prevent="previewSubmission">
+    <form class="grid min-w-0 gap-5" @submit.prevent="previewSubmission">
         <div>
             <MaskedInput
                 v-model="cpf"
-                :mask="masks.Brazilian.cpf()"
+                :mask="masks.brazilian.cpf()"
                 label="CPF"
                 name="cpf"
                 hint="Try 01234567890."
-                incomplete-message="Enter all eleven digits."
                 required />
         </div>
         <div>
@@ -38,7 +32,6 @@ function previewSubmission(event) {
                 label="IP address"
                 name="address"
                 hint="Try 192.0.2.1 or 2001:db8::1."
-                incomplete-message="Enter a complete IPv4 or IPv6 address."
                 required />
         </div>
         <div>

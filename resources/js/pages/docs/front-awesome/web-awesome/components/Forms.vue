@@ -27,7 +27,6 @@ import CatalogContext from '@/components/docs/front-awesome/catalog/CatalogConte
 import ComponentCatalog from '@/components/docs/front-awesome/catalog/ComponentCatalog.vue';
 import DemoFrame from '@/components/demo/DemoFrame.vue';
 import DocsLink from '@/components/docs/DocsLink.vue';
-import DocsCallout from '@/components/docs/DocsCallout.vue';
 import { findNavigationItem } from '@/lib/docsNavigation';
 const example1 = `<script setup>
 import { ref } from 'vue';
@@ -746,18 +745,13 @@ defineProps({
             </p>
         </ProseSection>
         <ProseSection id="select" title="Select">
-            <DocsCallout variant="caution">
-                <template #title>Front Awesome 1.x source preview</template>
-                <p>
-                    The array-based options API, grouping, and dropdown search are preview features.
-                </p>
-            </DocsCallout>
             <p>
-                Pass an array through <code>options</code>. By default, each item supplies both the
-                value and the label. For object items, use <code>option-value</code> and
-                <code>option-label</code> to read named properties. When no label mapping applies,
-                Vue displays the item itself. Use <code>v-model</code> or an Inertia form binding to
-                receive the original value type.
+                In Front Awesome <code>1.0.0-beta.12</code> or later, pass an array through
+                <code>options</code>. By default, each item supplies both the value and the label.
+                For object items, use <code>option-value</code> and <code>option-label</code> to
+                read named properties. When no label mapping applies, Vue displays the item itself.
+                Use <code>v-model</code> or an Inertia form binding to receive the original value
+                type.
             </p>
             <p>
                 Give each option a unique value. Select skips items whose resolved value is
@@ -796,7 +790,8 @@ defineProps({
                 list and return focus to City.
             </p>
             <p>
-                When migrating from the default slot, move each option's value and label into the
+                When upgrading from beta.11, move each default-slot option's value and label into
+                the
                 <code>options</code> array. Use <code>#option</code> for custom content. The slot
                 receives <code>value</code>, the display string <code>label</code>, and the original
                 item as <code>option</code>. Use the slot to customize an individual option. The
@@ -917,9 +912,9 @@ defineProps({
         </ProseSection>
         <ProseSection id="combobox" title="Combobox">
             <p>
-                Combine text entry with suggested choices. The array-based options API is part of
-                the Front Awesome 1.x source preview. It requires the Pro wrapper and licensed Web
-                Awesome Pro assets. Combobox uses its native text field to search the options.
+                Combine text entry with suggested choices. Use Front Awesome
+                <code>1.0.0-beta.12</code> or later and licensed Web Awesome Pro assets. Combobox
+                uses its native text field to search the options.
             </p>
             <DemoFrame
                 data-catalog-demo="Combobox"

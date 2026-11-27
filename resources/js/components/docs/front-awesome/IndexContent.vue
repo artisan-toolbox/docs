@@ -94,8 +94,8 @@ Toast::success('Report saved.')->flash();`;
                         >Preview and print documents</DocsLink
                     >
                     combines PDF, ESC/POS, and ZPL documents in an ordered review flow. The printing
-                    service is included in Front Awesome beta. Composer requires QZ Tray 1.4 or
-                    later within 1.x; install its frontend only when using this integration.
+                    service is included in Front Awesome beta. Install QZ Tray's frontend when you
+                    use this integration.
                 </p>
             </li>
             <li>

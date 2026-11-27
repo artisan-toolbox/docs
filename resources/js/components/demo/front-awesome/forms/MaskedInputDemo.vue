@@ -2,9 +2,7 @@
 import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import Button from '@artisan-toolbox/front-awesome/components/Button.vue';
-import * as frontAwesome from '@artisan-toolbox/front-awesome';
-
-const MaskedInput = Reflect.get(frontAwesome, 'MaskedInput');
+import { MaskedInput } from '@artisan-toolbox/front-awesome';
 
 const postalCode = ref('');
 const identificationForm = useForm({ taxId: '' });
@@ -36,16 +34,11 @@ function previewSubmission(event) {
 </script>
 
 <template>
-    <p v-if="!MaskedInput">This demo requires a Front Awesome checkout with MaskedInput.</p>
-    <form
-        v-else
-        class="grid min-w-0 gap-5"
-        data-docs-outline-exclude
-        @submit.prevent="previewSubmission">
+    <form class="grid min-w-0 gap-5" data-docs-outline-exclude @submit.prevent="previewSubmission">
         <div>
             <MaskedInput
                 v-model="postalCode"
-                mask="#####-###"
+                mask="##.###-###"
                 label="Brazilian postal code"
                 name="postal_code"
                 autocomplete="postal-code"

@@ -197,7 +197,7 @@ describe('Core, Dump to Console, and Mosaicast documentation', () => {
                 );
             if (fixture.slug === 'core') {
                 extraParagraphs.push(
-                    'Validate Brazilian documents and phone numbers with typed values and Laravel rules. Available in the Core development preview.',
+                    'Validate Brazilian documents and phone numbers with typed values and Laravel rules.',
                     'Run the checks from the Core checkout with PHP 8.5 or 8.6, Composer, and Git. The distribution check also needs the PHP Zip extension and access to the Composer dependency registry.',
                     "The commands below describe the Maintainer 1.14.4 integration on Core's 1.x branch.",
                     "composer test runs composer quality:check and type coverage. The quality check uses Maintainer's strict mode for PHPStan, Pint, and Pest. It fails if a required tool cannot run. Pest runs serially by default for this small suite. Set MAINTAINER_PEST_PARALLEL=true to try two workers on Unix.",

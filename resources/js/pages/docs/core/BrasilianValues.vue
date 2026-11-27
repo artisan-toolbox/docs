@@ -1,6 +1,5 @@
 <script setup>
 import CodeExample from '@/components/docs/CodeExample.vue';
-import DocsCallout from '@/components/docs/DocsCallout.vue';
 import DocsLink from '@/components/docs/DocsLink.vue';
 import DocsTable from '@/components/docs/DocsTable.vue';
 import PackageGuideHeader from '@/components/docs/PackageGuideHeader.vue';
@@ -72,21 +71,13 @@ const phoneTypes = [
 
         <div data-document-content class="flex min-w-0 flex-col gap-10">
             <ProseSection>
-                <DocsCallout variant="note">
-                    <template #title>Development preview</template>
-                    <p>
-                        The <code>ArtisanToolbox\Core\Brasilian</code> APIs require a Core build
-                        that includes this feature. The installation guide covers the stable
-                        release.
-                    </p>
-                </DocsCallout>
                 <p>
-                    Start with a Laravel application that meets the
+                    Start with a Laravel application running Core <code>1.5.0</code> or later.
+                    Follow the
                     <DocsLink :href="findNavigationItem(navigation, 'core/installation').href"
-                        >Core installation requirements</DocsLink
-                    >
-                    and has the preview build installed. The examples use PHP in a Laravel route or
-                    command and require no database or frontend setup.
+                        >Core installation guide</DocsLink
+                    >. Run the PHP examples in a Laravel route or command. They require no database
+                    or frontend setup.
                 </p>
             </ProseSection>
 

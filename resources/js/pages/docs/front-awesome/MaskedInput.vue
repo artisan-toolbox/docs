@@ -1,6 +1,5 @@
 <script setup>
 import CodeExample from '@/components/docs/CodeExample.vue';
-import DocsCallout from '@/components/docs/DocsCallout.vue';
 import DocsLink from '@/components/docs/DocsLink.vue';
 import DocsTable from '@/components/docs/DocsTable.vue';
 import PackageGuideHeader from '@/components/docs/PackageGuideHeader.vue';
@@ -29,7 +28,7 @@ const postalCode = ref('');
         v-model="postalCode"
         label="Brazilian postal code"
         hint="Enter eight digits."
-        mask="#####-###"
+        mask="##.###-###"
         inputmode="numeric"
         autocomplete="postal-code"
         name="postal_code" />
@@ -39,14 +38,15 @@ import { ref } from 'vue';
 import { MaskedInput, useMaskTemplate } from '@artisan-toolbox/front-awesome';
 
 const cpf = ref('');
+const { brazilian } = useMaskTemplate();
 \x3C/script>
 
 <template>
-    <MaskedInput v-model="cpf" :mask="useMaskTemplate().Brazilian.cpf()" label="CPF" name="cpf" />
+    <MaskedInput v-model="cpf" :mask="brazilian.cpf()" label="CPF" name="cpf" />
 </template>`;
 
 const globalMaskExample = `<template>
-    <MaskedInput v-model="cpf" :mask="$maskTemplates.Brazilian.cpf()" label="CPF" />
+    <MaskedInput v-model="cpf" :mask="$maskTemplates.brazilian.cpf()" label="CPF" />
     <MaskedInput v-model="postalCode" :mask="postalCodeMask" label="Brazilian postal code" />
 </template>
 
@@ -60,7 +60,7 @@ export default {
     },
     computed: {
         postalCodeMask() {
-            return this.$maskTemplates.Brazilian.cep();
+            return this.$maskTemplates.brazilian.cep();
         },
     },
 };
@@ -78,6 +78,7 @@ const shelfTemplate: MaskTemplate = {
     guide: 'focus',
     valueMode: 'formatted',
     isComplete: (raw) => raw.slice(2) !== '00',
+    incompleteMessage: 'Enter a shelf code ending in 01 to 99.',
 };
 \x3C/script>
 
@@ -90,7 +91,6 @@ const shelfTemplate: MaskTemplate = {
             label="Shelf code"
             hint="Enter two letters and a number from 01 to 99."
             value-mode="raw"
-            incomplete-message="Enter a shelf code ending in 01 to 99."
             required />
         <Button type="submit">Check shelf</Button>
         <p>Model value {{ shelf }}</p>
@@ -145,18 +145,14 @@ const identifierRows = [
     <article class="flex min-w-0 flex-col gap-10">
         <PackageGuideHeader :page="page" />
         <ProseSection>
-            <DocsCallout variant="caution">
-                <template #title>Development preview</template>
-                <p>Run these examples with a Front Awesome checkout that exports MaskedInput.</p>
-            </DocsCallout>
             <p>
                 Use MaskedInput when users enter text with a known structure, such as a postal code
                 or document number. The field formats the text as the user types and accepts
                 selections, pasted text, and keyboard edits in one text box.
             </p>
             <p>
-                Start with a Laravel application configured for Inertia, Vue, and Web Awesome.
-                Follow the
+                Start with a Laravel application configured for Inertia, Vue, and Web Awesome. Use
+                Front Awesome <code>1.0.0-beta.12</code> or later. Follow the
                 <DocsLink :href="findNavigationItem(navigation, 'front-awesome/installation').href"
                     >Front Awesome installation guide</DocsLink
                 >
@@ -165,15 +161,24 @@ const identifierRows = [
             <h2 id="format-a-postal-code">Format a postal code</h2>
             <CodeExample label="Brazilian postal code" language="vue" :code="postalCodeExample" />
             <p>
-                Type or paste <code>01310100</code>. The field displays <code>01310-100</code>. The
-                Vue model and a native form submit <code>01310100</code> as a string so the leading
-                zero stays intact.
+                Type or paste <code>01310100</code>. The field displays <code>01.310-100</code>. The
+                Vue model and native form data hold the string <code>01310100</code> with its
+                leading zero.
             </p>
             <h2 id="use-a-mask-template">Use a mask template</h2>
             <p>
-                Use a Front Awesome preview that exports <code>useMaskTemplate</code>. Import it
-                from the package root and pass a template to <code>:mask</code>.
-                <code>useMaskTemplates</code> is an alias for the same function.
+                Import <code>useMaskTemplate</code> from the package root and pass a template to
+                <code>:mask</code>. <code>useMaskTemplates</code> is an alias for the same function.
+            </p>
+            <p>
+                Follow the
+                <DocsLink :href="findNavigationItem(navigation, 'front-awesome/localization').href"
+                    >Localization guide</DocsLink
+                >
+                to enable the built-in validation messages. Front Awesome exports them through Vite
+                in English, Spanish, and Brazilian Portuguese. Each field uses the active language.
+                For example, <code>brazilian.cep()</code> uses
+                <code>front-awesome::mask.brazilian.incomplete.cep</code>.
             </p>
             <CodeExample label="Format a CPF" language="vue" :code="cpfExample" />
             <p>
@@ -181,6 +186,12 @@ const identifierRows = [
                 <code>012.345.678-90</code> and submits the string <code>01234567890</code>. Try the
                 form with that CPF and <code>2001:db8::1</code>. The IP address keeps its colons in
                 the submitted value.
+            </p>
+            <p>
+                To see validation, enter <code>012</code> in the CPF field and
+                <code>2001:db8::1</code> in the IP field. Select
+                <strong>Preview form values</strong>. The browser shows the CPF template's message
+                and blocks submission. Enter the full CPF to preview both submitted values.
             </p>
             <DemoFrame
                 title="Submit a CPF and an IP address"
@@ -204,34 +215,39 @@ const identifierRows = [
                 :code="globalMaskExample" />
             <p>
                 Enter <code>01234567890</code> and <code>01310100</code>. The fields show
-                <code>012.345.678-90</code> and <code>01310-100</code>. The two models keep the
+                <code>012.345.678-90</code> and <code>01.310-100</code>. The two models keep the
                 original digit strings.
             </p>
             <h3 id="choose-a-brazilian-document-template">
                 Choose a Brazilian document or postal code
             </h3>
             <p>
-                Use <code>useMaskTemplate().Brazilian</code> for these formats.
-                <code>cpf()</code> accepts 11 digits. <code>cnpj()</code> accepts ASCII letters and
-                digits in the first 12 positions, converts letters to uppercase, and requires two
-                final digits. For a legacy field that accepts only digits, use
-                <code>cnpjLegacy()</code>. Both CNPJ templates display punctuation as in
-                <code>12.345.678/0001-90</code>. Validate check digits and registration separately.
+                Use <code>useMaskTemplate().brazilian</code> for these formats. The original
+                <code>Brazilian</code> name is an alias. <code>cpf()</code> accepts 11 digits.
+                <code>cnpj()</code> accepts ASCII letters and digits in the first 12 positions,
+                converts letters to uppercase, and requires two final digits. For a legacy field
+                that accepts only digits, use <code>cnpjLegacy()</code>. Both CNPJ templates display
+                punctuation as in <code>12.345.678/0001-90</code>. Use
+                <DocsLink :href="findNavigationItem(navigation, 'core/brazilian-values').href"
+                    >Core's Laravel validation rules</DocsLink
+                >
+                to check digits on the server. Check registration separately.
                 <DocsLink
                     href="https://www.gov.br/receitafederal/pt-br/acesso-a-informacao/acoes-e-programas/programas-e-atividades/cnpj-alfanumerico"
                     >Receita Federal CNPJ guidance</DocsLink
                 >.
             </p>
             <p>
-                <code>cep()</code> formats eight digits as <code>01310-100</code> and preserves the
-                leading zero in the raw model. Use an address lookup to confirm the CEP exists.
+                <code>cep()</code> uses <code>##.###-###</code>. It displays
+                <code>01310100</code> as <code>01.310-100</code> and preserves the leading zero in
+                the raw model. Use an address lookup to confirm the CEP exists.
                 <DocsLink href="https://www.correios.com.br/enviar/precisa-de-ajuda/tudo-sobre-cep"
                     >Correios postal code guide</DocsLink
                 >.
             </p>
             <h3 id="choose-a-brazilian-phone-template">Choose a Brazilian phone format</h3>
             <p>
-                Use <code>useMaskTemplate().Brazilian.phone()</code> when one field accepts several
+                Use <code>useMaskTemplate().brazilian.phone()</code> when one field accepts several
                 domestic formats. A three-digit short code can also be the start of a longer number.
                 If the form requires a particular kind of number, choose its template below so a
                 shorter match cannot satisfy that requirement. These templates check the structure.
@@ -283,6 +299,13 @@ const identifierRows = [
                 passed directly to <code>:mask</code>.
             </p>
             <p>
+                Set the optional <code>incompleteMessage</code> to a string or a translation key
+                object such as <code>{ key: 'app.shelf_incomplete' }</code>. A translation key
+                requires the Front Awesome localization service and a catalog entry. Set the field's
+                <code>incomplete-message</code> prop to override the template, or set it to an empty
+                string to disable the template's message.
+            </p>
+            <p>
                 In this Vue example, two letters identify an aisle and two digits identify a shelf.
                 The same object works in JavaScript when you omit the type import and annotation.
             </p>
@@ -291,15 +314,15 @@ const identifierRows = [
                 Enter <code>ab07</code>. The field displays <code>AB-07</code>. Its
                 <code>value-mode="raw"</code> overrides the template default, so the model and
                 native form hold <code>AB07</code>. Change the number to <code>00</code> and select
-                <strong>Check shelf</strong>. The completion rule returns false and
-                <code>incomplete-message</code> makes the browser block submission.
+                <strong>Check shelf</strong>. The completion rule returns false and the template's
+                <code>incompleteMessage</code> makes the browser block submission.
                 <code>required</code> handles an empty field separately.
             </p>
             <h2 id="load-a-saved-value">Load a saved value</h2>
             <p>
                 Keep the postal code as a string. Set
                 <code>postalCode.value = '01310100'</code> during setup or after loading a record.
-                The field displays <code>01310-100</code>, and the model and native form use
+                The field displays <code>01.310-100</code>, and the model and native form use
                 <code>01310100</code>. Try <strong>Load saved postal code</strong> in the demo.
             </p>
             <p>
@@ -396,10 +419,9 @@ const identifierRows = [
                     <code>formatted</code>, and <code>complete</code> after a user edit.
                 </li>
                 <li>
-                    Use <code>required</code> for a mandatory value. Set
-                    <code>incomplete-message</code> to block native submission when the user enters
-                    a value with unfilled required positions or a template's completion rule returns
-                    false. Supply the message in the user's language. Enable
+                    Use <code>required</code> for a mandatory value. A field or template message
+                    blocks native submission when a nonempty value leaves required positions
+                    unfilled or a template's completion rule returns false. Enable
                     <code>clear-incomplete-on-blur</code> to clear a partial entry when the user
                     leaves the field. The default keeps partial entries. An optional group can stay
                     empty.

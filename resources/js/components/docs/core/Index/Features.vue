@@ -44,7 +44,7 @@ defineProps({ navigation: { type: Array, required: true } });
                     <DocsLink :href="findNavigationItem(navigation, 'core/brazilian-values').href"
                         >Validate Brazilian documents and phone numbers</DocsLink
                     >
-                    with typed values and Laravel rules. Available in the Core development preview.
+                    with typed values and Laravel rules.
                 </p>
             </li>
         </ul>

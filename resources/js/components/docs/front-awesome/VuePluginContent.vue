@@ -99,7 +99,7 @@ withApp(app, { ssr }) {
             Set default option properties
         </h2>
         <p>
-            In the 1.x source preview, set <code>optionValue</code> and
+            In Front Awesome <code>1.0.0-beta.12</code> or later, set <code>optionValue</code> and
             <code>optionLabel</code> when your Select and Combobox options use the same property
             names across the app. In this example, each component reads <code>id</code> as its bound
             value and <code>name</code> as its label unless that component supplies its own
