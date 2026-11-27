@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [1.6.1] - 2026-11-27
 
 - Install the published Core `1.5.0` and Front Awesome `1.0.0-beta.12` archives. Document Brazilian document and phone validation, editable masks and localized feedback, and the grouped Select and Pro Combobox APIs.
 - Explain how to move default-slot options to the `options` prop and customize them with `#option`.
