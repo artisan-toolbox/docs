@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [1.6.2] - 2026-11-28
 
 - Install Front Awesome `1.0.0-beta.13` through Composer and refresh its frontend copy. Run the Rich Text Editor example with licensed Web Awesome Pro 3.15.0.
 - Document the shared theme, migrate the site's spacing unit into its application branding layer, and use numeric spacing utilities in the roadmap.

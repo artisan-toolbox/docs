@@ -11,7 +11,7 @@ use ArtisanToolbox\Maintainer\Versionable\Readme\Head;
 
 final class ArtisanToolbox implements Versionable, WithReadmeHead
 {
-    public const string VERSION = '1.6.1';
+    public const string VERSION = '1.6.2';
 
     public function readmeHead(): Head
     {
