@@ -29,8 +29,8 @@ const example2 = `@theme {
             <DocsLink :href="findNavigationItem(navigation, 'front-awesome/shared-theme').href"
                 >shared Tailwind theme</DocsLink
             >. Edit the published <code>resources/css/branding.css</code> file to change application
-            identity. Shared values belong in Tailwind's <code>@theme</code> block. Web
-            Awesome-specific exceptions belong in the separate override section.
+            identity. Set colors, fonts, radii, and shadows in Tailwind's <code>@theme</code> block.
+            The spacing unit has its own rule under <strong>Adjust dimensions</strong>.
         </p>
         <h2
             id="change-the-full-brand-palette"

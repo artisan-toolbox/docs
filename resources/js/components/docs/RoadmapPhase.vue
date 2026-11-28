@@ -34,7 +34,7 @@ onBeforeUnmount(() => window.removeEventListener('hashchange', openHashTarget));
 <template>
     <section :aria-labelledby="id" class="min-w-0 border-b border-slate-200 dark:border-slate-800">
         <Details v-model:open="expanded" appearance="plain" class="roadmap-phase block min-w-0">
-            <div slot="summary" class="flex min-w-0 items-center gap-[0.75rem] sm:gap-[1rem]">
+            <div slot="summary" class="flex min-w-0 items-center gap-3 sm:gap-4">
                 <ProgressRing
                     :value="summary.progress"
                     :label="`${title}: ${summary.completed} of ${summary.total} tasks completed`"
@@ -43,7 +43,7 @@ onBeforeUnmount(() => window.removeEventListener('hashchange', openHashTarget));
                     {{ Math.round(summary.progress) }}%
                 </ProgressRing>
                 <div class="min-w-0 flex-1">
-                    <div class="flex min-w-0 items-center gap-[0.75rem]">
+                    <div class="flex min-w-0 items-center gap-3">
                         <h3
                             :id="id"
                             class="scroll-mt-[calc(var(--site-header-height,6rem)+1rem)] text-base leading-[1.5rem] font-semibold tracking-tight text-slate-950 dark:text-white">
@@ -57,13 +57,12 @@ onBeforeUnmount(() => window.removeEventListener('hashchange', openHashTarget));
                             {{ status.label }}
                         </Badge>
                     </div>
-                    <p
-                        class="mt-[0.25rem] text-xs leading-[1.25rem] text-slate-500 dark:text-slate-400">
+                    <p class="mt-1 text-xs leading-[1.25rem] text-slate-500 dark:text-slate-400">
                         {{ summary.completed }} of {{ summary.total }} tasks completed
                     </p>
                 </div>
             </div>
-            <div class="min-w-0 space-y-[1.25rem] pb-[0.5rem] sm:pl-[3.5rem]">
+            <div class="min-w-0 space-y-5 pb-2 sm:pl-14">
                 <slot />
             </div>
         </Details>

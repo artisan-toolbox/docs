@@ -119,7 +119,11 @@ describe('Front Awesome wrapper catalog', () => {
         }
         expect(
             components.filter((item) => item.implementation.state === 'implemented'),
-        ).toHaveLength(90);
+        ).toHaveLength(91);
+        expect(components.find((item) => item.tag === 'wa-rich-text-editor')).toMatchObject({
+            edition: 'Pro',
+            implementation: { state: 'implemented', export: 'RichTextEditor' },
+        });
         expect(components.find((item) => item.name === 'Chart')).toMatchObject({
             tag: 'wa-chart',
             edition: 'Pro',
@@ -148,7 +152,9 @@ describe('Front Awesome wrapper catalog', () => {
             const cards = wrapper.findAll('[data-component]');
             expect(cards).toHaveLength(group.components.length);
             expect(wrapper.text()).toContain('Beta');
-            expect(wrapper.text()).toContain('Front Awesome exports 73 Core and 17 Pro wrappers');
+            expect(wrapper.text()).toContain(
+                'Front Awesome 1.0.0-beta.13 exports 73 Core and 18 Pro wrappers',
+            );
             for (const component of group.components) {
                 const card = wrapper.get(`[data-component="${component.tag}"]`);
                 expect(card.text()).toContain(component.name);

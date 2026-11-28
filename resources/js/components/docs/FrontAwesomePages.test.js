@@ -85,6 +85,57 @@ const publishedFixtures = fixtures.map((source) => {
                 : link,
         ),
     };
+    if (guide.slug === 'front-awesome/branding') {
+        guide.paragraphs = guide.paragraphs.map((paragraph) =>
+            paragraph.replace(
+                "Shared values belong in Tailwind's @theme block. Web Awesome-specific exceptions belong in the separate override section.",
+                "Set colors, fonts, radii, and shadows in Tailwind's @theme block. The spacing unit has its own rule under Adjust dimensions.",
+            ),
+        );
+        guide.examples = guide.examples.map((example) => ({
+            ...example,
+            code: example.code.replace(
+                '@theme {\n  --spacing: 0.25rem;',
+                `@layer app-branding {
+  :root {
+    --spacing: 0.25rem;
+  }
+
+  .compact.fa-theme {
+    --spacing: 0.1875rem;
+  }
+}
+
+@theme {`,
+            ),
+        }));
+    }
+    if (guide.slug === 'front-awesome/theme-maintenance') {
+        const updatedRecord = new Map([
+            [
+                "The package's tests/theme-compatibility.json records these initial fixture dependencies:",
+                "Front Awesome beta.13's tests/theme-compatibility.json records the versions used for the Core theme checks.",
+            ],
+            [
+                'Web Awesome Pro was absent from that study. The edition resolver can select an installed Pro package, but an untested Pro version has no adapter verification claim.',
+                'To check a licensed Pro installation, run FRONT_AWESOME_PRO=1 npm run test:theme from the package checkout. The consumer builds load one edition per page. Check the version reported by the run before applying its results to your application.',
+            ],
+        ]);
+        guide.paragraphs = guide.paragraphs.map(
+            (paragraph) => updatedRecord.get(paragraph) ?? paragraph,
+        );
+        guide.tables = guide.tables.map((table) =>
+            table[0][1] === 'Recorded version'
+                ? [
+                      table[0],
+                      ['Web Awesome Core', '3.15.0'],
+                      ['Tailwind CSS', '4.3.5'],
+                      ['PrimeVue', '4.5.5'],
+                      ['@primeuix/themes', '2.0.3'],
+                  ]
+                : table,
+        );
+    }
     if (guide.slug === 'front-awesome/development') {
         const updatedCiParagraphs = new Map([
             [
@@ -243,6 +294,11 @@ describe('Front Awesome documentation migration', () => {
         stability: 'Beta',
         allowedExtraLinks: {
             'front-awesome/shared-theme': [
+                {
+                    slug: 'front-awesome/branding',
+                    hash: '#adjust-dimensions',
+                    text: 'move the spacing declaration',
+                },
                 { slug: 'front-awesome/scrollbar', text: 'Style a scrollbar' },
             ],
             'front-awesome/vue-plugin': [
@@ -282,6 +338,11 @@ describe('Front Awesome documentation migration', () => {
                 {
                     slug: 'front-awesome/web-awesome/components',
                     text: 'Vue components catalog',
+                },
+                {
+                    slug: 'front-awesome/web-awesome/components/forms',
+                    hash: '#rich-text-editor',
+                    text: 'Rich Text Editor example',
                 },
             ],
             'front-awesome/installation': [

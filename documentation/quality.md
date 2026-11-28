@@ -1351,3 +1351,75 @@ the Front Awesome locks to beta.10. A clean npm install, dependency audit, build
 search index check, and Maintainer quality checks passed against the published
 package on PHP 8.6. The DataView browser suite verified the table feedback demo
 at both widths in both themes using that package.
+
+## Rich Text Editor verification before beta.13
+
+The Front Awesome beginner path starts in a Laravel 13.36 or later application
+within Laravel 13.x, with PHP 8.5, Inertia 3, Vue 3.5, and Vite. The overview
+describes the beta and links to Installation. Install Composer dependencies,
+then the frontend vendor-file dependencies. Configure Vite and Web Awesome Core
+to render the first styled `Hello from Front Awesome` button. Continue to the
+Button guide or the Forms guide. The overview's toast example also needs the Vue
+plugin and an active web session.
+
+The editor example uses the public Pro export and Front Awesome Button in the
+shared DemoFrame. It requires licensed Web Awesome Pro 3.15.0 or later. The
+published Front Awesome beta.12 build shows the exact example source and the
+preview requirement. The isolated Composer path installation uses Front Awesome
+`1.x-dev` and refreshes the frontend copy with `npm ci`. Boost discovers the
+updated consumer skill in that installation.
+
+The compatible Composer update dry run for `artisan-toolbox/*`, Laravel,
+Inertia, Head, Pest, Pint, Larastan, and Rector found the lock current. The npm
+update dry run reported compatible transitive changes, including ProseMirror
+View 1.43.0 to 1.44.0. Those updates are outside the editor change. The locked
+`npm ci` refreshed the installed Front Awesome frontend copy from beta.11 to
+beta.12. The documentation builds used Laravel 13.44.1, Inertia Laravel 3.8.0,
+Inertia Vue 3.11.0, and Web Awesome Core and Pro 3.15.0. Both dry runs needed a
+registry-backed retry after sandbox resolution failed.
+
+Chromium rendered the Installation guide's exact Button example with Core styles.
+The editor demo passed with the licensed Pro runtime at 390 and 1440 pixels in
+both themes. A reader can select the initial text, apply Bold, submit the
+serialized HTML through native FormData, and restore the initial value with Reset.
+The published package also passed the catalog browser test with the source shown
+in place of the live editor. Searching for `RichTextEditor` returns the
+`rich-text-editor` section in Forms.
+
+The full documentation browser chain reached the Preferences check, where a
+theme change dropped the `#preferences-demo` fragment. Running that check by
+itself reproduced the same result with both the published beta.12 build and the
+source preview.
+
+The package's Core coverage run passed 983 tests with one skip and 93.94% line
+coverage. The licensed Pro 3.15.0 run passed 1,071 tests with one skip and
+93.99% line coverage. Five Chromium failures also reproduce on the package's
+unchanged base with that upstream release. They cover three autofill cases,
+Popover's expanded state, and CopyButton error counts. An isolated Pro 3.14.0
+consumer still compiles, builds, and renders DatePicker and DateInput. Mounting
+the new editor reports the Pro 3.15.0 requirement.
+
+## Front Awesome beta.13 release verification
+
+The documentation installs the public Composer archive for Front Awesome
+`1.0.0-beta.13`. The Composer lock points to the tagged commit, and `npm ci`
+installs the same version from Composer's vendor directory. The licensed Web
+Awesome Pro 3.15.0 runtime now runs the public Rich Text Editor example. The
+catalog browser check applies Bold, submits the serialized HTML, and resets the
+form. The Preferences check preserves the query, fragment, scroll position, and
+local component state at 390 and 1440 pixels.
+
+The Installation guide's exact welcome component also rendered with the Core
+runtime in an isolated Vite build. Chromium confirmed the branded button has
+visible styling and `p-8` computes to 32px on its container.
+
+After updating the Front Awesome locks, the targeted Composer and npm update
+simulations found no further changes under the documented version constraints.
+The npm audit and Composer vulnerability audit passed. Composer reported the
+existing abandoned Rector development dependency
+`symplify/rule-doc-generator-contracts`.
+
+On the Dapter roadmap, the phase summary computed a 12px gap at 390 pixels and
+a 16px gap at 1440 pixels. The card kept its native 20px padding and its slot's
+14px Tailwind gap at both widths. These checks exercise the same installed
+Front Awesome entry point and application branding used by the released site.

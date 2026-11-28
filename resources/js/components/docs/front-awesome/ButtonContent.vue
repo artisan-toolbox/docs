@@ -25,6 +25,13 @@ import { Button } from "@artisan-toolbox/front-awesome/components";
         </p>
         <CodeExample label="Buttons and button groups example 1" language="vue" :code="example1" />
         <p>
+            Starting in Front Awesome beta.13, add <code>&lt;template #start&gt;</code> or
+            <code>&lt;template #end&gt;</code> inside Button to place text or an element beside the
+            label. For example, <code>&lt;template #end&gt;→&lt;/template&gt;</code> after “Next”
+            puts the arrow in the native end slot. Existing direct children with
+            <code>slot="start"</code> or <code>slot="end"</code> still work alongside named slots.
+        </p>
+        <p>
             The wrapper passes attributes such as <code>variant</code>, <code>type</code>, and
             <code>disabled</code> to <code>&lt;wa-button&gt;</code>. It registers the custom element
             when the Vue component mounts in the browser. The button follows the application's Web
@@ -53,11 +60,12 @@ import { Button } from "@artisan-toolbox/front-awesome/components";
             installed package exports before using the new paths in an older version.
         </p>
         <p>
-            Give a button accessible slotted text or a labeled Icon. In Web Awesome 3.14, attributes
-            on the custom-element host are not all forwarded to its internal focusable button. Check
-            the actual accessible name and state. Keep native buttons for custom disclosures or
-            toggle controls that require <code>aria-expanded</code> or <code>aria-pressed</code> on
-            that focusable element. Do not patch shadow internals to transfer those attributes.
+            Give a button accessible slotted text or a labeled Icon. In Web Awesome Core 3.15.0,
+            attributes on the custom-element host are not all forwarded to its internal focusable
+            button. Check the actual accessible name and state. Keep native buttons for custom
+            disclosures or toggle controls that require <code>aria-expanded</code> or
+            <code>aria-pressed</code> on that focusable element. Do not patch shadow internals to
+            transfer those attributes.
         </p>
     </ProseSection>
 </template>

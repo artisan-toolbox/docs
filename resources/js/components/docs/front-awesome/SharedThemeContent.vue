@@ -33,12 +33,18 @@ import { Button } from "@artisan-toolbox/front-awesome/components";
             design values.
         </p>
         <p>
-            Check slotted content as well as native component parts. Web Awesome 3.14 containers
-            including Details and Dialog use a local <code>--spacing</code> property, which also
-            names Tailwind's numeric spacing unit. A container value can therefore change padding
-            and gaps in slotted Tailwind content. This adapter preserves both public inputs and does
-            not rename them or reset each container's children. Verify the resulting layout and
-            nested <code>fa-theme</code> scopes before replacing an application container.
+            Starting in Front Awesome beta.13, numeric Tailwind utilities use the application's
+            spacing unit inside Card, Details, Dialog, and other Web Awesome containers. A
+            component's own <code>--spacing</code> still controls its native padding. If you have a
+            published branding file,
+            <DocsLink
+                :href="
+                    findNavigationItem(navigation, 'front-awesome/branding').href +
+                    '#adjust-dimensions'
+                "
+                >move the spacing declaration</DocsLink
+            >
+            before using numeric utilities directly on those hosts.
         </p>
         <p>
             This guide covers the <code>1.x</code> beta. Check the
@@ -138,6 +144,33 @@ import { Button } from "@artisan-toolbox/front-awesome/components";
             Awesome's standard stylesheet from this setup. Loading both paths reintroduces
             native-element styles and makes the result depend on competing theme imports.
         </p>
+        <p>
+            After upgrading to beta.13, check each CSS workaround in the built application before
+            removing it.
+        </p>
+        <ul>
+            <li>
+                On slotted content, replace a trial <code>p-[1rem]</code> or
+                <code>gap-[1rem]</code> with <code>p-4</code> or <code>gap-4</code>. At the default
+                unit, the computed padding or gap is <code>1rem</code>. Repeat inside your local
+                branding scope using four times its unit.
+            </li>
+            <li>
+                Disable manual margins on Button decorations and Callout icons. Inspect the gap
+                beside the label. For a Select or Pro Combobox group heading, check the font size
+                and padding of its direct <code>&lt;small&gt;</code> child. On a horizontal Card,
+                check that the actions slot uses the Card's padding. Remove duplicate rules once
+                these checks pass. Intentional slot utilities such as <code>me-0</code> and
+                <code>p-0</code> still take precedence.
+            </li>
+            <li>
+                Disable a global radius or focus-ring workaround. Tab to a Button in a local
+                <code>fa-theme</code> scope. Check its control radius, a nearby Card's panel radius,
+                and the focus outline in light and dark mode. Keep component-level
+                <code>--spacing</code> settings and public <code>::part()</code> rules that
+                implement your design, such as a Details header's minimum height.
+            </li>
+        </ul>
         <h2
             id="check-the-result"
             class="scroll-mt-28 text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">

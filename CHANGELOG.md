@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+- Install Front Awesome `1.0.0-beta.13` through Composer and refresh its frontend copy. Run the Rich Text Editor example with licensed Web Awesome Pro 3.15.0.
+- Document the shared theme, migrate the site's spacing unit into its application branding layer, and use numeric spacing utilities in the roadmap.
+- Document Button's named slots, Popup's return to a slotted anchor, and native form submission after a Textarea or Slider reset.
+
 ## [1.6.1] - 2026-11-27
 
 - Install the published Core `1.5.0` and Front Awesome `1.0.0-beta.12` archives. Document Brazilian document and phone validation, editable masks and localized feedback, and the grouped Select and Pro Combobox APIs.

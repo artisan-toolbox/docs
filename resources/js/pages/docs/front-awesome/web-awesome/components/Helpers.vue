@@ -510,6 +510,13 @@ defineProps({
                 Expected result. Show popup positions content below Anchor. Hide popup removes the
                 positioned content. Popup supplies positioning rather than dialog semantics.
             </p>
+            <p>
+                To position an active Popup against another element, pass that element as
+                <code>:anchor</code> and keep the slotted anchor in place. Starting in Front Awesome
+                beta.13, omitting the prop again moves the popup back to its slotted anchor. You can
+                remove a workaround that remounts Popup once you have checked both positions while
+                it stays open.
+            </p>
         </ProseSection>
         <ProseSection id="random-content" title="Random Content">
             <p>Generate placeholder content.</p>

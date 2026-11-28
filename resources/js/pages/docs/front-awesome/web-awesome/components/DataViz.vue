@@ -510,10 +510,7 @@ defineProps({
             </p>
         </ProseSection>
         <ProseSection id="bar-chart" title="Bar Chart">
-            <p>
-                Compare values with bars. This example requires the Front Awesome beta Pro wrappers
-                and Web Awesome Pro 3.14.0.
-            </p>
+            <p>Compare values with bars.</p>
             <DemoFrame
                 data-catalog-demo="BarChart"
                 title="Bar Chart example"
@@ -529,10 +526,7 @@ defineProps({
             </p>
         </ProseSection>
         <ProseSection id="bubble-chart" title="Bubble Chart">
-            <p>
-                Compare points with a size dimension. This example requires the Front Awesome beta
-                Pro wrappers and Web Awesome Pro 3.14.0.
-            </p>
+            <p>Compare points with a size dimension.</p>
             <DemoFrame
                 data-catalog-demo="BubbleChart"
                 title="Bubble Chart example"
@@ -552,10 +546,7 @@ defineProps({
             </p>
         </ProseSection>
         <ProseSection id="data-grid" title="Data Grid">
-            <p>
-                Present data in a structured grid. This example requires the Front Awesome beta Pro
-                wrappers and Web Awesome Pro 3.14.0.
-            </p>
+            <p>Present data in a structured grid.</p>
             <DemoFrame
                 data-catalog-demo="DataGrid"
                 title="Data Grid example"
@@ -571,10 +562,7 @@ defineProps({
             </p>
         </ProseSection>
         <ProseSection id="doughnut-chart" title="Doughnut Chart">
-            <p>
-                Compare proportions around a ring. This example requires the Front Awesome beta Pro
-                wrappers and Web Awesome Pro 3.14.0.
-            </p>
+            <p>Compare proportions around a ring.</p>
             <DemoFrame
                 data-catalog-demo="DoughnutChart"
                 title="Doughnut Chart example"
@@ -594,10 +582,7 @@ defineProps({
             </p>
         </ProseSection>
         <ProseSection id="line-chart" title="Line Chart">
-            <p>
-                Show a series across an ordered axis. This example requires the Front Awesome beta
-                Pro wrappers and Web Awesome Pro 3.14.0.
-            </p>
+            <p>Show a series across an ordered axis.</p>
             <DemoFrame
                 data-catalog-demo="LineChart"
                 title="Line Chart example"
@@ -617,10 +602,7 @@ defineProps({
             </p>
         </ProseSection>
         <ProseSection id="pie-chart" title="Pie Chart">
-            <p>
-                Compare proportions of a whole. This example requires the Front Awesome beta Pro
-                wrappers and Web Awesome Pro 3.14.0.
-            </p>
+            <p>Compare proportions of a whole.</p>
             <DemoFrame
                 data-catalog-demo="PieChart"
                 title="Pie Chart example"
@@ -636,10 +618,7 @@ defineProps({
             </p>
         </ProseSection>
         <ProseSection id="polar-area-chart" title="Polar Area Chart">
-            <p>
-                Compare values on a radial scale. This example requires the Front Awesome beta Pro
-                wrappers and Web Awesome Pro 3.14.0.
-            </p>
+            <p>Compare values on a radial scale.</p>
             <DemoFrame
                 data-catalog-demo="PolarAreaChart"
                 title="Polar Area Chart example"
@@ -659,10 +638,7 @@ defineProps({
             </p>
         </ProseSection>
         <ProseSection id="radar-chart" title="Radar Chart">
-            <p>
-                Compare values across several dimensions. This example requires the Front Awesome
-                beta Pro wrappers and Web Awesome Pro 3.14.0.
-            </p>
+            <p>Compare values across several dimensions.</p>
             <DemoFrame
                 data-catalog-demo="RadarChart"
                 title="Radar Chart example"
@@ -682,10 +658,7 @@ defineProps({
             </p>
         </ProseSection>
         <ProseSection id="scatter-chart" title="Scatter Chart">
-            <p>
-                Show relationships between numeric values. This example requires the Front Awesome
-                beta Pro wrappers and Web Awesome Pro 3.14.0.
-            </p>
+            <p>Show relationships between numeric values.</p>
             <DemoFrame
                 data-catalog-demo="ScatterChart"
                 title="Scatter Chart example"
@@ -705,10 +678,7 @@ defineProps({
             </p>
         </ProseSection>
         <ProseSection id="sparkline" title="Sparkline">
-            <p>
-                Show a compact trend alongside content. This example requires the Front Awesome beta
-                Pro wrappers and Web Awesome Pro 3.14.0.
-            </p>
+            <p>Show a compact trend alongside content.</p>
             <DemoFrame
                 data-catalog-demo="Sparkline"
                 title="Sparkline example"
@@ -727,10 +697,7 @@ defineProps({
             </p>
         </ProseSection>
         <ProseSection id="chart" title="Chart">
-            <p>
-                Configure chart types, datasets, and plugins. This example requires the Front
-                Awesome beta Pro wrappers and Web Awesome Pro 3.14.0.
-            </p>
+            <p>Configure chart types, datasets, and plugins.</p>
             <DemoFrame
                 data-catalog-demo="Chart"
                 title="Chart example"

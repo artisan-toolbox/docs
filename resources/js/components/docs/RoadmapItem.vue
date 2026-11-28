@@ -42,8 +42,8 @@ onBeforeUnmount(() => {
         appearance="outlined"
         :aria-labelledby="`${id}-title`"
         class="roadmap-item block min-w-0 scroll-mt-[calc(var(--site-header-height,6rem)+1rem)] rounded-xl border-slate-200 bg-white shadow-xs dark:border-slate-700 dark:bg-slate-900">
-        <div class="flex min-w-0 flex-col gap-[0.875rem]">
-            <div class="flex min-w-0 items-center gap-[0.75rem]">
+        <div class="flex min-w-0 flex-col gap-3.5">
+            <div class="flex min-w-0 items-center gap-3">
                 <h4
                     :id="`${id}-title`"
                     class="min-w-0 text-sm leading-[1.5rem] font-semibold text-slate-950 dark:text-slate-100">

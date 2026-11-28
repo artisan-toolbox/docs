@@ -18,11 +18,10 @@ defineProps({ navigation: { type: Array, required: true } });
             >. Keep its Vite plugin and styles. Add examples to a Vue page.
         </p>
         <p>
-            <strong>Beta.</strong> Front Awesome exports 73 Core and 17 Pro wrappers. Six
-            experimental elements in Web Awesome 3.15.0 have planned wrappers. The beta API can
-            change before the first stable release. Wrappers forward native properties and events.
-            Data-entry controls share <code>v-model</code> and Inertia form binding, including
-            server errors and manual <code>failed</code> states. See
+            <strong>Beta.</strong> Front Awesome 1.0.0-beta.13 exports 73 Core and 18 Pro wrappers.
+            The beta API can change before the first stable release. Wrappers forward native
+            properties and events. Data-entry controls share <code>v-model</code> and Inertia form
+            binding, including server errors and manual <code>failed</code> states. See
             <DocsLink
                 :href="`${findNavigationItem(navigation, 'front-awesome/web-awesome/components/forms').href}#use-v-model`"
                 >Forms binding</DocsLink

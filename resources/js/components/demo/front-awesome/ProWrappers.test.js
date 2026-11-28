@@ -48,16 +48,14 @@ describe('licensed Pro wrapper live examples', () => {
             .flatMap((module) => module.declarations ?? [])
             .flatMap((declaration) => (declaration.tagName ? [declaration.tagName] : []));
         expect(pro).toHaveLength(18);
-        expect(implemented).toHaveLength(17);
+        expect(implemented).toHaveLength(18);
         expect(
             catalog.groups
                 .flatMap((group) => group.components)
                 .map((item) => item.tag)
                 .sort((left, right) => left.localeCompare(right)),
         ).toEqual(tags.sort((left, right) => left.localeCompare(right)));
-        expect(
-            pro.filter((item) => item.implementation.state === 'planned').map((item) => item.tag),
-        ).toEqual(['wa-rich-text-editor']);
+        expect(pro.every((item) => item.implementation.state === 'implemented')).toBe(true);
     });
 
     for (const item of implemented) {

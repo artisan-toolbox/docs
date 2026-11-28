@@ -14,8 +14,9 @@ import ProseSection from '@/components/docs/ProseSection.vue';
             reviewed on 2026-11-17.
         </p>
         <p>
-            Front Awesome provides 73 Core and 17 Pro wrappers. The other six elements have upstream
-            references and an <strong>In future</strong> status.
+            The catalog includes 73 Core wrappers and 18 Pro wrappers, including Rich Text Editor.
+            Five experimental Core elements have an
+            <strong>In future</strong> status.
         </p>
     </ProseSection>
 </template>

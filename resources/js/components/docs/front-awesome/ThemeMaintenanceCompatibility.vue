@@ -13,8 +13,8 @@ defineProps({ navigation: { type: Array, required: true } });
             Compatibility record
         </h2>
         <p>
-            The package's <code>tests/theme-compatibility.json</code> records these initial fixture
-            dependencies:
+            Front Awesome beta.13's <code>tests/theme-compatibility.json</code> records the versions
+            used for the Core theme checks.
         </p>
         <DocsTable caption="Compatibility record reference 1"
             ><thead>
@@ -26,11 +26,11 @@ defineProps({ navigation: { type: Array, required: true } });
             <tbody>
                 <tr>
                     <td>Web Awesome Core</td>
-                    <td><code>3.14.0</code></td>
+                    <td><code>3.15.0</code></td>
                 </tr>
                 <tr>
                     <td>Tailwind CSS</td>
-                    <td><code>4.3.4</code></td>
+                    <td><code>4.3.5</code></td>
                 </tr>
                 <tr>
                     <td>PrimeVue</td>
@@ -50,8 +50,14 @@ defineProps({ navigation: { type: Array, required: true } });
             >.
         </p>
         <p>
-            Web Awesome Pro was absent from that study. The edition resolver can select an installed
-            Pro package, but an untested Pro version has no adapter verification claim.
+            To check a licensed Pro installation, run
+            <code>FRONT_AWESOME_PRO=1 npm run test:theme</code> from the package checkout. The
+            consumer builds load one edition per page. Check the version reported by the run before
+            applying its results to your application.
+        </p>
+        <p>
+            A separate Chromium run with Web Awesome Pro <code>3.15.0</code> passed the base theme,
+            optional PrimeVue, and legacy spacing checks for beta.13.
         </p>
         <p>
             The record includes upstream file hashes and a derived inventory of owned, inherited,

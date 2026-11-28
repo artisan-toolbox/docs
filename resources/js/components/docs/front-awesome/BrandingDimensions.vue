@@ -6,8 +6,17 @@ const example1 = `@theme {
   --font-sans: "Project Sans", system-ui, sans-serif;
   --font-mono: "Project Mono", ui-monospace, monospace;
 }`;
-const example2 = `@theme {
-  --spacing: 0.25rem;
+const example2 = `@layer app-branding {
+  :root {
+    --spacing: 0.25rem;
+  }
+
+  .compact.fa-theme {
+    --spacing: 0.1875rem;
+  }
+}
+
+@theme {
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
   --radius-xl: 1rem;
@@ -40,6 +49,23 @@ const example3 = `@theme {
             Adjust dimensions
         </h2>
         <CodeExample label="Adjust dimensions example 2" language="css" :code="example2" />
+        <p>
+            Starting in Front Awesome beta.13, move your existing <code>--spacing</code> value from
+            <code>@theme</code> into the <code>:root</code> rule above. Edit your published branding
+            file in place to preserve its customizations. The default unit is <code>0.25rem</code>.
+        </p>
+        <p>
+            Wrap a compact region in <code>&lt;section class="compact fa-theme"&gt;</code>. The
+            example gives <code>p-4</code> a padding of <code>0.75rem</code> inside the section and
+            <code>1rem</code> outside. Apply the local unit to a surrounding HTML element. On a Card
+            or Dialog, <code>--spacing</code> sets the component's own padding.
+        </p>
+        <p>
+            An older <code>@theme</code> declaration still sets the unit for ordinary HTML in slots.
+            Moving it also isolates numeric utilities on the Web Awesome host itself, including
+            <code>w-40</code> and <code>p-4</code>. Outside these components, ordinary HTML can
+            still set its own <code>--spacing</code> for Tailwind utilities.
+        </p>
         <p>
             The spacing base feeds numeric Tailwind spacing utilities and mapped Web Awesome
             spacing. Radius values feed corresponding utilities and Web Awesome radius tokens. Pill

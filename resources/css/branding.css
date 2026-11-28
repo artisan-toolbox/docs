@@ -4,7 +4,7 @@
  * Destination: resources/css/branding.css
  *
  * Import this file after the package's Tailwind integration entry.
- * Edit shared identity through @theme. The adapter reads those values for WA.
+ * Set colors, fonts, radii, and shadows in @theme. Set the spacing unit on :root.
  * Direct --wa-* overrides affect WA only. Never alias a shared input back to WA.
  * Font declarations do not download fonts. Load licensed font files separately.
  * Apply fa-theme to a local branding island to rebind shared aliases there.
@@ -15,7 +15,7 @@
  * WA design tokens: https://webawesome.com/docs/tokens/
  * WA theming: https://webawesome.com/docs/theming-overview/
  * Complete mappings and upgrade rules:
- * https://atb.dev.br/packages/front-awesome/branding/
+ * https://atb.dev.br/docs/front-awesome/branding#adjust-dimensions
  */
 
 @theme {
@@ -50,7 +50,6 @@
     --color-gray-900: var(--color-slate-900);
     --color-gray-950: var(--color-slate-950);
 
-    --spacing: 0.25rem;
     --radius-sm: 0.25rem;
     --radius-md: 0.5rem;
     --radius-lg: 0.75rem;
@@ -58,4 +57,10 @@
     --shadow-sm: 0 1px 3px rgb(15 23 42 / 0.08), 0 1px 2px rgb(15 23 42 / 0.04);
     --shadow-md: 0 4px 12px rgb(15 23 42 / 0.1), 0 2px 4px rgb(15 23 42 / 0.04);
     --shadow-lg: 0 12px 28px rgb(15 23 42 / 0.12), 0 4px 8px rgb(15 23 42 / 0.04);
+}
+
+@layer app-branding {
+    :root {
+        --spacing: 0.25rem;
+    }
 }

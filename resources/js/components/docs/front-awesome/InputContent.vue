@@ -369,6 +369,7 @@ const valueDomains = [
         'string',
     ],
     ['FileInput', 'File[]', 'File[]'],
+    ['RichTextEditor', 'string | null', 'string'],
 ];
 </script>
 
@@ -393,7 +394,8 @@ const valueDomains = [
             >. Complete Composer installation before the frontend vendor-file installation. Keep the
             Front Awesome Vite plugin and Web Awesome styles. Add the examples to a Vue page. The
             toast plugin is optional. Combobox, DateInput, DatePicker, and FileInput require the Pro
-            entry point and licensed Web Awesome assets described in Installation.
+            entry point and licensed Web Awesome assets described in Web Awesome setup. The
+            RichTextEditor uses the Pro entry point and requires Web Awesome Pro 3.15.0 or later.
         </p>
 
         <h3 id="use-v-model">Use v-model</h3>
@@ -611,9 +613,9 @@ const valueDomains = [
         <p>
             For native HTML form association, a string <code>form="profile"</code> identifies the
             form's ID. An Inertia object uses that prop for data binding instead. Native
-            <code>name</code> and HTML FormData behavior remain upstream behavior. DatePicker is not
-            a native form-associated element. Its Inertia binding does not make it contribute an
-            entry to native FormData.
+            <code>name</code> supplies the key for a form-associated control in
+            <code>FormData</code>. DatePicker has no native form association. Use its Vue or Inertia
+            value for submission.
         </p>
         <p>
             With Input, an undefined value displays as an empty string. An explicit
@@ -622,6 +624,24 @@ const valueDomains = [
             Other controls retain their upstream reset domains, such as
             <code>defaultChecked</code> or a textual <code>defaultValue</code>. A Date or tag array
             is a current property input, not a textual reset attribute.
+        </p>
+        <p>
+            Starting in Front Awesome beta.13, an accepted native form reset restores the
+            <code>Textarea</code> and <code>Slider</code> defaults in the control, its Vue or
+            Inertia binding, and the next native submission. A canceled reset keeps the edits.
+            Editing either control, then resetting and submitting the form, should send its reset
+            default. If another field shares its name, <code>FormData.getAll()</code> still returns
+            both entries in form order. Remove manual hidden fields or payload rewrites added solely
+            to repair stale reset values after this check. This fix applies to the Vue wrappers. Raw
+            <code>&lt;wa-textarea&gt;</code> and <code>&lt;wa-slider&gt;</code> follow upstream
+            reset behavior.
+        </p>
+        <p>
+            When serializing in the same handler as <code>form.reset()</code>, wait for the native
+            hosts. For a Vue template ref named <code>notes</code>, use
+            <code>await notes.value.$el.updateComplete</code> before
+            <code>new FormData(form)</code>. Wait for each affected Textarea and Slider. A later
+            submit action already gives the hosts time to update.
         </p>
         <p>
             Access <code>$el</code> on a component template ref to call a native method such as

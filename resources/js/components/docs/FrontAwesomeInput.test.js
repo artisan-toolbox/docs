@@ -12,6 +12,11 @@ const navigation = (prefix = '/docs') => [
         children: [],
     },
     { slug: 'front-awesome/vue-plugin', href: `${prefix}/front-awesome/vue-plugin`, children: [] },
+    {
+        slug: 'front-awesome/web-awesome',
+        href: `${prefix}/front-awesome/web-awesome`,
+        children: [],
+    },
 ];
 function render() {
     return mount(Forms, {

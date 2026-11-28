@@ -141,6 +141,15 @@ const example3 = `import "@artisan-toolbox/front-awesome/web-awesome.css";`;
             </tbody></DocsTable
         >
         <p>
+            Rich Text Editor requires Front Awesome beta.13 or later and Web Awesome Pro 3.15.0 or
+            later. Set the Vite option to <code>webAwesome: 'pro'</code> and follow the
+            <DocsLink
+                :href="`${findNavigationItem(navigation, 'front-awesome/web-awesome/components/forms').href}#rich-text-editor`"
+                >Rich Text Editor example</DocsLink
+            >
+            for binding and form submission.
+        </p>
+        <p>
             Import native components directly from the edition your application uses. For example, a
             Pro app can import
             <code>@web.awesome.me/webawesome-pro/dist/components/icon/icon.js</code>. The Vite

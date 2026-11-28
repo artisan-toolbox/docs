@@ -345,9 +345,14 @@
                     "tag": "wa-rich-text-editor",
                     "edition": "Pro",
                     "reference": "https://webawesome.com/docs/components/rich-text-editor/",
-                    "help": "Format text with a toolbar and submit the result as HTML.",
+                    "help": "Format text with a toolbar and submit HTML or Markdown.",
                     "implementation": {
-                        "state": "planned"
+                        "state": "implemented",
+                        "export": "RichTextEditor",
+                        "anchor": "rich-text-editor",
+                        "guide": "front-awesome/web-awesome/components/forms",
+                        "guideFragment": "",
+                        "demoOwner": "RichTextEditor"
                     },
                     "since": "3.15",
                     "availability": "Experimental in Web Awesome 3.15.0."

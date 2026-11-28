@@ -688,6 +688,25 @@ try {
     );
     formWorkflows++;
 
+    const richTextFrame = page.locator('[data-catalog-demo="RichTextEditor"]');
+    {
+        const editor = richTextFrame.locator('wa-rich-text-editor');
+        const content = editor.getByRole('textbox', { name: /^Release notes\b/ });
+        const output = richTextFrame.locator('[data-demo-viewport] output');
+        await content.filter({ hasText: 'Release notes' }).waitFor();
+        assert.equal(await content.textContent(), 'Release notes');
+        await content.press('ControlOrMeta+a');
+        await editor.getByRole('button', { name: 'Bold', exact: true }).click();
+        const formatted = '<p><strong>Release notes</strong></p>';
+        await output.filter({ hasText: `Current HTML: ${formatted}` }).waitFor();
+        await richTextFrame.getByRole('button', { name: 'Submit example', exact: true }).click();
+        await output.filter({ hasText: `Submitted HTML: ${formatted}` }).waitFor();
+        await richTextFrame.getByRole('button', { name: 'Reset editor', exact: true }).click();
+        await output.filter({ hasText: 'Current HTML: <p>Release notes</p>' }).waitFor();
+        assert.equal(await output.count(), 1);
+        formWorkflows++;
+    }
+
     const frameByTitle = (title) =>
         page
             .locator('[data-demo-frame]')

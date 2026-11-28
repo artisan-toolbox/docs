@@ -81,6 +81,14 @@ const example3 = `node scripts/check-theme-compatibility.mjs --record`;
             color remains empty.
         </p>
         <p>
+            Check numeric utilities on a Card host and on HTML slotted into Card, Details, and
+            Dialog. With the default unit, <code>p-4</code> and <code>gap-4</code> compute to
+            <code>1rem</code> even when the host has a different native <code>--spacing</code>.
+            Repeat with a nested branding scope. Tab to a Button in each mode, and inspect the
+            outline color on the focused control. Check a deliberate slot margin or padding override
+            beside the restored native slot.
+        </p>
+        <p>
             Test light and dark document modes, manual mode opposite the operating-system
             preference, inverted scopes, local role classes, and changed branding. Measure
             foreground and background pairs on their actual backing surfaces. Numeric ramp

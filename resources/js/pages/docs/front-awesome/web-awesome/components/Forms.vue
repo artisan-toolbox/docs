@@ -14,6 +14,7 @@ import NumberInputDemo from '@/components/demo/front-awesome/forms/NumberInputDe
 import OtpInputDemo from '@/components/demo/front-awesome/forms/OtpInputDemo.vue';
 import RadioGroupDemo from '@/components/demo/front-awesome/forms/RadioGroupDemo.vue';
 import RatingDemo from '@/components/demo/front-awesome/forms/RatingDemo.vue';
+import RichTextEditorDemo from '@/components/demo/front-awesome/forms/RichTextEditorDemo.vue';
 import SelectDemo from '@/components/demo/front-awesome/forms/SelectDemo.vue';
 import OptionDemo from '@/components/demo/front-awesome/forms/OptionDemo.vue';
 import SliderDemo from '@/components/demo/front-awesome/forms/SliderDemo.vue';
@@ -536,6 +537,52 @@ const files = ref([]);
 </template>
 `;
 
+const richTextEditorDemoSource = `<script setup>
+import { ref } from 'vue';
+import { Button } from '@artisan-toolbox/front-awesome/components/WebAwesome';
+import { RichTextEditor } from '@artisan-toolbox/front-awesome/components/WebAwesome/Pro';
+
+const initialValue = '<p>Release notes</p>';
+const body = ref(initialValue);
+const submitted = ref(null);
+
+function submit(event) {
+    submitted.value = new FormData(event.currentTarget).get('body');
+}
+\x3C/script>
+
+<template>
+    <form
+        class="flex min-w-0 flex-col gap-4"
+        data-docs-outline-exclude
+        @submit.prevent="submit"
+        @reset="submitted = null">
+        <div class="min-w-0">
+            <RichTextEditor
+                v-model="body"
+                :default-value="initialValue"
+                name="body"
+                label="Release notes"
+                hint="Select text to format it."
+                toolbar="bold italic"
+                required />
+        </div>
+        <div class="min-w-0">
+            <output class="break-words">Current HTML: {{ body }}</output>
+        </div>
+        <div v-if="submitted !== null" class="min-w-0">
+            <output class="break-words">Submitted HTML: {{ submitted }}</output>
+        </div>
+        <div class="min-w-0">
+            <div class="flex flex-wrap gap-2">
+                <Button type="submit">Submit example</Button>
+                <Button type="reset" appearance="plain">Reset editor</Button>
+            </div>
+        </div>
+    </form>
+</template>
+`;
+
 defineProps({
     page: { type: Object, required: true },
     navigation: { type: Array, required: true },
@@ -935,10 +982,7 @@ defineProps({
             </p>
         </ProseSection>
         <ProseSection id="date-input" title="Date Input">
-            <p>
-                Enter a date in a form. This example requires the Front Awesome beta Pro wrappers
-                and Web Awesome Pro 3.14.0.
-            </p>
+            <p>Enter a date in a form. This example uses the licensed Web Awesome Pro runtime.</p>
             <DemoFrame
                 data-catalog-demo="DateInput"
                 title="Date Input example"
@@ -958,8 +1002,8 @@ defineProps({
         </ProseSection>
         <ProseSection id="date-picker" title="Date Picker">
             <p>
-                Choose a date from a calendar. This example requires the Front Awesome beta Pro
-                wrappers and Web Awesome Pro 3.14.0.
+                Choose a date from a calendar. This example uses the licensed Web Awesome Pro
+                runtime.
             </p>
             <DemoFrame
                 data-catalog-demo="DatePicker"
@@ -979,10 +1023,7 @@ defineProps({
             </p>
         </ProseSection>
         <ProseSection id="file-input" title="File Input">
-            <p>
-                Select files for a form. This example requires the Front Awesome beta Pro wrappers
-                and Web Awesome Pro 3.14.0.
-            </p>
+            <p>Select files for a form. This example uses the licensed Web Awesome Pro runtime.</p>
             <DemoFrame
                 data-catalog-demo="FileInput"
                 title="File Input example"
@@ -999,6 +1040,42 @@ defineProps({
                 Expected result. Select one or more local text files. Their names appear below.
                 Clear selection removes them. This example reads no file contents and uploads
                 nothing.
+            </p>
+        </ProseSection>
+        <ProseSection id="rich-text-editor" title="Rich Text Editor">
+            <p>
+                Rich Text Editor requires Front Awesome beta.13 or later and licensed Web Awesome
+                Pro 3.15.0 or later. The upstream editor is experimental. Complete the Pro edition
+                setup in
+                <DocsLink
+                    :href="`${findNavigationItem(navigation, 'front-awesome/web-awesome').href}#choose-core-or-pro`"
+                    >Web Awesome setup</DocsLink
+                >
+                before using the example.
+            </p>
+            <p>
+                Bind the document with <code>v-model</code> or <code>:form</code> and
+                <code>field</code>. The editor emits serialized HTML by default. Use
+                <code>format="markdown"</code> to read, write, and submit Markdown. Set
+                <code>default-value</code> for native form reset. Use a value binding for stored
+                content and sanitize user-authored HTML before rendering it in your application.
+            </p>
+            <DemoFrame
+                data-catalog-demo="RichTextEditor"
+                title="Rich Text Editor example"
+                :sources="[
+                    {
+                        label: 'Rich Text Editor basic example',
+                        language: 'vue',
+                        code: richTextEditorDemoSource,
+                    },
+                ]">
+                <RichTextEditorDemo />
+            </DemoFrame>
+            <p>
+                Select “Release notes” and choose Bold. The current HTML shows
+                <code>&lt;strong&gt;</code>. Submit the example to see the HTML from native form
+                data. Reset restores the starting text and clears the submitted output.
             </p>
         </ProseSection>
     </article>

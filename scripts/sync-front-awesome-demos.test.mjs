@@ -32,8 +32,8 @@ describe('Front Awesome live example synchronization', () => {
         const owners = exports.filter(
             (item) => item.implementation.demoOwner === item.implementation.export,
         );
-        expect(exports).toHaveLength(90);
-        expect(owners).toHaveLength(81);
+        expect(exports).toHaveLength(91);
+        expect(owners).toHaveLength(82);
         expect(result).toMatchObject({
             implementedExports: exports.length,
             catalogOwners: owners.length,

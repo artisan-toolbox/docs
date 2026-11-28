@@ -274,6 +274,21 @@ const example1 = `@layer theme, base, wa-native, wa-base, wa-utilities, wa-color
             <code>.wa-&#123;role&#125;-&#123;hue&#125;</code> boundary for the five roles and ten
             hues above. A role class changes Web Awesome semantics only.
         </p>
+        <p>
+            Starting in Front Awesome beta.13, <code>--wa-form-control-border-radius</code> and
+            <code>--wa-panel-border-radius</code> use the medium and large radii at each branding or
+            mode boundary. The default <code>--wa-focus-ring</code> uses the local
+            <code>--wa-color-focus</code>, ring style, and width at semantic color boundaries.
+        </p>
+        <p>
+            The preview restores native inline margins on direct start and end slots for Badge,
+            BreadcrumbItem, Button, Input, Option, Select, TagInput, and Pro Combobox, and on
+            Callout's icon. Select and Pro Combobox also recover native font size and padding for a
+            direct <code>&lt;small&gt;</code> group heading in the default slot. A horizontal Card's
+            actions use its native spacing. Application utilities can override each affected
+            property independently. Ordinary HTML outside these slots keeps Tailwind's Preflight
+            styles.
+        </p>
         <h3
             id="primevue-mappings"
             class="scroll-mt-28 text-xl font-semibold tracking-tight text-slate-950 dark:text-white">
